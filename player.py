@@ -20,6 +20,7 @@ class AudioPlayer(QObject):
     playback_finished = Signal()
     position_changed = Signal(float)  # Position in Sekunden
     duration_changed = Signal(float)  # Gesamtdauer in Sekunden
+    _stop_timer_signal = Signal()  # Internes Signal für Thread-sicheren Timer-Stop
 
     def __init__(self):
         super().__init__()
@@ -33,6 +34,8 @@ class AudioPlayer(QObject):
         self.total_frames: int = 0
         self._position_timer = QTimer()
         self._position_timer.timeout.connect(self._update_position)
+        # Signal für Thread-sicheren Timer-Stop
+        self._stop_timer_signal.connect(self._position_timer.stop)
 
     def load_file(self, file_path: str) -> bool:
         """Lädt eine Audio-Datei"""
@@ -85,14 +88,14 @@ class AudioPlayer(QObject):
             self.is_paused = True
             self.is_playing = False
             self.playback_paused.emit()
-            self._position_timer.stop()
+            self._stop_timer_signal.emit()
 
     def stop(self):
         """Stoppt die Wiedergabe"""
         self.is_playing = False
         self.is_paused = False
         self.current_frame = 0
-        self._position_timer.stop()
+        self._stop_timer_signal.emit()
 
         if self.stream:
             self.stream.stop()
@@ -130,11 +133,12 @@ class AudioPlayer(QObject):
                 audio_to_play = self.audio_data
                 channels = self.audio_data.shape[1]
 
-            # Stream erstellen
+            # Stream erstellen mit explizitem Default-Device
             self.stream = sd.OutputStream(
                 samplerate=self.samplerate,
                 channels=channels,
-                dtype='float32'
+                dtype='float32',
+                device=sd.default.device[1]  # Output device
             )
             self.stream.start()
 
@@ -165,10 +169,14 @@ class AudioPlayer(QObject):
             print(f"Fehler bei Wiedergabe: {e}")
         finally:
             if self.stream:
-                self.stream.stop()
-                self.stream.close()
+                try:
+                    self.stream.stop()
+                    self.stream.close()
+                except:
+                    pass
                 self.stream = None
-            self._position_timer.stop()
+            # Timer-Stop über Signal (thread-sicher)
+            self._stop_timer_signal.emit()
 
     def _update_position(self):
         """Aktualisiert die Position (wird vom Timer aufgerufen)"""
