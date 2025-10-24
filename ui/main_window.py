@@ -18,6 +18,7 @@ from recorder import AudioRecorder
 from data.repo import SessionRepository
 from ui.table_widget import SessionTableWidget
 from ui.session_form import SessionFormWidget
+from ui.player_widget import PlayerWidget
 
 
 class MainWindow(QMainWindow):
@@ -52,13 +53,17 @@ class MainWindow(QMainWindow):
         self.session_table = SessionTableWidget()
         splitter.addWidget(self.session_table)
 
-        # Rechte Seite: Recorder + Formular
+        # Rechte Seite: Recorder + Player + Formular
         right_widget = QWidget()
         right_layout = QVBoxLayout(right_widget)
 
         # Recorder Panel
         recorder_group = self._create_recorder_panel()
         right_layout.addWidget(recorder_group)
+
+        # Player Widget
+        self.player_widget = PlayerWidget()
+        right_layout.addWidget(self.player_widget)
 
         # Session Form
         self.session_form = SessionFormWidget()
@@ -239,6 +244,9 @@ class MainWindow(QMainWindow):
         session = self.repo.get_by_id(session_id)
         if session:
             self.session_form.load_session(session)
+            # Audio-Datei in Player laden
+            if session['path'] and os.path.exists(session['path']):
+                self.player_widget.load_file(session['path'])
 
     def _on_save_session(self, data: dict):
         """Wird aufgerufen wenn eine Session gespeichert werden soll"""
@@ -269,6 +277,7 @@ class MainWindow(QMainWindow):
         if reply == QMessageBox.StandardButton.Yes:
             self.repo.delete(session_id)
             self.session_form.clear()
+            self.player_widget.clear()
             self._load_sessions(self.search_edit.text())
             QMessageBox.information(self, "Erfolg", "Session wurde gelöscht.")
 
