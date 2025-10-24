@@ -5,6 +5,7 @@ Eine Desktop-Anwendung zum Aufzeichnen, Verwalten und Wiedergeben von Audio-Sess
 ## Features
 
 - **Audio-Aufnahme** mit Live-Pegelanzeige und Laufzeit-Anzeige
+- **Audio-Wiedergabe** mit Play/Pause/Stop und Fortschrittsbalken
 - **CRUD-Verwaltung** für Sessions (Create, Read, Update, Delete)
 - **Geräteauswahl** zwischen allen verfügbaren Mikrofonen
 - **Suchfunktion** nach Titel und Notizen
@@ -78,6 +79,22 @@ audio_sessions/
 ## macOS Hinweis
 
 Bei macOS muss die App Mikrofonberechtigungen erhalten. Beim ersten Start wird ein Dialog angezeigt. Falls die Berechtigung verweigert wurde, kann sie in den Systemeinstellungen unter "Sicherheit & Datenschutz" → "Mikrofon" aktiviert werden.
+
+## Packaging / Distribution
+
+Die App kann als eigenständige Anwendung gebaut werden:
+
+```bash
+# App bauen
+pyinstaller AudioSessions.spec --clean
+
+# Gebaute App öffnen
+open dist/AudioSessions.app
+```
+
+Die gebaute `.app` kann in den `/Applications` Ordner verschoben und ohne Python-Installation verwendet werden.
+
+Detaillierte Anleitung: siehe [BUILD.md](BUILD.md)
 
 ## Lizenz
 
