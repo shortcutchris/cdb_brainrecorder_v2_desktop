@@ -98,12 +98,33 @@ class MainWindow(QMainWindow):
         toolbar = QToolBar()
         self.addToolBar(toolbar)
 
+        # Toolbar luftiger gestalten
+        toolbar.setStyleSheet("""
+            QToolBar {
+                spacing: 10px;
+                padding: 8px;
+            }
+            QToolBar QToolButton {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+            QToolBar QLabel {
+                padding: 0px 8px;
+                font-size: 13px;
+            }
+        """)
+        toolbar.setMovable(False)
+
         # Suchfeld
+        search_label = QLabel("Suche:")
+        search_label.setStyleSheet("padding: 0px 8px; font-size: 13px;")
+        toolbar.addWidget(search_label)
+
         self.search_edit = QLineEdit()
         self.search_edit.setPlaceholderText("Suche nach Titel oder Notizen...")
-        self.search_edit.setMaximumWidth(300)
+        self.search_edit.setMinimumWidth(350)
+        self.search_edit.setStyleSheet("padding: 6px; font-size: 13px;")
         self.search_edit.textChanged.connect(self._on_search)
-        toolbar.addWidget(QLabel("Suche:"))
         toolbar.addWidget(self.search_edit)
 
         toolbar.addSeparator()
