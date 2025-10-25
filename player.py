@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Optional
 from PySide6.QtCore import QObject, Signal, QTimer
 import threading
+import time
 
 
 class AudioPlayer(QObject):
@@ -97,10 +98,16 @@ class AudioPlayer(QObject):
         self.current_frame = 0
         self._stop_timer_signal.emit()
 
+        # Stream sicher schließen mit Error Handling
         if self.stream:
-            self.stream.stop()
-            self.stream.close()
-            self.stream = None
+            try:
+                if self.stream.active:
+                    self.stream.stop()
+                self.stream.close()
+            except Exception as e:
+                print(f"Fehler beim Schließen des Streams: {e}")
+            finally:
+                self.stream = None
 
         self.playback_stopped.emit()
         self.position_changed.emit(0.0)
@@ -133,12 +140,12 @@ class AudioPlayer(QObject):
                 audio_to_play = self.audio_data
                 channels = self.audio_data.shape[1]
 
-            # Stream erstellen mit explizitem Default-Device
+            # Stream erstellen - Auto-select device für bessere macOS Kompatibilität
             self.stream = sd.OutputStream(
                 samplerate=self.samplerate,
                 channels=channels,
-                dtype='float32',
-                device=sd.default.device[1]  # Output device
+                dtype='float32'
+                # Kein explizites Device - lässt PortAudio das richtige wählen
             )
             self.stream.start()
 
@@ -165,16 +172,22 @@ class AudioPlayer(QObject):
                 self.stream.write(chunk)
                 self.current_frame = end_frame
 
+                # Kurze Pause, um CPU-Last zu reduzieren und Timing zu verbessern
+                time.sleep(0.001)  # 1ms
+
         except Exception as e:
             print(f"Fehler bei Wiedergabe: {e}")
         finally:
+            # Stream sicher schließen
             if self.stream:
                 try:
-                    self.stream.stop()
+                    if self.stream.active:
+                        self.stream.stop()
                     self.stream.close()
-                except:
-                    pass
-                self.stream = None
+                except Exception as e:
+                    print(f"Fehler beim Stream-Cleanup: {e}")
+                finally:
+                    self.stream = None
             # Timer-Stop über Signal (thread-sicher)
             self._stop_timer_signal.emit()
 

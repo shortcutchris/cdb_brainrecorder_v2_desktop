@@ -19,6 +19,7 @@ from data.repo import SessionRepository
 from ui.table_widget import SessionTableWidget
 from ui.session_form import SessionFormWidget
 from ui.player_widget import PlayerWidget
+from ui.waveform_widget import WaveformWidget
 
 
 class MainWindow(QMainWindow):
@@ -131,6 +132,10 @@ class MainWindow(QMainWindow):
         level_layout.addWidget(self.level_bar)
         layout.addLayout(level_layout)
 
+        # Waveform-Visualisierung
+        self.waveform_widget = WaveformWidget()
+        layout.addWidget(self.waveform_widget)
+
         # Laufzeit
         self.duration_label = QLabel("00:00:00")
         self.duration_label.setStyleSheet("font-size: 24px; font-weight: bold;")
@@ -161,6 +166,7 @@ class MainWindow(QMainWindow):
         # Recorder Signals (Thread-sicher)
         self.recorder.level_updated.connect(self._on_level_update)
         self.recorder.duration_updated.connect(self._on_duration_update)
+        self.recorder.waveform_updated.connect(self._on_waveform_update)
 
         # Table Selection
         self.session_table.session_selected.connect(self._on_session_selected)
@@ -188,6 +194,8 @@ class MainWindow(QMainWindow):
                 self.record_button.setStyleSheet(
                     "padding: 10px; font-size: 14px; background-color: #ff4444;"
                 )
+                # Waveform-Visualisierung starten
+                self.waveform_widget.start_recording()
             except Exception as e:
                 QMessageBox.critical(self, "Fehler", f"Aufnahme konnte nicht gestartet werden:\n{e}")
         else:
@@ -195,6 +203,9 @@ class MainWindow(QMainWindow):
             output_path = self.recorder.stop_recording()
             self.record_button.setText("Aufnahme starten")
             self.record_button.setStyleSheet("padding: 10px; font-size: 14px;")
+
+            # Waveform-Visualisierung stoppen
+            self.waveform_widget.stop_recording()
 
             # Session in DB speichern
             if output_path:
@@ -238,6 +249,10 @@ class MainWindow(QMainWindow):
         minutes = int((duration % 3600) // 60)
         seconds = int(duration % 60)
         self.duration_label.setText(f"{hours:02d}:{minutes:02d}:{seconds:02d}")
+
+    def _on_waveform_update(self, audio_data):
+        """Aktualisiert die Waveform-Visualisierung"""
+        self.waveform_widget.update_waveform(audio_data)
 
     def _on_session_selected(self, session_id: int):
         """Wird aufgerufen wenn eine Session in der Tabelle ausgewählt wird"""

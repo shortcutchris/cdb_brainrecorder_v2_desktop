@@ -16,6 +16,7 @@ class AudioRecorder(QObject):
     # Qt Signals für Thread-sichere UI-Updates
     level_updated = Signal(float)  # RMS-Level 0.0 - 1.0
     duration_updated = Signal(float)  # Dauer in Sekunden
+    waveform_updated = Signal(object)  # Audio-Daten für Waveform-Visualisierung
 
     def __init__(self, samplerate: int = 44100, channels: int = 1):
         super().__init__()
@@ -53,6 +54,9 @@ class AudioRecorder(QObject):
         # RMS-Level berechnen und Signal emittieren
         rms = np.sqrt(np.mean(indata**2))
         self.level_updated.emit(float(rms))
+
+        # Waveform-Daten für Visualisierung emittieren
+        self.waveform_updated.emit(indata.copy())
 
         # Dauer berechnen und Signal emittieren
         if self._start_time:
