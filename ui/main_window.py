@@ -110,8 +110,13 @@ class MainWindow(QMainWindow):
         open_action.triggered.connect(self._on_open_file)
         toolbar.addAction(open_action)
 
-    def _create_recorder_panel(self) -> QGroupBox:
+    def _create_recorder_panel(self) -> QWidget:
         """Erstellt das Recorder-Panel"""
+        # Container Widget erstellen (konsistent mit PlayerWidget und SessionFormWidget)
+        container = QWidget()
+        container_layout = QVBoxLayout(container)
+
+        # GroupBox erstellen
         group = QGroupBox("Audio Recorder")
         layout = QVBoxLayout()
 
@@ -151,7 +156,9 @@ class MainWindow(QMainWindow):
         layout.addLayout(button_layout)
 
         group.setLayout(layout)
-        return group
+        container_layout.addWidget(group)
+
+        return container
 
     def _load_devices(self):
         """Lädt verfügbare Audiogeräte"""
