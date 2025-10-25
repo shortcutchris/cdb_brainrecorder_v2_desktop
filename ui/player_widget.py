@@ -25,10 +25,14 @@ class PlayerWidget(QWidget):
     def _setup_ui(self):
         """Initialisiert das Widget"""
         layout = QVBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
 
         # GroupBox
         group = QGroupBox("Audio Player")
         group_layout = QVBoxLayout()
+        group_layout.setContentsMargins(12, 12, 12, 12)
+        group_layout.setSpacing(12)
 
         # Dateiname-Label
         self.file_label = QLabel("Keine Datei geladen")

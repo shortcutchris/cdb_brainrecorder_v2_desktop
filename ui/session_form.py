@@ -21,10 +21,14 @@ class SessionFormWidget(QWidget):
     def _setup_ui(self):
         """Initialisiert das Formular"""
         layout = QVBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
 
         # GroupBox für bessere Optik
         group = QGroupBox("Session Details")
         group_layout = QVBoxLayout()
+        group_layout.setContentsMargins(12, 12, 12, 12)
+        group_layout.setSpacing(12)
 
         # Felder
         self.title_edit = QLineEdit()
