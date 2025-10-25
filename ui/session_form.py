@@ -1,7 +1,7 @@
 """
 Session-Formular für Metadaten-Bearbeitung
 """
-from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QFormLayout,
+from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout,
                                QLineEdit, QTextEdit, QPushButton, QLabel,
                                QGroupBox)
 from PySide6.QtCore import Signal
@@ -24,7 +24,7 @@ class SessionFormWidget(QWidget):
 
         # GroupBox für bessere Optik
         group = QGroupBox("Session Details")
-        form_layout = QFormLayout()
+        group_layout = QVBoxLayout()
 
         # Felder
         self.title_edit = QLineEdit()
@@ -36,24 +36,53 @@ class SessionFormWidget(QWidget):
         self.channels_label = QLabel("-")
         self.path_label = QLabel("-")
         self.path_label.setWordWrap(True)
+        self.path_label.setStyleSheet("padding: 2px;")
 
         self.notes_edit = QTextEdit()
         self.notes_edit.setPlaceholderText("Notizen zur Session...")
-        self.notes_edit.setMaximumHeight(100)
+        self.notes_edit.setMaximumHeight(60)
 
-        # Formular befüllen
-        form_layout.addRow("Titel:", self.title_edit)
-        form_layout.addRow("Aufnahmedatum:", self.recorded_at_label)
-        form_layout.addRow("Dauer (s):", self.duration_label)
-        form_layout.addRow("Samplerate:", self.samplerate_label)
-        form_layout.addRow("Kanäle:", self.channels_label)
-        form_layout.addRow("Dateipfad:", self.path_label)
-        form_layout.addRow("Notizen:", self.notes_edit)
+        # Titel - Label und Feld horizontal
+        title_layout = QHBoxLayout()
+        title_layout.addWidget(QLabel("Titel:"))
+        title_layout.addWidget(self.title_edit)
+        group_layout.addLayout(title_layout)
 
-        group.setLayout(form_layout)
-        layout.addWidget(group)
+        # Aufnahmedatum - Label und Wert horizontal
+        recorded_layout = QHBoxLayout()
+        recorded_layout.addWidget(QLabel("Aufnahmedatum:"))
+        recorded_layout.addWidget(self.recorded_at_label)
+        recorded_layout.addStretch()
+        group_layout.addLayout(recorded_layout)
 
-        # Buttons
+        # Dauer - Label und Wert horizontal
+        duration_layout = QHBoxLayout()
+        duration_layout.addWidget(QLabel("Dauer (s):"))
+        duration_layout.addWidget(self.duration_label)
+        duration_layout.addStretch()
+        group_layout.addLayout(duration_layout)
+
+        # Samplerate und Kanäle in einer Zeile
+        tech_layout = QHBoxLayout()
+        tech_layout.addWidget(QLabel("Samplerate:"))
+        tech_layout.addWidget(self.samplerate_label)
+        tech_layout.addSpacing(20)
+        tech_layout.addWidget(QLabel("Kanäle:"))
+        tech_layout.addWidget(self.channels_label)
+        tech_layout.addStretch()
+        group_layout.addLayout(tech_layout)
+
+        # Dateipfad - Label und Wert horizontal
+        path_layout = QHBoxLayout()
+        path_layout.addWidget(QLabel("Dateipfad:"))
+        path_layout.addWidget(self.path_label, 1)  # stretch factor 1
+        group_layout.addLayout(path_layout)
+
+        # Notizen - Label und Feld vertikal (braucht mehr Platz)
+        group_layout.addWidget(QLabel("Notizen:"))
+        group_layout.addWidget(self.notes_edit)
+
+        # Buttons - innerhalb der GroupBox
         button_layout = QHBoxLayout()
         self.save_button = QPushButton("Speichern")
         self.save_button.clicked.connect(self._on_save_clicked)
@@ -66,8 +95,10 @@ class SessionFormWidget(QWidget):
         button_layout.addWidget(self.clear_button)
         button_layout.addStretch()
 
-        layout.addLayout(button_layout)
-        layout.addStretch()
+        group_layout.addLayout(button_layout)
+
+        group.setLayout(group_layout)
+        layout.addWidget(group)
 
     def load_session(self, session: Dict[str, Any]):
         """Lädt Session-Daten ins Formular"""

@@ -4,7 +4,7 @@ Hauptfenster der Audio Sessions App
 from PySide6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
                                QPushButton, QLabel, QComboBox, QLineEdit,
                                QProgressBar, QSplitter, QGroupBox, QMessageBox,
-                               QFileDialog, QToolBar)
+                               QFileDialog, QToolBar, QSizePolicy, QSpacerItem)
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QAction
 import sys
@@ -37,7 +37,7 @@ class MainWindow(QMainWindow):
     def _setup_ui(self):
         """Initialisiert die Benutzeroberfläche"""
         self.setWindowTitle("Audio Sessions - Desktop App")
-        self.setMinimumSize(1200, 700)
+        self.setMinimumSize(1200, 900)  # Angepasst für kompakteres Layout
 
         # Zentrales Widget
         central_widget = QWidget()
@@ -60,15 +60,28 @@ class MainWindow(QMainWindow):
 
         # Recorder Panel
         recorder_group = self._create_recorder_panel()
+        recorder_group.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
+        recorder_group.setMinimumHeight(350)
         right_layout.addWidget(recorder_group)
+        # Fester Spacer mit Fixed Policy - verhindert Komprimierung
+        right_layout.addSpacerItem(QSpacerItem(0, 10, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed))
 
         # Player Widget
         self.player_widget = PlayerWidget()
+        self.player_widget.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
+        self.player_widget.setMinimumHeight(180)
         right_layout.addWidget(self.player_widget)
+        # Fester Spacer mit Fixed Policy - verhindert Komprimierung
+        right_layout.addSpacerItem(QSpacerItem(0, 10, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed))
 
         # Session Form
         self.session_form = SessionFormWidget()
+        self.session_form.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
+        self.session_form.setMinimumHeight(250)  # Reduziert dank kompakterem Layout
         right_layout.addWidget(self.session_form)
+
+        # Stretch am Ende - verhindert dass Widgets zusammengeschoben werden
+        right_layout.addStretch()
 
         splitter.addWidget(right_widget)
         splitter.setStretchFactor(0, 2)
