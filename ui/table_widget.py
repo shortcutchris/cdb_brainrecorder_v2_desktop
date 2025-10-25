@@ -31,6 +31,9 @@ class SessionTableWidget(QTableWidget):
         self.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.setAlternatingRowColors(True)
 
+        # Zeilennummern ausblenden
+        self.verticalHeader().setVisible(False)
+
         # Spaltenbreiten anpassen
         header = self.horizontalHeader()
         header.setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
@@ -40,6 +43,24 @@ class SessionTableWidget(QTableWidget):
         header.setSectionResizeMode(4, QHeaderView.ResizeMode.ResizeToContents)
         header.setSectionResizeMode(5, QHeaderView.ResizeMode.ResizeToContents)
         header.setSectionResizeMode(6, QHeaderView.ResizeMode.Stretch)
+
+        # Stylesheet für schwarze Tabellenränder
+        self.setStyleSheet("""
+            QTableWidget {
+                gridline-color: black;
+                border: 1px solid black;
+            }
+            QTableWidget::item {
+                border-color: black;
+            }
+            QHeaderView::section {
+                border: 1px solid black;
+            }
+            QTableCornerButton::section {
+                background-color: #2b2b2b;
+                border: 1px solid black;
+            }
+        """)
 
         # Signal verbinden
         self.itemSelectionChanged.connect(self._on_selection_changed)
@@ -51,16 +72,35 @@ class SessionTableWidget(QTableWidget):
         for row_idx, session in enumerate(sessions):
             self.insertRow(row_idx)
 
-            # Daten einfügen
-            self.setItem(row_idx, 0, QTableWidgetItem(str(session['id'])))
-            self.setItem(row_idx, 1, QTableWidgetItem(session['title']))
-            self.setItem(row_idx, 2, QTableWidgetItem(session['recorded_at']))
-            self.setItem(row_idx, 3, QTableWidgetItem(str(session['duration_sec'])))
-            self.setItem(row_idx, 4, QTableWidgetItem(str(session['samplerate'])))
-            self.setItem(row_idx, 5, QTableWidgetItem(str(session['channels'])))
-            self.setItem(row_idx, 6, QTableWidgetItem(session['notes'][:50] + '...'
-                                                      if len(session['notes']) > 50
-                                                      else session['notes']))
+            # Daten einfügen mit horizontaler Zentrierung
+            id_item = QTableWidgetItem(str(session['id']))
+            id_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.setItem(row_idx, 0, id_item)
+
+            title_item = QTableWidgetItem(session['title'])
+            title_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.setItem(row_idx, 1, title_item)
+
+            date_item = QTableWidgetItem(session['recorded_at'])
+            date_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.setItem(row_idx, 2, date_item)
+
+            duration_item = QTableWidgetItem(str(session['duration_sec']))
+            duration_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.setItem(row_idx, 3, duration_item)
+
+            samplerate_item = QTableWidgetItem(str(session['samplerate']))
+            samplerate_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.setItem(row_idx, 4, samplerate_item)
+
+            channels_item = QTableWidgetItem(str(session['channels']))
+            channels_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.setItem(row_idx, 5, channels_item)
+
+            notes_text = session['notes'][:50] + '...' if len(session['notes']) > 50 else session['notes']
+            notes_item = QTableWidgetItem(notes_text)
+            notes_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.setItem(row_idx, 6, notes_item)
 
     def _on_selection_changed(self):
         """Wird aufgerufen wenn die Selektion sich ändert"""
