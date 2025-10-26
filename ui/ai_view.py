@@ -45,14 +45,14 @@ class AIView(TranslatableWidget, QWidget):
                 color: #e0e0e0;
                 border: 1px solid #4a4a4a;
                 border-radius: 4px;
-                margin-top: 0px;
+                margin-top: 12px;
                 font-weight: bold;
-                padding-top: 8px;
+                font-size: 14px;
             }
             QGroupBox::title {
                 subcontrol-origin: margin;
                 left: 10px;
-                padding: 0 5px;
+                padding: 0 8px 8px 8px;
             }
             QTextEdit {
                 background-color: #1e1e1e;
@@ -66,8 +66,8 @@ class AIView(TranslatableWidget, QWidget):
 
         # Hauptlayout
         main_layout = QVBoxLayout(self)
-        main_layout.setContentsMargins(0, 0, 0, 0)
-        main_layout.setSpacing(0)
+        main_layout.setContentsMargins(12, 0, 12, 12)
+        main_layout.setSpacing(12)
 
         # Toolbar oben
         toolbar = self._create_toolbar()
@@ -79,6 +79,8 @@ class AIView(TranslatableWidget, QWidget):
         # Linke Seite: Transkription
         self.left_group = QGroupBox(self.tr("Transkription"))
         left_layout = QVBoxLayout()
+        left_layout.setSpacing(10)
+        left_layout.setContentsMargins(12, 20, 12, 12)
 
         # Transkription starten Button (initially hidden)
         self.transcribe_button = QPushButton(self.tr("Transkription starten"))
@@ -113,6 +115,8 @@ class AIView(TranslatableWidget, QWidget):
         # Rechte Seite: Transformierter Text
         self.right_group = QGroupBox(self.tr("Transformierter Text"))
         right_layout = QVBoxLayout()
+        right_layout.setSpacing(10)
+        right_layout.setContentsMargins(12, 20, 12, 12)
 
         self.transformed_edit = QTextEdit()
         self.transformed_edit.setPlaceholderText(self.tr("Hier erscheint der transformierte Text..."))
@@ -146,8 +150,8 @@ class AIView(TranslatableWidget, QWidget):
             QToolBar {
                 background-color: #2b2b2b;
                 border-bottom: 1px solid #4a4a4a;
-                spacing: 10px;
-                padding: 8px;
+                spacing: 12px;
+                padding: 12px 16px;
             }
             QToolBar QLabel {
                 color: #e0e0e0;
