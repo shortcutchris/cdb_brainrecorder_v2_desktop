@@ -590,6 +590,10 @@ class MainWindow(TranslatableWidget, QMainWindow):
         old_language = self.settings_manager.get_language()
 
         dialog = SettingsDialog(self.settings_manager, self)
+
+        # Verbinde prompts_changed Signal mit AI View reload
+        dialog.prompts_changed.connect(self.ai_view.load_prompts)
+
         if dialog.exec() == QDialog.DialogCode.Accepted:
             # Prüfe ob Sprache geändert wurde
             new_language = self.settings_manager.get_language()

@@ -7,6 +7,10 @@ from pathlib import Path
 from typing import Optional, Dict, Any
 import json
 import hashlib
+import sys
+
+sys.path.append(str(Path(__file__).parent.parent))
+from settings import SettingsManager
 
 
 class AudioSessionService:
@@ -101,7 +105,7 @@ class AudioSessionService:
     def transform(
         self,
         text: str,
-        task: str = "zusammenfassen",
+        prompt_id: str = "zusammenfassen",
         reasoning_effort: str = "medium",
         verbosity: str = "low"
     ) -> dict:
@@ -110,7 +114,7 @@ class AudioSessionService:
 
         Args:
             text: Zu transformierender Text
-            task: "zusammenfassen" | "uebersetzen" | "strukturieren"
+            prompt_id: ID des zu verwendenden Prompts
             reasoning_effort: "minimal" | "low" | "medium" | "high"
             verbosity: "low" | "medium" | "high"
 
@@ -125,22 +129,19 @@ class AudioSessionService:
         if not self.client:
             return {"success": False, "error": "Kein API Key konfiguriert"}
 
-        task_prompts = {
-            "zusammenfassen": (
-                "Fasse den folgenden Transkript-Text prägnant zusammen. "
-                "Behalte die wichtigsten Informationen und Kernaussagen bei."
-            ),
-            "uebersetzen": (
-                "Übersetze den folgenden deutschen Text ins Englische. "
-                "Achte auf natürliche Formulierungen und korrekte Terminologie."
-            ),
-            "strukturieren": (
-                "Strukturiere den folgenden Transkript-Text übersichtlich. "
-                "Erstelle Überschriften, Absätze und Stichpunkte für bessere Lesbarkeit."
-            )
-        }
+        # Prompt aus Settings laden
+        settings_manager = SettingsManager()
+        prompt_obj = settings_manager.get_prompt_by_id(prompt_id)
 
-        prompt = task_prompts.get(task, task_prompts["zusammenfassen"])
+        if not prompt_obj:
+            # Fallback: Ersten Prompt verwenden
+            all_prompts = settings_manager.get_all_prompts()
+            if all_prompts:
+                prompt_obj = all_prompts[0]
+            else:
+                return {"success": False, "error": "Keine Prompts verfügbar"}
+
+        prompt = prompt_obj.get('prompt_text', '')
         full_input = f"{prompt}\n\n{text}"
 
         try:

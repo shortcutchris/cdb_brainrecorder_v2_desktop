@@ -50,7 +50,7 @@ class TransformationWorker(QThread):
     def __init__(
         self,
         text: str,
-        task: str,
+        prompt_id: str,
         api_key: str,
         reasoning: str = "medium",
         verbosity: str = "low"
@@ -60,32 +60,32 @@ class TransformationWorker(QThread):
 
         Args:
             text: Zu transformierender Text
-            task: "zusammenfassen" | "uebersetzen" | "strukturieren"
+            prompt_id: ID des zu verwendenden Prompts
             api_key: OpenAI API Key
             reasoning: Reasoning-Level
             verbosity: Verbosity-Level
         """
         super().__init__()
         self.text = text
-        self.task = task
+        self.prompt_id = prompt_id
         self.api_key = api_key
         self.reasoning = reasoning
         self.verbosity = verbosity
 
     def run(self):
         """Führt Transformation aus"""
-        self.progress.emit(f"Wende '{self.task}' an...")
+        self.progress.emit("Transformation wird durchgeführt...")
 
         service = AudioSessionService(api_key=self.api_key)
         result = service.transform(
             text=self.text,
-            task=self.task,
+            prompt_id=self.prompt_id,
             reasoning_effort=self.reasoning,
             verbosity=self.verbosity
         )
 
         if result.get("success"):
-            self.progress.emit(f"'{self.task}' abgeschlossen")
+            self.progress.emit("Transformation abgeschlossen")
             self.finished.emit(result)
         else:
             self.error.emit(result.get("error", "Unbekannter Fehler"))

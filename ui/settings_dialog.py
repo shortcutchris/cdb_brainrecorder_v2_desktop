@@ -2,24 +2,30 @@
 Settings-Dialog für App-Einstellungen
 """
 from PySide6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout,
-                               QPushButton, QLabel, QComboBox, QCheckBox, QGroupBox, QLineEdit)
-from PySide6.QtCore import Qt, QEvent
+                               QPushButton, QLabel, QComboBox, QCheckBox, QGroupBox, QLineEdit,
+                               QListWidget, QMessageBox, QListWidgetItem)
+from PySide6.QtCore import Qt, QEvent, Signal
 import sys
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent.parent))
 
 from translatable_widget import TranslatableWidget
+from ui.prompt_editor_dialog import PromptEditorDialog
 
 
 class SettingsDialog(TranslatableWidget, QDialog):
     """Settings-Dialog für Sprache und Auto-Transkription"""
+
+    # Signal wird ausgelöst wenn Prompts geändert wurden
+    prompts_changed = Signal()
 
     def __init__(self, settings_manager, parent=None):
         super().__init__(parent)
         self.settings_manager = settings_manager
         self._setup_ui()
         self._load_settings()
+        self._load_prompts()
 
     def _setup_ui(self):
         """Initialisiert die Benutzeroberfläche"""
@@ -162,6 +168,127 @@ class SettingsDialog(TranslatableWidget, QDialog):
         self.openai_group.setLayout(openai_layout)
         layout.addWidget(self.openai_group)
 
+        # AI Prompts Verwaltung
+        self.prompts_group = QGroupBox(self.tr("AI Prompts"))
+        prompts_layout = QVBoxLayout()
+        prompts_layout.setSpacing(12)
+        prompts_layout.setContentsMargins(12, 20, 12, 12)
+
+        # Scrollbare Prompts-Liste
+        self.prompts_list = QListWidget()
+        self.prompts_list.setMaximumHeight(200)
+        self.prompts_list.setMinimumHeight(150)
+        self.prompts_list.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        self.prompts_list.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.prompts_list.itemDoubleClicked.connect(self._on_edit_prompt)
+        self.prompts_list.itemSelectionChanged.connect(self._on_prompt_selection_changed)
+        self.prompts_list.setStyleSheet("""
+            QListWidget {
+                background-color: #1e1e1e;
+                color: #e0e0e0;
+                border: 1px solid #4a4a4a;
+                border-radius: 3px;
+                padding: 8px;
+            }
+            QListWidget::item {
+                padding: 8px;
+                border-radius: 3px;
+            }
+            QListWidget::item:selected {
+                background-color: #1976d2;
+            }
+            QListWidget::item:hover {
+                background-color: #3a3a3a;
+            }
+            QScrollBar:vertical {
+                background: #2b2b2b;
+                width: 12px;
+            }
+            QScrollBar::handle:vertical {
+                background: #4a4a4a;
+                border-radius: 6px;
+            }
+            QScrollBar::handle:vertical:hover {
+                background: #5a5a5a;
+            }
+        """)
+        prompts_layout.addWidget(self.prompts_list)
+
+        # Buttons für Prompt-Verwaltung
+        prompts_buttons_layout = QHBoxLayout()
+        prompts_buttons_layout.setSpacing(8)
+
+        self.new_prompt_button = QPushButton(self.tr("Neu"))
+        self.new_prompt_button.setStyleSheet("""
+            QPushButton {
+                background-color: #1976d2;
+                color: white;
+                font-weight: bold;
+                padding: 6px 16px;
+                border-radius: 4px;
+                font-size: 13px;
+                border: none;
+            }
+            QPushButton:hover {
+                background-color: #1565c0;
+            }
+        """)
+        self.new_prompt_button.clicked.connect(self._on_new_prompt)
+        prompts_buttons_layout.addWidget(self.new_prompt_button)
+
+        self.edit_prompt_button = QPushButton(self.tr("Bearbeiten"))
+        self.edit_prompt_button.setEnabled(False)
+        self.edit_prompt_button.setStyleSheet("""
+            QPushButton {
+                background-color: transparent;
+                color: #e0e0e0;
+                border: 1px solid #4a4a4a;
+                border-radius: 4px;
+                padding: 6px 16px;
+                font-size: 13px;
+            }
+            QPushButton:hover:enabled {
+                border: 1px solid #5a5a5a;
+                background-color: #3a3a3a;
+            }
+            QPushButton:disabled {
+                color: #808080;
+                border-color: #3a3a3a;
+            }
+        """)
+        self.edit_prompt_button.clicked.connect(self._on_edit_prompt)
+        prompts_buttons_layout.addWidget(self.edit_prompt_button)
+
+        self.delete_prompt_button = QPushButton(self.tr("Löschen"))
+        self.delete_prompt_button.setEnabled(False)
+        self.delete_prompt_button.setStyleSheet("""
+            QPushButton {
+                background-color: transparent;
+                color: #e0e0e0;
+                border: 1px solid #4a4a4a;
+                border-radius: 4px;
+                padding: 6px 16px;
+                font-size: 13px;
+            }
+            QPushButton:hover:enabled {
+                border: 1px solid #d32f2f;
+                background-color: #d32f2f;
+                color: white;
+            }
+            QPushButton:disabled {
+                color: #808080;
+                border-color: #3a3a3a;
+            }
+        """)
+        self.delete_prompt_button.clicked.connect(self._on_delete_prompt)
+        prompts_buttons_layout.addWidget(self.delete_prompt_button)
+
+        prompts_buttons_layout.addStretch()
+        prompts_layout.addLayout(prompts_buttons_layout)
+
+        self.prompts_group.setLayout(prompts_layout)
+        layout.addWidget(self.prompts_group)
+
         layout.addStretch()
 
         # Buttons
@@ -225,6 +352,126 @@ class SettingsDialog(TranslatableWidget, QDialog):
         self.settings_manager.set_openai_api_key(self.api_key_input.text())
         self.accept()
 
+    # ========== Prompt Management ==========
+
+    def _load_prompts(self):
+        """Lädt alle Prompts in die Liste"""
+        self.prompts_list.clear()
+
+        prompts = self.settings_manager.get_all_prompts()
+        for prompt in prompts:
+            # Item erstellen
+            display_name = prompt['name']
+            if prompt.get('is_default', False):
+                display_name += f" ({self.tr('Standard')})"
+
+            item = QListWidgetItem(display_name)
+            item.setData(Qt.ItemDataRole.UserRole, prompt)  # Prompt-Daten an Item hängen
+            self.prompts_list.addItem(item)
+
+    def _on_prompt_selection_changed(self):
+        """Wird aufgerufen wenn Prompt-Auswahl sich ändert"""
+        selected_items = self.prompts_list.selectedItems()
+
+        if not selected_items:
+            # Keine Auswahl
+            self.edit_prompt_button.setEnabled(False)
+            self.delete_prompt_button.setEnabled(False)
+            return
+
+        # Ein Prompt ausgewählt
+        item = selected_items[0]
+        prompt = item.data(Qt.ItemDataRole.UserRole)
+
+        # Bearbeiten immer möglich
+        self.edit_prompt_button.setEnabled(True)
+
+        # Löschen nur für Custom Prompts
+        is_default = prompt.get('is_default', False)
+        self.delete_prompt_button.setEnabled(not is_default)
+
+    def _on_new_prompt(self):
+        """Erstellt einen neuen Prompt"""
+        dialog = PromptEditorDialog(self)
+        if dialog.exec() == QDialog.DialogCode.Accepted:
+            data = dialog.get_result()
+            if data:
+                # Prompt speichern
+                self.settings_manager.add_prompt(data['name'], data['prompt_text'])
+                # Liste neu laden
+                self._load_prompts()
+                # Signal auslösen
+                self.prompts_changed.emit()
+
+    def _on_edit_prompt(self):
+        """Bearbeitet den ausgewählten Prompt"""
+        selected_items = self.prompts_list.selectedItems()
+        if not selected_items:
+            return
+
+        item = selected_items[0]
+        prompt = item.data(Qt.ItemDataRole.UserRole)
+
+        # Standard-Prompts können nicht bearbeitet werden
+        if prompt.get('is_default', False):
+            QMessageBox.information(
+                self,
+                self.tr("Bearbeiten nicht möglich"),
+                self.tr("Standard-Prompts können nicht bearbeitet werden.")
+            )
+            return
+
+        # Dialog öffnen
+        dialog = PromptEditorDialog(self, prompt=prompt)
+        if dialog.exec() == QDialog.DialogCode.Accepted:
+            data = dialog.get_result()
+            if data:
+                # Prompt aktualisieren
+                self.settings_manager.update_prompt(
+                    prompt['id'],
+                    data['name'],
+                    data['prompt_text']
+                )
+                # Liste neu laden
+                self._load_prompts()
+                # Signal auslösen
+                self.prompts_changed.emit()
+
+    def _on_delete_prompt(self):
+        """Löscht den ausgewählten Prompt"""
+        selected_items = self.prompts_list.selectedItems()
+        if not selected_items:
+            return
+
+        item = selected_items[0]
+        prompt = item.data(Qt.ItemDataRole.UserRole)
+
+        # Standard-Prompts können nicht gelöscht werden
+        if prompt.get('is_default', False):
+            QMessageBox.warning(
+                self,
+                self.tr("Löschen nicht möglich"),
+                self.tr("Standard-Prompts können nicht gelöscht werden.")
+            )
+            return
+
+        # Bestätigung
+        reply = QMessageBox.question(
+            self,
+            self.tr("Prompt löschen"),
+            self.tr("Möchten Sie diesen Prompt wirklich löschen?\n\n{0}").format(prompt['name']),
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No
+        )
+
+        if reply == QMessageBox.StandardButton.Yes:
+            # Prompt löschen
+            self.settings_manager.delete_prompt(prompt['id'])
+            # Liste neu laden
+            self._load_prompts()
+            # Signal auslösen
+            self.prompts_changed.emit()
+
     def retranslateUi(self):
         """Aktualisiert alle UI-Texte (für Sprachwechsel)"""
         self.setWindowTitle(self.tr("Einstellungen"))
@@ -241,6 +488,15 @@ class SettingsDialog(TranslatableWidget, QDialog):
         self.auto_transcription_checkbox.setText(self.tr("Auto-Transkription aktivieren"))
         self.openai_group.setTitle(self.tr("OpenAI API"))
         self.api_key_label.setText(self.tr("API Key:"))
+
+        # AI Prompts
+        self.prompts_group.setTitle(self.tr("AI Prompts"))
+        self.new_prompt_button.setText(self.tr("Neu"))
+        self.edit_prompt_button.setText(self.tr("Bearbeiten"))
+        self.delete_prompt_button.setText(self.tr("Löschen"))
+        # Liste neu laden um "(Standard)" zu übersetzen
+        self._load_prompts()
+
         self.cancel_button.setText(self.tr("Abbrechen"))
         self.save_button.setText(self.tr("Speichern"))
 

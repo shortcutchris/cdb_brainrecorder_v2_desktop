@@ -33,6 +33,7 @@ class AIView(TranslatableWidget, QWidget):
         self.transcription_worker = None
         self.transformation_worker = None
         self._setup_ui()
+        self.load_prompts()
 
     def _setup_ui(self):
         """Initialisiert die Benutzeroberfläche"""
@@ -188,11 +189,7 @@ class AIView(TranslatableWidget, QWidget):
         toolbar.addWidget(self.prompt_label)
 
         self.prompt_combo = QComboBox()
-        self.prompt_combo.addItems([
-            self.tr("Zusammenfassen"),
-            self.tr("Übersetzen"),
-            self.tr("Strukturieren")
-        ])
+        # Prompts werden dynamisch geladen in load_prompts()
         self.prompt_combo.setMinimumWidth(200)
         self.prompt_combo.setStyleSheet("""
             QComboBox {
@@ -264,6 +261,24 @@ class AIView(TranslatableWidget, QWidget):
         toolbar.addWidget(spacer)
 
         return toolbar
+
+    def load_prompts(self):
+        """Lädt alle Prompts aus Settings und befüllt ComboBox"""
+        # Aktuelle Auswahl merken
+        current_id = self.prompt_combo.currentData()
+
+        self.prompt_combo.clear()
+        prompts = self.settings_manager.get_all_prompts()
+
+        for prompt in prompts:
+            # Name anzeigen, ID als Data speichern
+            self.prompt_combo.addItem(prompt['name'], prompt['id'])
+
+        # Versuche vorherige Auswahl wiederherzustellen
+        if current_id:
+            index = self.prompt_combo.findData(current_id)
+            if index >= 0:
+                self.prompt_combo.setCurrentIndex(index)
 
     def load_session(self, session_id: int):
         """Lädt eine Session in den AI-View"""
@@ -397,20 +412,21 @@ class AIView(TranslatableWidget, QWidget):
         self.generate_button.setEnabled(False)
         self.generate_button.setText(self.tr("Generiere..."))
 
-        # Task aus Dropdown ermitteln
-        prompt_text = self.prompt_combo.currentText()
-        task_map = {
-            self.tr("Zusammenfassen"): "zusammenfassen",
-            self.tr("Übersetzen"): "uebersetzen",
-            self.tr("Strukturieren"): "strukturieren"
-        }
-        task = task_map.get(prompt_text, "zusammenfassen")
+        # Prompt-ID aus Dropdown ermitteln
+        prompt_id = self.prompt_combo.currentData()
+        if not prompt_id:
+            # Fallback: Ersten Prompt verwenden
+            prompts = self.settings_manager.get_all_prompts()
+            if prompts:
+                prompt_id = prompts[0]['id']
+            else:
+                prompt_id = "zusammenfassen"  # Hard fallback
 
         # Worker starten
         text = self.transcription_edit.toPlainText()
         self.transformation_worker = TransformationWorker(
             text=text,
-            task=task,
+            prompt_id=prompt_id,
             api_key=api_key,
             reasoning="medium",
             verbosity="low"
@@ -462,18 +478,8 @@ class AIView(TranslatableWidget, QWidget):
         self.back_button.setToolTip(self.tr("Zurück zur Hauptansicht"))
         self.prompt_label.setText(self.tr("Prompt:"))
 
-        # Prompt-Combo neu befüllen (Auswahl beibehalten)
-        current_prompt = self.prompt_combo.currentText()
-        self.prompt_combo.clear()
-        self.prompt_combo.addItems([
-            self.tr("Zusammenfassen"),
-            self.tr("Übersetzen"),
-            self.tr("Strukturieren")
-        ])
-        # Versuchen Auswahl wiederherzustellen (funktioniert nur wenn exakte Übereinstimmung)
-        index = self.prompt_combo.findText(current_prompt)
-        if index >= 0:
-            self.prompt_combo.setCurrentIndex(index)
+        # Prompt-Combo neu befüllen mit aktualisierten Prompts
+        self.load_prompts()
 
         self.generate_button.setText(self.tr("Generieren"))
         self.settings_button.setToolTip(self.tr("Einstellungen"))
