@@ -6,7 +6,7 @@ from PySide6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
                                QProgressBar, QSplitter, QGroupBox, QMessageBox,
                                QFileDialog, QToolBar, QSizePolicy, QScrollArea,
                                QFrame, QStackedWidget)
-from PySide6.QtCore import Qt, QTimer, QPropertyAnimation, QEasingCurve
+from PySide6.QtCore import Qt, QTimer, QPropertyAnimation, QEasingCurve, QEvent, QCoreApplication
 from PySide6.QtGui import QAction
 import sys
 import os
@@ -24,9 +24,11 @@ from ui.waveform_widget import WaveformWidget
 from ui.ai_view import AIView
 from ui.settings_dialog import SettingsDialog
 from settings import SettingsManager
+from simple_translator import SimpleTranslator
+from translatable_widget import TranslatableWidget
 
 
-class MainWindow(QMainWindow):
+class MainWindow(TranslatableWidget, QMainWindow):
     """Hauptfenster der Anwendung"""
 
     def __init__(self):
@@ -35,13 +37,18 @@ class MainWindow(QMainWindow):
         self.repo = SessionRepository()
         self.settings_manager = SettingsManager()
 
+        # Translation Setup mit SimpleTranslator
+        self.translator = SimpleTranslator()
+        SimpleTranslator.set_instance(self.translator)
+        self._load_language()
+
         self._setup_ui()
         self._connect_signals()
         self._load_sessions()
 
     def _setup_ui(self):
         """Initialisiert die Benutzeroberfläche"""
-        self.setWindowTitle("Audio Sessions - Desktop App")
+        self.setWindowTitle(self.tr("Audio Sessions - Desktop App"))
         self.setMinimumSize(1050, 720)  # Angepasst für kompakteres Layout
 
         # StackedWidget für View-Wechsel (Haupt-View <-> AI-View)
@@ -131,11 +138,11 @@ class MainWindow(QMainWindow):
         """)
 
         # Suchfeld
-        search_label = QLabel("Suche:")
-        toolbar.addWidget(search_label)
+        self.search_label = QLabel(self.tr("Suche:"))
+        toolbar.addWidget(self.search_label)
 
         self.search_edit = QLineEdit()
-        self.search_edit.setPlaceholderText("Suche nach Titel oder Notizen...")
+        self.search_edit.setPlaceholderText(self.tr("Suche nach Titel oder Notizen..."))
         self.search_edit.setMinimumWidth(350)
         self.search_edit.setStyleSheet("""
             QLineEdit {
@@ -154,8 +161,8 @@ class MainWindow(QMainWindow):
         toolbar.addSeparator()
 
         # CSV Export Button
-        export_button = QPushButton("CSV Export")
-        export_button.setStyleSheet("""
+        self.export_button = QPushButton(self.tr("CSV Export"))
+        self.export_button.setStyleSheet("""
             QPushButton {
                 background-color: transparent;
                 color: #e0e0e0;
@@ -169,15 +176,15 @@ class MainWindow(QMainWindow):
                 background-color: #3a3a3a;
             }
         """)
-        export_button.clicked.connect(self._on_export_csv)
-        toolbar.addWidget(export_button)
+        self.export_button.clicked.connect(self._on_export_csv)
+        toolbar.addWidget(self.export_button)
 
         # Settings-Button
         toolbar.addSeparator()
 
-        settings_button = QPushButton("⚙️")
-        settings_button.setToolTip("Einstellungen")
-        settings_button.setStyleSheet("""
+        self.toolbar_settings_button = QPushButton("⚙️")
+        self.toolbar_settings_button.setToolTip(self.tr("Einstellungen"))
+        self.toolbar_settings_button.setStyleSheet("""
             QPushButton {
                 background-color: transparent;
                 color: #e0e0e0;
@@ -191,8 +198,8 @@ class MainWindow(QMainWindow):
                 background-color: #3a3a3a;
             }
         """)
-        settings_button.clicked.connect(self._on_settings_clicked)
-        toolbar.addWidget(settings_button)
+        self.toolbar_settings_button.clicked.connect(self._on_settings_clicked)
+        toolbar.addWidget(self.toolbar_settings_button)
 
         # Spacer rechts
         spacer = QWidget()
@@ -209,14 +216,15 @@ class MainWindow(QMainWindow):
         container_layout.setContentsMargins(0, 0, 0, 0)
 
         # GroupBox erstellen
-        group = QGroupBox("Audio Recorder")
+        self.recorder_group = QGroupBox(self.tr("Audio Recorder"))
         layout = QVBoxLayout()
         layout.setContentsMargins(12, 12, 12, 12)
         layout.setSpacing(12)
 
         # Geräteauswahl
         device_layout = QHBoxLayout()
-        device_layout.addWidget(QLabel("Mikrofon:"))
+        self.mic_label = QLabel(self.tr("Mikrofon:"))
+        device_layout.addWidget(self.mic_label)
         self.device_combo = QComboBox()
         self._load_devices()
         device_layout.addWidget(self.device_combo)
@@ -224,7 +232,8 @@ class MainWindow(QMainWindow):
 
         # Level-Anzeige
         level_layout = QHBoxLayout()
-        level_layout.addWidget(QLabel("Pegel:"))
+        self.level_label = QLabel(self.tr("Pegel:"))
+        level_layout.addWidget(self.level_label)
         self.level_bar = QProgressBar()
         self.level_bar.setMaximum(100)
         self.level_bar.setValue(0)
@@ -243,7 +252,7 @@ class MainWindow(QMainWindow):
 
         # Buttons
         button_layout = QHBoxLayout()
-        self.record_button = QPushButton("Aufnahme starten")
+        self.record_button = QPushButton(self.tr("Aufnahme starten"))
         self.record_button.clicked.connect(self._on_record_clicked)
         self.record_button.setStyleSheet(
             "padding: 10px; font-size: 14px; background-color: #d32f2f; color: white; font-weight: bold;"
@@ -251,8 +260,8 @@ class MainWindow(QMainWindow):
         button_layout.addWidget(self.record_button)
         layout.addLayout(button_layout)
 
-        group.setLayout(layout)
-        container_layout.addWidget(group)
+        self.recorder_group.setLayout(layout)
+        container_layout.addWidget(self.recorder_group)
 
         return container
 
@@ -302,18 +311,19 @@ class MainWindow(QMainWindow):
             device_index = self.device_combo.currentData()
             try:
                 output_path = self.recorder.start_recording(device_index)
-                self.record_button.setText("Aufnahme stoppen")
+                self.record_button.setText(self.tr("Aufnahme stoppen"))
                 self.record_button.setStyleSheet(
                     "padding: 10px; font-size: 14px; background-color: #ff4444; color: white; font-weight: bold;"
                 )
                 # Waveform-Visualisierung starten
                 self.waveform_widget.start_recording()
             except Exception as e:
-                QMessageBox.critical(self, "Fehler", f"Aufnahme konnte nicht gestartet werden:\n{e}")
+                QMessageBox.critical(self, self.tr("Fehler"),
+                                   self.tr("Aufnahme konnte nicht gestartet werden:\n{0}").format(e))
         else:
             # Aufnahme stoppen
             output_path = self.recorder.stop_recording()
-            self.record_button.setText("Aufnahme starten")
+            self.record_button.setText(self.tr("Aufnahme starten"))
             self.record_button.setStyleSheet(
                 "padding: 10px; font-size: 14px; background-color: #d32f2f; color: white; font-weight: bold;"
             )
@@ -348,8 +358,8 @@ class MainWindow(QMainWindow):
         # Tabelle aktualisieren
         self._load_sessions()
 
-        QMessageBox.information(self, "Erfolg",
-                               f"Session wurde erfolgreich gespeichert!\n{output_path}")
+        QMessageBox.information(self, self.tr("Erfolg"),
+                               self.tr("Session wurde erfolgreich gespeichert!\n{0}").format(output_path))
 
     def _on_level_update(self, level: float):
         """Aktualisiert die Pegelanzeige"""
@@ -382,13 +392,13 @@ class MainWindow(QMainWindow):
         session_id = data.pop('id')
         self.repo.update(session_id, **data)
         self._load_sessions(self.search_edit.text())
-        QMessageBox.information(self, "Erfolg", "Session wurde aktualisiert!")
+        QMessageBox.information(self, self.tr("Erfolg"), self.tr("Session wurde aktualisiert!"))
 
     def _on_player_delete_requested(self, session_id: int):
         """Wird aufgerufen wenn im Player der Löschen-Button geklickt wird"""
         reply = QMessageBox.question(
-            self, "Löschen bestätigen",
-            "Möchten Sie diese Session wirklich löschen?\nDie Audiodatei bleibt erhalten.",
+            self, self.tr("Löschen bestätigen"),
+            self.tr("Möchten Sie diese Session wirklich löschen?\nDie Audiodatei bleibt erhalten."),
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
         )
 
@@ -397,7 +407,7 @@ class MainWindow(QMainWindow):
             self.session_form.clear()
             self.player_widget.clear()
             self._load_sessions(self.search_edit.text())
-            QMessageBox.information(self, "Erfolg", "Session wurde gelöscht.")
+            QMessageBox.information(self, self.tr("Erfolg"), self.tr("Session wurde gelöscht."))
 
     def _on_show_in_folder(self, file_path: str):
         """Zeigt die Datei im Explorer/Finder"""
@@ -412,8 +422,8 @@ class MainWindow(QMainWindow):
                 folder_path = os.path.dirname(file_path)
                 os.system(f'xdg-open "{folder_path}"')
         else:
-            QMessageBox.warning(self, "Warnung",
-                               f"Datei nicht gefunden:\n{file_path}")
+            QMessageBox.warning(self, self.tr("Warnung"),
+                               self.tr("Datei nicht gefunden:\n{0}").format(file_path))
 
     def _on_ai_view_requested(self, session_id: int):
         """Wechselt zum AI-View für die ausgewählte Session"""
@@ -467,21 +477,100 @@ class MainWindow(QMainWindow):
     def _on_export_csv(self):
         """Exportiert Sessions als CSV"""
         file_path, _ = QFileDialog.getSaveFileName(
-            self, "CSV exportieren", "sessions.csv", "CSV Dateien (*.csv)"
+            self, self.tr("CSV exportieren"), "sessions.csv", self.tr("CSV Dateien (*.csv)")
         )
 
         if file_path:
             try:
                 self.repo.export_to_csv(file_path)
-                QMessageBox.information(self, "Erfolg",
-                                       f"Sessions wurden exportiert:\n{file_path}")
+                QMessageBox.information(self, self.tr("Erfolg"),
+                                       self.tr("Sessions wurden exportiert:\n{0}").format(file_path))
             except Exception as e:
-                QMessageBox.critical(self, "Fehler", f"Export fehlgeschlagen:\n{e}")
+                QMessageBox.critical(self, self.tr("Fehler"),
+                                   self.tr("Export fehlgeschlagen:\n{0}").format(e))
 
     def _on_settings_clicked(self):
         """Öffnet den Settings-Dialog"""
         from PySide6.QtWidgets import QDialog
+
+        # Merke aktuelle Sprache
+        old_language = self.settings_manager.get_language()
+
         dialog = SettingsDialog(self.settings_manager, self)
         if dialog.exec() == QDialog.DialogCode.Accepted:
-            # Settings wurden gespeichert
-            pass
+            # Prüfe ob Sprache geändert wurde
+            new_language = self.settings_manager.get_language()
+
+            if old_language != new_language:
+                # Sprache hat sich geändert - Live-Update
+                self.change_language(new_language)
+
+    def retranslateUi(self):
+        """Aktualisiert alle UI-Texte (für Sprachwechsel)"""
+        # Fenstertitel
+        self.setWindowTitle(self.tr("Audio Sessions - Desktop App"))
+
+        # Toolbar
+        self.search_label.setText(self.tr("Suche:"))
+        self.search_edit.setPlaceholderText(self.tr("Suche nach Titel oder Notizen..."))
+        self.export_button.setText(self.tr("CSV Export"))
+        self.toolbar_settings_button.setToolTip(self.tr("Einstellungen"))
+
+        # Recorder Panel
+        self.recorder_group.setTitle(self.tr("Audio Recorder"))
+        self.mic_label.setText(self.tr("Mikrofon:"))
+        self.level_label.setText(self.tr("Pegel:"))
+
+        # Record-Button Text abhängig vom Zustand
+        if not self.recorder.is_recording:
+            self.record_button.setText(self.tr("Aufnahme starten"))
+        else:
+            self.record_button.setText(self.tr("Aufnahme stoppen"))
+
+        # Trigger retranslate in child widgets
+        self.session_table.retranslateUi()
+        self.player_widget.retranslateUi()
+        self.session_form.retranslateUi()
+        self.ai_view.retranslateUi()
+
+    def changeEvent(self, event):
+        """Behandelt Änderungs-Events (z.B. Sprachwechsel)"""
+        if event.type() == QEvent.Type.LanguageChange:
+            self.retranslateUi()
+        super().changeEvent(event)
+
+    def _load_language(self):
+        """Lädt die Sprache aus den Settings und installiert den Translator"""
+        language = self.settings_manager.get_language()
+
+        # Map language name to file
+        language_map = {
+            "Deutsch": "de_DE",
+            "English": "en_US",
+            "German": "de_DE"  # Fallback für englische UI
+        }
+
+        lang_code = language_map.get(language, "de_DE")
+
+        # Pfad zur Translation-Datei
+        trans_dir = Path(__file__).parent.parent / "translations"
+        ts_file = trans_dir / f"{lang_code}.ts"
+
+        # Lade .ts Datei mit SimpleTranslator
+        if ts_file.exists():
+            self.translator.load(str(ts_file))
+        else:
+            print(f"Warnung: Translation-Datei nicht gefunden: {ts_file}")
+
+    def change_language(self, language: str):
+        """Wechselt die Sprache der Anwendung zur Laufzeit"""
+        # Speichere neue Sprache
+        self.settings_manager.set_language(language)
+
+        # Lade neue Übersetzung
+        self._load_language()
+
+        # Trigger UI-Update in allen Widgets
+        # QEvent.LanguageChange wird automatisch an alle Widgets gesendet
+        event = QEvent(QEvent.Type.LanguageChange)
+        QCoreApplication.instance().sendEvent(self, event)

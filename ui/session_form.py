@@ -4,11 +4,17 @@ Session-Formular für Metadaten-Bearbeitung
 from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout,
                                QLineEdit, QTextEdit, QPushButton, QLabel,
                                QGroupBox)
-from PySide6.QtCore import Signal
+from PySide6.QtCore import Signal, QEvent
 from typing import Optional, Dict, Any
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).parent.parent))
+
+from translatable_widget import TranslatableWidget
 
 
-class SessionFormWidget(QWidget):
+class SessionFormWidget(TranslatableWidget, QWidget):
     """Formular zur Bearbeitung von Session-Metadaten"""
 
     save_requested = Signal(dict)  # Wird ausgelöst wenn Speichern geklickt wird
@@ -25,14 +31,14 @@ class SessionFormWidget(QWidget):
         layout.setSpacing(0)
 
         # GroupBox für bessere Optik
-        group = QGroupBox("Session Details")
+        self.group = QGroupBox(self.tr("Session Details"))
         group_layout = QVBoxLayout()
         group_layout.setContentsMargins(12, 12, 12, 12)
         group_layout.setSpacing(12)
 
         # Felder
         self.title_edit = QLineEdit()
-        self.title_edit.setPlaceholderText("z.B. Podcast Episode 1")
+        self.title_edit.setPlaceholderText(self.tr("z.B. Podcast Episode 1"))
 
         self.recorded_at_label = QLabel("-")
         self.duration_label = QLabel("-")
@@ -43,56 +49,63 @@ class SessionFormWidget(QWidget):
         self.path_label.setStyleSheet("padding: 2px;")
 
         self.notes_edit = QTextEdit()
-        self.notes_edit.setPlaceholderText("Notizen zur Session...")
+        self.notes_edit.setPlaceholderText(self.tr("Notizen zur Session..."))
         self.notes_edit.setMaximumHeight(60)
 
         # Titel - Label und Feld horizontal
         title_layout = QHBoxLayout()
-        title_layout.addWidget(QLabel("Titel:"))
+        self.title_label = QLabel(self.tr("Titel:"))
+        title_layout.addWidget(self.title_label)
         title_layout.addWidget(self.title_edit)
         group_layout.addLayout(title_layout)
 
         # Aufnahmedatum - Label und Wert horizontal
         recorded_layout = QHBoxLayout()
-        recorded_layout.addWidget(QLabel("Aufnahmedatum:"))
+        self.recorded_label = QLabel(self.tr("Aufnahmedatum:"))
+        recorded_layout.addWidget(self.recorded_label)
         recorded_layout.addWidget(self.recorded_at_label)
         recorded_layout.addStretch()
         group_layout.addLayout(recorded_layout)
 
         # Dauer - Label und Wert horizontal
         duration_layout = QHBoxLayout()
-        duration_layout.addWidget(QLabel("Dauer (s):"))
+        self.duration_text_label = QLabel(self.tr("Dauer (s):"))
+        duration_layout.addWidget(self.duration_text_label)
         duration_layout.addWidget(self.duration_label)
         duration_layout.addStretch()
         group_layout.addLayout(duration_layout)
 
         # Samplerate und Kanäle in einer Zeile
         tech_layout = QHBoxLayout()
-        tech_layout.addWidget(QLabel("Samplerate:"))
+        self.samplerate_text_label = QLabel(self.tr("Samplerate:"))
+        tech_layout.addWidget(self.samplerate_text_label)
         tech_layout.addWidget(self.samplerate_label)
         tech_layout.addSpacing(20)
-        tech_layout.addWidget(QLabel("Kanäle:"))
+        self.channels_text_label = QLabel(self.tr("Kanäle:"))
+        tech_layout.addWidget(self.channels_text_label)
         tech_layout.addWidget(self.channels_label)
         tech_layout.addStretch()
         group_layout.addLayout(tech_layout)
 
         # Dateipfad - Label und Wert horizontal
         path_layout = QHBoxLayout()
-        path_layout.addWidget(QLabel("Dateipfad:"))
+        self.path_text_label = QLabel(self.tr("Dateipfad:"))
+        path_layout.addWidget(self.path_text_label)
         path_layout.addWidget(self.path_label, 1)  # stretch factor 1
         group_layout.addLayout(path_layout)
 
         # Notizen - Label und Feld vertikal (braucht mehr Platz)
-        group_layout.addWidget(QLabel("Notizen:"))
+        self.notes_text_label = QLabel(self.tr("Notizen:"))
+        group_layout.addWidget(self.notes_text_label)
         group_layout.addWidget(self.notes_edit)
 
         # Buttons - innerhalb der GroupBox
         button_layout = QHBoxLayout()
-        self.save_button = QPushButton("Speichern")
+        self.save_button = QPushButton(self.tr("Speichern"))
         self.save_button.clicked.connect(self._on_save_clicked)
         self.save_button.setEnabled(False)
 
-        self.clear_button = QPushButton("Leeren")
+        self.clear_button = QPushButton(self.tr("Leeren"))
         self.clear_button.clicked.connect(self.clear)
 
         button_layout.addWidget(self.save_button)
@@ -101,8 +114,8 @@ class SessionFormWidget(QWidget):
 
         group_layout.addLayout(button_layout)
 
-        group.setLayout(group_layout)
-        layout.addWidget(group)
+        self.group.setLayout(group_layout)
+        layout.addWidget(self.group)
 
     def load_session(self, session: Dict[str, Any]):
         """Lädt Session-Daten ins Formular"""
@@ -146,3 +159,31 @@ class SessionFormWidget(QWidget):
     def get_current_session_id(self) -> Optional[int]:
         """Gibt die ID der aktuell geladenen Session zurück"""
         return self._current_session_id
+
+    def retranslateUi(self):
+        """Aktualisiert alle UI-Texte (für Sprachwechsel)"""
+        # GroupBox
+        self.group.setTitle(self.tr("Session Details"))
+
+        # Placeholders
+        self.title_edit.setPlaceholderText(self.tr("z.B. Podcast Episode 1"))
+        self.notes_edit.setPlaceholderText(self.tr("Notizen zur Session..."))
+
+        # Labels
+        self.title_label.setText(self.tr("Titel:"))
+        self.recorded_label.setText(self.tr("Aufnahmedatum:"))
+        self.duration_text_label.setText(self.tr("Dauer (s):"))
+        self.samplerate_text_label.setText(self.tr("Samplerate:"))
+        self.channels_text_label.setText(self.tr("Kanäle:"))
+        self.path_text_label.setText(self.tr("Dateipfad:"))
+        self.notes_text_label.setText(self.tr("Notizen:"))
+
+        # Buttons
+        self.save_button.setText(self.tr("Speichern"))
+        self.clear_button.setText(self.tr("Leeren"))
+
+    def changeEvent(self, event):
+        """Behandelt Änderungs-Events (z.B. Sprachwechsel)"""
+        if event.type() == QEvent.Type.LanguageChange:
+            self.retranslateUi()
+        super().changeEvent(event)

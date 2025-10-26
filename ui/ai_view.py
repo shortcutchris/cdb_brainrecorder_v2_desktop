@@ -4,10 +4,16 @@ AI-View für Transkription und Textverarbeitung
 from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
                                QLabel, QComboBox, QTextEdit, QGroupBox,
                                QSplitter, QToolBar, QSizePolicy)
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import Qt, Signal, QEvent
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).parent.parent))
+
+from translatable_widget import TranslatableWidget
 
 
-class AIView(QWidget):
+class AIView(TranslatableWidget, QWidget):
     """View für KI-gestützte Textverarbeitung"""
 
     # Signale
@@ -62,44 +68,44 @@ class AIView(QWidget):
         splitter = QSplitter(Qt.Orientation.Horizontal)
 
         # Linke Seite: Transkription
-        left_group = QGroupBox("Transkription")
+        self.left_group = QGroupBox(self.tr("Transkription"))
         left_layout = QVBoxLayout()
 
         self.transcription_edit = QTextEdit()
-        self.transcription_edit.setPlaceholderText("Transkription wird hier erscheinen...")
+        self.transcription_edit.setPlaceholderText(self.tr("Transkription wird hier erscheinen..."))
         # Dummy-Daten
         self.transcription_edit.setPlainText(
-            "Dies ist eine Beispiel-Transkription der Audio-Session.\n\n"
+            self.tr("Dies ist eine Beispiel-Transkription der Audio-Session.\n\n"
             "Hier würde später die automatische Transkription der aufgenommenen "
             "Audio-Datei erscheinen.\n\n"
             "Der Text ist editierbar und kann vor der Verarbeitung angepasst werden.\n\n"
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
-            "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
         )
 
         left_layout.addWidget(self.transcription_edit)
-        left_group.setLayout(left_layout)
-        splitter.addWidget(left_group)
+        self.left_group.setLayout(left_layout)
+        splitter.addWidget(self.left_group)
 
         # Rechte Seite: Transformierter Text
-        right_group = QGroupBox("Transformierter Text")
+        self.right_group = QGroupBox(self.tr("Transformierter Text"))
         right_layout = QVBoxLayout()
 
         self.transformed_edit = QTextEdit()
-        self.transformed_edit.setPlaceholderText("Hier erscheint der transformierte Text...")
+        self.transformed_edit.setPlaceholderText(self.tr("Hier erscheint der transformierte Text..."))
         # Dummy-Daten
         self.transformed_edit.setPlainText(
-            "Hier erscheint der transformierte Text nach dem Klick auf 'Generieren'.\n\n"
+            self.tr("Hier erscheint der transformierte Text nach dem Klick auf 'Generieren'.\n\n"
             "Je nach gewähltem Prompt wird der Text:\n"
             "- Zusammengefasst\n"
             "- Übersetzt\n"
             "- Oder anderweitig transformiert\n\n"
-            "Auch dieser Text ist editierbar."
+            "Auch dieser Text ist editierbar.")
         )
 
         right_layout.addWidget(self.transformed_edit)
-        right_group.setLayout(right_layout)
-        splitter.addWidget(right_group)
+        self.right_group.setLayout(right_layout)
+        splitter.addWidget(self.right_group)
 
         # Splitter 50/50
         splitter.setStretchFactor(0, 1)
@@ -128,9 +134,9 @@ class AIView(QWidget):
         """)
 
         # Zurück-Button
-        back_button = QPushButton("← Zurück")
-        back_button.setToolTip("Zurück zur Hauptansicht")
-        back_button.setStyleSheet("""
+        self.back_button = QPushButton(self.tr("← Zurück"))
+        self.back_button.setToolTip(self.tr("Zurück zur Hauptansicht"))
+        self.back_button.setStyleSheet("""
             QPushButton {
                 background-color: transparent;
                 color: #e0e0e0;
@@ -144,20 +150,20 @@ class AIView(QWidget):
                 background-color: #3a3a3a;
             }
         """)
-        back_button.clicked.connect(self.back_requested.emit)
-        toolbar.addWidget(back_button)
+        self.back_button.clicked.connect(self.back_requested.emit)
+        toolbar.addWidget(self.back_button)
 
         # Separator
         toolbar.addSeparator()
 
         # Prompt-Auswahl
-        prompt_label = QLabel("Prompt:")
-        toolbar.addWidget(prompt_label)
+        self.prompt_label = QLabel(self.tr("Prompt:"))
+        toolbar.addWidget(self.prompt_label)
 
         self.prompt_combo = QComboBox()
         self.prompt_combo.addItems([
-            "Zusammenfassen",
-            "Übersetzen",
+            self.tr("Zusammenfassen"),
+            self.tr("Übersetzen"),
             # Später über Settings erweiterbar
         ])
         self.prompt_combo.setMinimumWidth(200)
@@ -186,7 +192,7 @@ class AIView(QWidget):
         toolbar.addWidget(self.prompt_combo)
 
         # Generieren-Button
-        self.generate_button = QPushButton("Generieren")
+        self.generate_button = QPushButton(self.tr("Generieren"))
         self.generate_button.setStyleSheet("""
             QPushButton {
                 background-color: #1976d2;
@@ -206,9 +212,9 @@ class AIView(QWidget):
         # Settings-Button
         toolbar.addSeparator()
 
-        settings_button = QPushButton("⚙️")
-        settings_button.setToolTip("Einstellungen")
-        settings_button.setStyleSheet("""
+        self.settings_button = QPushButton("⚙️")
+        self.settings_button.setToolTip(self.tr("Einstellungen"))
+        self.settings_button.setStyleSheet("""
             QPushButton {
                 background-color: transparent;
                 color: #e0e0e0;
@@ -222,8 +228,8 @@ class AIView(QWidget):
                 background-color: #3a3a3a;
             }
         """)
-        settings_button.clicked.connect(self.settings_requested.emit)
-        toolbar.addWidget(settings_button)
+        self.settings_button.clicked.connect(self.settings_requested.emit)
+        toolbar.addWidget(self.settings_button)
 
         # Spacer rechts
         spacer = QWidget()
@@ -244,8 +250,44 @@ class AIView(QWidget):
         selected_prompt = self.prompt_combo.currentText()
         # TODO: Hier später die echte AI-Integration
         self.transformed_edit.setPlainText(
-            f"[Dummy-Ausgabe für '{selected_prompt}']\n\n"
-            f"Hier würde der transformierte Text basierend auf dem gewählten Prompt erscheinen.\n\n"
-            f"Prompt: {selected_prompt}\n"
-            f"Session ID: {self.current_session_id}"
+            self.tr("[Dummy-Ausgabe für '{0}']\n\n"
+            "Hier würde der transformierte Text basierend auf dem gewählten Prompt erscheinen.\n\n"
+            "Prompt: {0}\n"
+            "Session ID: {1}").format(selected_prompt, self.current_session_id)
         )
+
+    def retranslateUi(self):
+        """Aktualisiert alle UI-Texte (für Sprachwechsel)"""
+        # GroupBoxes
+        self.left_group.setTitle(self.tr("Transkription"))
+        self.right_group.setTitle(self.tr("Transformierter Text"))
+
+        # Placeholders
+        self.transcription_edit.setPlaceholderText(self.tr("Transkription wird hier erscheinen..."))
+        self.transformed_edit.setPlaceholderText(self.tr("Hier erscheint der transformierte Text..."))
+
+        # Toolbar
+        self.back_button.setText(self.tr("← Zurück"))
+        self.back_button.setToolTip(self.tr("Zurück zur Hauptansicht"))
+        self.prompt_label.setText(self.tr("Prompt:"))
+
+        # Prompt-Combo neu befüllen (Auswahl beibehalten)
+        current_prompt = self.prompt_combo.currentText()
+        self.prompt_combo.clear()
+        self.prompt_combo.addItems([
+            self.tr("Zusammenfassen"),
+            self.tr("Übersetzen"),
+        ])
+        # Versuchen Auswahl wiederherzustellen (funktioniert nur wenn exakte Übereinstimmung)
+        index = self.prompt_combo.findText(current_prompt)
+        if index >= 0:
+            self.prompt_combo.setCurrentIndex(index)
+
+        self.generate_button.setText(self.tr("Generieren"))
+        self.settings_button.setToolTip(self.tr("Einstellungen"))
+
+    def changeEvent(self, event):
+        """Behandelt Änderungs-Events (z.B. Sprachwechsel)"""
+        if event.type() == QEvent.Type.LanguageChange:
+            self.retranslateUi()
+        super().changeEvent(event)

@@ -3,11 +3,17 @@ Sessions-Tabelle Widget
 """
 from PySide6.QtWidgets import (QTableWidget, QTableWidgetItem, QHeaderView,
                                QAbstractItemView)
-from PySide6.QtCore import Signal, Qt
+from PySide6.QtCore import Signal, Qt, QEvent
 from typing import List, Dict, Any
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).parent.parent))
+
+from translatable_widget import TranslatableWidget
 
 
-class SessionTableWidget(QTableWidget):
+class SessionTableWidget(TranslatableWidget, QTableWidget):
     """Tabelle zur Anzeige aller Audio-Sessions"""
 
     session_selected = Signal(int)  # Wird ausgelöst wenn eine Session ausgewählt wird
@@ -21,8 +27,8 @@ class SessionTableWidget(QTableWidget):
         # Spalten definieren
         self.setColumnCount(7)
         self.setHorizontalHeaderLabels([
-            "ID", "Titel", "Aufnahmedatum", "Dauer (s)",
-            "Samplerate", "Kanäle", "Notizen"
+            self.tr("ID"), self.tr("Titel"), self.tr("Aufnahmedatum"), self.tr("Dauer (s)"),
+            self.tr("Samplerate"), self.tr("Kanäle"), self.tr("Notizen")
         ])
 
         # Tabellen-Eigenschaften
@@ -121,3 +127,17 @@ class SessionTableWidget(QTableWidget):
     def clear_selection(self):
         """Löscht die aktuelle Selektion"""
         self.clearSelection()
+
+    def retranslateUi(self):
+        """Aktualisiert alle UI-Texte (für Sprachwechsel)"""
+        # Header-Labels neu setzen
+        self.setHorizontalHeaderLabels([
+            self.tr("ID"), self.tr("Titel"), self.tr("Aufnahmedatum"), self.tr("Dauer (s)"),
+            self.tr("Samplerate"), self.tr("Kanäle"), self.tr("Notizen")
+        ])
+
+    def changeEvent(self, event):
+        """Behandelt Änderungs-Events (z.B. Sprachwechsel)"""
+        if event.type() == QEvent.Type.LanguageChange:
+            self.retranslateUi()
+        super().changeEvent(event)

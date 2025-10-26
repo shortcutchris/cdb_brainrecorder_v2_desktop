@@ -3,16 +3,17 @@ Playback-Widget für Audio-Wiedergabe
 """
 from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
                                QLabel, QSlider, QGroupBox)
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import Qt, Signal, QEvent
 import sys
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent.parent))
 
 from player import AudioPlayer
+from translatable_widget import TranslatableWidget
 
 
-class PlayerWidget(QWidget):
+class PlayerWidget(TranslatableWidget, QWidget):
     """Widget für Audio-Wiedergabe"""
 
     # Signale
@@ -36,13 +37,13 @@ class PlayerWidget(QWidget):
         layout.setSpacing(0)
 
         # GroupBox
-        group = QGroupBox("Audio Player")
+        self.group = QGroupBox(self.tr("Audio Player"))
         group_layout = QVBoxLayout()
         group_layout.setContentsMargins(12, 12, 12, 12)
         group_layout.setSpacing(12)
 
         # Dateiname-Label
-        self.file_label = QLabel("Keine Datei geladen")
+        self.file_label = QLabel(self.tr("Keine Datei geladen"))
         self.file_label.setStyleSheet("font-style: italic;")
         group_layout.addWidget(self.file_label)
 
@@ -69,15 +70,15 @@ class PlayerWidget(QWidget):
         button_layout = QHBoxLayout()
 
         # Links: Playback-Buttons
-        self.play_button = QPushButton("Play")
+        self.play_button = QPushButton(self.tr("Play"))
         self.play_button.clicked.connect(self._on_play_clicked)
         self.play_button.setEnabled(False)
 
-        self.pause_button = QPushButton("Pause")
+        self.pause_button = QPushButton(self.tr("Pause"))
         self.pause_button.clicked.connect(self._on_pause_clicked)
         self.pause_button.setEnabled(False)
 
-        self.stop_button = QPushButton("Stop")
+        self.stop_button = QPushButton(self.tr("Stop"))
         self.stop_button.clicked.connect(self._on_stop_clicked)
         self.stop_button.setEnabled(False)
 
@@ -88,19 +89,19 @@ class PlayerWidget(QWidget):
 
         # Rechts: Ordner, AI und Löschen-Buttons
         self.folder_button = QPushButton("📁")
-        self.folder_button.setToolTip("Im Ordner zeigen")
+        self.folder_button.setToolTip(self.tr("Im Ordner zeigen"))
         self.folder_button.clicked.connect(self._on_folder_clicked)
         self.folder_button.setEnabled(False)
         self.folder_button.setStyleSheet("font-size: 16px; padding: 6px 12px;")
 
         self.ai_button = QPushButton("✨")
-        self.ai_button.setToolTip("KI-Funktionen")
+        self.ai_button.setToolTip(self.tr("KI-Funktionen"))
         self.ai_button.clicked.connect(self._on_ai_clicked)
         self.ai_button.setEnabled(False)
         self.ai_button.setStyleSheet("font-size: 16px; padding: 6px 12px;")
 
-        self.delete_button = QPushButton("Löschen")
-        self.delete_button.setToolTip("Session löschen")
+        self.delete_button = QPushButton(self.tr("Löschen"))
+        self.delete_button.setToolTip(self.tr("Session löschen"))
         self.delete_button.clicked.connect(self._on_delete_clicked)
         self.delete_button.setEnabled(False)
         self.delete_button.setStyleSheet(
@@ -113,8 +114,8 @@ class PlayerWidget(QWidget):
 
         group_layout.addLayout(button_layout)
 
-        group.setLayout(group_layout)
-        layout.addWidget(group)
+        self.group.setLayout(group_layout)
+        layout.addWidget(self.group)
 
     def _connect_signals(self):
         """Verbindet Player-Signals"""
@@ -132,14 +133,14 @@ class PlayerWidget(QWidget):
             self.current_file_path = file_path
             self.current_session_id = session_id
             filename = Path(file_path).name
-            self.file_label.setText(f"Geladen: {filename}")
+            self.file_label.setText(self.tr("Geladen: {0}").format(filename))
             self.play_button.setEnabled(True)
             self.stop_button.setEnabled(True)
             self.folder_button.setEnabled(True)
             self.ai_button.setEnabled(True if session_id else False)
             self.delete_button.setEnabled(True if session_id else False)
         else:
-            self.file_label.setText("Fehler beim Laden der Datei")
+            self.file_label.setText(self.tr("Fehler beim Laden der Datei"))
             self.play_button.setEnabled(False)
             self.stop_button.setEnabled(False)
             self.folder_button.setEnabled(False)
@@ -245,7 +246,7 @@ class PlayerWidget(QWidget):
         self.player.stop()
         self.current_file_path = None
         self.current_session_id = None
-        self.file_label.setText("Keine Datei geladen")
+        self.file_label.setText(self.tr("Keine Datei geladen"))
         self.current_time_label.setText("00:00")
         self.total_time_label.setText("00:00")
         self.progress_slider.setValue(0)
@@ -255,3 +256,33 @@ class PlayerWidget(QWidget):
         self.folder_button.setEnabled(False)
         self.ai_button.setEnabled(False)
         self.delete_button.setEnabled(False)
+
+    def retranslateUi(self):
+        """Aktualisiert alle UI-Texte (für Sprachwechsel)"""
+        # GroupBox
+        self.group.setTitle(self.tr("Audio Player"))
+
+        # Buttons
+        self.play_button.setText(self.tr("Play"))
+        self.pause_button.setText(self.tr("Pause"))
+        self.stop_button.setText(self.tr("Stop"))
+        self.delete_button.setText(self.tr("Löschen"))
+
+        # Tooltips
+        self.folder_button.setToolTip(self.tr("Im Ordner zeigen"))
+        self.ai_button.setToolTip(self.tr("KI-Funktionen"))
+        self.delete_button.setToolTip(self.tr("Session löschen"))
+
+        # File-Label - nur wenn "Keine Datei geladen" (nicht wenn Datei geladen)
+        if self.current_file_path is None:
+            self.file_label.setText(self.tr("Keine Datei geladen"))
+        else:
+            # Dateiname anzeigen
+            filename = Path(self.current_file_path).name
+            self.file_label.setText(self.tr("Geladen: {0}").format(filename))
+
+    def changeEvent(self, event):
+        """Behandelt Änderungs-Events (z.B. Sprachwechsel)"""
+        if event.type() == QEvent.Type.LanguageChange:
+            self.retranslateUi()
+        super().changeEvent(event)

@@ -3,10 +3,16 @@ Settings-Dialog für App-Einstellungen
 """
 from PySide6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout,
                                QPushButton, QLabel, QComboBox, QCheckBox, QGroupBox)
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QEvent
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).parent.parent))
+
+from translatable_widget import TranslatableWidget
 
 
-class SettingsDialog(QDialog):
+class SettingsDialog(TranslatableWidget, QDialog):
     """Settings-Dialog für Sprache und Auto-Transkription"""
 
     def __init__(self, settings_manager, parent=None):
@@ -17,7 +23,7 @@ class SettingsDialog(QDialog):
 
     def _setup_ui(self):
         """Initialisiert die Benutzeroberfläche"""
-        self.setWindowTitle("Einstellungen")
+        self.setWindowTitle(self.tr("Einstellungen"))
         self.setMinimumWidth(450)
         self.setMinimumHeight(300)
 
@@ -50,17 +56,17 @@ class SettingsDialog(QDialog):
         layout.setContentsMargins(20, 20, 20, 20)
 
         # Allgemeine Einstellungen
-        general_group = QGroupBox("Allgemein")
+        self.general_group = QGroupBox(self.tr("Allgemein"))
         general_layout = QVBoxLayout()
         general_layout.setSpacing(12)
         general_layout.setContentsMargins(12, 20, 12, 12)
 
         # Sprache - Linksbündig mit Label und Dropdown untereinander
-        language_label = QLabel("Sprache:")
-        general_layout.addWidget(language_label)
+        self.language_label = QLabel(self.tr("Sprache:"))
+        general_layout.addWidget(self.language_label)
 
         self.language_combo = QComboBox()
-        self.language_combo.addItems(["Deutsch", "English"])
+        self.language_combo.addItems([self.tr("Deutsch"), self.tr("English")])
         self.language_combo.setMinimumWidth(200)  # Breiter, damit Text lesbar ist
         self.language_combo.setStyleSheet("""
             QComboBox {
@@ -86,15 +92,15 @@ class SettingsDialog(QDialog):
         """)
         general_layout.addWidget(self.language_combo, 0, Qt.AlignmentFlag.AlignLeft)
 
-        general_group.setLayout(general_layout)
-        layout.addWidget(general_group)
+        self.general_group.setLayout(general_layout)
+        layout.addWidget(self.general_group)
 
         # Transkription Einstellungen
-        transcription_group = QGroupBox("Transkription")
+        self.transcription_group = QGroupBox(self.tr("Transkription"))
         transcription_layout = QVBoxLayout()
         transcription_layout.setContentsMargins(12, 20, 12, 12)
 
-        self.auto_transcription_checkbox = QCheckBox("Auto-Transkription aktivieren")
+        self.auto_transcription_checkbox = QCheckBox(self.tr("Auto-Transkription aktivieren"))
         self.auto_transcription_checkbox.setStyleSheet("""
             QCheckBox {
                 color: #e0e0e0;
@@ -118,8 +124,8 @@ class SettingsDialog(QDialog):
         """)
         transcription_layout.addWidget(self.auto_transcription_checkbox)
 
-        transcription_group.setLayout(transcription_layout)
-        layout.addWidget(transcription_group)
+        self.transcription_group.setLayout(transcription_layout)
+        layout.addWidget(self.transcription_group)
 
         layout.addStretch()
 
@@ -127,8 +133,8 @@ class SettingsDialog(QDialog):
         button_layout = QHBoxLayout()
         button_layout.addStretch()
 
-        cancel_button = QPushButton("Abbrechen")
-        cancel_button.setStyleSheet("""
+        self.cancel_button = QPushButton(self.tr("Abbrechen"))
+        self.cancel_button.setStyleSheet("""
             QPushButton {
                 background-color: transparent;
                 color: #e0e0e0;
@@ -142,11 +148,11 @@ class SettingsDialog(QDialog):
                 background-color: #3a3a3a;
             }
         """)
-        cancel_button.clicked.connect(self.reject)
-        button_layout.addWidget(cancel_button)
+        self.cancel_button.clicked.connect(self.reject)
+        button_layout.addWidget(self.cancel_button)
 
-        save_button = QPushButton("Speichern")
-        save_button.setStyleSheet("""
+        self.save_button = QPushButton(self.tr("Speichern"))
+        self.save_button.setStyleSheet("""
             QPushButton {
                 background-color: #1976d2;
                 color: white;
@@ -159,8 +165,8 @@ class SettingsDialog(QDialog):
                 background-color: #1565c0;
             }
         """)
-        save_button.clicked.connect(self._save_and_accept)
-        button_layout.addWidget(save_button)
+        self.save_button.clicked.connect(self._save_and_accept)
+        button_layout.addWidget(self.save_button)
 
         layout.addLayout(button_layout)
 
@@ -179,3 +185,26 @@ class SettingsDialog(QDialog):
             self.auto_transcription_checkbox.isChecked()
         )
         self.accept()
+
+    def retranslateUi(self):
+        """Aktualisiert alle UI-Texte (für Sprachwechsel)"""
+        self.setWindowTitle(self.tr("Einstellungen"))
+        self.general_group.setTitle(self.tr("Allgemein"))
+        self.language_label.setText(self.tr("Sprache:"))
+
+        # Dropdown-Einträge neu setzen (Auswahl beibehalten)
+        current_language = self.language_combo.currentText()
+        self.language_combo.clear()
+        self.language_combo.addItems([self.tr("Deutsch"), self.tr("English")])
+        self.language_combo.setCurrentText(current_language)
+
+        self.transcription_group.setTitle(self.tr("Transkription"))
+        self.auto_transcription_checkbox.setText(self.tr("Auto-Transkription aktivieren"))
+        self.cancel_button.setText(self.tr("Abbrechen"))
+        self.save_button.setText(self.tr("Speichern"))
+
+    def changeEvent(self, event):
+        """Behandelt Änderungs-Events (z.B. Sprachwechsel)"""
+        if event.type() == QEvent.Type.LanguageChange:
+            self.retranslateUi()
+        super().changeEvent(event)
