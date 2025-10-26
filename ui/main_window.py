@@ -22,6 +22,8 @@ from ui.session_form import SessionFormWidget
 from ui.player_widget import PlayerWidget
 from ui.waveform_widget import WaveformWidget
 from ui.ai_view import AIView
+from ui.settings_dialog import SettingsDialog
+from settings import SettingsManager
 
 
 class MainWindow(QMainWindow):
@@ -31,6 +33,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.recorder = AudioRecorder()
         self.repo = SessionRepository()
+        self.settings_manager = SettingsManager()
 
         self._setup_ui()
         self._connect_signals()
@@ -169,6 +172,28 @@ class MainWindow(QMainWindow):
         export_button.clicked.connect(self._on_export_csv)
         toolbar.addWidget(export_button)
 
+        # Settings-Button
+        toolbar.addSeparator()
+
+        settings_button = QPushButton("⚙️")
+        settings_button.setToolTip("Einstellungen")
+        settings_button.setStyleSheet("""
+            QPushButton {
+                background-color: transparent;
+                color: #e0e0e0;
+                border: 1px solid #4a4a4a;
+                border-radius: 4px;
+                padding: 6px 12px;
+                font-size: 16px;
+            }
+            QPushButton:hover {
+                border: 1px solid #5a5a5a;
+                background-color: #3a3a3a;
+            }
+        """)
+        settings_button.clicked.connect(self._on_settings_clicked)
+        toolbar.addWidget(settings_button)
+
         # Spacer rechts
         spacer = QWidget()
         spacer.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
@@ -259,6 +284,7 @@ class MainWindow(QMainWindow):
 
         # AI View Signals
         self.ai_view.back_requested.connect(self._on_ai_back)
+        self.ai_view.settings_requested.connect(self._on_settings_clicked)
 
     def _load_sessions(self, search_term: str = ''):
         """Lädt Sessions aus der Datenbank"""
@@ -451,3 +477,11 @@ class MainWindow(QMainWindow):
                                        f"Sessions wurden exportiert:\n{file_path}")
             except Exception as e:
                 QMessageBox.critical(self, "Fehler", f"Export fehlgeschlagen:\n{e}")
+
+    def _on_settings_clicked(self):
+        """Öffnet den Settings-Dialog"""
+        from PySide6.QtWidgets import QDialog
+        dialog = SettingsDialog(self.settings_manager, self)
+        if dialog.exec() == QDialog.DialogCode.Accepted:
+            # Settings wurden gespeichert
+            pass

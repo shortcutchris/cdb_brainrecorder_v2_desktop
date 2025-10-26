@@ -12,6 +12,7 @@ class AIView(QWidget):
 
     # Signale
     back_requested = Signal()  # Wird ausgelöst wenn Zurück geklickt wird
+    settings_requested = Signal()  # Wird ausgelöst wenn Settings geklickt wird
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -201,6 +202,28 @@ class AIView(QWidget):
         """)
         self.generate_button.clicked.connect(self._on_generate_clicked)
         toolbar.addWidget(self.generate_button)
+
+        # Settings-Button
+        toolbar.addSeparator()
+
+        settings_button = QPushButton("⚙️")
+        settings_button.setToolTip("Einstellungen")
+        settings_button.setStyleSheet("""
+            QPushButton {
+                background-color: transparent;
+                color: #e0e0e0;
+                border: 1px solid #4a4a4a;
+                border-radius: 4px;
+                padding: 6px 12px;
+                font-size: 16px;
+            }
+            QPushButton:hover {
+                border: 1px solid #5a5a5a;
+                background-color: #3a3a3a;
+            }
+        """)
+        settings_button.clicked.connect(self.settings_requested.emit)
+        toolbar.addWidget(settings_button)
 
         # Spacer rechts
         spacer = QWidget()
