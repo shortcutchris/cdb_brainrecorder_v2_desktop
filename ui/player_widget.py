@@ -15,10 +15,16 @@ from player import AudioPlayer
 class PlayerWidget(QWidget):
     """Widget für Audio-Wiedergabe"""
 
+    # Signale
+    delete_requested = Signal(int)  # Wird ausgelöst wenn Löschen geklickt wird (session_id)
+    show_in_folder_requested = Signal(str)  # Wird ausgelöst wenn Ordner-Button geklickt wird (file_path)
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.player = AudioPlayer()
         self.is_seeking = False  # Flag für Slider-Interaktion
+        self.current_session_id = None  # Aktuell geladene Session-ID
+        self.current_file_path = None  # Aktuell geladener Dateipfad
         self._setup_ui()
         self._connect_signals()
 
@@ -61,6 +67,7 @@ class PlayerWidget(QWidget):
         # Control Buttons
         button_layout = QHBoxLayout()
 
+        # Links: Playback-Buttons
         self.play_button = QPushButton("Play")
         self.play_button.clicked.connect(self._on_play_clicked)
         self.play_button.setEnabled(False)
@@ -78,6 +85,24 @@ class PlayerWidget(QWidget):
         button_layout.addWidget(self.stop_button)
         button_layout.addStretch()
 
+        # Rechts: Ordner und Löschen-Buttons
+        self.folder_button = QPushButton("📁")
+        self.folder_button.setToolTip("Im Ordner zeigen")
+        self.folder_button.clicked.connect(self._on_folder_clicked)
+        self.folder_button.setEnabled(False)
+        self.folder_button.setStyleSheet("font-size: 16px; padding: 6px 12px;")
+
+        self.delete_button = QPushButton("Löschen")
+        self.delete_button.setToolTip("Session löschen")
+        self.delete_button.clicked.connect(self._on_delete_clicked)
+        self.delete_button.setEnabled(False)
+        self.delete_button.setStyleSheet(
+            "background-color: #d32f2f; color: white; font-weight: bold; padding: 6px 12px;"
+        )
+
+        button_layout.addWidget(self.folder_button)
+        button_layout.addWidget(self.delete_button)
+
         group_layout.addLayout(button_layout)
 
         group.setLayout(group_layout)
@@ -92,18 +117,24 @@ class PlayerWidget(QWidget):
         self.player.position_changed.connect(self._on_position_changed)
         self.player.duration_changed.connect(self._on_duration_changed)
 
-    def load_file(self, file_path: str) -> bool:
+    def load_file(self, file_path: str, session_id: int = None) -> bool:
         """Lädt eine Audio-Datei"""
         success = self.player.load_file(file_path)
         if success:
+            self.current_file_path = file_path
+            self.current_session_id = session_id
             filename = Path(file_path).name
             self.file_label.setText(f"Geladen: {filename}")
             self.play_button.setEnabled(True)
             self.stop_button.setEnabled(True)
+            self.folder_button.setEnabled(True)
+            self.delete_button.setEnabled(True if session_id else False)
         else:
             self.file_label.setText("Fehler beim Laden der Datei")
             self.play_button.setEnabled(False)
             self.stop_button.setEnabled(False)
+            self.folder_button.setEnabled(False)
+            self.delete_button.setEnabled(False)
         return success
 
     def _on_play_clicked(self):
@@ -117,6 +148,16 @@ class PlayerWidget(QWidget):
     def _on_stop_clicked(self):
         """Stop-Button wurde geklickt"""
         self.player.stop()
+
+    def _on_folder_clicked(self):
+        """Ordner-Button wurde geklickt"""
+        if self.current_file_path:
+            self.show_in_folder_requested.emit(self.current_file_path)
+
+    def _on_delete_clicked(self):
+        """Löschen-Button wurde geklickt"""
+        if self.current_session_id:
+            self.delete_requested.emit(self.current_session_id)
 
     def _on_playback_started(self):
         """Wiedergabe wurde gestartet"""
@@ -187,6 +228,8 @@ class PlayerWidget(QWidget):
     def clear(self):
         """Löscht den Player-Zustand"""
         self.player.stop()
+        self.current_file_path = None
+        self.current_session_id = None
         self.file_label.setText("Keine Datei geladen")
         self.current_time_label.setText("00:00")
         self.total_time_label.setText("00:00")
@@ -194,3 +237,5 @@ class PlayerWidget(QWidget):
         self.play_button.setEnabled(False)
         self.pause_button.setEnabled(False)
         self.stop_button.setEnabled(False)
+        self.folder_button.setEnabled(False)
+        self.delete_button.setEnabled(False)

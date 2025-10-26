@@ -129,24 +129,10 @@ class MainWindow(QMainWindow):
 
         toolbar.addSeparator()
 
-        # Aktionen
-        new_action = QAction("Neu", self)
-        new_action.triggered.connect(self._on_new_session)
-        toolbar.addAction(new_action)
-
-        delete_action = QAction("Löschen", self)
-        delete_action.triggered.connect(self._on_delete_session)
-        toolbar.addAction(delete_action)
-
-        toolbar.addSeparator()
-
+        # CSV Export
         export_action = QAction("CSV Export", self)
         export_action.triggered.connect(self._on_export_csv)
         toolbar.addAction(export_action)
-
-        open_action = QAction("Datei öffnen", self)
-        open_action.triggered.connect(self._on_open_file)
-        toolbar.addAction(open_action)
 
     def _create_recorder_panel(self) -> QWidget:
         """Erstellt das Recorder-Panel"""
@@ -221,6 +207,10 @@ class MainWindow(QMainWindow):
 
         # Form Save
         self.session_form.save_requested.connect(self._on_save_session)
+
+        # Player Signals
+        self.player_widget.delete_requested.connect(self._on_player_delete_requested)
+        self.player_widget.show_in_folder_requested.connect(self._on_show_in_folder)
 
     def _load_sessions(self, search_term: str = ''):
         """Lädt Sessions aus der Datenbank"""
@@ -309,7 +299,7 @@ class MainWindow(QMainWindow):
             self.session_form.load_session(session)
             # Audio-Datei in Player laden
             if session['path'] and os.path.exists(session['path']):
-                self.player_widget.load_file(session['path'])
+                self.player_widget.load_file(session['path'], session_id)
 
     def _on_save_session(self, data: dict):
         """Wird aufgerufen wenn eine Session gespeichert werden soll"""
@@ -318,19 +308,8 @@ class MainWindow(QMainWindow):
         self._load_sessions(self.search_edit.text())
         QMessageBox.information(self, "Erfolg", "Session wurde aktualisiert!")
 
-    def _on_new_session(self):
-        """Erstellt eine neue manuelle Session"""
-        # Für MVP nicht implementiert - könnte später hinzugefügt werden
-        QMessageBox.information(self, "Info",
-                               "Neue Sessions werden automatisch durch Aufnahmen erstellt.")
-
-    def _on_delete_session(self):
-        """Löscht die ausgewählte Session"""
-        session_id = self.session_table.get_selected_session_id()
-        if session_id == -1:
-            QMessageBox.warning(self, "Warnung", "Bitte wählen Sie eine Session aus.")
-            return
-
+    def _on_player_delete_requested(self, session_id: int):
+        """Wird aufgerufen wenn im Player der Löschen-Button geklickt wird"""
         reply = QMessageBox.question(
             self, "Löschen bestätigen",
             "Möchten Sie diese Session wirklich löschen?\nDie Audiodatei bleibt erhalten.",
@@ -343,6 +322,22 @@ class MainWindow(QMainWindow):
             self.player_widget.clear()
             self._load_sessions(self.search_edit.text())
             QMessageBox.information(self, "Erfolg", "Session wurde gelöscht.")
+
+    def _on_show_in_folder(self, file_path: str):
+        """Zeigt die Datei im Explorer/Finder"""
+        if os.path.exists(file_path):
+            # Plattformunabhängig die Datei im Ordner anzeigen
+            if sys.platform == 'darwin':  # macOS
+                os.system(f'open -R "{file_path}"')
+            elif sys.platform == 'win32':  # Windows
+                os.system(f'explorer /select,"{file_path}"')
+            else:  # Linux
+                # Fallback: Ordner öffnen
+                folder_path = os.path.dirname(file_path)
+                os.system(f'xdg-open "{folder_path}"')
+        else:
+            QMessageBox.warning(self, "Warnung",
+                               f"Datei nicht gefunden:\n{file_path}")
 
     def _on_export_csv(self):
         """Exportiert Sessions als CSV"""
@@ -357,25 +352,3 @@ class MainWindow(QMainWindow):
                                        f"Sessions wurden exportiert:\n{file_path}")
             except Exception as e:
                 QMessageBox.critical(self, "Fehler", f"Export fehlgeschlagen:\n{e}")
-
-    def _on_open_file(self):
-        """Öffnet die Audio-Datei der ausgewählten Session"""
-        session_id = self.session_table.get_selected_session_id()
-        if session_id == -1:
-            QMessageBox.warning(self, "Warnung", "Bitte wählen Sie eine Session aus.")
-            return
-
-        session = self.repo.get_by_id(session_id)
-        if session and session['path']:
-            path = session['path']
-            if os.path.exists(path):
-                # Plattformunabhängig die Datei öffnen
-                if sys.platform == 'darwin':  # macOS
-                    os.system(f'open "{path}"')
-                elif sys.platform == 'win32':  # Windows
-                    os.startfile(path)
-                else:  # Linux
-                    os.system(f'xdg-open "{path}"')
-            else:
-                QMessageBox.warning(self, "Warnung",
-                                   f"Datei nicht gefunden:\n{path}")
