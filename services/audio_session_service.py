@@ -106,7 +106,7 @@ class AudioSessionService:
         verbosity: str = "low"
     ) -> dict:
         """
-        Transformiert Text mit GPT-5 Responses API
+        Transformiert Text mit Responses API
 
         Args:
             text: Zu transformierender Text
@@ -144,18 +144,58 @@ class AudioSessionService:
         full_input = f"{prompt}\n\n{text}"
 
         try:
-            response = self.client.responses.create(
-                model="gpt-5",
-                input=full_input,
-                reasoning={"effort": reasoning_effort},
-                text={"verbosity": verbosity},
-                max_output_tokens=4096
-            )
+            # Versuche zuerst Responses API mit gpt-5 (falls verfügbar)
+            try:
+                response = self.client.responses.create(
+                    model="gpt-5",
+                    input=full_input,
+                    reasoning={"effort": reasoning_effort} if reasoning_effort else None,
+                    text={"verbosity": verbosity} if verbosity else None,
+                    max_output_tokens=4096
+                )
+
+                # Responses API Struktur: response.output[0].content[0].text
+                output_text = response.output[0].content[0].text
+                tokens = response.usage.total_tokens
+
+            except Exception as gpt5_error:
+                # Fallback auf Chat Completions mit gpt-4o
+                print(f"GPT-5 nicht verfügbar, Fallback auf GPT-4o: {str(gpt5_error)}")
+
+                # Reasoning effort auf temperature mappen
+                temperature_map = {
+                    "minimal": 0.3,
+                    "low": 0.5,
+                    "medium": 0.7,
+                    "high": 0.9
+                }
+                temperature = temperature_map.get(reasoning_effort, 0.7)
+
+                # Verbosity in Prompt einbauen
+                verbosity_suffix = {
+                    "low": " Sei kurz und prägnant.",
+                    "medium": " Gib eine ausgewogene Antwort.",
+                    "high": " Sei ausführlich und detailliert."
+                }
+                full_input += verbosity_suffix.get(verbosity, verbosity_suffix["medium"])
+
+                response = self.client.chat.completions.create(
+                    model="gpt-4o",
+                    messages=[
+                        {"role": "system", "content": "Du bist ein hilfreicher Assistent für Textverarbeitung."},
+                        {"role": "user", "content": full_input}
+                    ],
+                    temperature=temperature,
+                    max_tokens=4096
+                )
+
+                output_text = response.choices[0].message.content
+                tokens = response.usage.total_tokens
 
             return {
                 "success": True,
-                "result": response.choices[0].message.content,
-                "tokens_used": response.usage.total_tokens
+                "result": output_text,
+                "tokens_used": tokens
             }
 
         except RateLimitError:

@@ -422,7 +422,7 @@ class AIView(TranslatableWidget, QWidget):
 
     def _on_transformation_finished(self, result: dict):
         """Transformation abgeschlossen"""
-        self.transformed_edit.setPlainText(result['transformed_text'])
+        self.transformed_edit.setPlainText(result['result'])
 
         # Button zurücksetzen
         self.generate_button.setEnabled(True)
