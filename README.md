@@ -196,17 +196,48 @@ Bei macOS muss die App Mikrofonberechtigungen erhalten. Beim ersten Start wird e
 
 ## Packaging / Distribution
 
-Die App kann als eigenständige Anwendung gebaut werden:
+Die App kann als eigenständige Anwendung gebaut werden. **Wichtig**: Verwende das automatisierte Build-Skript, das die notwendigen Mikrofon-Berechtigungen korrekt setzt:
 
 ```bash
-# App bauen
-pyinstaller AudioSessions.spec --clean
+# App bauen (empfohlen - automatisiert)
+./build_app.sh
 
 # Gebaute App öffnen
-open dist/AudioSessions.app
+open dist/CorporateDigitalBrainRecorder.app
+
+# Optional: Installation in /Applications
+cp -r dist/CorporateDigitalBrainRecorder.app /Applications/
 ```
 
-Die gebaute `.app` kann in den `/Applications` Ordner verschoben und ohne Python-Installation verwendet werden.
+### Manueller Build (nur falls notwendig)
+
+Falls du manuell bauen möchtest:
+
+```bash
+# 1. App mit PyInstaller bauen
+./venv/bin/pyinstaller AudioSessions.spec --clean
+
+# 2. WICHTIG: Berechtigungen fixen (sonst funktioniert Mikrofon nicht!)
+./fix_app_permissions.sh
+
+# 3. App öffnen
+open dist/CorporateDigitalBrainRecorder.app
+```
+
+**Warum das Fix-Skript notwendig ist:**
+- PyInstaller überschreibt die `Info.plist` beim Build
+- Die `NSMicrophoneUsageDescription` (Mikrofon-Berechtigung) geht verloren
+- Das Fix-Skript fügt sie wieder hinzu und signiert die App mit Audio-Input Entitlements
+
+### Build-Dateien
+
+- `build_app.sh` - Kompletter automatisierter Build-Prozess
+- `fix_app_permissions.sh` - Patcht Info.plist und signiert die App
+- `entitlements.plist` - Entitlements für Mikrofon-Zugriff
+- `AudioSessions.spec` - PyInstaller Konfiguration
+- `Info.plist` - Basis Info.plist mit App-Metadaten
+
+Die gebaute `.app` kann ohne Python-Installation verwendet werden.
 
 Detaillierte Anleitung: siehe [BUILD.md](BUILD.md)
 
@@ -248,6 +279,41 @@ Falls die AI-Features nicht funktionieren:
 2. Trage deinen OpenAI API-Key ein
 3. Speichere und starte die App neu
 4. Prüfe die Terminal-Ausgabe auf Fehlermeldungen
+
+### Mikrofon funktioniert nicht in gebauter .app
+
+**Problem**: Die gebaute App (`.app` Datei) zeigt keinen Mikrofon-Pegel / keine Waveform, obwohl es beim Start über Python funktioniert.
+
+**Ursache**:
+- PyInstaller überschreibt beim Build die `Info.plist`
+- Die `NSMicrophoneUsageDescription` (Mikrofon-Berechtigung) fehlt in der gebauten App
+- macOS verweigert daher den Mikrofon-Zugriff
+
+**Lösung**:
+```bash
+# Option 1: Automatisiertes Build-Skript verwenden (empfohlen)
+./build_app.sh
+
+# Option 2: Manuell fixen nach dem Build
+./venv/bin/pyinstaller AudioSessions.spec --clean
+./fix_app_permissions.sh
+```
+
+**Verifikation**:
+```bash
+# Prüfe ob NSMicrophoneUsageDescription in der gebauten App enthalten ist
+/usr/libexec/PlistBuddy -c "Print :NSMicrophoneUsageDescription" \
+  dist/CorporateDigitalBrainRecorder.app/Contents/Info.plist
+
+# Prüfe Code-Signing Entitlements
+codesign -d --entitlements - dist/CorporateDigitalBrainRecorder.app
+```
+
+**Wenn das Problem weiterhin besteht**:
+1. Öffne Systemeinstellungen → Sicherheit & Datenschutz → Mikrofon
+2. Entferne "Corporate Digital Brain Desktop Recorder" aus der Liste (falls vorhanden)
+3. Starte die App neu - macOS wird erneut nach Mikrofon-Berechtigung fragen
+4. Erlaube den Zugriff
 
 ## Lizenz
 
