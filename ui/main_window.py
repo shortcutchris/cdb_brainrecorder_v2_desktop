@@ -51,7 +51,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
 
     def _setup_ui(self):
         """Initialisiert die Benutzeroberfläche"""
-        self.setWindowTitle(self.tr("Audio Sessions - Desktop App"))
+        self.setWindowTitle(self.tr("Corporate Digital Brain Desktop Recorder"))
         self.setMinimumSize(1050, 720)  # Angepasst für kompakteres Layout
 
         # StackedWidget für View-Wechsel (Haupt-View <-> AI-View)
@@ -601,7 +601,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
     def retranslateUi(self):
         """Aktualisiert alle UI-Texte (für Sprachwechsel)"""
         # Fenstertitel
-        self.setWindowTitle(self.tr("Audio Sessions - Desktop App"))
+        self.setWindowTitle(self.tr("Corporate Digital Brain Desktop Recorder"))
 
         # Toolbar
         self.search_label.setText(self.tr("Suche:"))

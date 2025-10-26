@@ -33,7 +33,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='AudioSessions',
+    name='CorporateDigitalBrainRecorder',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -44,6 +44,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon='icon.ico',
 )
 
 coll = COLLECT(
@@ -54,13 +55,13 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='AudioSessions',
+    name='CorporateDigitalBrainRecorder',
 )
 
 app = BUNDLE(
     coll,
-    name='AudioSessions.app',
-    icon=None,
-    bundle_identifier='com.audiosessions.app',
+    name='CorporateDigitalBrainRecorder.app',
+    icon='icon.icns',
+    bundle_identifier='com.corporatedigitalbrain.recorder',
     info_plist='Info.plist',
 )

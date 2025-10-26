@@ -3,19 +3,21 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleName</key>
-    <string>Audio Sessions</string>
+    <string>Corporate Digital Brain Desktop Recorder</string>
     <key>CFBundleDisplayName</key>
-    <string>Audio Sessions</string>
+    <string>Corporate Digital Brain Desktop Recorder</string>
     <key>CFBundleIdentifier</key>
-    <string>com.audiosessions.app</string>
+    <string>com.corporatedigitalbrain.recorder</string>
     <key>CFBundleVersion</key>
     <string>1.0.0</string>
     <key>CFBundleShortVersionString</key>
     <string>1.0.0</string>
     <key>CFBundleExecutable</key>
     <string>app</string>
+    <key>CFBundleIconFile</key>
+    <string>icon.icns</string>
     <key>NSMicrophoneUsageDescription</key>
-    <string>Audio Sessions benötigt Zugriff auf das Mikrofon um Audio-Aufnahmen zu erstellen.</string>
+    <string>Corporate Digital Brain Desktop Recorder benötigt Zugriff auf das Mikrofon um Audio-Aufnahmen zu erstellen.</string>
     <key>NSHighResolutionCapable</key>
     <true/>
 </dict>
