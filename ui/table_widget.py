@@ -3,7 +3,8 @@ Sessions-Tabelle Widget
 """
 from PySide6.QtWidgets import (QTableWidget, QTableWidgetItem, QHeaderView,
                                QAbstractItemView)
-from PySide6.QtCore import Signal, Qt, QEvent
+from PySide6.QtCore import Signal, Qt, QEvent, QTimer
+from PySide6.QtGui import QColor
 from typing import List, Dict, Any
 import sys
 from pathlib import Path
@@ -25,10 +26,10 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
     def _setup_ui(self):
         """Initialisiert die Tabelle"""
         # Spalten definieren
-        self.setColumnCount(7)
+        self.setColumnCount(8)
         self.setHorizontalHeaderLabels([
             self.tr("ID"), self.tr("Titel"), self.tr("Aufnahmedatum"), self.tr("Dauer (s)"),
-            self.tr("Samplerate"), self.tr("Kanäle"), self.tr("Notizen")
+            self.tr("Samplerate"), self.tr("Kanäle"), self.tr("Transkription"), self.tr("Notizen")
         ])
 
         # Tabellen-Eigenschaften
@@ -42,13 +43,14 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
 
         # Spaltenbreiten anpassen
         header = self.horizontalHeader()
-        header.setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
-        header.setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
-        header.setSectionResizeMode(2, QHeaderView.ResizeMode.ResizeToContents)
-        header.setSectionResizeMode(3, QHeaderView.ResizeMode.ResizeToContents)
-        header.setSectionResizeMode(4, QHeaderView.ResizeMode.ResizeToContents)
-        header.setSectionResizeMode(5, QHeaderView.ResizeMode.ResizeToContents)
-        header.setSectionResizeMode(6, QHeaderView.ResizeMode.Stretch)
+        header.setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)  # ID
+        header.setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)           # Titel
+        header.setSectionResizeMode(2, QHeaderView.ResizeMode.ResizeToContents)  # Aufnahmedatum
+        header.setSectionResizeMode(3, QHeaderView.ResizeMode.ResizeToContents)  # Dauer
+        header.setSectionResizeMode(4, QHeaderView.ResizeMode.ResizeToContents)  # Samplerate
+        header.setSectionResizeMode(5, QHeaderView.ResizeMode.ResizeToContents)  # Kanäle
+        header.setSectionResizeMode(6, QHeaderView.ResizeMode.ResizeToContents)  # Transkription
+        header.setSectionResizeMode(7, QHeaderView.ResizeMode.Stretch)           # Notizen
 
         # Stylesheet für schwarze Tabellenränder
         self.setStyleSheet("""
@@ -103,10 +105,15 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
             channels_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
             self.setItem(row_idx, 5, channels_item)
 
+            # Transkription Status
+            status = session.get('transcription_status', None)
+            status_item = self._create_status_item(status)
+            self.setItem(row_idx, 6, status_item)
+
             notes_text = session['notes'][:50] + '...' if len(session['notes']) > 50 else session['notes']
             notes_item = QTableWidgetItem(notes_text)
             notes_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-            self.setItem(row_idx, 6, notes_item)
+            self.setItem(row_idx, 7, notes_item)
 
     def _on_selection_changed(self):
         """Wird aufgerufen wenn die Selektion sich ändert"""
@@ -128,12 +135,76 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
         """Löscht die aktuelle Selektion"""
         self.clearSelection()
 
+    def _create_status_item(self, status: str = None) -> QTableWidgetItem:
+        """Erstellt ein Status-Item mit Icon und Farbe"""
+        if status == "completed":
+            icon = "✓"
+            color = QColor(76, 175, 80)  # Green
+        elif status == "pending":
+            icon = "⚙"
+            color = QColor(255, 193, 7)  # Yellow/Orange
+        elif status == "error":
+            icon = "✗"
+            color = QColor(244, 67, 54)  # Red
+        else:
+            icon = "-"
+            color = QColor(158, 158, 158)  # Gray
+
+        item = QTableWidgetItem(icon)
+        item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        item.setForeground(color)
+        return item
+
+    def update_transcription_status(self, session_id: int, status: str, blink: bool = False):
+        """
+        Aktualisiert den Transkriptions-Status einer Session
+
+        Args:
+            session_id: Die ID der Session
+            status: Status ("completed", "pending", "error", None)
+            blink: Ob der Status blinken soll (z.B. bei Fertigstellung)
+        """
+        # Finde die Zeile mit der Session-ID
+        for row in range(self.rowCount()):
+            if int(self.item(row, 0).text()) == session_id:
+                # Erstelle neues Status-Item
+                status_item = self._create_status_item(status)
+                self.setItem(row, 6, status_item)
+
+                # Blink-Effekt bei Fertigstellung
+                if blink and status == "completed":
+                    self._blink_status(row, 6)
+                break
+
+    def _blink_status(self, row: int, col: int, blinks: int = 3):
+        """Lässt eine Zelle blinken"""
+        item = self.item(row, col)
+        if not item:
+            return
+
+        original_color = item.foreground().color()
+        blink_count = [0]  # Mutable counter für nested function
+
+        def toggle_color():
+            if blink_count[0] < blinks * 2:
+                if blink_count[0] % 2 == 0:
+                    item.setForeground(QColor(255, 255, 255))  # White
+                else:
+                    item.setForeground(original_color)
+                blink_count[0] += 1
+            else:
+                timer.stop()
+
+        timer = QTimer()
+        timer.timeout.connect(toggle_color)
+        timer.start(300)  # 300ms interval
+
     def retranslateUi(self):
         """Aktualisiert alle UI-Texte (für Sprachwechsel)"""
         # Header-Labels neu setzen
         self.setHorizontalHeaderLabels([
             self.tr("ID"), self.tr("Titel"), self.tr("Aufnahmedatum"), self.tr("Dauer (s)"),
-            self.tr("Samplerate"), self.tr("Kanäle"), self.tr("Notizen")
+            self.tr("Samplerate"), self.tr("Kanäle"), self.tr("Transkription"), self.tr("Notizen")
         ])
 
     def changeEvent(self, event):

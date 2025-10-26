@@ -29,3 +29,16 @@ class SettingsManager:
     def set_auto_transcription(self, enabled: bool):
         """Setzt Auto-Transkription"""
         self.settings.setValue("auto_transcription", enabled)
+
+    def get_openai_api_key(self) -> str:
+        """Gibt den OpenAI API Key zurück"""
+        return self.settings.value("openai_api_key", "")
+
+    def set_openai_api_key(self, key: str):
+        """Setzt den OpenAI API Key"""
+        self.settings.setValue("openai_api_key", key)
+
+    def get_transcription_language(self) -> str:
+        """Gibt die Transkriptions-Sprache als ISO-639-1 Code zurück"""
+        language = self.get_language()
+        return "de" if language == "Deutsch" else "en"

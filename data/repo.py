@@ -33,6 +33,30 @@ class SessionRepository:
             """)
             conn.commit()
 
+        # Migration für neue Spalten
+        self._migrate_db()
+
+    def _migrate_db(self):
+        """Fügt neue Spalten für Transkription hinzu (falls noch nicht vorhanden)"""
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.cursor()
+
+            # Prüfe welche Spalten existieren
+            cursor.execute("PRAGMA table_info(sessions)")
+            columns = [col[1] for col in cursor.fetchall()]
+
+            # Füge fehlende Spalten hinzu
+            if 'transcript_text' not in columns:
+                conn.execute("ALTER TABLE sessions ADD COLUMN transcript_text TEXT")
+
+            if 'transcript_tokens' not in columns:
+                conn.execute("ALTER TABLE sessions ADD COLUMN transcript_tokens INTEGER")
+
+            if 'transcription_status' not in columns:
+                conn.execute("ALTER TABLE sessions ADD COLUMN transcription_status TEXT")
+
+            conn.commit()
+
     def create(self, title: str, recorded_at: str, path: str,
                duration_sec: int = 0, samplerate: int = 44100,
                channels: int = 1, notes: str = '') -> int:
@@ -89,6 +113,28 @@ class SessionRepository:
         """Löscht eine Session anhand der ID"""
         with sqlite3.connect(self.db_path) as conn:
             conn.execute("DELETE FROM sessions WHERE id = ?", (session_id,))
+            conn.commit()
+
+    def update_transcript(self, session_id: int, text: str, tokens: int, status: str = "completed"):
+        """Aktualisiert Transkript einer Session"""
+        with sqlite3.connect(self.db_path) as conn:
+            conn.execute("""
+                UPDATE sessions
+                SET transcript_text = ?,
+                    transcript_tokens = ?,
+                    transcription_status = ?
+                WHERE id = ?
+            """, (text, tokens, status, session_id))
+            conn.commit()
+
+    def set_transcription_status(self, session_id: int, status: str):
+        """Setzt nur den Status (pending/completed/error)"""
+        with sqlite3.connect(self.db_path) as conn:
+            conn.execute("""
+                UPDATE sessions
+                SET transcription_status = ?
+                WHERE id = ?
+            """, (status, session_id))
             conn.commit()
 
     def export_to_csv(self, output_path: str):

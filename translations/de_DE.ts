@@ -143,6 +143,14 @@ Die Audiodatei bleibt erhalten.</translation>
         <translation>Auto-Transkription aktivieren</translation>
     </message>
     <message>
+        <source>OpenAI API</source>
+        <translation>OpenAI API</translation>
+    </message>
+    <message>
+        <source>API Key:</source>
+        <translation>API Key:</translation>
+    </message>
+    <message>
         <source>Abbrechen</source>
         <translation>Abbrechen</translation>
     </message>
@@ -244,6 +252,62 @@ Hier würde der transformierte Text basierend auf dem gewählten Prompt erschein
 
 Prompt: {0}
 Session ID: {1}</translation>
+    </message>
+    <message>
+        <source>Transkription starten</source>
+        <translation>Transkription starten</translation>
+    </message>
+    <message>
+        <source>Transkribiere...</source>
+        <translation>Transkribiere...</translation>
+    </message>
+    <message>
+        <source>API Key fehlt</source>
+        <translation>API Key fehlt</translation>
+    </message>
+    <message>
+        <source>Bitte geben Sie zuerst einen OpenAI API Key in den Einstellungen ein.</source>
+        <translation>Bitte geben Sie zuerst einen OpenAI API Key in den Einstellungen ein.</translation>
+    </message>
+    <message>
+        <source>Audio-Datei nicht gefunden</source>
+        <translation>Audio-Datei nicht gefunden</translation>
+    </message>
+    <message>
+        <source>Die Audio-Datei für diese Session wurde nicht gefunden.</source>
+        <translation>Die Audio-Datei für diese Session wurde nicht gefunden.</translation>
+    </message>
+    <message>
+        <source>Transkription fehlgeschlagen</source>
+        <translation>Transkription fehlgeschlagen</translation>
+    </message>
+    <message>
+        <source>Fehler: {0}</source>
+        <translation>Fehler: {0}</translation>
+    </message>
+    <message>
+        <source>Keine Transkription</source>
+        <translation>Keine Transkription</translation>
+    </message>
+    <message>
+        <source>Bitte transkribieren Sie zuerst die Audio-Datei.</source>
+        <translation>Bitte transkribieren Sie zuerst die Audio-Datei.</translation>
+    </message>
+    <message>
+        <source>Generiere...</source>
+        <translation>Generiere...</translation>
+    </message>
+    <message>
+        <source>Transformation fehlgeschlagen</source>
+        <translation>Transformation fehlgeschlagen</translation>
+    </message>
+    <message>
+        <source>Strukturieren</source>
+        <translation>Strukturieren</translation>
+    </message>
+    <message>
+        <source>Keine Transkription vorhanden. Klicken Sie auf 'Transkription starten'.</source>
+        <translation>Keine Transkription vorhanden. Klicken Sie auf 'Transkription starten'.</translation>
     </message>
 </context>
 <context>
@@ -369,6 +433,10 @@ Session ID: {1}</translation>
     <message>
         <source>Kanäle</source>
         <translation>Kanäle</translation>
+    </message>
+    <message>
+        <source>Transkription</source>
+        <translation>Transkription</translation>
     </message>
     <message>
         <source>Notizen</source>

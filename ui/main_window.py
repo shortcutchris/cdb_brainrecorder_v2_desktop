@@ -26,6 +26,7 @@ from ui.settings_dialog import SettingsDialog
 from settings import SettingsManager
 from simple_translator import SimpleTranslator
 from translatable_widget import TranslatableWidget
+from services.workers import TranscriptionWorker
 
 
 class MainWindow(TranslatableWidget, QMainWindow):
@@ -36,6 +37,8 @@ class MainWindow(TranslatableWidget, QMainWindow):
         self.recorder = AudioRecorder()
         self.repo = SessionRepository()
         self.settings_manager = SettingsManager()
+        self.transcription_worker = None
+        self.current_transcribing_session_id = None
 
         # Translation Setup mit SimpleTranslator
         self.translator = SimpleTranslator()
@@ -294,6 +297,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
         # AI View Signals
         self.ai_view.back_requested.connect(self._on_ai_back)
         self.ai_view.settings_requested.connect(self._on_settings_clicked)
+        self.ai_view.transcription_completed.connect(self._on_transcription_status_update)
 
     def _load_sessions(self, search_term: str = ''):
         """Lädt Sessions aus der Datenbank"""
@@ -360,6 +364,95 @@ class MainWindow(TranslatableWidget, QMainWindow):
 
         QMessageBox.information(self, self.tr("Erfolg"),
                                self.tr("Session wurde erfolgreich gespeichert!\n{0}").format(output_path))
+
+        # Prüfe ob Auto-Transkription aktiviert ist
+        if self.settings_manager.get_auto_transcription():
+            self._start_background_transcription(session_id, output_path)
+
+    def _start_background_transcription(self, session_id: int, audio_path: str):
+        """Startet die Hintergrund-Transkription einer Session"""
+        # Prüfe ob API Key vorhanden
+        api_key = self.settings_manager.get_openai_api_key()
+        if not api_key:
+            print("Warnung: Kein OpenAI API Key gesetzt - Transkription übersprungen")
+            return
+
+        # Prüfe ob Audio-Datei existiert
+        if not Path(audio_path).exists():
+            print(f"Warnung: Audio-Datei nicht gefunden: {audio_path}")
+            return
+
+        # Status in DB auf "pending" setzen
+        self.repo.set_transcription_status(session_id, "pending")
+        self.session_table.update_transcription_status(session_id, "pending", blink=False)
+
+        # Worker starten
+        self.current_transcribing_session_id = session_id
+        language = self.settings_manager.get_transcription_language()
+
+        self.transcription_worker = TranscriptionWorker(
+            audio_path,
+            api_key,
+            language
+        )
+        self.transcription_worker.progress.connect(self._on_bg_transcription_progress)
+        self.transcription_worker.finished.connect(self._on_bg_transcription_finished)
+        self.transcription_worker.error.connect(self._on_bg_transcription_error)
+        self.transcription_worker.start()
+
+        print(f"Hintergrund-Transkription gestartet für Session {session_id}")
+
+    def _on_bg_transcription_progress(self, message: str):
+        """Progress-Update von Hintergrund-Transkription"""
+        # Optional: Status-Bar Message anzeigen
+        print(f"Transkription: {message}")
+
+    def _on_bg_transcription_finished(self, result: dict):
+        """Hintergrund-Transkription abgeschlossen"""
+        if not self.current_transcribing_session_id:
+            return
+
+        session_id = self.current_transcribing_session_id
+
+        # In Datenbank speichern
+        self.repo.update_transcript(
+            session_id,
+            result['text'],
+            result['tokens_used'],
+            "completed"
+        )
+
+        # Tabelle aktualisieren (mit Blink-Effekt)
+        self.session_table.update_transcription_status(session_id, "completed", blink=True)
+
+        print(f"Transkription abgeschlossen für Session {session_id} ({result['tokens_used']} tokens)")
+
+        # Worker aufräumen
+        self.transcription_worker = None
+        self.current_transcribing_session_id = None
+
+    def _on_bg_transcription_error(self, error_message: str):
+        """Hintergrund-Transkription fehlgeschlagen"""
+        if not self.current_transcribing_session_id:
+            return
+
+        session_id = self.current_transcribing_session_id
+
+        # Status in DB setzen
+        self.repo.set_transcription_status(session_id, "error")
+        self.session_table.update_transcription_status(session_id, "error", blink=False)
+
+        print(f"Transkription fehlgeschlagen für Session {session_id}: {error_message}")
+
+        # Worker aufräumen
+        self.transcription_worker = None
+        self.current_transcribing_session_id = None
+
+    def _on_transcription_status_update(self, session_id: int, status: str):
+        """Wird aufgerufen wenn AIView eine Transkription abgeschlossen hat"""
+        # Tabelle aktualisieren (mit Blink-Effekt bei Erfolg)
+        blink = (status == "completed")
+        self.session_table.update_transcription_status(session_id, status, blink=blink)
 
     def _on_level_update(self, level: float):
         """Aktualisiert die Pegelanzeige"""

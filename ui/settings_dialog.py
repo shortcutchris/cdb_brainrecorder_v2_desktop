@@ -2,7 +2,7 @@
 Settings-Dialog für App-Einstellungen
 """
 from PySide6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout,
-                               QPushButton, QLabel, QComboBox, QCheckBox, QGroupBox)
+                               QPushButton, QLabel, QComboBox, QCheckBox, QGroupBox, QLineEdit)
 from PySide6.QtCore import Qt, QEvent
 import sys
 from pathlib import Path
@@ -127,6 +127,41 @@ class SettingsDialog(TranslatableWidget, QDialog):
         self.transcription_group.setLayout(transcription_layout)
         layout.addWidget(self.transcription_group)
 
+        # OpenAI API Einstellungen
+        self.openai_group = QGroupBox(self.tr("OpenAI API"))
+        openai_layout = QVBoxLayout()
+        openai_layout.setSpacing(12)
+        openai_layout.setContentsMargins(12, 20, 12, 12)
+
+        self.api_key_label = QLabel(self.tr("API Key:"))
+        openai_layout.addWidget(self.api_key_label)
+
+        self.api_key_input = QLineEdit()
+        self.api_key_input.setEchoMode(QLineEdit.EchoMode.Password)
+        self.api_key_input.setPlaceholderText("sk-...")
+        self.api_key_input.setMinimumWidth(350)
+        self.api_key_input.setStyleSheet("""
+            QLineEdit {
+                background-color: #3a3a3a;
+                color: #e0e0e0;
+                border: 1px solid #4a4a4a;
+                border-radius: 3px;
+                padding: 6px;
+                font-size: 13px;
+                font-family: monospace;
+            }
+            QLineEdit:hover {
+                border: 1px solid #5a5a5a;
+            }
+            QLineEdit:focus {
+                border: 1px solid #1976d2;
+            }
+        """)
+        openai_layout.addWidget(self.api_key_input, 0, Qt.AlignmentFlag.AlignLeft)
+
+        self.openai_group.setLayout(openai_layout)
+        layout.addWidget(self.openai_group)
+
         layout.addStretch()
 
         # Buttons
@@ -178,12 +213,16 @@ class SettingsDialog(TranslatableWidget, QDialog):
         auto_transcription = self.settings_manager.get_auto_transcription()
         self.auto_transcription_checkbox.setChecked(auto_transcription)
 
+        api_key = self.settings_manager.get_openai_api_key()
+        self.api_key_input.setText(api_key)
+
     def _save_and_accept(self):
         """Speichert Settings und schließt Dialog"""
         self.settings_manager.set_language(self.language_combo.currentText())
         self.settings_manager.set_auto_transcription(
             self.auto_transcription_checkbox.isChecked()
         )
+        self.settings_manager.set_openai_api_key(self.api_key_input.text())
         self.accept()
 
     def retranslateUi(self):
@@ -200,6 +239,8 @@ class SettingsDialog(TranslatableWidget, QDialog):
 
         self.transcription_group.setTitle(self.tr("Transkription"))
         self.auto_transcription_checkbox.setText(self.tr("Auto-Transkription aktivieren"))
+        self.openai_group.setTitle(self.tr("OpenAI API"))
+        self.api_key_label.setText(self.tr("API Key:"))
         self.cancel_button.setText(self.tr("Abbrechen"))
         self.save_button.setText(self.tr("Speichern"))
 
