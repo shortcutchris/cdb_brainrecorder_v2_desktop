@@ -130,8 +130,8 @@ class MainWindow(TranslatableWidget, QMainWindow):
             QToolBar {
                 background-color: #2b2b2b;
                 border-bottom: 1px solid #4a4a4a;
-                spacing: 10px;
-                padding: 8px;
+                spacing: 12px;
+                padding: 12px 16px;
             }
             QToolBar QLabel {
                 color: #e0e0e0;
