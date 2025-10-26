@@ -145,7 +145,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
         toolbar.addWidget(self.search_label)
 
         self.search_edit = QLineEdit()
-        self.search_edit.setPlaceholderText(self.tr("Suche nach Titel oder Notizen..."))
+        self.search_edit.setPlaceholderText(self.tr("Suche nach Titel, Notizen oder Transkription..."))
         self.search_edit.setMinimumWidth(350)
         self.search_edit.setStyleSheet("""
             QLineEdit {
@@ -609,7 +609,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
 
         # Toolbar
         self.search_label.setText(self.tr("Suche:"))
-        self.search_edit.setPlaceholderText(self.tr("Suche nach Titel oder Notizen..."))
+        self.search_edit.setPlaceholderText(self.tr("Suche nach Titel, Notizen oder Transkription..."))
         self.export_button.setText(self.tr("CSV Export"))
         self.toolbar_settings_button.setToolTip(self.tr("Einstellungen"))
 

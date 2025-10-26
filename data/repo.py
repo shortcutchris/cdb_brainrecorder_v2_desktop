@@ -78,9 +78,9 @@ class SessionRepository:
             if search_term:
                 cursor = conn.execute("""
                     SELECT * FROM sessions
-                    WHERE title LIKE ? OR notes LIKE ?
+                    WHERE title LIKE ? OR notes LIKE ? OR transcript_text LIKE ?
                     ORDER BY recorded_at DESC
-                """, (f'%{search_term}%', f'%{search_term}%'))
+                """, (f'%{search_term}%', f'%{search_term}%', f'%{search_term}%'))
             else:
                 cursor = conn.execute("""
                     SELECT * FROM sessions
