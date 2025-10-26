@@ -5,8 +5,8 @@ from PySide6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
                                QPushButton, QLabel, QComboBox, QLineEdit,
                                QProgressBar, QSplitter, QGroupBox, QMessageBox,
                                QFileDialog, QToolBar, QSizePolicy, QScrollArea,
-                               QFrame)
-from PySide6.QtCore import Qt, QTimer
+                               QFrame, QStackedWidget)
+from PySide6.QtCore import Qt, QTimer, QPropertyAnimation, QEasingCurve
 from PySide6.QtGui import QAction
 import sys
 import os
@@ -21,6 +21,7 @@ from ui.table_widget import SessionTableWidget
 from ui.session_form import SessionFormWidget
 from ui.player_widget import PlayerWidget
 from ui.waveform_widget import WaveformWidget
+from ui.ai_view import AIView
 
 
 class MainWindow(QMainWindow):
@@ -40,13 +41,19 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Audio Sessions - Desktop App")
         self.setMinimumSize(1050, 720)  # Angepasst für kompakteres Layout
 
-        # Zentrales Widget
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
-        main_layout = QVBoxLayout(central_widget)
+        # StackedWidget für View-Wechsel (Haupt-View <-> AI-View)
+        self.stacked_widget = QStackedWidget()
+        self.setCentralWidget(self.stacked_widget)
 
-        # Toolbar
-        self._create_toolbar()
+        # ===== Index 0: Haupt-View =====
+        self.main_view = QWidget()
+        main_layout = QVBoxLayout(self.main_view)
+        main_layout.setContentsMargins(0, 0, 0, 0)
+        main_layout.setSpacing(0)
+
+        # Toolbar als Widget zum Layout hinzufügen
+        toolbar = self._create_toolbar()
+        main_layout.addWidget(toolbar)
 
         # Splitter für Sessions-Tabelle (links) und rechte Seite
         splitter = QSplitter(Qt.Orientation.Horizontal)
@@ -93,46 +100,81 @@ class MainWindow(QMainWindow):
 
         main_layout.addWidget(splitter)
 
-    def _create_toolbar(self):
+        # ===== Index 1: AI-View =====
+        self.ai_view = AIView()
+
+        # Views zum StackedWidget hinzufügen
+        self.stacked_widget.addWidget(self.main_view)  # Index 0
+        self.stacked_widget.addWidget(self.ai_view)    # Index 1
+
+    def _create_toolbar(self) -> QToolBar:
         """Erstellt die Toolbar"""
         toolbar = QToolBar()
-        self.addToolBar(toolbar)
+        toolbar.setMovable(False)
 
-        # Toolbar luftiger gestalten
+        # Dark Theme Styling
         toolbar.setStyleSheet("""
             QToolBar {
+                background-color: #2b2b2b;
+                border-bottom: 1px solid #4a4a4a;
                 spacing: 10px;
                 padding: 8px;
             }
-            QToolBar QToolButton {
-                padding: 6px 12px;
-                font-size: 13px;
-            }
             QToolBar QLabel {
-                padding: 0px 8px;
+                color: #e0e0e0;
                 font-size: 13px;
+                padding: 0px 8px;
             }
         """)
-        toolbar.setMovable(False)
 
         # Suchfeld
         search_label = QLabel("Suche:")
-        search_label.setStyleSheet("padding: 0px 8px; font-size: 13px;")
         toolbar.addWidget(search_label)
 
         self.search_edit = QLineEdit()
         self.search_edit.setPlaceholderText("Suche nach Titel oder Notizen...")
         self.search_edit.setMinimumWidth(350)
-        self.search_edit.setStyleSheet("padding: 6px; font-size: 13px;")
+        self.search_edit.setStyleSheet("""
+            QLineEdit {
+                background-color: #3a3a3a;
+                color: #e0e0e0;
+                border: 1px solid #4a4a4a;
+                border-radius: 3px;
+                padding: 6px;
+                font-size: 13px;
+            }
+        """)
         self.search_edit.textChanged.connect(self._on_search)
         toolbar.addWidget(self.search_edit)
 
+        # Separator
         toolbar.addSeparator()
 
-        # CSV Export
-        export_action = QAction("CSV Export", self)
-        export_action.triggered.connect(self._on_export_csv)
-        toolbar.addAction(export_action)
+        # CSV Export Button
+        export_button = QPushButton("CSV Export")
+        export_button.setStyleSheet("""
+            QPushButton {
+                background-color: transparent;
+                color: #e0e0e0;
+                border: 1px solid #4a4a4a;
+                border-radius: 4px;
+                padding: 6px 16px;
+                font-size: 13px;
+            }
+            QPushButton:hover {
+                border: 1px solid #5a5a5a;
+                background-color: #3a3a3a;
+            }
+        """)
+        export_button.clicked.connect(self._on_export_csv)
+        toolbar.addWidget(export_button)
+
+        # Spacer rechts
+        spacer = QWidget()
+        spacer.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+        toolbar.addWidget(spacer)
+
+        return toolbar
 
     def _create_recorder_panel(self) -> QWidget:
         """Erstellt das Recorder-Panel"""
@@ -178,7 +220,9 @@ class MainWindow(QMainWindow):
         button_layout = QHBoxLayout()
         self.record_button = QPushButton("Aufnahme starten")
         self.record_button.clicked.connect(self._on_record_clicked)
-        self.record_button.setStyleSheet("padding: 10px; font-size: 14px;")
+        self.record_button.setStyleSheet(
+            "padding: 10px; font-size: 14px; background-color: #d32f2f; color: white; font-weight: bold;"
+        )
         button_layout.addWidget(self.record_button)
         layout.addLayout(button_layout)
 
@@ -211,6 +255,10 @@ class MainWindow(QMainWindow):
         # Player Signals
         self.player_widget.delete_requested.connect(self._on_player_delete_requested)
         self.player_widget.show_in_folder_requested.connect(self._on_show_in_folder)
+        self.player_widget.ai_dialog_requested.connect(self._on_ai_view_requested)
+
+        # AI View Signals
+        self.ai_view.back_requested.connect(self._on_ai_back)
 
     def _load_sessions(self, search_term: str = ''):
         """Lädt Sessions aus der Datenbank"""
@@ -230,7 +278,7 @@ class MainWindow(QMainWindow):
                 output_path = self.recorder.start_recording(device_index)
                 self.record_button.setText("Aufnahme stoppen")
                 self.record_button.setStyleSheet(
-                    "padding: 10px; font-size: 14px; background-color: #ff4444;"
+                    "padding: 10px; font-size: 14px; background-color: #ff4444; color: white; font-weight: bold;"
                 )
                 # Waveform-Visualisierung starten
                 self.waveform_widget.start_recording()
@@ -240,7 +288,9 @@ class MainWindow(QMainWindow):
             # Aufnahme stoppen
             output_path = self.recorder.stop_recording()
             self.record_button.setText("Aufnahme starten")
-            self.record_button.setStyleSheet("padding: 10px; font-size: 14px;")
+            self.record_button.setStyleSheet(
+                "padding: 10px; font-size: 14px; background-color: #d32f2f; color: white; font-weight: bold;"
+            )
 
             # Waveform-Visualisierung stoppen
             self.waveform_widget.stop_recording()
@@ -338,6 +388,55 @@ class MainWindow(QMainWindow):
         else:
             QMessageBox.warning(self, "Warnung",
                                f"Datei nicht gefunden:\n{file_path}")
+
+    def _on_ai_view_requested(self, session_id: int):
+        """Wechselt zum AI-View für die ausgewählte Session"""
+        # Session in AI-View laden
+        self.ai_view.load_session(session_id)
+
+        # Fade-Animation beim Wechsel
+        self.fade_animation = QPropertyAnimation(self, b"windowOpacity")
+        self.fade_animation.setDuration(150)  # 150ms
+        self.fade_animation.setStartValue(1.0)
+        self.fade_animation.setEndValue(0.95)
+        self.fade_animation.setEasingCurve(QEasingCurve.Type.InOutQuad)
+        self.fade_animation.finished.connect(lambda: self._complete_switch_to_ai())
+        self.fade_animation.start()
+
+    def _complete_switch_to_ai(self):
+        """Komplettiert den Wechsel zum AI-View"""
+        self.stacked_widget.setCurrentIndex(1)  # AI-View
+
+        # Fade back in
+        fade_in = QPropertyAnimation(self, b"windowOpacity")
+        fade_in.setDuration(150)
+        fade_in.setStartValue(0.95)
+        fade_in.setEndValue(1.0)
+        fade_in.setEasingCurve(QEasingCurve.Type.InOutQuad)
+        fade_in.start()
+
+    def _on_ai_back(self):
+        """Kehrt vom AI-View zur Hauptansicht zurück"""
+        # Fade-Animation beim Wechsel zurück
+        self.fade_animation = QPropertyAnimation(self, b"windowOpacity")
+        self.fade_animation.setDuration(150)
+        self.fade_animation.setStartValue(1.0)
+        self.fade_animation.setEndValue(0.95)
+        self.fade_animation.setEasingCurve(QEasingCurve.Type.InOutQuad)
+        self.fade_animation.finished.connect(lambda: self._complete_switch_to_main())
+        self.fade_animation.start()
+
+    def _complete_switch_to_main(self):
+        """Komplettiert den Wechsel zur Hauptansicht"""
+        self.stacked_widget.setCurrentIndex(0)  # Haupt-View
+
+        # Fade back in
+        fade_in = QPropertyAnimation(self, b"windowOpacity")
+        fade_in.setDuration(150)
+        fade_in.setStartValue(0.95)
+        fade_in.setEndValue(1.0)
+        fade_in.setEasingCurve(QEasingCurve.Type.InOutQuad)
+        fade_in.start()
 
     def _on_export_csv(self):
         """Exportiert Sessions als CSV"""

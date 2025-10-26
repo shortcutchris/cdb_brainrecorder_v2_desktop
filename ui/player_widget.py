@@ -18,6 +18,7 @@ class PlayerWidget(QWidget):
     # Signale
     delete_requested = Signal(int)  # Wird ausgelöst wenn Löschen geklickt wird (session_id)
     show_in_folder_requested = Signal(str)  # Wird ausgelöst wenn Ordner-Button geklickt wird (file_path)
+    ai_dialog_requested = Signal(int)  # Wird ausgelöst wenn AI-Button geklickt wird (session_id)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -85,12 +86,18 @@ class PlayerWidget(QWidget):
         button_layout.addWidget(self.stop_button)
         button_layout.addStretch()
 
-        # Rechts: Ordner und Löschen-Buttons
+        # Rechts: Ordner, AI und Löschen-Buttons
         self.folder_button = QPushButton("📁")
         self.folder_button.setToolTip("Im Ordner zeigen")
         self.folder_button.clicked.connect(self._on_folder_clicked)
         self.folder_button.setEnabled(False)
         self.folder_button.setStyleSheet("font-size: 16px; padding: 6px 12px;")
+
+        self.ai_button = QPushButton("✨")
+        self.ai_button.setToolTip("KI-Funktionen")
+        self.ai_button.clicked.connect(self._on_ai_clicked)
+        self.ai_button.setEnabled(False)
+        self.ai_button.setStyleSheet("font-size: 16px; padding: 6px 12px;")
 
         self.delete_button = QPushButton("Löschen")
         self.delete_button.setToolTip("Session löschen")
@@ -101,6 +108,7 @@ class PlayerWidget(QWidget):
         )
 
         button_layout.addWidget(self.folder_button)
+        button_layout.addWidget(self.ai_button)
         button_layout.addWidget(self.delete_button)
 
         group_layout.addLayout(button_layout)
@@ -128,12 +136,14 @@ class PlayerWidget(QWidget):
             self.play_button.setEnabled(True)
             self.stop_button.setEnabled(True)
             self.folder_button.setEnabled(True)
+            self.ai_button.setEnabled(True if session_id else False)
             self.delete_button.setEnabled(True if session_id else False)
         else:
             self.file_label.setText("Fehler beim Laden der Datei")
             self.play_button.setEnabled(False)
             self.stop_button.setEnabled(False)
             self.folder_button.setEnabled(False)
+            self.ai_button.setEnabled(False)
             self.delete_button.setEnabled(False)
         return success
 
@@ -158,6 +168,11 @@ class PlayerWidget(QWidget):
         """Löschen-Button wurde geklickt"""
         if self.current_session_id:
             self.delete_requested.emit(self.current_session_id)
+
+    def _on_ai_clicked(self):
+        """AI-Button wurde geklickt"""
+        if self.current_session_id:
+            self.ai_dialog_requested.emit(self.current_session_id)
 
     def _on_playback_started(self):
         """Wiedergabe wurde gestartet"""
@@ -238,4 +253,5 @@ class PlayerWidget(QWidget):
         self.pause_button.setEnabled(False)
         self.stop_button.setEnabled(False)
         self.folder_button.setEnabled(False)
+        self.ai_button.setEnabled(False)
         self.delete_button.setEnabled(False)
