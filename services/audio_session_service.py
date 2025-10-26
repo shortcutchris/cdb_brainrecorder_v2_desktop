@@ -144,19 +144,30 @@ class AudioSessionService:
         full_input = f"{prompt}\n\n{text}"
 
         try:
-            # Versuche zuerst Responses API mit gpt-5 (falls verfügbar)
+            # Versuche zuerst GPT-5 mit Chat Completions
             try:
-                response = self.client.responses.create(
+                # Verbosity in Prompt einbauen für GPT-5
+                verbosity_suffix = {
+                    "low": " Sei kurz und prägnant.",
+                    "medium": " Gib eine ausgewogene Antwort.",
+                    "high": " Sei ausführlich und detailliert."
+                }
+                gpt5_input = full_input + verbosity_suffix.get(verbosity, verbosity_suffix["medium"])
+
+                # GPT-5 verwendet reasoning_effort als Parameter
+                response = self.client.chat.completions.create(
                     model="gpt-5",
-                    input=full_input,
-                    reasoning={"effort": reasoning_effort} if reasoning_effort else None,
-                    text={"verbosity": verbosity} if verbosity else None,
-                    max_output_tokens=4096
+                    messages=[
+                        {"role": "system", "content": "Du bist ein hilfreicher Assistent für Textverarbeitung."},
+                        {"role": "user", "content": gpt5_input}
+                    ],
+                    reasoning_effort=reasoning_effort if reasoning_effort else "medium",
+                    max_completion_tokens=4096
                 )
 
-                # Responses API Struktur: response.output[0].content[0].text
-                output_text = response.output[0].content[0].text
+                output_text = response.choices[0].message.content
                 tokens = response.usage.total_tokens
+                print(f"GPT-5 erfolgreich verwendet (Reasoning: {reasoning_effort}, Tokens: {tokens})")
 
             except Exception as gpt5_error:
                 # Fallback auf Chat Completions mit gpt-4o
