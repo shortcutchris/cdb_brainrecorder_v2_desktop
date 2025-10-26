@@ -491,16 +491,24 @@ class MainWindow(TranslatableWidget, QMainWindow):
         """Wird aufgerufen wenn im Player der Löschen-Button geklickt wird"""
         reply = QMessageBox.question(
             self, self.tr("Löschen bestätigen"),
-            self.tr("Möchten Sie diese Session wirklich löschen?\nDie Audiodatei bleibt erhalten."),
+            self.tr("Möchten Sie diese Session wirklich löschen?\n\n⚠️ Die Audiodatei wird ebenfalls permanent gelöscht!"),
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
         )
 
         if reply == QMessageBox.StandardButton.Yes:
-            self.repo.delete(session_id)
+            result = self.repo.delete(session_id)
             self.session_form.clear()
             self.player_widget.clear()
             self._load_sessions(self.search_edit.text())
-            QMessageBox.information(self, self.tr("Erfolg"), self.tr("Session wurde gelöscht."))
+
+            # Feedback-Message basierend auf Result
+            if result.get("file_deleted"):
+                QMessageBox.information(self, self.tr("Erfolg"),
+                    self.tr("Session und Audiodatei wurden gelöscht."))
+            else:
+                reason = result.get("reason", "Unbekannt")
+                QMessageBox.warning(self, self.tr("Teilweise erfolgreich"),
+                    self.tr("Session wurde gelöscht, aber Audiodatei konnte nicht gelöscht werden:\n{0}").format(reason))
 
     def _on_show_in_folder(self, file_path: str):
         """Zeigt die Datei im Explorer/Finder"""

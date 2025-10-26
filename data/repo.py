@@ -109,11 +109,30 @@ class SessionRepository:
             conn.execute(f"UPDATE sessions SET {fields} WHERE id = ?", values)
             conn.commit()
 
-    def delete(self, session_id: int):
-        """Löscht eine Session anhand der ID"""
+    def delete(self, session_id: int) -> dict:
+        """Löscht eine Session und die zugehörige Audio-Datei"""
+        # Zuerst Session-Daten holen für Dateipfad
+        session = self.get_by_id(session_id)
+
+        # Datenbankeintrag löschen
         with sqlite3.connect(self.db_path) as conn:
             conn.execute("DELETE FROM sessions WHERE id = ?", (session_id,))
             conn.commit()
+
+        # Audio-Datei löschen falls vorhanden
+        if session and session.get('path'):
+            file_path = Path(session['path'])
+            try:
+                if file_path.exists():
+                    file_path.unlink()
+                    return {"success": True, "file_deleted": True}
+                return {"success": True, "file_deleted": False, "reason": "Datei existiert nicht"}
+            except PermissionError:
+                return {"success": True, "file_deleted": False, "reason": "Keine Berechtigung"}
+            except Exception as e:
+                return {"success": True, "file_deleted": False, "reason": str(e)}
+
+        return {"success": True, "file_deleted": False, "reason": "Kein Pfad vorhanden"}
 
     def update_transcript(self, session_id: int, text: str, tokens: int, status: str = "completed"):
         """Aktualisiert Transkript einer Session"""
