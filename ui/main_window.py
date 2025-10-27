@@ -261,6 +261,16 @@ class MainWindow(TranslatableWidget, QMainWindow):
             "padding: 10px; font-size: 14px; background-color: #d32f2f; color: white; font-weight: bold;"
         )
         button_layout.addWidget(self.record_button)
+
+        # Pause-Button
+        self.pause_button = QPushButton(self.tr("⏸ Pausieren"))
+        self.pause_button.clicked.connect(self._on_pause_clicked)
+        self.pause_button.setVisible(False)  # Initial versteckt
+        self.pause_button.setStyleSheet(
+            "padding: 10px; font-size: 14px; background-color: #f57c00; color: white; font-weight: bold;"
+        )
+        button_layout.addWidget(self.pause_button)
+
         layout.addLayout(button_layout)
 
         self.recorder_group.setLayout(layout)
@@ -319,6 +329,9 @@ class MainWindow(TranslatableWidget, QMainWindow):
                 self.record_button.setStyleSheet(
                     "padding: 10px; font-size: 14px; background-color: #ff4444; color: white; font-weight: bold;"
                 )
+                # Pause-Button anzeigen
+                self.pause_button.setVisible(True)
+
                 # Waveform-Visualisierung starten
                 self.waveform_widget.start_recording()
             except Exception as e:
@@ -332,6 +345,13 @@ class MainWindow(TranslatableWidget, QMainWindow):
                 "padding: 10px; font-size: 14px; background-color: #d32f2f; color: white; font-weight: bold;"
             )
 
+            # Pause-Button verstecken und zurücksetzen
+            self.pause_button.setVisible(False)
+            self.pause_button.setText(self.tr("⏸ Pausieren"))
+            self.pause_button.setStyleSheet(
+                "padding: 10px; font-size: 14px; background-color: #f57c00; color: white; font-weight: bold;"
+            )
+
             # Waveform-Visualisierung stoppen
             self.waveform_widget.stop_recording()
 
@@ -342,6 +362,27 @@ class MainWindow(TranslatableWidget, QMainWindow):
             # UI zurücksetzen
             self.level_bar.setValue(0)
             self.duration_label.setText("00:00:00")
+
+    def _on_pause_clicked(self):
+        """Wird aufgerufen wenn Pause-Button geklickt wird"""
+        if not self.recorder.is_paused:
+            # Pausieren
+            self.recorder.pause_recording()
+            self.waveform_widget.pause_recording()
+
+            self.pause_button.setText(self.tr("▶️ Fortsetzen"))
+            self.pause_button.setStyleSheet(
+                "padding: 10px; font-size: 14px; background-color: #4caf50; color: white; font-weight: bold;"
+            )
+        else:
+            # Fortsetzen
+            self.recorder.resume_recording()
+            self.waveform_widget.resume_recording()
+
+            self.pause_button.setText(self.tr("⏸ Pausieren"))
+            self.pause_button.setStyleSheet(
+                "padding: 10px; font-size: 14px; background-color: #f57c00; color: white; font-weight: bold;"
+            )
 
     def _save_recorded_session(self, output_path: str):
         """Speichert eine aufgenommene Session in der Datenbank"""
@@ -631,6 +672,12 @@ class MainWindow(TranslatableWidget, QMainWindow):
             self.record_button.setText(self.tr("Aufnahme starten"))
         else:
             self.record_button.setText(self.tr("Aufnahme stoppen"))
+
+        # Pause-Button Text abhängig vom Zustand
+        if not self.recorder.is_paused:
+            self.pause_button.setText(self.tr("⏸ Pausieren"))
+        else:
+            self.pause_button.setText(self.tr("▶️ Fortsetzen"))
 
         # Trigger retranslate in child widgets
         self.session_table.retranslateUi()

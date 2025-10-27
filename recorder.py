@@ -23,7 +23,10 @@ class AudioRecorder(QObject):
         self.samplerate = samplerate
         self.channels = channels
         self.is_recording = False
+        self.is_paused = False
         self.frames = []
+        self.paused_frames = []
+        self.paused_device: Optional[int] = None
         self.stream: Optional[sd.InputStream] = None
         self.output_path: Optional[str] = None
         self._start_time: Optional[float] = None
@@ -96,22 +99,78 @@ class AudioRecorder(QObject):
         if not self.is_recording:
             return None
 
+        # Wenn pausiert, verwende paused_frames
+        frames_to_save = self.paused_frames if self.is_paused else self.frames
+
+        # Stream stoppen (nur wenn nicht pausiert)
+        if self.stream and not self.is_paused:
+            self.stream.stop()
+            self.stream.close()
+
+        self.stream = None
+        self.is_recording = False
+        self.is_paused = False
+        self._start_time = None
+        self.paused_frames = []
+        self.paused_device = None
+
+        # Daten zusammenfügen und speichern
+        if frames_to_save and self.output_path:
+            audio_data = np.concatenate(frames_to_save, axis=0)
+            sf.write(self.output_path, audio_data, self.samplerate)
+            return self.output_path
+
+        return None
+
+    def pause_recording(self) -> bool:
+        """Pausiert die Aufnahme ohne Datei zu speichern"""
+        if not self.is_recording or self.is_paused:
+            return False
+
+        # Device-Index merken
+        self.paused_device = self.stream.device if self.stream else None
+
         # Stream stoppen
         if self.stream:
             self.stream.stop()
             self.stream.close()
             self.stream = None
 
-        self.is_recording = False
-        self._start_time = None
+        # Frames sichern
+        self.paused_frames = self.frames.copy()
+        self.is_paused = True
 
-        # Daten zusammenfügen und speichern
-        if self.frames and self.output_path:
-            audio_data = np.concatenate(self.frames, axis=0)
-            sf.write(self.output_path, audio_data, self.samplerate)
-            return self.output_path
+        return True
 
-        return None
+    def resume_recording(self) -> bool:
+        """Setzt pausierte Aufnahme fort"""
+        if not self.is_recording or not self.is_paused:
+            return False
+
+        # Frames wiederherstellen
+        self.frames = self.paused_frames.copy()
+
+        # Stream neu starten
+        self.stream = sd.InputStream(
+            device=self.paused_device,
+            channels=self.channels,
+            samplerate=self.samplerate,
+            callback=self._audio_callback
+        )
+        self.stream.start()
+
+        # Start-Zeit anpassen (um bereits aufgenommene Zeit zu berücksichtigen)
+        if self.frames:
+            recorded_frames = sum(len(f) for f in self.frames)
+            recorded_duration = recorded_frames / self.samplerate
+            self._start_time = self.stream.time - recorded_duration
+        else:
+            self._start_time = self.stream.time
+
+        self.is_paused = False
+        self.paused_frames = []
+
+        return True
 
     def get_duration_seconds(self) -> int:
         """Gibt die Dauer der Aufnahme in Sekunden zurück"""

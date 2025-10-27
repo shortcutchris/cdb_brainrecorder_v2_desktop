@@ -23,6 +23,7 @@ class WaveformWidget(QWidget):
         self.buffer_size = buffer_size
         self.audio_buffer = deque(maxlen=buffer_size)
         self.is_recording = False
+        self.is_paused = False
         self._pending_data = []
 
         # Set minimum size
@@ -49,7 +50,7 @@ class WaveformWidget(QWidget):
         Args:
             audio_data: Numpy array of audio samples
         """
-        if not self.is_recording or audio_data is None or len(audio_data) == 0:
+        if not self.is_recording or self.is_paused or audio_data is None or len(audio_data) == 0:
             return
 
         # For mono, ensure we have a 1D array
@@ -88,10 +89,22 @@ class WaveformWidget(QWidget):
     def stop_recording(self):
         """Stop recording mode"""
         self.is_recording = False
+        self.is_paused = False
         self.update_timer.stop()  # Stop the update timer
         self._pending_data.clear()
         self._reset_buffer()
         self.update()
+
+    def pause_recording(self):
+        """Pausiert die Waveform-Visualisierung"""
+        self.is_paused = True
+        self.update_timer.stop()  # Timer stoppen
+        # Buffer NICHT resetten - bleibt sichtbar
+
+    def resume_recording(self):
+        """Setzt Waveform-Visualisierung fort"""
+        self.is_paused = False
+        self.update_timer.start()  # Timer wieder starten
 
     def paintEvent(self, event):
         """Paint the waveform"""
