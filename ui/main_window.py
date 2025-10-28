@@ -242,17 +242,15 @@ class MainWindow(TranslatableWidget, QMainWindow):
         self.export_button = QPushButton(self.tr("CSV Export"))
         self.export_button.setStyleSheet("""
             QPushButton {
-                background-color: transparent;
-                color: #e0e0e0;
-                border: 1px solid #003355;
+                background-color: #ffaa3a;
+                color: #000e22;
+                font-weight: bold;
                 border-radius: 4px;
                 padding: 6px 16px;
                 font-size: 13px;
             }
             QPushButton:hover {
-                background-color: #002244;
-                border: 1px solid #004466;
-                background-color: #001633;
+                background-color: #ff9922;
             }
         """)
         self.export_button.clicked.connect(self._on_export_csv)
@@ -262,20 +260,18 @@ class MainWindow(TranslatableWidget, QMainWindow):
         toolbar.addSeparator()
 
         self.toolbar_settings_button = QPushButton()
-        self.toolbar_settings_button.setIcon(qta.icon('fa5s.cog', color='#e0e0e0'))
+        self.toolbar_settings_button.setIcon(qta.icon('fa5s.cog', color='#000e22'))
         self.toolbar_settings_button.setToolTip(self.tr("Einstellungen"))
         self.toolbar_settings_button.setStyleSheet("""
             QPushButton {
-                background-color: transparent;
-                color: #e0e0e0;
-                border: 1px solid #003355;
+                background-color: #ffaa3a;
+                color: #000e22;
+                font-weight: bold;
                 border-radius: 4px;
                 padding: 6px 12px;
             }
             QPushButton:hover {
-                background-color: #002244;
-                border: 1px solid #004466;
-                background-color: #001633;
+                background-color: #ff9922;
             }
         """)
         self.toolbar_settings_button.clicked.connect(self._on_settings_clicked)
@@ -378,21 +374,20 @@ class MainWindow(TranslatableWidget, QMainWindow):
 
         # Pause-Button
         self.pause_button = QPushButton(self.tr("Pausieren"))
-        self.pause_button.setIcon(qta.icon('fa5s.pause', color='white'))
+        self.pause_button.setIcon(qta.icon('fa5s.pause', color='#000e22'))
         self.pause_button.clicked.connect(self._on_pause_clicked)
         self.pause_button.setVisible(False)  # Initial versteckt
         self.pause_button.setStyleSheet("""
             QPushButton {
                 padding: 10px;
                 font-size: 14px;
-                background-color: #f57c00;
-                color: white;
+                background-color: #ffaa3a;
+                color: #000e22;
                 font-weight: bold;
-                border: 1px solid #e65100;
                 border-radius: 4px;
             }
             QPushButton:hover {
-                background-color: #ef6c00;
+                background-color: #ff9922;
             }
         """)
         button_layout.addWidget(self.pause_button)
@@ -496,19 +491,18 @@ class MainWindow(TranslatableWidget, QMainWindow):
             # Pause-Button verstecken und zurücksetzen
             self.pause_button.setVisible(False)
             self.pause_button.setText(self.tr("Pausieren"))
-            self.pause_button.setIcon(qta.icon('fa5s.pause', color='white'))
+            self.pause_button.setIcon(qta.icon('fa5s.pause', color='#000e22'))
             self.pause_button.setStyleSheet("""
                 QPushButton {
                     padding: 10px;
                     font-size: 14px;
-                    background-color: #f57c00;
-                    color: white;
+                    background-color: #ffaa3a;
+                    color: #000e22;
                     font-weight: bold;
-                    border: 1px solid #e65100;
                     border-radius: 4px;
                 }
                 QPushButton:hover {
-                    background-color: #ef6c00;
+                    background-color: #ff9922;
                 }
             """)
 
@@ -531,19 +525,18 @@ class MainWindow(TranslatableWidget, QMainWindow):
             self.waveform_widget.pause_recording()
 
             self.pause_button.setText(self.tr("Fortsetzen"))
-            self.pause_button.setIcon(qta.icon('fa5s.play', color='white'))
+            self.pause_button.setIcon(qta.icon('fa5s.play', color='#000e22'))
             self.pause_button.setStyleSheet("""
                 QPushButton {
                     padding: 10px;
                     font-size: 14px;
-                    background-color: #4caf50;
-                    color: white;
+                    background-color: #ffaa3a;
+                    color: #000e22;
                     font-weight: bold;
-                    border: 1px solid #388e3c;
                     border-radius: 4px;
                 }
                 QPushButton:hover {
-                    background-color: #43a047;
+                    background-color: #ff9922;
                 }
             """)
         else:
@@ -552,19 +545,18 @@ class MainWindow(TranslatableWidget, QMainWindow):
             self.waveform_widget.resume_recording()
 
             self.pause_button.setText(self.tr("Pausieren"))
-            self.pause_button.setIcon(qta.icon('fa5s.pause', color='white'))
+            self.pause_button.setIcon(qta.icon('fa5s.pause', color='#000e22'))
             self.pause_button.setStyleSheet("""
                 QPushButton {
                     padding: 10px;
                     font-size: 14px;
-                    background-color: #f57c00;
-                    color: white;
+                    background-color: #ffaa3a;
+                    color: #000e22;
                     font-weight: bold;
-                    border: 1px solid #e65100;
                     border-radius: 4px;
                 }
                 QPushButton:hover {
-                    background-color: #ef6c00;
+                    background-color: #ff9922;
                 }
             """)
 

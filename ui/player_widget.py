@@ -86,19 +86,18 @@ class PlayerWidget(TranslatableWidget, QWidget):
         # Links: Playback-Buttons
         button_style = """
             QPushButton {
-                background-color: transparent;
-                color: #e0e0e0;
-                border: 1px solid #003355;
+                background-color: #ffaa3a;
+                color: #000e22;
+                font-weight: bold;
                 border-radius: 4px;
                 padding: 8px 16px;
             }
             QPushButton:hover {
-                background-color: #001633;
-                border: 1px solid #004466;
+                background-color: #ff9922;
             }
             QPushButton:disabled {
-                color: #666666;
-                border-color: #002244;
+                background-color: #001b36;
+                color: #5a7791;
             }
         """
 
@@ -125,29 +124,30 @@ class PlayerWidget(TranslatableWidget, QWidget):
         # Rechts: Ordner, AI und Löschen-Buttons
         icon_button_style = """
             QPushButton {
-                border: 1px solid #003355;
+                background-color: #ffaa3a;
+                color: #000e22;
+                font-weight: bold;
                 border-radius: 4px;
                 padding: 6px 12px;
-                background-color: transparent;
             }
             QPushButton:hover {
-                background-color: #001633;
-                border: 1px solid #004466;
+                background-color: #ff9922;
             }
             QPushButton:disabled {
-                border-color: #002244;
+                background-color: #001b36;
+                color: #5a7791;
             }
         """
 
         self.folder_button = QPushButton()
-        self.folder_button.setIcon(qta.icon('fa5s.folder-open', color='#e0e0e0'))
+        self.folder_button.setIcon(qta.icon('fa5s.folder-open', color='#000e22'))
         self.folder_button.setToolTip(self.tr("Im Ordner zeigen"))
         self.folder_button.clicked.connect(self._on_folder_clicked)
         self.folder_button.setEnabled(False)
         self.folder_button.setStyleSheet(icon_button_style)
 
         self.ai_button = QPushButton()
-        self.ai_button.setIcon(qta.icon('fa5s.robot', color='#e0e0e0'))
+        self.ai_button.setIcon(qta.icon('fa5s.robot', color='#000e22'))
         self.ai_button.setToolTip(self.tr("KI-Funktionen"))
         self.ai_button.clicked.connect(self._on_ai_clicked)
         self.ai_button.setEnabled(False)

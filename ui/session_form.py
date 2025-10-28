@@ -115,19 +115,18 @@ class SessionFormWidget(TranslatableWidget, QWidget):
         # Buttons - innerhalb der GroupBox
         button_style = """
             QPushButton {
-                background-color: transparent;
-                color: #e0e0e0;
-                border: 1px solid #003355;
+                background-color: #ffaa3a;
+                color: #000e22;
+                font-weight: bold;
                 border-radius: 4px;
                 padding: 8px 16px;
             }
             QPushButton:hover {
-                background-color: #001633;
-                border: 1px solid #004466;
+                background-color: #ff9922;
             }
             QPushButton:disabled {
-                color: #666666;
-                border-color: #002244;
+                background-color: #001b36;
+                color: #5a7791;
             }
         """
 
