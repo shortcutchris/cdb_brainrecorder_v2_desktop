@@ -87,7 +87,23 @@ class SessionRepository:
                     ORDER BY recorded_at DESC
                 """)
 
-            return [dict(row) for row in cursor.fetchall()]
+            sessions = [dict(row) for row in cursor.fetchall()]
+
+            # Dateigröße für jede Session berechnen
+            for session in sessions:
+                if session.get('path'):
+                    file_path = Path(session['path'])
+                    try:
+                        if file_path.exists():
+                            session['file_size'] = file_path.stat().st_size
+                        else:
+                            session['file_size'] = 0
+                    except Exception:
+                        session['file_size'] = 0
+                else:
+                    session['file_size'] = 0
+
+            return sessions
 
     def get_by_id(self, session_id: int) -> Optional[Dict[str, Any]]:
         """Holt eine Session anhand der ID"""

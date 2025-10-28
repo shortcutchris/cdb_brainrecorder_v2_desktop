@@ -3,7 +3,7 @@ Sessions-Tabelle Widget
 """
 from PySide6.QtWidgets import (QTableWidget, QTableWidgetItem, QHeaderView,
                                QAbstractItemView)
-from PySide6.QtCore import Signal, Qt, QEvent, QTimer
+from PySide6.QtCore import Signal, Qt, QEvent, QTimer, QSize
 from PySide6.QtGui import QColor
 import qtawesome as qta
 from typing import List, Dict, Any
@@ -19,6 +19,7 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
     """Tabelle zur Anzeige aller Audio-Sessions"""
 
     session_selected = Signal(int)  # Wird ausgelöst wenn eine Session ausgewählt wird
+    MIN_DISPLAY_ROWS = 30  # Mindestanzahl an anzuzeigenden Zeilen
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -27,10 +28,10 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
     def _setup_ui(self):
         """Initialisiert die Tabelle"""
         # Spalten definieren
-        self.setColumnCount(8)
+        self.setColumnCount(6)
         self.setHorizontalHeaderLabels([
             self.tr("ID"), self.tr("Titel"), self.tr("Aufnahmedatum"), self.tr("Dauer (s)"),
-            self.tr("Samplerate"), self.tr("Kanäle"), self.tr("Transkription"), self.tr("Notizen")
+            self.tr("Dateigröße"), self.tr("Transkription"), self.tr("Notizen")
         ])
 
         # Tabellen-Eigenschaften
@@ -51,16 +52,18 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
         header.setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)           # Titel
         header.setSectionResizeMode(2, QHeaderView.ResizeMode.ResizeToContents)  # Aufnahmedatum
         header.setSectionResizeMode(3, QHeaderView.ResizeMode.ResizeToContents)  # Dauer
-        header.setSectionResizeMode(4, QHeaderView.ResizeMode.ResizeToContents)  # Samplerate
-        header.setSectionResizeMode(5, QHeaderView.ResizeMode.ResizeToContents)  # Kanäle
-        header.setSectionResizeMode(6, QHeaderView.ResizeMode.Fixed)             # Transkription
-        header.setSectionResizeMode(7, QHeaderView.ResizeMode.Stretch)           # Notizen
+        header.setSectionResizeMode(4, QHeaderView.ResizeMode.ResizeToContents)  # Dateigröße
+        header.setSectionResizeMode(5, QHeaderView.ResizeMode.Fixed)             # Transkription
+        header.setSectionResizeMode(6, QHeaderView.ResizeMode.Stretch)           # Notizen
 
         # Feste Breite für Transkription-Spalte für zentrierte Icons
-        header.resizeSection(6, 80)
+        header.resizeSection(5, 80)
 
         # Gitterlinien ausblenden
         self.setShowGrid(False)
+
+        # Icon-Größe für bessere Zentrierung
+        self.setIconSize(QSize(20, 20))
 
         # Stylesheet für Dark Theme mit blauem Hintergrund
         self.setStyleSheet("""
@@ -119,43 +122,76 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
             duration_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
             self.setItem(row_idx, 3, duration_item)
 
-            samplerate_item = QTableWidgetItem(str(session['samplerate']))
-            samplerate_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-            self.setItem(row_idx, 4, samplerate_item)
-
-            channels_item = QTableWidgetItem(str(session['channels']))
-            channels_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-            self.setItem(row_idx, 5, channels_item)
+            # Dateigröße
+            file_size = session.get('file_size', 0)
+            file_size_item = QTableWidgetItem(self._format_file_size(file_size))
+            file_size_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.setItem(row_idx, 4, file_size_item)
 
             # Transkription Status
             status = session.get('transcription_status', None)
             status_item = self._create_status_item(status)
-            self.setItem(row_idx, 6, status_item)
+            self.setItem(row_idx, 5, status_item)
 
             notes_text = session['notes'][:50] + '...' if len(session['notes']) > 50 else session['notes']
             notes_item = QTableWidgetItem(notes_text)
             notes_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-            self.setItem(row_idx, 7, notes_item)
+            self.setItem(row_idx, 6, notes_item)
+
+        # Fülle Tabelle mit leeren Zeilen auf, um MIN_DISPLAY_ROWS zu erreichen
+        current_rows = len(sessions)
+        if current_rows < self.MIN_DISPLAY_ROWS:
+            for row_idx in range(current_rows, self.MIN_DISPLAY_ROWS):
+                self.insertRow(row_idx)
+                # Füge leere Items in alle Spalten ein
+                for col_idx in range(6):
+                    empty_item = QTableWidgetItem("")
+                    empty_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                    self.setItem(row_idx, col_idx, empty_item)
 
     def _on_selection_changed(self):
         """Wird aufgerufen wenn die Selektion sich ändert"""
         selected_rows = self.selectionModel().selectedRows()
         if selected_rows:
             row = selected_rows[0].row()
-            session_id = int(self.item(row, 0).text())
-            self.session_selected.emit(session_id)
+            id_item = self.item(row, 0)
+            # Nur echte Sessions verarbeiten (ID-Spalte nicht leer)
+            if id_item and id_item.text().strip():
+                session_id = int(id_item.text())
+                self.session_selected.emit(session_id)
 
     def get_selected_session_id(self) -> int:
         """Gibt die ID der aktuell ausgewählten Session zurück"""
         selected_rows = self.selectionModel().selectedRows()
         if selected_rows:
             row = selected_rows[0].row()
-            return int(self.item(row, 0).text())
+            id_item = self.item(row, 0)
+            # Nur echte Sessions verarbeiten (ID-Spalte nicht leer)
+            if id_item and id_item.text().strip():
+                return int(id_item.text())
         return -1
 
     def clear_selection(self):
         """Löscht die aktuelle Selektion"""
         self.clearSelection()
+
+    def _format_file_size(self, size_bytes: int) -> str:
+        """Formatiert Dateigröße in menschenlesbarem Format"""
+        if size_bytes == 0:
+            return "-"
+
+        units = ['B', 'KB', 'MB', 'GB']
+        unit_index = 0
+        size = float(size_bytes)
+
+        while size >= 1024 and unit_index < len(units) - 1:
+            size /= 1024
+            unit_index += 1
+
+        if unit_index == 0:  # Bytes
+            return f"{int(size)} {units[unit_index]}"
+        else:
+            return f"{size:.1f} {units[unit_index]}"
 
     def _create_status_item(self, status: str = None) -> QTableWidgetItem:
         """Erstellt ein Status-Item mit Icon und Farbe"""
@@ -187,11 +223,11 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
             if int(self.item(row, 0).text()) == session_id:
                 # Erstelle neues Status-Item
                 status_item = self._create_status_item(status)
-                self.setItem(row, 6, status_item)
+                self.setItem(row, 5, status_item)
 
                 # Blink-Effekt bei Fertigstellung
                 if blink and status == "completed":
-                    self._blink_status(row, 6)
+                    self._blink_status(row, 5)
                 break
 
     def _blink_status(self, row: int, col: int, blinks: int = 3):
@@ -222,7 +258,7 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
         # Header-Labels neu setzen
         self.setHorizontalHeaderLabels([
             self.tr("ID"), self.tr("Titel"), self.tr("Aufnahmedatum"), self.tr("Dauer (s)"),
-            self.tr("Samplerate"), self.tr("Kanäle"), self.tr("Transkription"), self.tr("Notizen")
+            self.tr("Dateigröße"), self.tr("Transkription"), self.tr("Notizen")
         ])
 
     def changeEvent(self, event):

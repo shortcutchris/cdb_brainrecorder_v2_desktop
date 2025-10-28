@@ -427,12 +427,8 @@ Session ID: {1}</translation>
         <translation>Duration (s)</translation>
     </message>
     <message>
-        <source>Samplerate</source>
-        <translation>Sample Rate</translation>
-    </message>
-    <message>
-        <source>Kanäle</source>
-        <translation>Channels</translation>
+        <source>Dateigröße</source>
+        <translation>File Size</translation>
     </message>
     <message>
         <source>Transkription</source>
