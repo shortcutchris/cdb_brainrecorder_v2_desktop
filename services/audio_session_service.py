@@ -8,6 +8,9 @@ from typing import Optional, Dict, Any
 import json
 import hashlib
 import sys
+from pydub import AudioSegment
+import tempfile
+import os
 
 sys.path.append(str(Path(__file__).parent.parent))
 from settings import SettingsManager
@@ -28,14 +31,16 @@ class AudioSessionService:
         self.cache_dir = Path(cache_dir)
         self.cache_dir.mkdir(exist_ok=True)
 
-    def transcribe(self, audio_file_path: str, language: str = "de", use_cache: bool = True) -> dict:
+    def transcribe(self, audio_file_path: str, language: str = "de", use_cache: bool = True,
+                   progress_callback=None) -> dict:
         """
         Transkribiert Audio-Datei mit gpt-4o-transcribe
 
         Args:
-            audio_file_path: Pfad zur Audio-Datei
+            audio_file_path: Pfad zur Audio-Datei (WAV)
             language: Sprache als ISO-639-1 Code ("de", "en")
             use_cache: Cache verwenden für schnellere Wiederverarbeitung
+            progress_callback: Callback-Funktion für Progress (current_chunk, total_chunks)
 
         Returns:
             {
@@ -51,31 +56,53 @@ class AudioSessionService:
         if not self.client:
             return {"success": False, "error": "Kein API Key konfiguriert"}
 
-        # Cache-Check
+        # Cache-Check (basierend auf Original-WAV)
         if use_cache:
             cached = self._load_from_cache(audio_file_path)
             if cached:
                 cached["success"] = True
                 return cached
 
-        try:
-            with open(audio_file_path, "rb") as audio_file:
-                transcript = self.client.audio.transcriptions.create(
-                    model="gpt-4o-transcribe",
-                    file=audio_file,
-                    language=language,
-                    response_format="json",
-                    prompt="Audio Sessions, Transkription, Notizen"
-                )
+        audio_chunks = []
 
-            # Mit response_format="json" bekommen wir nur text und basic info
+        try:
+            # 1. Audio vorbereiten (MP3 + ggf. Chunking)
+            audio_chunks = self._prepare_audio_for_transcription(audio_file_path)
+            total_chunks = len(audio_chunks)
+
+            # 2. Jeden Chunk einzeln transkribieren
+            all_transcripts = []
+            total_tokens = 0
+
+            for i, chunk_path in enumerate(audio_chunks):
+                # Progress-Callback (für UI-Update)
+                if progress_callback:
+                    progress_callback(i + 1, total_chunks)
+
+                # API-Call
+                with open(chunk_path, "rb") as audio_file:
+                    transcript = self.client.audio.transcriptions.create(
+                        model="gpt-4o-transcribe",
+                        file=audio_file,
+                        language=language,
+                        response_format="json",
+                        prompt="Audio Sessions, Transkription, Notizen"
+                    )
+
+                # Transkript sammeln
+                all_transcripts.append(transcript.text)
+                total_tokens += getattr(transcript.usage, 'total_tokens', 0) if hasattr(transcript, 'usage') else 0
+
+            # 3. Transkripte zusammenführen
+            combined_text = " ".join(all_transcripts)
+
             result = {
                 "success": True,
-                "text": transcript.text,
-                "language": getattr(transcript, 'language', language),
-                "duration": getattr(transcript, 'duration', 0.0),
+                "text": combined_text,
+                "language": language,
+                "duration": 0.0,
                 "segments": [],
-                "tokens_used": getattr(transcript.usage, 'total_tokens', 0) if hasattr(transcript, 'usage') else 0
+                "tokens_used": total_tokens
             }
 
             # Cache speichern
@@ -101,6 +128,11 @@ class AudioSessionService:
 
         except Exception as e:
             return {"success": False, "error": f"Unerwarteter Fehler: {str(e)}"}
+
+        finally:
+            # 4. Temp-Dateien IMMER aufräumen (auch bei Fehler)
+            if audio_chunks:
+                self._cleanup_temp_files(audio_chunks)
 
     def transform(
         self,
@@ -218,6 +250,65 @@ class AudioSessionService:
 
         except Exception as e:
             return {"success": False, "error": f"Fehler: {str(e)}"}
+
+    def _prepare_audio_for_transcription(self, audio_file_path: str, max_mb: int = 20) -> list:
+        """
+        Bereitet Audio für Whisper API vor
+
+        1. Konvertiert WAV → MP3 (16 kHz, 64 kbps, Mono)
+        2. Splittet in 15-Min-Chunks wenn >20 MB
+
+        Args:
+            audio_file_path: Pfad zur Original-WAV-Datei
+            max_mb: Maximale Dateigröße in MB (Standard: 20)
+
+        Returns:
+            Liste von Temp-MP3-Dateipfaden (1+ Chunks)
+        """
+        # 1. WAV laden und zu MP3 konvertieren
+        audio = AudioSegment.from_wav(audio_file_path)
+        audio = audio.set_frame_rate(16000)  # Whisper-optimiert
+        audio = audio.set_channels(1)  # Mono
+
+        # Temp-MP3 erstellen
+        temp_mp3 = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
+        audio.export(temp_mp3.name, format="mp3", bitrate="64k")
+        temp_mp3.close()
+
+        # 2. Dateigröße prüfen
+        file_size_mb = os.path.getsize(temp_mp3.name) / (1024 * 1024)
+
+        # 3. Wenn klein genug: Direkt zurückgeben
+        if file_size_mb <= max_mb:
+            return [temp_mp3.name]
+
+        # 4. Zu groß: In 15-Min-Chunks aufteilen
+        chunk_length_ms = 15 * 60 * 1000  # 15 Minuten in Millisekunden
+        chunks = []
+
+        for i in range(0, len(audio), chunk_length_ms):
+            chunk = audio[i:i + chunk_length_ms]
+
+            # Temp-Datei für Chunk
+            temp_chunk = tempfile.NamedTemporaryFile(delete=False, suffix=f"_chunk_{len(chunks)}.mp3")
+            chunk.export(temp_chunk.name, format="mp3", bitrate="64k")
+            temp_chunk.close()
+
+            chunks.append(temp_chunk.name)
+
+        # Original-Temp-MP3 löschen (nicht mehr benötigt)
+        os.unlink(temp_mp3.name)
+
+        return chunks
+
+    def _cleanup_temp_files(self, file_paths: list):
+        """Löscht temporäre Audio-Dateien"""
+        for path in file_paths:
+            try:
+                if os.path.exists(path):
+                    os.unlink(path)
+            except Exception as e:
+                print(f"Warnung: Temp-Datei konnte nicht gelöscht werden: {path} - {e}")
 
     def _load_from_cache(self, audio_file_path: str) -> Optional[dict]:
         """Lädt Transkript aus Cache"""

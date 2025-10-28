@@ -11,6 +11,7 @@ class TranscriptionWorker(QThread):
     finished = Signal(dict)  # Result-Dict
     error = Signal(str)      # Error-Message
     progress = Signal(str)   # Progress-Message
+    chunk_progress = Signal(int, int)  # (current_chunk, total_chunks)
 
     def __init__(self, audio_file_path: str, api_key: str, language: str = "de"):
         """
@@ -31,7 +32,20 @@ class TranscriptionWorker(QThread):
         self.progress.emit("Starte Transkription...")
 
         service = AudioSessionService(api_key=self.api_key)
-        result = service.transcribe(self.audio_file_path, self.language)
+
+        # Progress-Callback für Chunk-Updates
+        def on_chunk_progress(current: int, total: int):
+            self.chunk_progress.emit(current, total)
+            if total > 1:
+                self.progress.emit(f"Transkribiere Teil {current}/{total}...")
+            else:
+                self.progress.emit("Transkribiere...")
+
+        result = service.transcribe(
+            self.audio_file_path,
+            self.language,
+            progress_callback=on_chunk_progress
+        )
 
         if result.get("success"):
             self.progress.emit("Transkription abgeschlossen")

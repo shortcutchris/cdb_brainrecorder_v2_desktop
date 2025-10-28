@@ -56,8 +56,8 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
         header.setSectionResizeMode(5, QHeaderView.ResizeMode.Fixed)             # Transkription
         header.setSectionResizeMode(6, QHeaderView.ResizeMode.Stretch)           # Notizen
 
-        # Feste Breite für Transkription-Spalte für zentrierte Icons
-        header.resizeSection(5, 80)
+        # Feste Breite für Transkription-Spalte für zentrierte Icons (und Progress-Text)
+        header.resizeSection(5, 100)
 
         # Gitterlinien ausblenden
         self.setShowGrid(False)
@@ -194,8 +194,14 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
         else:
             return f"{size:.1f} {units[unit_index]}"
 
-    def _create_status_widget(self, status: str = None) -> QLabel:
-        """Erstellt ein zentriertes Status-Widget mit Icon"""
+    def _create_status_widget(self, status: str = None, progress_text: str = None) -> QLabel:
+        """
+        Erstellt ein zentriertes Status-Widget mit Icon (und optionalem Progress-Text)
+
+        Args:
+            status: Status ("completed", "pending", "error", None)
+            progress_text: Optional: z.B. "3/8" für Chunk-Progress
+        """
         if status == "completed":
             icon = qta.icon('fa5s.check-circle', color='#4caf50')  # Green
         elif status == "pending":
@@ -205,11 +211,19 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
         else:
             icon = qta.icon('fa5s.circle', color='#9e9e9e')  # Gray
 
-        # Erstelle QLabel mit Icon und zentriere es horizontal und vertikal
         label = QLabel()
-        label.setPixmap(icon.pixmap(QSize(20, 20)))
+
+        # Mit Progress-Text: Icon + Text
+        if progress_text:
+            label.setPixmap(icon.pixmap(QSize(16, 16)))  # Kleineres Icon für Platz
+            label.setText(f"  {progress_text}")  # 2 Spaces vor Text
+            label.setStyleSheet("background-color: transparent; color: #e0e0e0; font-size: 12px;")
+        else:
+            # Ohne Progress: Nur Icon (wie bisher)
+            label.setPixmap(icon.pixmap(QSize(20, 20)))
+            label.setStyleSheet("background-color: transparent;")
+
         label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        label.setStyleSheet("background-color: transparent;")
         return label
 
     def update_transcription_status(self, session_id: int, status: str, blink: bool = False):
@@ -232,6 +246,24 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
                 # Blink-Effekt bei Fertigstellung
                 if blink and status == "completed":
                     self._blink_status(row, 5)
+                break
+
+    def update_transcription_progress(self, session_id: int, current_chunk: int, total_chunks: int):
+        """
+        Aktualisiert den Chunk-Progress einer laufenden Transkription
+
+        Args:
+            session_id: Die ID der Session
+            current_chunk: Aktueller Chunk (1-basiert)
+            total_chunks: Gesamtanzahl Chunks
+        """
+        for row in range(self.rowCount()):
+            id_item = self.item(row, 0)
+            if id_item and id_item.text().strip() and int(id_item.text()) == session_id:
+                # Widget mit Progress-Text erstellen: "3/8"
+                progress_text = f"{current_chunk}/{total_chunks}"
+                status_widget = self._create_status_widget("pending", progress_text)
+                self.setCellWidget(row, 5, status_widget)
                 break
 
     def _blink_status(self, row: int, col: int, blinks: int = 3):

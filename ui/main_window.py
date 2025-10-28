@@ -615,6 +615,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
         self.transcription_worker.progress.connect(self._on_bg_transcription_progress)
         self.transcription_worker.finished.connect(self._on_bg_transcription_finished)
         self.transcription_worker.error.connect(self._on_bg_transcription_error)
+        self.transcription_worker.chunk_progress.connect(self._on_bg_chunk_progress)
         self.transcription_worker.start()
 
         print(f"Hintergrund-Transkription gestartet für Session {session_id}")
@@ -623,6 +624,20 @@ class MainWindow(TranslatableWidget, QMainWindow):
         """Progress-Update von Hintergrund-Transkription"""
         # Optional: Status-Bar Message anzeigen
         print(f"Transkription: {message}")
+
+    def _on_bg_chunk_progress(self, current: int, total: int):
+        """Chunk-Progress-Update von Hintergrund-Transkription"""
+        if not self.current_transcribing_session_id:
+            return
+
+        # Tabelle aktualisieren mit Progress "3/8"
+        self.session_table.update_transcription_progress(
+            self.current_transcribing_session_id,
+            current,
+            total
+        )
+
+        print(f"Transkription: Chunk {current}/{total}")
 
     def _on_bg_transcription_finished(self, result: dict):
         """Hintergrund-Transkription abgeschlossen"""

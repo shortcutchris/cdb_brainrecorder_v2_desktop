@@ -417,11 +417,19 @@ class AIView(TranslatableWidget, QWidget):
         self.transcription_worker.progress.connect(self._on_transcription_progress)
         self.transcription_worker.finished.connect(self._on_transcription_finished)
         self.transcription_worker.error.connect(self._on_transcription_error)
+        self.transcription_worker.chunk_progress.connect(self._on_chunk_progress)
         self.transcription_worker.start()
 
     def _on_transcription_progress(self, message: str):
         """Progress-Update von Transkription"""
         self.transcription_edit.setPlaceholderText(message)
+
+    def _on_chunk_progress(self, current: int, total: int):
+        """Chunk-Progress für UI-Feedback im AI-View"""
+        if total > 1:
+            self.transcription_edit.setPlaceholderText(
+                self.tr(f"Transkribiere Teil {current}/{total}...")
+            )
 
     def _on_transcription_finished(self, result: dict):
         """Transkription abgeschlossen"""
