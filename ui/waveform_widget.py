@@ -140,7 +140,7 @@ class WaveformWidget(QWidget):
             return
 
         # Draw waveform - optimized rendering
-        painter.setPen(QPen(QColor(0, 200, 100), 1))  # Thinner line for performance
+        painter.setPen(QPen(QColor(255, 170, 58), 1))  # Orange #ffaa3a
 
         # Limit maximum number of points to draw (performance optimization)
         max_points = width  # One point per pixel maximum

@@ -63,7 +63,6 @@ class MainWindow(TranslatableWidget, QMainWindow):
 
         # ===== Index 0: Haupt-View =====
         self.main_view = QWidget()
-        self.main_view.setStyleSheet("QWidget { background-color: #000e22; }")
         main_layout = QVBoxLayout(self.main_view)
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
@@ -83,10 +82,8 @@ class MainWindow(TranslatableWidget, QMainWindow):
         right_scroll = QScrollArea()
         right_scroll.setWidgetResizable(True)
         right_scroll.setFrameShape(QFrame.Shape.NoFrame)
-        right_scroll.setStyleSheet("QScrollArea { background-color: #000e22; border: none; }")
 
         right_widget = QWidget()
-        right_widget.setStyleSheet("QWidget { background-color: #000e22; }")
         right_layout = QVBoxLayout(right_widget)
         right_layout.setContentsMargins(12, 12, 12, 12)
         right_layout.setSpacing(16)
@@ -134,8 +131,8 @@ class MainWindow(TranslatableWidget, QMainWindow):
         # Dark Theme Styling
         toolbar.setStyleSheet("""
             QToolBar {
-                background-color: #000e22;
-                border-bottom: 1px solid #003355;
+                background-color: #2b2b2b;
+                border-bottom: 1px solid #4a4a4a;
                 spacing: 12px;
                 padding: 12px 16px;
             }
@@ -155,9 +152,9 @@ class MainWindow(TranslatableWidget, QMainWindow):
         self.search_edit.setMinimumWidth(350)
         self.search_edit.setStyleSheet("""
             QLineEdit {
-                background-color: #001633;
+                background-color: #3a3a3a;
                 color: #e0e0e0;
-                border: 1px solid #003355;
+                border: 1px solid #4a4a4a;
                 border-radius: 3px;
                 padding: 6px;
                 font-size: 13px;
@@ -175,15 +172,14 @@ class MainWindow(TranslatableWidget, QMainWindow):
             QPushButton {
                 background-color: transparent;
                 color: #e0e0e0;
-                border: 1px solid #003355;
+                border: 1px solid #4a4a4a;
                 border-radius: 4px;
                 padding: 6px 16px;
                 font-size: 13px;
             }
             QPushButton:hover {
-                background-color: #002244;
-                border: 1px solid #004466;
-                background-color: #001633;
+                border: 1px solid #5a5a5a;
+                background-color: #3a3a3a;
             }
         """)
         self.export_button.clicked.connect(self._on_export_csv)
@@ -198,15 +194,14 @@ class MainWindow(TranslatableWidget, QMainWindow):
             QPushButton {
                 background-color: transparent;
                 color: #e0e0e0;
-                border: 1px solid #003355;
+                border: 1px solid #4a4a4a;
                 border-radius: 4px;
                 padding: 6px 12px;
                 font-size: 16px;
             }
             QPushButton:hover {
-                background-color: #002244;
-                border: 1px solid #004466;
-                background-color: #001633;
+                border: 1px solid #5a5a5a;
+                background-color: #3a3a3a;
             }
         """)
         self.toolbar_settings_button.clicked.connect(self._on_settings_clicked)
@@ -248,19 +243,6 @@ class MainWindow(TranslatableWidget, QMainWindow):
         self.level_bar = QProgressBar()
         self.level_bar.setMaximum(100)
         self.level_bar.setValue(0)
-        self.level_bar.setStyleSheet("""
-            QProgressBar {
-                background-color: #001633;
-                border: 1px solid #003355;
-                border-radius: 3px;
-                text-align: center;
-                color: #e0e0e0;
-            }
-            QProgressBar::chunk {
-                background-color: #ffaa3a;
-                border-radius: 2px;
-            }
-        """)
         level_layout.addWidget(self.level_bar)
         layout.addLayout(level_layout)
 
@@ -391,7 +373,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
             self.recorder.pause_recording()
             self.waveform_widget.pause_recording()
 
-            self.pause_button.setText(self.tr("Fortsetzen"))
+            self.pause_button.setText(self.tr("▶️ Fortsetzen"))
             self.pause_button.setStyleSheet(
                 "padding: 10px; font-size: 14px; background-color: #4caf50; color: white; font-weight: bold;"
             )
@@ -698,7 +680,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
         if not self.recorder.is_paused:
             self.pause_button.setText(self.tr("⏸ Pausieren"))
         else:
-            self.pause_button.setText(self.tr("Fortsetzen"))
+            self.pause_button.setText(self.tr("▶️ Fortsetzen"))
 
         # Trigger retranslate in child widgets
         self.session_table.retranslateUi()

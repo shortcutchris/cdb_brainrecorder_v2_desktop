@@ -40,11 +40,11 @@ class AIView(TranslatableWidget, QWidget):
         # Dark Theme für den gesamten View
         self.setStyleSheet("""
             QWidget {
-                background-color: #000e22;
+                background-color: #2b2b2b;
             }
             QGroupBox {
                 color: #e0e0e0;
-                border: 1px solid #003355;
+                border: 1px solid #4a4a4a;
                 border-radius: 4px;
                 margin-top: 12px;
                 font-weight: bold;
@@ -56,9 +56,9 @@ class AIView(TranslatableWidget, QWidget):
                 padding: 0 8px 8px 8px;
             }
             QTextEdit {
-                background-color: #001a2e;
+                background-color: #1e1e1e;
                 color: #e0e0e0;
-                border: 1px solid #003355;
+                border: 1px solid #4a4a4a;
                 border-radius: 2px;
                 padding: 8px;
                 font-size: 13px;
@@ -87,7 +87,7 @@ class AIView(TranslatableWidget, QWidget):
         self.transcribe_button = QPushButton(self.tr("Transkription starten"))
         self.transcribe_button.setStyleSheet("""
             QPushButton {
-                background-color: #ffaa3a;
+                background-color: #1976d2;
                 color: white;
                 font-weight: bold;
                 padding: 10px 20px;
@@ -95,11 +95,10 @@ class AIView(TranslatableWidget, QWidget):
                 font-size: 14px;
             }
             QPushButton:hover {
-                background-color: #002244;
-                background-color: #ff9922;
+                background-color: #1565c0;
             }
             QPushButton:disabled {
-                background-color: #002244;
+                background-color: #4a4a4a;
                 color: #808080;
             }
         """)
@@ -150,8 +149,8 @@ class AIView(TranslatableWidget, QWidget):
         # Dark Theme Styling
         toolbar.setStyleSheet("""
             QToolBar {
-                background-color: #000e22;
-                border-bottom: 1px solid #003355;
+                background-color: #2b2b2b;
+                border-bottom: 1px solid #4a4a4a;
                 spacing: 12px;
                 padding: 12px 16px;
             }
@@ -169,15 +168,14 @@ class AIView(TranslatableWidget, QWidget):
             QPushButton {
                 background-color: transparent;
                 color: #e0e0e0;
-                border: 1px solid #003355;
+                border: 1px solid #4a4a4a;
                 border-radius: 4px;
                 padding: 6px 16px;
                 font-size: 13px;
             }
             QPushButton:hover {
-                background-color: #002244;
-                border: 1px solid #004466;
-                background-color: #001633;
+                border: 1px solid #5a5a5a;
+                background-color: #3a3a3a;
             }
         """)
         self.back_button.clicked.connect(self.back_requested.emit)
@@ -195,24 +193,24 @@ class AIView(TranslatableWidget, QWidget):
         self.prompt_combo.setMinimumWidth(200)
         self.prompt_combo.setStyleSheet("""
             QComboBox {
-                background-color: #001633;
+                background-color: #3a3a3a;
                 color: #e0e0e0;
-                border: 1px solid #003355;
+                border: 1px solid #4a4a4a;
                 border-radius: 3px;
                 padding: 5px;
                 font-size: 13px;
             }
             QComboBox:hover {
-                border: 1px solid #004466;
+                border: 1px solid #5a5a5a;
             }
             QComboBox::drop-down {
                 border: none;
             }
             QComboBox QAbstractItemView {
-                background-color: #001633;
+                background-color: #3a3a3a;
                 color: #e0e0e0;
-                selection-background-color: #ffaa3a;
-                border: 1px solid #003355;
+                selection-background-color: #1976d2;
+                border: 1px solid #4a4a4a;
             }
         """)
         toolbar.addWidget(self.prompt_combo)
@@ -221,7 +219,7 @@ class AIView(TranslatableWidget, QWidget):
         self.generate_button = QPushButton(self.tr("Generieren"))
         self.generate_button.setStyleSheet("""
             QPushButton {
-                background-color: #ffaa3a;
+                background-color: #1976d2;
                 color: white;
                 font-weight: bold;
                 padding: 6px 16px;
@@ -229,8 +227,7 @@ class AIView(TranslatableWidget, QWidget):
                 font-size: 13px;
             }
             QPushButton:hover {
-                background-color: #002244;
-                background-color: #ff9922;
+                background-color: #1565c0;
             }
         """)
         self.generate_button.clicked.connect(self._on_generate_clicked)
@@ -245,15 +242,14 @@ class AIView(TranslatableWidget, QWidget):
             QPushButton {
                 background-color: transparent;
                 color: #e0e0e0;
-                border: 1px solid #003355;
+                border: 1px solid #4a4a4a;
                 border-radius: 4px;
                 padding: 6px 12px;
                 font-size: 16px;
             }
             QPushButton:hover {
-                background-color: #002244;
-                border: 1px solid #004466;
-                background-color: #001633;
+                border: 1px solid #5a5a5a;
+                background-color: #3a3a3a;
             }
         """)
         self.settings_button.clicked.connect(self.settings_requested.emit)

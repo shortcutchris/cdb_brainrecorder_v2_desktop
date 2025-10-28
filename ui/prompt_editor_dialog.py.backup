@@ -35,35 +35,33 @@ class PromptEditorDialog(TranslatableWidget, QDialog):
         # Dark Theme
         self.setStyleSheet("""
             QDialog {
-                background-color: #000e22;
+                background-color: #2b2b2b;
             }
             QLabel {
                 color: #e0e0e0;
                 font-size: 13px;
             }
             QLineEdit {
-                background-color: #001a2e;
-                background-color: #001633;
+                background-color: #3a3a3a;
                 color: #e0e0e0;
-                border: 1px solid #003355;
+                border: 1px solid #4a4a4a;
                 border-radius: 3px;
                 padding: 8px;
                 font-size: 13px;
             }
             QLineEdit:focus {
-                border: 1px solid #ffaa3a;
+                border: 1px solid #1976d2;
             }
             QTextEdit {
-                background-color: #001a2e;
-                background-color: #001633;
+                background-color: #3a3a3a;
                 color: #e0e0e0;
-                border: 1px solid #003355;
+                border: 1px solid #4a4a4a;
                 border-radius: 3px;
                 padding: 8px;
                 font-size: 13px;
             }
             QTextEdit:focus {
-                border: 1px solid #ffaa3a;
+                border: 1px solid #1976d2;
             }
         """)
 
@@ -99,15 +97,14 @@ class PromptEditorDialog(TranslatableWidget, QDialog):
             QPushButton {
                 background-color: transparent;
                 color: #e0e0e0;
-                border: 1px solid #003355;
+                border: 1px solid #4a4a4a;
                 border-radius: 4px;
                 padding: 8px 20px;
                 font-size: 13px;
             }
             QPushButton:hover {
-                background-color: #002244;
-                border: 1px solid #004466;
-                background-color: #001633;
+                border: 1px solid #5a5a5a;
+                background-color: #3a3a3a;
             }
         """)
         self.cancel_button.clicked.connect(self.reject)
@@ -116,7 +113,7 @@ class PromptEditorDialog(TranslatableWidget, QDialog):
         self.save_button = QPushButton(self.tr("Speichern"))
         self.save_button.setStyleSheet("""
             QPushButton {
-                background-color: #ffaa3a;
+                background-color: #1976d2;
                 color: white;
                 font-weight: bold;
                 padding: 8px 20px;
@@ -125,8 +122,7 @@ class PromptEditorDialog(TranslatableWidget, QDialog):
                 border: none;
             }
             QPushButton:hover {
-                background-color: #002244;
-                background-color: #ff9922;
+                background-color: #1565c0;
             }
         """)
         self.save_button.clicked.connect(self._on_save)

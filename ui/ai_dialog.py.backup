@@ -25,11 +25,11 @@ class AIDialog(QDialog):
         # Dark Theme für den gesamten Dialog
         self.setStyleSheet("""
             QDialog {
-                background-color: #000e22;
+                background-color: #2b2b2b;
             }
             QGroupBox {
                 color: #e0e0e0;
-                border: 1px solid #003355;
+                border: 1px solid #4a4a4a;
                 border-radius: 4px;
                 margin-top: 8px;
                 font-weight: bold;
@@ -41,9 +41,9 @@ class AIDialog(QDialog):
                 padding: 0 5px;
             }
             QTextEdit {
-                background-color: #001a2e;
+                background-color: #1e1e1e;
                 color: #e0e0e0;
-                border: 1px solid #003355;
+                border: 1px solid #4a4a4a;
                 border-radius: 2px;
                 padding: 8px;
                 font-size: 13px;
@@ -113,8 +113,8 @@ class AIDialog(QDialog):
         toolbar_widget = QWidget()
         toolbar_widget.setStyleSheet("""
             QWidget {
-                background-color: #000e22;
-                border-bottom: 1px solid #003355;
+                background-color: #2b2b2b;
+                border-bottom: 1px solid #4a4a4a;
             }
         """)
 
@@ -136,24 +136,24 @@ class AIDialog(QDialog):
         self.prompt_combo.setMinimumWidth(200)
         self.prompt_combo.setStyleSheet("""
             QComboBox {
-                background-color: #001633;
+                background-color: #3a3a3a;
                 color: #e0e0e0;
-                border: 1px solid #003355;
+                border: 1px solid #4a4a4a;
                 border-radius: 3px;
                 padding: 5px;
                 font-size: 13px;
             }
             QComboBox:hover {
-                border: 1px solid #004466;
+                border: 1px solid #5a5a5a;
             }
             QComboBox::drop-down {
                 border: none;
             }
             QComboBox QAbstractItemView {
-                background-color: #001633;
+                background-color: #3a3a3a;
                 color: #e0e0e0;
-                selection-background-color: #ffaa3a;
-                border: 1px solid #003355;
+                selection-background-color: #1976d2;
+                border: 1px solid #4a4a4a;
             }
         """)
         toolbar_layout.addWidget(self.prompt_combo)
@@ -162,7 +162,7 @@ class AIDialog(QDialog):
         self.generate_button = QPushButton("Generieren")
         self.generate_button.setStyleSheet("""
             QPushButton {
-                background-color: #ffaa3a;
+                background-color: #1976d2;
                 color: white;
                 font-weight: bold;
                 padding: 6px 16px;
@@ -170,8 +170,7 @@ class AIDialog(QDialog):
                 font-size: 13px;
             }
             QPushButton:hover {
-                background-color: #002244;
-                background-color: #ff9922;
+                background-color: #1565c0;
             }
         """)
         self.generate_button.clicked.connect(self._on_generate_clicked)
@@ -185,15 +184,14 @@ class AIDialog(QDialog):
             QPushButton {
                 background-color: transparent;
                 color: #e0e0e0;
-                border: 1px solid #003355;
+                border: 1px solid #4a4a4a;
                 border-radius: 4px;
                 padding: 6px 16px;
                 font-size: 13px;
             }
             QPushButton:hover {
-                background-color: #002244;
-                border: 1px solid #004466;
-                background-color: #001633;
+                border: 1px solid #5a5a5a;
+                background-color: #3a3a3a;
             }
         """)
         close_button.clicked.connect(self.close)

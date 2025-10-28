@@ -46,7 +46,7 @@ class SplashWidget(QWidget):
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
 
         # Hintergrund: Dunkelblau wie Logo
-        painter.fillRect(self.rect(), QColor("#0c1e2e"))
+        painter.fillRect(self.rect(), QColor("#000e22"))
 
         # Logo zentriert zeichnen
         if not self.logo.isNull():

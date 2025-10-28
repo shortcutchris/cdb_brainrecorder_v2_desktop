@@ -52,21 +52,33 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
         header.setSectionResizeMode(6, QHeaderView.ResizeMode.ResizeToContents)  # Transkription
         header.setSectionResizeMode(7, QHeaderView.ResizeMode.Stretch)           # Notizen
 
-        # Stylesheet für schwarze Tabellenränder
+        # Stylesheet für Dark Theme mit blauem Hintergrund
         self.setStyleSheet("""
             QTableWidget {
-                gridline-color: black;
-                border: 1px solid black;
+                background-color: #000e22;
+                alternate-background-color: #001633;
+                color: #e0e0e0;
+                gridline-color: #003355;
+                border: 1px solid #003355;
             }
             QTableWidget::item {
-                border-color: black;
+                border-color: #003355;
+                padding: 4px;
+            }
+            QTableWidget::item:selected {
+                background-color: #002244;
+                color: #ffffff;
             }
             QHeaderView::section {
-                border: 1px solid black;
+                background-color: #001633;
+                color: #e0e0e0;
+                border: 1px solid #003355;
+                padding: 6px;
+                font-weight: bold;
             }
             QTableCornerButton::section {
-                background-color: #2b2b2b;
-                border: 1px solid black;
+                background-color: #000e22;
+                border: 1px solid #003355;
             }
         """)
 
