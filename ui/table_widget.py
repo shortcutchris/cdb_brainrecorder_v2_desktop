@@ -2,7 +2,7 @@
 Sessions-Tabelle Widget
 """
 from PySide6.QtWidgets import (QTableWidget, QTableWidgetItem, QHeaderView,
-                               QAbstractItemView)
+                               QAbstractItemView, QLabel)
 from PySide6.QtCore import Signal, Qt, QEvent, QTimer, QSize
 from PySide6.QtGui import QColor
 import qtawesome as qta
@@ -130,8 +130,8 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
 
             # Transkription Status
             status = session.get('transcription_status', None)
-            status_item = self._create_status_item(status)
-            self.setItem(row_idx, 5, status_item)
+            status_widget = self._create_status_widget(status)
+            self.setCellWidget(row_idx, 5, status_widget)
 
             notes_text = session['notes'][:50] + '...' if len(session['notes']) > 50 else session['notes']
             notes_item = QTableWidgetItem(notes_text)
@@ -143,11 +143,12 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
         if current_rows < self.MIN_DISPLAY_ROWS:
             for row_idx in range(current_rows, self.MIN_DISPLAY_ROWS):
                 self.insertRow(row_idx)
-                # Füge leere Items in alle Spalten ein
-                for col_idx in range(6):
-                    empty_item = QTableWidgetItem("")
-                    empty_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-                    self.setItem(row_idx, col_idx, empty_item)
+                # Füge leere Items in alle Spalten ein (außer Transkription-Spalte 5)
+                for col_idx in range(7):
+                    if col_idx != 5:  # Überspringe Transkriptions-Spalte (nutzt Widgets)
+                        empty_item = QTableWidgetItem("")
+                        empty_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                        self.setItem(row_idx, col_idx, empty_item)
 
     def _on_selection_changed(self):
         """Wird aufgerufen wenn die Selektion sich ändert"""
@@ -193,8 +194,8 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
         else:
             return f"{size:.1f} {units[unit_index]}"
 
-    def _create_status_item(self, status: str = None) -> QTableWidgetItem:
-        """Erstellt ein Status-Item mit Icon und Farbe"""
+    def _create_status_widget(self, status: str = None) -> QLabel:
+        """Erstellt ein zentriertes Status-Widget mit Icon"""
         if status == "completed":
             icon = qta.icon('fa5s.check-circle', color='#4caf50')  # Green
         elif status == "pending":
@@ -204,10 +205,12 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
         else:
             icon = qta.icon('fa5s.circle', color='#9e9e9e')  # Gray
 
-        item = QTableWidgetItem("")  # Explicitly set empty text
-        item.setIcon(icon)
-        item.setTextAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter)
-        return item
+        # Erstelle QLabel mit Icon und zentriere es horizontal und vertikal
+        label = QLabel()
+        label.setPixmap(icon.pixmap(QSize(20, 20)))
+        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        label.setStyleSheet("background-color: transparent;")
+        return label
 
     def update_transcription_status(self, session_id: int, status: str, blink: bool = False):
         """
@@ -220,10 +223,11 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
         """
         # Finde die Zeile mit der Session-ID
         for row in range(self.rowCount()):
-            if int(self.item(row, 0).text()) == session_id:
-                # Erstelle neues Status-Item
-                status_item = self._create_status_item(status)
-                self.setItem(row, 5, status_item)
+            id_item = self.item(row, 0)
+            if id_item and id_item.text().strip() and int(id_item.text()) == session_id:
+                # Erstelle neues Status-Widget
+                status_widget = self._create_status_widget(status)
+                self.setCellWidget(row, 5, status_widget)
 
                 # Blink-Effekt bei Fertigstellung
                 if blink and status == "completed":
@@ -232,25 +236,34 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
 
     def _blink_status(self, row: int, col: int, blinks: int = 3):
         """Lässt eine Zelle blinken"""
-        item = self.item(row, col)
-        if not item:
+        widget = self.cellWidget(row, col)
+        if not widget or not isinstance(widget, QLabel):
             return
 
-        original_color = item.foreground().color()
+        # Original-Pixmap merken
+        original_pixmap = widget.pixmap()
+        # Helles Blink-Icon erstellen
+        blink_icon = qta.icon('fa5s.check-circle', color='#ffffff')
+        blink_pixmap = blink_icon.pixmap(QSize(20, 20))
+
         blink_count = [0]  # Mutable counter für nested function
 
-        def toggle_color():
+        def toggle_icon():
             if blink_count[0] < blinks * 2:
                 if blink_count[0] % 2 == 0:
-                    item.setForeground(QColor(255, 255, 255))  # White
+                    # Weißes Icon anzeigen
+                    widget.setPixmap(blink_pixmap)
                 else:
-                    item.setForeground(original_color)
+                    # Original-Icon anzeigen
+                    widget.setPixmap(original_pixmap)
                 blink_count[0] += 1
             else:
+                # Am Ende sicherstellen, dass das Original-Icon angezeigt wird
+                widget.setPixmap(original_pixmap)
                 timer.stop()
 
         timer = QTimer()
-        timer.timeout.connect(toggle_color)
+        timer.timeout.connect(toggle_icon)
         timer.start(300)  # 300ms interval
 
     def retranslateUi(self):
