@@ -48,7 +48,7 @@ class SplashWidget(QWidget):
         # Hintergrund: Dunkelblau wie Logo
         painter.fillRect(self.rect(), QColor("#000e22"))
 
-        # Logo zentriert zeichnen
+        # Logo perfekt zentriert zeichnen
         if not self.logo.isNull():
             logo_size = 300
             logo_scaled = self.logo.scaled(
@@ -57,29 +57,8 @@ class SplashWidget(QWidget):
                 Qt.TransformationMode.SmoothTransformation
             )
             x = (self.width() - logo_scaled.width()) // 2
-            y = (self.height() - logo_scaled.height()) // 2 - 40  # Etwas nach oben
+            y = (self.height() - logo_scaled.height()) // 2
             painter.drawPixmap(x, y, logo_scaled)
-
-        # Text unter Logo
-        painter.setPen(QColor("#ffffff"))
-        font = QFont("Arial", 16, QFont.Weight.Bold)
-        painter.setFont(font)
-
-        text_y = self.height() // 2 + 110  # Näher zum Logo
-
-        # Erste Zeile: "Corporate Digital Brain"
-        painter.drawText(
-            0, text_y, self.width(), 30,
-            Qt.AlignmentFlag.AlignCenter,
-            "Corporate Digital Brain"
-        )
-
-        # Zweite Zeile: "Desktop Recorder" (mit größerem Abstand)
-        painter.drawText(
-            0, text_y + 40, self.width(), 30,  # +40px Abstand statt default ~20px
-            Qt.AlignmentFlag.AlignCenter,
-            "Desktop Recorder"
-        )
 
     def fade_out(self, duration=500):
         """Startet Fade-out Animation"""
