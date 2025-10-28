@@ -82,12 +82,15 @@ class AIView(TranslatableWidget, QWidget):
             }}
             QWidget#aiViewRoot QSplitter::handle {{
                 background-color: transparent;
+                border: none;
             }}
             QWidget#aiViewRoot QSplitter::handle:horizontal {{
-                border-left: 1px solid {c["border"]};
+                background-color: transparent;
+                border: none;
             }}
             QWidget#aiViewRoot QSplitter::handle:horizontal:hover {{
-                border-left: 1px solid {c["border_hover"]};
+                background-color: transparent;
+                border: none;
             }}
             QWidget#aiViewRoot QGroupBox {{
                 background-color: {c["panel"]};
@@ -151,9 +154,8 @@ class AIView(TranslatableWidget, QWidget):
 
         # Splitter für die zwei Bereiche
         splitter = QSplitter(Qt.Orientation.Horizontal)
-        splitter.setHandleWidth(1)
+        splitter.setHandleWidth(16)
         splitter.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
-        splitter.setProperty("handleWidth", 1)
 
         # Linke Seite: Transkription
         self.left_group = QGroupBox(self.tr("Transkription"))
@@ -168,7 +170,7 @@ class AIView(TranslatableWidget, QWidget):
             f"""
             QPushButton {{
                 background-color: #ffaa3a;
-                color: white;
+                color: #000e22;
                 font-weight: bold;
                 padding: 10px 20px;
                 border-radius: 4px;
@@ -257,22 +259,20 @@ class AIView(TranslatableWidget, QWidget):
         # Zurück-Button
         self.back_button = QPushButton(self.tr("← Zurück"))
         self.back_button.setToolTip(self.tr("Zurück zur Hauptansicht"))
-        self.back_button.setStyleSheet(
-            f"""
-            QPushButton {{
-                background-color: transparent;
-                color: {c["text"]};
-                border: 1px solid {c["border"]};
-                border-radius: 6px;
+        self.back_button.setStyleSheet("""
+            QPushButton {
+                background-color: #ffaa3a;
+                color: #000e22;
+                font-weight: bold;
+                border: none;
+                border-radius: 4px;
                 padding: 6px 16px;
                 font-size: 13px;
-            }}
-            QPushButton:hover {{
-                background-color: {c["panel"]};
-                border: 1px solid {c["border_hover"]};
-            }}
-        """
-        )
+            }
+            QPushButton:hover {
+                background-color: #ff9922;
+            }
+        """)
         self.back_button.clicked.connect(self.back_requested.emit)
         toolbar.addWidget(self.back_button)
 
@@ -293,7 +293,7 @@ class AIView(TranslatableWidget, QWidget):
         self.generate_button.setStyleSheet("""
             QPushButton {
                 background-color: #ffaa3a;
-                color: white;
+                color: #000e22;
                 font-weight: bold;
                 padding: 6px 16px;
                 border-radius: 4px;
@@ -310,23 +310,21 @@ class AIView(TranslatableWidget, QWidget):
         toolbar.addSeparator()
 
         self.settings_button = QPushButton()
-        self.settings_button.setIcon(qta.icon('fa5s.cog', color=c["text"]))
+        self.settings_button.setIcon(qta.icon('fa5s.cog', color='#000e22'))
         self.settings_button.setToolTip(self.tr("Einstellungen"))
-        self.settings_button.setStyleSheet(
-            f"""
-            QPushButton {{
-                background-color: transparent;
-                color: {c["text"]};
-                border: 1px solid {c["border"]};
-                border-radius: 6px;
+        self.settings_button.setStyleSheet("""
+            QPushButton {
+                background-color: #ffaa3a;
+                color: #000e22;
+                font-weight: bold;
+                border: none;
+                border-radius: 4px;
                 padding: 6px 12px;
-            }}
-            QPushButton:hover {{
-                background-color: {c["panel"]};
-                border: 1px solid {c["border_hover"]};
-            }}
-        """
-        )
+            }
+            QPushButton:hover {
+                background-color: #ff9922;
+            }
+        """)
         self.settings_button.clicked.connect(self.settings_requested.emit)
         toolbar.addWidget(self.settings_button)
 
