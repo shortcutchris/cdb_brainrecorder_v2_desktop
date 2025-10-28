@@ -140,7 +140,14 @@ class MainWindow(TranslatableWidget, QMainWindow):
 
         splitter.addWidget(left_widget)
 
-        # Rechte Seite: Recorder + Player + Formular (in ScrollArea für konstante Abstände)
+        # Rechte Seite: Container mit Margin (wie links) für aligned Scrollbar
+        right_container = QWidget()
+        right_container.setStyleSheet("QWidget { background-color: #000e22; }")
+        right_container_layout = QVBoxLayout(right_container)
+        right_container_layout.setContentsMargins(12, 12, 0, 0)  # Gleiche Margins wie links
+        right_container_layout.setSpacing(0)
+
+        # ScrollArea für Recorder + Player + Formular
         right_scroll = QScrollArea()
         right_scroll.setWidgetResizable(True)
         right_scroll.setFrameShape(QFrame.Shape.NoFrame)
@@ -149,7 +156,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
         right_widget = QWidget()
         right_widget.setStyleSheet("QWidget { background-color: #000e22; }")
         right_layout = QVBoxLayout(right_widget)
-        right_layout.setContentsMargins(12, 12, 12, 0)  # Kein Bottom-Margin für aligned Scrollbar
+        right_layout.setContentsMargins(0, 0, 12, 0)  # Nur rechts Margin, oben/links wird vom Container gehandhabt
         right_layout.setSpacing(16)
 
         # Recorder Panel
@@ -174,7 +181,8 @@ class MainWindow(TranslatableWidget, QMainWindow):
         right_layout.addStretch()
 
         right_scroll.setWidget(right_widget)
-        splitter.addWidget(right_scroll)
+        right_container_layout.addWidget(right_scroll)
+        splitter.addWidget(right_container)
         splitter.setStretchFactor(0, 2)
         splitter.setStretchFactor(1, 1)
 
