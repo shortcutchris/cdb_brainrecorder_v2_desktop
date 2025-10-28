@@ -31,7 +31,20 @@ class SessionFormWidget(TranslatableWidget, QWidget):
         layout.setSpacing(0)
 
         # GroupBox für bessere Optik
-        self.group = QGroupBox(self.tr("Session Details"))
+        self.group = QGroupBox("")
+        self.group.setStyleSheet("""
+            QGroupBox {
+                border: 1px solid #003355;
+                background-color: #001633;
+                border-radius: 4px;
+                margin-top: 0px;
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                left: 0px;
+                padding: 0 0px;
+            }
+        """)
         group_layout = QVBoxLayout()
         group_layout.setContentsMargins(12, 12, 12, 12)
         group_layout.setSpacing(12)
@@ -100,12 +113,32 @@ class SessionFormWidget(TranslatableWidget, QWidget):
         group_layout.addWidget(self.notes_edit)
 
         # Buttons - innerhalb der GroupBox
+        button_style = """
+            QPushButton {
+                background-color: transparent;
+                color: #e0e0e0;
+                border: 1px solid #003355;
+                border-radius: 4px;
+                padding: 8px 16px;
+            }
+            QPushButton:hover {
+                background-color: #001633;
+                border: 1px solid #004466;
+            }
+            QPushButton:disabled {
+                color: #666666;
+                border-color: #002244;
+            }
+        """
+
         button_layout = QHBoxLayout()
         self.save_button = QPushButton(self.tr("Speichern"))
+        self.save_button.setStyleSheet(button_style)
         self.save_button.clicked.connect(self._on_save_clicked)
         self.save_button.setEnabled(False)
 
         self.clear_button = QPushButton(self.tr("Leeren"))
+        self.clear_button.setStyleSheet(button_style)
         self.clear_button.clicked.connect(self.clear)
 
         button_layout.addWidget(self.save_button)
@@ -163,7 +196,7 @@ class SessionFormWidget(TranslatableWidget, QWidget):
     def retranslateUi(self):
         """Aktualisiert alle UI-Texte (für Sprachwechsel)"""
         # GroupBox
-        self.group.setTitle(self.tr("Session Details"))
+        self.group.setTitle("")
 
         # Placeholders
         self.title_edit.setPlaceholderText(self.tr("z.B. Podcast Episode 1"))

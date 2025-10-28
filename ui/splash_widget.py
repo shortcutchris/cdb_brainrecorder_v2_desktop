@@ -65,11 +65,20 @@ class SplashWidget(QWidget):
         font = QFont("Arial", 16, QFont.Weight.Bold)
         painter.setFont(font)
 
-        text_y = self.height() // 2 + 180
+        text_y = self.height() // 2 + 110  # Näher zum Logo
+
+        # Erste Zeile: "Corporate Digital Brain"
         painter.drawText(
-            0, text_y, self.width(), 100,
+            0, text_y, self.width(), 30,
             Qt.AlignmentFlag.AlignCenter,
-            "Corporate Digital Brain\nDesktop Recorder"
+            "Corporate Digital Brain"
+        )
+
+        # Zweite Zeile: "Desktop Recorder" (mit größerem Abstand)
+        painter.drawText(
+            0, text_y + 40, self.width(), 30,  # +40px Abstand statt default ~20px
+            Qt.AlignmentFlag.AlignCenter,
+            "Desktop Recorder"
         )
 
     def fade_out(self, duration=500):

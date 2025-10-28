@@ -5,7 +5,7 @@ from PySide6.QtWidgets import (QWidget, QVBoxLayout, QPushButton,
                                QLabel, QComboBox, QTextEdit, QGroupBox,
                                QSplitter, QToolBar, QSizePolicy, QMessageBox)
 from PySide6.QtCore import Qt, Signal, QEvent
-from PySide6.QtGui import QColor, QPalette
+import qtawesome as qta
 import sys
 from pathlib import Path
 
@@ -45,17 +45,9 @@ class AIView(TranslatableWidget, QWidget):
             "button_disabled_text": "#5a7791",
         }
         self.setObjectName("aiViewRoot")
+        self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         self._setup_ui()
         self.load_prompts()
-
-    def _apply_background(self, widget, color: str):
-        """Sorgt dafür, dass ein Widget seine Fläche vollständig einfärbt."""
-        palette = widget.palette()
-        qcolor = QColor(color)
-        palette.setColor(QPalette.ColorRole.Window, qcolor)
-        palette.setColor(QPalette.ColorRole.Base, qcolor)
-        widget.setPalette(palette)
-        widget.setAutoFillBackground(True)
 
     def _setup_ui(self):
         """Initialisiert die Benutzeroberfläche"""
@@ -89,29 +81,28 @@ class AIView(TranslatableWidget, QWidget):
                 border: none;
             }}
             QWidget#aiViewRoot QSplitter::handle {{
-                background-color: {c["border"]};
-                border-radius: 2px;
+                background-color: transparent;
             }}
             QWidget#aiViewRoot QSplitter::handle:horizontal {{
-                width: 6px;
+                border-left: 1px solid {c["border"]};
             }}
             QWidget#aiViewRoot QSplitter::handle:horizontal:hover {{
-                background-color: {c["border_hover"]};
+                border-left: 1px solid {c["border_hover"]};
             }}
             QWidget#aiViewRoot QGroupBox {{
                 background-color: {c["panel"]};
                 color: {c["text"]};
                 border: 1px solid {c["border"]};
                 border-radius: 10px;
-                margin-top: 16px;
+                margin-top: 12px;
                 font-weight: bold;
                 font-size: 14px;
-                padding-top: 16px;
+                padding-top: 12px;
             }}
             QWidget#aiViewRoot QGroupBox::title {{
                 subcontrol-origin: margin;
-                left: 18px;
-                padding: 0 10px;
+                left: 16px;
+                padding: 0 8px;
                 background-color: {c["background"]};
                 border-radius: 6px;
             }}
@@ -148,7 +139,6 @@ class AIView(TranslatableWidget, QWidget):
             }}
         """
         )
-        self._apply_background(self, c["background"])
 
         # Hauptlayout
         main_layout = QVBoxLayout(self)
@@ -161,15 +151,16 @@ class AIView(TranslatableWidget, QWidget):
 
         # Splitter für die zwei Bereiche
         splitter = QSplitter(Qt.Orientation.Horizontal)
-        splitter.setHandleWidth(6)
-        self._apply_background(splitter, c["background"])
+        splitter.setHandleWidth(1)
+        splitter.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
+        splitter.setProperty("handleWidth", 1)
 
         # Linke Seite: Transkription
         self.left_group = QGroupBox(self.tr("Transkription"))
-        self._apply_background(self.left_group, c["panel"])
+        self.left_group.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         left_layout = QVBoxLayout()
-        left_layout.setSpacing(10)
-        left_layout.setContentsMargins(12, 20, 12, 12)
+        left_layout.setSpacing(8)
+        left_layout.setContentsMargins(12, 12, 12, 12)
 
         # Transkription starten Button (initially hidden)
         self.transcribe_button = QPushButton(self.tr("Transkription starten"))
@@ -205,10 +196,10 @@ class AIView(TranslatableWidget, QWidget):
 
         # Rechte Seite: Transformierter Text
         self.right_group = QGroupBox(self.tr("Transformierter Text"))
-        self._apply_background(self.right_group, c["panel"])
+        self.right_group.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         right_layout = QVBoxLayout()
-        right_layout.setSpacing(10)
-        right_layout.setContentsMargins(12, 20, 12, 12)
+        right_layout.setSpacing(8)
+        right_layout.setContentsMargins(12, 12, 12, 12)
 
         self.transformed_edit = QTextEdit()
         self.transformed_edit.setPlaceholderText(self.tr("Hier erscheint der transformierte Text..."))
@@ -229,6 +220,7 @@ class AIView(TranslatableWidget, QWidget):
         # Splitter 50/50
         splitter.setStretchFactor(0, 1)
         splitter.setStretchFactor(1, 1)
+        splitter.setSizes([1, 1])
 
         main_layout.addWidget(splitter)
 
@@ -237,7 +229,7 @@ class AIView(TranslatableWidget, QWidget):
         toolbar = QToolBar()
         toolbar.setMovable(False)
         c = self._colors
-        self._apply_background(toolbar, c["background"])
+        toolbar.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
 
         # Dark Theme Styling
         toolbar.setStyleSheet(
@@ -317,7 +309,8 @@ class AIView(TranslatableWidget, QWidget):
         # Settings-Button
         toolbar.addSeparator()
 
-        self.settings_button = QPushButton("⚙️")
+        self.settings_button = QPushButton()
+        self.settings_button.setIcon(qta.icon('fa5s.cog', color=c["text"]))
         self.settings_button.setToolTip(self.tr("Einstellungen"))
         self.settings_button.setStyleSheet(
             f"""
@@ -327,7 +320,6 @@ class AIView(TranslatableWidget, QWidget):
                 border: 1px solid {c["border"]};
                 border-radius: 6px;
                 padding: 6px 12px;
-                font-size: 16px;
             }}
             QPushButton:hover {{
                 background-color: {c["panel"]};

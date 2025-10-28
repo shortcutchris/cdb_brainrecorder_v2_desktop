@@ -5,7 +5,6 @@ from PySide6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QPushButton,
                                QLabel, QComboBox, QTextEdit, QGroupBox,
                                QSplitter, QWidget)
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor, QPalette
 
 
 class AIDialog(QDialog):
@@ -22,16 +21,8 @@ class AIDialog(QDialog):
             "text": "#e0e0e0",
         }
         self.setObjectName("aiDialogRoot")
+        self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         self._setup_ui()
-
-    def _apply_background(self, widget, color: str):
-        """Stellt sicher, dass Widgets vollständig im Dunkelblau eingefärbt sind."""
-        palette = widget.palette()
-        qcolor = QColor(color)
-        palette.setColor(QPalette.ColorRole.Window, qcolor)
-        palette.setColor(QPalette.ColorRole.Base, qcolor)
-        widget.setPalette(palette)
-        widget.setAutoFillBackground(True)
 
     def _setup_ui(self):
         """Initialisiert die Benutzeroberfläche"""
@@ -52,28 +43,27 @@ class AIDialog(QDialog):
                 border: none;
             }}
             QDialog#aiDialogRoot QSplitter::handle {{
-                background-color: {c["border"]};
-                border-radius: 2px;
+                background-color: transparent;
             }}
             QDialog#aiDialogRoot QSplitter::handle:horizontal {{
-                width: 6px;
+                border-left: 1px solid {c["border"]};
             }}
             QDialog#aiDialogRoot QSplitter::handle:horizontal:hover {{
-                background-color: {c["border_hover"]};
+                border-left: 1px solid {c["border_hover"]};
             }}
             QDialog#aiDialogRoot QGroupBox {{
                 background-color: {c["panel"]};
                 color: {c["text"]};
                 border: 1px solid {c["border"]};
                 border-radius: 10px;
-                margin-top: 16px;
+                margin-top: 12px;
                 font-weight: bold;
-                padding-top: 18px;
+                padding-top: 12px;
             }}
             QDialog#aiDialogRoot QGroupBox::title {{
                 subcontrol-origin: margin;
-                left: 20px;
-                padding: 0 10px;
+                left: 16px;
+                padding: 0 8px;
                 background-color: {c["background"]};
                 border-radius: 6px;
             }}
@@ -107,7 +97,6 @@ class AIDialog(QDialog):
             }}
         """
         )
-        self._apply_background(self, c["background"])
 
         # Hauptlayout
         main_layout = QVBoxLayout(self)
@@ -120,13 +109,16 @@ class AIDialog(QDialog):
 
         # Splitter für die zwei Bereiche
         splitter = QSplitter(Qt.Orientation.Horizontal)
-        splitter.setHandleWidth(6)
-        self._apply_background(splitter, c["background"])
+        splitter.setHandleWidth(1)
+        splitter.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
+        splitter.setProperty("handleWidth", 1)
 
         # Linke Seite: Transkription
         left_group = QGroupBox("Transkription")
-        self._apply_background(left_group, c["panel"])
+        left_group.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         left_layout = QVBoxLayout()
+        left_layout.setSpacing(8)
+        left_layout.setContentsMargins(12, 12, 12, 12)
 
         self.transcription_edit = QTextEdit()
         self.transcription_edit.setPlaceholderText("Transkription wird hier erscheinen...")
@@ -146,8 +138,10 @@ class AIDialog(QDialog):
 
         # Rechte Seite: Transformierter Text
         right_group = QGroupBox("Transformierter Text")
-        self._apply_background(right_group, c["panel"])
+        right_group.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         right_layout = QVBoxLayout()
+        right_layout.setSpacing(8)
+        right_layout.setContentsMargins(12, 12, 12, 12)
 
         self.transformed_edit = QTextEdit()
         self.transformed_edit.setPlaceholderText("Hier erscheint der transformierte Text...")
@@ -168,6 +162,7 @@ class AIDialog(QDialog):
         # Splitter 50/50
         splitter.setStretchFactor(0, 1)
         splitter.setStretchFactor(1, 1)
+        splitter.setSizes([1, 1])
 
         main_layout.addWidget(splitter)
 
@@ -176,6 +171,7 @@ class AIDialog(QDialog):
         toolbar_widget = QWidget()
         c = self._colors
         toolbar_widget.setObjectName("aiDialogToolbar")
+        toolbar_widget.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         toolbar_widget.setStyleSheet(
             f"""
             QWidget#aiDialogToolbar {{
@@ -184,7 +180,6 @@ class AIDialog(QDialog):
             }}
         """
         )
-        self._apply_background(toolbar_widget, c["background"])
 
         toolbar_layout = QHBoxLayout(toolbar_widget)
         toolbar_layout.setContentsMargins(12, 6, 12, 6)

@@ -4,6 +4,7 @@ Playback-Widget für Audio-Wiedergabe
 from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
                                QLabel, QSlider, QGroupBox)
 from PySide6.QtCore import Qt, Signal, QEvent
+import qtawesome as qta
 import sys
 from pathlib import Path
 
@@ -37,7 +38,20 @@ class PlayerWidget(TranslatableWidget, QWidget):
         layout.setSpacing(0)
 
         # GroupBox
-        self.group = QGroupBox(self.tr("Audio Player"))
+        self.group = QGroupBox("")
+        self.group.setStyleSheet("""
+            QGroupBox {
+                border: 1px solid #003355;
+                background-color: #001633;
+                border-radius: 4px;
+                margin-top: 0px;
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                left: 0px;
+                padding: 0 0px;
+            }
+        """)
         group_layout = QVBoxLayout()
         group_layout.setContentsMargins(12, 12, 12, 12)
         group_layout.setSpacing(12)
@@ -70,15 +84,36 @@ class PlayerWidget(TranslatableWidget, QWidget):
         button_layout = QHBoxLayout()
 
         # Links: Playback-Buttons
+        button_style = """
+            QPushButton {
+                background-color: transparent;
+                color: #e0e0e0;
+                border: 1px solid #003355;
+                border-radius: 4px;
+                padding: 8px 16px;
+            }
+            QPushButton:hover {
+                background-color: #001633;
+                border: 1px solid #004466;
+            }
+            QPushButton:disabled {
+                color: #666666;
+                border-color: #002244;
+            }
+        """
+
         self.play_button = QPushButton(self.tr("Play"))
+        self.play_button.setStyleSheet(button_style)
         self.play_button.clicked.connect(self._on_play_clicked)
         self.play_button.setEnabled(False)
 
         self.pause_button = QPushButton(self.tr("Pause"))
+        self.pause_button.setStyleSheet(button_style)
         self.pause_button.clicked.connect(self._on_pause_clicked)
         self.pause_button.setEnabled(False)
 
         self.stop_button = QPushButton(self.tr("Stop"))
+        self.stop_button.setStyleSheet(button_style)
         self.stop_button.clicked.connect(self._on_stop_clicked)
         self.stop_button.setEnabled(False)
 
@@ -88,25 +123,58 @@ class PlayerWidget(TranslatableWidget, QWidget):
         button_layout.addStretch()
 
         # Rechts: Ordner, AI und Löschen-Buttons
-        self.folder_button = QPushButton("📁")
+        icon_button_style = """
+            QPushButton {
+                border: 1px solid #003355;
+                border-radius: 4px;
+                padding: 6px 12px;
+                background-color: transparent;
+            }
+            QPushButton:hover {
+                background-color: #001633;
+                border: 1px solid #004466;
+            }
+            QPushButton:disabled {
+                border-color: #002244;
+            }
+        """
+
+        self.folder_button = QPushButton()
+        self.folder_button.setIcon(qta.icon('fa5s.folder-open', color='#e0e0e0'))
         self.folder_button.setToolTip(self.tr("Im Ordner zeigen"))
         self.folder_button.clicked.connect(self._on_folder_clicked)
         self.folder_button.setEnabled(False)
-        self.folder_button.setStyleSheet("font-size: 16px; padding: 6px 12px;")
+        self.folder_button.setStyleSheet(icon_button_style)
 
-        self.ai_button = QPushButton("✨")
+        self.ai_button = QPushButton()
+        self.ai_button.setIcon(qta.icon('fa5s.robot', color='#e0e0e0'))
         self.ai_button.setToolTip(self.tr("KI-Funktionen"))
         self.ai_button.clicked.connect(self._on_ai_clicked)
         self.ai_button.setEnabled(False)
-        self.ai_button.setStyleSheet("font-size: 16px; padding: 6px 12px;")
+        self.ai_button.setStyleSheet(icon_button_style)
 
         self.delete_button = QPushButton(self.tr("Löschen"))
         self.delete_button.setToolTip(self.tr("Session löschen"))
         self.delete_button.clicked.connect(self._on_delete_clicked)
         self.delete_button.setEnabled(False)
-        self.delete_button.setStyleSheet(
-            "background-color: #d32f2f; color: white; font-weight: bold; padding: 6px 12px;"
-        )
+        self.delete_button.setStyleSheet("""
+            QPushButton {
+                background-color: #d32f2f;
+                color: white;
+                font-weight: bold;
+                padding: 6px 12px;
+                border: 1px solid #b71c1c;
+                border-radius: 4px;
+            }
+            QPushButton:hover {
+                background-color: #c62828;
+                border: 1px solid #b71c1c;
+            }
+            QPushButton:disabled {
+                background-color: #5a5a5a;
+                border-color: #444444;
+            }
+        """)
 
         button_layout.addWidget(self.folder_button)
         button_layout.addWidget(self.ai_button)
@@ -260,7 +328,7 @@ class PlayerWidget(TranslatableWidget, QWidget):
     def retranslateUi(self):
         """Aktualisiert alle UI-Texte (für Sprachwechsel)"""
         # GroupBox
-        self.group.setTitle(self.tr("Audio Player"))
+        self.group.setTitle("")
 
         # Buttons
         self.play_button.setText(self.tr("Play"))

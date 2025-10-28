@@ -5,6 +5,7 @@ from PySide6.QtWidgets import (QTableWidget, QTableWidgetItem, QHeaderView,
                                QAbstractItemView)
 from PySide6.QtCore import Signal, Qt, QEvent, QTimer
 from PySide6.QtGui import QColor
+import qtawesome as qta
 from typing import List, Dict, Any
 import sys
 from pathlib import Path
@@ -41,6 +42,9 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
         # Zeilennummern ausblenden
         self.verticalHeader().setVisible(False)
 
+        # Zeilenhöhe für bessere Icon-Zentrierung
+        self.verticalHeader().setDefaultSectionSize(45)
+
         # Spaltenbreiten anpassen
         header = self.horizontalHeader()
         header.setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)  # ID
@@ -49,8 +53,11 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
         header.setSectionResizeMode(3, QHeaderView.ResizeMode.ResizeToContents)  # Dauer
         header.setSectionResizeMode(4, QHeaderView.ResizeMode.ResizeToContents)  # Samplerate
         header.setSectionResizeMode(5, QHeaderView.ResizeMode.ResizeToContents)  # Kanäle
-        header.setSectionResizeMode(6, QHeaderView.ResizeMode.ResizeToContents)  # Transkription
+        header.setSectionResizeMode(6, QHeaderView.ResizeMode.Fixed)             # Transkription
         header.setSectionResizeMode(7, QHeaderView.ResizeMode.Stretch)           # Notizen
+
+        # Feste Breite für Transkription-Spalte für zentrierte Icons
+        header.resizeSection(6, 80)
 
         # Gitterlinien ausblenden
         self.setShowGrid(False)
@@ -153,21 +160,17 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
     def _create_status_item(self, status: str = None) -> QTableWidgetItem:
         """Erstellt ein Status-Item mit Icon und Farbe"""
         if status == "completed":
-            icon = "✓"
-            color = QColor(76, 175, 80)  # Green
+            icon = qta.icon('fa5s.check-circle', color='#4caf50')  # Green
         elif status == "pending":
-            icon = "⚙"
-            color = QColor(255, 193, 7)  # Yellow/Orange
+            icon = qta.icon('fa5s.spinner', color='#ffc107')  # Yellow/Orange
         elif status == "error":
-            icon = "✗"
-            color = QColor(244, 67, 54)  # Red
+            icon = qta.icon('fa5s.times-circle', color='#f44336')  # Red
         else:
-            icon = "-"
-            color = QColor(158, 158, 158)  # Gray
+            icon = qta.icon('fa5s.circle', color='#9e9e9e')  # Gray
 
-        item = QTableWidgetItem(icon)
-        item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-        item.setForeground(color)
+        item = QTableWidgetItem("")  # Explicitly set empty text
+        item.setIcon(icon)
+        item.setTextAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter)
         return item
 
     def update_transcription_status(self, session_id: int, status: str, blink: bool = False):

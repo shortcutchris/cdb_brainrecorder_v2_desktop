@@ -6,8 +6,9 @@ from PySide6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
                                QProgressBar, QSplitter, QGroupBox, QMessageBox,
                                QFileDialog, QToolBar, QSizePolicy, QScrollArea,
                                QFrame, QStackedWidget)
-from PySide6.QtCore import Qt, QTimer, QPropertyAnimation, QEasingCurve, QEvent, QCoreApplication
+from PySide6.QtCore import Qt, QTimer, QEvent, QCoreApplication
 from PySide6.QtGui import QAction
+import qtawesome as qta
 import sys
 import os
 from pathlib import Path
@@ -40,6 +41,9 @@ class MainWindow(TranslatableWidget, QMainWindow):
         self.transcription_worker = None
         self.current_transcribing_session_id = None
 
+        # Fenster komplett undurchsichtig machen
+        self.setWindowOpacity(1.0)
+
         # Translation Setup mit SimpleTranslator
         self.translator = SimpleTranslator()
         SimpleTranslator.set_instance(self.translator)
@@ -56,6 +60,55 @@ class MainWindow(TranslatableWidget, QMainWindow):
         """Initialisiert die Benutzeroberfläche"""
         self.setWindowTitle(self.tr("Corporate Digital Brain Desktop Recorder"))
         self.setMinimumSize(1050, 720)  # Angepasst für kompakteres Layout
+
+        # Globales Scrollbar-Styling für gesamte App
+        self.setStyleSheet("""
+            QScrollBar:vertical {
+                background-color: #000e22;
+                width: 10px;
+                border: none;
+                margin: 0px;
+            }
+            QScrollBar::handle:vertical {
+                background-color: #003355;
+                border-radius: 5px;
+                min-height: 30px;
+                margin: 2px;
+            }
+            QScrollBar::handle:vertical:hover {
+                background-color: #004466;
+            }
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                height: 0px;
+                border: none;
+            }
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                background: none;
+            }
+
+            QScrollBar:horizontal {
+                background-color: #000e22;
+                height: 10px;
+                border: none;
+                margin: 0px;
+            }
+            QScrollBar::handle:horizontal {
+                background-color: #003355;
+                border-radius: 5px;
+                min-width: 30px;
+                margin: 2px;
+            }
+            QScrollBar::handle:horizontal:hover {
+                background-color: #004466;
+            }
+            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+                width: 0px;
+                border: none;
+            }
+            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                background: none;
+            }
+        """)
 
         # StackedWidget für View-Wechsel (Haupt-View <-> AI-View)
         self.stacked_widget = QStackedWidget()
@@ -79,7 +132,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
         left_widget = QWidget()
         left_widget.setStyleSheet("QWidget { background-color: #000e22; }")
         left_layout = QVBoxLayout(left_widget)
-        left_layout.setContentsMargins(12, 12, 12, 12)
+        left_layout.setContentsMargins(12, 12, 0, 0)  # Kein Bottom-Margin für aligned Scrollbar
         left_layout.setSpacing(0)
 
         self.session_table = SessionTableWidget()
@@ -96,7 +149,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
         right_widget = QWidget()
         right_widget.setStyleSheet("QWidget { background-color: #000e22; }")
         right_layout = QVBoxLayout(right_widget)
-        right_layout.setContentsMargins(12, 12, 12, 12)
+        right_layout.setContentsMargins(12, 12, 12, 0)  # Kein Bottom-Margin für aligned Scrollbar
         right_layout.setSpacing(16)
 
         # Recorder Panel
@@ -200,7 +253,8 @@ class MainWindow(TranslatableWidget, QMainWindow):
         # Settings-Button
         toolbar.addSeparator()
 
-        self.toolbar_settings_button = QPushButton("⚙️")
+        self.toolbar_settings_button = QPushButton()
+        self.toolbar_settings_button.setIcon(qta.icon('fa5s.cog', color='#e0e0e0'))
         self.toolbar_settings_button.setToolTip(self.tr("Einstellungen"))
         self.toolbar_settings_button.setStyleSheet("""
             QPushButton {
@@ -209,7 +263,6 @@ class MainWindow(TranslatableWidget, QMainWindow):
                 border: 1px solid #003355;
                 border-radius: 4px;
                 padding: 6px 12px;
-                font-size: 16px;
             }
             QPushButton:hover {
                 background-color: #002244;
@@ -235,7 +288,20 @@ class MainWindow(TranslatableWidget, QMainWindow):
         container_layout.setContentsMargins(0, 0, 0, 0)
 
         # GroupBox erstellen
-        self.recorder_group = QGroupBox(self.tr("Audio Recorder"))
+        self.recorder_group = QGroupBox("")
+        self.recorder_group.setStyleSheet("""
+            QGroupBox {
+                border: 1px solid #003355;
+                background-color: #001633;
+                border-radius: 4px;
+                margin-top: 0px;
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                left: 0px;
+                padding: 0 0px;
+            }
+        """)
         layout = QVBoxLayout()
         layout.setContentsMargins(12, 12, 12, 12)
         layout.setSpacing(12)
@@ -286,18 +352,41 @@ class MainWindow(TranslatableWidget, QMainWindow):
         button_layout = QHBoxLayout()
         self.record_button = QPushButton(self.tr("Aufnahme starten"))
         self.record_button.clicked.connect(self._on_record_clicked)
-        self.record_button.setStyleSheet(
-            "padding: 10px; font-size: 14px; background-color: #d32f2f; color: white; font-weight: bold;"
-        )
+        self.record_button.setStyleSheet("""
+            QPushButton {
+                padding: 10px;
+                font-size: 14px;
+                background-color: #d32f2f;
+                color: white;
+                font-weight: bold;
+                border: 1px solid #b71c1c;
+                border-radius: 4px;
+            }
+            QPushButton:hover {
+                background-color: #c62828;
+            }
+        """)
         button_layout.addWidget(self.record_button)
 
         # Pause-Button
-        self.pause_button = QPushButton(self.tr("⏸ Pausieren"))
+        self.pause_button = QPushButton(self.tr("Pausieren"))
+        self.pause_button.setIcon(qta.icon('fa5s.pause', color='white'))
         self.pause_button.clicked.connect(self._on_pause_clicked)
         self.pause_button.setVisible(False)  # Initial versteckt
-        self.pause_button.setStyleSheet(
-            "padding: 10px; font-size: 14px; background-color: #f57c00; color: white; font-weight: bold;"
-        )
+        self.pause_button.setStyleSheet("""
+            QPushButton {
+                padding: 10px;
+                font-size: 14px;
+                background-color: #f57c00;
+                color: white;
+                font-weight: bold;
+                border: 1px solid #e65100;
+                border-radius: 4px;
+            }
+            QPushButton:hover {
+                background-color: #ef6c00;
+            }
+        """)
         button_layout.addWidget(self.pause_button)
 
         layout.addLayout(button_layout)
@@ -355,9 +444,20 @@ class MainWindow(TranslatableWidget, QMainWindow):
             try:
                 output_path = self.recorder.start_recording(device_index)
                 self.record_button.setText(self.tr("Aufnahme stoppen"))
-                self.record_button.setStyleSheet(
-                    "padding: 10px; font-size: 14px; background-color: #ff4444; color: white; font-weight: bold;"
-                )
+                self.record_button.setStyleSheet("""
+                    QPushButton {
+                        padding: 10px;
+                        font-size: 14px;
+                        background-color: #ff4444;
+                        color: white;
+                        font-weight: bold;
+                        border: 1px solid #d32f2f;
+                        border-radius: 4px;
+                    }
+                    QPushButton:hover {
+                        background-color: #ff5555;
+                    }
+                """)
                 # Pause-Button anzeigen
                 self.pause_button.setVisible(True)
 
@@ -370,16 +470,39 @@ class MainWindow(TranslatableWidget, QMainWindow):
             # Aufnahme stoppen
             output_path = self.recorder.stop_recording()
             self.record_button.setText(self.tr("Aufnahme starten"))
-            self.record_button.setStyleSheet(
-                "padding: 10px; font-size: 14px; background-color: #d32f2f; color: white; font-weight: bold;"
-            )
+            self.record_button.setStyleSheet("""
+                QPushButton {
+                    padding: 10px;
+                    font-size: 14px;
+                    background-color: #d32f2f;
+                    color: white;
+                    font-weight: bold;
+                    border: 1px solid #b71c1c;
+                    border-radius: 4px;
+                }
+                QPushButton:hover {
+                    background-color: #c62828;
+                }
+            """)
 
             # Pause-Button verstecken und zurücksetzen
             self.pause_button.setVisible(False)
-            self.pause_button.setText(self.tr("⏸ Pausieren"))
-            self.pause_button.setStyleSheet(
-                "padding: 10px; font-size: 14px; background-color: #f57c00; color: white; font-weight: bold;"
-            )
+            self.pause_button.setText(self.tr("Pausieren"))
+            self.pause_button.setIcon(qta.icon('fa5s.pause', color='white'))
+            self.pause_button.setStyleSheet("""
+                QPushButton {
+                    padding: 10px;
+                    font-size: 14px;
+                    background-color: #f57c00;
+                    color: white;
+                    font-weight: bold;
+                    border: 1px solid #e65100;
+                    border-radius: 4px;
+                }
+                QPushButton:hover {
+                    background-color: #ef6c00;
+                }
+            """)
 
             # Waveform-Visualisierung stoppen
             self.waveform_widget.stop_recording()
@@ -400,18 +523,42 @@ class MainWindow(TranslatableWidget, QMainWindow):
             self.waveform_widget.pause_recording()
 
             self.pause_button.setText(self.tr("Fortsetzen"))
-            self.pause_button.setStyleSheet(
-                "padding: 10px; font-size: 14px; background-color: #4caf50; color: white; font-weight: bold;"
-            )
+            self.pause_button.setIcon(qta.icon('fa5s.play', color='white'))
+            self.pause_button.setStyleSheet("""
+                QPushButton {
+                    padding: 10px;
+                    font-size: 14px;
+                    background-color: #4caf50;
+                    color: white;
+                    font-weight: bold;
+                    border: 1px solid #388e3c;
+                    border-radius: 4px;
+                }
+                QPushButton:hover {
+                    background-color: #43a047;
+                }
+            """)
         else:
             # Fortsetzen
             self.recorder.resume_recording()
             self.waveform_widget.resume_recording()
 
-            self.pause_button.setText(self.tr("⏸ Pausieren"))
-            self.pause_button.setStyleSheet(
-                "padding: 10px; font-size: 14px; background-color: #f57c00; color: white; font-weight: bold;"
-            )
+            self.pause_button.setText(self.tr("Pausieren"))
+            self.pause_button.setIcon(qta.icon('fa5s.pause', color='white'))
+            self.pause_button.setStyleSheet("""
+                QPushButton {
+                    padding: 10px;
+                    font-size: 14px;
+                    background-color: #f57c00;
+                    color: white;
+                    font-weight: bold;
+                    border: 1px solid #e65100;
+                    border-radius: 4px;
+                }
+                QPushButton:hover {
+                    background-color: #ef6c00;
+                }
+            """)
 
     def _save_recorded_session(self, output_path: str):
         """Speichert eine aufgenommene Session in der Datenbank"""
@@ -601,49 +748,13 @@ class MainWindow(TranslatableWidget, QMainWindow):
         # Session in AI-View laden
         self.ai_view.load_session(session_id)
 
-        # Fade-Animation beim Wechsel
-        self.fade_animation = QPropertyAnimation(self, b"windowOpacity")
-        self.fade_animation.setDuration(150)  # 150ms
-        self.fade_animation.setStartValue(1.0)
-        self.fade_animation.setEndValue(0.95)
-        self.fade_animation.setEasingCurve(QEasingCurve.Type.InOutQuad)
-        self.fade_animation.finished.connect(lambda: self._complete_switch_to_ai())
-        self.fade_animation.start()
-
-    def _complete_switch_to_ai(self):
-        """Komplettiert den Wechsel zum AI-View"""
+        # Direkt zum AI-View wechseln
         self.stacked_widget.setCurrentIndex(1)  # AI-View
-
-        # Fade back in
-        fade_in = QPropertyAnimation(self, b"windowOpacity")
-        fade_in.setDuration(150)
-        fade_in.setStartValue(0.95)
-        fade_in.setEndValue(1.0)
-        fade_in.setEasingCurve(QEasingCurve.Type.InOutQuad)
-        fade_in.start()
 
     def _on_ai_back(self):
         """Kehrt vom AI-View zur Hauptansicht zurück"""
-        # Fade-Animation beim Wechsel zurück
-        self.fade_animation = QPropertyAnimation(self, b"windowOpacity")
-        self.fade_animation.setDuration(150)
-        self.fade_animation.setStartValue(1.0)
-        self.fade_animation.setEndValue(0.95)
-        self.fade_animation.setEasingCurve(QEasingCurve.Type.InOutQuad)
-        self.fade_animation.finished.connect(lambda: self._complete_switch_to_main())
-        self.fade_animation.start()
-
-    def _complete_switch_to_main(self):
-        """Komplettiert den Wechsel zur Hauptansicht"""
+        # Direkt zur Hauptansicht wechseln
         self.stacked_widget.setCurrentIndex(0)  # Haupt-View
-
-        # Fade back in
-        fade_in = QPropertyAnimation(self, b"windowOpacity")
-        fade_in.setDuration(150)
-        fade_in.setStartValue(0.95)
-        fade_in.setEndValue(1.0)
-        fade_in.setEasingCurve(QEasingCurve.Type.InOutQuad)
-        fade_in.start()
 
     def _on_export_csv(self):
         """Exportiert Sessions als CSV"""
@@ -692,7 +803,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
         self.toolbar_settings_button.setToolTip(self.tr("Einstellungen"))
 
         # Recorder Panel
-        self.recorder_group.setTitle(self.tr("Audio Recorder"))
+        self.recorder_group.setTitle("")
         self.mic_label.setText(self.tr("Mikrofon:"))
         self.level_label.setText(self.tr("Pegel:"))
 
@@ -704,7 +815,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
 
         # Pause-Button Text abhängig vom Zustand
         if not self.recorder.is_paused:
-            self.pause_button.setText(self.tr("⏸ Pausieren"))
+            self.pause_button.setText(self.tr("Pausieren"))
         else:
             self.pause_button.setText(self.tr("Fortsetzen"))
 
