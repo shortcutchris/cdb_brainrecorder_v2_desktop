@@ -6,7 +6,10 @@ a = Analysis(
     ['app.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=[
+        ('icon.png', '.'),           # Logo für Splash Screen ins Working Directory
+        ('translations', 'translations'),  # Übersetzungsdateien
+    ],
     hiddenimports=[
         'sounddevice',
         'soundfile',

@@ -49,6 +49,9 @@ class MainWindow(TranslatableWidget, QMainWindow):
         self._connect_signals()
         self._load_sessions()
 
+        # Splash Screen als Overlay anzeigen
+        self._show_splash_screen()
+
     def _setup_ui(self):
         """Initialisiert die Benutzeroberfläche"""
         self.setWindowTitle(self.tr("Corporate Digital Brain Desktop Recorder"))
@@ -726,3 +729,29 @@ class MainWindow(TranslatableWidget, QMainWindow):
         # QEvent.LanguageChange wird automatisch an alle Widgets gesendet
         event = QEvent(QEvent.Type.LanguageChange)
         QCoreApplication.instance().sendEvent(self, event)
+
+    def _show_splash_screen(self):
+        """Zeigt Splash Screen als Overlay"""
+        from ui.splash_widget import SplashWidget
+        from PySide6.QtCore import QTimer
+
+        # Splash Widget erstellen
+        self.splash_widget = SplashWidget(self)
+
+        # Größe an MainWindow anpassen
+        self.splash_widget.setGeometry(self.rect())
+
+        # Über allem anzeigen
+        self.splash_widget.raise_()
+        self.splash_widget.show()
+
+        # Nach 2 Sekunden Fade-out starten
+        QTimer.singleShot(2000, lambda: self.splash_widget.fade_out(500))
+
+    def resizeEvent(self, event):
+        """Wird aufgerufen wenn Fenster resized wird"""
+        super().resizeEvent(event)
+
+        # Splash an neue Größe anpassen (falls noch sichtbar)
+        if hasattr(self, 'splash_widget') and self.splash_widget.isVisible():
+            self.splash_widget.setGeometry(self.rect())
