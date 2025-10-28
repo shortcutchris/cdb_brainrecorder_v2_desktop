@@ -52,6 +52,9 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
         header.setSectionResizeMode(6, QHeaderView.ResizeMode.ResizeToContents)  # Transkription
         header.setSectionResizeMode(7, QHeaderView.ResizeMode.Stretch)           # Notizen
 
+        # Gitterlinien ausblenden
+        self.setShowGrid(False)
+
         # Stylesheet für Dark Theme mit blauem Hintergrund
         self.setStyleSheet("""
             QTableWidget {
@@ -59,7 +62,7 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
                 alternate-background-color: #001633;
                 color: #e0e0e0;
                 gridline-color: #003355;
-                border: 1px solid #003355;
+                border: none;
             }
             QTableWidget::item {
                 border-color: #003355;
@@ -72,13 +75,13 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
             QHeaderView::section {
                 background-color: #001633;
                 color: #e0e0e0;
-                border: 1px solid #003355;
+                border: none;
                 padding: 6px;
                 font-weight: bold;
             }
             QTableCornerButton::section {
                 background-color: #000e22;
-                border: 1px solid #003355;
+                border: none;
             }
         """)
 

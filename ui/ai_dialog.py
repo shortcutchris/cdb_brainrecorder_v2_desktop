@@ -3,8 +3,9 @@ AI-Dialog für Transkription und Textverarbeitung
 """
 from PySide6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QPushButton,
                                QLabel, QComboBox, QTextEdit, QGroupBox,
-                               QSplitter, QWidget, QToolBar)
+                               QSplitter, QWidget)
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QColor, QPalette
 
 
 class AIDialog(QDialog):
@@ -13,7 +14,24 @@ class AIDialog(QDialog):
     def __init__(self, session_id: int, parent=None):
         super().__init__(parent)
         self.session_id = session_id
+        self._colors = {
+            "background": "#000e22",
+            "panel": "#001633",
+            "border": "#003355",
+            "border_hover": "#004466",
+            "text": "#e0e0e0",
+        }
+        self.setObjectName("aiDialogRoot")
         self._setup_ui()
+
+    def _apply_background(self, widget, color: str):
+        """Stellt sicher, dass Widgets vollständig im Dunkelblau eingefärbt sind."""
+        palette = widget.palette()
+        qcolor = QColor(color)
+        palette.setColor(QPalette.ColorRole.Window, qcolor)
+        palette.setColor(QPalette.ColorRole.Base, qcolor)
+        widget.setPalette(palette)
+        widget.setAutoFillBackground(True)
 
     def _setup_ui(self):
         """Initialisiert die Benutzeroberfläche"""
@@ -23,32 +41,73 @@ class AIDialog(QDialog):
         self.setWindowState(Qt.WindowState.WindowMaximized)
 
         # Dark Theme für den gesamten Dialog
-        self.setStyleSheet("""
-            QDialog {
-                background-color: #000e22;
-            }
-            QGroupBox {
-                color: #e0e0e0;
-                border: 1px solid #003355;
-                border-radius: 4px;
-                margin-top: 8px;
-                font-weight: bold;
-                padding-top: 8px;
-            }
-            QGroupBox::title {
-                subcontrol-origin: margin;
-                left: 10px;
-                padding: 0 5px;
-            }
-            QTextEdit {
-                background-color: #001a2e;
-                color: #e0e0e0;
-                border: 1px solid #003355;
+        c = self._colors
+        self.setStyleSheet(
+            f"""
+            QDialog#aiDialogRoot {{
+                background-color: {c["background"]};
+            }}
+            QDialog#aiDialogRoot QSplitter {{
+                background-color: {c["background"]};
+                border: none;
+            }}
+            QDialog#aiDialogRoot QSplitter::handle {{
+                background-color: {c["border"]};
                 border-radius: 2px;
-                padding: 8px;
+            }}
+            QDialog#aiDialogRoot QSplitter::handle:horizontal {{
+                width: 6px;
+            }}
+            QDialog#aiDialogRoot QSplitter::handle:horizontal:hover {{
+                background-color: {c["border_hover"]};
+            }}
+            QDialog#aiDialogRoot QGroupBox {{
+                background-color: {c["panel"]};
+                color: {c["text"]};
+                border: 1px solid {c["border"]};
+                border-radius: 10px;
+                margin-top: 16px;
+                font-weight: bold;
+                padding-top: 18px;
+            }}
+            QDialog#aiDialogRoot QGroupBox::title {{
+                subcontrol-origin: margin;
+                left: 20px;
+                padding: 0 10px;
+                background-color: {c["background"]};
+                border-radius: 6px;
+            }}
+            QDialog#aiDialogRoot QTextEdit {{
+                background-color: {c["background"]};
+                color: {c["text"]};
+                border: 1px solid {c["border"]};
+                border-radius: 6px;
+                padding: 10px;
                 font-size: 13px;
-            }
-        """)
+            }}
+            QDialog#aiDialogRoot QComboBox {{
+                background-color: {c["panel"]};
+                color: {c["text"]};
+                border: 1px solid {c["border"]};
+                border-radius: 4px;
+                padding: 5px 8px;
+                font-size: 13px;
+            }}
+            QDialog#aiDialogRoot QComboBox:hover {{
+                border: 1px solid {c["border_hover"]};
+            }}
+            QDialog#aiDialogRoot QComboBox::drop-down {{
+                border: none;
+            }}
+            QDialog#aiDialogRoot QComboBox QAbstractItemView {{
+                background-color: {c["panel"]};
+                color: {c["text"]};
+                selection-background-color: #ffaa3a;
+                border: 1px solid {c["border"]};
+            }}
+        """
+        )
+        self._apply_background(self, c["background"])
 
         # Hauptlayout
         main_layout = QVBoxLayout(self)
@@ -61,9 +120,12 @@ class AIDialog(QDialog):
 
         # Splitter für die zwei Bereiche
         splitter = QSplitter(Qt.Orientation.Horizontal)
+        splitter.setHandleWidth(6)
+        self._apply_background(splitter, c["background"])
 
         # Linke Seite: Transkription
         left_group = QGroupBox("Transkription")
+        self._apply_background(left_group, c["panel"])
         left_layout = QVBoxLayout()
 
         self.transcription_edit = QTextEdit()
@@ -84,6 +146,7 @@ class AIDialog(QDialog):
 
         # Rechte Seite: Transformierter Text
         right_group = QGroupBox("Transformierter Text")
+        self._apply_background(right_group, c["panel"])
         right_layout = QVBoxLayout()
 
         self.transformed_edit = QTextEdit()
@@ -111,12 +174,17 @@ class AIDialog(QDialog):
     def _create_toolbar(self) -> QWidget:
         """Erstellt die Toolbar"""
         toolbar_widget = QWidget()
-        toolbar_widget.setStyleSheet("""
-            QWidget {
-                background-color: #000e22;
-                border-bottom: 1px solid #003355;
-            }
-        """)
+        c = self._colors
+        toolbar_widget.setObjectName("aiDialogToolbar")
+        toolbar_widget.setStyleSheet(
+            f"""
+            QWidget#aiDialogToolbar {{
+                background-color: {c["background"]};
+                border-bottom: 1px solid {c["border"]};
+            }}
+        """
+        )
+        self._apply_background(toolbar_widget, c["background"])
 
         toolbar_layout = QHBoxLayout(toolbar_widget)
         toolbar_layout.setContentsMargins(12, 6, 12, 6)
@@ -124,7 +192,9 @@ class AIDialog(QDialog):
 
         # Prompt-Auswahl
         prompt_label = QLabel("Prompt:")
-        prompt_label.setStyleSheet("background-color: transparent; color: #e0e0e0; font-size: 13px;")
+        prompt_label.setStyleSheet(
+            f"background-color: transparent; color: {c['text']}; font-size: 13px;"
+        )
         toolbar_layout.addWidget(prompt_label)
 
         self.prompt_combo = QComboBox()
@@ -134,33 +204,36 @@ class AIDialog(QDialog):
             # Später über Settings erweiterbar
         ])
         self.prompt_combo.setMinimumWidth(200)
-        self.prompt_combo.setStyleSheet("""
-            QComboBox {
-                background-color: #001633;
-                color: #e0e0e0;
-                border: 1px solid #003355;
-                border-radius: 3px;
-                padding: 5px;
+        self.prompt_combo.setStyleSheet(
+            f"""
+            QComboBox {{
+                background-color: {c["panel"]};
+                color: {c["text"]};
+                border: 1px solid {c["border"]};
+                border-radius: 4px;
+                padding: 5px 8px;
                 font-size: 13px;
-            }
-            QComboBox:hover {
-                border: 1px solid #004466;
-            }
-            QComboBox::drop-down {
+            }}
+            QComboBox:hover {{
+                border: 1px solid {c["border_hover"]};
+            }}
+            QComboBox::drop-down {{
                 border: none;
-            }
-            QComboBox QAbstractItemView {
-                background-color: #001633;
-                color: #e0e0e0;
+            }}
+            QComboBox QAbstractItemView {{
+                background-color: {c["panel"]};
+                color: {c["text"]};
                 selection-background-color: #ffaa3a;
-                border: 1px solid #003355;
-            }
-        """)
+                border: 1px solid {c["border"]};
+            }}
+        """
+        )
         toolbar_layout.addWidget(self.prompt_combo)
 
         # Generieren-Button
         self.generate_button = QPushButton("Generieren")
-        self.generate_button.setStyleSheet("""
+        self.generate_button.setStyleSheet(
+            """
             QPushButton {
                 background-color: #ffaa3a;
                 color: white;
@@ -170,10 +243,10 @@ class AIDialog(QDialog):
                 font-size: 13px;
             }
             QPushButton:hover {
-                background-color: #002244;
                 background-color: #ff9922;
             }
-        """)
+        """
+        )
         self.generate_button.clicked.connect(self._on_generate_clicked)
         toolbar_layout.addWidget(self.generate_button)
 
@@ -181,21 +254,22 @@ class AIDialog(QDialog):
 
         # Schließen-Button
         close_button = QPushButton("Schließen")
-        close_button.setStyleSheet("""
-            QPushButton {
+        close_button.setStyleSheet(
+            f"""
+            QPushButton {{
                 background-color: transparent;
-                color: #e0e0e0;
-                border: 1px solid #003355;
-                border-radius: 4px;
+                color: {c["text"]};
+                border: 1px solid {c["border"]};
+                border-radius: 6px;
                 padding: 6px 16px;
                 font-size: 13px;
-            }
-            QPushButton:hover {
-                background-color: #002244;
-                border: 1px solid #004466;
-                background-color: #001633;
-            }
-        """)
+            }}
+            QPushButton:hover {{
+                background-color: {c["panel"]};
+                border: 1px solid {c["border_hover"]};
+            }}
+        """
+        )
         close_button.clicked.connect(self.close)
         toolbar_layout.addWidget(close_button)
 

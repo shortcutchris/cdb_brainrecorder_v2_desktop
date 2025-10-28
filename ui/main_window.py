@@ -75,9 +75,17 @@ class MainWindow(TranslatableWidget, QMainWindow):
         # Splitter für Sessions-Tabelle (links) und rechte Seite
         splitter = QSplitter(Qt.Orientation.Horizontal)
 
-        # Sessions-Tabelle (links)
+        # Sessions-Tabelle (links) - mit Container für Margins
+        left_widget = QWidget()
+        left_widget.setStyleSheet("QWidget { background-color: #000e22; }")
+        left_layout = QVBoxLayout(left_widget)
+        left_layout.setContentsMargins(12, 12, 12, 12)
+        left_layout.setSpacing(0)
+
         self.session_table = SessionTableWidget()
-        splitter.addWidget(self.session_table)
+        left_layout.addWidget(self.session_table)
+
+        splitter.addWidget(left_widget)
 
         # Rechte Seite: Recorder + Player + Formular (in ScrollArea für konstante Abstände)
         right_scroll = QScrollArea()

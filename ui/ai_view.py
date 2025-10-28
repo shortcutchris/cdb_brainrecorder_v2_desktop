@@ -1,10 +1,11 @@
 """
 AI-View für Transkription und Textverarbeitung
 """
-from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
+from PySide6.QtWidgets import (QWidget, QVBoxLayout, QPushButton,
                                QLabel, QComboBox, QTextEdit, QGroupBox,
                                QSplitter, QToolBar, QSizePolicy, QMessageBox)
 from PySide6.QtCore import Qt, Signal, QEvent
+from PySide6.QtGui import QColor, QPalette
 import sys
 from pathlib import Path
 
@@ -32,38 +33,122 @@ class AIView(TranslatableWidget, QWidget):
         self.settings_manager = SettingsManager()
         self.transcription_worker = None
         self.transformation_worker = None
+        # Gemeinsame Farbpalette für den Dark Mode
+        self._colors = {
+            "background": "#000e22",
+            "panel": "#001633",
+            "border": "#003355",
+            "border_hover": "#004466",
+            "text": "#e0e0e0",
+            "muted_text": "#6f8ca3",
+            "button_disabled_bg": "#001b36",
+            "button_disabled_text": "#5a7791",
+        }
+        self.setObjectName("aiViewRoot")
         self._setup_ui()
         self.load_prompts()
 
+    def _apply_background(self, widget, color: str):
+        """Sorgt dafür, dass ein Widget seine Fläche vollständig einfärbt."""
+        palette = widget.palette()
+        qcolor = QColor(color)
+        palette.setColor(QPalette.ColorRole.Window, qcolor)
+        palette.setColor(QPalette.ColorRole.Base, qcolor)
+        widget.setPalette(palette)
+        widget.setAutoFillBackground(True)
+
     def _setup_ui(self):
         """Initialisiert die Benutzeroberfläche"""
+        c = self._colors
+
         # Dark Theme für den gesamten View
-        self.setStyleSheet("""
-            QWidget {
-                background-color: #000e22;
-            }
-            QGroupBox {
-                color: #e0e0e0;
-                border: 1px solid #003355;
-                border-radius: 4px;
-                margin-top: 12px;
+        self.setStyleSheet(
+            f"""
+            QWidget#aiViewRoot {{
+                background-color: {c["background"]};
+            }}
+            QWidget#aiViewRoot QToolBar {{
+                background-color: {c["background"]};
+                border-bottom: 1px solid {c["border"]};
+                spacing: 12px;
+                padding: 12px 16px;
+            }}
+            QWidget#aiViewRoot QToolBar::separator {{
+                background-color: {c["border"]};
+                width: 1px;
+                height: 24px;
+                margin: 0 8px;
+            }}
+            QWidget#aiViewRoot QToolBar QLabel {{
+                color: {c["text"]};
+                font-size: 13px;
+                padding: 0 8px;
+            }}
+            QWidget#aiViewRoot QSplitter {{
+                background-color: {c["background"]};
+                border: none;
+            }}
+            QWidget#aiViewRoot QSplitter::handle {{
+                background-color: {c["border"]};
+                border-radius: 2px;
+            }}
+            QWidget#aiViewRoot QSplitter::handle:horizontal {{
+                width: 6px;
+            }}
+            QWidget#aiViewRoot QSplitter::handle:horizontal:hover {{
+                background-color: {c["border_hover"]};
+            }}
+            QWidget#aiViewRoot QGroupBox {{
+                background-color: {c["panel"]};
+                color: {c["text"]};
+                border: 1px solid {c["border"]};
+                border-radius: 10px;
+                margin-top: 16px;
                 font-weight: bold;
                 font-size: 14px;
-            }
-            QGroupBox::title {
+                padding-top: 16px;
+            }}
+            QWidget#aiViewRoot QGroupBox::title {{
                 subcontrol-origin: margin;
-                left: 10px;
-                padding: 0 8px 8px 8px;
-            }
-            QTextEdit {
-                background-color: #001a2e;
-                color: #e0e0e0;
-                border: 1px solid #003355;
-                border-radius: 2px;
-                padding: 8px;
+                left: 18px;
+                padding: 0 10px;
+                background-color: {c["background"]};
+                border-radius: 6px;
+            }}
+            QWidget#aiViewRoot QTextEdit {{
+                background-color: {c["background"]};
+                color: {c["text"]};
+                border: 1px solid {c["border"]};
+                border-radius: 6px;
+                padding: 10px;
                 font-size: 13px;
-            }
-        """)
+            }}
+            QWidget#aiViewRoot QTextEdit:disabled {{
+                color: {c["muted_text"]};
+            }}
+            QWidget#aiViewRoot QComboBox {{
+                background-color: {c["panel"]};
+                color: {c["text"]};
+                border: 1px solid {c["border"]};
+                border-radius: 4px;
+                padding: 5px 8px;
+                font-size: 13px;
+            }}
+            QWidget#aiViewRoot QComboBox:hover {{
+                border: 1px solid {c["border_hover"]};
+            }}
+            QWidget#aiViewRoot QComboBox::drop-down {{
+                border: none;
+            }}
+            QWidget#aiViewRoot QComboBox QAbstractItemView {{
+                background-color: {c["panel"]};
+                color: {c["text"]};
+                selection-background-color: #ffaa3a;
+                border: 1px solid {c["border"]};
+            }}
+        """
+        )
+        self._apply_background(self, c["background"])
 
         # Hauptlayout
         main_layout = QVBoxLayout(self)
@@ -76,33 +161,37 @@ class AIView(TranslatableWidget, QWidget):
 
         # Splitter für die zwei Bereiche
         splitter = QSplitter(Qt.Orientation.Horizontal)
+        splitter.setHandleWidth(6)
+        self._apply_background(splitter, c["background"])
 
         # Linke Seite: Transkription
         self.left_group = QGroupBox(self.tr("Transkription"))
+        self._apply_background(self.left_group, c["panel"])
         left_layout = QVBoxLayout()
         left_layout.setSpacing(10)
         left_layout.setContentsMargins(12, 20, 12, 12)
 
         # Transkription starten Button (initially hidden)
         self.transcribe_button = QPushButton(self.tr("Transkription starten"))
-        self.transcribe_button.setStyleSheet("""
-            QPushButton {
+        self.transcribe_button.setStyleSheet(
+            f"""
+            QPushButton {{
                 background-color: #ffaa3a;
                 color: white;
                 font-weight: bold;
                 padding: 10px 20px;
                 border-radius: 4px;
                 font-size: 14px;
-            }
-            QPushButton:hover {
-                background-color: #002244;
+            }}
+            QPushButton:hover {{
                 background-color: #ff9922;
-            }
-            QPushButton:disabled {
-                background-color: #002244;
-                color: #808080;
-            }
-        """)
+            }}
+            QPushButton:disabled {{
+                background-color: {c["button_disabled_bg"]};
+                color: {c["button_disabled_text"]};
+            }}
+        """
+        )
         self.transcribe_button.clicked.connect(self._on_transcribe_clicked)
         self.transcribe_button.hide()  # Initially hidden
         left_layout.addWidget(self.transcribe_button)
@@ -116,6 +205,7 @@ class AIView(TranslatableWidget, QWidget):
 
         # Rechte Seite: Transformierter Text
         self.right_group = QGroupBox(self.tr("Transformierter Text"))
+        self._apply_background(self.right_group, c["panel"])
         right_layout = QVBoxLayout()
         right_layout.setSpacing(10)
         right_layout.setContentsMargins(12, 20, 12, 12)
@@ -146,40 +236,51 @@ class AIView(TranslatableWidget, QWidget):
         """Erstellt die Toolbar"""
         toolbar = QToolBar()
         toolbar.setMovable(False)
+        c = self._colors
+        self._apply_background(toolbar, c["background"])
 
         # Dark Theme Styling
-        toolbar.setStyleSheet("""
-            QToolBar {
-                background-color: #000e22;
-                border-bottom: 1px solid #003355;
+        toolbar.setStyleSheet(
+            f"""
+            QToolBar {{
+                background-color: {c["background"]};
+                border-bottom: 1px solid {c["border"]};
                 spacing: 12px;
                 padding: 12px 16px;
-            }
-            QToolBar QLabel {
-                color: #e0e0e0;
+            }}
+            QToolBar::separator {{
+                background-color: {c["border"]};
+                width: 1px;
+                height: 24px;
+                margin: 0 8px;
+            }}
+            QToolBar QLabel {{
+                color: {c["text"]};
                 font-size: 13px;
                 padding: 0px 8px;
-            }
-        """)
+            }}
+        """
+        )
 
         # Zurück-Button
         self.back_button = QPushButton(self.tr("← Zurück"))
         self.back_button.setToolTip(self.tr("Zurück zur Hauptansicht"))
-        self.back_button.setStyleSheet("""
-            QPushButton {
+        self.back_button.setStyleSheet(
+            f"""
+            QPushButton {{
                 background-color: transparent;
-                color: #e0e0e0;
-                border: 1px solid #003355;
-                border-radius: 4px;
+                color: {c["text"]};
+                border: 1px solid {c["border"]};
+                border-radius: 6px;
                 padding: 6px 16px;
                 font-size: 13px;
-            }
-            QPushButton:hover {
-                background-color: #002244;
-                border: 1px solid #004466;
-                background-color: #001633;
-            }
-        """)
+            }}
+            QPushButton:hover {{
+                background-color: {c["panel"]};
+                border: 1px solid {c["border_hover"]};
+            }}
+        """
+        )
         self.back_button.clicked.connect(self.back_requested.emit)
         toolbar.addWidget(self.back_button)
 
@@ -193,28 +294,6 @@ class AIView(TranslatableWidget, QWidget):
         self.prompt_combo = QComboBox()
         # Prompts werden dynamisch geladen in load_prompts()
         self.prompt_combo.setMinimumWidth(200)
-        self.prompt_combo.setStyleSheet("""
-            QComboBox {
-                background-color: #001633;
-                color: #e0e0e0;
-                border: 1px solid #003355;
-                border-radius: 3px;
-                padding: 5px;
-                font-size: 13px;
-            }
-            QComboBox:hover {
-                border: 1px solid #004466;
-            }
-            QComboBox::drop-down {
-                border: none;
-            }
-            QComboBox QAbstractItemView {
-                background-color: #001633;
-                color: #e0e0e0;
-                selection-background-color: #ffaa3a;
-                border: 1px solid #003355;
-            }
-        """)
         toolbar.addWidget(self.prompt_combo)
 
         # Generieren-Button
@@ -229,7 +308,6 @@ class AIView(TranslatableWidget, QWidget):
                 font-size: 13px;
             }
             QPushButton:hover {
-                background-color: #002244;
                 background-color: #ff9922;
             }
         """)
@@ -241,21 +319,22 @@ class AIView(TranslatableWidget, QWidget):
 
         self.settings_button = QPushButton("⚙️")
         self.settings_button.setToolTip(self.tr("Einstellungen"))
-        self.settings_button.setStyleSheet("""
-            QPushButton {
+        self.settings_button.setStyleSheet(
+            f"""
+            QPushButton {{
                 background-color: transparent;
-                color: #e0e0e0;
-                border: 1px solid #003355;
-                border-radius: 4px;
+                color: {c["text"]};
+                border: 1px solid {c["border"]};
+                border-radius: 6px;
                 padding: 6px 12px;
                 font-size: 16px;
-            }
-            QPushButton:hover {
-                background-color: #002244;
-                border: 1px solid #004466;
-                background-color: #001633;
-            }
-        """)
+            }}
+            QPushButton:hover {{
+                background-color: {c["panel"]};
+                border: 1px solid {c["border_hover"]};
+            }}
+        """
+        )
         self.settings_button.clicked.connect(self.settings_requested.emit)
         toolbar.addWidget(self.settings_button)
 
