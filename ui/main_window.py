@@ -878,7 +878,6 @@ class MainWindow(TranslatableWidget, QMainWindow):
     def _show_splash_screen(self):
         """Zeigt Splash Screen als Overlay"""
         from ui.splash_widget import SplashWidget
-        from PySide6.QtCore import QTimer
 
         # Splash Widget erstellen
         self.splash_widget = SplashWidget(self)
@@ -890,8 +889,8 @@ class MainWindow(TranslatableWidget, QMainWindow):
         self.splash_widget.raise_()
         self.splash_widget.show()
 
-        # Nach 2 Sekunden Fade-out starten
-        QTimer.singleShot(2000, lambda: self.splash_widget.fade_out(500))
+        # Animationssequenz starten (Logo fade-in → Pause → Alles fade-out)
+        self.splash_widget.start_animation()
 
     def resizeEvent(self, event):
         """Wird aufgerufen wenn Fenster resized wird"""

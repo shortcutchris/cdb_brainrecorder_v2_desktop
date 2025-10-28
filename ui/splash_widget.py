@@ -5,7 +5,7 @@ import sys
 import os
 from PySide6.QtWidgets import QWidget, QGraphicsOpacityEffect
 from PySide6.QtGui import QPainter, QColor, QPixmap, QFont
-from PySide6.QtCore import Qt, QPropertyAnimation, Signal
+from PySide6.QtCore import Qt, QPropertyAnimation, Signal, Property, QTimer
 
 
 def resource_path(relative_path):
@@ -40,6 +40,9 @@ class SplashWidget(QWidget):
         logo_path = resource_path("icon.png")
         self.logo = QPixmap(logo_path)
 
+        # Logo Opacity für Fade-in Animation (startet unsichtbar)
+        self._logo_opacity = 0.0
+
     def paintEvent(self, event):
         """Zeichnet den Splash Screen"""
         painter = QPainter(self)
@@ -48,7 +51,7 @@ class SplashWidget(QWidget):
         # Hintergrund: Dunkelblau wie Logo
         painter.fillRect(self.rect(), QColor("#000e22"))
 
-        # Logo perfekt zentriert zeichnen
+        # Logo perfekt zentriert zeichnen mit aktueller Opacity
         if not self.logo.isNull():
             logo_size = 300
             logo_scaled = self.logo.scaled(
@@ -58,7 +61,37 @@ class SplashWidget(QWidget):
             )
             x = (self.width() - logo_scaled.width()) // 2
             y = (self.height() - logo_scaled.height()) // 2
+
+            # Setze Opacity für Logo
+            painter.setOpacity(self._logo_opacity)
             painter.drawPixmap(x, y, logo_scaled)
+            painter.setOpacity(1.0)  # Zurücksetzen
+
+    def get_logo_opacity(self) -> float:
+        """Getter für logo_opacity Property"""
+        return self._logo_opacity
+
+    def set_logo_opacity(self, value: float):
+        """Setter für logo_opacity Property"""
+        self._logo_opacity = value
+        self.update()  # Widget neu zeichnen
+
+    # Qt Property für Animation-System
+    logo_opacity = Property(float, get_logo_opacity, set_logo_opacity)
+
+    def start_animation(self):
+        """Startet die 3-Phasen Animationssequenz"""
+        # Phase 1: Logo fade-in (800ms)
+        self.logo_fade_in = QPropertyAnimation(self, b"logo_opacity")
+        self.logo_fade_in.setDuration(800)
+        self.logo_fade_in.setStartValue(0.0)
+        self.logo_fade_in.setEndValue(1.0)
+        self.logo_fade_in.finished.connect(self._on_logo_fade_in_finished)
+        self.logo_fade_in.start()
+
+    def _on_logo_fade_in_finished(self):
+        """Phase 2: Nach Logo fade-in, warte 1500ms, dann Phase 3"""
+        QTimer.singleShot(1500, lambda: self.fade_out(500))
 
     def fade_out(self, duration=500):
         """Startet Fade-out Animation"""
