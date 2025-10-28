@@ -132,7 +132,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
         left_widget = QWidget()
         left_widget.setStyleSheet("QWidget { background-color: #000e22; }")
         left_layout = QVBoxLayout(left_widget)
-        left_layout.setContentsMargins(12, 12, 0, 0)  # Kein Bottom-Margin für aligned Scrollbar
+        left_layout.setContentsMargins(12, 12, 0, 12)  # 12px Abstand oben und unten
         left_layout.setSpacing(0)
 
         self.session_table = SessionTableWidget()
@@ -144,7 +144,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
         right_container = QWidget()
         right_container.setStyleSheet("QWidget { background-color: #000e22; }")
         right_container_layout = QVBoxLayout(right_container)
-        right_container_layout.setContentsMargins(12, 12, 0, 0)  # Gleiche Margins wie links
+        right_container_layout.setContentsMargins(12, 12, 0, 12)  # 12px Abstand oben und unten
         right_container_layout.setSpacing(0)
 
         # ScrollArea für Recorder + Player + Formular
