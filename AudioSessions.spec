@@ -5,7 +5,10 @@ block_cipher = None
 a = Analysis(
     ['app.py'],
     pathex=[],
-    binaries=[],
+    binaries=[
+        ('/opt/homebrew/bin/ffmpeg', '.'),   # ffmpeg für pydub Audio-Konvertierung
+        ('/opt/homebrew/bin/ffprobe', '.'),  # ffprobe für pydub
+    ],
     datas=[
         ('icon.png', '.'),           # Logo für Splash Screen ins Working Directory
         ('translations', 'translations'),  # Übersetzungsdateien

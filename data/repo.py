@@ -92,7 +92,12 @@ class SessionRepository:
             # Dateigröße für jede Session berechnen
             for session in sessions:
                 if session.get('path'):
+                    # Konvertiere relative Pfade zu absoluten (Legacy-Support)
                     file_path = Path(session['path'])
+                    if not file_path.is_absolute():
+                        file_path = Path.cwd() / file_path
+                    session['path'] = str(file_path)
+
                     try:
                         if file_path.exists():
                             session['file_size'] = file_path.stat().st_size
@@ -111,7 +116,16 @@ class SessionRepository:
             conn.row_factory = sqlite3.Row
             cursor = conn.execute("SELECT * FROM sessions WHERE id = ?", (session_id,))
             row = cursor.fetchone()
-            return dict(row) if row else None
+            if row:
+                session = dict(row)
+                # Konvertiere relative Pfade zu absoluten (Legacy-Support)
+                if session.get('path'):
+                    file_path = Path(session['path'])
+                    if not file_path.is_absolute():
+                        file_path = Path.cwd() / file_path
+                    session['path'] = str(file_path)
+                return session
+            return None
 
     def update(self, session_id: int, **kwargs):
         """Aktualisiert eine Session mit den übergebenen Feldern"""

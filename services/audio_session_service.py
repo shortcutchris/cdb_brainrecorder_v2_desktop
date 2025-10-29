@@ -9,11 +9,40 @@ import json
 import hashlib
 import sys
 from pydub import AudioSegment
+from pydub.utils import which
 import tempfile
 import os
 
 sys.path.append(str(Path(__file__).parent.parent))
 from settings import SettingsManager
+
+# Konfiguriere ffmpeg Pfad für pydub (für PyInstaller-gebaute Apps)
+def _setup_ffmpeg():
+    """Findet und setzt ffmpeg/ffprobe Pfad für pydub"""
+    # Prüfe ob wir in einer PyInstaller-App laufen
+    if getattr(sys, 'frozen', False):
+        # In PyInstaller-App: Binaries sind im gleichen Verzeichnis wie die Executable
+        bundle_dir = Path(sys._MEIPASS) if hasattr(sys, '_MEIPASS') else Path(sys.executable).parent
+        ffmpeg_path = bundle_dir / 'ffmpeg'
+        ffprobe_path = bundle_dir / 'ffprobe'
+
+        if ffmpeg_path.exists():
+            AudioSegment.converter = str(ffmpeg_path)
+            AudioSegment.ffmpeg = str(ffmpeg_path)
+        if ffprobe_path.exists():
+            AudioSegment.ffprobe = str(ffprobe_path)
+    else:
+        # Development-Modus: Versuche ffmpeg im PATH zu finden
+        ffmpeg = which("ffmpeg")
+        ffprobe = which("ffprobe")
+        if ffmpeg:
+            AudioSegment.converter = ffmpeg
+            AudioSegment.ffmpeg = ffmpeg
+        if ffprobe:
+            AudioSegment.ffprobe = ffprobe
+
+# ffmpeg beim Import konfigurieren
+_setup_ffmpeg()
 
 
 class AudioSessionService:
@@ -55,6 +84,16 @@ class AudioSessionService:
         """
         if not self.client:
             return {"success": False, "error": "Kein API Key konfiguriert"}
+
+        # Konvertiere relative Pfade zu absoluten (Legacy-Support)
+        audio_path = Path(audio_file_path)
+        if not audio_path.is_absolute():
+            audio_path = Path.cwd() / audio_path
+        audio_file_path = str(audio_path)
+
+        # Prüfe ob Datei existiert
+        if not audio_path.exists():
+            return {"success": False, "error": f"Audio-Datei nicht gefunden: {audio_file_path}"}
 
         # Cache-Check (basierend auf Original-WAV)
         if use_cache:

@@ -72,10 +72,11 @@ class AudioRecorder(QObject):
         if self.is_recording:
             raise RuntimeError("Aufnahme läuft bereits")
 
-        # Output-Pfad erstellen
-        Path(output_dir).mkdir(parents=True, exist_ok=True)
+        # Output-Pfad als absoluten Pfad erstellen
+        output_path = Path(output_dir).resolve()
+        output_path.mkdir(parents=True, exist_ok=True)
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        self.output_path = f"{output_dir}/session_{timestamp}.wav"
+        self.output_path = str(output_path / f"session_{timestamp}.wav")
 
         # Frames zurücksetzen
         self.frames = []

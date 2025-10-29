@@ -41,6 +41,9 @@ class MainWindow(TranslatableWidget, QMainWindow):
         self.transcription_worker = None
         self.current_transcribing_session_id = None
 
+        # Absoluter Pfad für Aufnahmen
+        self.recordings_dir = Path.cwd() / "recordings"
+
         # Fenster komplett undurchsichtig machen
         self.setWindowOpacity(1.0)
 
@@ -445,7 +448,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
             # Aufnahme starten
             device_index = self.device_combo.currentData()
             try:
-                output_path = self.recorder.start_recording(device_index)
+                output_path = self.recorder.start_recording(device_index, str(self.recordings_dir))
                 self.record_button.setText(self.tr("Aufnahme stoppen"))
                 self.record_button.setStyleSheet("""
                     QPushButton {
