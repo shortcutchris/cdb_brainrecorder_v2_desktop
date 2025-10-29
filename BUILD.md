@@ -1,12 +1,25 @@
 # Build-Anleitung für Audio Sessions
 
-Diese Anleitung beschreibt, wie Sie die Audio Sessions App als eigenständige Anwendung für macOS (und Windows) bauen können.
+Diese Anleitung beschreibt, wie Sie die Audio Sessions App als eigenständige Anwendung für **macOS** und **Windows** bauen können.
+
+## 📋 Schnellübersicht
+
+| Plattform | Build-Script | Spec-Datei | Dokumentation |
+|-----------|--------------|------------|---------------|
+| **macOS** | `./build_app.sh` | `AudioSessions.spec` | Siehe unten |
+| **Windows** | `build_windows.bat` | `AudioSessions_windows.spec` | [WINDOWS_BUILD.md](WINDOWS_BUILD.md) ⭐ |
+
+> **Windows-Build:** Bitte lesen Sie [WINDOWS_BUILD.md](WINDOWS_BUILD.md) für eine ausführliche Anleitung mit Test-Checkliste.
 
 ## Voraussetzungen
 
 - Python 3.9+
 - Alle Dependencies aus `requirements.txt` installiert
 - PyInstaller >= 6.0.0
+- **macOS:** ffmpeg & ffprobe (via Homebrew: `brew install ffmpeg`)
+- **Windows:** siehe [WINDOWS_BUILD.md](WINDOWS_BUILD.md)
+
+---
 
 ## Build für macOS
 
@@ -42,27 +55,43 @@ Oder die App in den `/Applications` Ordner ziehen.
 
 ## Build für Windows
 
-Für Windows-Builds verwenden Sie dieselbe `.spec` Datei, aber auf einem Windows-System:
+Für Windows-Builds gibt es eine **separate Konfiguration** und ein **eigenes Build-Script**.
 
-```powershell
-# Virtuelles Environment erstellen
-python -m venv venv
-.\venv\Scripts\activate
+**📖 Vollständige Anleitung:** [WINDOWS_BUILD.md](WINDOWS_BUILD.md)
 
-# Dependencies installieren
-pip install -r requirements.txt
-
-# App bauen
-pyinstaller AudioSessions.spec --clean
+**Kurzfassung:**
+```cmd
+REM Auf Windows-Maschine:
+cd path\to\project
+build_windows.bat
 ```
 
-Das Ergebnis ist eine `AudioSessions.exe` in `dist/AudioSessions/`.
+**Ergebnis:** `dist\CorporateDigitalBrainRecorder\CorporateDigitalBrainRecorder.exe`
+
+**Wichtig:**
+- Windows-Build kann **nur auf Windows** erstellt werden (nicht Cross-Compile von macOS)
+- ffmpeg & ffprobe müssen separat installiert werden (siehe [WINDOWS_BUILD.md](WINDOWS_BUILD.md))
+- Vollständige Test-Checkliste in [WINDOWS_BUILD.md](WINDOWS_BUILD.md)
+
+---
 
 ## Wichtige Dateien
 
-- **AudioSessions.spec**: PyInstaller-Konfiguration
+### macOS
+- **AudioSessions.spec**: PyInstaller-Konfiguration für macOS
+- **build_app.sh**: macOS Build-Script
 - **Info.plist**: macOS-spezifische Konfiguration (Mikrofonberechtigungen)
+- **icon.icns**: macOS App-Icon
+
+### Windows
+- **AudioSessions_windows.spec**: PyInstaller-Konfiguration für Windows
+- **build_windows.bat**: Windows Build-Script
+- **WINDOWS_BUILD.md**: Ausführliche Windows Build & Test-Anleitung
+- **icon.ico**: Windows App-Icon
+
+### Allgemein
 - **requirements.txt**: Alle Python-Dependencies
+- **hooks/runtime_hook.py**: Pfad-Konfiguration für beide Plattformen
 
 ## Hinweise für macOS
 
