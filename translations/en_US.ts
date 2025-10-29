@@ -158,6 +158,54 @@ The audio file will be preserved.</translation>
         <source>Speichern</source>
         <translation>Save</translation>
     </message>
+    <message>
+        <source>AI Prompts</source>
+        <translation>AI Prompts</translation>
+    </message>
+    <message>
+        <source>Neu</source>
+        <translation>New</translation>
+    </message>
+    <message>
+        <source>Bearbeiten</source>
+        <translation>Edit</translation>
+    </message>
+    <message>
+        <source>Löschen</source>
+        <translation>Delete</translation>
+    </message>
+    <message>
+        <source>Standard</source>
+        <translation>Default</translation>
+    </message>
+    <message>
+        <source>Bearbeiten nicht möglich</source>
+        <translation>Cannot Edit</translation>
+    </message>
+    <message>
+        <source>Standard-Prompts können nicht bearbeitet werden.</source>
+        <translation>Default prompts cannot be edited.</translation>
+    </message>
+    <message>
+        <source>Löschen nicht möglich</source>
+        <translation>Cannot Delete</translation>
+    </message>
+    <message>
+        <source>Standard-Prompts können nicht gelöscht werden.</source>
+        <translation>Default prompts cannot be deleted.</translation>
+    </message>
+    <message>
+        <source>Prompt löschen</source>
+        <translation>Delete Prompt</translation>
+    </message>
+    <message>
+        <source>Möchten Sie diesen Prompt wirklich löschen?
+
+{0}</source>
+        <translation>Do you really want to delete this prompt?
+
+{0}</translation>
+    </message>
 </context>
 <context>
     <name>AIView</name>

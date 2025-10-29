@@ -223,7 +223,7 @@ class SettingsDialog(TranslatableWidget, QDialog):
         self.new_prompt_button.setStyleSheet("""
             QPushButton {
                 background-color: #ffaa3a;
-                color: white;
+                color: #000e22;
                 font-weight: bold;
                 padding: 6px 16px;
                 border-radius: 4px;
@@ -320,7 +320,7 @@ class SettingsDialog(TranslatableWidget, QDialog):
         self.save_button.setStyleSheet("""
             QPushButton {
                 background-color: #ffaa3a;
-                color: white;
+                color: #000e22;
                 font-weight: bold;
                 border-radius: 4px;
                 padding: 8px 20px;
