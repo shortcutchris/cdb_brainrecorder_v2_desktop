@@ -8,8 +8,11 @@ Diese Anleitung beschreibt, wie Sie die Audio Sessions App als eigenständige An
 |-----------|--------------|------------|---------------|
 | **macOS** | `./build_app.sh` | `AudioSessions.spec` | Siehe unten |
 | **Windows** | `build_windows.bat` | `AudioSessions_windows.spec` | [WINDOWS_BUILD.md](WINDOWS_BUILD.md) ⭐ |
+| **Raspberry Pi / Linux** | `./build_linux.sh` | `AudioSessions_linux.spec` | [RASPBERRY_PI_BUILD.md](RASPBERRY_PI_BUILD.md) 🍓 |
 
 > **Windows-Build:** Bitte lesen Sie [WINDOWS_BUILD.md](WINDOWS_BUILD.md) für eine ausführliche Anleitung mit Test-Checkliste.
+>
+> **Raspberry Pi:** Bitte lesen Sie [RASPBERRY_PI_BUILD.md](RASPBERRY_PI_BUILD.md) für Hardware-Anforderungen, Audio-Setup und Performance-Tipps.
 
 ## Voraussetzungen
 
@@ -18,6 +21,7 @@ Diese Anleitung beschreibt, wie Sie die Audio Sessions App als eigenständige An
 - PyInstaller >= 6.0.0
 - **macOS:** ffmpeg & ffprobe (via Homebrew: `brew install ffmpeg`)
 - **Windows:** siehe [WINDOWS_BUILD.md](WINDOWS_BUILD.md)
+- **Raspberry Pi/Linux:** siehe [RASPBERRY_PI_BUILD.md](RASPBERRY_PI_BUILD.md)
 
 ---
 
@@ -73,6 +77,34 @@ build_windows.bat
 - ffmpeg & ffprobe müssen separat installiert werden (siehe [WINDOWS_BUILD.md](WINDOWS_BUILD.md))
 - Vollständige Test-Checkliste in [WINDOWS_BUILD.md](WINDOWS_BUILD.md)
 
+## Build für Raspberry Pi / Linux
+
+Für Raspberry Pi und andere Linux-Systeme gibt es eine **eigene Konfiguration** mit besonderem Fokus auf ARM-Kompatibilität und Performance.
+
+**📖 Vollständige Anleitung:** [RASPBERRY_PI_BUILD.md](RASPBERRY_PI_BUILD.md)
+
+**Kurzfassung:**
+```bash
+# Auf Raspberry Pi / Linux-System:
+cd path/to/project
+chmod +x build_linux.sh
+./build_linux.sh
+
+# Wählen Sie Option 2: "Direkt mit Python" (empfohlen!)
+```
+
+**Ergebnis:** `run.sh` Script zum direkten Starten der App
+
+**Wichtig:**
+- **Empfohlene Hardware:** Raspberry Pi 4 (4GB+) oder Raspberry Pi 5
+- **Audio-Setup ist kritisch:** USB-Mikrofon + ALSA/PulseAudio (siehe [RASPBERRY_PI_BUILD.md](RASPBERRY_PI_BUILD.md))
+- **Option 2 empfohlen** (Python direkt statt PyInstaller) → Schneller auf ARM
+- Desktop-Umgebung benötigt (GUI-Anwendung)
+- Vollständige Hardware-Anforderungen & Test-Checkliste in [RASPBERRY_PI_BUILD.md](RASPBERRY_PI_BUILD.md)
+
+**Performance-Hinweis:**
+Raspberry Pi 4 funktioniert gut für Audio-Aufnahmen, Transkription (Audio-Konvertierung) kann 1-2 Minuten dauern.
+
 ---
 
 ## Wichtige Dateien
@@ -89,9 +121,15 @@ build_windows.bat
 - **WINDOWS_BUILD.md**: Ausführliche Windows Build & Test-Anleitung
 - **icon.ico**: Windows App-Icon
 
+### Linux / Raspberry Pi
+- **AudioSessions_linux.spec**: PyInstaller-Konfiguration für Linux/ARM
+- **build_linux.sh**: Linux/Raspberry Pi Build-Script
+- **RASPBERRY_PI_BUILD.md**: Ausführliche Raspberry Pi Setup, Audio-Config & Troubleshooting
+- **run.sh**: Python-Runner für direkte Ausführung (empfohlen für RPi)
+
 ### Allgemein
 - **requirements.txt**: Alle Python-Dependencies
-- **hooks/runtime_hook.py**: Pfad-Konfiguration für beide Plattformen
+- **hooks/runtime_hook.py**: Pfad-Konfiguration für alle Plattformen
 
 ## Hinweise für macOS
 
