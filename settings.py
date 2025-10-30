@@ -46,6 +46,14 @@ class SettingsManager:
         language = self.get_language()
         return "de" if language == "Deutsch" else "en"
 
+    def get_sample_rate(self) -> int:
+        """Gibt die Audio Sample Rate zurück"""
+        return self.settings.value("sample_rate", 48000, type=int)
+
+    def set_sample_rate(self, rate: int):
+        """Setzt die Audio Sample Rate"""
+        self.settings.setValue("sample_rate", rate)
+
     # ========== Prompt Management ==========
 
     def _initialize_default_prompts(self):

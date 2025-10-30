@@ -7,7 +7,7 @@ from PySide6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
                                QFileDialog, QToolBar, QSizePolicy, QScrollArea,
                                QFrame, QStackedWidget)
 from PySide6.QtCore import Qt, QTimer, QEvent, QCoreApplication
-from PySide6.QtGui import QAction
+from PySide6.QtGui import QAction, QIcon
 import qtawesome as qta
 import sys
 import os
@@ -55,17 +55,143 @@ class MainWindow(TranslatableWidget, QMainWindow):
         self._setup_ui()
         self._connect_signals()
         self._load_sessions()
+        self._setup_shortcuts()  # Keyboard Shortcuts (F11 für Fullscreen)
 
         # Splash Screen als Overlay anzeigen
         self._show_splash_screen()
+
+    def _show_message(self, icon_type, title, message):
+        """
+        Zeigt QMessageBox ohne Icon (für Dark Theme)
+
+        Args:
+            icon_type: QMessageBox.Information, QMessageBox.Warning, etc.
+            title: Dialog-Titel
+            message: Nachricht
+        """
+        msg_box = QMessageBox(self)
+        msg_box.setWindowTitle(title)
+        msg_box.setText(message)
+        msg_box.setIcon(QMessageBox.Icon.NoIcon)  # KEIN Icon
+        msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
+
+        # Button-Icons entfernen (z.B. Pfeil-Icon im OK Button)
+        for button in msg_box.buttons():
+            button.setIcon(QIcon())  # Leeres Icon = kein Icon
+
+        msg_box.exec()
+
+    def _ask_question(self, title, message):
+        """
+        Zeigt QMessageBox Frage-Dialog ohne Icon
+
+        Returns:
+            True wenn Yes, False wenn No
+        """
+        msg_box = QMessageBox(self)
+        msg_box.setWindowTitle(title)
+        msg_box.setText(message)
+        msg_box.setIcon(QMessageBox.Icon.NoIcon)  # KEIN Icon
+        msg_box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+
+        # Button-Icons entfernen
+        for button in msg_box.buttons():
+            button.setIcon(QIcon())  # Leeres Icon = kein Icon
+
+        reply = msg_box.exec()
+        return reply == QMessageBox.StandardButton.Yes
+
+    def _setup_shortcuts(self):
+        """Richtet Keyboard Shortcuts ein"""
+        from PySide6.QtGui import QShortcut, QKeySequence
+
+        # F11 für Fullscreen Toggle
+        self.fullscreen_shortcut = QShortcut(QKeySequence("F11"), self)
+        self.fullscreen_shortcut.activated.connect(self._toggle_fullscreen)
+
+    def _toggle_fullscreen(self):
+        """Wechselt zwischen Fullscreen und Normal"""
+        if self.isFullScreen():
+            self.showNormal()
+        else:
+            self.showFullScreen()
 
     def _setup_ui(self):
         """Initialisiert die Benutzeroberfläche"""
         self.setWindowTitle(self.tr("Corporate Digital Brain Desktop Recorder"))
         self.setMinimumSize(1050, 720)  # Angepasst für kompakteres Layout
 
-        # Globales Scrollbar-Styling für gesamte App
+        # Globales Dark Theme Styling für gesamte App
         self.setStyleSheet("""
+            /* QLabel - explizite Textfarbe für Raspberry Pi */
+            QLabel {
+                color: #e0e0e0;
+            }
+
+            /* QMessageBox und QDialog - Dark Theme für System-Dialoge */
+            QMessageBox {
+                background-color: #000e22;
+                color: #e0e0e0;
+                messagebox-text-interaction-flags: 5;
+            }
+            QMessageBox QLabel {
+                color: #e0e0e0;
+                background-color: transparent;
+            }
+            /* Icon-Bereich verstecken (links neben Text) */
+            QMessageBox QLabel#qt_msgbox_label {
+                padding-left: 0px;
+            }
+            QMessageBox QPushButton {
+                background-color: #ffaa3a;
+                color: #000e22;
+                border: none;
+                border-radius: 4px;
+                padding: 6px 16px;
+                font-weight: bold;
+                min-width: 70px;
+            }
+            QMessageBox QPushButton:hover {
+                background-color: #ffbb4a;
+            }
+            QMessageBox QPushButton:pressed {
+                background-color: #ee9929;
+            }
+            QDialog {
+                background-color: #000e22;
+                color: #e0e0e0;
+            }
+            QDialog QLabel {
+                color: #e0e0e0;
+            }
+
+            /* QComboBox - explizite Textfarbe für Dropdown */
+            QComboBox {
+                color: #e0e0e0;
+                background-color: #001633;
+                border: 1px solid #003355;
+                border-radius: 3px;
+                padding: 4px 8px;
+            }
+            QComboBox::drop-down {
+                border: none;
+            }
+            QComboBox::down-arrow {
+                image: none;
+                border-left: 4px solid transparent;
+                border-right: 4px solid transparent;
+                border-top: 4px solid #e0e0e0;
+                margin-right: 8px;
+            }
+            QComboBox QAbstractItemView {
+                background-color: #001633;
+                color: #e0e0e0;
+                selection-background-color: #ffaa3a;
+                selection-color: #000e22;
+                border: 1px solid #003355;
+            }
+
+            /* Scrollbar Styling */
             QScrollBar:vertical {
                 background-color: #000e22;
                 width: 10px;
@@ -322,6 +448,27 @@ class MainWindow(TranslatableWidget, QMainWindow):
         device_layout.addWidget(self.device_combo)
         layout.addLayout(device_layout)
 
+        # Sample Rate Auswahl
+        samplerate_layout = QHBoxLayout()
+        self.samplerate_label = QLabel(self.tr("Abtastrate:"))
+        samplerate_layout.addWidget(self.samplerate_label)
+        self.samplerate_combo = QComboBox()
+        self.samplerate_combo.addItem("8000 Hz", 8000)
+        self.samplerate_combo.addItem("16000 Hz", 16000)
+        self.samplerate_combo.addItem("22050 Hz", 22050)
+        self.samplerate_combo.addItem("44100 Hz", 44100)
+        self.samplerate_combo.addItem("48000 Hz", 48000)
+        # Setze gespeicherte Sample Rate
+        saved_rate = self.settings_manager.get_sample_rate()
+        for i in range(self.samplerate_combo.count()):
+            if self.samplerate_combo.itemData(i) == saved_rate:
+                self.samplerate_combo.setCurrentIndex(i)
+                break
+        # Speichere Änderungen
+        self.samplerate_combo.currentIndexChanged.connect(self._on_samplerate_changed)
+        samplerate_layout.addWidget(self.samplerate_combo)
+        layout.addLayout(samplerate_layout)
+
         # Level-Anzeige
         level_layout = QHBoxLayout()
         self.level_label = QLabel(self.tr("Pegel:"))
@@ -442,13 +589,19 @@ class MainWindow(TranslatableWidget, QMainWindow):
         """Wird aufgerufen wenn im Suchfeld getippt wird"""
         self._load_sessions(text)
 
+    def _on_samplerate_changed(self):
+        """Wird aufgerufen wenn die Sample Rate geändert wird"""
+        sample_rate = self.samplerate_combo.currentData()
+        self.settings_manager.set_sample_rate(sample_rate)
+
     def _on_record_clicked(self):
         """Wird aufgerufen wenn der Record-Button geklickt wird"""
         if not self.recorder.is_recording:
             # Aufnahme starten
             device_index = self.device_combo.currentData()
+            sample_rate = self.samplerate_combo.currentData()
             try:
-                output_path = self.recorder.start_recording(device_index, str(self.recordings_dir))
+                output_path = self.recorder.start_recording(device_index, str(self.recordings_dir), sample_rate)
                 self.record_button.setText(self.tr("Aufnahme stoppen"))
                 self.record_button.setStyleSheet("""
                     QPushButton {
@@ -470,8 +623,8 @@ class MainWindow(TranslatableWidget, QMainWindow):
                 # Waveform-Visualisierung starten
                 self.waveform_widget.start_recording()
             except Exception as e:
-                QMessageBox.critical(self, self.tr("Fehler"),
-                                   self.tr("Aufnahme konnte nicht gestartet werden:\n{0}").format(e))
+                self._show_message(QMessageBox.Icon.Critical, self.tr("Fehler"),
+                                  self.tr("Aufnahme konnte nicht gestartet werden:\n{0}").format(e))
         else:
             # Aufnahme stoppen
             output_path = self.recorder.stop_recording()
@@ -582,8 +735,8 @@ class MainWindow(TranslatableWidget, QMainWindow):
         # Tabelle aktualisieren
         self._load_sessions()
 
-        QMessageBox.information(self, self.tr("Erfolg"),
-                               self.tr("Session wurde erfolgreich gespeichert!\n{0}").format(output_path))
+        self._show_message(QMessageBox.Icon.Information, self.tr("Erfolg"),
+                          self.tr("Session wurde erfolgreich gespeichert!\n{0}").format(output_path))
 
         # Prüfe ob Auto-Transkription aktiviert ist
         if self.settings_manager.get_auto_transcription():
@@ -720,17 +873,16 @@ class MainWindow(TranslatableWidget, QMainWindow):
         session_id = data.pop('id')
         self.repo.update(session_id, **data)
         self._load_sessions(self.search_edit.text())
-        QMessageBox.information(self, self.tr("Erfolg"), self.tr("Session wurde aktualisiert!"))
+        self._show_message(QMessageBox.Icon.Information, self.tr("Erfolg"), self.tr("Session wurde aktualisiert!"))
 
     def _on_player_delete_requested(self, session_id: int):
         """Wird aufgerufen wenn im Player der Löschen-Button geklickt wird"""
-        reply = QMessageBox.question(
-            self, self.tr("Löschen bestätigen"),
-            self.tr("Möchten Sie diese Session wirklich löschen?\n\n⚠️ Die Audiodatei wird ebenfalls permanent gelöscht!"),
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        confirmed = self._ask_question(
+            self.tr("Löschen bestätigen"),
+            self.tr("Möchten Sie diese Session wirklich löschen?\n\n⚠️ Die Audiodatei wird ebenfalls permanent gelöscht!")
         )
 
-        if reply == QMessageBox.StandardButton.Yes:
+        if confirmed:
             result = self.repo.delete(session_id)
             self.session_form.clear()
             self.player_widget.clear()
@@ -738,11 +890,11 @@ class MainWindow(TranslatableWidget, QMainWindow):
 
             # Feedback-Message basierend auf Result
             if result.get("file_deleted"):
-                QMessageBox.information(self, self.tr("Erfolg"),
+                self._show_message(QMessageBox.Icon.Information, self.tr("Erfolg"),
                     self.tr("Session und Audiodatei wurden gelöscht."))
             else:
                 reason = result.get("reason", "Unbekannt")
-                QMessageBox.warning(self, self.tr("Teilweise erfolgreich"),
+                self._show_message(QMessageBox.Icon.Warning, self.tr("Teilweise erfolgreich"),
                     self.tr("Session wurde gelöscht, aber Audiodatei konnte nicht gelöscht werden:\n{0}").format(reason))
 
     def _on_show_in_folder(self, file_path: str):
@@ -758,8 +910,8 @@ class MainWindow(TranslatableWidget, QMainWindow):
                 folder_path = os.path.dirname(file_path)
                 os.system(f'xdg-open "{folder_path}"')
         else:
-            QMessageBox.warning(self, self.tr("Warnung"),
-                               self.tr("Datei nicht gefunden:\n{0}").format(file_path))
+            self._show_message(QMessageBox.Icon.Warning, self.tr("Warnung"),
+                              self.tr("Datei nicht gefunden:\n{0}").format(file_path))
 
     def _on_ai_view_requested(self, session_id: int):
         """Wechselt zum AI-View für die ausgewählte Session"""
@@ -783,11 +935,11 @@ class MainWindow(TranslatableWidget, QMainWindow):
         if file_path:
             try:
                 self.repo.export_to_csv(file_path)
-                QMessageBox.information(self, self.tr("Erfolg"),
-                                       self.tr("Sessions wurden exportiert:\n{0}").format(file_path))
+                self._show_message(QMessageBox.Icon.Information, self.tr("Erfolg"),
+                                  self.tr("Sessions wurden exportiert:\n{0}").format(file_path))
             except Exception as e:
-                QMessageBox.critical(self, self.tr("Fehler"),
-                                   self.tr("Export fehlgeschlagen:\n{0}").format(e))
+                self._show_message(QMessageBox.Icon.Critical, self.tr("Fehler"),
+                                  self.tr("Export fehlgeschlagen:\n{0}").format(e))
 
     def _on_settings_clicked(self):
         """Öffnet den Settings-Dialog"""
@@ -899,6 +1051,9 @@ class MainWindow(TranslatableWidget, QMainWindow):
         self.splash_widget.raise_()
         self.splash_widget.show()
 
+        # Widget-Referenz löschen wenn geschlossen
+        self.splash_widget.finished.connect(lambda: setattr(self, 'splash_widget', None))
+
         # Animationssequenz starten (Logo fade-in → Pause → Alles fade-out)
         self.splash_widget.start_animation()
 
@@ -907,5 +1062,11 @@ class MainWindow(TranslatableWidget, QMainWindow):
         super().resizeEvent(event)
 
         # Splash an neue Größe anpassen (falls noch sichtbar)
-        if hasattr(self, 'splash_widget') and self.splash_widget.isVisible():
-            self.splash_widget.setGeometry(self.rect())
+        # Try-except um RuntimeError zu vermeiden wenn C++ Objekt bereits gelöscht
+        if hasattr(self, 'splash_widget') and self.splash_widget is not None:
+            try:
+                if self.splash_widget.isVisible():
+                    self.splash_widget.setGeometry(self.rect())
+            except RuntimeError:
+                # C++ Objekt bereits gelöscht, Referenz entfernen
+                self.splash_widget = None

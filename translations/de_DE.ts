@@ -32,6 +32,10 @@
         <translation>Mikrofon:</translation>
     </message>
     <message>
+        <source>Abtastrate:</source>
+        <translation>Abtastrate:</translation>
+    </message>
+    <message>
         <source>Pegel:</source>
         <translation>Pegel:</translation>
     </message>

@@ -8,17 +8,28 @@ from typing import Optional, Dict, Any
 import json
 import hashlib
 import sys
-from pydub import AudioSegment
-from pydub.utils import which
 import tempfile
 import os
+import platform
+import subprocess
+
+# Platform detection: Raspberry Pi verwendet ffmpeg direkt (Python 3.13 kompatibel)
+IS_RASPBERRY_PI = platform.machine().startswith('aarch') or platform.machine().startswith('arm')
+
+# Conditional imports: pydub nur auf nicht-Raspberry-Pi Plattformen
+if not IS_RASPBERRY_PI:
+    from pydub import AudioSegment
+    from pydub.utils import which
 
 sys.path.append(str(Path(__file__).parent.parent))
 from settings import SettingsManager
 
 # Konfiguriere ffmpeg Pfad für pydub (für PyInstaller-gebaute Apps)
 def _setup_ffmpeg():
-    """Findet und setzt ffmpeg/ffprobe Pfad für pydub"""
+    """Findet und setzt ffmpeg/ffprobe Pfad für pydub (nur auf nicht-Raspberry-Pi)"""
+    if IS_RASPBERRY_PI:
+        return  # Auf Raspberry Pi wird ffmpeg direkt verwendet
+
     # Prüfe ob wir in einer PyInstaller-App laufen
     if getattr(sys, 'frozen', False):
         # In PyInstaller-App: Binaries sind im gleichen Verzeichnis wie die Executable
@@ -304,6 +315,15 @@ class AudioSessionService:
         Returns:
             Liste von Temp-MP3-Dateipfaden (1+ Chunks)
         """
+        if IS_RASPBERRY_PI:
+            return self._prepare_audio_ffmpeg(audio_file_path, max_mb)
+        else:
+            return self._prepare_audio_pydub(audio_file_path, max_mb)
+
+    def _prepare_audio_pydub(self, audio_file_path: str, max_mb: int = 20) -> list:
+        """
+        Bereitet Audio mit pydub vor (für macOS, Windows, x86 Linux)
+        """
         # 1. WAV laden und zu MP3 konvertieren
         audio = AudioSegment.from_wav(audio_file_path)
         audio = audio.set_frame_rate(16000)  # Whisper-optimiert
@@ -334,6 +354,123 @@ class AudioSessionService:
             temp_chunk.close()
 
             chunks.append(temp_chunk.name)
+
+        # Original-Temp-MP3 löschen (nicht mehr benötigt)
+        os.unlink(temp_mp3.name)
+
+        return chunks
+
+    def _get_audio_duration(self, audio_file_path: str) -> float:
+        """Ermittelt Audio-Dauer mit ffprobe"""
+        result = subprocess.run([
+            'ffprobe', '-v', 'error',
+            '-show_entries', 'format=duration',
+            '-of', 'default=noprint_wrappers=1:nokey=1',
+            audio_file_path
+        ], capture_output=True, text=True)
+
+        if result.returncode != 0:
+            print(f"⚠️ ffprobe Warnung: {result.stderr}")
+            return 0.0
+
+        try:
+            return float(result.stdout.strip())
+        except ValueError:
+            return 0.0
+
+    def _prepare_audio_ffmpeg(self, audio_file_path: str, max_mb: int = 20) -> list:
+        """
+        Bereitet Audio mit ffmpeg vor (für Raspberry Pi / Python 3.13)
+        """
+        # Original-Dauer ermitteln für Validierung
+        original_duration = self._get_audio_duration(audio_file_path)
+        print(f"📊 Original Audio-Dauer: {original_duration:.2f} Sekunden")
+
+        # 1. WAV zu MP3 konvertieren mit ffmpeg
+        temp_mp3 = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
+        temp_mp3.close()
+
+        # ffmpeg Konvertierung: 16kHz, Mono, 64kbps
+        # -max_muxing_queue_size für Raspberry Pi Stabilität
+        result = subprocess.run([
+            'ffmpeg', '-i', audio_file_path,
+            '-ar', '16000',  # Sample rate: 16kHz
+            '-ac', '1',      # Channels: Mono
+            '-b:a', '64k',   # Bitrate: 64kbps
+            '-max_muxing_queue_size', '1024',  # Größere Buffer für USB-Audio
+            '-y',            # Overwrite output
+            temp_mp3.name
+        ], capture_output=True, text=True)
+
+        if result.returncode != 0:
+            raise Exception(f"ffmpeg Fehler: {result.stderr}")
+
+        # VALIDIERUNG: Prüfe ob konvertierte Dauer korrekt ist
+        converted_duration = self._get_audio_duration(temp_mp3.name)
+        print(f"📊 Konvertierte Audio-Dauer: {converted_duration:.2f} Sekunden")
+
+        if original_duration > 0 and abs(converted_duration - original_duration) > 1.0:
+            print(f"⚠️ WARNUNG: Audio-Dauer-Verlust! Original: {original_duration:.2f}s, Konvertiert: {converted_duration:.2f}s")
+            print(f"⚠️ Differenz: {abs(converted_duration - original_duration):.2f} Sekunden verloren!")
+
+        # 2. Dateigröße prüfen
+        file_size_mb = os.path.getsize(temp_mp3.name) / (1024 * 1024)
+        print(f"📦 MP3 Dateigröße: {file_size_mb:.2f} MB")
+
+        # 3. Wenn klein genug: Direkt zurückgeben
+        if file_size_mb <= max_mb:
+            return [temp_mp3.name]
+
+        # 4. Zu groß: Audio-Dauer ermitteln und in 15-Min-Chunks aufteilen
+        print(f"📦 Datei zu groß ({file_size_mb:.2f} MB), erstelle Chunks...")
+
+        total_duration = converted_duration  # Verwende bereits ermittelte Dauer
+        chunk_duration = 15 * 60  # 15 Minuten in Sekunden
+        chunks = []
+        total_chunk_duration = 0.0
+
+        # Chunks erstellen
+        start_time = 0
+        chunk_index = 0
+        while start_time < total_duration:
+            temp_chunk = tempfile.NamedTemporaryFile(delete=False, suffix=f"_chunk_{chunk_index}.mp3")
+            temp_chunk.close()
+
+            # Berechne verbleibende Dauer für letzten Chunk
+            remaining_duration = total_duration - start_time
+            actual_chunk_duration = min(chunk_duration, remaining_duration)
+
+            print(f"📊 Erstelle Chunk {chunk_index + 1}: Start={start_time:.1f}s, Dauer={actual_chunk_duration:.1f}s")
+
+            # Chunk mit ffmpeg extrahieren
+            result = subprocess.run([
+                'ffmpeg', '-i', audio_file_path,
+                '-ss', str(start_time),      # Start time
+                '-t', str(actual_chunk_duration),   # Exakte Duration für letzten Chunk
+                '-ar', '16000',
+                '-ac', '1',
+                '-b:a', '64k',
+                '-max_muxing_queue_size', '1024',
+                '-y',
+                temp_chunk.name
+            ], capture_output=True, text=True)
+
+            if result.returncode != 0:
+                raise Exception(f"ffmpeg Chunk-Fehler: {result.stderr}")
+
+            # VALIDIERUNG: Chunk-Dauer prüfen
+            chunk_duration_actual = self._get_audio_duration(temp_chunk.name)
+            total_chunk_duration += chunk_duration_actual
+            print(f"  ✓ Chunk {chunk_index + 1} Dauer: {chunk_duration_actual:.2f}s")
+
+            chunks.append(temp_chunk.name)
+            start_time += chunk_duration
+            chunk_index += 1
+
+        # FINAL-VALIDIERUNG: Prüfe Gesamt-Chunk-Dauer
+        print(f"📊 Gesamt-Chunk-Dauer: {total_chunk_duration:.2f}s von {total_duration:.2f}s")
+        if abs(total_chunk_duration - total_duration) > 2.0:
+            print(f"⚠️ WARNUNG: Chunk-Dauer-Verlust! Erwartet: {total_duration:.2f}s, Chunks: {total_chunk_duration:.2f}s")
 
         # Original-Temp-MP3 löschen (nicht mehr benötigt)
         os.unlink(temp_mp3.name)

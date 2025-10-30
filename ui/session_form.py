@@ -54,12 +54,16 @@ class SessionFormWidget(TranslatableWidget, QWidget):
         self.title_edit.setPlaceholderText(self.tr("z.B. Podcast Episode 1"))
 
         self.recorded_at_label = QLabel("-")
+        self.recorded_at_label.setStyleSheet("color: #e0e0e0;")
         self.duration_label = QLabel("-")
+        self.duration_label.setStyleSheet("color: #e0e0e0;")
         self.samplerate_label = QLabel("-")
+        self.samplerate_label.setStyleSheet("color: #e0e0e0;")
         self.channels_label = QLabel("-")
+        self.channels_label.setStyleSheet("color: #e0e0e0;")
         self.path_label = QLabel("-")
         self.path_label.setWordWrap(True)
-        self.path_label.setStyleSheet("padding: 2px;")
+        self.path_label.setStyleSheet("padding: 2px; color: #e0e0e0;")
 
         self.notes_edit = QTextEdit()
         self.notes_edit.setPlaceholderText(self.tr("Notizen zur Session..."))

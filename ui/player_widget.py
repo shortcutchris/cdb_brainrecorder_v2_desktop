@@ -58,13 +58,15 @@ class PlayerWidget(TranslatableWidget, QWidget):
 
         # Dateiname-Label
         self.file_label = QLabel(self.tr("Keine Datei geladen"))
-        self.file_label.setStyleSheet("font-style: italic;")
+        self.file_label.setStyleSheet("font-style: italic; color: #e0e0e0;")
         group_layout.addWidget(self.file_label)
 
         # Zeit-Anzeige
         time_layout = QHBoxLayout()
         self.current_time_label = QLabel("00:00")
+        self.current_time_label.setStyleSheet("color: #e0e0e0;")
         self.total_time_label = QLabel("00:00")
+        self.total_time_label.setStyleSheet("color: #e0e0e0;")
         time_layout.addWidget(self.current_time_label)
         time_layout.addStretch()
         time_layout.addWidget(self.total_time_label)

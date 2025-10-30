@@ -32,6 +32,10 @@
         <translation>Microphone:</translation>
     </message>
     <message>
+        <source>Abtastrate:</source>
+        <translation>Sample Rate:</translation>
+    </message>
+    <message>
         <source>Pegel:</source>
         <translation>Level:</translation>
     </message>
