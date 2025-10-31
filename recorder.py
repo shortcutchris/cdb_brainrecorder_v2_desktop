@@ -32,6 +32,7 @@ class AudioRecorder(QObject):
         self.output_path: Optional[str] = None
         self._start_time: Optional[float] = None
         self._recorded_frames = 0  # Frame-basierte Zeiterfassung (kein stream.time mehr)
+        self._last_duration_seconds = 0  # Zwischenspeicher für Dauer nach stop_recording()
 
     def get_devices(self):
         """Gibt eine Liste aller verfügbaren Eingabegeräte zurück"""
@@ -102,6 +103,7 @@ class AudioRecorder(QObject):
         # Frames und Counter zurücksetzen
         self.frames = []
         self._recorded_frames = 0
+        self._last_duration_seconds = 0
 
         # Stream mit USB-optimierten Parametern starten
         self.stream = sd.InputStream(
@@ -151,6 +153,9 @@ class AudioRecorder(QObject):
             sf.write(self.output_path, audio_data, self.samplerate)
             output_file = self.output_path
             print(f"✅ Audio gespeichert: {output_file}")
+
+        # Dauer zwischenspeichern BEVOR State zurückgesetzt wird
+        self._last_duration_seconds = int(duration)
 
         # Jetzt erst State zurücksetzen
         self.stream = None
@@ -229,8 +234,13 @@ class AudioRecorder(QObject):
 
     def get_duration_seconds(self) -> int:
         """Gibt die Dauer der Aufnahme in Sekunden zurück"""
-        if not self.frames:
-            return 0
+        # Wenn Aufnahme läuft oder pausiert, berechne aus frames
+        if self.is_recording or self.is_paused:
+            frames_to_check = self.paused_frames if self.is_paused else self.frames
+            if not frames_to_check:
+                return 0
+            total_frames = sum(len(f) for f in frames_to_check)
+            return int(total_frames / self.samplerate)
 
-        total_frames = sum(len(f) for f in self.frames)
-        return int(total_frames / self.samplerate)
+        # Nach stop_recording(): Verwende zwischengespeicherte Dauer
+        return self._last_duration_seconds
