@@ -7,7 +7,7 @@ from PySide6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
                                QFileDialog, QToolBar, QSizePolicy, QScrollArea,
                                QFrame, QStackedWidget)
 from PySide6.QtCore import Qt, QTimer, QEvent, QCoreApplication
-from PySide6.QtGui import QAction, QIcon
+from PySide6.QtGui import QAction, QIcon, QPixmap
 import qtawesome as qta
 import sys
 import os
@@ -46,6 +46,12 @@ class MainWindow(TranslatableWidget, QMainWindow):
 
         # Fenster komplett undurchsichtig machen
         self.setWindowOpacity(1.0)
+
+        # Hidden Fullscreen Toggle - Click Counter
+        self.logo_click_count = 0
+        self.logo_click_timer = QTimer()
+        self.logo_click_timer.setSingleShot(True)
+        self.logo_click_timer.timeout.connect(self._reset_logo_clicks)
 
         # Translation Setup mit SimpleTranslator
         self.translator = SimpleTranslator()
@@ -109,12 +115,38 @@ class MainWindow(TranslatableWidget, QMainWindow):
         self.fullscreen_shortcut = QShortcut(QKeySequence("F11"), self)
         self.fullscreen_shortcut.activated.connect(self._toggle_fullscreen)
 
+        # ESC zum Verlassen des Fullscreen-Modus
+        self.escape_shortcut = QShortcut(QKeySequence("Esc"), self)
+        self.escape_shortcut.activated.connect(self._exit_fullscreen)
+
     def _toggle_fullscreen(self):
         """Wechselt zwischen Fullscreen und Normal"""
         if self.isFullScreen():
             self.showNormal()
         else:
             self.showFullScreen()
+
+    def _exit_fullscreen(self):
+        """Verlässt den Fullscreen-Modus (nur wenn im Fullscreen)"""
+        if self.isFullScreen():
+            self.showNormal()
+
+    def _on_logo_clicked(self, event):
+        """Hidden Fullscreen Toggle - zählt Klicks auf das Logo"""
+        self.logo_click_count += 1
+
+        # Reset Timer bei jedem Klick (2 Sekunden Zeitfenster)
+        self.logo_click_timer.stop()
+        self.logo_click_timer.start(2000)  # 2 Sekunden
+
+        # Nach 5 Klicks: Toggle Fullscreen
+        if self.logo_click_count >= 5:
+            self._toggle_fullscreen()
+            self._reset_logo_clicks()
+
+    def _reset_logo_clicks(self):
+        """Setzt den Logo-Click-Counter zurück"""
+        self.logo_click_count = 0
 
     def _setup_ui(self):
         """Initialisiert die Benutzeroberfläche"""
@@ -343,6 +375,33 @@ class MainWindow(TranslatableWidget, QMainWindow):
                 padding: 0px 8px;
             }
         """)
+
+        # Logo (Hidden Fullscreen Toggle - 5x klicken)
+        self.logo_label = QLabel()
+        self.logo_label.setFixedSize(32, 32)
+        self.logo_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        # Logo laden
+        from ui.splash_widget import resource_path
+        logo_path = resource_path("icon.png")
+        if os.path.exists(logo_path):
+            logo_pixmap = QPixmap(logo_path).scaled(
+                32, 32,
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation
+            )
+            self.logo_label.setPixmap(logo_pixmap)
+
+        self.logo_label.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.logo_label.setToolTip(self.tr("Corporate Digital Brain"))
+        self.logo_label.mousePressEvent = self._on_logo_clicked
+
+        toolbar.addWidget(self.logo_label)
+
+        # Kleiner Spacer nach Logo
+        logo_spacer = QWidget()
+        logo_spacer.setFixedWidth(12)
+        toolbar.addWidget(logo_spacer)
 
         # Suchfeld
         self.search_label = QLabel(self.tr("Suche:"))
