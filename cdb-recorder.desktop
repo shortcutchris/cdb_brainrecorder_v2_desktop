@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Corporate Digital Brain Recorder
+Comment=Audio Recording and Transcription App
+Exec=/home/chris/projects/cdb_brainrecorder_v2_desktop/run.sh
+Path=/home/chris/projects/cdb_brainrecorder_v2_desktop
+Icon=/home/chris/projects/cdb_brainrecorder_v2_desktop/icon.png
+Terminal=false
+Categories=AudioVideo;Audio;Recorder;
+StartupNotify=true
+X-GNOME-Autostart-enabled=true
