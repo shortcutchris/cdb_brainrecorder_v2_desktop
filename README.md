@@ -1,6 +1,6 @@
-# Audio Sessions - Desktop App
+# Corporate Digital Brain Desktop Recorder
 
-Eine Desktop-Anwendung zum Aufzeichnen, Verwalten und Wiedergeben von Audio-Sessions.
+Eine Desktop-Anwendung zum Aufzeichnen, Verwalten und Wiedergeben von Audio-Sessions mit Raspberry Pi Touch-Optimierung.
 
 ## Features
 
@@ -15,6 +15,13 @@ Eine Desktop-Anwendung zum Aufzeichnen, Verwalten und Wiedergeben von Audio-Sess
   - Automatische Transkription mit gpt-4o-transcribe
   - Text-Transformation mit GPT-5 (Zusammenfassen, Übersetzen, Strukturieren)
   - Hintergrund-Verarbeitung ohne UI-Blockierung
+- **Raspberry Pi Optimierung**
+  - Automatische Touch-optimierte UI auf ARM-Systemen
+  - 24px breite Scrollbars für einfache Touch-Bedienung
+  - 50px große Buttons für Finger-Bedienung
+  - Kompaktes Layout für 1280x720 Displays
+  - Fullscreen-Modus mit verstecktem Toggle (5x Logo klicken)
+  - Autostart-Konfiguration für Kiosk-Systeme
 
 ## OpenAI Integration
 
@@ -133,13 +140,51 @@ pip install -r requirements.txt
 
 ## Verwendung
 
+### Desktop (Mac/Windows/Linux)
+
 Starte die App mit:
 ```bash
-# Mit virtuellem Environment (empfohlen)
-./venv/bin/python3 app.py
+./run.sh
+```
 
-# Oder wenn venv aktiviert ist
-python app.py
+Oder manuell:
+```bash
+source venv/bin/activate
+python3 app.py
+```
+
+### Raspberry Pi (Touch-optimiert)
+
+Die App erkennt automatisch Raspberry Pi (ARM-Architektur) und aktiviert:
+- Touch-optimierte UI mit 24px Scrollbars
+- 50px große Buttons für Finger-Bedienung
+- Kompaktes Layout für 1280x720 Displays
+- Automatischer Fullscreen-Modus
+
+**Starten:**
+```bash
+./run.sh
+```
+
+**Fullscreen beenden:**
+- 5x schnell auf das Logo klicken (links oben)
+- F11-Taste drücken
+- ESC-Taste drücken
+
+**Autostart einrichten:**
+```bash
+./install-autostart.sh
+```
+
+Zum Deaktivieren:
+```bash
+./remove-autostart.sh
+```
+
+**Environment Variables:**
+```bash
+FULLSCREEN=false ./run.sh      # Kein Fullscreen
+LAYOUT_MODE=desktop ./run.sh   # Desktop-Layout erzwingen
 ```
 
 **Wichtig**: Stelle sicher, dass die OpenAI SDK im virtuellen Environment installiert ist. Falls `ModuleNotFoundError: No module named 'openai'` erscheint:

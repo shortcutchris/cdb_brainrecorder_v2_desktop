@@ -196,6 +196,21 @@ class PlayerWidget(TranslatableWidget, QWidget):
         self.player.position_changed.connect(self._on_position_changed)
         self.player.duration_changed.connect(self._on_duration_changed)
 
+    def set_touch_mode(self, enabled: bool):
+        """
+        Aktiviert Touch-Modus mit größeren Buttons
+
+        Args:
+            enabled: True für Touch-Modus (50px Buttons), False für Normal (40px)
+        """
+        button_size = 50 if enabled else 40
+
+        # Setze Größe für alle Buttons
+        for button in [self.play_button, self.pause_button, self.stop_button,
+                      self.folder_button, self.ai_button, self.delete_button]:
+            button.setMinimumHeight(button_size)
+            button.setMinimumWidth(button_size)
+
     def load_file(self, file_path: str, session_id: int = None) -> bool:
         """Lädt eine Audio-Datei"""
         success = self.player.load_file(file_path)

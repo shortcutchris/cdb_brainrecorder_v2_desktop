@@ -178,3 +178,31 @@ class SettingsManager:
             if prompt["id"] == prompt_id:
                 return prompt
         return None
+
+    # ========== Layout & Display Settings ==========
+
+    def get_layout_mode(self) -> str:
+        """
+        Gibt den Layout-Modus zurück
+
+        Returns:
+            str: "auto", "compact", oder "desktop"
+        """
+        return self.settings.value("layout_mode", "auto")
+
+    def set_layout_mode(self, mode: str):
+        """
+        Setzt den Layout-Modus
+
+        Args:
+            mode: "auto", "compact", oder "desktop"
+        """
+        self.settings.setValue("layout_mode", mode)
+
+    def get_touch_mode(self) -> bool:
+        """Gibt zurück ob Touch-Modus aktiviert ist"""
+        return self.settings.value("touch_mode", False, type=bool)
+
+    def set_touch_mode(self, enabled: bool):
+        """Setzt den Touch-Modus"""
+        self.settings.setValue("touch_mode", enabled)

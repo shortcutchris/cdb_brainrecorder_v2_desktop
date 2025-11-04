@@ -93,21 +93,29 @@ class AudioPlayer(QObject):
 
     def stop(self):
         """Stoppt die Wiedergabe"""
+        # Erst Flags setzen damit Callback aufhört
         self.is_playing = False
         self.is_paused = False
-        self.current_frame = 0
         self._stop_timer_signal.emit()
+
+        # Kurz warten damit laufende Callbacks beendet werden
+        time.sleep(0.05)
 
         # Stream sicher schließen mit Error Handling
         if self.stream:
             try:
+                # Nicht stop() aufrufen, direkt abort() für sofortigen Stop
                 if self.stream.active:
-                    self.stream.stop()
+                    self.stream.abort()
                 self.stream.close()
             except Exception as e:
-                print(f"Fehler beim Schließen des Streams: {e}")
+                # Fehler beim Schließen ignorieren (häufig bei ALSA)
+                pass
             finally:
                 self.stream = None
+
+        # Position zurücksetzen
+        self.current_frame = 0
 
         self.playback_stopped.emit()
         self.position_changed.emit(0.0)
@@ -181,11 +189,13 @@ class AudioPlayer(QObject):
             # Stream sicher schließen
             if self.stream:
                 try:
+                    # Abort statt stop für schnelleren, sicheren Stop
                     if self.stream.active:
-                        self.stream.stop()
+                        self.stream.abort()
                     self.stream.close()
-                except Exception as e:
-                    print(f"Fehler beim Stream-Cleanup: {e}")
+                except Exception:
+                    # Fehler beim Stream-Cleanup ignorieren (häufig bei ALSA)
+                    pass
                 finally:
                     self.stream = None
             # Timer-Stop über Signal (thread-sicher)

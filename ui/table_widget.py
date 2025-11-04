@@ -23,6 +23,7 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.compact_mode = False
         self._setup_ui()
 
     def _setup_ui(self):
@@ -298,13 +299,48 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
         timer.timeout.connect(toggle_icon)
         timer.start(300)  # 300ms interval
 
+    def set_compact_mode(self, enabled: bool):
+        """
+        Aktiviert Compact-Mode für kleine Bildschirme
+
+        Args:
+            enabled: True für Compact-Mode (versteckt Spalten, größere Rows für Touch)
+        """
+        self.compact_mode = enabled
+
+        if enabled:
+            # Verstecke weniger wichtige Spalten
+            self.setColumnHidden(4, True)  # Dateigröße
+            self.setColumnHidden(6, True)  # Notizen
+
+            # Größere Zeilenhöhe für Touch
+            self.verticalHeader().setDefaultSectionSize(50)
+        else:
+            # Zeige alle Spalten
+            self.setColumnHidden(4, False)
+            self.setColumnHidden(6, False)
+
+            # Normale Zeilenhöhe
+            self.verticalHeader().setDefaultSectionSize(45)
+
+        # Header-Labels aktualisieren
+        self.retranslateUi()
+
     def retranslateUi(self):
         """Aktualisiert alle UI-Texte (für Sprachwechsel)"""
         # Header-Labels neu setzen
-        self.setHorizontalHeaderLabels([
-            self.tr("ID"), self.tr("Titel"), self.tr("Aufnahmedatum"), self.tr("Dauer (s)"),
-            self.tr("Dateigröße"), self.tr("Transkription"), self.tr("Notizen")
-        ])
+        if self.compact_mode:
+            # Kompakte Header ohne versteckte Spalten
+            labels = [
+                self.tr("ID"), self.tr("Titel"), self.tr("Aufnahmedatum"),
+                self.tr("Dauer (s)"), "", self.tr("Transkription"), ""
+            ]
+        else:
+            labels = [
+                self.tr("ID"), self.tr("Titel"), self.tr("Aufnahmedatum"), self.tr("Dauer (s)"),
+                self.tr("Dateigröße"), self.tr("Transkription"), self.tr("Notizen")
+            ]
+        self.setHorizontalHeaderLabels(labels)
 
     def changeEvent(self, event):
         """Behandelt Änderungs-Events (z.B. Sprachwechsel)"""

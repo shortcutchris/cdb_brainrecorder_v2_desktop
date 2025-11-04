@@ -153,6 +153,18 @@ class SessionFormWidget(TranslatableWidget, QWidget):
         self.group.setLayout(group_layout)
         layout.addWidget(self.group)
 
+    def set_compact_mode(self, enabled: bool):
+        """
+        Aktiviert Compact-Mode für kleine Bildschirme
+
+        Args:
+            enabled: True für Compact-Mode
+        """
+        # In diesem Widget ist das Layout bereits kompakt
+        # Wir könnten hier in Zukunft weitere Anpassungen vornehmen
+        # z.B. kleinere Schriftgrößen, weniger Padding, etc.
+        pass
+
     def load_session(self, session: Dict[str, Any]):
         """Lädt Session-Daten ins Formular"""
         self._current_session_id = session['id']

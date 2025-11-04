@@ -201,17 +201,7 @@ class SettingsDialog(TranslatableWidget, QDialog):
             QListWidget::item:hover {
                 background-color: #001633;
             }
-            QScrollBar:vertical {
-                background: #000e22;
-                width: 12px;
-            }
-            QScrollBar::handle:vertical {
-                background: #003355;
-                border-radius: 6px;
-            }
-            QScrollBar::handle:vertical:hover {
-                background: #004466;
-            }
+            /* Scrollbar Styling entfernt - nutzt globales Styling aus main_window.py */
         """)
         prompts_layout.addWidget(self.prompts_list)
 

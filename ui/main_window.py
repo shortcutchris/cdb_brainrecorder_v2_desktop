@@ -28,12 +28,13 @@ from settings import SettingsManager
 from simple_translator import SimpleTranslator
 from translatable_widget import TranslatableWidget
 from services.workers import TranscriptionWorker
+from ui.responsive_layout import ResponsiveLayoutManager, ScreenSize
 
 
 class MainWindow(TranslatableWidget, QMainWindow):
     """Hauptfenster der Anwendung"""
 
-    def __init__(self):
+    def __init__(self, force_layout=None):
         super().__init__()
         self.recorder = AudioRecorder()
         self.repo = SessionRepository()
@@ -52,6 +53,20 @@ class MainWindow(TranslatableWidget, QMainWindow):
         self.logo_click_timer = QTimer()
         self.logo_click_timer.setSingleShot(True)
         self.logo_click_timer.timeout.connect(self._reset_logo_clicks)
+
+        # Responsive Layout Detection
+        self.layout_manager = ResponsiveLayoutManager()
+        if force_layout:
+            self.screen_size = force_layout
+        else:
+            # Auto-detection oder aus Settings laden
+            layout_mode = self.settings_manager.get_layout_mode() if hasattr(self.settings_manager, 'get_layout_mode') else "auto"
+            if layout_mode == "compact":
+                self.screen_size = ScreenSize.COMPACT
+            elif layout_mode == "desktop":
+                self.screen_size = ScreenSize.DESKTOP
+            else:  # auto
+                self.screen_size = self.layout_manager.detect_screen_size()
 
         # Translation Setup mit SimpleTranslator
         self.translator = SimpleTranslator()
@@ -151,7 +166,10 @@ class MainWindow(TranslatableWidget, QMainWindow):
     def _setup_ui(self):
         """Initialisiert die Benutzeroberfläche"""
         self.setWindowTitle(self.tr("Corporate Digital Brain Desktop Recorder"))
-        self.setMinimumSize(1050, 720)  # Angepasst für kompakteres Layout
+
+        # Setze Mindestgröße basierend auf Screen Size
+        min_width, min_height = self.layout_manager.get_minimum_window_size(self.screen_size)
+        self.setMinimumSize(min_width, min_height)
 
         # Globales Dark Theme Styling für gesamte App
         self.setStyleSheet("""
@@ -223,18 +241,18 @@ class MainWindow(TranslatableWidget, QMainWindow):
                 border: 1px solid #003355;
             }
 
-            /* Scrollbar Styling */
+            /* Scrollbar Styling - Responsive (Touch-optimiert für COMPACT) */
             QScrollBar:vertical {
                 background-color: #000e22;
-                width: 10px;
+                width: """ + ("24px" if self.screen_size == ScreenSize.COMPACT else "12px") + """;
                 border: none;
                 margin: 0px;
             }
             QScrollBar::handle:vertical {
                 background-color: #003355;
-                border-radius: 5px;
-                min-height: 30px;
-                margin: 2px;
+                border-radius: """ + ("6px" if self.screen_size == ScreenSize.COMPACT else "5px") + """;
+                min-height: """ + ("60px" if self.screen_size == ScreenSize.COMPACT else "30px") + """;
+                margin: """ + ("4px" if self.screen_size == ScreenSize.COMPACT else "2px") + """;
             }
             QScrollBar::handle:vertical:hover {
                 background-color: #004466;
@@ -249,15 +267,15 @@ class MainWindow(TranslatableWidget, QMainWindow):
 
             QScrollBar:horizontal {
                 background-color: #000e22;
-                height: 10px;
+                height: """ + ("24px" if self.screen_size == ScreenSize.COMPACT else "12px") + """;
                 border: none;
                 margin: 0px;
             }
             QScrollBar::handle:horizontal {
                 background-color: #003355;
-                border-radius: 5px;
-                min-width: 30px;
-                margin: 2px;
+                border-radius: """ + ("6px" if self.screen_size == ScreenSize.COMPACT else "5px") + """;
+                min-width: """ + ("60px" if self.screen_size == ScreenSize.COMPACT else "30px") + """;
+                margin: """ + ("4px" if self.screen_size == ScreenSize.COMPACT else "2px") + """;
             }
             QScrollBar::handle:horizontal:hover {
                 background-color: #004466;
@@ -297,6 +315,9 @@ class MainWindow(TranslatableWidget, QMainWindow):
         left_layout.setSpacing(0)
 
         self.session_table = SessionTableWidget()
+        # Compact-Mode für kleine Bildschirme
+        if self.screen_size == ScreenSize.COMPACT:
+            self.session_table.set_compact_mode(True)
         left_layout.addWidget(self.session_table)
 
         splitter.addWidget(left_widget)
@@ -323,19 +344,28 @@ class MainWindow(TranslatableWidget, QMainWindow):
         # Recorder Panel
         recorder_group = self._create_recorder_panel()
         recorder_group.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
-        recorder_group.setMinimumHeight(350)
+        recorder_height = self.layout_manager.get_recorder_panel_height(self.screen_size)
+        recorder_group.setMinimumHeight(recorder_height)
         right_layout.addWidget(recorder_group)
 
         # Player Widget
         self.player_widget = PlayerWidget()
         self.player_widget.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
-        self.player_widget.setMinimumHeight(180)
+        player_height = self.layout_manager.get_player_widget_height(self.screen_size)
+        self.player_widget.setMinimumHeight(player_height)
+        # Touch-Mode für Compact-Layout
+        if self.screen_size == ScreenSize.COMPACT:
+            self.player_widget.set_touch_mode(True)
         right_layout.addWidget(self.player_widget)
 
         # Session Form
         self.session_form = SessionFormWidget()
         self.session_form.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
-        self.session_form.setMinimumHeight(250)  # Reduziert dank kompakterem Layout
+        form_height = self.layout_manager.get_session_form_height(self.screen_size)
+        self.session_form.setMinimumHeight(form_height)
+        # Compact-Mode für Compact-Layout
+        if self.screen_size == ScreenSize.COMPACT:
+            self.session_form.set_compact_mode(True)
         right_layout.addWidget(self.session_form)
 
         # Stretch am Ende - verhindert dass Widgets zusammengeschoben werden
@@ -409,7 +439,8 @@ class MainWindow(TranslatableWidget, QMainWindow):
 
         self.search_edit = QLineEdit()
         self.search_edit.setPlaceholderText(self.tr("Suche nach Titel, Notizen oder Transkription..."))
-        self.search_edit.setMinimumWidth(350)
+        search_width = self.layout_manager.get_search_field_width(self.screen_size)
+        self.search_edit.setMinimumWidth(search_width)
         self.search_edit.setStyleSheet("""
             QLineEdit {
                 background-color: #001633;
@@ -553,6 +584,8 @@ class MainWindow(TranslatableWidget, QMainWindow):
 
         # Waveform-Visualisierung
         self.waveform_widget = WaveformWidget()
+        waveform_height = self.layout_manager.get_waveform_height(self.screen_size)
+        self.waveform_widget.setMinimumHeight(waveform_height)
         layout.addWidget(self.waveform_widget)
 
         # Laufzeit
