@@ -832,6 +832,9 @@ class MainWindow(TranslatableWidget, QMainWindow):
         # Tabelle aktualisieren
         self._load_sessions()
 
+        # Neu aufgenommene Session automatisch auswählen
+        self.session_table.select_session_by_id(session_id)
+
         self._show_message(QMessageBox.Icon.Information, self.tr("Erfolg"),
                           self.tr("Session wurde erfolgreich gespeichert!\n{0}").format(output_path))
 

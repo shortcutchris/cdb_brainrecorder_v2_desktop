@@ -162,6 +162,23 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
                 # Fokus auf Tabelle setzen (verhindert On-Screen-Keyboard)
                 self.setFocus()
 
+    def select_session_by_id(self, session_id: int):
+        """
+        Wählt eine Session anhand ihrer ID aus
+
+        Args:
+            session_id: Die ID der auszuwählenden Session
+        """
+        for row in range(self.rowCount()):
+            id_item = self.item(row, 0)
+            if id_item and id_item.text().strip():
+                if int(id_item.text()) == session_id:
+                    # Session gefunden - auswählen
+                    self.selectRow(row)
+                    # Fokus auf Tabelle setzen (verhindert On-Screen-Keyboard)
+                    self.setFocus()
+                    break
+
     def _on_selection_changed(self):
         """Wird aufgerufen wenn die Selektion sich ändert"""
         selected_rows = self.selectionModel().selectedRows()
