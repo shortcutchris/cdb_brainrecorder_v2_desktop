@@ -677,6 +677,11 @@ class MainWindow(TranslatableWidget, QMainWindow):
         sessions = self.repo.get_all(search_term)
         self.session_table.load_sessions(sessions)
 
+        # Auto-select erste Session beim Start (nicht bei Suche)
+        # Verhindert dass On-Screen-Keyboard durch Suchfeld-Fokus ausgelöst wird
+        if not search_term and sessions:
+            self.session_table.select_first_session()
+
     def _on_search(self, text: str):
         """Wird aufgerufen wenn im Suchfeld getippt wird"""
         self._load_sessions(text)

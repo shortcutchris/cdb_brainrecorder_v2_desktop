@@ -151,6 +151,17 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
                         empty_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                         self.setItem(row_idx, col_idx, empty_item)
 
+    def select_first_session(self):
+        """Wählt automatisch die erste Session in der Tabelle aus"""
+        if self.rowCount() > 0:
+            # Prüfe ob erste Zeile valide Session-ID hat
+            id_item = self.item(0, 0)
+            if id_item and id_item.text().strip():
+                # Erste Zeile auswählen
+                self.selectRow(0)
+                # Fokus auf Tabelle setzen (verhindert On-Screen-Keyboard)
+                self.setFocus()
+
     def _on_selection_changed(self):
         """Wird aufgerufen wenn die Selektion sich ändert"""
         selected_rows = self.selectionModel().selectedRows()
