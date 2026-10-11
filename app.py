@@ -9,11 +9,13 @@ from PySide6.QtWidgets import QApplication
 from PySide6.QtGui import QIcon
 from ui.main_window import MainWindow
 
+APP_VERSION = '0.3.0'
 
 def main():
     """Hauptfunktion"""
     app = QApplication(sys.argv)
     app.setApplicationName("Corporate Digital Brain Desktop Recorder")
+    app.setApplicationVersion(APP_VERSION)
     app.setOrganizationName("Corporate Digital Brain")
     app.setWindowIcon(QIcon("icon.png"))
 

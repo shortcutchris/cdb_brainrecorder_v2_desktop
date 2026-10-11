@@ -41,10 +41,15 @@ class LocalController:
             result = self.engine.result(ident)
             changes = dict(transcription_status=job['state'], local_error=job['error'],
                            local_metrics=job['metrics'], duration_sec=int(job['duration']))
-            if result['transcript']: changes['transcript_text'] = result['transcript']
-            if result['summary']: changes['summary_text'] = result['summary']
-            # Avoid unnecessary WAL/SD writes on each UI poll.
+            # Completed model artefacts are immutable audit data. Import them once,
+            # then preserve the user's edits in the session database on every poll/restart.
             current = self.repo.get_by_id(sid)
+            transitioning = current.get('transcription_status') != job['state']
+            if result['transcript'] and transitioning:
+                changes['transcript_text'] = result['transcript']
+            if result['summary'] and transitioning:
+                changes['summary_text'] = result['summary']
+            # Avoid unnecessary WAL/SD writes on each UI poll.
             changes = {k:v for k,v in changes.items() if current.get(k) != v}
             if changes: self.repo.update(sid, **changes)
 

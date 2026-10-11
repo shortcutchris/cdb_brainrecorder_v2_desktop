@@ -5,12 +5,13 @@ from PySide6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
                                QPushButton, QLabel, QComboBox, QLineEdit,
                                QProgressBar, QSplitter, QGroupBox, QMessageBox,
                                QFileDialog, QToolBar, QSizePolicy, QScrollArea,
-                               QFrame, QStackedWidget)
+                               QFrame, QStackedWidget, QTableWidget, QTableWidgetItem, QHeaderView)
 from PySide6.QtCore import Qt, QTimer, QEvent, QCoreApplication
 from PySide6.QtGui import QAction, QIcon, QPixmap
 import qtawesome as qta
 import sys
 import os
+import time
 from pathlib import Path
 from datetime import datetime
 
@@ -19,7 +20,7 @@ sys.path.append(str(Path(__file__).parent.parent))
 from recorder import AudioRecorder
 from data.repo import SessionRepository
 from ui.table_widget import SessionTableWidget
-from ui.session_form import SessionFormWidget
+from ui.meeting_content import MeetingContent
 from ui.player_widget import PlayerWidget
 from ui.waveform_widget import WaveformWidget
 from ui.ai_view import AIView
@@ -352,72 +353,68 @@ class MainWindow(TranslatableWidget, QMainWindow):
         right_container_layout.setContentsMargins(12, 12, 0, 12)  # 12px Abstand oben und unten
         right_container_layout.setSpacing(0)
 
-        # ScrollArea für Recorder + Player + Formular
-        right_scroll = QScrollArea()
-        right_scroll.setWidgetResizable(True)
-        right_scroll.setFrameShape(QFrame.Shape.NoFrame)
-        right_scroll.setStyleSheet("QScrollArea { background-color: #000e22; border: none; }")
-
-        right_widget = QWidget()
-        right_widget.setStyleSheet("QWidget { background-color: #000e22; }")
-        right_layout = QVBoxLayout(right_widget)
-        right_layout.setContentsMargins(0, 0, 12, 0)  # Nur rechts Margin, oben/links wird vom Container gehandhabt
-        right_layout.setSpacing(16)
-
-        # Recorder Panel
+        right_layout = right_container_layout
+        right_layout.setContentsMargins(12, 8, 12, 8)
+        right_layout.setSpacing(6)
         recorder_group = self._create_recorder_panel()
         recorder_group.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
-        recorder_height = self.layout_manager.get_recorder_panel_height(self.screen_size)
-        recorder_group.setMinimumHeight(recorder_height)
         right_layout.addWidget(recorder_group)
-
-        # Player Widget
         self.player_widget = PlayerWidget()
-        self.player_widget.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
-        player_height = self.layout_manager.get_player_widget_height(self.screen_size)
-        self.player_widget.setMinimumHeight(player_height)
-        # Touch-Mode für Compact-Layout
-        if self.screen_size == ScreenSize.COMPACT:
-            self.player_widget.set_touch_mode(True)
+        self.player_widget.set_compact_layout()
         right_layout.addWidget(self.player_widget)
-
-        # Session Form
-        self.session_form = SessionFormWidget()
-        self.session_form.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
-        form_height = self.layout_manager.get_session_form_height(self.screen_size)
-        self.session_form.setMinimumHeight(form_height)
-        # Compact-Mode für Compact-Layout
-        if self.screen_size == ScreenSize.COMPACT:
-            self.session_form.set_compact_mode(True)
-        right_layout.addWidget(self.session_form)
-
-        # Stretch am Ende - verhindert dass Widgets zusammengeschoben werden
-        right_layout.addStretch()
-
-        right_scroll.setWidget(right_widget)
-        right_container_layout.addWidget(right_scroll)
+        self.session_form = MeetingContent(self.repo)
+        right_layout.addWidget(self.session_form, 1)
         splitter.addWidget(right_container)
-        splitter.setStretchFactor(0, 2)
-        splitter.setStretchFactor(1, 1)
+        splitter.setStretchFactor(0, 3)
+        splitter.setStretchFactor(1, 7)
+        splitter.setSizes([380, 880])
+        self.main_splitter = splitter
+        # Narrow list: details remain available in the content panel.
+        for column in (0, 2, 3, 4, 6): self.session_table.setColumnHidden(column, True)
+        self.session_table.horizontalHeader().resizeSection(5, 100)
 
         main_layout.addWidget(splitter, 1)
-        self.queue_status = QLabel('Lokale Verarbeitung wird geprüft …')
-        self.queue_status.setWordWrap(True)
-        self.queue_status.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Maximum)
-        self.queue_status.setContentsMargins(12, 4, 12, 4)
-        activity_row=QHBoxLayout()
-        self.activity_icon=QLabel('○');self.activity_icon.setFixedWidth(28)
-        self.activity_icon.setSizePolicy(QSizePolicy.Policy.Fixed,QSizePolicy.Policy.Maximum)
+        self.queue_panel = QTableWidget(0, 3)
+        self.queue_panel.setHorizontalHeaderLabels(['Meeting / FIFO', 'Verarbeitung', 'Aktion'])
+        self.queue_panel.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
+        self.queue_panel.setSelectionMode(QTableWidget.SelectionMode.NoSelection)
+        self.queue_panel.verticalHeader().hide()
+        self.queue_panel.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
+        self.queue_panel.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
+        self.queue_panel.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeMode.Fixed)
+        self.queue_panel.setColumnWidth(2, 180)
+        self.queue_panel.verticalHeader().setDefaultSectionSize(50)
+        self.queue_panel.setFixedHeight(156)
+        self.queue_panel.hide()
+        self.queue_panel.setStyleSheet('QTableWidget {background:#001633;color:#e0e0e0;border:1px solid #003355;} QHeaderView::section {background:#001633;color:#e0e0e0;border:0;padding:5px;}')
+        main_layout.addWidget(self.queue_panel)
+        footer = QWidget()
+        footer.setFixedHeight(56)
+        activity_row = QHBoxLayout(footer)
+        activity_row.setContentsMargins(12, 4, 12, 4)
+        self.activity_icon = QLabel('○')
+        self.activity_icon.setFixedWidth(28)
         self.activity_icon.setStyleSheet('color:#ffaa3a;font-size:24px;')
-        activity_row.addWidget(self.activity_icon);activity_row.addWidget(self.queue_status,1)
-        main_layout.addLayout(activity_row)
+        self.queue_status = QLabel('Lokale Verarbeitung wird geprüft …')
+        self.queue_status.setMinimumWidth(0)
+        self.queue_status.setSizePolicy(QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Preferred)
+        self.queue_toggle = QPushButton('Warteschlange anzeigen ▴')
+        self.queue_toggle.setCheckable(True)
+        self.queue_toggle.setMinimumHeight(48)
+        self.queue_toggle.setStyleSheet('background:#ffaa3a;color:#000e22;border:0;border-radius:4px;padding:0 12px;font-weight:bold;')
+        self.queue_toggle.toggled.connect(self.toggle_queue)
+        activity_row.addWidget(self.activity_icon)
+        activity_row.addWidget(self.queue_status, 1)
+        activity_row.addWidget(self.queue_toggle)
+        main_layout.addWidget(footer)
         self.notice = QLabel('')
-        self.notice.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Maximum)
         self.notice.setWordWrap(True)
+        self.notice.setMaximumHeight(40)
         self.notice.setContentsMargins(12, 0, 12, 4)
+        self.notice.hide()
         main_layout.addWidget(self.notice)
         QScroller.grabGesture(self.session_table.viewport(), QScroller.ScrollerGestureType.TouchGesture)
-        QScroller.grabGesture(right_scroll.viewport(), QScroller.ScrollerGestureType.TouchGesture)
+        QScroller.grabGesture(self.queue_panel.viewport(), QScroller.ScrollerGestureType.TouchGesture)
 
         # ===== Index 1: AI-View =====
         self.ai_view = AIView(repo=self.repo)
@@ -519,6 +516,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
         toolbar.addSeparator()
 
         self.toolbar_settings_button = QPushButton()
+        self.toolbar_settings_button.setMinimumSize(48, 48)
         self.toolbar_settings_button.setIcon(qta.icon('fa5s.cog', color='#000e22'))
         self.toolbar_settings_button.setToolTip(self.tr("Einstellungen"))
         self.toolbar_settings_button.setStyleSheet("""
@@ -543,115 +541,49 @@ class MainWindow(TranslatableWidget, QMainWindow):
 
         return toolbar
 
-    def _create_recorder_panel(self) -> QWidget:
-        """Erstellt das Recorder-Panel"""
-        # Container Widget erstellen (konsistent mit PlayerWidget und SessionFormWidget)
-        container = QWidget()
-        container_layout = QVBoxLayout(container)
-        container_layout.setContentsMargins(0, 0, 0, 0)
-
-        # GroupBox erstellen
-        self.recorder_group = QGroupBox("")
-        self.recorder_group.setStyleSheet("""
-            QGroupBox {
-                border: 1px solid #003355;
-                background-color: #001633;
-                border-radius: 4px;
-                margin-top: 0px;
-            }
-            QGroupBox::title {
-                subcontrol-origin: margin;
-                left: 0px;
-                padding: 0 0px;
-            }
-        """)
-        layout = QVBoxLayout()
-        layout.setContentsMargins(12, 12, 12, 12)
-        layout.setSpacing(12)
-
-        # Geräteauswahl
-        device_layout = QHBoxLayout()
-        self.mic_label = QLabel(self.tr("Mikrofon:"))
-        device_layout.addWidget(self.mic_label)
+    def _create_recorder_panel(self):
+        self.recorder_group = QGroupBox('')
+        layout = QVBoxLayout(self.recorder_group)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(4)
+        meter_row = QHBoxLayout()
+        meter_row.setContentsMargins(8, 0, 8, 0)
+        ready_label = QLabel('Aufnahme · lokal')
+        meter_row.addWidget(ready_label, 1)
+        self.mic_label = QLabel('Mikrofon:')
+        self.mic_label.hide()
         self.device_combo = QComboBox()
         self._load_devices()
-        device_layout.addWidget(self.device_combo)
-        layout.addLayout(device_layout)
-
-        # Sample Rate Auswahl
-        samplerate_layout = QHBoxLayout()
-        self.samplerate_label = QLabel(self.tr("Abtastrate:"))
-        samplerate_layout.addWidget(self.samplerate_label)
+        self.device_combo.setMinimumHeight(44)
+        self.device_combo.setMinimumWidth(100)
+        self.device_combo.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToMinimumContentsLengthWithIcon)
+        self.device_combo.setToolTip('Mikrofon · 16000 Hz lokal')
+        self.device_combo.hide()
+        self.samplerate_label = QLabel('Abtastrate:')
         self.samplerate_combo = QComboBox()
-        self.samplerate_combo.addItem("16000 Hz · lokal", 16000)
-        self.samplerate_combo.setEnabled(False)
-        samplerate_layout.addWidget(self.samplerate_combo)
-        layout.addLayout(samplerate_layout)
-
-        # Level-Anzeige
-        level_layout = QHBoxLayout()
-        self.level_label = QLabel(self.tr("Pegel:"))
-        level_layout.addWidget(self.level_label)
+        self.samplerate_combo.addItem('16000 Hz · lokal', 16000)
+        self.samplerate_label.hide(); self.samplerate_combo.hide()
+        self.level_label = QLabel('Pegel:'); self.level_label.hide()
         self.level_bar = QProgressBar()
-        self.level_bar.setMaximum(100)
-        self.level_bar.setValue(0)
-        self.level_bar.setStyleSheet("""
-            QProgressBar {
-                background-color: #001633;
-                border: 1px solid #003355;
-                border-radius: 3px;
-                text-align: center;
-                color: #e0e0e0;
-            }
-            QProgressBar::chunk {
-                background-color: #ffaa3a;
-                border-radius: 2px;
-            }
-        """)
-        level_layout.addWidget(self.level_bar)
-        layout.addLayout(level_layout)
-
-        # Waveform-Visualisierung
+        self.level_bar.setRange(0, 100)
+        self.level_bar.setFixedWidth(110)
+        self.level_bar.setToolTip('Mikrofonpegel')
+        self.level_bar.setStyleSheet('QProgressBar {border:1px solid #003355;color:#e0e0e0;} QProgressBar::chunk {background:#ffaa3a;}')
+        meter_row.addWidget(self.level_bar)
         self.waveform_widget = WaveformWidget()
-        waveform_height = self.layout_manager.get_waveform_height(self.screen_size)
-        self.waveform_widget.setMinimumHeight(waveform_height)
-        layout.addWidget(self.waveform_widget)
-
-        # Laufzeit
-        self.duration_label = QLabel("00:00:00")
-        self.duration_label.setStyleSheet("font-size: 24px; font-weight: bold;")
-        self.duration_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(self.duration_label)
-
-        # Buttons
-        button_layout = QHBoxLayout()
-        self.record_button = QPushButton(self.tr("Aufnahme starten"))
+        self.waveform_widget.hide()
+        self.duration_label = QLabel('00:00:00')
+        self.duration_label.setStyleSheet('font-size:20px;font-weight:bold;')
+        meter_row.addWidget(self.duration_label)
+        layout.addLayout(meter_row)
+        self.record_button = QPushButton('●  Aufnahme starten')
+        self.record_button.setMinimumHeight(72)
+        self.record_button.setStyleSheet('background:#d32f2f;color:white;border:0;border-radius:4px;padding:0 14px;font-size:23px;font-weight:bold;')
         self.record_button.clicked.connect(self._on_record_clicked)
-        self.record_button.setStyleSheet("""
-            QPushButton {
-                padding: 10px;
-                font-size: 14px;
-                background-color: #d32f2f;
-                color: white;
-                font-weight: bold;
-                border: 1px solid #b71c1c;
-                border-radius: 4px;
-            }
-            QPushButton:hover {
-                background-color: #c62828;
-            }
-        """)
-        button_layout.addWidget(self.record_button)
-
+        layout.addWidget(self.record_button)
         self.pause_button = QPushButton(self)
         self.pause_button.hide()
-
-        layout.addLayout(button_layout)
-
-        self.recorder_group.setLayout(layout)
-        container_layout.addWidget(self.recorder_group)
-
-        return container
+        return self.recorder_group
 
     def _load_devices(self):
         found = self.recorder.get_devices()
@@ -672,7 +604,9 @@ class MainWindow(TranslatableWidget, QMainWindow):
         self.session_table.session_selected.connect(self._on_session_selected)
 
         # Form Save
-        self.session_form.save_requested.connect(self._on_save_session)
+        self.session_form.failed.connect(self.error)
+        self.session_form.saved.connect(lambda _: setattr(self, 'last_signature', None))
+        self.session_form.process_requested.connect(self.process_content)
 
         # Player Signals
         self.player_widget.delete_requested.connect(self._on_player_delete_requested)
@@ -692,7 +626,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
 
         # Auto-select erste Session beim Start (nicht bei Suche)
         # Verhindert dass On-Screen-Keyboard durch Suchfeld-Fokus ausgelöst wird
-        if not search_term and sessions:
+        if not search_term and sessions and self.session_form.get_current_session_id() is None:
             self.session_table.select_first_session()
 
     def _on_search(self, text: str):
@@ -705,14 +639,16 @@ class MainWindow(TranslatableWidget, QMainWindow):
         self.settings_manager.set_sample_rate(sample_rate)
 
     def _on_record_clicked(self):
-        if self.busy:return
+        if self.busy or time.monotonic() < getattr(self, "next_record_action", 0):return
         if self.engine.recorder.active:
+            self.next_record_action = time.monotonic() + .65
             self.task(self.engine.stop, lambda _:self.poll(), True)
         else:
             if not self.engine.store.config()['setup_complete']:
                 self.error('Bitte unter Einstellungen Audio testen und Einrichtung abschließen.')
                 self._on_settings_clicked()
                 return
+            self.next_record_action = time.monotonic() + .65
             self.task(lambda:self.engine.start(''), lambda _:self.poll(), True)
 
     def _on_pause_clicked(self):
@@ -751,7 +687,12 @@ class MainWindow(TranslatableWidget, QMainWindow):
         """Wird aufgerufen wenn eine Session in der Tabelle ausgewählt wird"""
         session = self.repo.get_by_id(session_id)
         if session:
-            self.session_form.load_session(session)
+            previous = self.session_form.get_current_session_id()
+            if not self.session_form.load_session(session):
+                self.session_table.blockSignals(True)
+                if previous: self.session_table.select_session_by_id(previous)
+                self.session_table.blockSignals(False)
+                return
             # Audio-Datei in Player laden
             if session['path'] and os.path.exists(session['path']):
                 try:self.player_widget.load_file(session['path'], session_id)
@@ -767,6 +708,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
 
     def _on_player_delete_requested(self, session_id: int):
         """Wird aufgerufen wenn im Player der Löschen-Button geklickt wird"""
+        if not self.session_form.flush(): return
         confirmed = self._ask_question(
             self.tr("Löschen bestätigen"),
             self.tr("Möchten Sie diese Session wirklich löschen?\n\n⚠️ Die Audiodatei wird ebenfalls permanent gelöscht!")
@@ -809,11 +751,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
 
     def _on_ai_view_requested(self, session_id: int):
         """Wechselt zum AI-View für die ausgewählte Session"""
-        # Session in AI-View laden
-        self.ai_view.load_session(session_id)
-
-        # Direkt zum AI-View wechseln
-        self.stacked_widget.setCurrentIndex(1)  # AI-View
+        self.open_queue_session(session_id)
 
     def _on_ai_back(self):
         """Kehrt vom AI-View zur Hauptansicht zurück"""
@@ -846,6 +784,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
 
         # Verbinde prompts_changed Signal mit AI View reload
         dialog.prompts_changed.connect(self.ai_view.load_prompts)
+        dialog.prompts_changed.connect(self.session_form.load_prompts)
 
         if dialog.exec() == QDialog.DialogCode.Accepted:
             # Prüfe ob Sprache geändert wurde
@@ -874,9 +813,9 @@ class MainWindow(TranslatableWidget, QMainWindow):
 
         # Record-Button Text abhängig vom Zustand
         if not self.recorder.is_recording:
-            self.record_button.setText(self.tr("Aufnahme starten"))
+            self.record_button.setText("●  " + self.tr("Aufnahme starten"))
         else:
-            self.record_button.setText(self.tr("Aufnahme stoppen"))
+            self.record_button.setText("■  " + self.tr("Aufnahme stoppen"))
 
         # Pause-Button Text abhängig vom Zustand
         if not self.recorder.is_paused:
@@ -955,6 +894,9 @@ class MainWindow(TranslatableWidget, QMainWindow):
     def resizeEvent(self, event):
         """Wird aufgerufen wenn Fenster resized wird"""
         super().resizeEvent(event)
+        if hasattr(self, 'queue_panel'):
+            self.queue_panel.setFixedHeight(156 if self.height() >= 700 else 66)
+            self.queue_panel.horizontalHeader().setVisible(self.height() >= 700)
 
         # Splash an neue Größe anpassen (falls noch sichtbar)
         # Try-except um RuntimeError zu vermeiden wenn C++ Objekt bereits gelöscht
@@ -968,6 +910,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
 
     def error(self, message):
         self.notice.setText(message)
+        self.notice.setVisible(bool(message))
 
     def task(self, fn, done=None, exclusive=False, error=None):
         if exclusive and self.busy:return
@@ -1004,7 +947,8 @@ class MainWindow(TranslatableWidget, QMainWindow):
         def done(state):
             self.polling=False;self.state=state
             active=bool(state['recording']['id'])
-            self.record_button.setText(self.tr('Aufnahme stoppen' if active else 'Aufnahme starten'))
+            self.record_button.setText('■  Aufnahme stoppen' if active else '●  Aufnahme starten')
+            self.record_button.setStyleSheet('background:' + ('#b71c1c' if active else '#d32f2f') + ';color:white;border:2px solid ' + ('#ffaaaa' if active else '#d32f2f') + ';border-radius:6px;padding:0 14px;font-size:23px;font-weight:bold;')
             self.device_combo.setEnabled(not active)
             self._on_duration_update(state['recording']['seconds'])
             raw=state['waveform'];self.level_bar.setValue(self.engine.probe.level(raw) if raw else 0)
@@ -1031,6 +975,8 @@ class MainWindow(TranslatableWidget, QMainWindow):
             if row and row.get('path') and self.player_widget.current_file_path!=row['path'] and Path(row['path']).is_file():
                 try:self.player_widget.load_file(row['path'],selected)
                 except Exception as e:self.error('Wiedergabe: '+str(e))
+            if row: self.session_form.refresh(row)
+            self.refresh_queue()
             self.ai_view.refresh_local()
         def failed(message):
             self.polling=False;self.error(message)
@@ -1041,12 +987,79 @@ class MainWindow(TranslatableWidget, QMainWindow):
             self.error('Aufnahme zuerst beenden, damit sie sicher gespeichert wird.');event.ignore();return
         if self.busy or any(t.isRunning() for t in self.tasks):
             self.error('Bitte kurz warten, der laufende Vorgang wird abgeschlossen.');event.ignore();return
+        if not self.session_form.flush(): event.ignore();return
         self.timer.stop();self.activity_timer.stop();self.player_widget.player.close();self.engine.close();event.accept()
 
     def animate_activity(self):
         moving,text,failed=describe_queue(self.state)
-        self.queue_status.setText(text)
+        self.queue_status.setToolTip(text)
+        short = text.split(' | ')
+        # Keep phase/elapsed and all failure/recording indicators visible, titles in tooltip/panel.
+        first = short[0].split(' · ')
+        first = ' · '.join(first[:2]) if len(first) > 2 else short[0]
+        waiting = next((part.split(' · ')[0] for part in short if ' warten' in part), '0 warten')
+        extras = [part for part in short if 'Fehler' in part or 'parallel' in part or 'vorbereitet' in part]
+        extras = [('Fehler · Details öffnen' if 'Fehler' in part else part) for part in extras]
+        if any(r.get('transcription_status') == 'failed' and not r.get('local_job_id') for r in self.state.get('sessions', [])) and not failed:
+            extras.append('Fehler · Details öffnen'); failed=True
+        self.queue_status.setText(' | '.join([first, waiting] + extras))
         if moving:
             self.animation_frame=(getattr(self,'animation_frame',0)+1)%4
             self.activity_icon.setText(('◐','◓','◑','◒')[self.animation_frame])
         else:self.activity_icon.setText('!' if failed else '✓')
+
+    def toggle_queue(self, opened):
+        self.queue_panel.setVisible(opened)
+        self.queue_toggle.setText('Warteschlange ausblenden ▾' if opened else 'Warteschlange anzeigen ▴')
+        self.refresh_queue()
+
+    def process_content(self, sid, prompt):
+        self.task(lambda: self.controller.process(sid, prompt), lambda _: self.poll(), True)
+
+    def open_queue_session(self, sid):
+        if not self.session_form.flush(): return
+        self.search_edit.clear()
+        self.session_table.select_session_by_id(sid)
+        self.session_form.tabs.setCurrentIndex(2)
+
+    def retry_queue_session(self, sid, ident):
+        if not self.session_form.flush(): return
+        if ident:
+            self.task(lambda: self.engine.retry(ident), lambda _: self.poll(), True)
+        else:
+            self.process_content(sid, '')
+
+    def refresh_queue(self):
+        sessions = {r.get('local_job_id'): r for r in self.state.get('sessions', []) if r.get('local_job_id')}
+        jobs = [j for j in self.state.get('jobs', []) if j['id'] in sessions and j['state'] not in ('completed',)]
+        priority = {'recording': 0, 'transcribing': 1, 'summarizing': 1, 'importing': 2, 'queued': 3, 'failed': 4}
+        jobs.sort(key=lambda j: (priority.get(j['state'], 5), j.get('queued_at') or j['created']))
+        rows = [(sessions[j['id']], j) for j in jobs]
+        rows += [(r, None) for r in self.state.get('sessions', []) if not r.get('local_job_id') and r.get('transcription_status') == 'failed']
+        signature = [(r['id'], r['title'], j['state'] if j else 'failed', r.get('local_error')) for r,j in rows]
+        if signature == getattr(self, '_queue_signature', None): return
+        self._queue_signature = signature
+        scroll = self.queue_panel.verticalScrollBar().value()
+        self.queue_panel.setRowCount(len(rows) or 1)
+        if not rows:
+            self.queue_panel.setItem(0, 0, QTableWidgetItem('Keine offenen Aufträge'))
+            self.queue_panel.setItem(0, 1, QTableWidgetItem('Lokal bereit'))
+            self.queue_panel.setCellWidget(0, 2, QWidget())
+        names = {'recording': 'Aufnahme läuft', 'transcribing': 'Transkription läuft', 'summarizing': 'Zusammenfassung läuft', 'importing': 'Audio vorbereiten', 'queued': 'Wartet', 'failed': 'Fehler'}
+        fifo = 0
+        for i, (session, job) in enumerate(rows):
+            status = job['state'] if job else 'failed'
+            if status == 'queued': fifo += 1
+            title = (str(fifo) + '. ' if status == 'queued' else '') + session['title']
+            self.queue_panel.setItem(i, 0, QTableWidgetItem(title))
+            item = QTableWidgetItem(('Fehler · ' + (session.get('local_error') or 'Details öffnen')) if status == 'failed' else names.get(status, status))
+            item.setToolTip(session.get('local_error') or '')
+            self.queue_panel.setItem(i, 1, item)
+            action = QPushButton('Wiederholen' if status == 'failed' else 'Öffnen')
+            action.setMinimumHeight(48)
+            action.setStyleSheet('background:#ffaa3a;color:#000e22;border:0;padding:0 8px;font-weight:bold;')
+            sid = session['id']; ident = job['id'] if job else None
+            if status == 'failed': action.clicked.connect(lambda checked=False, sid=sid, ident=ident: self.retry_queue_session(sid, ident))
+            else: action.clicked.connect(lambda checked=False, sid=sid: self.open_queue_session(sid))
+            self.queue_panel.setCellWidget(i, 2, action)
+        self.queue_panel.verticalScrollBar().setValue(scroll)

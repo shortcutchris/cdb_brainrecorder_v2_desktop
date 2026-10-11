@@ -2,7 +2,7 @@
 Playback-Widget für Audio-Wiedergabe
 """
 from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
-                               QLabel, QSlider, QGroupBox)
+                               QLabel, QSlider, QGroupBox, QMenu)
 from PySide6.QtCore import Qt, Signal, QEvent
 import qtawesome as qta
 import sys
@@ -195,6 +195,44 @@ class PlayerWidget(TranslatableWidget, QWidget):
         self.player.playback_finished.connect(self._on_playback_finished)
         self.player.position_changed.connect(self._on_position_changed)
         self.player.duration_changed.connect(self._on_duration_changed)
+
+    def set_compact_layout(self):
+        """One fixed touch row; less frequent actions stay in an accessible menu."""
+        self.group.hide()
+        row = QHBoxLayout()
+        row.setContentsMargins(0, 0, 0, 0)
+        row.setSpacing(8)
+        for button, text in ((self.play_button, '▶'), (self.pause_button, 'Ⅱ'),
+                             (self.stop_button, '■')):
+            button.setParent(self)
+            button.setText(text)
+            button.setMinimumSize(48, 48)
+            button.setMaximumWidth(48)
+            row.addWidget(button)
+        self.play_button.setToolTip('Wiedergabe starten')
+        self.pause_button.setToolTip('Wiedergabe pausieren')
+        self.stop_button.setToolTip('Wiedergabe stoppen')
+        for widget in (self.current_time_label, self.progress_slider, self.total_time_label):
+            widget.setParent(self)
+            row.addWidget(widget, 1 if widget is self.progress_slider else 0)
+        self.progress_slider.setMinimumHeight(44)
+        self.progress_slider.setStyleSheet('QSlider::groove:horizontal {height:6px;background:#003355;} QSlider::handle:horizontal {background:#ffaa3a;width:26px;margin:-12px 0;border-radius:8px;}')
+        self.more_button = QPushButton('⋯')
+        self.more_button.setMinimumSize(48, 48)
+        self.more_button.setToolTip('Audiodatei, KI-Texte und Löschen')
+        self.more_button.setStyleSheet('background:#ffaa3a;color:#000e22;border:0;font-size:24px;')
+        menu = QMenu(self.more_button)
+        menu.setStyleSheet('QMenu {background:#001633;color:#e0e0e0;} QMenu::item {padding:16px 24px;} QMenu::item:selected {background:#003355;}')
+        for label, button in (('Datei im Ordner zeigen', self.folder_button),
+                              ('Zusammenfassung öffnen', self.ai_button),
+                              ('Meeting löschen …', self.delete_button)):
+            action = menu.addAction(label)
+            action.triggered.connect(button.click)
+            menu.aboutToShow.connect(lambda action=action, button=button: action.setEnabled(button.isEnabled()))
+        self.more_button.setMenu(menu)
+        row.addWidget(self.more_button)
+        self.layout().addLayout(row)
+        self.setFixedHeight(52)
 
     def set_touch_mode(self, enabled: bool):
         """
