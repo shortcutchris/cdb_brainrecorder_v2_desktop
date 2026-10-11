@@ -27,7 +27,11 @@ from ui.settings_dialog import SettingsDialog
 from settings import SettingsManager
 from simple_translator import SimpleTranslator
 from translatable_widget import TranslatableWidget
-from services.workers import TranscriptionWorker
+from services.local_controller import LocalController
+from ui.tasks import Task
+from ui.queue_status import describe_queue
+from meeting_recorder.audio import devices
+from PySide6.QtWidgets import QScroller
 from ui.responsive_layout import ResponsiveLayoutManager, ScreenSize
 
 
@@ -36,8 +40,15 @@ class MainWindow(TranslatableWidget, QMainWindow):
 
     def __init__(self, force_layout=None):
         super().__init__()
-        self.recorder = AudioRecorder()
-        self.repo = SessionRepository()
+        root = Path(os.environ.get('CDB_LOCAL_DATA', str(Path.home()/'.local/share/cdb-recorder-local')))
+        self.repo = SessionRepository(os.environ.get('CDB_SESSION_DB', 'data/sessions.db'))
+        self.controller = LocalController(self.repo, root)
+        self.engine = self.controller.engine
+        self.recorder = AudioRecorder(self.engine)
+        self.tasks = set()
+        self.busy = self.polling = False
+        self.state = {}
+        self.last_signature = None
         self.settings_manager = SettingsManager()
         self.transcription_worker = None
         self.current_transcribing_session_id = None
@@ -77,6 +88,18 @@ class MainWindow(TranslatableWidget, QMainWindow):
         self._connect_signals()
         self._load_sessions()
         self._setup_shortcuts()  # Keyboard Shortcuts (F11 für Fullscreen)
+        self.ai_view.controller = self.controller
+        self.ai_view.host = self
+        self.ai_view.repo = self.repo
+        self.device_combo.activated.connect(self._device_selected)
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.poll)
+        self.timer.start(1000)
+        self.poll()
+        self.animation_frame=0
+        self.activity_timer=QTimer(self)
+        self.activity_timer.timeout.connect(self.animate_activity)
+        self.activity_timer.start(160)
 
         # Splash Screen als Overlay anzeigen
         self._show_splash_screen()
@@ -169,7 +192,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
 
         # Setze Mindestgröße basierend auf Screen Size
         min_width, min_height = self.layout_manager.get_minimum_window_size(self.screen_size)
-        self.setMinimumSize(min_width, min_height)
+        self.setMinimumSize(min(min_width, 960), min(min_height, 560))
 
         # Globales Dark Theme Styling für gesamte App
         self.setStyleSheet("""
@@ -377,10 +400,27 @@ class MainWindow(TranslatableWidget, QMainWindow):
         splitter.setStretchFactor(0, 2)
         splitter.setStretchFactor(1, 1)
 
-        main_layout.addWidget(splitter)
+        main_layout.addWidget(splitter, 1)
+        self.queue_status = QLabel('Lokale Verarbeitung wird geprüft …')
+        self.queue_status.setWordWrap(True)
+        self.queue_status.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Maximum)
+        self.queue_status.setContentsMargins(12, 4, 12, 4)
+        activity_row=QHBoxLayout()
+        self.activity_icon=QLabel('○');self.activity_icon.setFixedWidth(28)
+        self.activity_icon.setSizePolicy(QSizePolicy.Policy.Fixed,QSizePolicy.Policy.Maximum)
+        self.activity_icon.setStyleSheet('color:#ffaa3a;font-size:24px;')
+        activity_row.addWidget(self.activity_icon);activity_row.addWidget(self.queue_status,1)
+        main_layout.addLayout(activity_row)
+        self.notice = QLabel('')
+        self.notice.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Maximum)
+        self.notice.setWordWrap(True)
+        self.notice.setContentsMargins(12, 0, 12, 4)
+        main_layout.addWidget(self.notice)
+        QScroller.grabGesture(self.session_table.viewport(), QScroller.ScrollerGestureType.TouchGesture)
+        QScroller.grabGesture(right_scroll.viewport(), QScroller.ScrollerGestureType.TouchGesture)
 
         # ===== Index 1: AI-View =====
-        self.ai_view = AIView()
+        self.ai_view = AIView(repo=self.repo)
 
         # Views zum StackedWidget hinzufügen
         self.stacked_widget.addWidget(self.main_view)  # Index 0
@@ -543,19 +583,8 @@ class MainWindow(TranslatableWidget, QMainWindow):
         self.samplerate_label = QLabel(self.tr("Abtastrate:"))
         samplerate_layout.addWidget(self.samplerate_label)
         self.samplerate_combo = QComboBox()
-        self.samplerate_combo.addItem("8000 Hz", 8000)
-        self.samplerate_combo.addItem("16000 Hz", 16000)
-        self.samplerate_combo.addItem("22050 Hz", 22050)
-        self.samplerate_combo.addItem("44100 Hz", 44100)
-        self.samplerate_combo.addItem("48000 Hz", 48000)
-        # Setze gespeicherte Sample Rate
-        saved_rate = self.settings_manager.get_sample_rate()
-        for i in range(self.samplerate_combo.count()):
-            if self.samplerate_combo.itemData(i) == saved_rate:
-                self.samplerate_combo.setCurrentIndex(i)
-                break
-        # Speichere Änderungen
-        self.samplerate_combo.currentIndexChanged.connect(self._on_samplerate_changed)
+        self.samplerate_combo.addItem("16000 Hz · lokal", 16000)
+        self.samplerate_combo.setEnabled(False)
         samplerate_layout.addWidget(self.samplerate_combo)
         layout.addLayout(samplerate_layout)
 
@@ -614,25 +643,8 @@ class MainWindow(TranslatableWidget, QMainWindow):
         """)
         button_layout.addWidget(self.record_button)
 
-        # Pause-Button
-        self.pause_button = QPushButton(self.tr("Pausieren"))
-        self.pause_button.setIcon(qta.icon('fa5s.pause', color='#000e22'))
-        self.pause_button.clicked.connect(self._on_pause_clicked)
-        self.pause_button.setVisible(False)  # Initial versteckt
-        self.pause_button.setStyleSheet("""
-            QPushButton {
-                padding: 10px;
-                font-size: 14px;
-                background-color: #ffaa3a;
-                color: #000e22;
-                font-weight: bold;
-                border-radius: 4px;
-            }
-            QPushButton:hover {
-                background-color: #ff9922;
-            }
-        """)
-        button_layout.addWidget(self.pause_button)
+        self.pause_button = QPushButton(self)
+        self.pause_button.hide()
 
         layout.addLayout(button_layout)
 
@@ -642,12 +654,12 @@ class MainWindow(TranslatableWidget, QMainWindow):
         return container
 
     def _load_devices(self):
-        """Lädt verfügbare Audiogeräte"""
-        devices = self.recorder.get_devices()
+        found = self.recorder.get_devices()
         self.device_combo.clear()
-
-        for device in devices:
-            self.device_combo.addItem(device['name'], device['index'])
+        for d in found:self.device_combo.addItem(d['name'], d['index'])
+        if not found:self.device_combo.addItem('Kein Mikrofon · Einstellungen öffnen', None)
+        index=self.device_combo.findData(self.engine.store.config()['device'])
+        if index>=0:self.device_combo.setCurrentIndex(index)
 
     def _connect_signals(self):
         """Verbindet Signale"""
@@ -671,6 +683,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
         self.ai_view.back_requested.connect(self._on_ai_back)
         self.ai_view.settings_requested.connect(self._on_settings_clicked)
         self.ai_view.transcription_completed.connect(self._on_transcription_status_update)
+        self.player_widget.player.error.connect(self.error)
 
     def _load_sessions(self, search_term: str = ''):
         """Lädt Sessions aus der Datenbank"""
@@ -692,249 +705,24 @@ class MainWindow(TranslatableWidget, QMainWindow):
         self.settings_manager.set_sample_rate(sample_rate)
 
     def _on_record_clicked(self):
-        """Wird aufgerufen wenn der Record-Button geklickt wird"""
-        if not self.recorder.is_recording:
-            # Aufnahme starten
-            device_index = self.device_combo.currentData()
-            sample_rate = self.samplerate_combo.currentData()
-            try:
-                output_path = self.recorder.start_recording(device_index, str(self.recordings_dir), sample_rate)
-                self.record_button.setText(self.tr("Aufnahme stoppen"))
-                self.record_button.setStyleSheet("""
-                    QPushButton {
-                        padding: 10px;
-                        font-size: 14px;
-                        background-color: #ff4444;
-                        color: white;
-                        font-weight: bold;
-                        border: 1px solid #d32f2f;
-                        border-radius: 4px;
-                    }
-                    QPushButton:hover {
-                        background-color: #ff5555;
-                    }
-                """)
-                # Pause-Button anzeigen
-                self.pause_button.setVisible(True)
-
-                # Waveform-Visualisierung starten
-                self.waveform_widget.start_recording()
-            except Exception as e:
-                self._show_message(QMessageBox.Icon.Critical, self.tr("Fehler"),
-                                  self.tr("Aufnahme konnte nicht gestartet werden:\n{0}").format(e))
+        if self.busy:return
+        if self.engine.recorder.active:
+            self.task(self.engine.stop, lambda _:self.poll(), True)
         else:
-            # Aufnahme stoppen
-            output_path = self.recorder.stop_recording()
-            self.record_button.setText(self.tr("Aufnahme starten"))
-            self.record_button.setStyleSheet("""
-                QPushButton {
-                    padding: 10px;
-                    font-size: 14px;
-                    background-color: #d32f2f;
-                    color: white;
-                    font-weight: bold;
-                    border: 1px solid #b71c1c;
-                    border-radius: 4px;
-                }
-                QPushButton:hover {
-                    background-color: #c62828;
-                }
-            """)
-
-            # Pause-Button verstecken und zurücksetzen
-            self.pause_button.setVisible(False)
-            self.pause_button.setText(self.tr("Pausieren"))
-            self.pause_button.setIcon(qta.icon('fa5s.pause', color='#000e22'))
-            self.pause_button.setStyleSheet("""
-                QPushButton {
-                    padding: 10px;
-                    font-size: 14px;
-                    background-color: #ffaa3a;
-                    color: #000e22;
-                    font-weight: bold;
-                    border-radius: 4px;
-                }
-                QPushButton:hover {
-                    background-color: #ff9922;
-                }
-            """)
-
-            # Waveform-Visualisierung stoppen
-            self.waveform_widget.stop_recording()
-
-            # Session in DB speichern
-            if output_path:
-                self._save_recorded_session(output_path)
-
-            # UI zurücksetzen
-            self.level_bar.setValue(0)
-            self.duration_label.setText("00:00:00")
+            if not self.engine.store.config()['setup_complete']:
+                self.error('Bitte unter Einstellungen Audio testen und Einrichtung abschließen.')
+                self._on_settings_clicked()
+                return
+            self.task(lambda:self.engine.start(''), lambda _:self.poll(), True)
 
     def _on_pause_clicked(self):
-        """Wird aufgerufen wenn Pause-Button geklickt wird"""
-        if not self.recorder.is_paused:
-            # Pausieren
-            self.recorder.pause_recording()
-            self.waveform_widget.pause_recording()
+        pass  # Aufnahmen haben ausschließlich Start und Stop.
 
-            self.pause_button.setText(self.tr("Fortsetzen"))
-            self.pause_button.setIcon(qta.icon('fa5s.play', color='#000e22'))
-            self.pause_button.setStyleSheet("""
-                QPushButton {
-                    padding: 10px;
-                    font-size: 14px;
-                    background-color: #ffaa3a;
-                    color: #000e22;
-                    font-weight: bold;
-                    border-radius: 4px;
-                }
-                QPushButton:hover {
-                    background-color: #ff9922;
-                }
-            """)
-        else:
-            # Fortsetzen
-            self.recorder.resume_recording()
-            self.waveform_widget.resume_recording()
 
-            self.pause_button.setText(self.tr("Pausieren"))
-            self.pause_button.setIcon(qta.icon('fa5s.pause', color='#000e22'))
-            self.pause_button.setStyleSheet("""
-                QPushButton {
-                    padding: 10px;
-                    font-size: 14px;
-                    background-color: #ffaa3a;
-                    color: #000e22;
-                    font-weight: bold;
-                    border-radius: 4px;
-                }
-                QPushButton:hover {
-                    background-color: #ff9922;
-                }
-            """)
 
-    def _save_recorded_session(self, output_path: str):
-        """Speichert eine aufgenommene Session in der Datenbank"""
-        timestamp = datetime.now().isoformat()
-        duration = self.recorder.get_duration_seconds()
-        title = f"Session {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
 
-        session_id = self.repo.create(
-            title=title,
-            recorded_at=timestamp,
-            path=output_path,
-            duration_sec=duration,
-            samplerate=self.recorder.samplerate,
-            channels=self.recorder.channels,
-            notes=''
-        )
 
-        # Tabelle aktualisieren
-        self._load_sessions()
 
-        # Neu aufgenommene Session automatisch auswählen
-        self.session_table.select_session_by_id(session_id)
-
-        self._show_message(QMessageBox.Icon.Information, self.tr("Erfolg"),
-                          self.tr("Session wurde erfolgreich gespeichert!\n{0}").format(output_path))
-
-        # Prüfe ob Auto-Transkription aktiviert ist
-        if self.settings_manager.get_auto_transcription():
-            self._start_background_transcription(session_id, output_path)
-
-    def _start_background_transcription(self, session_id: int, audio_path: str):
-        """Startet die Hintergrund-Transkription einer Session"""
-        # Prüfe ob API Key vorhanden
-        api_key = self.settings_manager.get_openai_api_key()
-        if not api_key:
-            print("Warnung: Kein OpenAI API Key gesetzt - Transkription übersprungen")
-            return
-
-        # Prüfe ob Audio-Datei existiert
-        if not Path(audio_path).exists():
-            print(f"Warnung: Audio-Datei nicht gefunden: {audio_path}")
-            return
-
-        # Status in DB auf "pending" setzen
-        self.repo.set_transcription_status(session_id, "pending")
-        self.session_table.update_transcription_status(session_id, "pending", blink=False)
-
-        # Worker starten
-        self.current_transcribing_session_id = session_id
-        language = self.settings_manager.get_transcription_language()
-
-        self.transcription_worker = TranscriptionWorker(
-            audio_path,
-            api_key,
-            language
-        )
-        self.transcription_worker.progress.connect(self._on_bg_transcription_progress)
-        self.transcription_worker.finished.connect(self._on_bg_transcription_finished)
-        self.transcription_worker.error.connect(self._on_bg_transcription_error)
-        self.transcription_worker.chunk_progress.connect(self._on_bg_chunk_progress)
-        self.transcription_worker.start()
-
-        print(f"Hintergrund-Transkription gestartet für Session {session_id}")
-
-    def _on_bg_transcription_progress(self, message: str):
-        """Progress-Update von Hintergrund-Transkription"""
-        # Optional: Status-Bar Message anzeigen
-        print(f"Transkription: {message}")
-
-    def _on_bg_chunk_progress(self, current: int, total: int):
-        """Chunk-Progress-Update von Hintergrund-Transkription"""
-        if not self.current_transcribing_session_id:
-            return
-
-        # Tabelle aktualisieren mit Progress "3/8"
-        self.session_table.update_transcription_progress(
-            self.current_transcribing_session_id,
-            current,
-            total
-        )
-
-        print(f"Transkription: Chunk {current}/{total}")
-
-    def _on_bg_transcription_finished(self, result: dict):
-        """Hintergrund-Transkription abgeschlossen"""
-        if not self.current_transcribing_session_id:
-            return
-
-        session_id = self.current_transcribing_session_id
-
-        # In Datenbank speichern
-        self.repo.update_transcript(
-            session_id,
-            result['text'],
-            result['tokens_used'],
-            "completed"
-        )
-
-        # Tabelle aktualisieren (mit Blink-Effekt)
-        self.session_table.update_transcription_status(session_id, "completed", blink=True)
-
-        print(f"Transkription abgeschlossen für Session {session_id} ({result['tokens_used']} tokens)")
-
-        # Worker aufräumen
-        self.transcription_worker = None
-        self.current_transcribing_session_id = None
-
-    def _on_bg_transcription_error(self, error_message: str):
-        """Hintergrund-Transkription fehlgeschlagen"""
-        if not self.current_transcribing_session_id:
-            return
-
-        session_id = self.current_transcribing_session_id
-
-        # Status in DB setzen
-        self.repo.set_transcription_status(session_id, "error")
-        self.session_table.update_transcription_status(session_id, "error", blink=False)
-
-        print(f"Transkription fehlgeschlagen für Session {session_id}: {error_message}")
-
-        # Worker aufräumen
-        self.transcription_worker = None
-        self.current_transcribing_session_id = None
 
     def _on_transcription_status_update(self, session_id: int, status: str):
         """Wird aufgerufen wenn AIView eine Transkription abgeschlossen hat"""
@@ -966,7 +754,9 @@ class MainWindow(TranslatableWidget, QMainWindow):
             self.session_form.load_session(session)
             # Audio-Datei in Player laden
             if session['path'] and os.path.exists(session['path']):
-                self.player_widget.load_file(session['path'], session_id)
+                try:self.player_widget.load_file(session['path'], session_id)
+                except Exception as e:self.player_widget.clear();self.error('Wiedergabe: '+str(e))
+            else:self.player_widget.clear()
 
     def _on_save_session(self, data: dict):
         """Wird aufgerufen wenn eine Session gespeichert werden soll"""
@@ -983,7 +773,11 @@ class MainWindow(TranslatableWidget, QMainWindow):
         )
 
         if confirmed:
-            result = self.repo.delete(session_id)
+            try:
+                result = self.controller.delete(session_id)
+            except Exception as e:
+                self.error(str(e))
+                return
             self.session_form.clear()
             self.player_widget.clear()
             self._load_sessions(self.search_edit.text())
@@ -1048,7 +842,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
         # Merke aktuelle Sprache
         old_language = self.settings_manager.get_language()
 
-        dialog = SettingsDialog(self.settings_manager, self)
+        dialog = SettingsDialog(self.settings_manager, self, local_host=self)
 
         # Verbinde prompts_changed Signal mit AI View reload
         dialog.prompts_changed.connect(self.ai_view.load_prompts)
@@ -1060,6 +854,7 @@ class MainWindow(TranslatableWidget, QMainWindow):
             if old_language != new_language:
                 # Sprache hat sich geändert - Live-Update
                 self.change_language(new_language)
+        self._load_devices()
 
     def retranslateUi(self):
         """Aktualisiert alle UI-Texte (für Sprachwechsel)"""
@@ -1170,3 +965,88 @@ class MainWindow(TranslatableWidget, QMainWindow):
             except RuntimeError:
                 # C++ Objekt bereits gelöscht, Referenz entfernen
                 self.splash_widget = None
+
+    def error(self, message):
+        self.notice.setText(message)
+
+    def task(self, fn, done=None, exclusive=False, error=None):
+        if exclusive and self.busy:return
+        if exclusive:self.busy=True;self.record_button.setEnabled(False)
+        task=Task(fn,self);self.tasks.add(task)
+        if done:task.result.connect(done)
+        task.failed.connect(error or self.error)
+        def finish():
+            self.tasks.discard(task)
+            if exclusive:self.busy=False;self.record_button.setEnabled(True)
+            task.deleteLater()
+        task.finished.connect(finish);task.start()
+
+    def _device_selected(self):
+        device=self.device_combo.currentData()
+        if device:
+            self.task(lambda:self.engine.configure({'device':device,'setup_complete':False}),lambda _:self.error('Mikrofon gewählt. Bitte in Einstellungen testen.'),True)
+
+    def poll(self):
+        if self.polling:return
+        self.polling=True
+        def read():
+            self.controller.sync()
+            state=self.engine.state();state['sessions']=self.repo.get_all()
+            raw=None
+            if state['recording']['id']:
+                path=self.engine.store.folder(state['recording']['id'])/'audio.pcm'
+                try:
+                    with path.open('rb') as f:
+                        f.seek(max(0,path.stat().st_size-32000));raw=f.read(32000)
+                except FileNotFoundError:pass
+            state['waveform']=raw
+            return state
+        def done(state):
+            self.polling=False;self.state=state
+            active=bool(state['recording']['id'])
+            self.record_button.setText(self.tr('Aufnahme stoppen' if active else 'Aufnahme starten'))
+            self.device_combo.setEnabled(not active)
+            self._on_duration_update(state['recording']['seconds'])
+            raw=state['waveform'];self.level_bar.setValue(self.engine.probe.level(raw) if raw else 0)
+            if active and not self.waveform_widget.is_recording:self.waveform_widget.start_recording()
+            if not active and self.waveform_widget.is_recording:self.waveform_widget.stop_recording()
+            if active and raw:
+                import numpy as np
+                self.waveform_widget.update_waveform(np.frombuffer(raw,dtype='<i2').astype('float32')/32768)
+            self.animate_activity()
+            signature=[(r['id'],r['title'],r.get('transcription_status'),r.get('duration_sec')) for r in state['sessions']]
+            if signature!=self.last_signature:
+                selected=self.session_table.get_selected_session_id()
+                scroll=self.session_table.verticalScrollBar().value()
+                # Refresh statuses without interrupting playback or unsaved notes.
+                self.session_table.blockSignals(True)
+                self.session_table.load_sessions(self.repo.get_all(self.search_edit.text()))
+                if selected>0:self.session_table.select_session_by_id(selected)
+                self.session_table.verticalScrollBar().setValue(scroll)
+                self.session_table.blockSignals(False)
+                if selected<=0 and self.session_table.rowCount():self.session_table.select_first_session()
+                self.last_signature=signature
+            selected=self.session_table.get_selected_session_id()
+            row=next((r for r in state['sessions'] if r['id']==selected),None)
+            if row and row.get('path') and self.player_widget.current_file_path!=row['path'] and Path(row['path']).is_file():
+                try:self.player_widget.load_file(row['path'],selected)
+                except Exception as e:self.error('Wiedergabe: '+str(e))
+            self.ai_view.refresh_local()
+        def failed(message):
+            self.polling=False;self.error(message)
+        self.task(read,done,error=failed)
+
+    def closeEvent(self,event):
+        if self.engine.recorder.active:
+            self.error('Aufnahme zuerst beenden, damit sie sicher gespeichert wird.');event.ignore();return
+        if self.busy or any(t.isRunning() for t in self.tasks):
+            self.error('Bitte kurz warten, der laufende Vorgang wird abgeschlossen.');event.ignore();return
+        self.timer.stop();self.activity_timer.stop();self.player_widget.player.close();self.engine.close();event.accept()
+
+    def animate_activity(self):
+        moving,text,failed=describe_queue(self.state)
+        self.queue_status.setText(text)
+        if moving:
+            self.animation_frame=(getattr(self,'animation_frame',0)+1)%4
+            self.activity_icon.setText(('◐','◓','◑','◒')[self.animation_frame])
+        else:self.activity_icon.setText('!' if failed else '✓')

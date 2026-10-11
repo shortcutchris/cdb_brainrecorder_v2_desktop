@@ -3,7 +3,7 @@ Settings-Dialog für App-Einstellungen
 """
 from PySide6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout,
                                QPushButton, QLabel, QComboBox, QCheckBox, QGroupBox, QLineEdit,
-                               QListWidget, QMessageBox, QListWidgetItem)
+                               QListWidget, QMessageBox, QListWidgetItem, QWidget, QTabWidget, QScrollArea)
 from PySide6.QtCore import Qt, QEvent, Signal
 import sys
 from pathlib import Path
@@ -20,9 +20,10 @@ class SettingsDialog(TranslatableWidget, QDialog):
     # Signal wird ausgelöst wenn Prompts geändert wurden
     prompts_changed = Signal()
 
-    def __init__(self, settings_manager, parent=None):
+    def __init__(self, settings_manager, parent=None, local_host=None):
         super().__init__(parent)
         self.settings_manager = settings_manager
+        self.local_host = local_host
         self._setup_ui()
         self._load_settings()
         self._load_prompts()
@@ -35,9 +36,17 @@ class SettingsDialog(TranslatableWidget, QDialog):
 
         # Dark Theme
         self.setStyleSheet("""
-            QDialog {
-                background-color: #000e22;
-            }
+            QWidget { background-color: #000e22; color: #e0e0e0; }
+            QDialog { background-color: #000e22; }
+            QTabWidget::pane { border: 1px solid #003355; }
+            QTabBar::tab { background: #001633; padding: 10px 16px; border: 1px solid #003355; }
+            QTabBar::tab:selected { background: #003355; }
+            QScrollArea { border: none; }
+            QPushButton { background: #ffaa3a; color: #000e22; border: none; border-radius: 4px; padding: 6px 12px; }
+            QPushButton:disabled { background: #001633; color: #6f8ca3; }
+            QProgressBar { border: 1px solid #003355; min-height: 18px; text-align: center; }
+            QProgressBar::chunk { background: #ffaa3a; }
+            QLineEdit { background: #001633; border: 1px solid #003355; padding: 6px; }
             QLabel {
                 color: #e0e0e0;
                 font-size: 13px;
@@ -57,7 +66,19 @@ class SettingsDialog(TranslatableWidget, QDialog):
             }
         """)
 
-        layout = QVBoxLayout(self)
+        outer = QVBoxLayout(self)
+        self.tabs = QTabWidget();outer.addWidget(self.tabs)
+        scroll=QScrollArea();scroll.setWidgetResizable(True)
+        general=QWidget();scroll.setWidget(general)
+        self.tabs.addTab(scroll,'Allgemein und Prompts')
+        layout = QVBoxLayout(general)
+        if self.local_host:
+            from ui.local_settings import LocalSettingsPanel
+            self.local_panel=LocalSettingsPanel(self.local_host)
+            self.tabs.addTab(self.local_panel,'Audio und lokale Modelle')
+            self.finished.connect(self.local_panel.shutdown)
+            self.resize(min(1000,self.local_host.width()-40),min(660,self.local_host.height()-40))
+            self.tabs.setCurrentIndex(1)
         layout.setSpacing(20)
         layout.setContentsMargins(20, 20, 20, 20)
 
@@ -131,7 +152,8 @@ class SettingsDialog(TranslatableWidget, QDialog):
         transcription_layout.addWidget(self.auto_transcription_checkbox)
 
         self.transcription_group.setLayout(transcription_layout)
-        layout.addWidget(self.transcription_group)
+        if self.local_host:self.transcription_group.hide()
+        else:layout.addWidget(self.transcription_group)
 
         # OpenAI API Einstellungen
         self.openai_group = QGroupBox(self.tr("OpenAI API"))
@@ -167,7 +189,7 @@ class SettingsDialog(TranslatableWidget, QDialog):
         openai_layout.addWidget(self.api_key_input, 0, Qt.AlignmentFlag.AlignLeft)
 
         self.openai_group.setLayout(openai_layout)
-        layout.addWidget(self.openai_group)
+        self.openai_group.hide()  # Persisted legacy key stays untouched; local engine never reads it.
 
         # AI Prompts Verwaltung
         self.prompts_group = QGroupBox(self.tr("AI Prompts"))
@@ -324,7 +346,7 @@ class SettingsDialog(TranslatableWidget, QDialog):
         self.save_button.clicked.connect(self._save_and_accept)
         button_layout.addWidget(self.save_button)
 
-        layout.addLayout(button_layout)
+        outer.addLayout(button_layout)
 
     def _load_settings(self):
         """Lädt aktuelle Settings in die UI"""
@@ -334,16 +356,15 @@ class SettingsDialog(TranslatableWidget, QDialog):
         auto_transcription = self.settings_manager.get_auto_transcription()
         self.auto_transcription_checkbox.setChecked(auto_transcription)
 
-        api_key = self.settings_manager.get_openai_api_key()
+        api_key = "" if self.local_host else self.settings_manager.get_openai_api_key()
         self.api_key_input.setText(api_key)
 
     def _save_and_accept(self):
         """Speichert Settings und schließt Dialog"""
         self.settings_manager.set_language(self.language_combo.currentText())
-        self.settings_manager.set_auto_transcription(
-            self.auto_transcription_checkbox.isChecked()
-        )
-        self.settings_manager.set_openai_api_key(self.api_key_input.text())
+        if not self.local_host:
+            self.settings_manager.set_auto_transcription(self.auto_transcription_checkbox.isChecked())
+        # Existing legacy key is retained without being needed or modified.
         self.accept()
 
     # ========== Prompt Management ==========

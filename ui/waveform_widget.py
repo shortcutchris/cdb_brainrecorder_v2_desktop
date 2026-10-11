@@ -24,7 +24,7 @@ class WaveformWidget(QWidget):
         self.audio_buffer = deque(maxlen=buffer_size)
         self.is_recording = False
         self.is_paused = False
-        self._pending_data = []
+        self._pending_data = deque(maxlen=8)
 
         # Set minimum size
         self.setMinimumHeight(100)

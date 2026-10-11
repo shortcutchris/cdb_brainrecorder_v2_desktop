@@ -233,14 +233,16 @@ class SessionTableWidget(TranslatableWidget, QTableWidget):
         """
         if status == "completed":
             icon = qta.icon('fa5s.check-circle', color='#4caf50')  # Green
-        elif status == "pending":
+        elif status in ("pending","importing","recording","queued","transcribing","summarizing"):
             icon = qta.icon('fa5s.spinner', color='#ffc107')  # Yellow/Orange
-        elif status == "error":
+        elif status in ("error","failed"):
             icon = qta.icon('fa5s.times-circle', color='#f44336')  # Red
         else:
             icon = qta.icon('fa5s.circle', color='#9e9e9e')  # Gray
 
         label = QLabel()
+        names={'queued':'Wartet','importing':'Audio vorbereiten','recording':'Aufnahme','transcribing':'Transkription läuft','summarizing':'Zusammenfassung läuft','completed':'Fertig','failed':'Fehler – KI-Ansicht öffnen und Wiederholen wählen'}
+        label.setToolTip(names.get(status,status or 'Noch nicht verarbeitet'))
 
         # Mit Progress-Text: Icon + Text
         if progress_text:

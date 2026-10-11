@@ -47,3 +47,21 @@ recordings/*.mp3
 
 # Test files
 test_imports.py
+
+# Private local AI runtime and caches
+.transcripts_cache/
+.local-ai/
+.venv/
+*.db-*
+*.sqlite*
+*.pcm
+*.gguf
+*.ggml
+*.bin.download
+.env*
+*.key
+*.pem
+models/
+
+venv-local-ai/
+ggml-*.bin

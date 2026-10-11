@@ -3,7 +3,7 @@ AI-View für Transkription und Textverarbeitung
 """
 from PySide6.QtWidgets import (QWidget, QVBoxLayout, QPushButton,
                                QLabel, QComboBox, QTextEdit, QGroupBox,
-                               QSplitter, QToolBar, QSizePolicy, QMessageBox)
+                               QSplitter, QToolBar, QSizePolicy, QMessageBox, QFileDialog)
 from PySide6.QtCore import Qt, Signal, QEvent
 import qtawesome as qta
 import sys
@@ -13,7 +13,7 @@ sys.path.append(str(Path(__file__).parent.parent))
 
 from translatable_widget import TranslatableWidget
 from data.repo import SessionRepository
-from services.workers import TranscriptionWorker, TransformationWorker
+
 from settings import SettingsManager
 
 
@@ -25,11 +25,11 @@ class AIView(TranslatableWidget, QWidget):
     settings_requested = Signal()  # Wird ausgelöst wenn Settings geklickt wird
     transcription_completed = Signal(int, str)  # (session_id, status)
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, repo=None):
         super().__init__(parent)
         self.current_session_id = None
         self.current_session_path = None
-        self.repo = SessionRepository()
+        self.repo = repo or SessionRepository()
         self.settings_manager = SettingsManager()
         self.transcription_worker = None
         self.transformation_worker = None
@@ -151,6 +151,8 @@ class AIView(TranslatableWidget, QWidget):
         # Toolbar oben
         toolbar = self._create_toolbar()
         main_layout.addWidget(toolbar)
+        self.local_status=QLabel('');self.local_status.setWordWrap(True)
+        main_layout.addWidget(self.local_status)
 
         # Splitter für die zwei Bereiche
         splitter = QSplitter(Qt.Orientation.Horizontal)
@@ -305,6 +307,13 @@ class AIView(TranslatableWidget, QWidget):
         """)
         self.generate_button.clicked.connect(self._on_generate_clicked)
         toolbar.addWidget(self.generate_button)
+        self.retry_button=QPushButton('Wiederholen')
+        self.retry_button.clicked.connect(self.retry_local)
+        toolbar.addWidget(self.retry_button)
+        self.save_text_button=QPushButton('Text speichern');self.save_text_button.clicked.connect(self.save_text)
+        toolbar.addWidget(self.save_text_button)
+        self.export_text_button=QPushButton('Export');self.export_text_button.clicked.connect(self.export_text)
+        toolbar.addWidget(self.export_text_button)
 
         # Settings-Button
         toolbar.addSeparator()
@@ -356,6 +365,7 @@ class AIView(TranslatableWidget, QWidget):
     def load_session(self, session_id: int):
         """Lädt eine Session in den AI-View"""
         self.current_session_id = session_id
+        self.last_local_result = None
 
         # Session aus Datenbank laden
         session = self.repo.get_by_id(session_id)
@@ -380,166 +390,31 @@ class AIView(TranslatableWidget, QWidget):
             self.transcribe_button.show()
 
         # Rechte Seite leeren
-        self.transformed_edit.clear()
+        self.transformed_edit.setPlainText(session.get("summary_text") or "")
+        self.last_local_result=(session.get('transcript_text') or '',session.get('summary_text') or '')
 
     def _on_transcribe_clicked(self):
-        """Wird aufgerufen wenn 'Transkription starten' geklickt wird"""
-        # Prüfe API Key
-        api_key = self.settings_manager.get_openai_api_key()
-        if not api_key:
-            QMessageBox.warning(
-                self,
-                self.tr("API Key fehlt"),
-                self.tr("Bitte geben Sie zuerst einen OpenAI API Key in den Einstellungen ein.")
-            )
-            return
+        sid=self.current_session_id
+        if not sid:return
+        self.host.task(lambda:self.controller.process(sid,reuse_transcript=False),lambda _:self.host.poll(),True)
 
-        # Prüfe ob Audio-Datei existiert
-        if not self.current_session_path or not Path(self.current_session_path).exists():
-            QMessageBox.warning(
-                self,
-                self.tr("Audio-Datei nicht gefunden"),
-                self.tr("Die Audio-Datei für diese Session wurde nicht gefunden.")
-            )
-            return
 
-        # Button deaktivieren
-        self.transcribe_button.setEnabled(False)
-        self.transcribe_button.setText(self.tr("Transkribiere..."))
 
-        # Worker starten
-        language = self.settings_manager.get_transcription_language()
-        self.transcription_worker = TranscriptionWorker(
-            self.current_session_path,
-            api_key,
-            language
-        )
-        self.transcription_worker.progress.connect(self._on_transcription_progress)
-        self.transcription_worker.finished.connect(self._on_transcription_finished)
-        self.transcription_worker.error.connect(self._on_transcription_error)
-        self.transcription_worker.chunk_progress.connect(self._on_chunk_progress)
-        self.transcription_worker.start()
 
-    def _on_transcription_progress(self, message: str):
-        """Progress-Update von Transkription"""
-        self.transcription_edit.setPlaceholderText(message)
-
-    def _on_chunk_progress(self, current: int, total: int):
-        """Chunk-Progress für UI-Feedback im AI-View"""
-        if total > 1:
-            self.transcription_edit.setPlaceholderText(
-                self.tr(f"Transkribiere Teil {current}/{total}...")
-            )
-
-    def _on_transcription_finished(self, result: dict):
-        """Transkription abgeschlossen"""
-        # Transkript anzeigen
-        self.transcription_edit.setPlainText(result['text'])
-        self.transcribe_button.hide()
-
-        # In Datenbank speichern
-        self.repo.update_transcript(
-            self.current_session_id,
-            result['text'],
-            result['tokens_used'],
-            "completed"
-        )
-
-        # Signal an MainWindow (für Tabellen-Update)
-        self.transcription_completed.emit(self.current_session_id, "completed")
-
-        # Button zurücksetzen
-        self.transcribe_button.setEnabled(True)
-        self.transcribe_button.setText(self.tr("Transkription starten"))
-
-    def _on_transcription_error(self, error_message: str):
-        """Transkription fehlgeschlagen"""
-        QMessageBox.critical(
-            self,
-            self.tr("Transkription fehlgeschlagen"),
-            self.tr("Fehler: {0}").format(error_message)
-        )
-
-        # Status in DB setzen
-        self.repo.set_transcription_status(self.current_session_id, "error")
-        self.transcription_completed.emit(self.current_session_id, "error")
-
-        # Button zurücksetzen
-        self.transcribe_button.setEnabled(True)
-        self.transcribe_button.setText(self.tr("Transkription starten"))
 
     def _on_generate_clicked(self):
-        """Wird aufgerufen wenn Generieren geklickt wird"""
-        # Prüfe ob Transkript vorhanden
-        if not self.transcription_edit.toPlainText():
-            QMessageBox.warning(
-                self,
-                self.tr("Keine Transkription"),
-                self.tr("Bitte transkribieren Sie zuerst die Audio-Datei.")
-            )
-            return
+        sid=self.current_session_id
+        if not sid:return
+        text=self.transcription_edit.toPlainText().strip()
+        if not text:
+            self.host.error('Bitte zuerst die Aufnahme lokal transkribieren.');return
+        p=self.settings_manager.get_prompt_by_id(self.prompt_combo.currentData()) or {}
+        prompt=p.get('prompt_text','')
+        self.repo.update(sid,transcript_text=text)
+        self.host.task(lambda:self.controller.process(sid,prompt),lambda _:self.host.poll(),True)
 
-        # Prüfe API Key
-        api_key = self.settings_manager.get_openai_api_key()
-        if not api_key:
-            QMessageBox.warning(
-                self,
-                self.tr("API Key fehlt"),
-                self.tr("Bitte geben Sie zuerst einen OpenAI API Key in den Einstellungen ein.")
-            )
-            return
 
-        # Button deaktivieren
-        self.generate_button.setEnabled(False)
-        self.generate_button.setText(self.tr("Generiere..."))
 
-        # Prompt-ID aus Dropdown ermitteln
-        prompt_id = self.prompt_combo.currentData()
-        if not prompt_id:
-            # Fallback: Ersten Prompt verwenden
-            prompts = self.settings_manager.get_all_prompts()
-            if prompts:
-                prompt_id = prompts[0]['id']
-            else:
-                prompt_id = "zusammenfassen"  # Hard fallback
-
-        # Worker starten
-        text = self.transcription_edit.toPlainText()
-        self.transformation_worker = TransformationWorker(
-            text=text,
-            prompt_id=prompt_id,
-            api_key=api_key,
-            reasoning="medium",
-            verbosity="low"
-        )
-        self.transformation_worker.progress.connect(self._on_transformation_progress)
-        self.transformation_worker.finished.connect(self._on_transformation_finished)
-        self.transformation_worker.error.connect(self._on_transformation_error)
-        self.transformation_worker.start()
-
-    def _on_transformation_progress(self, message: str):
-        """Progress-Update von Transformation"""
-        self.transformed_edit.setPlaceholderText(message)
-
-    def _on_transformation_finished(self, result: dict):
-        """Transformation abgeschlossen"""
-        self.transformed_edit.setPlainText(result['result'])
-
-        # Button zurücksetzen
-        self.generate_button.setEnabled(True)
-        self.generate_button.setText(self.tr("Generieren"))
-
-    def _on_transformation_error(self, error_message: str):
-        """Transformation fehlgeschlagen"""
-        QMessageBox.critical(
-            self,
-            self.tr("Transformation fehlgeschlagen"),
-            self.tr("Fehler: {0}").format(error_message)
-        )
-
-        # Button zurücksetzen
-        self.generate_button.setEnabled(True)
-        self.generate_button.setText(self.tr("Generieren"))
 
     def retranslateUi(self):
         """Aktualisiert alle UI-Texte (für Sprachwechsel)"""
@@ -570,3 +445,57 @@ class AIView(TranslatableWidget, QWidget):
         if event.type() == QEvent.Type.LanguageChange:
             self.retranslateUi()
         super().changeEvent(event)
+
+    def retry_local(self):
+        session=self.repo.get_by_id(self.current_session_id)
+        if session and session.get('local_job_id'):
+            ident=session['local_job_id']
+            self.host.task(lambda:self.controller.engine.retry(ident),lambda _:self.host.poll(),True)
+        elif session:
+            sid=session['id']
+            self.host.task(lambda:self.controller.process(sid),lambda _:self.host.poll(),True)
+
+    def refresh_local(self):
+        if not self.current_session_id:return
+        session=self.repo.get_by_id(self.current_session_id)
+        if not session:return
+        status=session.get('transcription_status')
+        busy=status in ('importing','recording','queued','transcribing','summarizing')
+        self.generate_button.setEnabled(not busy)
+        self.save_text_button.setEnabled(not busy)
+        self.transcribe_button.setEnabled(not busy)
+        self.retry_button.setEnabled(status=='failed')
+        names={'importing':'Audio vorbereiten','queued':'Wartet','transcribing':'Transkription läuft','summarizing':'Zusammenfassung läuft','completed':'Fertig','failed':'Fehler'}
+        self.generate_button.setText(names.get(status,'Generieren') if busy else 'Generieren')
+        result=(session.get('transcript_text') or '',session.get('summary_text') or '')
+        if result!=getattr(self,'last_local_result',None):
+            previous=getattr(self,'last_local_result',None)
+            if previous is not None:
+                if result[0]!=previous[0]:self.transcription_edit.setPlainText(result[0])
+                if result[1]!=previous[1]:self.transformed_edit.setPlainText(result[1])
+            self.last_local_result=result
+        if result[0]:self.transcribe_button.hide()
+        self.transformed_edit.setPlaceholderText(session.get('local_error') or names.get(status,''))
+        self.right_group.setTitle('Transformierter Text · '+names.get(status,'Lokal'))
+        self.local_status.setText(names.get(status,'Lokal')+' · '+(session.get('local_error') or 'Verarbeitung bleibt beim Wechsel zu anderen Aufnahmen dieser Session zugeordnet.'))
+        self.local_status.setToolTip(session.get('local_metrics') or '')
+        self.retry_button.setToolTip(session.get('local_error') or 'Fehlgeschlagenen Auftrag wiederholen')
+
+    def save_text(self):
+        if not self.current_session_id:return
+        session=self.repo.get_by_id(self.current_session_id)
+        if session.get('transcription_status') in ('recording','importing','queued','transcribing','summarizing'):
+            self.host.error('Text nach Abschluss der Verarbeitung speichern.');return
+        transcript=self.transcription_edit.toPlainText();summary=self.transformed_edit.toPlainText()
+        self.repo.update(self.current_session_id,transcript_text=transcript,summary_text=summary)
+        self.last_local_result=(transcript,summary)
+        self.local_status.setText('Texte gespeichert.')
+
+    def export_text(self):
+        if not self.current_session_id:return
+        path,_=QFileDialog.getSaveFileName(self,'Text exportieren',f'meeting-{self.current_session_id}.md','Markdown (*.md);;Text (*.txt)')
+        if path:
+            try:
+                Path(path).write_text('# Zusammenfassung\n\n'+self.transformed_edit.toPlainText()+'\n\n# Transkript\n\n'+self.transcription_edit.toPlainText(),encoding='utf-8')
+                self.local_status.setText('Text exportiert.')
+            except OSError as e:self.host.error(str(e))

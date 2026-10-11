@@ -1,0 +1,2 @@
+# Canonical source: shortcutchris/raspberry_pi_meeting_recorder @ 89b752b
+./vendor/raspberry_pi_meeting_recorder-0.2.3-py3-none-any.whl

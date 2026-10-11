@@ -2,6 +2,7 @@
 SQLite Repository für Session-Verwaltung
 """
 import sqlite3
+from contextlib import contextmanager
 from datetime import datetime
 from pathlib import Path
 from typing import List, Optional, Dict, Any
@@ -14,11 +15,20 @@ class SessionRepository:
         self.db_path = db_path
         self._init_db()
 
+    @contextmanager
+    def connection(self):
+        conn = sqlite3.connect(self.db_path, timeout=30)
+        try:
+            with conn:
+                yield conn
+        finally:
+            conn.close()
+
     def _init_db(self):
         """Initialisiert die Datenbank und erstellt Tabellen falls nicht vorhanden"""
         Path(self.db_path).parent.mkdir(parents=True, exist_ok=True)
 
-        with sqlite3.connect(self.db_path) as conn:
+        with self.connection() as conn:
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS sessions (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -38,7 +48,7 @@ class SessionRepository:
 
     def _migrate_db(self):
         """Fügt neue Spalten für Transkription hinzu (falls noch nicht vorhanden)"""
-        with sqlite3.connect(self.db_path) as conn:
+        with self.connection() as conn:
             cursor = conn.cursor()
 
             # Prüfe welche Spalten existieren
@@ -55,13 +65,18 @@ class SessionRepository:
             if 'transcription_status' not in columns:
                 conn.execute("ALTER TABLE sessions ADD COLUMN transcription_status TEXT")
 
+            for name, declaration in [('local_job_id', 'TEXT'), ('summary_text', 'TEXT'),
+                                      ('local_error', 'TEXT'), ('local_metrics', 'TEXT')]:
+                if name not in columns:
+                    conn.execute(f'ALTER TABLE sessions ADD COLUMN {name} {declaration}')
+            conn.execute('CREATE UNIQUE INDEX IF NOT EXISTS sessions_local_job ON sessions(local_job_id)')
             conn.commit()
 
     def create(self, title: str, recorded_at: str, path: str,
                duration_sec: int = 0, samplerate: int = 44100,
                channels: int = 1, notes: str = '') -> int:
         """Erstellt eine neue Session und gibt die ID zurück"""
-        with sqlite3.connect(self.db_path) as conn:
+        with self.connection() as conn:
             cursor = conn.execute("""
                 INSERT INTO sessions (title, recorded_at, duration_sec, path,
                                      samplerate, channels, notes)
@@ -72,7 +87,7 @@ class SessionRepository:
 
     def get_all(self, search_term: str = '') -> List[Dict[str, Any]]:
         """Holt alle Sessions, optional gefiltert nach Suchbegriff"""
-        with sqlite3.connect(self.db_path) as conn:
+        with self.connection() as conn:
             conn.row_factory = sqlite3.Row
 
             if search_term:
@@ -112,7 +127,7 @@ class SessionRepository:
 
     def get_by_id(self, session_id: int) -> Optional[Dict[str, Any]]:
         """Holt eine Session anhand der ID"""
-        with sqlite3.connect(self.db_path) as conn:
+        with self.connection() as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.execute("SELECT * FROM sessions WHERE id = ?", (session_id,))
             row = cursor.fetchone()
@@ -132,10 +147,14 @@ class SessionRepository:
         if not kwargs:
             return
 
+        allowed = {'title','notes','duration_sec','path','samplerate','channels','transcript_text',
+                   'transcript_tokens','transcription_status','local_job_id','summary_text','local_error','local_metrics'}
+        if set(kwargs) - allowed:
+            raise ValueError('Unbekannte Session-Felder')
         fields = ', '.join([f"{key} = ?" for key in kwargs.keys()])
         values = list(kwargs.values()) + [session_id]
 
-        with sqlite3.connect(self.db_path) as conn:
+        with self.connection() as conn:
             conn.execute(f"UPDATE sessions SET {fields} WHERE id = ?", values)
             conn.commit()
 
@@ -145,7 +164,7 @@ class SessionRepository:
         session = self.get_by_id(session_id)
 
         # Datenbankeintrag löschen
-        with sqlite3.connect(self.db_path) as conn:
+        with self.connection() as conn:
             conn.execute("DELETE FROM sessions WHERE id = ?", (session_id,))
             conn.commit()
 
@@ -166,7 +185,7 @@ class SessionRepository:
 
     def update_transcript(self, session_id: int, text: str, tokens: int, status: str = "completed"):
         """Aktualisiert Transkript einer Session"""
-        with sqlite3.connect(self.db_path) as conn:
+        with self.connection() as conn:
             conn.execute("""
                 UPDATE sessions
                 SET transcript_text = ?,
@@ -178,7 +197,7 @@ class SessionRepository:
 
     def set_transcription_status(self, session_id: int, status: str):
         """Setzt nur den Status (pending/completed/error)"""
-        with sqlite3.connect(self.db_path) as conn:
+        with self.connection() as conn:
             conn.execute("""
                 UPDATE sessions
                 SET transcription_status = ?
