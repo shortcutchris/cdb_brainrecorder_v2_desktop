@@ -35,7 +35,7 @@ class Conflict(ValueError): pass
 
 
 class StudioApp:
-    def __init__(self, root, database, backend=None, command_factory=None, preview=False):
+    def __init__(self, root, database, backend=None, command_factory=None, preview=False, settings_file=None):
         self.repo = SessionRepository(str(database))
         self.controller = LocalController(self.repo, root, backend=backend, command_factory=command_factory)
         self.engine = self.controller.engine
@@ -43,6 +43,8 @@ class StudioApp:
         self.token = ''
         self.csrf = secrets.token_urlsafe(32)
         self.preview = preview
+        self.settings_file = Path(settings_file).resolve() if settings_file else None
+        if self.settings_file:self.settings_file.parent.mkdir(parents=True,exist_ok=True)
         self.settings_lock = threading.RLock()
         self.control_lock = threading.RLock()
         self.closing = False
@@ -109,14 +111,20 @@ class StudioApp:
                            [*changes.values(),sid])
         return self.session(sid)
 
+    def settings_manager(self):
+        if self.settings_file:
+            from PySide6.QtCore import QSettings
+            return SettingsManager(QSettings(str(self.settings_file),QSettings.IniFormat))
+        return SettingsManager()
+
     def prompts(self):
         with self.settings_lock:
-            settings=SettingsManager();settings.settings.sync()
+            settings=self.settings_manager();settings.settings.sync()
             return settings.get_all_prompts()
 
     def mutate_prompt(self, body):
         with self.settings_lock:
-            settings=SettingsManager();settings.settings.sync()
+            settings=self.settings_manager();settings.settings.sync()
             action=body.get('action');ident=body.get('id')
             if action in ('update','delete'):
                 current=settings.get_prompt_by_id(ident)

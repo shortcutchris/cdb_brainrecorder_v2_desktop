@@ -14,7 +14,7 @@ class StudioTests(unittest.TestCase):
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name)
         QSettings.setDefaultFormat(QSettings.IniFormat);QSettings.setPath(QSettings.IniFormat,QSettings.UserScope,str(self.root/'settings'))
-        self.app=StudioApp(self.root/'queue',self.root/'sessions.db',backend=Backend())
+        self.app=StudioApp(self.root/'queue',self.root/'sessions.db',backend=Backend(),settings_file=self.root/'settings.ini')
         audio=self.root/'test.wav'
         with wave.open(str(audio),'wb') as w:w.setparams((1,2,16000,0,'NONE','none'));w.writeframes(b'\0\0'*16000)
         self.sid=self.app.repo.create('Bestand','2025-01-01',str(audio),notes='Alte Notizen')
@@ -59,6 +59,14 @@ class StudioTests(unittest.TestCase):
         self.assertEqual(self.app.prompts()[-1]['prompt_text'],'Neuer Auftrag')
         self.assertEqual(self.request('/api/prompts',{'action':'delete','id':initial[0]['id']})[0],400)
         self.assertEqual(self.app.prompts()[:len(initial)],initial)
+
+    def test_explicit_settings_file_does_not_construct_native_preferences(self):
+        with patch('settings.QSettings',side_effect=AssertionError('Native preferences must stay untouched')):
+            self.assertEqual(Path(self.app.settings_manager().settings.fileName()),self.root/'settings.ini')
+            self.app.mutate_prompt({'action':'add','name':'Isoliert','text':'Nur Testdaten'})
+            self.assertEqual(self.app.prompts()[-1]['name'],'Isoliert')
+        persisted=QSettings(str(self.root/'settings.ini'),QSettings.IniFormat)
+        self.assertIn('Nur Testdaten',persisted.value('custom_prompts'))
     def test_busy_text_protection_notes_allowed_and_engine_single_owner(self):
         self.app.repo.update(self.sid,transcription_status='summarizing')
         self.assertEqual(self.request(f'/api/sessions/{self.sid}/save',{'changes':{'transcript_text':'Neu'},'base':{'transcript_text':'Altes Transkript'}})[0],409)
@@ -92,7 +100,7 @@ class StudioTests(unittest.TestCase):
         self.app.save(captured['id'],{'notes':'Während Aufnahme gespeichert'},{'notes':''})
         self.app.close()
         with wave.open(str(pcm.with_name('audio.wav')),'rb') as audio:self.assertGreater(audio.getnframes(),0)
-        self.app=StudioApp(self.root/'queue',self.root/'sessions.db',backend=Backend())
+        self.app=StudioApp(self.root/'queue',self.root/'sessions.db',backend=Backend(),settings_file=self.root/'settings.ini')
         self.server.app=self.app
         row=self.app.session(captured['id'])
         self.assertEqual(row['local_job_id'],ident)

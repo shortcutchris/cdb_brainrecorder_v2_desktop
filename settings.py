@@ -9,12 +9,12 @@ import uuid
 class SettingsManager:
     """Zentrale Settings-Verwaltung mit QSettings"""
 
-    def __init__(self):
+    def __init__(self, settings=None):
         # QSettings speichert automatisch plattformabhängig
         # macOS: ~/Library/Preferences/com.AudioSessions.AudioRecorderApp.plist
         # Windows: Registry
         # Linux: ~/.config/AudioSessions/AudioRecorderApp.conf
-        self.settings = QSettings("AudioSessions", "AudioRecorderApp")
+        self.settings = settings if settings is not None else QSettings("AudioSessions", "AudioRecorderApp")
         self._initialize_default_prompts()
 
     def get_language(self) -> str:

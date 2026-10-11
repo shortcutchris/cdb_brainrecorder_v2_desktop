@@ -19,8 +19,6 @@ class PreviewBackend:
 
 def create_preview(root, delay=12):
     root=Path(root).resolve();root.mkdir(parents=True,exist_ok=True)
-    QSettings.setDefaultFormat(QSettings.IniFormat)
-    QSettings.setPath(QSettings.IniFormat,QSettings.UserScope,str(root/'qt-settings'))
     source=root/'preview.wav'
     if not source.exists():
         import numpy as np
@@ -33,7 +31,7 @@ def create_preview(root, delay=12):
     script="import sys,time,signal;signal.signal(signal.SIGINT,lambda *_:sys.exit(0));data=open(sys.argv[1],'rb').read();\nwhile True:\n sys.stdout.buffer.write(data[:3200]);sys.stdout.buffer.flush();data=data[3200:]+data[:3200];time.sleep(.1)"
     backend=PreviewBackend(delay)
     app=StudioApp(root/'queue',root/'sessions.db',backend=backend,
-        command_factory=lambda _:[sys.executable,'-u','-c',script,str(root/'capture.pcm')],preview=True)
+        command_factory=lambda _:[sys.executable,'-u','-c',script,str(root/'capture.pcm')],preview=True,settings_file=root/'settings.ini')
     backend.stopping=app.engine.worker.stopping
     app.engine.configure({'setup_complete':True})
     if not app.repo.get_all():

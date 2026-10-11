@@ -36,3 +36,5 @@ Die Vorschau verwendet eine eigene dauerhafte Datenablage, künstliches Audio un
 Studio-Dienst beenden und deaktivieren, den eigenen Kiosk schließen und die zuvor gesicherten Desktop-/Autostart-Dateien zurückkopieren. Danach `./run.sh` starten. Die Datenbank bleibt dieselbe; aktuelle Bearbeitungen bleiben erhalten. Eine ältere Datenbanksicherung nur nach ausdrücklicher Entscheidung wiederherstellen, weil sonst neuere Änderungen verloren gingen.
 
 Der Installationslauf vom 11.10.2026 verwendet die Sicherung `/home/chris/recorder-backups/before-studio-0.4.0/`: konsistente Sitzungs- und Queue-Datenbanken, QSettings, Starter, bisheriger Quelltext und SHA-256-Prüfsummen der 17 Audioaufnahmen. Die Aufnahmen selbst werden bei der Installation nicht geändert.
+
+`AudioRecorderApp.clean.conf` enthält den geprüften Einstellungenstand nach Entfernung eindeutig eigener Test-Prompts. Die ursprünglichen und zwischenzeitlichen Dateien bleiben zur Nachvollziehbarkeit ebenfalls gesichert. Vorschau und Tests verwenden ausdrücklich eigene QSettings-Dateien; eine Änderung des globalen Qt-Standardformats allein isoliert den Konstruktor mit Organisationsnamen nicht.

@@ -17,6 +17,11 @@ from player import AudioPlayer
 _qt_settings=tempfile.TemporaryDirectory()
 QSettings.setDefaultFormat(QSettings.IniFormat)
 QSettings.setPath(QSettings.IniFormat,QSettings.UserScope,_qt_settings.name)
+_settings_patch=patch('settings.QSettings',lambda *_:QSettings(str(Path(_qt_settings.name)/'settings.ini'),QSettings.IniFormat))
+_settings_patch.start()
+def tearDownModule():
+    _settings_patch.stop()
+    _qt_settings.cleanup()
 app=QApplication.instance() or QApplication([])
 
 class Backend:
