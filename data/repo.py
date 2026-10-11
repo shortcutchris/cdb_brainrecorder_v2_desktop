@@ -166,7 +166,11 @@ class SessionRepository:
         # Datenbankeintrag löschen
         with self.connection() as conn:
             conn.execute("DELETE FROM sessions WHERE id = ?", (session_id,))
+            remaining=[row[0] for row in conn.execute('SELECT path FROM sessions WHERE path IS NOT NULL')]
             conn.commit()
+
+        if session and session.get('path') and any(Path(path).resolve()==Path(session['path']).resolve() for path in remaining):
+            return {'success': True, 'file_deleted': False, 'reason': 'Audio wird von einem anderen Meeting verwendet'}
 
         # Audio-Datei löschen falls vorhanden
         if session and session.get('path'):

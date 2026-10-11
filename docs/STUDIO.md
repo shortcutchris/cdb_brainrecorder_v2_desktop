@@ -1,6 +1,6 @@
-# Recorder Studio 0.4.0
+# Recorder Studio 0.4.1
 
-Die HTML-Oberfläche übernimmt die ausgewählte zweite Studio-Variante. Das bestehende Python-Backend verarbeitet weiterhin Aufnahmen und lokale Modelle. `web_server.py` verwendet den vorhandenen `LocalController`, die ursprüngliche `data/sessions.db`, bestehende QSettings-Prompts und die unveränderte, fest versionierte gemeinsame Engine. Es gibt eine Aufnahmeinstanz und einen FIFO-Verarbeiter.
+Die HTML-Oberfläche übernimmt die ausgewählte zweite Studio-Variante. Das bestehende Python-Backend verarbeitet weiterhin Aufnahmen und lokale Modelle. `web_server.py` verwendet den vorhandenen `LocalController`, die ursprüngliche `data/sessions.db`, bestehende QSettings-Prompts und die fest versionierte gemeinsame Python-Engine 0.2.4. Es gibt eine Aufnahmeinstanz und einen FIFO-Verarbeiter.
 
 ## Start auf dem Pi
 
@@ -17,7 +17,7 @@ Das Installationsskript ändert nur Anwendungsdienst und Starter; es installiert
 
 ## Bedienung und Daten
 
-Der Aufnahmebutton startet oder beendet eine Aufnahme unabhängig vom rechts ausgewählten Meeting. Transkription und Zusammenfassung laufen nacheinander in der bestehenden Warteschlange; weitere Aufnahmen sind dabei möglich. Notizen lassen sich parallel bearbeiten. Texte werden verzögert automatisch gespeichert und bei Register- oder Meetingwechsel geschrieben. Ein Konflikt mit einer neueren Fassung verhindert das Überschreiben; ein lokaler Entwurf bleibt erhalten. Während der KI-Verarbeitung sind deren Ergebnisfelder geschützt.
+Der Aufnahmebutton startet oder beendet eine Aufnahme unabhängig vom rechts ausgewählten Meeting. Transkription und Zusammenfassung laufen nacheinander in der bestehenden Warteschlange; weitere Aufnahmen sind dabei möglich. Notizen lassen sich parallel bearbeiten. Texte werden verzögert automatisch gespeichert. Bei einem Speicherfehler bleibt die Navigation möglich und der Entwurf lokal erhalten. Ein Konflikt mit einer neueren Fassung verhindert das Überschreiben; ein lokaler Entwurf bleibt erhalten. Während der KI-Verarbeitung sind deren Ergebnisfelder geschützt.
 
 Bibliothek, Suche, Umbenennen, Markdown-Export, Wiedergabe, erneute Transkription, Fehlerwiederholung, vorhandene und eigene Prompts sowie Mikrofon- und Modelleinstellungen sind angebunden. Die integrierte Touch-Tastatur steht in der Seitenleiste und in Dialogköpfen bereit; sie unterstützt Umlaute, Großbuchstaben, Zahlen, Sonderzeichen und Zeilenumbrüche.
 
@@ -38,3 +38,24 @@ Studio-Dienst beenden und deaktivieren, den eigenen Kiosk schließen und die zuv
 Der Installationslauf vom 11.10.2026 verwendet die Sicherung `/home/chris/recorder-backups/before-studio-0.4.0/`: konsistente Sitzungs- und Queue-Datenbanken, QSettings, Starter, bisheriger Quelltext und SHA-256-Prüfsummen der 17 Audioaufnahmen. Die Aufnahmen selbst werden bei der Installation nicht geändert.
 
 `AudioRecorderApp.clean.conf` enthält den geprüften Einstellungenstand nach Entfernung eindeutig eigener Test-Prompts. Die ursprünglichen und zwischenzeitlichen Dateien bleiben zur Nachvollziehbarkeit ebenfalls gesichert. Vorschau und Tests verwenden ausdrücklich eigene QSettings-Dateien; eine Änderung des globalen Qt-Standardformats allein isoliert den Konstruktor mit Organisationsnamen nicht.
+
+## Auditkorrekturen 0.4.1
+
+Die vom Server gelieferten Aktionsregeln gelten auch unabhängig von der Oberfläche:
+
+| Zustand | Erlaubt | Wartet / gesperrt |
+| --- | --- | --- |
+| Normale KI-Verarbeitung / Queue | Neue Aufnahme, Notizen, Lesen, Konfiguration für neue Aufträge | Downloads, Modelltest; Löschen/Neuverarbeitung des beschäftigten Meetings |
+| Aufnahme | Stop auch im Dialogkopf, Notizen, normale KI-Queue | Mikrofontest, Konfiguration, Modellinstallation/-test, Einrichtung abschließen |
+| Mikrofontest | Lesen und Notizen, normale KI-Queue | Aufnahme und weitere Audio-/Modelloperationen |
+| Modelldownload / Modelltest | Lesen, lokale Entwürfe, Prompts | Neue Aufnahme, Konfiguration, konkurrierende Modelloperationen und neue KI-Aufträge |
+| Zu wenig Speicher | Lesen, Notizen, laufende Aufnahme sicher stoppen | Neue Aufnahme / Mikrofontest / Modelltest |
+| Verbindung unterbrochen / veraltet | Gelesene Texte und lokale Entwürfe bearbeiten, lokal exportieren | Serveraktionen bis frischer Zustand vorliegt |
+
+Threadzahl, Whisper-Programm, Modellwahl und Prompt werden pro Auftrag festgehalten. Ein aktiver technischer Modelltest behält seine Identität über einen Dienstneustart. HTTP-Aktionen verwenden dieselbe Lockreihenfolge wie die Statusabfrage; paralleles Polling und Stoppen wird getestet.
+
+„Entwurf lokal sichern“ zeigt alle aktuell bearbeiteten Textfelder zum Kopieren oder als Markdown-Datei, ohne vorheriges Speichern. „Erneut speichern“ wiederholt die optimistisch geprüfte Speicherung. „Aktuelles Feld vergleichen“ zeigt lokale und gespeicherte Fassung; erst die ausdrückliche Auswahl übernimmt eine Fassung. Eine zwischenzeitliche weitere Änderung wird erneut als Konflikt abgefangen. Lokale Browserdaten bleiben im gleichen Kioskprofil erhalten; Löschen des Browserprofils entfernt lokale Entwürfe.
+
+Eine neue Verarbeitung bewahrt bisherige Ergebnisse, bis neue Ergebnisse vorliegen. Beim Löschen bleibt Audio erhalten, wenn eine andere Sitzung dieselbe Datei verwendet. Wiedergabe wird beim Aufnahmestart pausiert; während Aufnahme erfordert die Wiedergabe einen Kopfhörerhinweis. Die Tastatur wählt sichtbare Textfelder; die Ansicht passt sich bei geöffneter Warteschlange und bei 1024×600 mit Tastatur an.
+
+Die Abnahme nutzt ausschließlich isolierte synthetische Sitzungen und kontrollierte Fehlerzustände. Echte Mikrofonqualität und Modellleistung werden dadurch nicht nachgewiesen. Keine Firmware-, Lüfter- oder Betriebssystemänderungen gehören zu diesem Update.

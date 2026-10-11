@@ -34,3 +34,10 @@ Die Sicherungsprüfung vor der Installation fand echte Test-Promptänderungen: Q
 Interaktiver Browser-Test: Aufnahme/Stop, neue Aufnahme während Transkription und während Zusammenfassung, unverändert ausgewähltes Meeting, Warteschlange, Wiedergabe mit fortschreitender Position, Registerwechsel, Notizen nach Neuladen, eigener Prompt, Bibliothek/Suche und integrierte Tastatur. Zusätzlich wurde dieselbe Oberfläche über einen SSH-Tunnel mit dem Python-Testbackend auf dem Pi verbunden und drei Meetings durch die echte FIFO-Warteschlange geführt. Testprozessor und künstliche Audioquelle sind ausdrücklich isoliert; hieraus wird keine Modell- oder Mikrofonqualität abgeleitet.
 
 Der reale Pi hat derzeit kein gefundenes Aufnahmemikrofon. Die Einrichtung bleibt entsprechend offen. Die bekannte Lüftermeldung 0 U/min begrenzt belastbare Modelltests, nicht diese UI-Abnahme. Keine zusätzlichen schweren Modelltests wurden für die Gestaltung ausgelöst.
+
+
+## Auditnachprüfung Studio 0.4.1 — 11.10.2026
+
+Ausgewählte Studio-Variante 2 bleibt erhalten. Aktuelle Nachprüfung mit echten Browseraufnahmen bei 1280×720 und 1024×600: Dialog-Stop, beschäftigte Meetingaktionen, Download-/Test-/Konfigurationsregeln, Notizen während KI und Aufnahme, Speicherfehler, lokaler Export, Konfliktvergleich, Wiederherstellung in frisch geladener Seite, Offline/Wiederverbindung, Warteschlange, Einrichtung, Prompts und Tastatur. Fehlerhinweise verdecken die Entwurfsaktionen nicht mehr. Die Tastatur überspringt verborgene Felder und Regler. Die offene Queue reduziert die übrige Ansicht, ohne den Aufnahmestopp zu verdecken.
+
+Die nummerierte Galerie und der Abnahmebericht liegen im lokalen Aufgabenordner `outputs/studio-audit/`. Alle Galerieinhalte sind synthetisch; persönliche produktive Meetingansichten werden nur privat geprüft. Keine vollständige WCAG-Zertifizierung; physischer Fingertest und echte Mikrofonaufnahme bleiben Hardwareprüfungen.

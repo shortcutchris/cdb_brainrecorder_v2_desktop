@@ -20,7 +20,7 @@
   if(key==='Tastatur schließen'){hide();return}
   if(key==='123'){numeric=!numeric;draw();return}
   if(key==='⇧'){shift=!shift;draw();return}
-  if(!target||!target.isConnected||target.disabled||target.readOnly)return;
+  if(!target||!target.isConnected||target.disabled||target.readOnly||!target.getClientRects().length)return;
   target.focus({preventScroll:true});let a=target.selectionStart??target.value.length,b=target.selectionEnd??a;
   if(key==='←'||key==='→'){const position=Math.max(0,Math.min(target.value.length,a+(key==='←'?-1:1)));target.setSelectionRange(position,position);return}
   if(key==='Enter'&&!(target instanceof HTMLTextAreaElement)){hide();return}
@@ -31,7 +31,7 @@
  function toggle(){
   if(!panel.hidden){hide();return}
   const dialog=document.querySelector('dialog[open]');
-  if(!target||!target.isConnected||target.disabled||target.readOnly||(dialog&&!dialog.contains(target)))target=(dialog||document).querySelector('textarea:not([disabled]):not([readonly]),input:not([disabled]):not([readonly])');
+  if(!target||!target.isConnected||target.disabled||target.readOnly||!target.getClientRects().length||(dialog&&!dialog.contains(target)))target=[...(dialog||document).querySelectorAll('textarea:not([disabled]):not([readonly]),input:not([disabled]):not([readonly])')].find(el=>editable(el)&&el.getClientRects().length);
   (dialog||document.body).append(panel);panel.hidden=false;document.body.classList.add('keyboard-open');if(dialog)dialog.classList.add('with-keyboard');draw();target?.focus({preventScroll:true});
  }
  document.getElementById('keyboard').onclick=toggle;

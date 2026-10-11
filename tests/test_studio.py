@@ -26,7 +26,7 @@ class StudioTests(unittest.TestCase):
         req=urllib.request.Request(self.base+path,data=None if body is None else json.dumps(body).encode(),
             headers=({'Content-Type':'application/json','X-CSRF-Token':self.app.csrf} if body is not None else {})|(headers or {}))
         try:
-            with urllib.request.urlopen(req) as r:return r.status,r.read(),r.headers
+            with urllib.request.urlopen(req,timeout=8) as r:return r.status,r.read(),r.headers
         except urllib.error.HTTPError as e:
             with e:return e.code,e.read(),e.headers
     def test_existing_library_content_save_reload_and_optimistic_conflict(self):
@@ -83,6 +83,89 @@ class StudioTests(unittest.TestCase):
         self.assertEqual(self.request('/api/settings',{'openai_api_key':'never'})[0],400)
         self.app.save(self.sid,{'summary_text':''},{'summary_text':'Testzusammenfassung'});self.app.controller.sync()
         self.assertEqual(self.app.session(self.sid)['summary_text'],'')
+
+    def test_download_guards_server_actions_but_keeps_notes_available(self):
+        self.app.engine.configure({'setup_complete':True})
+        original=self.app.models.status
+        self.app.models.status=lambda:{'state':'running'}
+        try:
+            capabilities=json.loads(self.request('/api/state')[1])['capabilities']
+            for key in ('record','configure','probe','install','model_test','finish_setup','process'):
+                self.assertFalse(capabilities[key]['allowed'],key)
+            for path,body in [('/api/record/start',{}),('/api/settings',{'threads':2}),
+                              ('/api/microphone/test',{}),('/api/models/test',{}),
+                              ('/api/setup/complete',{}),('/api/models/install',{'backend':'whisper','model':'medium'}),
+                              (f'/api/sessions/{self.sid}/retry',{})]:
+                self.assertEqual(self.request(path,body)[0],400,path)
+            self.assertEqual(self.request(f'/api/sessions/{self.sid}/save',{'changes':{'notes':'Parallel'},'base':{'notes':'Alte Notizen'}})[0],200)
+        finally:self.app.models.status=original
+
+    def test_pending_jobs_block_model_operations_not_capture_or_notes(self):
+        self.app.engine.configure({'setup_complete':True})
+        self.app.store.claim=lambda:None
+        ident=self.app.store.create('Wartet');self.app.store.update(ident,state='queued')
+        capabilities=self.app.capabilities()
+        self.assertTrue(capabilities['record']['allowed'])
+        self.assertTrue(capabilities['configure']['allowed'])
+        self.assertFalse(capabilities['install']['allowed'])
+        self.assertFalse(capabilities['model_test']['allowed'])
+        self.app.repo.update(self.sid,local_job_id=ident,transcription_status='queued')
+        self.assertEqual(self.request(f'/api/sessions/{self.sid}/delete',{})[0],400)
+        self.assertIsNotNone(self.app.repo.get_by_id(self.sid))
+
+    def test_concurrent_state_poll_and_capture_stop_complete_without_lock_inversion(self):
+        import concurrent.futures
+        script="import sys,time;\nwhile True:\n sys.stdout.buffer.write(b'\\x01\\x00'*1600);sys.stdout.buffer.flush();time.sleep(.1)"
+        self.app.engine.recorder.command_factory=lambda _:[sys.executable,'-u','-c',script]
+        self.app.engine.configure({'setup_complete':True})
+        self.app.store.claim=lambda:None
+        self.assertEqual(self.request('/api/record/start',{})[0],200)
+        pcm=self.app.store.folder(self.app.engine.recorder.active)/'audio.pcm'
+        end=time.monotonic()+3
+        while pcm.stat().st_size<3200 and time.monotonic()<end:time.sleep(.02)
+        self.assertGreaterEqual(pcm.stat().st_size,3200)
+        barrier=threading.Barrier(3)
+        def polling():
+            barrier.wait()
+            for _ in range(15):self.assertEqual(self.request('/api/state')[0],200)
+        def stopping():
+            barrier.wait()
+            return self.request('/api/record/stop',{})[0]
+        with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
+            futures=[pool.submit(polling),pool.submit(polling),pool.submit(stopping)]
+            for future in futures:future.result(timeout=10)
+            self.assertEqual(futures[2].result(),200)
+        self.assertFalse(self.app.engine.recorder.active)
+
+    def test_model_test_identity_and_exclusive_rules_survive_restart(self):
+        self.app.store.claim=lambda:None
+        ident=self.app.store.create('Model test')
+        self.app.store.update(ident,state='queued')
+        folder=self.app.store.root/'model-test';folder.mkdir(exist_ok=True)
+        (folder/'job.txt').write_text(ident)
+        with self.app.store.db() as db:db.execute('INSERT OR IGNORE INTO hidden_jobs VALUES(?)',(ident,))
+        self.app.close()
+        with patch('meeting_recorder.processing.Worker.run',return_value=None):
+            self.app=StudioApp(self.root/'queue',self.root/'sessions.db',backend=Backend(),settings_file=self.root/'settings.ini')
+        self.server.app=self.app
+        self.app.engine.configure({'setup_complete':True})
+        self.assertEqual(self.app.model_test,ident)
+        self.assertFalse(self.app.capabilities()['record']['allowed'])
+        self.assertFalse(self.app.capabilities()['configure']['allowed'])
+        self.assertEqual(len(self.app.state()['sessions']),1)
+
+    def test_low_disk_blocks_capture_without_writing_large_files(self):
+        self.app.engine.configure({'setup_complete':True})
+        with patch.object(self.app.store,'free_mb',return_value=256):
+            self.assertFalse(self.app.capabilities()['record']['allowed'])
+            self.assertEqual(self.request('/api/record/start',{})[0],400)
+
+    def test_shared_audio_is_preserved_when_one_reference_is_deleted(self):
+        original=self.app.repo.get_by_id(self.sid)
+        other=self.app.repo.create('Andere Referenz','2025-01-02',original['path'])
+        result=self.app.repo.delete(self.sid)
+        self.assertFalse(result['file_deleted'])
+        self.assertTrue(Path(self.app.repo.get_by_id(other)['path']).is_file())
 
     def test_capture_double_start_guard_and_shutdown_preserve_audio_and_mapping(self):
         script="import sys,time;\nwhile True:\n sys.stdout.buffer.write(b'\\x01\\x00'*1600);sys.stdout.buffer.flush();time.sleep(.1)"

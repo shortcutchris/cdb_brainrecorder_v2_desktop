@@ -9,3 +9,28 @@
 .capture h1{line-height:1.1}.capture h2{margin-top:23px}.record{background:linear-gradient(135deg,#087cff,#0755bd)}.record.recording{background:#c4324d}.meeting-header{margin-top:20px}.player{margin-top:22px}.tabs{margin-top:21px}#editor{padding-top:10px}.rail-button:not(.active) img,.mic img,.volume-icon,.tab:not(.active) img,.recent-card:not(.selected) img{filter:invert(39%) sepia(12%) saturate(962%) hue-rotate(171deg) brightness(92%) contrast(86%)}
 .touch-keyboard{position:fixed;z-index:30;bottom:0;left:0;right:0;height:220px;padding:8px;display:flex;flex-direction:column;gap:4px;background:#dce7f2;border-top:1px solid #b5c7dc}.key-row{display:flex;gap:4px;flex:1;min-height:0}.key-row button{flex:1;min-width:0;min-height:44px;border-radius:5px;background:white;color:#19344f;font-size:18px;touch-action:manipulation}.key-row button:active{background:#acd0ff}.key-row .space{flex:4}.key-row:last-child button{font-size:14px}.keyboard-open{height:calc(100dvh - 220px);min-height:480px}.keyboard-open .recent{display:none}.keyboard-open .capture{padding-top:18px}.keyboard-open .capture .record{width:112px;height:112px;margin-top:25px}.keyboard-open .capture h2{font-size:20px;margin-top:19px}.keyboard-open .capture .duration{font-size:38px;margin-top:12px}.keyboard-open .capture #waveform{height:32px;margin-top:12px}.keyboard-open .capture-hint{display:none}.keyboard-open .meeting-header{margin-top:0}.keyboard-open .player{margin-top:14px}.keyboard-open .tabs{margin-top:14px}dialog.with-keyboard{max-height:calc(100dvh - 250px);margin-top:15px;margin-bottom:235px}.dialog-heading h2{margin-right:auto}
 #volume::-webkit-slider-runnable-track{background:linear-gradient(to right,var(--blue) 0 var(--volume,80%),#e1e8ef var(--volume,80%) 100%)}
+
+/* Keep the emergency stop reachable when a settings page scrolls. */
+.dialog-heading{position:sticky;top:-24px;background:#fff;z-index:2;padding-top:12px;padding-bottom:12px}
+#draft-actions{display:flex;flex-wrap:wrap;gap:6px;padding:4px 8px}
+#draft-actions[hidden]{display:none}
+#draft-actions button{padding:6px 10px;font-size:13px}
+#settings-constraint:empty{display:none}
+#settings-constraint{color:#7a3b22;background:#fff4e9;padding:10px;border-radius:8px}
+
+.keyboard-open{min-height:0}
+@media(max-height:650px){.keyboard-open .capture{padding-top:8px}.keyboard-open .capture .record{width:88px;height:88px;min-height:88px;margin-top:12px}.keyboard-open .capture h2{font-size:18px;margin-top:14px}.keyboard-open .capture .duration{font-size:30px;margin-top:8px}.keyboard-open .capture #waveform{display:none}.keyboard-open .local-note{display:none}.keyboard-open .player{margin-top:8px}.keyboard-open .tabs{margin-top:8px}}
+/* Recovery controls must remain tappable while an error is visible. */
+.notice{top:12px;bottom:auto;left:calc(var(--rail) + var(--capture) + 12px)}
+
+.queue-open .capture .record{width:130px;height:130px;margin-top:24px;min-height:112px}
+.queue-open .capture h2{font-size:22px;margin-top:24px}
+.queue-open .capture .duration{font-size:38px;margin-top:10px}
+.queue-open .capture #waveform{height:32px;margin-top:12px}
+.queue-open .capture-hint{display:none}
+.queue-open .meeting-header{margin-top:14px}
+.queue-open .player{margin-top:14px}
+.queue-open .tabs{margin-top:12px}
+#editor{flex-basis:0;}
+
+#phase{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}

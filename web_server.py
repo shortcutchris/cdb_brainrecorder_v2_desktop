@@ -11,6 +11,7 @@ import mimetypes
 import os
 from pathlib import Path
 import secrets
+import shutil
 import signal
 import subprocess
 import threading
@@ -25,7 +26,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.4.0'
+VERSION = '0.4.1'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -49,6 +50,40 @@ class StudioApp:
         self.control_lock = threading.RLock()
         self.closing = False
         self.model_test = None
+        test_id = self.store.root/'model-test'/'job.txt'
+        if test_id.is_file():
+            try:
+                candidate=test_id.read_text().strip();self.store.get(candidate)
+                self.model_test=candidate
+            except (OSError,KeyError,ValueError):pass
+
+    def capabilities(self, state=None):
+        state = state or self.engine.state()
+        recording = bool(state['recording']['id'])
+        probe = state['microphone_test']['state'] == 'running'
+        download = state['installation']['state'] == 'running'
+        test = bool(self.model_test and self.store.get(self.model_test)['state'] in BUSY)
+        pending = any(j['state'] in BUSY for j in state['jobs'])
+        occupied = recording or probe or download or test
+        reason = ('Aufnahme läuft.' if recording else 'Mikrofontest läuft.' if probe else
+                  'Modelldownload läuft.' if download else 'Modelltest läuft.' if test else '')
+        low_disk = self.store.free_mb() < state['config'].get('min_free_mb', 1024)
+        def rule(allowed, why=''): return {'allowed': bool(allowed), 'reason': '' if allowed else why}
+        return {
+            'record': rule(not occupied and not low_disk and state['config']['setup_complete'],
+                           reason or ('Zu wenig freier Speicher.' if low_disk else 'Mikrofon zuerst einrichten.')),
+            'configure': rule(not occupied, reason),
+            'probe': rule(not occupied and not low_disk, reason or 'Zu wenig freier Speicher.'),
+            'install': rule(not occupied and not pending, reason or 'Offene Verarbeitung zuerst abschließen.'),
+            'model_test': rule(not occupied and not pending and not low_disk,
+                               reason or ('Zu wenig freier Speicher.' if low_disk else 'Offene Verarbeitung zuerst abschließen.')),
+            'finish_setup': rule(not occupied, reason),
+            'process': rule(not download and not test, reason),
+        }
+
+    def require(self, capability):
+        rule = self.capabilities()[capability]
+        if not rule['allowed']: raise ValueError(rule['reason'])
 
     def audio_devices(self): return devices()
     def setup_state(self): return SharedWebApp.setup_state(self)
@@ -76,6 +111,7 @@ class StudioApp:
             state['waveform'] = [float(abs(chunk).max()) if len(chunk) else 0 for chunk in np.array_split(samples,64)]
         else: state['waveform'] = [0]*64
         state['level'] = self.probe.level(raw) if raw else 0
+        state['capabilities'] = self.capabilities(state)
         state.update(csrf=self.csrf, version=VERSION, preview=self.preview,
             namespace=hashlib.sha256(str(self.store.root).encode()).hexdigest()[:16])
         if self.model_test:
@@ -143,6 +179,7 @@ class StudioApp:
     def start_model_test(self):
         if self.model_test and self.store.get(self.model_test)['state'] not in ('completed','failed'):
             raise ValueError('Modelltest läuft bereits.')
+        if not shutil.which('espeak-ng'):raise ValueError('Programm für künstliche Testsprache fehlt. Bitte Installation prüfen.')
         folder=self.store.root/'model-test';folder.mkdir(exist_ok=True)
         text='Dies ist ein technischer Modelltest. Anna erstellt bis Donnerstag eine Aufgabenliste. Fortsetzung am Freitag um zehn Uhr. Die Kosten sind ungeklärt.'
         subprocess.run(owned_command(['espeak-ng','-v','de','-s','145','-w',str(folder/'spoken.wav'),text]),
@@ -153,25 +190,41 @@ class StudioApp:
                 db.execute('CREATE TABLE IF NOT EXISTS hidden_jobs (id TEXT PRIMARY KEY)')
                 db.execute('INSERT OR IGNORE INTO hidden_jobs VALUES(?)',(ident,))
             self.model_test=ident
+            atomic_write(folder/'job.txt',ident)
             atomic_write(folder/'expected.txt',text)
         return {'id':ident}
 
     def action(self, path, body):
-        with self.control_lock:
+        # Lock order matches state(): controller before recorder.
+        with self.control_lock, self.controller.lock, self.engine.recorder.lock:
             if self.closing:raise ValueError('Dienst wird beendet. Änderungen bitte kurz aufbewahren.')
             if path=='/api/record/start':
+                self.require('record')
                 if not self.store.config()['setup_complete']:raise ValueError('Kein getestetes Mikrofon. Bitte Einstellungen öffnen und Audio-Einrichtung abschließen.')
                 if self.engine.recorder.active:raise ValueError('Aufnahme läuft bereits.')
                 return {'id':self.engine.start('')}
             if path=='/api/record/stop':
                 ident=self.engine.stop();self.controller.sync();return {'id':ident}
             if path=='/api/settings':
+                self.require('configure')
                 if set(body)-{'device','whisper_binary','whisper_model','summary_model','threads'}:raise ValueError('Unbekannte Einstellung.')
                 return self.engine.configure(body|{'setup_complete':False})
-            if path=='/api/models/install':return self.models.install(body.get('backend'),body.get('model'))
-            if path=='/api/models/test':return self.start_model_test()
-            if path=='/api/microphone/test':return self.probe.start()
+            if path=='/api/models/install':
+                self.require('install')
+                return self.models.install(body.get('backend'),body.get('model'))
+            if path=='/api/models/test':
+                self.require('model_test')
+                catalog=self.models.catalog();config=self.store.config()
+                if not (catalog['whisper_runtime'] and catalog['ollama'] and
+                        any(m['installed'] and m['path']==config['whisper_model'] for m in catalog['asr']) and
+                        any(m['installed'] and m['id']==config['summary_model'] for m in catalog['llm'])):
+                    raise ValueError('Ausgewählte Modelle und Programme zuerst installieren.')
+                return self.start_model_test()
+            if path=='/api/microphone/test':
+                self.require('probe')
+                return self.probe.start()
             if path=='/api/setup/complete':
+                self.require('finish_setup')
                 if not self.setup_state()['ready']:raise ValueError('Einrichtung noch nicht bereit. Offene Punkte prüfen.')
                 return self.engine.configure({'setup_complete':True})
             if path=='/api/prompts':return self.mutate_prompt(body)
@@ -180,13 +233,17 @@ class StudioApp:
                 sid=int(parts[2]);session=self.session(sid)
                 if parts[3]=='save':return self.save(sid,body.get('changes'),body.get('base'))
                 if parts[3]=='process':
+                    self.require('process')
                     prompt=next((p for p in self.prompts() if p['id']==body.get('prompt')),None)
                     if not prompt:raise ValueError('Prompt fehlt.')
                     return {'id':self.controller.process(sid,prompt['prompt_text'],reuse_transcript=not body.get('transcribe_again',False))}
                 if parts[3]=='retry':
+                    self.require('process')
                     if session.get('local_job_id'):self.engine.retry(session['local_job_id']);return {'ok':True}
                     return {'id':self.controller.process(sid)}
-                if parts[3]=='delete':return self.controller.delete(sid)
+                if parts[3]=='delete':
+                    if session['transcription_status'] in BUSY:raise ValueError('Aufnahme oder Verarbeitung zuerst abschließen.')
+                    return self.controller.delete(sid)
             raise KeyError('Unbekannte Aktion.')
 
     def close(self):

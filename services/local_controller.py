@@ -70,7 +70,7 @@ class LocalController:
             with self.engine.store.db() as db:
                 db.execute('CREATE TABLE IF NOT EXISTS hidden_jobs (id TEXT PRIMARY KEY)')
                 db.execute('INSERT OR IGNORE INTO hidden_jobs VALUES(?)', (old,))
-        self.repo.update(sid, local_job_id=ident, transcription_status='importing', summary_text='', local_error='')
+        self.repo.update(sid, local_job_id=ident, transcription_status='importing', local_error='')
         return ident
 
     def delete(self, sid):
