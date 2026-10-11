@@ -1,6 +1,6 @@
 # Recorder Studio 0.4.2
 
-Die HTML-Oberfläche übernimmt die ausgewählte zweite Studio-Variante. Das bestehende Python-Backend verarbeitet weiterhin Aufnahmen und lokale Modelle. `web_server.py` verwendet den vorhandenen `LocalController`, die ursprüngliche `data/sessions.db`, bestehende QSettings-Prompts und die fest versionierte gemeinsame Python-Engine 0.2.5. Es gibt eine Aufnahmeinstanz und einen FIFO-Verarbeiter.
+Die HTML-Oberfläche übernimmt die ausgewählte zweite Studio-Variante. Das bestehende Python-Backend verarbeitet weiterhin Aufnahmen und lokale Modelle. `web_server.py` verwendet den vorhandenen `LocalController`, die ursprüngliche `data/sessions.db`, bestehende QSettings-Prompts und die fest versionierte gemeinsame Python-Engine 0.2.6. Es gibt eine Aufnahmeinstanz und einen FIFO-Verarbeiter.
 
 ## Start auf dem Pi
 
@@ -21,7 +21,7 @@ Der Aufnahmebutton startet oder beendet eine Aufnahme unabhängig vom rechts aus
 
 Bibliothek, Suche, Umbenennen, Markdown-Export, Wiedergabe, erneute Transkription, Fehlerwiederholung, vorhandene und eigene Prompts sowie Mikrofon- und Modelleinstellungen sind angebunden. Die integrierte Touch-Tastatur steht in der Seitenleiste und in Dialogköpfen bereit; sie unterstützt Umlaute, Großbuchstaben, Zahlen, Sonderzeichen und Zeilenumbrüche.
 
-Ein Mikrofon muss gefunden, getestet und die Einrichtung abgeschlossen sein, bevor eine echte Aufnahme startet. Bestehende Modelle und Auswahlen werden übernommen. Der ausdrückliche Modelltest nutzt künstliche Sprache, denselben FIFO-Verarbeiter und erscheint nicht als persönliches Meeting. Die konservative Pi-Vorprüfung sperrt ihn bei fehlendem Lüfter-Tachosignal, ab 65 °C oder unter 4 GiB verfügbarem RAM.
+Ein Mikrofon muss gefunden, getestet und die Einrichtung abgeschlossen sein, bevor eine echte Aufnahme startet. Bestehende Modelle und Auswahlen werden übernommen. Der ausdrückliche Modelltest nutzt künstliche Sprache, denselben FIFO-Verarbeiter und erscheint nicht als persönliches Meeting. Die konservative Pi-Vorprüfung sperrt ihn bei angeforderter Kühlung ohne Lüfter-Tachosignal, ab 65 °C oder unter 4 GiB verfügbarem RAM.
 
 ## Isolierte Funktionsvorschau
 

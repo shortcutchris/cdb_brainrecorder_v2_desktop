@@ -4,7 +4,7 @@ Eine Desktop-Anwendung zum Aufzeichnen, Verwalten und Wiedergeben von Audio-Sess
 
 ## Aktueller Raspberry-Pi-Stand: Studio 0.4.2
 
-Der Pi verwendet die HTML-Studio-Oberfläche mit dem vorhandenen Python-Backend, der bisherigen Meeting-Datenbank und lokalen Whisper-/Ollama-Modellen. Installation, Autostart, isolierte Funktionsvorschau und Rückkehr zur bisherigen Oberfläche: [docs/STUDIO.md](docs/STUDIO.md). Gestaltung und Prüfungsumfang: [design-qa.md](design-qa.md). Die gemeinsame Python-Engine ist auf Version 0.2.5 gepinnt. Zustandsregeln und Entwurfswiederherstellung: [docs/STUDIO.md](docs/STUDIO.md).
+Der Pi verwendet die HTML-Studio-Oberfläche mit dem vorhandenen Python-Backend, der bisherigen Meeting-Datenbank und lokalen Whisper-/Ollama-Modellen. Installation, Autostart, isolierte Funktionsvorschau und Rückkehr zur bisherigen Oberfläche: [docs/STUDIO.md](docs/STUDIO.md). Gestaltung und Prüfungsumfang: [design-qa.md](design-qa.md). Die gemeinsame Python-Engine ist auf Version 0.2.6 gepinnt. Zustandsregeln und Entwurfswiederherstellung: [docs/STUDIO.md](docs/STUDIO.md).
 
 Die folgenden Abschnitte beschreiben auch historische Funktionen der Desktop-Anwendung. Für den aktuellen Pi gelten die lokalen Einrichtungsanweisungen in [docs/STUDIO.md](docs/STUDIO.md) und [docs/LOCAL_AI.md](docs/LOCAL_AI.md).
 

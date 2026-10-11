@@ -116,8 +116,8 @@ class StudioApp:
         if not model.exists() or b'Raspberry Pi' not in model.read_bytes():return
         temperature=int(Path('/sys/class/thermal/thermal_zone0/temp').read_text())/1000
         fans=list(Path('/sys/class/hwmon').glob('hwmon*/fan1_input'))
-        if any(int(p.read_text())==0 for p in fans):
-            raise ValueError('Modelltest wartet: Lüfter meldet 0 U/min. Kühlung zuerst prüfen.')
+        if any(int(p.read_text())==0 and (int((p.parent/'pwm1').read_text())>0 if (p.parent/'pwm1').exists() else temperature>=50) for p in fans):
+            raise ValueError('Modelltest wartet: Kühlung angefordert, Lüfter meldet 0 U/min. Anschluss und Lüfter prüfen.')
         if temperature>=65:raise ValueError('Modelltest wartet: Gerät zuerst unter 65 °C abkühlen lassen.')
         available=next(int(x.split()[1]) for x in Path('/proc/meminfo').read_text().splitlines() if x.startswith('MemAvailable:'))
         if available<4*1024**2:raise ValueError('Modelltest wartet: mindestens 4 GiB verfügbarer Arbeitsspeicher erforderlich.')

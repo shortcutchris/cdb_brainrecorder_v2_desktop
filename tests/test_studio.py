@@ -235,3 +235,15 @@ class StudioTests(unittest.TestCase):
             pending.write_text(json.dumps({'id':ident,'entries':entries}));validate.reset_mock()
             catalog['llm']=[{'id':'candidate','fingerprint':'replaced'}]
             self.app.finish_model_validation();validate.assert_not_called()
+
+class ModelPreflightTests(unittest.TestCase):
+    def test_cold_idle_fan_is_allowed_but_requested_cooling_without_rpm_is_blocked(self):
+        with tempfile.TemporaryDirectory() as root:
+            def path(value):return Path(root)/str(value).lstrip('/')
+            for name,value in [('/proc/device-tree/model','Raspberry Pi 5'),('/proc/meminfo','MemAvailable: 7000000 kB\n'),('/sys/class/thermal/thermal_zone0/temp','45000'),('/sys/class/hwmon/hwmon3/fan1_input','0'),('/sys/class/hwmon/hwmon3/pwm1','0')]:
+                p=path(name);p.parent.mkdir(parents=True,exist_ok=True);p.write_text(value)
+            with patch('web_server.Path',side_effect=path):StudioApp.model_test_preflight()
+            path('/sys/class/thermal/thermal_zone0/temp').write_text('55000');path('/sys/class/hwmon/hwmon3/pwm1').write_text('75')
+            with patch('web_server.Path',side_effect=path),self.assertRaisesRegex(ValueError,'0 U/min'):StudioApp.model_test_preflight()
+            path('/sys/class/hwmon/hwmon3/pwm1').write_text('0');path('/sys/class/thermal/thermal_zone0/temp').write_text('66000')
+            with patch('web_server.Path',side_effect=path),self.assertRaisesRegex(ValueError,'65'):StudioApp.model_test_preflight()
