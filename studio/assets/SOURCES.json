@@ -1,0 +1,12 @@
+{
+  "icons": {
+    "package": "@phosphor-icons/core",
+    "version": "2.1.1",
+    "url": "https://registry.npmjs.org/@phosphor-icons/core/-/core-2.1.1.tgz",
+    "sha256": "313332be6190b724da24107addd781799b48bf76b13963f24501112ffe1baadd"
+  },
+  "font": {
+    "url": "https://raw.githubusercontent.com/rsms/inter/master/docs/font-files/InterVariable.woff2",
+    "sha256": "693b77d4f32ee9b8bfc995589b5fad5e99adf2832738661f5402f9978429a8e3"
+  }
+}
