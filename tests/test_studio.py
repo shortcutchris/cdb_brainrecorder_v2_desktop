@@ -189,3 +189,49 @@ class StudioTests(unittest.TestCase):
         self.assertEqual(row['local_job_id'],ident)
         self.assertEqual(row['notes'],'Während Aufnahme gespeichert')
         self.assertEqual(len([r for r in self.app.repo.get_all() if r.get('local_job_id')==ident]),1)
+
+    def test_model_candidates_do_not_activate_without_passed_device_test(self):
+        old=self.app.store.config()['summary_model']
+        model={'id':'candidate','installed':True,'tested':False,'fingerprint':'digest|runtime'}
+        catalog={'asr':[],'llm':[model]}
+        with patch.object(self.app.models,'catalog',return_value=catalog):
+            self.assertEqual(self.request('/api/models/activate',{'backend':'ollama','model':'candidate'})[0],400)
+            self.assertEqual(self.request('/api/settings',{'summary_model':'candidate'})[0],400)
+            self.assertEqual(self.app.store.config()['summary_model'],old)
+            model['tested']=True
+            self.assertEqual(self.request('/api/models/activate',{'backend':'ollama','model':'candidate'})[0],200)
+            self.assertEqual(self.app.store.config()['summary_model'],'candidate')
+
+    def test_candidate_test_uses_selected_pair_without_changing_configuration(self):
+        old=self.app.store.config()
+        asr={'id':'large-v3','path':'/candidate.bin','installed':True,'fingerprint':'asr'}
+        llm={'id':'candidate','installed':True,'candidate':True,'runtime_compatible':True,'fingerprint':'llm'}
+        catalog={'asr':[asr],'llm':[llm],'whisper_runtime':True,'ollama':True}
+        with patch.object(self.app.models,'catalog',return_value=catalog),patch.object(self.app,'model_test_preflight'),patch.object(self.app,'start_model_test',return_value={'id':'test'}) as start:
+            self.assertEqual(self.request('/api/models/test',{'asr':'large-v3','llm':'candidate'})[0],200)
+            self.assertEqual(start.call_args.args[0],{'whisper':asr,'ollama':llm})
+            llm['runtime_compatible']=False
+            self.assertEqual(self.request('/api/models/test',{'asr':'large-v3','llm':'candidate'})[0],400)
+        self.assertEqual(self.app.store.config(),old)
+
+    def test_cooling_preflight_prevents_test_before_any_work(self):
+        with patch.object(self.app,'model_test_preflight',side_effect=ValueError('Lüfter meldet 0 U/min')),patch.object(self.app,'start_model_test') as start:
+            status,body,_=self.request('/api/models/test',{})
+            self.assertEqual(status,400);self.assertIn('0 U/min',body.decode());start.assert_not_called()
+
+    def test_only_completed_unchanged_pair_gains_persistent_validation(self):
+        ident=self.app.store.create('Isolated model test');self.app.model_test=ident
+        folder=self.app.store.folder(ident)
+        entries={'whisper':{'id':'medium','fingerprint':'weights'},'ollama':{'id':'candidate','fingerprint':'digest'}}
+        pending=self.app.store.root/'model-test'/'pair.json';pending.parent.mkdir(exist_ok=True)
+        pending.write_text(json.dumps({'id':ident,'entries':entries}))
+        (folder/'transcript.txt').write_text('Erkannter Text');(folder/'summary.md').write_text('Sachliches Protokoll')
+        catalog={'asr':[entries['whisper']],'llm':[entries['ollama']]}
+        with patch.object(self.app.models,'catalog',return_value=catalog),patch.object(self.app.models,'validate_pair') as validate:
+            self.app.store.update(ident,state='failed');self.app.finish_model_validation();validate.assert_not_called()
+            pending.write_text(json.dumps({'id':ident,'entries':entries}))
+            self.app.store.update(ident,state='completed');self.app.finish_model_validation();validate.assert_called_once_with(entries)
+            self.app.finish_model_validation();validate.assert_called_once()
+            pending.write_text(json.dumps({'id':ident,'entries':entries}));validate.reset_mock()
+            catalog['llm']=[{'id':'candidate','fingerprint':'replaced'}]
+            self.app.finish_model_validation();validate.assert_not_called()

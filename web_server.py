@@ -26,7 +26,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.4.1'
+VERSION = '0.4.2'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -86,7 +86,42 @@ class StudioApp:
         if not rule['allowed']: raise ValueError(rule['reason'])
 
     def audio_devices(self): return devices()
-    def setup_state(self): return SharedWebApp.setup_state(self)
+    def setup_state(self):
+        self.finish_model_validation()
+        result=SharedWebApp.setup_state(self)
+        try:self.model_test_preflight();reason=""
+        except ValueError as e:reason=str(e)
+        except OSError:reason="Modelltest wartet: Kühlung, Temperatur oder Arbeitsspeicher prüfen."
+        result["catalog"]["test_block_reason"]=reason
+        return result
+
+    def finish_model_validation(self):
+        path=self.store.root/'model-test'/'pair.json'
+        if not self.model_test or not path.exists():return
+        pending=json.loads(path.read_text())
+        if pending.get('id')!=self.model_test or pending.get('processed'):return
+        job=self.store.get(self.model_test)
+        if job['state'] not in ('completed','failed'):return
+        result=self.engine.result(self.model_test)
+        if job['state']=='completed' and result.get('transcript','').strip() and result.get('summary','').strip():
+            catalog=self.models.catalog()
+            entries=pending['entries']
+            unchanged=all(any(m['id']==old['id'] and m['fingerprint']==old['fingerprint'] for m in catalog['asr' if backend=='whisper' else 'llm']) for backend,old in entries.items())
+            if unchanged:self.models.validate_pair(entries)
+        atomic_write(path,json.dumps(pending|{'processed':True}))
+
+    @staticmethod
+    def model_test_preflight():
+        model=Path('/proc/device-tree/model')
+        if not model.exists() or b'Raspberry Pi' not in model.read_bytes():return
+        temperature=int(Path('/sys/class/thermal/thermal_zone0/temp').read_text())/1000
+        fans=list(Path('/sys/class/hwmon').glob('hwmon*/fan1_input'))
+        if any(int(p.read_text())==0 for p in fans):
+            raise ValueError('Modelltest wartet: Lüfter meldet 0 U/min. Kühlung zuerst prüfen.')
+        if temperature>=65:raise ValueError('Modelltest wartet: Gerät zuerst unter 65 °C abkühlen lassen.')
+        available=next(int(x.split()[1]) for x in Path('/proc/meminfo').read_text().splitlines() if x.startswith('MemAvailable:'))
+        if available<4*1024**2:raise ValueError('Modelltest wartet: mindestens 4 GiB verfügbarer Arbeitsspeicher erforderlich.')
+
 
     def state(self):
         with self.controller.lock:
@@ -117,6 +152,7 @@ class StudioApp:
         if self.model_test:
             job = self.store.get(self.model_test)
             state['model_test'] = job | self.engine.result(self.model_test)
+            self.finish_model_validation()
         return state
 
     def session(self, sid):
@@ -176,7 +212,7 @@ class StudioApp:
             if settings.settings.status()!=settings.settings.Status.NoError:raise OSError('Prompts konnten nicht gespeichert werden.')
             return settings.get_all_prompts()
 
-    def start_model_test(self):
+    def start_model_test(self, entries=None):
         if self.model_test and self.store.get(self.model_test)['state'] not in ('completed','failed'):
             raise ValueError('Modelltest läuft bereits.')
         if not shutil.which('espeak-ng'):raise ValueError('Programm für künstliche Testsprache fehlt. Bitte Installation prüfen.')
@@ -185,7 +221,8 @@ class StudioApp:
         subprocess.run(owned_command(['espeak-ng','-v','de','-s','145','-w',str(folder/'spoken.wav'),text]),
                        check=True,timeout=30,capture_output=True)
         with self.controller.lock:
-            ident=self.engine.enqueue(folder/'spoken.wav','Technischer Modelltest · künstliche Sprache')
+            ident=self.engine.enqueue(folder/'spoken.wav','Technischer Modelltest · künstliche Sprache',test_config=None if entries is None else {'whisper_model':entries['whisper']['path'],'summary_model':entries['ollama']['id'],'model_test':True})
+            if entries:atomic_write(folder/'pair.json',json.dumps({'id':ident,'entries':entries}))
             with self.store.db() as db:
                 db.execute('CREATE TABLE IF NOT EXISTS hidden_jobs (id TEXT PRIMARY KEY)')
                 db.execute('INSERT OR IGNORE INTO hidden_jobs VALUES(?)',(ident,))
@@ -208,18 +245,34 @@ class StudioApp:
             if path=='/api/settings':
                 self.require('configure')
                 if set(body)-{'device','whisper_binary','whisper_model','summary_model','threads'}:raise ValueError('Unbekannte Einstellung.')
+                if 'summary_model' in body or 'whisper_model' in body:
+                    catalog=self.models.catalog()
+                    for backend,key,entries,valuekey in [('whisper','whisper_model',catalog['asr'],'path'),('ollama','summary_model',catalog['llm'],'id')]:
+                        if key in body and body[key]!=self.store.config()[key]:
+                            m=next((m for m in entries if m[valuekey]==body[key]),None)
+                            if not m or not m.get('tested'):raise ValueError('Neues Modell zuerst installieren und erfolgreich auf diesem Gerät testen; danach ausdrücklich aktivieren.')
                 return self.engine.configure(body|{'setup_complete':False})
             if path=='/api/models/install':
                 self.require('install')
                 return self.models.install(body.get('backend'),body.get('model'))
+            if path=='/api/models/activate':
+                self.require('configure');self.finish_model_validation()
+                catalog=self.models.catalog();backend=body.get('backend')
+                if backend not in ('whisper','ollama'):raise ValueError('Unbekannter Modelltyp.')
+                entries=catalog['asr' if backend=='whisper' else 'llm']
+                m=next((m for m in entries if m['id']==body.get('model')),None)
+                if not m or not m.get('tested'):raise ValueError('Aktivierung erst nach bestandenem Gerätetest möglich.')
+                key,value=('whisper_model',m['path']) if backend=='whisper' else ('summary_model',m['id'])
+                return self.engine.configure({key:value})
             if path=='/api/models/test':
-                self.require('model_test')
+                self.require('model_test');self.model_test_preflight()
                 catalog=self.models.catalog();config=self.store.config()
-                if not (catalog['whisper_runtime'] and catalog['ollama'] and
-                        any(m['installed'] and m['path']==config['whisper_model'] for m in catalog['asr']) and
-                        any(m['installed'] and m['id']==config['summary_model'] for m in catalog['llm'])):
+                asr=next((m for m in catalog['asr'] if (m['id']==body.get('asr') if body.get('asr') else m['path']==config['whisper_model'])),None)
+                llm=next((m for m in catalog['llm'] if m['id']==body.get('llm',config['summary_model'])),None)
+                if not (catalog['whisper_runtime'] and catalog['ollama'] and asr and asr['installed'] and llm and llm['installed']):
                     raise ValueError('Ausgewählte Modelle und Programme zuerst installieren.')
-                return self.start_model_test()
+                if llm.get('candidate') and not llm.get('runtime_compatible'):raise ValueError('Laufzeit und Thinking-Vorlage dieses Kandidaten nicht bestätigt.')
+                return self.start_model_test({'whisper':asr,'ollama':llm})
             if path=='/api/microphone/test':
                 self.require('probe')
                 return self.probe.start()

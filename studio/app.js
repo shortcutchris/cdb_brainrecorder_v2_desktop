@@ -128,8 +128,8 @@ async function loadSetup(){
  if(setupBusy)return;setupBusy=true;
  try{const [setup,audioDevices]=await Promise.all([api('/api/setup'),api('/api/devices')]);catalog=setup.catalog;const c=state.config;
   fillSelect($('mic-select'),audioDevices.devices,c.device,'id',d=>d.label);if(!audioDevices.devices.length){fillSelect($('mic-select'),[{id:'',label:'Kein Mikrofon gefunden'}],'','id',d=>d.label)}
-  fillSelect($('asr-select'),catalog.asr,c.whisper_model,'path',m=>m.label+' · '+(m.installed?'installiert':'fehlt'));
-  fillSelect($('llm-select'),catalog.llm,c.summary_model,'id',m=>m.label+' · '+(m.installed?'installiert':'fehlt'));
+  fillSelect($('asr-select'),catalog.asr,catalog.asr.some(m=>m.path===$('asr-select').value)?$('asr-select').value:c.whisper_model,'path',m=>m.label+' · '+(m.installed?'installiert':'fehlt'));
+  fillSelect($('llm-select'),catalog.llm,catalog.llm.some(m=>m.id===$('llm-select').value)?$('llm-select').value:c.summary_model,'id',m=>m.label+' · '+(m.installed?'installiert':'fehlt'));
   $('binary').value=c.whisper_binary;$('checks').replaceChildren();for(const check of setup.checks){const p=document.createElement('p');p.textContent=check.label+' · '+(check.ok?'bereit':'offen');$('checks').append(p)}setupReady=setup.ready;bindRule('finish-setup','finish_setup',!setupReady);renderModelInfo();renderSettingsStatus();
  }finally{setupBusy=false}
 }
@@ -138,15 +138,17 @@ $('settings-open').onclick=run(openSettings);$('mic-settings').onclick=run(openS
 document.querySelectorAll('[data-settings]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-settings]').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.settings-page').forEach(p=>p.hidden=p.id!==b.dataset.settings)});
 async function configure(changes){await api('/api/settings',changes);await poll();await loadSetup()}
 $('mic-select').onchange=run(async()=>{if($('mic-select').value)await configure({device:$('mic-select').value})});
-for(const id of ['asr-select','llm-select'])$(id).onchange=run(()=>configure({whisper_model:$('asr-select').value,summary_model:$('llm-select').value}));
+for(const id of ['asr-select','llm-select'])$(id).onchange=()=>{renderModelInfo();renderSettingsStatus()};
 $('binary-save').onclick=run(()=>configure({whisper_binary:$('binary').value}));
 $('probe-start').onclick=run(async()=>{await api('/api/microphone/test',{});await poll()});
 $('finish-setup').onclick=run(async()=>{await api('/api/setup/complete',{});await poll();await loadSetup();notice('Einrichtung gespeichert.')});
-function renderModelInfo(){if(!catalog)return;for(const [select,key,entries,info,install] of [['asr-select','path',catalog.asr,'asr-info','asr-install'],['llm-select','id',catalog.llm,'llm-info','llm-install']]){const m=entries.find(m=>m[key]===$(select).value);$(info).textContent=m?m.description+' · '+m.license+' · '+(m.bytes/1e9).toFixed(1)+' GB':'';$(install).disabled=!m||m.installed||m.id==='custom'||!allowed('install')}}
-async function installModel(backend){const entries=backend==='whisper'?catalog.asr:catalog.llm,key=backend==='whisper'?'path':'id',select=backend==='whisper'?'asr-select':'llm-select';const m=entries.find(m=>m[key]===$(select).value);if(!m||!confirm(m.label+' bewusst herunterladen? Ungefähr '+(m.bytes/1e9).toFixed(1)+' GB plus Reserve. '+m.license+'. Keine Meetings werden übertragen.'))return;await api('/api/models/install',{backend,model:m.id});await poll()}
+function chosenModel(backend){return (backend==='whisper'?catalog?.asr:catalog?.llm)?.find(m=>(backend==='whisper'?m.path:m.id)===$(backend==='whisper'?'asr-select':'llm-select').value)}
+function renderModelInfo(){if(!catalog)return;for(const [backend,info,install,activate] of [['whisper','asr-info','asr-install','asr-activate'],['ollama','llm-info','llm-install','llm-activate']]){const m=chosenModel(backend),box=$(info);box.replaceChildren();if(m){for(const text of [m.description,m.license+' · '+(m.bytes/1e9).toFixed(2)+' GB Download',m.installed?'Installiert':'Nicht installiert',m.test_status||'Auf diesem Gerät ungeprüft',m.active?'Derzeit aktiv':'Nicht aktiv',m.compatibility||'Lokale Laufzeit im Gerätetest prüfen']){const p=document.createElement('p');p.textContent=text;box.append(p)}if(m.source){const a=document.createElement('a');a.href=m.source;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Modellquelle und Lizenz ansehen';box.append(a)}}$(install).disabled=!m||m.installed||m.id==='custom'||!allowed('install');$(activate).disabled=!m||!m.tested||m.active||!allowed('configure')}}
+async function installModel(backend){const m=chosenModel(backend);if(!m)return;await api('/api/models/install',{backend,model:m.id});await poll();await loadSetup()}
 $('asr-install').onclick=run(()=>installModel('whisper'));$('llm-install').onclick=run(()=>installModel('ollama'));
-$('model-test').onclick=run(async()=>{await api('/api/models/test',{});await poll()});
-let previousDownload='',previousProbe='';function renderSettingsStatus(){
+for(const [id,backend] of [['asr-activate','whisper'],['llm-activate','ollama']])$(id).onclick=run(async()=>{const m=chosenModel(backend);await api('/api/models/activate',{backend,model:m.id});await poll();await loadSetup();notice(m.label+' ausdrücklich aktiviert. Bereits eingereihte Aufträge behalten ihre Modelle.')});
+$('model-test').onclick=run(async()=>{await api('/api/models/test',{asr:chosenModel('whisper')?.id,llm:chosenModel('ollama')?.id});await poll()});
+let previousDownload='',previousProbe='',previousModelTest='';function renderSettingsStatus(){
  if(!state)return;$('settings-constraint').textContent=!online?'Verbindung unterbrochen. Einstellungen warten auf eine neue Verbindung.':state.capabilities.configure.reason||(!state.capabilities.install.allowed?'Aufnahme und Notizen bleiben verfügbar. Modelle herunterladen oder testen erst nach Abschluss offener Aufträge.':'');const p=state.microphone_test,d=state.installation;const busy=!allowed('configure');
  for(const id of ['mic-select','asr-select','llm-select','binary-save','probe-start'])$(id).disabled=busy||id==='mic-select'&&!$('mic-select').value;
  bindRule('probe-start','probe',!$('mic-select').value);bindRule('finish-setup','finish_setup',!setupReady);
@@ -154,7 +156,8 @@ let previousDownload='',previousProbe='';function renderSettingsStatus(){
  if(p.state==='completed'&&previousProbe!=='completed'){$('probe-audio').src='/api/microphone/audio?completed='+Date.now();if($('settings').open)loadSetup().catch(e=>notice(e.message))}previousProbe=p.state;
  if(d.total)$('download-progress').value=100*d.completed/d.total;else if(d.state==='running')$('download-progress').removeAttribute('value');else $('download-progress').value=0;$('download-state').textContent=(d.message||'')+(d.total?' · '+Math.round(d.completed/1e6)+' / '+Math.round(d.total/1e6)+' MB':'');
  if(d.state==='completed'&&previousDownload!=='completed'&&$('settings').open)loadSetup().catch(e=>notice(e.message));previousDownload=d.state;
- $('model-test').disabled=!allowed('model_test')||!catalog?.asr.some(m=>m.installed&&m.path===state.config.whisper_model)||!catalog?.llm.some(m=>m.installed&&m.id===state.config.summary_model)||!catalog?.whisper_runtime||!catalog?.ollama||Boolean(state.model_test&&busyStates.includes(state.model_test.state));if(state.model_test){const t=state.model_test;$('model-test-state').textContent=(names[t.state]||t.state)+(t.error?' · '+t.error:'')+(t.summary?'\n'+t.summary:'')}
+ $('model-test').disabled=Boolean(catalog?.test_block_reason)||!allowed('model_test')||!chosenModel('whisper')?.installed||!chosenModel('ollama')?.installed||(chosenModel('ollama')?.candidate&&!chosenModel('ollama')?.runtime_compatible)||!catalog?.whisper_runtime||!catalog?.ollama||Boolean(state.model_test&&busyStates.includes(state.model_test.state));if(catalog?.test_block_reason)$('model-test-state').textContent=catalog.test_block_reason;else if(state.model_test){const t=state.model_test;$('model-test-state').textContent=(names[t.state]||t.state)+(t.error?' · '+t.error:'')+(t.summary?'\n'+t.summary:'')}
+ if(state.model_test?.state==='completed'&&previousModelTest!=='completed'&&$('settings').open)loadSetup().catch(e=>notice(e.message));previousModelTest=state.model_test?.state||'';
  if(catalog)renderModelInfo();
 }
 poll().then(()=>loadPrompts()).catch(e=>notice(e.message));setInterval(poll,1000);setInterval(()=>{if(online&&Date.now()-lastStateAt>5000){online=false;renderState();renderSelected();$('phase').textContent='Verbindung wird geprüft · Aktionen warten';}},1000);

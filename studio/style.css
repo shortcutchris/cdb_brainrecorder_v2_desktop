@@ -34,3 +34,5 @@
 #editor{flex-basis:0;}
 
 #phase{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.model-info{padding:10px 12px;background:#f2f6fa;border-radius:8px;margin:8px 0}.model-info p{margin:3px 0;font-size:14px;line-height:1.35}.model-info a{font-size:14px}

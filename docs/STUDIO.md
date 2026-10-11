@@ -1,6 +1,6 @@
-# Recorder Studio 0.4.1
+# Recorder Studio 0.4.2
 
-Die HTML-Oberfläche übernimmt die ausgewählte zweite Studio-Variante. Das bestehende Python-Backend verarbeitet weiterhin Aufnahmen und lokale Modelle. `web_server.py` verwendet den vorhandenen `LocalController`, die ursprüngliche `data/sessions.db`, bestehende QSettings-Prompts und die fest versionierte gemeinsame Python-Engine 0.2.4. Es gibt eine Aufnahmeinstanz und einen FIFO-Verarbeiter.
+Die HTML-Oberfläche übernimmt die ausgewählte zweite Studio-Variante. Das bestehende Python-Backend verarbeitet weiterhin Aufnahmen und lokale Modelle. `web_server.py` verwendet den vorhandenen `LocalController`, die ursprüngliche `data/sessions.db`, bestehende QSettings-Prompts und die fest versionierte gemeinsame Python-Engine 0.2.5. Es gibt eine Aufnahmeinstanz und einen FIFO-Verarbeiter.
 
 ## Start auf dem Pi
 
@@ -21,7 +21,7 @@ Der Aufnahmebutton startet oder beendet eine Aufnahme unabhängig vom rechts aus
 
 Bibliothek, Suche, Umbenennen, Markdown-Export, Wiedergabe, erneute Transkription, Fehlerwiederholung, vorhandene und eigene Prompts sowie Mikrofon- und Modelleinstellungen sind angebunden. Die integrierte Touch-Tastatur steht in der Seitenleiste und in Dialogköpfen bereit; sie unterstützt Umlaute, Großbuchstaben, Zahlen, Sonderzeichen und Zeilenumbrüche.
 
-Ein Mikrofon muss gefunden, getestet und die Einrichtung abgeschlossen sein, bevor eine echte Aufnahme startet. Bestehende Modelle und Auswahlen werden übernommen. Der ausdrückliche Modelltest nutzt künstliche Sprache, denselben FIFO-Verarbeiter und erscheint nicht als persönliches Meeting. Er kann auf einem unzureichend gekühlten Pi erheblich länger dauern.
+Ein Mikrofon muss gefunden, getestet und die Einrichtung abgeschlossen sein, bevor eine echte Aufnahme startet. Bestehende Modelle und Auswahlen werden übernommen. Der ausdrückliche Modelltest nutzt künstliche Sprache, denselben FIFO-Verarbeiter und erscheint nicht als persönliches Meeting. Die konservative Pi-Vorprüfung sperrt ihn bei fehlendem Lüfter-Tachosignal, ab 65 °C oder unter 4 GiB verfügbarem RAM.
 
 ## Isolierte Funktionsvorschau
 
@@ -59,3 +59,9 @@ Threadzahl, Whisper-Programm, Modellwahl und Prompt werden pro Auftrag festgehal
 Eine neue Verarbeitung bewahrt bisherige Ergebnisse, bis neue Ergebnisse vorliegen. Beim Löschen bleibt Audio erhalten, wenn eine andere Sitzung dieselbe Datei verwendet. Wiedergabe wird beim Aufnahmestart pausiert; während Aufnahme erfordert die Wiedergabe einen Kopfhörerhinweis. Die Tastatur wählt sichtbare Textfelder; die Ansicht passt sich bei geöffneter Warteschlange und bei 1024×600 mit Tastatur an.
 
 Die Abnahme nutzt ausschließlich isolierte synthetische Sitzungen und kontrollierte Fehlerzustände. Echte Mikrofonqualität und Modellleistung werden dadurch nicht nachgewiesen. Keine Firmware-, Lüfter- oder Betriebssystemänderungen gehören zu diesem Update.
+
+## Modellkatalog 0.4.2
+
+Die Dropdowns wählen einen Kandidaten zur Ansicht; sie ändern keine aktive Modellwahl. Quelle, Lizenz, Downloadgröße, Installation, Kompatibilität, Gerätetest und Aktivierung sind getrennt sichtbar. Neue Kandidaten benötigen einen erfolgreichen technischen Test vor der ausdrücklichen Aktivierung. Der Test verwendet einen eigenen Auftrags-Snapshot; aktive Modelle und vorhandene Aufträge bleiben erhalten. Ein geänderter Modelldigest oder eine geänderte Ollama-Version macht den Testnachweis ungültig.
+
+Whisper medium, large-v3-turbo und large-v3 bleiben mehrsprachige whisper.cpp-Modelle. Qwen3.5 4B Q4_K_M ist ein ungeprüfter zusätzlicher Textkandidat mit ausdrücklich benanntem Hugging-Face-GGUF. Thinking wird über `think:false` der Runtime abgeschaltet; `/nothink` wird nicht als Ersatz verwendet. Architektur, Quantisierung und Thinking-Vorlage müssen passen; unerwartetes Thinking lässt den echten Test scheitern. Quellen, technische Grenzen und spätere Kandidaten: [kanonische Modelldokumentation](https://github.com/shortcutchris/raspberry_pi_meeting_recorder/blob/main/docs/modelle.md).
