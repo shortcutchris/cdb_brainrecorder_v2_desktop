@@ -62,7 +62,7 @@ class StudioTests(unittest.TestCase):
 
     def test_explicit_settings_file_does_not_construct_native_preferences(self):
         with patch('settings.QSettings',side_effect=AssertionError('Native preferences must stay untouched')):
-            self.assertEqual(Path(self.app.settings_manager().settings.fileName()),self.root/'settings.ini')
+            self.assertEqual(Path(self.app.settings_manager().settings.fileName()).resolve(),(self.root/'settings.ini').resolve())
             self.app.mutate_prompt({'action':'add','name':'Isoliert','text':'Nur Testdaten'})
             self.assertEqual(self.app.prompts()[-1]['name'],'Isoliert')
         persisted=QSettings(str(self.root/'settings.ini'),QSettings.IniFormat)
