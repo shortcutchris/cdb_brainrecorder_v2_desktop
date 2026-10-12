@@ -102,6 +102,27 @@ class CdbTests(unittest.TestCase):
             with patch.object(self.c,'call',return_value={'content':'Partial content','stop_reason':reason}):
                 with self.assertRaisesRegex(CdbFailure,'bestätigt'):b.generate('Source',{})
 
+    def test_oversized_summary_is_reduced_not_truncated(self):
+        from unittest.mock import patch
+        b=self.summary_backend();long='Original task. '*300
+        with patch.object(self.c,'call',side_effect=[{'content':long,'stop_reason':'completed'},{'content':'Compact tasks','stop_reason':'completed'}]) as call:
+            self.assertEqual(b.generate('Source',{'chunk_chars':6000}),'Compact tasks')
+            self.assertEqual(call.call_args_list[1].args[1]['text'],long.strip())
+        with patch.object(self.c,'call',return_value={'content':long,'stop_reason':'completed'}):
+            with self.assertRaisesRegex(CdbFailure,'Teilprotokoll zu lang'):b.generate('Source',{'chunk_chars':6000})
+
+    def test_bounded_cdb_outputs_converge_for_hour_sized_transcript(self):
+        import threading
+        from unittest.mock import patch
+        from meeting_recorder.processing import summarize
+        b=self.summary_backend();progress=[]
+        with patch.object(self.c,'call',return_value={'content':'Task\n'*587,'stop_reason':'completed'}) as call:
+            result=summarize('Source data\n'*5000,{'chunk_chars':6000},b,threading.Event(),progress.append)
+            self.assertTrue(result.startswith('Task'))
+            self.assertLess(len(result)*2+5,6000)
+            self.assertLess(call.call_count,40)
+            self.assertTrue(any('Stufe' in p for p in progress))
+
     def test_tokens_never_in_public_state_and_private_permissions(self):
         text=json.dumps(self.c.public());self.assertNotIn('synthetic-refresh',text);self.assertNotIn('"token"',text)
         self.assertEqual(os.stat(self.c.root/'session.json').st_mode&0o777,0o600)

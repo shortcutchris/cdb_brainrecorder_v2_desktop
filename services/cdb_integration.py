@@ -335,22 +335,30 @@ class CdbBackend:
         jobs=[j for j in self.store.list() if j['state']=='summarizing']
         route=self.route(self.store.folder(jobs[0]['id']),c) if len(jobs)==1 else {'summary':'local'}
         if route['summary']=='local':return self.local.generate(text,c,merge)
+        max_chars=max(256,int(c.get('chunk_chars',6000))//2-64)
+        target_chars=min(2000,max_chars)
         instructions=(('Führe Teilprotokolle zusammen. ' if merge else '')+
             'Bearbeite die Daten nach dem Arbeitsauftrag. Erfinde keine Fakten oder Aufgaben. '
             'Markiere Unklarheiten. Budgetinformationen sind keine Entscheidungen. '
             'Vorschläge sind keine beschlossenen Aufgaben. Entferne Wiederholungen, '
             'erhalte unterschiedliche Projekte, Verantwortliche und Termine. '
-            'Schreibe kompakt, ohne Einleitung oder Wiederholung des Ausgangstexts. '+c.get('prompt','')[:4000])
-        # Retry an explicitly truncated answer once; never publish its partial content.
+            'Schreibe kompakt, ohne Einleitung oder Wiederholung des Ausgangstexts. '
+            f'Ziel: höchstens {target_chars} Zeichen. Fasse identische Aufgaben für mehrere Projekte als Projektgruppe zusammen, '
+            'ohne unterschiedliche Zuständigkeiten oder Fristen zu vermischen. '+c.get('prompt','')[:3800])
+        # Each result must fit twice into the next merge window, so reduction converges.
+        request_text=text
         for attempt in range(2):
             if self.stopping.is_set():raise Interrupted()
             compact='\nFormuliere besonders kompakt in Stichpunkten; fasse identische Aussagen zusammen.' if attempt else ''
-            r=self.service.call('/api/v1/tqs/agent/structure-text',{'text':text,'instructions':instructions+compact,'max_tokens':8000 if attempt else 4000,'temperature':0.1},route['binding'])
+            r=self.service.call('/api/v1/tqs/agent/structure-text',{'text':request_text,'instructions':instructions+compact,'max_tokens':8000 if attempt else 4000,'temperature':0.1},route['binding'])
             if r.get('stop_reason') in ('length','max_tokens','max_output_tokens'):continue
             if r.get('stop_reason')=='content_filter':raise CdbFailure('CDB-Zusammenfassung vom Dienst blockiert.')
             if r.get('stop_reason') not in ('completed','stop','end_turn'):raise CdbFailure('CDB-Zusammenfassung nicht vollständig bestätigt.')
             if not isinstance(r.get('content'),str) or not r['content'].strip():raise CdbFailure('CDB-Zusammenfassung leer.')
+            if len(r['content'].strip())>max_chars:
+                request_text=r['content'].strip()
+                continue
             break
-        else:raise CdbFailure('CDB-Zusammenfassung am Ausgabelimit abgeschnitten. Kleinere Textabschnitte einstellen und erneut versuchen.')
+        else:raise CdbFailure('CDB-Zusammenfassung am Ausgabelimit oder Teilprotokoll zu lang. Kleinere Textabschnitte einstellen und erneut versuchen.')
         c['summary_model']='cdb/agent-structure-text'
         return r['content'].strip()
