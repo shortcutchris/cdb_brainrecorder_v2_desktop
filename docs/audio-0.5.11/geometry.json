@@ -1,0 +1,58 @@
+{
+  "#audio-page .dialog-actions": {
+    "client": 80,
+    "rect": {
+      "bottom": 692,
+      "height": 80,
+      "left": 88,
+      "right": 1280,
+      "top": 612,
+      "width": 1192,
+      "x": 88,
+      "y": 612
+    },
+    "scroll": 80
+  },
+  "#checks": {
+    "client": 322,
+    "rect": {
+      "bottom": 518,
+      "height": 322,
+      "left": 756.4375,
+      "right": 1256,
+      "top": 196,
+      "width": 499.5625,
+      "x": 756.4375,
+      "y": 196
+    },
+    "scroll": 322
+  },
+  ".audio-layout": {
+    "client": 532,
+    "rect": {
+      "bottom": 612,
+      "height": 532,
+      "left": 88,
+      "right": 1280,
+      "top": 80,
+      "width": 1192,
+      "x": 88,
+      "y": 80
+    },
+    "scroll": 532
+  },
+  ".probe-player": {
+    "client": 124,
+    "rect": {
+      "bottom": 563.59375,
+      "height": 126,
+      "left": 112,
+      "right": 736.4375,
+      "top": 437.59375,
+      "width": 624.4375,
+      "x": 112,
+      "y": 437.59375
+    },
+    "scroll": 124
+  }
+}

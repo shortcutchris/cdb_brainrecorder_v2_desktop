@@ -1,4 +1,8 @@
-# Recorder Studio 0.5.9
+# Recorder Studio 0.5.11
+
+## 0.5.11 – Mikrofon und Testplayer
+
+Die Audioseite nutzt zwei feste Spalten: Mikrofon, Live-Pegel und ein Player im aktiven Theme links, geordnete Einrichtungsprüfungen rechts. Alte Testaufnahmen werden von einem aktuellen Eingangssignal unterschieden. [Prüfung und Screenshots](audio-0.5.11/README.md).
 
 ## 0.5.10 – Einheitliche Touchansichten und dauerhafte Modellnachweise
 

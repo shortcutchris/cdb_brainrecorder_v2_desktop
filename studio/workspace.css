@@ -19,7 +19,6 @@ body[data-workspace="recorder"] .meeting-header h1{font-size:var(--view-title);l
 @media(max-height:650px){:root{--view-header:72px;--view-inset:20px;--view-title:22px}.capture{padding-top:20px}body[data-workspace="recorder"] .content{padding-top:20px}dialog.workspace-view>.dialog-heading,#queue-region.workspace-view>.queue-heading{padding-block:8px}}
 /* Reserve feedback and footer space instead of moving existing controls. */
 #settings.workspace-view .settings-page>.dialog-actions,#settings.workspace-view .settings-page>.dialog-actions:has(>button[hidden]:only-child){display:flex;min-height:80px}
-#settings #probe-audio:not([src]){display:block;visibility:hidden}
 #settings #probe-state{min-height:24px}
 #settings #download-progress[value="0"]{display:block;visibility:hidden}
 #settings #download-state:empty,#settings #model-test-state:empty{display:block;visibility:hidden}
