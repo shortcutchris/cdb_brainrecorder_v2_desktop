@@ -33,7 +33,7 @@ Automatische Tests: CDB-Adapter mit synthetischem Transport (Anmeldung, Refresh/
 
 Browser: alle acht Grundseiten bei 1024 × 600 ohne angeschnittene Bedienelemente oder vertikalen Inhaltsüberlauf geprüft; Verbindung zusätzlich bei 1280 × 720. Bildschirmtastatur bei 1024 × 600 geprüft. Screenshots zeigen ausschließlich eine isolierte synthetische Bibliothek, keinen abgeschlossenen Live-Login.
 
-Live: Microsoft-Codeanforderung vom Pi erfolgreich, Testanmeldung anschließend abgebrochen. **Noch offen:** Firmenlogin/Consent, CDB-ASR und CDB-Summary mit Firmenkonto, echte Area-Liste und synthetischer End-to-End-Ingest in `staging_playground`, weitere Firmenrichtlinien, physischer Touchtest durch Chris. Keine produktiven Meetingtexte testweise hochgeladen.
+Live: Firmenlogin, acht aktive Knowledge Areas, CDB-ASR und CDB-Summary sowie synthetischer End-to-End-Ingest in `staging_playground` bestätigt, einschließlich Wissensgraph und Vektorisierung. Siehe [Live-Test mit Zeiten und Qualitätsbefund](live-test-2026-10-12.md). **Noch offen:** weitere Firmenrichtlinien, Langaufnahmen und physischer Touchtest durch Chris. Keine produktiven Meetingtexte testweise hochgeladen.
 
 [Microsoft Device Flow](https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-device-code)
 
@@ -49,4 +49,4 @@ Live: Microsoft-Codeanforderung vom Pi erfolgreich, Testanmeldung anschließend 
 
 Nach Microsoft-Anmeldung scheiterte die CDB-Kontoprüfung: Cloudflare antwortete auf Pythons Standard-User-Agent mit HTTP 403, `text/plain`, `error code: 1010`. Eine identische nicht authentifizierte Anfrage mit `CDB-Recorder/0.5.0` erreicht den Dienst und erhält erwartungsgemäß HTTP 401 JSON. JSON-Anfragen und gestreamte Audiouploads senden nun diese explizite App-Kennung. Keine Cloudflare-Regeln oder Berechtigungen geändert. Zwei Regressionstests prüfen die Kennung in beiden Transportwegen; vollständige Pi-Suite: 52 Tests bestanden. Adapter auf dem Pi gesichert und im Leerlauf aktualisiert; Backend neu gestartet. Erneute Anmeldung erforderlich, weil vor erfolgreicher CDB-Identitätsprüfung keine Sitzung gespeichert wird.
 
-Synthetische End-to-End-Probe vorbereitet: 23,346 Sekunden künstliche deutsche Sprache, ohne Kundeninhalt, mit überprüfbaren Aufgaben, Budget und offenem Bestellentscheid. Noch nicht hochgeladen; Area-Auswahl, CDB-Verarbeitung und bestätigter Ingest warten auf erneute Anmeldung.
+Synthetische End-to-End-Probe nach erneuter Anmeldung erfolgreich: 23,346 Sekunden künstliche deutsche Sprache, ohne Kundeninhalt, mit überprüfbaren Aufgaben, Budget und offenem Bestellentscheid. [Nachweis und Qualitätsgrenze](live-test-2026-10-12.md).
