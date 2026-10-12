@@ -46,6 +46,7 @@ window.addEventListener('pagehide',()=>{for(const m of models.values()){if(!m.di
 function setEditor(value){const el=$('editor');if(el.value===value)return;const start=el.selectionStart,end=el.selectionEnd,scroll=el.scrollTop;el.value=value;el.setSelectionRange(Math.min(start,value.length),Math.min(end,value.length));el.scrollTop=scroll}
 function renderSelected(){
  const model=models.get(selected);if(!model)return;const row=model.row;
+ document.body.classList.toggle('reading-content',field!=='notes');
  $('meeting-title').textContent=model.values.title;$('meeting-title').title=model.values.title;
  const date=new Date(row.recorded_at);$('meeting-date').textContent=Number.isNaN(+date)?row.recorded_at:date.toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long',year:'numeric'})+' · '+date.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
  setEditor(model.values[field]);$('editor').disabled=false;$('editor').readOnly=field!=='notes'&&busyStates.includes(row.transcription_status);

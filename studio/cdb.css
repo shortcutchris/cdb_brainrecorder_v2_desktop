@@ -73,3 +73,11 @@ dialog.workspace-view,#settings.workspace-view{position:static;grid-column:3;gri
 #settings.workspace-view .theme-manage button{margin:0;min-width:0;font-size:14px}
 .meeting-header h1{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere}
 body.keyboard-open{min-height:0}
+
+/* Text reading gets the right workspace instead of repeating the recent strip. */
+.reading-content .recent{display:none}
+.reading-content .meeting-header{margin-top:0}
+.reading-content .meeting-header h1{font-size:28px}
+.reading-content .player{margin-top:12px}
+.reading-content .tabs{margin-top:12px}
+.reading-content #editor{font-size:16px;line-height:1.55}
