@@ -4,7 +4,7 @@
  let target=null,shift=false,numeric=false;
  const panel=document.createElement('section');panel.className='touch-keyboard';panel.hidden=true;panel.setAttribute('aria-label','Bildschirmtastatur');
  const editable=el=>el instanceof HTMLTextAreaElement||el instanceof HTMLInputElement&&['text','search','url','email','tel'].includes(el.type);
- document.addEventListener('focusin',event=>{if(editable(event.target))target=event.target});
+ document.addEventListener('focusin',event=>{if(editable(event.target)){target=event.target;if(!panel.hidden)requestAnimationFrame(()=>target?.scrollIntoView({block:'nearest'}))}});
  function hide(){panel.hidden=true;document.body.classList.remove('keyboard-open');document.querySelectorAll('dialog').forEach(d=>d.classList.remove('with-keyboard'))}
  function draw(){
   panel.replaceChildren();
@@ -32,7 +32,7 @@
   if(!panel.hidden){hide();return}
   const dialog=document.querySelector('dialog[open]');
   if(!target||!target.isConnected||target.disabled||target.readOnly||!target.getClientRects().length||(dialog&&!dialog.contains(target)))target=[...(dialog||document).querySelectorAll('textarea:not([disabled]):not([readonly]),input:not([disabled]):not([readonly])')].find(el=>editable(el)&&el.getClientRects().length);
-  (dialog||document.body).append(panel);panel.hidden=false;document.body.classList.add('keyboard-open');if(dialog)dialog.classList.add('with-keyboard');draw();target?.focus({preventScroll:true});
+  (dialog||document.body).append(panel);panel.hidden=false;document.body.classList.add('keyboard-open');if(dialog)dialog.classList.add('with-keyboard');draw();target?.focus({preventScroll:true});requestAnimationFrame(()=>target?.scrollIntoView({block:'nearest'}));
  }
  document.getElementById('keyboard').onclick=toggle;
  document.addEventListener('click',event=>{if(event.target.closest('#library-open,#settings-open,#more-open'))hide()},true);

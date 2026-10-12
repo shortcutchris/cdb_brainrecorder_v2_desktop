@@ -135,7 +135,7 @@ async function loadSetup(){
 }
 async function openSettings(){await leaveDraft();$('settings').showModal();await loadPrompts();await loadSetup()}
 $('settings-open').onclick=run(openSettings);$('mic-settings').onclick=run(openSettings);$('refresh-devices').onclick=run(loadSetup);
-document.querySelectorAll('[data-settings]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-settings]').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.settings-page').forEach(p=>p.hidden=p.id!==b.dataset.settings)});
+document.querySelectorAll('[data-settings]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-settings]').forEach(x=>(x.classList.toggle('active',x===b),x.setAttribute('aria-pressed',String(x===b))));document.querySelectorAll('.settings-page').forEach(p=>{p.hidden=p.id!==b.dataset.settings;if(!p.hidden)p.querySelector('.settings-content').scrollTop=0})});
 async function configure(changes){await api('/api/settings',changes);await poll();await loadSetup()}
 $('mic-select').onchange=run(async()=>{if($('mic-select').value)await configure({device:$('mic-select').value})});
 for(const id of ['asr-select','llm-select'])$(id).onchange=()=>{renderModelInfo();renderSettingsStatus()};

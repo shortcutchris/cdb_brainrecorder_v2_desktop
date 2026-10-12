@@ -1,4 +1,4 @@
-# Recorder Studio 0.4.2
+# Recorder Studio 0.4.3
 
 Die HTML-Oberfläche übernimmt die ausgewählte zweite Studio-Variante. Das bestehende Python-Backend verarbeitet weiterhin Aufnahmen und lokale Modelle. `web_server.py` verwendet den vorhandenen `LocalController`, die ursprüngliche `data/sessions.db`, bestehende QSettings-Prompts und die fest versionierte gemeinsame Python-Engine 0.2.6. Es gibt eine Aufnahmeinstanz und einen FIFO-Verarbeiter.
 
@@ -65,3 +65,13 @@ Die Abnahme nutzt ausschließlich isolierte synthetische Sitzungen und kontrolli
 Die Dropdowns wählen einen Kandidaten zur Ansicht; sie ändern keine aktive Modellwahl. Quelle, Lizenz, Downloadgröße, Installation, Kompatibilität, Gerätetest und Aktivierung sind getrennt sichtbar. Neue Kandidaten benötigen einen erfolgreichen technischen Test vor der ausdrücklichen Aktivierung. Der Test verwendet einen eigenen Auftrags-Snapshot; aktive Modelle und vorhandene Aufträge bleiben erhalten. Ein geänderter Modelldigest oder eine geänderte Ollama-Version macht den Testnachweis ungültig.
 
 Whisper medium, large-v3-turbo und large-v3 bleiben mehrsprachige whisper.cpp-Modelle. Qwen3.5 4B Q4_K_M ist ein ungeprüfter zusätzlicher Textkandidat mit ausdrücklich benanntem Hugging-Face-GGUF. Thinking wird über `think:false` der Runtime abgeschaltet; `/nothink` wird nicht als Ersatz verwendet. Architektur, Quantisierung und Thinking-Vorlage müssen passen; unerwartetes Thinking lässt den echten Test scheitern. Quellen, technische Grenzen und spätere Kandidaten: [kanonische Modelldokumentation](https://github.com/shortcutchris/raspberry_pi_meeting_recorder/blob/main/docs/modelle.md).
+
+## Touch-Dialoge 0.4.3
+
+Dialograhmen und Kopf bleiben fest. In den Einstellungen bleiben Audio/Modelle/Prompts und die Hauptaktion sichtbar; nur der Inhalt des ausgewählten Bereichs scrollt. Bibliothekssuche ist ebenfalls fest. Meetingdetails, Export, Wiedergabehinweis und Konfliktvergleich nutzen denselben Aufbau. Schließen und Aufnahme-Stopp bleiben im Kopf erreichbar.
+
+Touchfelder sind mindestens 56 Pixel hoch; die vierzeilige Bildschirmtastatur verwendet eigene 44-Pixel-Mindesthöhen, damit Tasten nicht überlappen. Bei geöffneter Tastatur schrumpft der Dialog oberhalb der Tastatur und das fokussierte Eingabefeld wird in den sichtbaren Inhaltsbereich gescrollt. Prompt löschen befindet sich bewusst im Inhalt, Speichern bleibt unten. Änderungen an Aufnahme-/Queue-/Modellsperren waren nicht erforderlich.
+
+Geprüft am 12.10.2026 mit isolierter synthetischer Bibliothek und bestehendem Python-Backend auf dem Pi: 1280×720 und 1024×600, Modelle lang gescrollt, Bibliothek mit 28 Einträgen, Prompt-Eingabe mit Tastatur, Meetingdetails/Export, laufende Aufnahme mit gesperrter Modellwahl und Stopp im Dialogkopf. 29 vorhandene Native-/Studio-Tests bestanden. [Screenshots und Prüfdetails](touch-dialogs/README.md). Keine echten Meetings oder Mikrofonaufnahmen für diese Prüfung.
+
+[CAD, Gehäusevorschauen und Einkaufsliste im gemeinsamen Raspberry-Pi-Repository](https://github.com/shortcutchris/raspberry_pi_meeting_recorder/tree/main/hardware/enclosure).
