@@ -34,6 +34,15 @@ class StudioTests(unittest.TestCase):
         self.assertEqual(self.request('/api/cdb/areas')[0],400)
         self.assertEqual(self.request('/api/cdb/send',{'session':self.sid,'area':'invalid'})[0],400)
         self.assertEqual(json.loads(self.request('/api/state')[1])['cdb']['config']['summary'],'local')
+    def test_cloud_setup_does_not_require_unused_local_models(self):
+        with patch.object(self.app.cdb,'config',return_value={'transcription':'cdb','summary':'cdb'}), patch.object(self.app.cdb,'read',return_value={'identity':{'user_id':'synthetic'}}), patch.object(self.app.models,'catalog',return_value={'whisper_runtime':False,'ollama':False,'asr':[],'llm':[]}), patch.object(self.app.probe,'status',return_value={'state':'completed','device':'default'}), patch.object(self.app,'model_test_preflight'):
+            setup=self.app.setup_state()
+            self.assertTrue(setup['ready']);self.assertEqual(len(setup['checks']),2)
+    def test_selected_cloud_without_login_blocks_new_recording(self):
+        self.app.engine.configure({'setup_complete':True})
+        with patch.object(self.app.cdb,'config',return_value={'transcription':'cdb','summary':'local'}):
+            rule=self.app.capabilities()['record'];self.assertFalse(rule['allowed']);self.assertIn('Microsoft',rule['reason'])
+
     def test_cdb_actions_share_origin_and_csrf_protection(self):
         self.assertEqual(self.request('/api/cdb/login',{}, {'Origin':'http://evil.example'})[0],403)
         self.assertEqual(self.request('/api/cdb/logout',{}, {'X-CSRF-Token':'bad'})[0],403)

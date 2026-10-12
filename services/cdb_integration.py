@@ -257,9 +257,10 @@ class CdbBackend:
             result=self.local.transcribe(folder,c);self.last_asr_peak_mib=self.local.last_asr_peak_mib;return result
         self.last_asr_peak_mib=None
         try:
-            result=self.remote_transcribe(folder,route);c['whisper_model']='cdb/transcription-jobs';return result
+            result=self.remote_transcribe(folder,route,c.get('process_timeout',21600));c['whisper_model']='cdb/transcription-jobs';return result
         finally:self.service.progress=''
-    def remote_transcribe(self,folder,route):
+    def remote_transcribe(self,folder,route,timeout=21600):
+        deadline=time.monotonic()+timeout
         service=self.service;binding=route['binding'];service.session(binding)
         checkpoint=folder/'cdb-asr.json';saved=json.loads(checkpoint.read_text()) if checkpoint.exists() else {}
         def remember():atomic_write(checkpoint,json.dumps(saved))
@@ -291,6 +292,7 @@ class CdbBackend:
         while not self.stopping.is_set():
             r=service.call('/api/v1/tqs/audio/transcription-jobs/'+saved['job_id'],binding=binding)
             if r.get('job_id')!=saved['job_id'] or r.get('recording_id')!=saved['recording_id']:raise CdbFailure('Falscher Transkriptionsauftrag.')
+            if time.monotonic()>deadline:raise CdbFailure('CDB-Transkriptions-Zeitlimit erreicht. Serverauftrag bleibt für einen Wiederanlauf gespeichert.')
             p=r.get('progress') or {};percent=p.get('percent');service.progress='CDB: '+str(p.get('stage') or r.get('status'))+(f' · {round(percent)} %' if isinstance(percent,(int,float)) else '')
             if r.get('status')=='completed':
                 text=(r.get('result') or {}).get('text')

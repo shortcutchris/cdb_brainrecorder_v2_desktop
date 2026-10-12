@@ -79,11 +79,13 @@ class StudioApp:
         occupied = recording or probe or download or test
         reason = ('Aufnahme läuft.' if recording else 'Mikrofontest läuft.' if probe else
                   'Modelldownload läuft.' if download else 'Modelltest läuft.' if test else '')
+        cdb_config=self.cdb.config()
+        needs_login='cdb' in (cdb_config['transcription'],cdb_config['summary']) and not self.cdb.read('session.json',{}).get('identity')
         low_disk = self.store.free_mb() < state['config'].get('min_free_mb', 1024)
         def rule(allowed, why=''): return {'allowed': bool(allowed), 'reason': '' if allowed else why}
         return {
-            'record': rule(not occupied and not low_disk and state['config']['setup_complete'],
-                           reason or ('Zu wenig freier Speicher.' if low_disk else 'Mikrofon zuerst einrichten.')),
+            'record': rule(not occupied and not low_disk and not needs_login and state['config']['setup_complete'],
+                           reason or ('Microsoft anmelden oder Verarbeitung auf lokal stellen.' if needs_login else 'Zu wenig freier Speicher.' if low_disk else 'Mikrofon zuerst einrichten.')),
             'configure': rule(not occupied, reason),
             'probe': rule(not occupied and not low_disk, reason or 'Zu wenig freier Speicher.'),
             'install': rule(not occupied and not pending, reason or 'Offene Verarbeitung zuerst abschließen.'),
@@ -101,6 +103,10 @@ class StudioApp:
     def setup_state(self):
         self.finish_model_validation()
         result=SharedWebApp.setup_state(self)
+        providers=self.cdb.config();checks=result['checks']
+        result['checks']=[check for i,check in enumerate(checks) if i==0 or i in (1,2) and providers['transcription']=='local' or i in (3,4) and providers['summary']=='local']
+        if 'cdb' in (providers['transcription'],providers['summary']):result['checks'].append({'label':'CDB-Firmenanmeldung','ok':bool(self.cdb.read('session.json',{}).get('identity'))})
+        result['ready']=all(check['ok'] for check in result['checks'])
         try:self.model_test_preflight();reason=""
         except ValueError as e:reason=str(e)
         except OSError:reason="Modelltest wartet: Kühlung, Temperatur oder Arbeitsspeicher prüfen."
