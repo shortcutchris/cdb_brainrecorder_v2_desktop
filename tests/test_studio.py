@@ -207,7 +207,16 @@ class StudioTests(unittest.TestCase):
         self.assertGreaterEqual(pcm.stat().st_size,3200)
         self.app.controller.sync()
         captured=next(r for r in self.app.repo.get_all() if r.get('local_job_id')==ident)
-        self.app.save(captured['id'],{'notes':'Während Aufnahme gespeichert'},{'notes':''})
+        current_save=f"/api/sessions/{captured['id']}/save"
+        self.assertEqual(self.request(current_save,{'changes':{'notes':'Während Aufnahme gespeichert'},'base':{'notes':''}})[0],200)
+        for path,body in [('/api/settings',{'threads':2}),('/api/cdb/area',{'area':'blocked'}),
+                          ('/api/cdb/logout',{}),('/api/prompts',{'action':'add','name':'blocked','text':'blocked'}),
+                          (current_save,{'changes':{'title':'blocked'},'base':{'title':captured['title']}}),
+                          (f'/api/sessions/{self.sid}/save',{'changes':{'notes':'blocked'},'base':{'notes':'Alte Notizen'}}),
+                          (f'/api/sessions/{self.sid}/retry',{}),
+                          (f'/api/sessions/{self.sid}/delete',{})]:
+            self.assertEqual(self.request(path,body)[0],400,path)
+
         self.app.close()
         with wave.open(str(pcm.with_name('audio.wav')),'rb') as audio:self.assertGreater(audio.getnframes(),0)
         self.app=StudioApp(self.root/'queue',self.root/'sessions.db',backend=Backend(),settings_file=self.root/'settings.ini')

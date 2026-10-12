@@ -1,6 +1,6 @@
 <!doctype html>
-<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="studio-ui-version" content="0.5.4"><title>Recorder Studio</title><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/themes.css"><script src="/themes.js"></script><script defer src="/app.js"></script><script defer src="/keyboard.js"></script><link rel="stylesheet" href="/touch.css"><script defer src="/touch.js"></script><link rel="stylesheet" href="/cdb.css"><script defer src="/cdb.js"></script></head>
-<body>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="studio-ui-version" content="0.5.5"><title>Recorder Studio</title><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/themes.css"><script src="/themes.js"></script><script defer src="/app.js"></script><script defer src="/keyboard.js"></script><link rel="stylesheet" href="/touch.css"><script defer src="/touch.js"></script><link rel="stylesheet" href="/cdb.css"><script defer src="/cdb.js"></script></head>
+<body data-workspace="recorder">
 <aside class="rail" aria-label="Navigation">
  <button class="rail-button active" id="home"><img src="/assets/waveform.svg" alt=""><span>Recorder</span></button>
  <button class="rail-button" id="library-open"><img src="/assets/folder.svg" alt=""><span>Bibliothek</span></button>
@@ -13,6 +13,7 @@
  <h2 id="record-label">Aufnahme starten</h2><div id="duration" class="duration">00:00</div>
  <canvas id="waveform" width="320" height="72" aria-label="Gemessener Audiopegel"></canvas>
  <button class="mic" id="mic-settings"><img src="/assets/microphone.svg" alt=""><span id="mic-name">Mikrofon prüfen</span><img src="/assets/caret-down.svg" alt=""></button>
+ <p id="recording-lock" class="recording-lock" role="status" hidden>Aufnahme läuft · Bibliothek und Einstellungen sind bis zum Stoppen gesperrt.</p>
  <p class="capture-hint" id="capture-hint">Verbindung zum Recorder wird aufgebaut …</p>
 </section>
 <section id="recorder-ready" class="recorder-ready" aria-label="Recorder bereit"><img src="/assets/waveform.svg" alt=""><h1>Bereit für eine neue Aufnahme</h1><p>Starte links deine Aufnahme. Deine Notizen erscheinen hier.</p><p id="ready-area">Den Standardbereich findest du unter Einstellungen → Knowledge Areas.</p><p>Frühere Aufnahmen findest du in der Bibliothek. Die Verarbeitung läuft im Hintergrund weiter.</p></section>

@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.4'
+VERSION = '0.5.5'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -92,7 +92,7 @@ class StudioApp:
             'model_test': rule(not occupied and not pending and not low_disk,
                                reason or ('Zu wenig freier Speicher.' if low_disk else 'Offene Verarbeitung zuerst abschließen.')),
             'finish_setup': rule(not occupied, reason),
-            'process': rule(not download and not test, reason),
+            'process': rule(not recording and not download and not test, reason),
         }
 
     def require(self, capability):
@@ -254,6 +254,13 @@ class StudioApp:
         # Lock order matches state(): controller before recorder.
         with self.control_lock, self.controller.lock, self.engine.recorder.lock:
             if self.closing:raise ValueError('Dienst wird beendet. Änderungen bitte kurz aufbewahren.')
+            if self.engine.recorder.active and path!='/api/record/stop':
+                parts=path.strip('/').split('/')
+                note_save=(len(parts)==4 and parts[:2]==['api','sessions'] and parts[3]=='save'
+                           and isinstance(body.get('changes'),dict) and set(body['changes'])=={'notes'})
+                active_id=self.engine.state()['recording']['id']
+                if not note_save or self.session(int(parts[2])).get('local_job_id')!=active_id:
+                    raise ValueError('Aufnahme läuft. Nur aktuelle Notizen und Stoppen sind verfügbar.')
             if path=='/api/record/start':
                 self.require('record')
                 if not self.store.config()['setup_complete']:raise ValueError('Kein getestetes Mikrofon. Bitte Einstellungen öffnen und Audio-Einrichtung abschließen.')

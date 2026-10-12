@@ -87,3 +87,13 @@ body.keyboard-open{min-height:0}
 .recorder-ready h1{font-size:32px;line-height:1.2}.recorder-ready p{font-size:18px;line-height:1.6;max-width:560px}
 .library-all{min-height:48px;align-self:flex-start}body:not([data-workspace="detail"]) .library-all{display:none}
 body[data-workspace="recorder"] .recent{display:none}
+
+/* Capture belongs to Recorder; other workspaces use all available width. */
+body:not([data-workspace="recorder"]){grid-template-columns:var(--rail) minmax(0,1fr)}
+body:not([data-workspace="recorder"]) .capture{display:none}
+body:not([data-workspace="recorder"]) .content,body:not([data-workspace="recorder"]) dialog.workspace-view{grid-column:2;grid-row:1}
+.recording-lock{font-size:12px;line-height:1.4;margin:12px 0 0;color:var(--muted)}
+.capture:has(.record.recording) .capture-hint{display:none}
+.rail-button:disabled{opacity:.4;cursor:default}
+body:not([data-workspace="recorder"]) .status{grid-column:2/-1}
+body:not([data-workspace="recorder"]) #settings.workspace-view{grid-column:2}
