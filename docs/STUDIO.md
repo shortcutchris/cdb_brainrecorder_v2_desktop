@@ -75,3 +75,9 @@ Touchfelder sind mindestens 56 Pixel hoch; die vierzeilige Bildschirmtastatur ve
 Geprüft am 12.10.2026 mit isolierter synthetischer Bibliothek und bestehendem Python-Backend auf dem Pi: 1280×720 und 1024×600, Modelle lang gescrollt, Bibliothek mit 28 Einträgen, Prompt-Eingabe mit Tastatur, Meetingdetails/Export, laufende Aufnahme mit gesperrter Modellwahl und Stopp im Dialogkopf. 29 vorhandene Native-/Studio-Tests bestanden. [Screenshots und Prüfdetails](touch-dialogs/README.md). Keine echten Meetings oder Mikrofonaufnahmen für diese Prüfung.
 
 [CAD, Gehäusevorschauen und Einkaufsliste im gemeinsamen Raspberry-Pi-Repository](https://github.com/shortcutchris/raspberry_pi_meeting_recorder/tree/main/hardware/enclosure).
+
+## Farbthemes 0.4.4
+
+Unter Einstellungen → Design stehen Blau · Hell, Petrol · Hell, Mitternacht und Graphit zur Auswahl. Die Auswahl gilt sofort für Recorder, Bibliothek, Dialoge, Warteschlange und Bildschirmtastatur. Sie bleibt im lokalen Browserprofil über Neuladen und Neustart erhalten; andere Browserprofile wählen unabhängig. Bei nicht verfügbarem Browserspeicher bleibt die Auswahl nur für die Sitzung erhalten und die Oberfläche zeigt das ausdrücklich an. Aufnahme und Queue werden durch Theme-Wechsel nicht verändert; Design bleibt während der Verarbeitung bedienbar. Aufnahme- und Fehlerfarben bleiben unabhängig vom Theme erkennbar.
+
+Geprüft: alle vier Optionen, genau eine aktive Auswahl, dunkles Theme nach Neuladen wiederhergestellt, Dialograhmen ohne äußeren Scrollbereich. Screenshots: [Theme-Auswahl](touch-dialogs/06-themes-midnight.jpg), [Recorder in Graphit](touch-dialogs/07-theme-graphite-recorder.jpg).

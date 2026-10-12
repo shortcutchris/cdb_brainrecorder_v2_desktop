@@ -1,0 +1,30 @@
+/* Semantic colors shared by every screen, dialog and the touch keyboard. */
+:root{color-scheme:light;--ink:#142b48;--muted:#5c6f84;--surface:#fff;--panel:#f0f4f8;--capture:#e5eef5;--line:#d9e3ee;--accent:#0768e5;--on-accent:#fff;--soft:#dbeaff;--accent-text:#1559ac;--ring:#b7d6fc;--keyboard:#dce7f2;--scroll:#8ca1b7;--player:#405063;--wave:#a4b8cb;--icon-filter:invert(39%) sepia(12%) saturate(962%) hue-rotate(171deg) brightness(92%) contrast(86%);--active-filter:invert(30%) sepia(95%) saturate(2396%) hue-rotate(204deg) brightness(93%) contrast(106%)}
+:root[data-theme=petrol]{--ink:#163b3d;--muted:#526f70;--panel:#edf5f3;--capture:#dfefeb;--line:#cbded8;--accent:#087b72;--soft:#d3eee7;--accent-text:#09665f;--ring:#a3d8cd;--keyboard:#d6e9e3;--scroll:#7d9f98;--player:#365e5b;--wave:#98b9b1;--active-filter:invert(36%) sepia(74%) saturate(623%) hue-rotate(128deg) brightness(89%) contrast(97%)}
+:root[data-theme=midnight]{color-scheme:dark;--ink:#e9f1fc;--muted:#afbed2;--surface:#111c2c;--panel:#1b2a3e;--capture:#17263a;--line:#35465f;--accent:#286ed0;--soft:#243f63;--accent-text:#a9ceff;--ring:#294f7e;--keyboard:#0c1624;--scroll:#6e839e;--player:#37577e;--wave:#68819f;--icon-filter:brightness(0) invert(.78);--active-filter:invert(65%) sepia(72%) saturate(1395%) hue-rotate(187deg) brightness(103%) contrast(101%)}
+:root[data-theme=graphite]{color-scheme:dark;--ink:#edf5f4;--muted:#acbfbc;--surface:#182120;--panel:#222f2d;--capture:#203330;--line:#3b514c;--accent:#137f75;--soft:#294941;--accent-text:#85e0cc;--ring:#315e55;--keyboard:#111b18;--scroll:#718f85;--player:#3a6057;--wave:#72998c;--icon-filter:brightness(0) invert(.78);--active-filter:invert(85%) sepia(28%) saturate(804%) hue-rotate(105deg) brightness(96%) contrast(88%)}
+:root{--blue:var(--accent-text);--gray:var(--muted);--pale:var(--capture);color:var(--ink);background:var(--surface);accent-color:var(--accent)}
+.rail-button:not(.active) img,.mic img,.volume-icon,.tab:not(.active) img,.recent-card:not(.selected) img,.icon-button img,.list-icon{filter:var(--icon-filter)}
+button.active img,.tab.active img,.recent-card.selected img,.status>img#activity-icon{filter:var(--active-filter)}
+.record{background:var(--accent);box-shadow:0 0 0 12px var(--ring)}
+.record.recording{background:#c4324d;box-shadow:0 0 0 12px #f0c3ce}.record.recording:hover{background:#b0243e}
+.record img,.play img,.status button img{filter:brightness(0) invert(1)}
+.record.recording img{filter:brightness(0) invert(1)}
+.theme-options{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+#settings .theme-options button{margin:0;padding:16px;text-align:left;min-height:136px;border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:14px}
+#settings .theme-options button[aria-pressed=true]{border-color:var(--accent);box-shadow:0 0 0 2px var(--ring)}
+.theme-options strong,.theme-options small{display:block;margin-top:8px}.theme-options small{font-size:14px;color:var(--muted)}
+.theme-swatch{display:block;height:28px;border-radius:8px;border:1px solid #ffffff40}
+.swatch-blue{background:linear-gradient(90deg,#0768e5 0 33%,#e5eef5 33% 66%,#fff 66%)}
+.swatch-petrol{background:linear-gradient(90deg,#087b72 0 33%,#dfefeb 33% 66%,#fff 66%)}
+.swatch-midnight{background:linear-gradient(90deg,#408cf5 0 33%,#243f63 33% 66%,#111c2c 66%)}
+.swatch-graphite{background:linear-gradient(90deg,#137f75 0 33%,#294941 33% 66%,#182120 66%)}
+#theme-status{margin:0;color:var(--muted)}
+@media(max-width:560px){.theme-options{grid-template-columns:1fr}}
+@media(max-width:1100px){.record:not(.recording){box-shadow:0 0 0 10px var(--ring)}}
+
+.notice{color:#513b16}.notice img{filter:none}.status #errors{color:#c4324d}:root[data-theme=midnight] .status #errors,:root[data-theme=graphite] .status #errors{color:#ff9bb0}
+.dialog-body,.settings-content{scrollbar-color:var(--scroll) var(--panel)}
+.dialog-body::-webkit-scrollbar-thumb,.settings-content::-webkit-scrollbar-thumb{border-color:var(--panel)}
+
+#settings .settings-tabs button.active{background:var(--accent);color:var(--on-accent)}
