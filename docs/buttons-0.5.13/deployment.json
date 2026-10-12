@@ -1,0 +1,15 @@
+{
+  "version": "0.5.13",
+  "sessions_preserved": 22,
+  "configuration_preserved": true,
+  "account_preserved": true,
+  "services": [
+    "active",
+    "active"
+  ],
+  "sha256": {
+    "web_server.py": "19d05984a58b6f24504aa8572ea0a93b5112afa3c4f8e9c7674e7e86b953a90b",
+    "studio/index.html": "24bce158d478629fca38e86daea646c93f7e72a564787b8fac36809b468d5b01",
+    "studio/settings.css": "3cb3833fef68a11d101809aa067af6fc31cea7b83097bdbc8159542d885961ba"
+  }
+}
