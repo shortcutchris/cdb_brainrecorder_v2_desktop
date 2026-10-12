@@ -1,0 +1,16 @@
+{
+  "stage": "summary",
+  "provider": "cdb",
+  "model": "company-standard",
+  "label": "Brain · Unternehmensstandard",
+  "id": "02c100243c004c199365e31cbd7a560c",
+  "state": "completed",
+  "message": "Test erfolgreich · Auswahl kann aktiviert werden.",
+  "started": 1791821654.7189803,
+  "result": "Vereinbarte Aufgabe:\n- Anna erstellt bis Donnerstag eine Aufgabenliste.\n\nOffener Punkt:\n- Kosten sind noch ungeklärt.",
+  "seconds": 2.6,
+  "active_providers": {
+    "transcription": "local",
+    "summary": "cdb"
+  }
+}

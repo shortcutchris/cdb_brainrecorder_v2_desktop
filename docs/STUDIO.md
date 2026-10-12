@@ -1,4 +1,4 @@
-# Recorder Studio 0.5.8
+# Recorder Studio 0.5.9
 
 Die HTML-Oberfläche übernimmt die ausgewählte zweite Studio-Variante. Das bestehende Python-Backend verarbeitet weiterhin Aufnahmen und lokale Modelle. `web_server.py` verwendet den vorhandenen `LocalController`, die ursprüngliche `data/sessions.db`, bestehende QSettings-Prompts und die fest versionierte gemeinsame Python-Engine 0.2.6. Es gibt eine Aufnahmeinstanz und einen FIFO-Verarbeiter.
 
@@ -25,7 +25,7 @@ Der Aufnahmebutton startet oder beendet eine Aufnahme unabhängig vom rechts aus
 
 Bibliothek, Suche, Umbenennen, Markdown-Export, Wiedergabe, erneute Transkription, Fehlerwiederholung, vorhandene und eigene Prompts sowie Mikrofon- und Modelleinstellungen sind angebunden. Die integrierte Touch-Tastatur steht in der Seitenleiste und in Dialogköpfen bereit; sie unterstützt Umlaute, Großbuchstaben, Zahlen, Sonderzeichen und Zeilenumbrüche.
 
-Ein Mikrofon muss gefunden, getestet und die Einrichtung abgeschlossen sein, bevor eine echte Aufnahme startet. Bestehende Modelle und Auswahlen werden übernommen. Der ausdrückliche Modelltest nutzt künstliche Sprache, denselben FIFO-Verarbeiter und erscheint nicht als persönliches Meeting. Die konservative Pi-Vorprüfung sperrt ihn bei angeforderter Kühlung ohne Lüfter-Tachosignal, ab 65 °C oder unter 4 GiB verfügbarem RAM.
+Ein Mikrofon muss gefunden, getestet und die Einrichtung abgeschlossen sein, bevor eine echte Aufnahme startet. Bestehende Modelle und Auswahlen werden übernommen. Die direkten Einzeltests unter KI & Modelle verwenden ausschließlich künstliche Sprache bzw. einen festen Beispieltext. Sie laufen unabhängig von der jeweils anderen Modellart, nur bei leerer Verarbeitung und ohne aktive Aufnahme. Während eines Tests sind neue Aufnahmen, Modellwechsel und weitere Tests gesperrt. Die Tests erscheinen nicht als persönliches Meeting. Die konservative Pi-Vorprüfung sperrt ihn bei angeforderter Kühlung ohne Lüfter-Tachosignal, ab 65 °C oder unter 4 GiB verfügbarem RAM.
 
 ## Isolierte Funktionsvorschau
 
@@ -136,3 +136,21 @@ Aktuelle Testzahlen, Screenshots und Prüfgrenzen: [0.5.8-Prüfbericht](task-qua
 Die Warteschlange öffnet über das Listen-Icon links als eigene rechte Ansicht. Eine dauerhafte Status-/Queue-Leiste unten entfällt. Dort sind laufender Schritt, wartende Aufträge und Fehler sichtbar. Während der Aufnahme bleibt die Navigation dorthin gesperrt; nach Stoppen ist sie wieder frei.
 
 Hauptansichten besitzen keine zusätzliche Schließen- oder Recorder-Zurück-Taste. Der Rückweg „Alle Einstellungen“ bleibt ausschließlich auf Einstellungs-Unterseiten; „Zur Aufnahmeliste“ ausschließlich im Bibliotheksdetail. Die Tastatur ist ohne erreichbares editierbares Textfeld deaktiviert.
+
+
+## Brain-Konto und KI & Modelle 0.5.9
+
+Einstellungen → Brain-Konto enthält Microsoft-Anmeldung, Konto und Standardbereich. Der Standardbereich wird nur hier verwaltet; pro Meeting ist weiterhin ein anderes Ziel möglich. „Übertragungen“ zeigt den Verlauf, „KI-Verarbeitung einrichten“ führt zur Modellübersicht. Anmeldung aktiviert keine Online-Verarbeitung.
+
+Einstellungen → KI & Modelle zeigt die **aktiven** Modelle für Transkription und Zusammenfassung. Die jeweilige Unterseite führt über „KI & Modelle“ zurück. Brain-Übertragungen führen über „Brain-Konto“ zurück. Die Übersicht behält sechs große Kacheln.
+
+1. Transkription oder Zusammenfassung öffnen.
+2. „Auf dem Pi“ oder „Über Brain“ wählen. Dies ist zunächst nur eine Auswahl.
+3. Lokal: Modell auswählen, bei Bedarf herunterladen.
+4. „Modell testen“ startet ausschließlich den gewählten Verarbeitungsschritt. Lokal erfolgen Laufzeit-/Kühlungsprüfungen; Brain benötigt die Microsoft-Anmeldung. Der Online-Test überträgt nur ein festes künstliches Beispiel.
+5. Ergebnis und Laufzeit erscheinen auf derselben Seite. „Test erfolgreich“ bestätigt ein nichtleeres Modellresultat, nicht dessen inhaltliche Fehlerfreiheit.
+6. „Für neue Aufnahmen verwenden“ übernimmt die Auswahl. Bereits eingereihte Aufträge behalten ihre Konfiguration. Ein Test allein aktiviert nichts.
+
+Direkte Tests werden unter `model-checks/` dauerhaft gespeichert; ein bei Neustart unterbrochener Test wird als fehlgeschlagen angezeigt und muss wiederholt werden. Lokale Freigaben sind an den Modell-Fingerprint gebunden. Brain-Aktivierung benötigt einen bestandenen Test desselben Verarbeitungsschritts und desselben Firmenkontos/Servers. Die letzte Online-Prüfung wird durch einen neuen Test ersetzt. Brain verwaltet das konkrete Online-Modell zentral; der Zugang bietet keine freie GPT-Modellliste.
+
+Gerät & Diagnose enthält die erweiterten Programmpfade. Aufnahmemodelle werden dort nicht mehr getestet oder ausgewählt.

@@ -1,0 +1,12 @@
+{
+  "stage": "transcription",
+  "provider": "local",
+  "model": "medium",
+  "label": "Whisper medium",
+  "id": "e636efbe19f9451d8d0eb0e064a8557d",
+  "state": "completed",
+  "message": "Test erfolgreich · Auswahl kann aktiviert werden.",
+  "started": 1791821394.9218526,
+  "result": "Anerstellt, bis Donnerstag eine Aufgabenliste. Die Kosten sind noch ungeklärt.",
+  "seconds": 115.0
+}

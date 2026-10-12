@@ -29,13 +29,13 @@ function renderCdb(){
  const binding=cdbBinding(c);
  if(binding!==areaBinding){resetAreas(binding);if(binding)queueMicrotask(()=>{if(areaBinding===binding)void loadCdbAreas()})}
  cdbArea=areaLoaded?cdbAreas.find(a=>a.id===c.destination?.id)||null:c.destination||null;
- for(const [id,key] of [['cdb-server','server'],['cdb-transcription','transcription'],['cdb-summary','summary']]){const el=$(id);if(el.value!==c.config[key])el.value=c.config[key];el.disabled=!allowed('configure')}
+ for(const [id,key] of [['cdb-server','server'],['cdb-transcription','transcription'],['cdb-summary','summary']]){const el=$(id);if((key==='server'||typeof draftProvider!=='function')&&el.value!==c.config[key])el.value=c.config[key];el.disabled=!allowed('configure')}
  const cloudAsr=c.config.transcription==='cdb';
  $('cdb-asr-info').hidden=!cloudAsr;$('local-asr-settings').hidden=cloudAsr;$('local-asr-actions').hidden=cloudAsr;
- $('cdb-asr-status').textContent=c.identity?'Firmenkonto verbunden · CDB-Transkription ist für neue Aufnahmen aktiv.':'Bitte unter Verbindung mit Microsoft anmelden.';
+ $('cdb-asr-status').textContent=c.identity?'Firmenkonto verbunden · CDB-Transkription ist für neue Aufnahmen aktiv.':'Bitte unter Brain-Konto mit Microsoft anmelden.';
  const azure=c.config.summary==='cdb';
  $('azure-summary-info').hidden=!azure;$('local-summary-settings').hidden=azure;$('local-summary-actions').hidden=azure;
- $('azure-summary-status').textContent=c.identity?'Firmenkonto verbunden · Azure OpenAI ist für neue Zusammenfassungen aktiv.':'Bitte unter Verbindung mit Microsoft anmelden.';
+ $('azure-summary-status').textContent=c.identity?'Firmenkonto verbunden · Azure OpenAI ist für neue Zusammenfassungen aktiv.':'Bitte unter Brain-Konto mit Microsoft anmelden.';
  $('cdb-account').textContent=c.identity?'Angemeldet: '+c.identity.name+' · '+c.config.server.replace('https://',''):'Nicht angemeldet · lokale Verarbeitung verfügbar';
  $('cdb-connection-heading').textContent=c.identity?'Dein Brain':'Mit deinem Firmenkonto verbinden';$('cdb-connection-intro').hidden=Boolean(c.identity);$('cdb-server').closest('label').hidden=Boolean(c.identity);
  const pending=c.login.state==='pending';$('cdb-login-code').hidden=!pending;
@@ -44,7 +44,7 @@ function renderCdb(){
  $('cdb-login').hidden=Boolean(c.identity);$('cdb-login').disabled=pending||!allowed('configure');$('cdb-logout').disabled=!allowed('configure')||(!pending&&!c.identity);
  $('cdb-connected-area').hidden=!c.identity;$('cdb-connection-refresh').hidden=!c.identity;
  for(const id of ['cdb-areas-refresh','cdb-connection-refresh'])$(id).disabled=!c.identity||areaLoading||areaSaving;
- let message=!c.identity?'Bitte zuerst unter Verbindung mit Microsoft anmelden.':areaLoading?'Knowledge Areas werden geladen …':areaSaving?'Standardbereich wird gespeichert …':areaError?'CDB: '+areaError:c.destination&&areaLoaded&&!cdbArea?'Der bisherige Standardbereich ist nicht mehr verfügbar. Bitte neu wählen.':!cdbAreas.length?'Für dieses Konto sind keine Knowledge Areas verfügbar.':cdbArea?'Standard gespeichert: '+cdbArea.label+'. Schreibrecht wird vor jeder Übertragung geprüft.':'Bitte einen Standardbereich wählen. Es wird nichts automatisch übertragen.';
+ let message=!c.identity?'Bitte zuerst unter Brain-Konto mit Microsoft anmelden.':areaLoading?'Knowledge Areas werden geladen …':areaSaving?'Standardbereich wird gespeichert …':areaError?'CDB: '+areaError:c.destination&&areaLoaded&&!cdbArea?'Der bisherige Standardbereich ist nicht mehr verfügbar. Bitte neu wählen.':!cdbAreas.length?'Für dieses Konto sind keine Knowledge Areas verfügbar.':cdbArea?'Standard gespeichert: '+cdbArea.label+'. Schreibrecht wird vor jeder Übertragung geprüft.':'Bitte einen Standardbereich wählen. Es wird nichts automatisch übertragen.';
  for(const id of ['cdb-area-status','cdb-connection-area-status'])$(id).textContent=message;
  const entries=areaLoaded?cdbAreas:cdbArea?[cdbArea]:[];
  for(const id of ['cdb-area','cdb-connection-area'])updateAreaSelect(id,entries,cdbArea?.id||'','Standardbereich wählen');
@@ -55,7 +55,7 @@ function renderCdb(){
  $('cdb-transfer-page').textContent=jobs.length?(transferPage+1)+' / '+jobs.length:'';
  const job=jobs[transferPage];$('cdb-transfers').replaceChildren();if(job){const h=document.createElement('strong'),p=document.createElement('p');h.textContent=job.title;p.textContent=(transferNames[job.state]||job.state)+(job.error?' · '+job.error:'');$('cdb-transfers').append(h,p)}
  const row=state.sessions.find(r=>r.id===selected);$('cdb-send-area').disabled||=transferSending;$('cdb-send-meeting').textContent=row?.title||'Meeting auswählen';$('cdb-send').disabled=transferSending||!c.identity||!target||areaLoading||areaSaving||!row||busyStates.includes(row.transcription_status);
- $('cdb-send-target').textContent=target?(meetingTargetOverride?'Nur dieses Meeting: ':'Standardbereich: ')+target.label+'. Übertragen werden Zusammenfassung, Transkript und Notizen.':c.identity?'Wähle einen Bereich für dieses Meeting oder lege unter Verbindung deinen Standard fest.':'Bitte zuerst unter Verbindung mit Microsoft anmelden.';
+ $('cdb-send-target').textContent=target?(meetingTargetOverride?'Nur dieses Meeting: ':'Standardbereich: ')+target.label+'. Übertragen werden Zusammenfassung, Transkript und Notizen.':c.identity?'Wähle einen Bereich für dieses Meeting oder lege unter Brain-Konto deinen Standard fest.':'Bitte zuerst unter Brain-Konto mit Microsoft anmelden.';
  document.querySelector('.local-note').textContent='Aufnahme lokal · '+(c.config.transcription==='cdb'?'CDB-Transkription':'lokale Transkription');
 }
 async function saveDefaultArea(id){
@@ -80,7 +80,7 @@ $('cdb-send').onclick=run(async()=>{
  transferSending=true;renderCdb();
  try{
   await flush();await api('/api/cdb/send',{session,area:target.id});await poll();
-  $('cdb-transfer').close();notice('Textübertragung nach '+target.label+' eingereiht. Status unter Knowledge Areas.');
+  $('cdb-transfer').close();notice('Textübertragung nach '+target.label+' eingereiht. Status unter Brain-Konto → Übertragungen.');
  }finally{transferSending=false;renderCdb()}
 });
 function drawPageNumbers(nav,count,current,choose){nav.replaceChildren();if(count<2)return;const indices=[...new Set([0,current-1,current,current+1,count-1])].filter(i=>i>=0&&i<count).sort((a,b)=>a-b);let last=-1;for(const i of indices){if(i>last+1){const gap=document.createElement('span');gap.textContent='…';nav.append(gap)}const b=document.createElement('button');b.textContent=String(i+1);b.setAttribute('aria-label','Seite '+(i+1));b.setAttribute('aria-current',i===current?'page':'false');b.onclick=()=>choose(i);nav.append(b);last=i}}

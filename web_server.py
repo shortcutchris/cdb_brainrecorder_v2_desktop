@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.8'
+VERSION = '0.5.9'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -61,6 +61,8 @@ class StudioApp:
         self.settings_lock = threading.RLock()
         self.control_lock = threading.RLock()
         self.closing = False
+        from services.model_checks import ModelChecks
+        self.model_checks = ModelChecks(self)
         self.model_test = None
         test_id = self.store.root/'model-test'/'job.txt'
         if test_id.is_file():
@@ -74,7 +76,7 @@ class StudioApp:
         recording = bool(state['recording']['id'])
         probe = state['microphone_test']['state'] == 'running'
         download = state['installation']['state'] == 'running'
-        test = bool(self.model_test and self.store.get(self.model_test)['state'] in BUSY)
+        test = self.model_checks.public()['state']=='running' or bool(self.model_test and self.store.get(self.model_test)['state'] in BUSY)
         pending = any(j['state'] in BUSY for j in state['jobs'])
         occupied = recording or probe or download or test
         reason = ('Aufnahme läuft.' if recording else 'Mikrofontest läuft.' if probe else
@@ -166,6 +168,7 @@ class StudioApp:
         state['level'] = self.probe.level(raw) if raw else 0
         state['capabilities'] = self.capabilities(state)
         state['cdb'] = self.cdb.public()
+        state['model_check'] = self.model_checks.public()
         state.update(csrf=self.csrf, version=VERSION, preview=self.preview,
             namespace=hashlib.sha256(str(self.store.root).encode()).hexdigest()[:16])
         if self.model_test:
@@ -288,6 +291,10 @@ class StudioApp:
                             m=next((m for m in entries if m[valuekey]==body[key]),None)
                             if not m or not m.get('tested'):raise ValueError('Neues Modell zuerst installieren und erfolgreich auf diesem Gerät testen; danach ausdrücklich aktivieren.')
                 return self.engine.configure(body|{'setup_complete':False})
+            if path=='/api/models/check':
+                self.require('model_test');return self.model_checks.start(body)
+            if path=='/api/models/use':
+                self.require('configure');return self.model_checks.use(body)
             if path=='/api/models/install':
                 self.require('install')
                 return self.models.install(body.get('backend'),body.get('model'))
@@ -340,7 +347,9 @@ class StudioApp:
             self.closing=True
             if self.engine.recorder.active:self.engine.stop()
             self.controller.sync()
+            self.model_checks.stopping.set()
             self.cdb.close()
+            if self.model_checks.thread:self.model_checks.thread.join(timeout=5)
             self.engine.close()
 
 

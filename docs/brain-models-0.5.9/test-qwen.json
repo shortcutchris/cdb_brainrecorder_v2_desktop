@@ -1,0 +1,12 @@
+{
+  "stage": "summary",
+  "provider": "local",
+  "model": "qwen3:4b-instruct",
+  "label": "Qwen3 4B Instruct",
+  "id": "fadcb4a7cd844efd935ddf3bf5940734",
+  "state": "completed",
+  "message": "Test erfolgreich · Auswahl kann aktiviert werden.",
+  "started": 1791821586.0477734,
+  "result": "Vereinbarte Aufgaben:  \n- Anna erstellt bis Donnerstag eine Aufgabenliste.\n\nOffene Punkte:  \n- Die Kosten sind noch ungeklärt.",
+  "seconds": 23.2
+}

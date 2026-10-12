@@ -1,0 +1,13 @@
+{
+  "stage": "transcription",
+  "provider": "cdb",
+  "model": "company-standard",
+  "label": "Brain · Unternehmensstandard",
+  "id": "3e34dd9d7c2541c28c71c33e33f608a6",
+  "state": "completed",
+  "message": "Test erfolgreich · Auswahl kann aktiviert werden.",
+  "started": 1791821708.0538769,
+  "result": "Erstellt bis Donnerstag eine Aufgabenliste. Die Kosten sind noch ungeklärt.",
+  "seconds": 6.7,
+  "verified_activation": "Brain activated, then tested local Whisper reactivated through UI"
+}

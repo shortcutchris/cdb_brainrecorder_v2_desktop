@@ -2,11 +2,13 @@
 
 Eine Desktop-Anwendung zum Aufzeichnen, Verwalten und Wiedergeben von Audio-Sessions mit Raspberry Pi Touch-Optimierung.
 
-## Aktueller Raspberry-Pi-Stand: Touch-Oberfläche 0.5.8
+## Aktueller Raspberry-Pi-Stand: Touch-Oberfläche 0.5.9
 
 Der Pi verwendet die HTML-Studio-Oberfläche mit dem vorhandenen Python-Backend, der bisherigen Meeting-Datenbank und lokalen Whisper-/Ollama-Modellen. Installation, Autostart, isolierte Funktionsvorschau und Rückkehr zur bisherigen Oberfläche: [docs/STUDIO.md](docs/STUDIO.md). Gestaltung und Prüfungsumfang: [design-qa.md](design-qa.md). Die gemeinsame Python-Engine ist auf Version 0.2.6 gepinnt. Zustandsregeln und Entwurfswiederherstellung: [docs/STUDIO.md](docs/STUDIO.md).
 
 Die Bibliothek bietet einen festen Rückweg „Zur Aufnahmeliste“ mit großer Touchfläche und eigener Positionsanzeige. CDB-Zusammenfassungen wiederholen abgeschnittene Antworten einmal mit größerem Ausgabebudget; unvollständige Texte bleiben Fehler. Prüfung mit einer Stunde synthetischem Audio: [Testbericht](docs/cdb-hour-0.5.5/README.md).
+
+Neu in 0.5.9: Brain-Konto und KI & Modelle bündeln Anmeldung, Standardbereich und aktive Verarbeitung. Lokale und Online-Modelle lassen sich direkt mit synthetischen Daten testen und ausdrücklich aktivieren. [Prüfung und Screenshots](docs/brain-models-0.5.9/README.md).
 
 Neu in 0.5.8: Kachelübersicht für Einstellungen, Unterseiten mit Rückweg statt Seitennavigation, eingerückte App-Icons und einheitliche Touch-Abstände. Standard-Zusammenfassungen prüfen Aufgaben, Namen und Fristen gegen wörtliche Transkriptbelege. Ergebnisse und Grenzen des frischen CDB-Stundentests: [Prüfbericht](docs/task-quality-0.5.8/README.md).
 

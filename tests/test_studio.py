@@ -272,6 +272,61 @@ class StudioTests(unittest.TestCase):
             catalog['llm']=[{'id':'candidate','fingerprint':'replaced'}]
             self.app.finish_model_validation();validate.assert_not_called()
 
+    def test_independent_whisper_check_needs_no_summary_runtime_and_does_not_activate(self):
+        old=self.app.store.config()
+        m={'id':'medium','label':'Whisper medium','installed':True,'path':'/new-medium.bin','fingerprint':'weights','tested':False}
+        catalog={'asr':[m],'llm':[],'whisper_runtime':True,'ollama':False}
+        with patch.object(self.app.models,'catalog',return_value=catalog),patch.object(self.app,'model_test_preflight'),patch.object(self.app.model_checks,'execute',return_value='Anna erstellt die Aufgabenliste.'),patch.object(self.app.models,'validate_pair') as validate:
+            status,body,_=self.request('/api/models/check',{'stage':'transcription','provider':'local','model':'medium'})
+            self.assertEqual(status,200);self.app.model_checks.thread.join(3)
+            self.assertEqual(self.app.model_checks.public()['state'],'completed')
+            validate.assert_called_once_with({'whisper':m})
+            self.assertEqual(self.app.store.config(),old)
+            self.assertEqual(self.request('/api/models/use',{'stage':'transcription','provider':'local','model':'medium'})[0],400)
+            m['tested']=True
+            self.assertEqual(self.request('/api/models/use',{'stage':'transcription','provider':'local','model':'medium'})[0],200)
+            self.assertEqual(self.app.store.config()['whisper_model'],'/new-medium.bin')
+
+    def test_failed_independent_check_cannot_validate_model(self):
+        m={'id':'test','label':'Test','installed':True,'fingerprint':'a','tested':False}
+        with patch.object(self.app.models,'catalog',return_value={'asr':[],'llm':[m],'whisper_runtime':False,'ollama':True}),patch.object(self.app,'model_test_preflight'),patch.object(self.app.model_checks,'execute',return_value=''),patch.object(self.app.models,'validate_pair') as validate:
+            self.assertEqual(self.request('/api/models/check',{'stage':'summary','provider':'local','model':'test'})[0],200)
+            self.app.model_checks.thread.join(3);validate.assert_not_called()
+            self.assertEqual(self.app.model_checks.public()['state'],'failed')
+
+    def test_check_blocks_recording_configuration_and_duplicate_start_until_complete(self):
+        gate=threading.Event()
+        m={'id':'test','label':'Test','installed':True,'fingerprint':'a','tested':False}
+        with patch.object(self.app.models,'catalog',return_value={'asr':[],'llm':[m],'whisper_runtime':False,'ollama':True}),patch.object(self.app,'model_test_preflight'),patch.object(self.app.model_checks,'execute',side_effect=lambda *_:(gate.wait(3) or True) and 'Result'),patch.object(self.app.models,'validate_pair'):
+            body={'stage':'summary','provider':'local','model':'test'}
+            try:
+                self.assertEqual(self.request('/api/models/check',body)[0],200)
+                caps=self.app.capabilities()
+                for key in ('record','configure','install','model_test'):self.assertFalse(caps[key]['allowed'])
+                self.assertEqual(self.request('/api/models/check',body)[0],400)
+                self.assertEqual(self.request('/api/models/use',body)[0],400)
+            finally:gate.set();self.app.model_checks.thread.join(3)
+            self.assertTrue(self.app.capabilities()['configure']['allowed'])
+
+    def test_cloud_activation_requires_successful_same_account_and_stage_check(self):
+        session={'server':'https://staging.cdbos.de','identity':{'user_id':'one','client_id':'tenant'}}
+        with patch.object(self.app.cdb,'session',return_value=session),patch.object(self.app.cdb,'configure') as configure,patch.object(self.app.model_checks,'execute',return_value='Synthetisches Ergebnis'):
+            body={'stage':'summary','provider':'cdb'}
+            self.assertEqual(self.request('/api/models/use',body)[0],400)
+            self.assertEqual(self.request('/api/models/check',body)[0],200);self.app.model_checks.thread.join(3)
+            self.assertEqual(self.request('/api/models/use',body)[0],200)
+            configure.assert_called_once_with({'summary':'cdb'})
+            self.assertEqual(self.request('/api/models/use',body|{'stage':'transcription'})[0],400)
+            session['identity']['user_id']='other'
+            self.assertEqual(self.request('/api/models/use',body)[0],400)
+
+    def test_running_check_is_not_reported_as_success_after_restart(self):
+        from services.model_checks import ModelChecks
+        self.app.model_checks.save(state='running',stage='summary',provider='local',model='example')
+        restored=ModelChecks(self.app)
+        self.assertEqual(restored.public()['state'],'failed')
+        self.assertIn('unterbrochen',restored.public()['message'])
+
 class ModelPreflightTests(unittest.TestCase):
     def test_cold_idle_fan_is_allowed_but_requested_cooling_without_rpm_is_blocked(self):
         with tempfile.TemporaryDirectory() as root:
