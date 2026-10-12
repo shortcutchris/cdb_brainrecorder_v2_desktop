@@ -40,3 +40,6 @@ button.active img,.tab.active img,.recent-card.selected img,.status>img#activity
 @media(max-width:560px){.theme-color-fields{grid-template-columns:1fr}}
 
 :root[data-theme^="custom-"] .record:not(.recording) img,:root[data-theme^="custom-"] .play img,:root[data-theme^="custom-"] .status button img{filter:brightness(0) invert(var(--on-icon))}
+/* Accent fills and accent text have separate contrast requirements. */
+:root{--blue:var(--accent)}
+button.active,.tab.active{color:var(--accent-text)}

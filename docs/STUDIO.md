@@ -89,3 +89,19 @@ Einstellungen → Design erlaubt eigene Themes anzulegen, das ausgewählte Theme
 Der Editor bleibt in einer festen, lesbaren Farbpalette. Speichern erfordert einen Namen und mindestens 4,5:1 Kontrast zwischen Text und den drei Hauptflächen. Text und Symbole auf Akzentflächen erhalten automatisch Schwarz oder Weiß. Touch-Farbfelder öffnen den Farbwähler des Browsers. Die Tastatur schließt beim Speichern, Abbrechen und Bereichswechsel.
 
 In der isolierten Pi-Vorschau geprüft: Anlegen mit geänderter Farbe, Speichern und Wiederherstellung nach Neuladen, Bearbeiten, zu geringer Kontrast sperrt Speichern, Abbrechen verwirft Änderungen, Duplizieren, Löschen mit Rückfrage sowie Schutz der Standardthemes.
+
+## Touch-Navigation 0.4.6
+
+Die Oberfläche verwendet keine sichtbaren Scrollbars. Bibliothek, Einstellungen, Dialoginhalte, lange Notizen/Transkripte/Zusammenfassungen und Warteschlange erhalten bei Überlauf feste Hoch/Runter-Buttons (mindestens 56 Pixel). Jeder Schritt bewegt ungefähr 80 Prozent des sichtbaren Inhalts, damit Zeilen beim Blättern überlappen. Anfang/Ende deaktiviert den entsprechenden Button. Wischen ist zusätzlich möglich. Der Dialograhmen, Schließen, Aufnahme-Stopp und Hauptaktionen bleiben fest. Lange Textfelder besitzen bei Bedarf eigene Blätterbuttons.
+
+Mikrofon-, Modell- und Prompt-Dropdowns sind durch touchgerechte Auswahldialoge mit großen Optionsbuttons, Seitenanzeige und Zurück/Weiter ersetzt. Die bestehenden Select-Elemente und Change-Handler bleiben intern erhalten; Sperren und Aktivierung werden nicht umgangen. Die Auswahl eines Modellkandidaten aktiviert ihn weiterhin nicht automatisch. Während einer Aufnahme bleibt der Stopp auch im Auswahlfenster verfügbar.
+
+Eine neue Aufnahme wird anhand ihrer unveränderlichen Job-ID direkt ausgewählt, auch wenn eine Statusabfrage bereits läuft oder die Aufnahme kurz darauf endet. Die Notizen öffnen sich für das neue Meeting. Bestehende Entwürfe durchlaufen die bisherige Sicherung. Nach dieser einmaligen Auswahl kann der Benutzer wieder frei andere Meetings öffnen, ohne dass das Polling ihn zurücksetzt.
+
+Bei 1024×600 und geöffneter Tastatur wird der erklärende Einstellungsbanner ausgeblendet, um Eingabefeld, Blätterbuttons und Speichern erreichbar zu halten. Die Sperrlogik der eigentlichen Aktionen bleibt aktiv.
+
+Prüfung am 12.10.2026: 29 Native-/Studio-Tests bestanden; Browserprüfung mit isolierten synthetischen Aufnahmen: automatische Auswahl, weitere Aufnahme während Verarbeitung, Queue, lange Notizen mit Blätterbuttons, Bibliothek mit mehr als 28 Einträgen, vollständiger Modelleinstellungsbereich per Buttons, Kandidatenauswahl, Tastatureingabe und fester Dialograhmen bei 1024×600 sowie 1280×720. Computed scrollbar-width überall in diesen Bereichen: none.
+
+Screenshots: [Bibliothek](touch-dialogs/09-library-touch-buttons.jpg), [neue Aufnahme ausgewählt](touch-dialogs/10-new-recording-selected.jpg), [Modellauswahl](touch-dialogs/11-model-touch-picker.jpg).
+
+Dieses Update verändert nur die statischen Frontend-Dateien. Python-Backend bleibt 0.4.5; ein Backend-Neustart ist für die Auslieferung nicht erforderlich und eine laufende Verarbeitung kann weiterlaufen.
