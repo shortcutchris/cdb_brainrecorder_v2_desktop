@@ -39,3 +39,9 @@
 #settings.with-keyboard .keyboard-muted{display:none!important}
 #settings.with-keyboard .settings-content textarea{height:110px}
 dialog .notice{position:fixed;left:16px;right:16px;bottom:80px;z-index:100;max-width:none}
+
+#cdb-transfer{width:min(680px,calc(100vw - 24px))}
+#cdb-transfer .dialog-body{overflow:hidden}
+#cdb-transfer .dialog-body h3{font-size:20px;margin:0 0 16px;overflow-wrap:anywhere}
+#cdb-transfer .dialog-body p{font-size:14px;line-height:1.4}
+#cdb-transfer #cdb-send{background:var(--accent);color:var(--on-accent)}

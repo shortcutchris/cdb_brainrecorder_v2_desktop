@@ -91,6 +91,21 @@ class CdbTests(unittest.TestCase):
         self.transport.request=request
         result=self.c.start_login();self.assertEqual(result['login']['state'],'pending');self.assertNotIn('synthetic-device',json.dumps(result))
         self.c.logout();self.assertEqual(self.c.public()['login']['state'],'idle')
+    def test_changing_default_does_not_retarget_existing_publication(self):
+        other={'id':DOC,'name':'other','label':'Other','client_id':CLIENT,'global':False}
+        first={'id':AREA,'name':'synthetic','label':'Synthetic','client_id':CLIENT,'global':False}
+        with patch.object(self.c,'areas',return_value=[first,other]):
+            self.c.select_area(AREA)
+            publication=self.c.enqueue(self.row,AREA)
+            self.c.select_area(DOC)
+            self.assertEqual(self.c.public()['destination']['id'],DOC)
+            with self.c.db() as db:
+                payload=json.loads(db.execute('SELECT payload FROM publications WHERE id=?',(publication['id'],)).fetchone()[0])
+            self.assertEqual(payload['area']['id'],AREA)
+            self.c.publication_once()
+        writes=[body for url,body in self.transport.sent if url.endswith('/ingest')]
+        self.assertEqual(writes[0]['knowledge_area'],'synthetic')
+
     def test_arbitrary_verification_destination_is_rejected(self):
         self.transport.request=lambda *a,**k:{'device_code':'synthetic','user_code':'TEST','verification_uri':'https://evil.example','expires_in':900}
         with self.assertRaises(CdbFailure):self.c.start_login()
