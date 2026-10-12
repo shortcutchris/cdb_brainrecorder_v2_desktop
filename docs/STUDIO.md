@@ -1,4 +1,4 @@
-# Recorder Studio 0.5.5
+# Recorder Studio 0.5.6
 
 Die HTML-Oberfläche übernimmt die ausgewählte zweite Studio-Variante. Das bestehende Python-Backend verarbeitet weiterhin Aufnahmen und lokale Modelle. `web_server.py` verwendet den vorhandenen `LocalController`, die ursprüngliche `data/sessions.db`, bestehende QSettings-Prompts und die fest versionierte gemeinsame Python-Engine 0.2.6. Es gibt eine Aufnahmeinstanz und einen FIFO-Verarbeiter.
 
@@ -113,3 +113,11 @@ Dieses Update verändert nur die statischen Frontend-Dateien. Python-Backend ble
 ### Schwebende Warteschlange
 
 Die Warteschlange öffnet als Panel über der Anwendung, oberhalb der Statusleiste. Aufnahmebereich und Meetingansicht behalten ihre Größe und Position. Ein großer Schließen-Button und der Button in der Statusleiste klappen das Panel zu. Es gibt keine blockierende Hintergrundabdeckung: Aufnahme und Notizen bleiben bedienbar. Lange Warteschlangen besitzen innerhalb des Panels Hoch/Runter-Buttons.
+
+## Zusammenfassung über Azure OpenAI
+
+Unter **Einstellungen → Zusammenfassung → Verarbeitung** zwischen „Auf diesem Gerät · offline“ und „Azure OpenAI · Firmenkonto“ wählen. Für Azure OpenAI zuerst unter Verbindung mit Microsoft anmelden. Das bestehende Firmenkonto genügt; die App benötigt keinen persönlichen OpenAI-Schlüssel. Die Einzelmodelle verwaltet das Unternehmen zentral über CDB. Die Transkription bleibt unabhängig wählbar. Bei Azure-Verarbeitung werden Texte übertragen; die Originalaufnahme bleibt auf dem Pi. Lokale Modellinstallation und Aktivierung sind nur bei lokaler Zusammenfassung sichtbar. Eingereihte Aufträge behalten ihre bei Start gespeicherte Verarbeitung.
+
+Lange Zusammenfassungen werden abschnittsweise erstellt und zusammengeführt. Der CDB-Zugang verwendet Server-Keepalives, damit das Gateway längere Antworten nicht wegen ausbleibender Daten beendet. Nur vollständige Antworten werden übernommen; abgeschnittene Antworten werden einmal mit größerem Ausgabebudget erneut angefordert. Fehler bleiben sichtbar und blockieren nachfolgende Aufträge nicht.
+
+In der Bibliothek führt die große Taste „Zur Aufnahmeliste“ zurück zur Suche und Aufnahmeliste. Die Positionsanzeige zeigt die Detailansicht an; dort gibt es keine zweite konkurrierende Leiste letzter Aufnahmen. Während einer Aufnahme sind Bibliothek und Einstellungen weiterhin gesperrt.

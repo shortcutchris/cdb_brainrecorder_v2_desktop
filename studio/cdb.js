@@ -30,6 +30,9 @@ function renderCdb(){
  if(binding!==areaBinding){resetAreas(binding);if(binding)queueMicrotask(()=>{if(areaBinding===binding)void loadCdbAreas()})}
  cdbArea=areaLoaded?cdbAreas.find(a=>a.id===c.destination?.id)||null:c.destination||null;
  for(const [id,key] of [['cdb-server','server'],['cdb-transcription','transcription'],['cdb-summary','summary']]){const el=$(id);if(el.value!==c.config[key])el.value=c.config[key];el.disabled=!allowed('configure')}
+ const azure=c.config.summary==='cdb';
+ $('azure-summary-info').hidden=!azure;$('local-summary-settings').hidden=azure;$('local-summary-actions').hidden=azure;
+ $('azure-summary-status').textContent=c.identity?'Firmenkonto verbunden · Azure OpenAI ist für neue Zusammenfassungen aktiv.':'Bitte unter Verbindung mit Microsoft anmelden.';
  $('cdb-account').textContent=c.identity?'Angemeldet: '+c.identity.name+' · '+c.config.server.replace('https://',''):'Nicht angemeldet · lokale Verarbeitung verfügbar';
  $('cdb-connection-heading').textContent=c.identity?'Dein Brain':'Mit deinem Firmenkonto verbinden';$('cdb-connection-intro').hidden=Boolean(c.identity);$('cdb-server').closest('label').hidden=Boolean(c.identity);
  const pending=c.login.state==='pending';$('cdb-login-code').hidden=!pending;

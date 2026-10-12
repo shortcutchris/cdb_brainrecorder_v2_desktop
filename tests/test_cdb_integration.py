@@ -45,6 +45,63 @@ class CdbTests(unittest.TestCase):
         self.assertEqual(custom['prompt'],'Eigene Aufgaben')
         self.assertTrue(backend.local.generate.call_args.args[2])
 
+    def summary_backend(self):
+        from unittest.mock import Mock
+        b=CdbBackend(self.c);b.store=Mock();b.store.list.return_value=[{'id':'test','state':'summarizing'}]
+        b.route=Mock(return_value={'summary':'cdb','binding':{}})
+        return b
+
+    def test_truncated_cdb_summary_retries_without_returning_partial_text(self):
+        from unittest.mock import patch
+        b=self.summary_backend()
+        with patch.object(self.c,'call',side_effect=[{'content':'','stop_reason':'length'},{'content':'Complete','stop_reason':'stop'}]) as call:
+            self.assertEqual(b.generate('Source',{'prompt':'Tasks'}),'Complete')
+            self.assertEqual([x.args[1]['max_tokens'] for x in call.call_args_list],[4000,8000])
+            self.assertTrue(all(x.args[1]['text']=='Source' for x in call.call_args_list))
+            self.assertIn('Tasks',call.call_args.args[1]['instructions'])
+
+    def test_repeated_truncation_and_empty_summary_fail_closed(self):
+        from unittest.mock import patch
+        b=self.summary_backend()
+        with patch.object(self.c,'call',return_value={'content':'PARTIAL','stop_reason':'max_tokens'}) as call:
+            with self.assertRaisesRegex(CdbFailure,'Ausgabelimit'):b.generate('Source',{})
+            self.assertEqual(call.call_count,2)
+        with patch.object(self.c,'call',return_value={'content':'','stop_reason':'stop'}) as call:
+            with self.assertRaisesRegex(CdbFailure,'leer'):b.generate('Source',{})
+            self.assertEqual(call.call_count,1)
+
+    def test_output_token_limit_alias_also_retries(self):
+        from unittest.mock import patch
+        b=self.summary_backend()
+        with patch.object(self.c,'call',side_effect=[{'content':'PARTIAL','stop_reason':'max_output_tokens'},{'content':'Done','stop_reason':'stop'}]):
+            self.assertEqual(b.generate('Source',{}),'Done')
+
+    def test_filtered_content_cannot_become_summary(self):
+        from unittest.mock import patch
+        b=self.summary_backend()
+        with patch.object(self.c,'call',return_value={'content':'Partial content','stop_reason':'content_filter'}) as call:
+            with self.assertRaisesRegex(CdbFailure,'blockiert'):b.generate('Source',{})
+            self.assertEqual(call.call_count,1)
+
+    def test_cdb_stream_accepts_only_terminal_result_after_keepalives(self):
+        import io
+        from services.cdb_integration import structure_stream
+        stream=io.BytesIO(b': keepalive\n\nevent: progress\ndata: {"part":1}\n\nevent: result\ndata: {"content":"Done",\ndata: "stop_reason":"completed"}\n\n')
+        self.assertEqual(structure_stream(stream),{'content':'Done','stop_reason':'completed'})
+
+    def test_cdb_stream_disconnect_error_and_invalid_result_fail_closed(self):
+        import io
+        from services.cdb_integration import structure_stream
+        for data in [b': keepalive\n\n',b'event: error\ndata: {"message":"remote details"}\n\n',b'event: result\ndata: []\n\n']:
+            with self.assertRaises(CdbFailure):structure_stream(io.BytesIO(data))
+
+    def test_unknown_or_failed_completion_cannot_become_summary(self):
+        from unittest.mock import patch
+        b=self.summary_backend()
+        for reason in ('failed','unknown',None):
+            with patch.object(self.c,'call',return_value={'content':'Partial content','stop_reason':reason}):
+                with self.assertRaisesRegex(CdbFailure,'bestätigt'):b.generate('Source',{})
+
     def test_tokens_never_in_public_state_and_private_permissions(self):
         text=json.dumps(self.c.public());self.assertNotIn('synthetic-refresh',text);self.assertNotIn('"token"',text)
         self.assertEqual(os.stat(self.c.root/'session.json').st_mode&0o777,0o600)

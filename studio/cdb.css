@@ -85,7 +85,12 @@ body.keyboard-open{min-height:0}
 .recorder-ready{grid-column:3;grid-row:1;min-width:0;align-self:center;padding:40px;color:var(--ink)}
 .recorder-ready>img{width:64px;height:64px;margin-bottom:20px;opacity:.7}
 .recorder-ready h1{font-size:32px;line-height:1.2}.recorder-ready p{font-size:18px;line-height:1.6;max-width:560px}
-.library-all{min-height:48px;align-self:flex-start}body:not([data-workspace="detail"]) .library-all{display:none}
+.library-navigation{display:flex;align-items:center;gap:20px;flex-shrink:0;padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.library-all{display:flex;align-items:center;justify-content:center;gap:12px;min-height:56px;min-width:220px;padding:0 18px;background:var(--soft);color:var(--accent-text);border:1px solid var(--line);border-radius:12px;font-size:16px;font-weight:600}
+.library-all>span{font-size:24px}.library-location{font-size:14px;color:var(--muted)}.library-location>span{margin:0 8px}
+body:not([data-workspace="detail"]) .library-navigation{display:none}
+body[data-workspace="detail"] .meeting-header{margin-top:0}
+@media(max-width:900px){.library-navigation{gap:12px;margin-bottom:10px;padding-bottom:10px}.library-location{font-size:12px}.library-all{min-width:200px}}
 body[data-workspace="recorder"] .recent{display:none}
 
 /* Capture belongs to Recorder; other workspaces use all available width. */
@@ -97,3 +102,6 @@ body:not([data-workspace="recorder"]) .content,body:not([data-workspace="recorde
 .rail-button:disabled{opacity:.4;cursor:default}
 body:not([data-workspace="recorder"]) .status{grid-column:2/-1}
 body:not([data-workspace="recorder"]) #settings.workspace-view{grid-column:2}
+
+/* The list is the single library navigation surface, not a second recent strip. */
+body[data-workspace="detail"] .recent{display:none}

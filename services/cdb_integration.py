@@ -32,9 +32,29 @@ UUID = re.compile(r'^[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$')
 class CdbFailure(ValueError):
     pass
 
+def structure_stream(response):
+    """Read the CDB keepalive stream; only a terminal result is usable."""
+    event='';data=[];total=0;deadline=time.monotonic()+180
+    while True:
+        raw=response.readline(4_000_001)
+        if not raw:break
+        total+=len(raw)
+        if total>4_000_000 or time.monotonic()>deadline:raise CdbFailure('CDB-Antwort zu groß oder Zeitlimit erreicht.')
+        line=raw.decode('utf-8').rstrip('\r\n')
+        if not line:
+            if event=='error':raise CdbFailure('CDB-Zusammenfassung fehlgeschlagen.')
+            if event=='result':
+                result=json.loads('\n'.join(data))
+                if not isinstance(result,dict):raise CdbFailure('Ungültige CDB-Zusammenfassung.')
+                return result
+            event='';data=[]
+        elif line.startswith('event:'):event=line[6:].strip()
+        elif line.startswith('data:'):data.append(line[5:].lstrip())
+    raise CdbFailure('CDB-Verbindung vor vollständiger Zusammenfassung beendet.')
+
 class Transport:
     def request(self, url, body=None, token=None, form=False):
-        headers={'Accept':'application/json','User-Agent':USER_AGENT}
+        headers={'Accept':'text/event-stream' if url.endswith('/agent/structure-text') else 'application/json','User-Agent':USER_AGENT}
         if token:headers['Authorization']='Bearer '+token
         if body is not None:
             data=urllib.parse.urlencode(body).encode() if form else json.dumps(body).encode()
@@ -45,6 +65,7 @@ class Transport:
         opener=urllib.request.build_opener(urllib.request.ProxyHandler({}),NoRedirect())
         try:
             with opener.open(urllib.request.Request(url,data=data,headers=headers),timeout=90) as r:
+                if 'text/event-stream' in r.headers.get('Content-Type',''):return structure_stream(r)
                 return json.loads(r.read(4_000_001))
         except urllib.error.HTTPError as e:
             if form:
@@ -52,6 +73,7 @@ class Transport:
                 except (ValueError,OSError):code=''
                 raise CdbFailure(code if code in ('authorization_pending','slow_down','expired_token','authorization_declined') else 'Microsoft-Anmeldung abgelehnt. Firmenfreigabe und App-Konfiguration prüfen.') from None
             raise CdbFailure({401:'Bitte erneut bei Microsoft anmelden.',403:'Keine Berechtigung für diese CDB-Aktion.',409:'Übertragung unklar oder bereits vorhanden. Nicht blind erneut senden.',429:'CDB ausgelastet. Später erneut versuchen.'}.get(e.code,f'CDB-Anfrage fehlgeschlagen (HTTP {e.code}).')) from None
+        except CdbFailure:raise
         except (OSError,ValueError):raise CdbFailure('CDB nicht erreichbar oder Antwort ungültig.') from None
 
     def upload(self, server, token, path, client_id, filename, stopping):
@@ -313,7 +335,22 @@ class CdbBackend:
         jobs=[j for j in self.store.list() if j['state']=='summarizing']
         route=self.route(self.store.folder(jobs[0]['id']),c) if len(jobs)==1 else {'summary':'local'}
         if route['summary']=='local':return self.local.generate(text,c,merge)
-        r=self.service.call('/api/v1/tqs/agent/structure-text',{'text':text,'instructions':('Führe Teilprotokolle zusammen. ' if merge else '')+'Erstelle ein knappes deutsches Meetingprotokoll. Erfinde keine Fakten oder Aufgaben. Markiere Unklarheiten. '+c.get('prompt','')[:4000],'max_tokens':1500,'temperature':0.1},route['binding'])
-        if r.get('stop_reason') in ('length','max_tokens') or not isinstance(r.get('content'),str) or not r['content'].strip():raise CdbFailure('CDB-Zusammenfassung leer oder abgeschnitten.')
+        instructions=(('Führe Teilprotokolle zusammen. ' if merge else '')+
+            'Bearbeite die Daten nach dem Arbeitsauftrag. Erfinde keine Fakten oder Aufgaben. '
+            'Markiere Unklarheiten. Budgetinformationen sind keine Entscheidungen. '
+            'Vorschläge sind keine beschlossenen Aufgaben. Entferne Wiederholungen, '
+            'erhalte unterschiedliche Projekte, Verantwortliche und Termine. '
+            'Schreibe kompakt, ohne Einleitung oder Wiederholung des Ausgangstexts. '+c.get('prompt','')[:4000])
+        # Retry an explicitly truncated answer once; never publish its partial content.
+        for attempt in range(2):
+            if self.stopping.is_set():raise Interrupted()
+            compact='\nFormuliere besonders kompakt in Stichpunkten; fasse identische Aussagen zusammen.' if attempt else ''
+            r=self.service.call('/api/v1/tqs/agent/structure-text',{'text':text,'instructions':instructions+compact,'max_tokens':8000 if attempt else 4000,'temperature':0.1},route['binding'])
+            if r.get('stop_reason') in ('length','max_tokens','max_output_tokens'):continue
+            if r.get('stop_reason')=='content_filter':raise CdbFailure('CDB-Zusammenfassung vom Dienst blockiert.')
+            if r.get('stop_reason') not in ('completed','stop','end_turn'):raise CdbFailure('CDB-Zusammenfassung nicht vollständig bestätigt.')
+            if not isinstance(r.get('content'),str) or not r['content'].strip():raise CdbFailure('CDB-Zusammenfassung leer.')
+            break
+        else:raise CdbFailure('CDB-Zusammenfassung am Ausgabelimit abgeschnitten. Kleinere Textabschnitte einstellen und erneut versuchen.')
         c['summary_model']='cdb/agent-structure-text'
         return r['content'].strip()

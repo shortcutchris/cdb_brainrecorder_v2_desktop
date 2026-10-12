@@ -53,3 +53,5 @@ test('a double tap while sending dispatches one request with its frozen target',
  await h.element('cdb-send').onclick();assert.equal(h.calls.filter(([p])=>p==='/api/cdb/send').length,1);
  finish();await first;
 });
+
+test('Azure OpenAI summary uses company login and hides local model activation independently of transcription',async()=>{const h=harness();h.c.config.summary='cdb';h.context.renderCdb();await h.settle();assert.equal(h.element('azure-summary-info').hidden,false);assert.equal(h.element('local-summary-settings').hidden,true);assert.equal(h.element('local-summary-actions').hidden,true);assert.equal(h.c.config.transcription,'local');assert.match(h.element('azure-summary-status').textContent,/verbunden/);h.c.config.summary='local';h.context.renderCdb();assert.equal(h.element('azure-summary-info').hidden,true);assert.equal(h.element('local-summary-settings').hidden,false);assert.equal(h.element('local-summary-actions').hidden,false)});
