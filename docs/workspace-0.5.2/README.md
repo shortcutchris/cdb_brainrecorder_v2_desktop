@@ -46,3 +46,5 @@ Damit in dieser Probe keine erfundene Budget-/Freigabeaufgabe und keine Aufgabe 
 Zusätzlich manuell geprüft: „Öffnen“ in der Queue führt auch aus Einstellungen in die Meetingansicht, einschließlich bereits ausgewähltem Meeting. Vorschauaufnahmen verwenden ausschließlich die synthetische Testquelle. Gesamte Prüfung weiterhin 55 Python- und 6 JavaScript-Tests bestanden.
 
 Transkript und Zusammenfassung nutzen eine Leseansicht: Die Kartenleiste wird ausgeblendet, Titel und Abstände werden kompakter. Bei Notizen erscheint die Leiste wieder. Bibliothek bleibt jederzeit erreichbar. Ohne laufende Aufnahme bewahrt „Recorder“ das zuletzt ausgewählte Meeting und den geöffneten Inhalt; dies ebenfalls im Browser geprüft.
+
+Abschluss: produktiver Code `4cba2dd`, Studio 0.5.3, Backend und Kiosk aktiv. Frontend-Dateihashes lokal/Pi identisch. Queue nach Aufgabenprobe leer. [Produktives Aufgaben-Ergebnis](06-pi-task-result.png) und [produktive Einstellungsansicht](07-pi-settings.png), jeweils 1280 × 720 über den Pi-Tunnel.
