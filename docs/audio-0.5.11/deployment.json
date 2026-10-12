@@ -1,0 +1,18 @@
+{
+  "version": "0.5.11",
+  "sessions_preserved": 22,
+  "configuration_preserved": true,
+  "account_preserved": true,
+  "services": [
+    "active",
+    "active"
+  ],
+  "sha256": {
+    "web_server.py": "10a09f11da96213d9e3e728fb1eb543a5b8466dc39f71ba7ba8d3047f3ae6127",
+    "studio/index.html": "0cd5e8d672e9963e2bb7ef606d99b19af978e51515e9894285861ce9d90b15b6",
+    "studio/app.js": "1e4eae1b527ea18e78d47f10e232c8b20d73dd2e39f8970c069223f49b20caae",
+    "studio/workspace.css": "a2729e4724fff06ce916bb9c9fc8b7e3c1bc003035cbab7f0ddfe5447c889302",
+    "studio/microphone.js": "4d0ad72a0d736ea27594eee1039d0a1a46aecd5588687a4f36fc33cef77bdf1f",
+    "studio/microphone.css": "fa674c05df00abc5c521fb32a069d06f0809b6dc8dc96bfdb41d51fae8ada5fb"
+  }
+}

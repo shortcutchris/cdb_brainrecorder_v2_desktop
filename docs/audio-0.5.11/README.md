@@ -20,6 +20,6 @@ Im isolierten Pi-Testdienst mit künstlicher PCM-Quelle geprüft: fünf Sekunden
 
 Bei 1280 × 720 benötigt die Audiofläche 532 Pixel und hat exakt dieselbe Scrollhöhe; keine zusätzliche Inhaltsseite. Header 80 Pixel, Footer 80 Pixel, unveränderte Player-Position vor und nach dem Test. Geometrie in `geometry.json`.
 
-Die Screenshots 01–05 stammen aus dem isolierten Testdienst (synthetisches Mikrofon). Helles und Graphit-Theme wurden geprüft. Die Produktionsansicht wird nach Auslieferung separat dokumentiert. Am produktiven Pi wurde vor Auslieferung kein Hardware-Mikrofon erkannt; diese Änderung behauptet deshalb keinen neuen physischen Mikrofontest.
+Die Screenshots 01–05 stammen aus dem isolierten Testdienst (synthetisches Mikrofon). Helles und Graphit-Theme wurden geprüft. Die Produktionsansicht über den SSH-Tunnel steht in `06-production.png`. Version 0.5.11 und sämtliche ausgelieferten Laufzeitdateien wurden per SHA-256 gegen den Commit geprüft; beide Dienste laufen. Alle 22 Aufnahmen, Konfiguration, Standardbereich und Brain-Anmeldung blieben unverändert (siehe `deployment.json`). Am produktiven Pi wurde vor Auslieferung kein Hardware-Mikrofon erkannt; diese Änderung behauptet deshalb keinen neuen physischen Mikrofontest.
 
 ![Audio · Graphit](05-ready-graphite.png)
