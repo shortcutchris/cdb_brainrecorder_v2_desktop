@@ -81,3 +81,11 @@ Geprüft am 12.10.2026 mit isolierter synthetischer Bibliothek und bestehendem P
 Unter Einstellungen → Design stehen Blau · Hell, Petrol · Hell, Mitternacht und Graphit zur Auswahl. Die Auswahl gilt sofort für Recorder, Bibliothek, Dialoge, Warteschlange und Bildschirmtastatur. Sie bleibt im lokalen Browserprofil über Neuladen und Neustart erhalten; andere Browserprofile wählen unabhängig. Bei nicht verfügbarem Browserspeicher bleibt die Auswahl nur für die Sitzung erhalten und die Oberfläche zeigt das ausdrücklich an. Aufnahme und Queue werden durch Theme-Wechsel nicht verändert; Design bleibt während der Verarbeitung bedienbar. Aufnahme- und Fehlerfarben bleiben unabhängig vom Theme erkennbar.
 
 Geprüft: alle vier Optionen, genau eine aktive Auswahl, dunkles Theme nach Neuladen wiederhergestellt, Dialograhmen ohne äußeren Scrollbereich. Screenshots: [Theme-Auswahl](touch-dialogs/06-themes-midnight.jpg), [Recorder in Graphit](touch-dialogs/07-theme-graphite-recorder.jpg).
+
+## Eigene Themes 0.4.5
+
+Einstellungen → Design erlaubt eigene Themes anzulegen, das ausgewählte Theme zu duplizieren und eigene Themes zu bearbeiten oder nach einer Rückfrage zu löschen. Standardthemes sind geschützt. Name sowie Hintergrund, Flächen, Aufnahmebereich, Text und Akzentfarbe lassen sich mit Live-Vorschau ändern. Speichern übernimmt und aktiviert das Theme; Abbrechen, Dialog schließen oder Bereich wechseln verwirft die Vorschau. Nach Löschen des aktiven Themes wird Blau · Hell aktiviert. Bis zu 100 eigene Themes bleiben im gleichen lokalen Browserprofil erhalten. Browserdaten löschen entfernt auch eigene Themes.
+
+Der Editor bleibt in einer festen, lesbaren Farbpalette. Speichern erfordert einen Namen und mindestens 4,5:1 Kontrast zwischen Text und den drei Hauptflächen. Text und Symbole auf Akzentflächen erhalten automatisch Schwarz oder Weiß. Touch-Farbfelder öffnen den Farbwähler des Browsers. Die Tastatur schließt beim Speichern, Abbrechen und Bereichswechsel.
+
+In der isolierten Pi-Vorschau geprüft: Anlegen mit geänderter Farbe, Speichern und Wiederherstellung nach Neuladen, Bearbeiten, zu geringer Kontrast sperrt Speichern, Abbrechen verwirft Änderungen, Duplizieren, Löschen mit Rückfrage sowie Schutz der Standardthemes.

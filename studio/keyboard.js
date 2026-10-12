@@ -35,7 +35,7 @@
   (dialog||document.body).append(panel);panel.hidden=false;document.body.classList.add('keyboard-open');if(dialog)dialog.classList.add('with-keyboard');draw();target?.focus({preventScroll:true});requestAnimationFrame(()=>target?.scrollIntoView({block:'nearest'}));
  }
  document.getElementById('keyboard').onclick=toggle;
- document.addEventListener('click',event=>{if(event.target.closest('#library-open,#settings-open,#more-open'))hide()},true);
+ document.addEventListener('click',event=>{if(event.target.closest('#library-open,#settings-open,#more-open,#theme-save,#theme-cancel,[data-settings]'))hide()},true);
  for(const dialog of document.querySelectorAll('dialog')){
   const button=document.createElement('button');button.type='button';button.className='icon-button';button.setAttribute('aria-label','Bildschirmtastatur öffnen');const icon=document.createElement('img');icon.src='/assets/keyboard.svg';icon.alt='';button.append(icon);dialog.querySelector('.dialog-heading').insertBefore(button,dialog.querySelector('[data-close]'));
   button.onclick=toggle;dialog.addEventListener('close',hide);

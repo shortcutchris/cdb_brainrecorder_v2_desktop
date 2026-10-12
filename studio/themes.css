@@ -28,3 +28,15 @@ button.active img,.tab.active img,.recent-card.selected img,.status>img#activity
 .dialog-body::-webkit-scrollbar-thumb,.settings-content::-webkit-scrollbar-thumb{border-color:var(--panel)}
 
 #settings .settings-tabs button.active{background:var(--accent);color:var(--on-accent)}
+
+.theme-manage{display:flex;flex-wrap:wrap;gap:8px}.theme-manage button{flex:1;min-width:130px}
+#theme-editor{background:#f4f7fb;color:#142b48;padding:18px;border-radius:12px;--line:#ccd9e8;--muted:#405063}
+#theme-editor p{color:#405063}#theme-editor input{color:#142b48;background:#fff}
+.theme-color-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px 20px}
+#theme-editor .theme-color-fields input[type=color]{height:60px;padding:5px;cursor:pointer}
+#theme-editor-actions{display:flex;gap:10px;width:100%;background:#f4f7fb;padding:6px;border-radius:10px}
+#settings #theme-editor-actions button{color:#142b48;background:#dbeaff;margin:0}#settings #theme-editor-actions #theme-save{background:#0768e5;color:white}
+#theme-delete-confirm{padding:12px;border:1px solid var(--line);border-radius:10px}
+@media(max-width:560px){.theme-color-fields{grid-template-columns:1fr}}
+
+:root[data-theme^="custom-"] .record:not(.recording) img,:root[data-theme^="custom-"] .play img,:root[data-theme^="custom-"] .status button img{filter:brightness(0) invert(var(--on-icon))}
