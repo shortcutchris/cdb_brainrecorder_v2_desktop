@@ -24,3 +24,23 @@ Browserprüfung der isolierten Vorschau mit synthetischen Daten bei 1280 × 720 
 „Recorder“ ist eine Ansicht, kein Startbefehl. Nur die große Taste startet beziehungsweise stoppt. Bei laufender Aufnahme öffnet „Recorder“ deren Notizen, sonst bleibt das zuletzt gewählte Meeting samt Inhalt erhalten. Ein neuer Aufnahmestart wechselt aus Bibliothek/Einstellungen direkt zu den zugehörigen Notizen. Dieses Verhalten wurde mit der synthetischen Aufnahmequelle geprüft, einschließlich Wechsel zu einem älteren Meeting und Rückkehr zur laufenden Aufnahme. Ohne fertige Audiodatei zeigt der Player keine alte Dauer mehr.
 
 Ein echter lokaler Modelltest mit Qwen3 4B zeigte trotz der ersten Regeln unzulässig abgeleitete Aufgaben aus Budget und offener Freigabe. Die Vorlage wurde daraufhin konkreter formuliert: reine Informationen bleiben Informationen, angekündigte Termine sind getrennt, offene Freigaben keine Beauftragung. Aufgaben werden als kurze Zeilen ausgegeben. [Aufnahme und Navigation](05-recording-navigation.png).
+
+## Produktive Prüfung 0.5.3
+
+Nach leerer Queue und ohne laufende Aufnahme auf den Pi übertragen; Backend und Kiosk aktiv. Backups: `/home/chris/studio-backups/before-workspace-0.5.2-20261012/application.tar.gz` und `/home/chris/studio-backups/before-workspace-0.5.3-20261012/application.tar.gz`. Microsoft-Sitzung, Standard `staging_playground`, lokale Provider und bestehende Aufnahmen erhalten. Die produktive angemeldete Verbindungsseite bei 1280 × 720 geprüft: Inhalt passt in die rechte Ansicht, keine Modalität.
+
+Lokaler echter Modelltest, Sitzung 33: vorhandenes synthetisches Transkript der Sitzung 32 wiederverwendet, ergänzt um einen ausdrücklich unverbindlichen Mikrofonbestellvorschlag. Kein weiterer ASR-Test, keine neue Mikrofonaufnahme und kein CDB-Versand. Erster Auftrag `aa5e53f829684255af91606ae1b75e41` benötigte 153,1 s und leitete falsche Aufgaben aus Budget/Freigabestatus ab; deshalb verworfen und Vorlage überarbeitet. Zweiter Auftrag `399420dd93ee468ab56a838008bf22a2` mit der überarbeiteten Aufgabenvorlage: abgeschlossen nach 62,0 s, Qwen3 4B Instruct. Ergebnis:
+
+> Aufgaben:
+> Frau Meier: erstellt bis Mittwoch die Checkliste.
+> Herr Fischer: prüft am Donnerstag das Mikrofon.
+>
+> Termine:
+> Der nächste Test findet am Freitag um 11 Uhr statt.
+>
+> Offene Punkte:
+> Eine Bestellung ist noch nicht freigegeben.
+
+Damit in dieser Probe keine erfundene Budget-/Freigabeaufgabe und keine Aufgabe aus dem Vorschlag. Keine allgemeine Garantie für beliebige Transkripte. Der überarbeitete Auftrag wird ebenfalls an CDB übergeben; ein erneuter Live-CDB-Modelllauf war in dieser Änderung nicht enthalten.
+
+Zusätzlich manuell geprüft: „Öffnen“ in der Queue führt auch aus Einstellungen in die Meetingansicht, einschließlich bereits ausgewähltem Meeting. Vorschauaufnahmen verwenden ausschließlich die synthetische Testquelle. Gesamte Prüfung weiterhin 55 Python- und 6 JavaScript-Tests bestanden.

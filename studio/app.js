@@ -60,6 +60,7 @@ function renderSelected(){
  $('play').disabled=!hasAudio||!online;
 }
 async function selectMeeting(id){
+ workspaceView();
  if(selected===id)return;
  await leaveDraft();const row=await api('/api/sessions/'+id);audio.pause();selected=id;
  let model=models.get(id);if(!model)model=makeModel(row);else mergeRow(model,row);
