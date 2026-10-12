@@ -132,3 +132,4 @@
 #settings .prompt-text-pages{height:56px;min-height:56px;margin:0;display:flex;align-items:center}
 #settings.with-keyboard .prompt-field{height:100%;flex:1}
 @media(max-width:1050px){#settings.workspace-view :is(#audio-page,#connection-page,#asr-page,#llm-page,#prompts-page,#appearance-page,#models-page)>.dialog-actions{grid-template-columns:180px minmax(0,1fr) 160px 200px}#settings .model-page .model-preparation{grid-template-columns:180px}#settings #settings-overview-back{width:150px;flex-basis:150px}#settings #settings-parent-back{width:160px;flex-basis:160px}}
+#settings .settings-page>.dialog-actions .direct-pages{height:56px;min-height:56px;margin-block:0;align-items:center}

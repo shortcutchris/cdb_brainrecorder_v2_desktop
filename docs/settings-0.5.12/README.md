@@ -33,3 +33,9 @@ Lange Inhalte behalten ihre nummerierten Seiten (Vorlagen, Testergebnisse, Theme
 | Übertragungen | [12-transfers.png](12-transfers.png) |
 | Zusammenfassung | [13-summary.png](13-summary.png) |
 | Anmeldung ausstehend | [14-brain-pending.png](14-brain-pending.png) |
+
+## Produktiver Pi
+
+Version 0.5.12 auf den produktiven Pi gespielt. Vor dem Neustart waren Aufnahme und Warteschlange inaktiv. Sicherung unter `/home/chris/backups/recorder-before-0.5.12`. Backend und Kiosk aktiv. Alle sechs ausgelieferten Dateien per SHA256 gegen den lokalen Stand verglichen (`deployment.json`). 22 Aufnahmen, Konfiguration, Provider, Brain-Anmeldung und Zielbereich unverändert.
+
+Produktive Ansichten: [Brain-Konto](15-production-brain.png), [Übertragungen mit drei Inhaltsseiten](16-production-transfers.png), [Modellseite mit Breadcrumb](17-production-model.png). Auch die Seitentasten der Übertragungen sind auf y=624 / Höhe=56 ausgerichtet.
