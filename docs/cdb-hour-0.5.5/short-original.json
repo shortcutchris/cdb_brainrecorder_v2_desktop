@@ -1,0 +1,17 @@
+{
+  "id": 2,
+  "title": "CDB Gesamttest 0.5.5 – synthetisch",
+  "recorded_at": "2026-10-12T16:35:10.255424",
+  "duration_sec": 35,
+  "path": "/home/chris/cdb-live-hour-055-20261012/queue/meetings/f708f940e582421abf3f1e5c43752415/audio.wav",
+  "samplerate": 16000,
+  "channels": 1,
+  "notes": "CDB End-to-End 0.5.5: synthetischer Test, Standardziel staging_playground.",
+  "transcript_text": "Dies ist eine künstliche Testaufnahme ohne Kundendaten. Frau Meier stellt bis Mittwoch die Chatliste. Herr Fischer prüft am Donnerstag das Mikrofon. Das Testbudget beträgt 400 Euro. Eine Bestellung ist noch nicht freigegeben. Der nächste Test findet am Freitag um 11 Uhr statt. Vielleicht bestellen wir ein weiteres Mikrofon. Das ist nur ein Vorschlag, dazu wurde nichts beschlossen.",
+  "transcript_tokens": null,
+  "transcription_status": "completed",
+  "local_job_id": "f708f940e582421abf3f1e5c43752415",
+  "summary_text": "Kurzüberblick\n- Künstliche Testaufnahme, keine Kundendaten.\n\nEntscheidungen\n- Testbudget: 400 Euro.\n\nAufgaben\n- Frau Meier: stellt die Chatliste — bis Mittwoch.\n- Herr Fischer: prüft das Mikrofon — am Donnerstag.\n\nTermine\n- Nächster Test: Freitag, 11:00.\n\nOffene Punkte\n- Bestellung ist noch nicht freigegeben.\n- Vorschlag: weiteres Mikrofon wurde erwähnt, nichts beschlossen.\n- Unklarheit: Wer gibt die Bestellung frei?\n- Unklarheit: Entscheidung zum möglichen weiteren Mikrofon?",
+  "local_error": "",
+  "local_metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}"
+}

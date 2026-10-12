@@ -1,0 +1,18 @@
+{
+  "version": "0.5.7",
+  "application_commit": "4ab40f2664166b2944e0e462c2c401e1a77df611",
+  "deployed_hashes": {
+    "web_server.py": "3ee6bb187626e98b8eb34b00a4a45bcddd9364eb2a4538a24abe682ae43414f1",
+    "services/cdb_integration.py": "b305444483592b3c48cfa58639f22f96c021552dfd52832868b930ce55d56d10",
+    "studio/index.html": "8aef345f968cddbe738b45feaceeba899e282a6e776a44406d22b10fd74981b7",
+    "studio/cdb.css": "e3535da11411063f794c28f9953e4e1fb30408ca0a46a7eaa57e1adf8abd6be3",
+    "studio/cdb.js": "4a8e176bfb2486db6cc9ad82795b8bd888c8a6f5a566c4a9b2f1d001cce74562"
+  },
+  "sessions": 22,
+  "providers": {
+    "transcription": "local",
+    "summary": "cdb"
+  },
+  "default_area": "staging_playground",
+  "recording": null
+}

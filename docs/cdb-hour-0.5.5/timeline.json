@@ -1,0 +1,1552 @@
+[
+  {
+    "at": 1791815805.2972438,
+    "progress": "",
+    "cdb_progress": "Audio für CDB vorbereiten",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815810.3082309,
+    "progress": "",
+    "cdb_progress": "Audio für CDB vorbereiten",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815815.3184829,
+    "progress": "",
+    "cdb_progress": "Audio für CDB vorbereiten",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815820.329416,
+    "progress": "",
+    "cdb_progress": "Audio für CDB vorbereiten",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815825.339529,
+    "progress": "",
+    "cdb_progress": "Audio für CDB vorbereiten",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815830.350506,
+    "progress": "",
+    "cdb_progress": "CDB: queued",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815835.36273,
+    "progress": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815840.378657,
+    "progress": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815845.3901498,
+    "progress": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815850.407373,
+    "progress": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815855.421403,
+    "progress": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815860.432353,
+    "progress": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815865.444013,
+    "progress": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815870.455316,
+    "progress": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815875.468414,
+    "progress": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815880.481895,
+    "progress": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815885.4971368,
+    "progress": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815890.509887,
+    "progress": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815895.524735,
+    "progress": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815900.540419,
+    "progress": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815905.554569,
+    "progress": "",
+    "cdb_progress": "CDB: transcribing · 30 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815910.565891,
+    "progress": "",
+    "cdb_progress": "CDB: transcribing · 30 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815915.5790322,
+    "progress": "",
+    "cdb_progress": "CDB: transcribing · 30 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815920.5918221,
+    "progress": "",
+    "cdb_progress": "CDB: transcribing · 30 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815925.606652,
+    "progress": "",
+    "cdb_progress": "CDB: transcribing · 30 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815930.624872,
+    "progress": "",
+    "cdb_progress": "CDB: transcribing · 30 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815935.636918,
+    "progress": "",
+    "cdb_progress": "CDB: transcribing · 30 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815940.6493561,
+    "progress": "",
+    "cdb_progress": "CDB: saving · 95 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815945.6619232,
+    "progress": "",
+    "cdb_progress": "CDB: saving · 95 %",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "transcribing",
+        "created": 1791815751.0742047,
+        "updated": 1791815768.4582617,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815950.6727092,
+    "progress": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "summarizing",
+        "created": 1791815751.0742047,
+        "updated": 1791815946.200937,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815955.686678,
+    "progress": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "summarizing",
+        "created": 1791815751.0742047,
+        "updated": 1791815946.200937,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815960.699296,
+    "progress": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "summarizing",
+        "created": 1791815751.0742047,
+        "updated": 1791815946.200937,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815965.7152681,
+    "progress": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "summarizing",
+        "created": 1791815751.0742047,
+        "updated": 1791815946.200937,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815970.729432,
+    "progress": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "summarizing",
+        "created": 1791815751.0742047,
+        "updated": 1791815946.200937,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815975.741272,
+    "progress": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "summarizing",
+        "created": 1791815751.0742047,
+        "updated": 1791815946.200937,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815980.753275,
+    "progress": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "summarizing",
+        "created": 1791815751.0742047,
+        "updated": 1791815946.200937,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815985.77299,
+    "progress": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "summarizing",
+        "created": 1791815751.0742047,
+        "updated": 1791815946.200937,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815990.786294,
+    "progress": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "summarizing",
+        "created": 1791815751.0742047,
+        "updated": 1791815946.200937,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791815995.801771,
+    "progress": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "summarizing",
+        "created": 1791815751.0742047,
+        "updated": 1791815946.200937,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816000.8179588,
+    "progress": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "summarizing",
+        "created": 1791815751.0742047,
+        "updated": 1791815946.200937,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816005.832042,
+    "progress": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "summarizing",
+        "created": 1791815751.0742047,
+        "updated": 1791815946.200937,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816010.844437,
+    "progress": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "summarizing",
+        "created": 1791815751.0742047,
+        "updated": 1791815946.200937,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816015.858143,
+    "progress": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "summarizing",
+        "created": 1791815751.0742047,
+        "updated": 1791815946.200937,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816020.874232,
+    "progress": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "summarizing",
+        "created": 1791815751.0742047,
+        "updated": 1791815946.200937,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816025.8874629,
+    "progress": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "summarizing",
+        "created": 1791815751.0742047,
+        "updated": 1791815946.200937,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816030.907551,
+    "progress": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "queued",
+        "created": 1791815792.1227329,
+        "updated": 1791815792.3935282,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "summarizing",
+        "created": 1791815751.0742047,
+        "updated": 1791815946.200937,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": ""
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816035.9177852,
+    "progress": "Abschnitt 1/1",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "summarizing",
+        "created": 1791815792.1227329,
+        "updated": 1791816034.7624345,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816040.931385,
+    "progress": "Abschnitt 1/1",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "summarizing",
+        "created": 1791815792.1227329,
+        "updated": 1791816034.7624345,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816045.943697,
+    "progress": "Abschnitt 1/1",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "summarizing",
+        "created": 1791815792.1227329,
+        "updated": 1791816034.7624345,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816050.959536,
+    "progress": "",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  }
+]

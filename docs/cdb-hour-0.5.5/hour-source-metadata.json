@@ -1,0 +1,8 @@
+{
+  "source_seconds": 5236.237959183673,
+  "file_seconds": 3600.0,
+  "bytes": 115200078,
+  "generated_blocks": 180,
+  "source_words": 10050,
+  "note": "Distinct numbered synthetic sections; trimmed to exactly one hour, no silence padding."
+}

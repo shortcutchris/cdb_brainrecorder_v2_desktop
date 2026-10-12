@@ -1,0 +1,17 @@
+{
+  "id": 2,
+  "title": "CDB Gesamttest 0.5.5 – synthetisch",
+  "recorded_at": "2026-10-12T16:35:10.255424",
+  "duration_sec": 35,
+  "path": "/home/chris/cdb-live-hour-055-20261012/queue/meetings/f708f940e582421abf3f1e5c43752415/audio.wav",
+  "samplerate": 16000,
+  "channels": 1,
+  "notes": "CDB End-to-End 0.5.5: synthetischer Test, Standardziel staging_playground.",
+  "transcript_text": "Dies ist eine künstliche Testaufnahme ohne Kundendaten. Frau Meier erstellt bis Mittwoch die Checkliste. Herr Fischer prüft am Donnerstag das Mikrofon. Das Testbudget beträgt 400 Euro. Eine Bestellung ist noch nicht freigegeben. Der nächste Test findet am Freitag um 11 Uhr statt. Vielleicht bestellen wir ein weiteres Mikrofon. Das ist nur ein Vorschlag, dazu wurde nichts beschlossen.",
+  "transcript_tokens": null,
+  "transcription_status": "completed",
+  "local_job_id": "91f5b6903e544338b519bb96b31fcbc8",
+  "summary_text": "Aufgaben\nFrau Meier: Checkliste erstellen — bis Mittwoch.\nHerr Fischer: Mikrofon prüfen — am Donnerstag.\n\nTermine\nFreitag, 11:00 — Test.\n\nOffene Punkte\nBestellung noch nicht freigegeben — Unklar: Freigabeentscheid und Zeitpunkt.\nVorschlag für weiteres Mikrofon nicht beschlossen — Unklar: Entscheidung über Bestellung.",
+  "local_error": "",
+  "local_metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}"
+}

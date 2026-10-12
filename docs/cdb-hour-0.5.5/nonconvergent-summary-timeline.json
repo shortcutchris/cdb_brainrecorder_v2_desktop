@@ -1,0 +1,3907 @@
+[
+  {
+    "at": 1791816731.183164,
+    "progress": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816736.19243,
+    "progress": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816741.204737,
+    "progress": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816746.21842,
+    "progress": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816751.231817,
+    "progress": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816756.244101,
+    "progress": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816761.2600121,
+    "progress": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816766.285884,
+    "progress": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816771.298333,
+    "progress": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816776.318766,
+    "progress": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816781.3325272,
+    "progress": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816786.347712,
+    "progress": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816791.362156,
+    "progress": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816796.3755882,
+    "progress": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816801.387746,
+    "progress": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816806.399699,
+    "progress": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816811.412674,
+    "progress": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816816.428614,
+    "progress": "Abschnitt 5/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816821.442501,
+    "progress": "Abschnitt 5/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816826.452322,
+    "progress": "Abschnitt 5/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816831.468638,
+    "progress": "Abschnitt 5/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816836.4841862,
+    "progress": "Abschnitt 5/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816841.499535,
+    "progress": "Abschnitt 6/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816846.5168672,
+    "progress": "Abschnitt 6/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816851.529224,
+    "progress": "Abschnitt 6/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816856.543741,
+    "progress": "Abschnitt 6/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816861.559375,
+    "progress": "Abschnitt 6/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816866.5746539,
+    "progress": "Abschnitt 7/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816871.5857122,
+    "progress": "Abschnitt 7/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816876.601702,
+    "progress": "Abschnitt 7/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816881.6170418,
+    "progress": "Abschnitt 7/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816886.6300092,
+    "progress": "Abschnitt 7/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816891.64509,
+    "progress": "Abschnitt 7/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816896.662334,
+    "progress": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816901.674735,
+    "progress": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816906.690387,
+    "progress": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816911.704524,
+    "progress": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816916.718195,
+    "progress": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816921.738981,
+    "progress": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816926.7507682,
+    "progress": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816931.764645,
+    "progress": "Abschnitt 9/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816936.7815402,
+    "progress": "Abschnitt 9/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816941.796056,
+    "progress": "Abschnitt 9/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816946.811201,
+    "progress": "Abschnitt 9/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816951.826855,
+    "progress": "Abschnitt 9/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816956.8390799,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816961.8542678,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816966.871047,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816971.889715,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816976.910354,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816981.92516,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816986.940062,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816991.957757,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816996.974545,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817001.99432,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817007.009679,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817012.025368,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817017.045651,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817022.062314,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817027.077096,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817032.090144,
+    "progress": "Teilprotokolle zusammenführen (Stufe 2)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817037.1071649,
+    "progress": "Teilprotokolle zusammenführen (Stufe 2)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817042.126512,
+    "progress": "Teilprotokolle zusammenführen (Stufe 2)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817047.1416168,
+    "progress": "Teilprotokolle zusammenführen (Stufe 2)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817052.1577,
+    "progress": "Teilprotokolle zusammenführen (Stufe 2)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817057.177921,
+    "progress": "Teilprotokolle zusammenführen (Stufe 2)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817062.2031941,
+    "progress": "Teilprotokolle zusammenführen (Stufe 2)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817067.219198,
+    "progress": "Teilprotokolle zusammenführen (Stufe 2)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817072.233216,
+    "progress": "Teilprotokolle zusammenführen (Stufe 2)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817077.248416,
+    "progress": "Teilprotokolle zusammenführen (Stufe 2)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "summarizing",
+        "created": 1791816725.885264,
+        "updated": 1791816728.3666153,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817082.277317,
+    "progress": "",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  }
+]

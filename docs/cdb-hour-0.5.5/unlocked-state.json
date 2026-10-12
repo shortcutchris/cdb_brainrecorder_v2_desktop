@@ -1,0 +1,34 @@
+{
+  "recording": null,
+  "capabilities": {
+    "record": {
+      "allowed": true,
+      "reason": ""
+    },
+    "configure": {
+      "allowed": true,
+      "reason": ""
+    },
+    "probe": {
+      "allowed": true,
+      "reason": ""
+    },
+    "install": {
+      "allowed": true,
+      "reason": ""
+    },
+    "model_test": {
+      "allowed": true,
+      "reason": ""
+    },
+    "finish_setup": {
+      "allowed": true,
+      "reason": ""
+    },
+    "process": {
+      "allowed": true,
+      "reason": ""
+    }
+  },
+  "active_jobs": []
+}

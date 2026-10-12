@@ -1,0 +1,2070 @@
+[
+  {
+    "at": 1791816337.472107,
+    "progress": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816342.493957,
+    "progress": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816347.5156019,
+    "progress": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816352.542238,
+    "progress": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816357.6408808,
+    "progress": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816362.662509,
+    "progress": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816367.6875389,
+    "progress": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816372.709525,
+    "progress": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816377.7328582,
+    "progress": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816382.796145,
+    "progress": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816387.8213131,
+    "progress": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816392.844395,
+    "progress": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816397.8667462,
+    "progress": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816402.897862,
+    "progress": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816407.96459,
+    "progress": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816412.9870021,
+    "progress": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816418.010092,
+    "progress": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816423.033406,
+    "progress": "Abschnitt 5/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816428.0568771,
+    "progress": "Abschnitt 5/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816433.1248431,
+    "progress": "Abschnitt 5/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816438.1527748,
+    "progress": "Abschnitt 5/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816443.176904,
+    "progress": "Abschnitt 6/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816448.199807,
+    "progress": "Abschnitt 6/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816453.224999,
+    "progress": "Abschnitt 6/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816458.299159,
+    "progress": "Abschnitt 6/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816463.32488,
+    "progress": "Abschnitt 7/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816468.347712,
+    "progress": "Abschnitt 7/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816473.3715599,
+    "progress": "Abschnitt 7/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816478.395995,
+    "progress": "Abschnitt 7/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816483.455606,
+    "progress": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816488.476788,
+    "progress": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816493.505682,
+    "progress": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816498.531629,
+    "progress": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816503.551668,
+    "progress": "Abschnitt 9/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816508.618461,
+    "progress": "Abschnitt 9/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816513.638268,
+    "progress": "Abschnitt 9/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816518.66033,
+    "progress": "Abschnitt 9/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816523.688033,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816528.7112188,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816533.783746,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816538.8131468,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816543.8357608,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816548.86155,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "summarizing",
+        "created": 1791816332.5510247,
+        "updated": 1791816335.2773206,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791816553.8821409,
+    "progress": "",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  }
+]

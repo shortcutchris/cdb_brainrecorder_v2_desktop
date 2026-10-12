@@ -1,0 +1,3089 @@
+[
+  {
+    "at": 1791817163.62521,
+    "progress": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817168.6387022,
+    "progress": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817173.654102,
+    "progress": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817178.6726882,
+    "progress": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817183.680583,
+    "progress": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817188.695252,
+    "progress": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817193.70962,
+    "progress": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817198.720165,
+    "progress": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817203.734765,
+    "progress": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817208.749079,
+    "progress": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817213.757937,
+    "progress": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817218.7726378,
+    "progress": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817223.7861178,
+    "progress": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817228.801975,
+    "progress": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817233.815124,
+    "progress": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817238.82948,
+    "progress": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817243.8440819,
+    "progress": "Abschnitt 5/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817248.8577049,
+    "progress": "Abschnitt 5/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817253.873282,
+    "progress": "Abschnitt 5/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817258.8953989,
+    "progress": "Abschnitt 5/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817263.905941,
+    "progress": "Abschnitt 6/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817268.921341,
+    "progress": "Abschnitt 6/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817273.936186,
+    "progress": "Abschnitt 6/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817278.951544,
+    "progress": "Abschnitt 6/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817283.964085,
+    "progress": "Abschnitt 6/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817288.9819388,
+    "progress": "Abschnitt 7/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817294.0017128,
+    "progress": "Abschnitt 7/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817299.012653,
+    "progress": "Abschnitt 7/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817304.027151,
+    "progress": "Abschnitt 7/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817309.046657,
+    "progress": "Abschnitt 7/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817314.0593011,
+    "progress": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817319.0773172,
+    "progress": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817324.097256,
+    "progress": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817329.113476,
+    "progress": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817334.128801,
+    "progress": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817339.1451452,
+    "progress": "Abschnitt 9/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817344.161178,
+    "progress": "Abschnitt 9/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817349.181986,
+    "progress": "Abschnitt 9/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817354.204193,
+    "progress": "Abschnitt 9/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817359.22123,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817364.237468,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817369.2543292,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817374.270727,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817379.28787,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817384.307403,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817389.319882,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817394.33525,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817399.355505,
+    "progress": "Teilprotokolle zusammenführen (Stufe 1)",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "summarizing",
+        "created": 1791817158.3822749,
+        "updated": 1791817162.4801078,
+        "metrics": "{}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  },
+  {
+    "at": 1791817404.370971,
+    "progress": "",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "ea7e6536183c4f37a729826f90b0758f",
+        "state": "completed",
+        "created": 1791817158.3822749,
+        "updated": 1791817402.3498015,
+        "metrics": "{\"summary_seconds\": 239.86, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 239.87, \"audio_seconds\": 3600.0, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 14951.7, \"ollama_aggregate_peak_rss_mib\": 33.5}",
+        "error": ""
+      },
+      {
+        "id": "8b8e7273c0124c7991429235ac1cbb27",
+        "state": "failed",
+        "created": 1791816725.885264,
+        "updated": 1791817082.1876252,
+        "metrics": "{}",
+        "error": "Teilprotokolle zu lang zum Zusammenführen. Größere Abschnitte konfigurieren."
+      },
+      {
+        "id": "97ffc5235626417093de86e21d1a609f",
+        "state": "failed",
+        "created": 1791816332.5510247,
+        "updated": 1791816552.192434,
+        "metrics": "{}",
+        "error": "CDB-Anfrage fehlgeschlagen (HTTP 504)."
+      },
+      {
+        "id": "70e91983e4e34a06895a13de63610169",
+        "state": "failed",
+        "created": 1791816210.7438366,
+        "updated": 1791816271.636257,
+        "metrics": "{}",
+        "error": "CDB-Zusammenfassung leer."
+      },
+      {
+        "id": "91f5b6903e544338b519bb96b31fcbc8",
+        "state": "completed",
+        "created": 1791815792.1227329,
+        "updated": 1791816046.5954661,
+        "metrics": "{\"summary_seconds\": 11.81, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 11.84, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15045.5, \"ollama_aggregate_peak_rss_mib\": 34.2}",
+        "error": ""
+      },
+      {
+        "id": "8bee8a676fa24f368d1097e72f2429ed",
+        "state": "failed",
+        "created": 1791815751.0742047,
+        "updated": 1791816034.7185264,
+        "metrics": "{\"transcription_seconds\": 177.73, \"whisper_model\": \"cdb/transcription-jobs\"}",
+        "error": "CDB-Zusammenfassung leer oder abgeschnitten."
+      },
+      {
+        "id": "f708f940e582421abf3f1e5c43752415",
+        "state": "completed",
+        "created": 1791815710.2554245,
+        "updated": 1791815768.436788,
+        "metrics": "{\"transcription_seconds\": 7.29, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 13.39, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 20.7, \"audio_seconds\": 35.3725625, \"transcription_rtf\": 0.206, \"system_min_available_mib\": 15011.0, \"ollama_aggregate_peak_rss_mib\": 33.2}",
+        "error": ""
+      }
+    ]
+  }
+]

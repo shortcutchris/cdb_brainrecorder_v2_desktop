@@ -1,0 +1,73 @@
+{
+  "publications": [
+    {
+      "id": "bf868c1825a34cde80746422b7527d9b",
+      "state": "completed",
+      "error": "",
+      "title": "CDB Gesamttest 0.5.5 – synthetisch",
+      "receipt": {
+        "document_id": "08e9e48b-6019-4a19-a2c6-ff6ca5e3aa43",
+        "job_id": "daa44ea5-988e-4128-892d-cec153fdc88b"
+      },
+      "server_status": {
+        "job_id": "daa44ea5-988e-4128-892d-cec153fdc88b",
+        "document_id": "08e9e48b-6019-4a19-a2c6-ff6ca5e3aa43",
+        "status": "completed",
+        "progress": {
+          "markdown_conversion": "completed",
+          "markdown_cleaning": "completed",
+          "chunking": "completed",
+          "graph_generation": "completed",
+          "knowledge_graph": "completed",
+          "vectorization": "completed"
+        },
+        "error_message": null,
+        "created_at": "2026-10-12T14:44:00.157978",
+        "completed_at": "2026-10-12T14:44:15.587903",
+        "warnings": [
+          "Very few chunks created - document may be short"
+        ]
+      }
+    },
+    {
+      "id": "5acfdcbbb3d741cdba58d79842d02db7",
+      "state": "completed",
+      "error": "",
+      "title": "CDB Stundentest – synthetisch",
+      "receipt": {
+        "document_id": "5daf9a6e-283c-4c4f-a82a-94bb1d7e55b2",
+        "job_id": "ec2c948f-5c2d-4332-929c-c6817f150af3"
+      },
+      "server_status": {
+        "job_id": "ec2c948f-5c2d-4332-929c-c6817f150af3",
+        "document_id": "5daf9a6e-283c-4c4f-a82a-94bb1d7e55b2",
+        "status": "completed",
+        "progress": {
+          "markdown_conversion": "completed",
+          "markdown_cleaning": "completed",
+          "chunking": "completed",
+          "graph_generation": "completed",
+          "knowledge_graph": "completed",
+          "vectorization": "completed"
+        },
+        "error_message": null,
+        "created_at": "2026-10-12T15:04:11.263730",
+        "completed_at": "2026-10-12T15:05:45.461992",
+        "warnings": []
+      }
+    }
+  ],
+  "hour_asr": {
+    "job_id": "3522aaec-1ca1-49a6-9303-5f2b01355846",
+    "recording_id": "2b7605d9-0b28-4f51-b475-fe65de156ab7",
+    "status": "completed",
+    "progress": {
+      "stage": "done",
+      "percent": 100
+    },
+    "created_at": "2026-10-12T14:37:07.211167Z",
+    "completed_at": "2026-10-12T14:38:55.893518Z",
+    "error_code": null,
+    "error_message": null
+  }
+}
