@@ -98,3 +98,28 @@ class CdbTests(unittest.TestCase):
         (self.root/'cdb-request.json').write_text(json.dumps({'transcription':'cdb','summary':'cdb'}))
         self.assertEqual(CdbBackend(self.c).route(self.root,{'model_test':True})['summary'],'local')
 if __name__=='__main__':unittest.main()
+
+
+class HttpIdentificationTests(unittest.TestCase):
+    def test_json_requests_identify_application(self):
+        from services.cdb_integration import Transport as HttpTransport, USER_AGENT
+        from unittest.mock import MagicMock
+        opener=MagicMock()
+        opener.open.return_value.__enter__.return_value.read.return_value=b'{}'
+        with patch('services.cdb_integration.urllib.request.build_opener',return_value=opener):
+            HttpTransport().request('https://staging.cdbos.de/api/v1/auth/me',token='synthetic')
+        request=opener.open.call_args.args[0]
+        self.assertEqual(request.get_header('User-agent'),USER_AGENT)
+        self.assertEqual(request.get_header('Authorization'),'Bearer synthetic')
+
+    def test_audio_upload_identifies_application(self):
+        from services.cdb_integration import Transport as HttpTransport, USER_AGENT
+        from unittest.mock import MagicMock
+        import threading
+        connection=MagicMock();connection.getresponse.return_value.status=201
+        connection.getresponse.return_value.read.return_value=b'{}'
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'synthetic.ogg';path.write_bytes(b'synthetic audio')
+            with patch('services.cdb_integration.http.client.HTTPSConnection',return_value=connection):
+                HttpTransport().upload(DEFAULT['server'],'synthetic',path,CLIENT,'synthetic.ogg',threading.Event())
+        connection.putheader.assert_any_call('User-Agent',USER_AGENT)

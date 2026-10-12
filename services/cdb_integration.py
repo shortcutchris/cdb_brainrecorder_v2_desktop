@@ -26,6 +26,7 @@ SCOPE = 'api://bfc31465-9282-4d18-8a6a-f3007b42832f/access_as_user offline_acces
 AUTH = 'https://login.microsoftonline.com/organizations/oauth2/v2.0/'
 DEFAULT = {'server':'https://staging.cdbos.de','client_id':'465abd84-272e-4606-b21c-b7e27e09b6d2',
            'transcription':'local','summary':'local'}
+USER_AGENT = 'CDB-Recorder/0.5.0'
 UUID = re.compile(r'^[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$')
 
 class CdbFailure(ValueError):
@@ -33,7 +34,7 @@ class CdbFailure(ValueError):
 
 class Transport:
     def request(self, url, body=None, token=None, form=False):
-        headers={'Accept':'application/json'}
+        headers={'Accept':'application/json','User-Agent':USER_AGENT}
         if token:headers['Authorization']='Bearer '+token
         if body is not None:
             data=urllib.parse.urlencode(body).encode() if form else json.dumps(body).encode()
@@ -61,7 +62,7 @@ class Transport:
         connection=http.client.HTTPSConnection(urllib.parse.urlsplit(server).hostname,timeout=90)
         try:
             connection.putrequest('POST','/api/v1/tqs/audio/upload')
-            for key,value in {'Authorization':'Bearer '+token,'Content-Type':'multipart/form-data; boundary='+boundary,'Content-Length':str(len(head)+path.stat().st_size+len(tail))}.items():connection.putheader(key,value)
+            for key,value in {'Authorization':'Bearer '+token,'User-Agent':USER_AGENT,'Content-Type':'multipart/form-data; boundary='+boundary,'Content-Length':str(len(head)+path.stat().st_size+len(tail))}.items():connection.putheader(key,value)
             connection.endheaders();connection.send(head)
             with path.open('rb') as f:
                 while block:=f.read(65536):
