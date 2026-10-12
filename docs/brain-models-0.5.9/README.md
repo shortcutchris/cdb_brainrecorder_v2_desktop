@@ -23,7 +23,17 @@ Grenze: „Test erfolgreich“ ist eine technische Laufzeitprüfung, kein Qualit
 
 ## Screens
 
-Produktive Screens werden nach der Bereitstellung ergänzt. Die folgenden Screens zeigen echte Tests in der isolierten Instanz:
+Die produktive Version 0.5.9 wurde nach Leerlaufprüfung und Sicherung unter `/home/chris/backups/recorder-before-0.5.9` bereitgestellt. Alle sechs ausgelieferten Laufzeitdateien stimmen per SHA-256 mit Commit `466a794` überein. Backend und Kiosk sind aktiv. 22 bestehende Aufnahmen, Anmeldung, Standardbereich und aktive Konfiguration sind unverändert. Beide produktiven Anbieter bleiben lokal. Die temporäre Kopie der Anmeldung für die Testinstanz wurde entfernt.
+
+Produktive Screens, 1280 × 720:
+
+![Einstellungen](01-production-settings.png)
+![Brain-Konto](02-production-brain.png)
+![KI und Modelle](03-production-models.png)
+![Transkription](04-production-whisper.png)
+![Zusammenfassung](05-production-summary.png)
+
+Die folgenden Screens zeigen echte Tests in der isolierten Instanz. Deren Testnachweise werden nicht automatisch in die produktive Datenablage übernommen; dort bleiben vorhandene aktive Modelle aktiv und können bei Bedarf erneut geprüft werden:
 
 ![Whisper-Test](test-whisper.png)
 ![Qwen-Test](test-qwen.png)

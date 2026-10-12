@@ -1,0 +1,15 @@
+{
+  "version": "0.5.9",
+  "runtime_commit": "466a794",
+  "hashes": {
+    "web_server.py": "17cb7344a14bcbfaff4320d88e16b2792937c7883fa0088d430fa46d38d9b381",
+    "studio/index.html": "e3dc20df3fee76cfc680bbcb1e12db4e8e91720b9c886ddf2e5f7403ea25365a",
+    "studio/cdb.js": "6426e528e8af9559c028ff355097cee7266a7e5f10631d0efe0289bf09ba70a7",
+    "studio/models.css": "147132485a755e5805efe7cb13aa5a79bd4f1132c8c2ebb58f0c8f393fb7a309",
+    "studio/models.js": "46dd67b7f233d3001e3c82803c55fe05da2a6fb466ae2656c997451124211a32",
+    "services/model_checks.py": "27deb96637aca837f12a65588dc74745066a1caafb469cb587c03a8360f4d05a"
+  },
+  "existing_sessions": 22,
+  "configuration_preserved": true,
+  "synthetic_test_session_removed": true
+}
