@@ -35,3 +35,14 @@ dialog.with-keyboard .dialog-actions{padding-block:4px}
 .queue-region,.queue-region .queue-panel{max-height:156px}
 .queue-open .capture .local-note,.queue-open .capture #waveform{display:none}
 @media(max-height:650px){.queue-region,.queue-region .queue-panel{max-height:130px}.queue-open .capture{padding-top:12px}.queue-open .capture .record{width:96px;height:96px;min-height:96px;margin-top:14px}.queue-open .capture h2{font-size:18px;margin-top:14px}.queue-open .capture .duration{font-size:30px;margin-top:8px}}
+
+/* Floating queue: opening it never changes the main grid or capture layout. */
+.queue-region{position:fixed;z-index:12;left:calc(var(--rail) + 16px);right:16px;bottom:calc(var(--footer) + 12px);display:none;grid-column:auto;grid-row:auto;max-height:min(380px,50dvh);border:1px solid var(--line);border-radius:18px;box-shadow:0 18px 60px #0005;background:var(--surface);overflow:hidden}
+.queue-overlay-open .queue-region{display:flex;flex-direction:column}
+.queue-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 18px;flex-shrink:0;border-bottom:1px solid var(--line)}
+.queue-heading h2{font-size:21px;margin:0}.queue-heading button{min-height:56px;padding:8px 18px;border-radius:10px;background:var(--soft);color:var(--ink);font-size:16px}
+.queue-body{display:flex;min-height:0;flex:1;overflow:hidden}
+.queue-region .queue-panel{max-height:calc(min(380px,50dvh) - 78px);min-height:0;flex:1;background:var(--surface);border:0}
+.queue-body>.touch-pager{flex-direction:column;justify-content:center;border-top:0;border-left:1px solid var(--line);gap:6px;padding:6px 12px}
+.queue-body>.touch-pager span{margin:0}
+@media(max-width:850px){.queue-region{left:calc(var(--rail) + 8px);right:8px}.queue-row{gap:8px}.queue-row span{font-size:12px}.queue-heading{padding-inline:12px}}

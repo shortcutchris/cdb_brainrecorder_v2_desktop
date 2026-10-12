@@ -105,3 +105,7 @@ Prüfung am 12.10.2026: 29 Native-/Studio-Tests bestanden; Browserprüfung mit i
 Screenshots: [Bibliothek](touch-dialogs/09-library-touch-buttons.jpg), [neue Aufnahme ausgewählt](touch-dialogs/10-new-recording-selected.jpg), [Modellauswahl](touch-dialogs/11-model-touch-picker.jpg).
 
 Dieses Update verändert nur die statischen Frontend-Dateien. Python-Backend bleibt 0.4.5; ein Backend-Neustart ist für die Auslieferung nicht erforderlich und eine laufende Verarbeitung kann weiterlaufen.
+
+### Schwebende Warteschlange
+
+Die Warteschlange öffnet als Panel über der Anwendung, oberhalb der Statusleiste. Aufnahmebereich und Meetingansicht behalten ihre Größe und Position. Ein großer Schließen-Button und der Button in der Statusleiste klappen das Panel zu. Es gibt keine blockierende Hintergrundabdeckung: Aufnahme und Notizen bleiben bedienbar. Lange Warteschlangen besitzen innerhalb des Panels Hoch/Runter-Buttons.
