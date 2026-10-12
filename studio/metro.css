@@ -1,0 +1,150 @@
+/* Metro-inspired destinations, retaining the user's rounded theme surfaces. */
+.rail{padding:16px 0 12px;gap:12px;align-items:center}
+.rail .rail-button,.rail .rail-button.keyboard{width:64px;height:64px;min-height:64px;padding:0;border:0;border-radius:14px;flex-shrink:0;position:relative}
+.rail .rail-button.active{background:var(--soft);box-shadow:inset 0 0 0 1px var(--line)}
+.rail .rail-button img,.rail .rail-button:first-child img{width:30px;height:30px}
+.rail .rail-button span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+#settings-overview{display:none;min-height:0;padding:12px 24px 24px;grid-column:1/-1;grid-row:2;flex-direction:column;gap:24px}
+#settings.workspace-view[data-overview="true"]{grid-template-columns:minmax(0,1fr)}
+#settings[data-overview="true"]>.settings-tabs,#settings[data-overview="true"]>.dialog-body{display:none}
+#settings[data-overview="true"]>#settings-overview{display:flex}
+.settings-intro h3{font-size:26px;font-weight:550;letter-spacing:-.5px;margin:0 0 8px}
+.settings-intro p{font-size:16px;line-height:1.5;margin:0}
+.settings-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(2,minmax(136px,1fr));gap:16px;flex:1;min-height:0}
+#settings .settings-tile{margin:0;padding:24px;text-align:left;border-radius:16px;border:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:12px;min-width:0}
+#settings .settings-tile:hover{background:var(--soft)}
+.settings-tile img{width:32px;height:32px;filter:var(--active-filter)}
+.settings-tile strong{font-size:19px;line-height:1.3;font-weight:600;color:var(--ink)}
+.settings-tile span{font-size:14px;line-height:1.4;color:var(--muted)}
+.settings-overview-footer{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:56px;font-size:15px;color:var(--muted)}
+#settings .settings-overview-footer button,#settings-overview-back{min-height:56px;margin:0;border-radius:12px;display:flex;align-items:center;gap:12px;padding:0 20px;font-size:15px}
+#settings .dialog-heading h2{margin-right:auto}
+#settings.workspace-view>.settings-tabs{padding:12px;gap:8px;border-right:0}
+#settings.workspace-view>.settings-tabs button.active{box-shadow:inset 0 0 0 1px var(--line)}
+#finish-setup{width:auto;flex:none}
+@media(max-width:1100px){.rail .rail-button,.rail .rail-button.keyboard{width:56px;height:56px;min-height:56px}.settings-tiles{gap:12px}#settings .settings-tile{padding:16px}.settings-tile strong{font-size:17px}}
+@media(max-height:650px){#settings-overview{gap:16px;padding:8px 20px 16px}.settings-intro h3{font-size:22px}.settings-tiles{grid-template-rows:repeat(2,minmax(112px,1fr));gap:12px}#settings .settings-tile{padding:16px;gap:8px}.settings-tile img{width:28px;height:28px}.settings-tile strong{font-size:17px}#settings.workspace-view>.settings-tabs{padding:8px;gap:4px}}
+@media(max-width:700px){.settings-tiles{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(4,minmax(64px,1fr))}#settings .settings-tile{padding:8px 12px;gap:4px}.settings-tile img,.settings-tile span{display:none}.settings-intro{display:none}}
+#settings.workspace-view>.settings-tabs button:not(.active){background:transparent;color:var(--muted)}
+#settings.workspace-view>.settings-tabs button:not(.active):hover{background:var(--panel)}
+/* Detail pages deliberately have one way back to the tile overview. */
+#settings.workspace-view[open]{grid-template-columns:minmax(0,1fr)}
+#settings.workspace-view>.settings-tabs{display:none}
+#settings.workspace-view>.dialog-body{grid-column:1}
+/* One rhythm for every detail page and secondary dialog. */
+#settings.workspace-view .dialog-actions{display:flex;align-items:center;justify-content:flex-end;padding:12px 24px;gap:12px}
+#settings.workspace-view .dialog-actions button{flex:0 1 auto;min-width:140px;width:auto;border-radius:12px}
+#settings.workspace-view .dialog-actions:has(>button[hidden]:only-child){display:none}
+#settings .settings-content>h3{margin-bottom:20px}
+#settings .settings-content input,#settings .settings-content textarea{font-weight:400;line-height:1.5}
+#settings .settings-content input{padding:12px 16px}
+#settings .settings-content>button{margin:4px 12px 4px 0;border-radius:12px;padding:0 20px}
+#checks{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+#settings #checks p{margin:0;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:var(--panel);font-size:14px}
+#probe-audio:not([src]){display:none}
+#download-progress[value="0"]{display:none}
+#download-state:empty,#model-test-state:empty,#cdb-login-message:empty{display:none}
+#cdb-connected-area{margin-top:24px;padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+#cdb-connected-area h3,#cdb-asr-info h3{font-size:18px;line-height:1.35;margin:0 0 16px}
+#cdb-connected-area .touch-select{background:var(--surface)!important}
+#cdb-transfers:not(:empty){margin-top:24px;padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+#cdb-transfers strong{font-size:18px;line-height:1.4;display:block}
+#settings #cdb-transfers p{margin:8px 0 0}
+#cdb-asr-info{margin-top:24px;padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+#settings #cdb-asr-info p{margin:12px 0 0}
+#cdb-asr-status{color:var(--accent-text)}
+.advanced-settings{margin-top:24px;border:1px solid var(--line);border-radius:16px;padding:0 20px;background:var(--panel)}
+.advanced-settings summary{font-size:16px;line-height:1.5;min-height:56px;padding:16px 0}
+.advanced-settings[open]{padding-bottom:16px}
+#settings #prompt-text{font-size:16px;line-height:1.55;min-height:144px}
+#settings #theme-library .theme-manage{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+#settings #theme-library .theme-manage button{flex:0 1 auto;min-width:156px;padding:0 20px;border-radius:12px}
+#settings .theme-option{border-radius:16px;padding:16px;min-height:96px}
+#settings .theme-options{gap:16px}
+#settings .dialog-actions .direct-pages button{min-width:56px;padding:0 16px}
+#settings .dialog-actions #cdb-transfer-pages{margin-right:auto}
+#library .dialog-search{padding:16px 24px}
+#library .dialog-body{padding:8px 24px 16px}
+#library .library-item{border-bottom:0;padding:8px 0}
+#library .library-item button{border:1px solid var(--line);background:var(--panel)!important;border-radius:16px;min-height:80px}
+#library .library-item button:hover{background:var(--soft)!important}
+#library .library-item button>span:first-child{line-height:1.4;overflow-wrap:anywhere}
+#more .dialog-body>button{min-width:0;margin:4px 12px 12px 0;padding:0 20px;border-radius:12px}
+#more .dialog-body>button.danger{display:block;margin-top:24px}
+dialog:not(.workspace-view) .dialog-actions{justify-content:flex-end;gap:12px;padding:16px 24px}
+dialog:not(.workspace-view) .dialog-actions button{flex:0 1 auto;border-radius:12px}
+#touch-picker .picker-option{border-radius:12px}
+.tabs .tab{border-radius:12px 12px 0 0}
+#queue-toggle{border-radius:12px;min-height:56px}
+.queue-row{gap:20px;padding-block:8px}
+.queue-row strong{font-size:16px;line-height:1.4}
+.queue-row button{border-radius:12px}
+@media(max-height:650px){#settings #prompt-text{min-height:112px}#settings .theme-option{min-height:80px;padding:12px}#settings #theme-library .theme-manage{margin-top:16px}#settings.workspace-view .dialog-actions{padding:8px 20px}}
+#settings #prompts-page .settings-content{display:grid;grid-template-columns:1fr 1fr;column-gap:24px;align-content:start}
+#prompts-page .settings-content>h3,#prompts-page .settings-content>p,#prompts-page .settings-content>label:has(#prompt-text){grid-column:1/-1}
+#settings #prompts-page .settings-content>label{margin:8px 0 12px}
+#settings #prompts-page #prompt-text{height:176px;max-height:none;min-height:112px}
+#settings #prompts-page .dialog-actions #prompt-delete{margin-right:auto;font-size:15px}
+#settings #prompts-page .dialog-actions #prompt-delete:disabled{display:none}
+#settings #theme-editor{background:var(--panel);color:var(--ink);padding:20px;border:1px solid var(--line);border-radius:16px;--line:inherit;--muted:inherit}
+#settings #theme-editor p{color:var(--muted)}
+#settings #theme-editor input{color:var(--ink);background:var(--surface)}
+#settings #theme-editor .theme-color-fields{grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+#settings #theme-editor .theme-color-fields label{margin:8px 0}
+#settings #theme-editor .theme-color-fields input[type=color]{height:64px;min-height:64px;border-radius:12px}
+#settings #theme-editor>h3{font-size:22px;margin:0 0 12px}
+#settings #theme-editor-actions{background:transparent;padding:0;justify-content:flex-end}
+#settings #theme-editor-actions button{color:var(--accent-text);background:var(--soft)}
+#settings #theme-editor-actions #theme-save{color:var(--on-accent);background:var(--accent)}
+progress{appearance:none;border:0;border-radius:8px;overflow:hidden;background:var(--panel);accent-color:var(--accent)}
+progress::-webkit-progress-bar{background:var(--panel);border-radius:8px}
+progress::-webkit-progress-value{background:var(--accent);border-radius:8px}
+@media(max-width:900px){#settings #theme-editor .theme-color-fields{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-height:650px){#settings #prompts-page #prompt-text{height:112px}#settings #theme-editor{padding:12px}#settings #theme-editor p{font-size:14px}}
+#settings #prompts-page .dialog-actions{flex-wrap:nowrap}
+#settings .prompt-text-pages{margin-right:auto;display:flex;gap:8px;align-items:center;min-width:0}
+#settings .prompt-text-pages:empty{display:none}
+#settings .prompt-text-pages button{min-width:56px;padding:0 16px}
+#settings #prompts-page .dialog-actions #prompt-delete{margin-right:0}
+@media(max-width:1000px){#settings #prompts-page .dialog-actions{flex-wrap:wrap}#settings #prompts-page .settings-content{column-gap:16px}}
+#more .dialog-body{padding:16px 24px}
+#more .dialog-body label{margin:8px 0 12px}
+#more input{font-weight:400}
+#more #metadata{font-size:14px;margin:12px 0 20px;line-height:1.5}
+.meeting-action-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#more .meeting-action-grid button{margin:0;min-width:0;border-radius:12px;text-align:left;padding:12px 16px;min-height:64px}
+#more .meeting-action-grid #meeting-constraint:empty{display:none}
+#more .meeting-action-grid #meeting-constraint{grid-column:1/-1;margin:0}
+#more .dialog-body>p:last-child{margin:20px 0 0;font-size:14px;line-height:1.5}
+#more .dialog-actions #delete{margin-right:auto}
+/* The queue lives in navigation. No persistent bottom bar consumes the screen. */
+:root{--footer:0px}
+body{grid-template-rows:minmax(0,1fr) 0 0}
+.rail #queue-toggle{padding:0;gap:0;min-height:64px}
+.rail #queue-toggle img{filter:var(--icon-filter)}
+.rail #queue-toggle.active img,.working .rail #queue-toggle img{filter:var(--active-filter)}
+#queue-badge{position:absolute;right:4px;top:4px;min-width:20px;height:20px;padding:0 4px;border-radius:7px;background:var(--accent);color:var(--on-accent);font-size:11px;line-height:20px;text-align:center}
+#queue-toggle.has-errors #queue-badge{background:#ae354c;color:white}
+.queue-region{bottom:16px;max-height:min(480px,65dvh)}
+.queue-region .queue-panel{max-height:calc(min(480px,65dvh) - 144px)}
+.queue-status{display:flex;align-items:center;gap:24px;padding:12px 18px;background:var(--panel);font-size:15px;line-height:1.5;flex-shrink:0}
+.queue-status #phase{flex:1}
+.queue-status #waiting{color:var(--muted);white-space:nowrap}
+.queue-status #errors{color:#d85c71;white-space:nowrap}
+.queue-heading{padding:16px 18px}
+.queue-heading h2{font-size:24px}
+@media(max-width:1100px){.rail #queue-toggle{min-height:56px}}
+/* Queue is a normal right-hand workspace, never a floating overlay. */
+body:not([data-workspace="recorder"]) #queue-region.workspace-view{grid-column:2;grid-row:1}
+#queue-region.workspace-view{position:static;inset:auto;width:100%;height:100%;max-height:none;max-width:none;margin:0;padding:0;border:0;border-radius:0;box-shadow:none;z-index:1;overflow:hidden}
+#queue-region.workspace-view[open]{display:flex;flex-direction:column}
+#queue-region .queue-heading{padding:12px 24px;min-height:80px}
+#queue-region .queue-heading button{display:flex;align-items:center;gap:12px}
+#queue-region .queue-status{padding:16px 24px}
+#queue-region .queue-body{padding:16px 24px 24px;gap:16px}
+#queue-region .queue-panel{max-height:none;padding:0;border:0}
+#queue-region .queue-row{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:16px 20px;margin-bottom:12px;min-height:88px}
+#queue-region .queue-row button{padding-inline:20px}
+#queue-region .queue-body>.touch-pager{border:0;border-radius:12px;padding:12px}
+#queue-region:not([open]){display:none}
+.rail #queue-toggle .queue-activity{position:absolute;width:18px;height:18px;right:4px;bottom:4px;background:var(--surface);border-radius:50%}

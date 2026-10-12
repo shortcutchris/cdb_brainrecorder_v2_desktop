@@ -333,7 +333,22 @@ class CdbBackend:
             from meeting_recorder.core import Store
             self.store=Store(self.service.root.parent)
         jobs=[j for j in self.store.list() if j['state']=='summarizing']
-        route=self.route(self.store.folder(jobs[0]['id']),c) if len(jobs)==1 else {'summary':'local'}
+        folder=self.store.folder(jobs[0]['id']) if len(jobs)==1 else None
+        route=self.route(folder,c) if folder is not None else {'summary':'local'}
+        standard=c['prompt'].startswith(('Schreibe ein knappes deutsches Meetingprotokoll ohne Übersetzung.', 'Schreibe auf Deutsch nur diese drei Abschnitte: Aufgaben, Termine, Offene Punkte.'))
+        if standard and isinstance(folder,Path) and (folder/'transcript.txt').exists():
+            from services.evidence_summary import EvidenceSummary
+            def extract(part,instructions):
+                if route['summary']=='local':return self.local.generate(part,c|{'prompt':instructions})
+                for budget in (8000,16000):
+                    if self.stopping.is_set():raise Interrupted()
+                    r=self.service.call('/api/v1/tqs/agent/structure-text',{'text':part,'instructions':instructions,'max_tokens':budget,'temperature':0.0},route['binding'])
+                    if r.get('stop_reason') in ('length','max_tokens','max_output_tokens'):continue
+                    if r.get('stop_reason') not in ('completed','stop','end_turn') or not isinstance(r.get('content'),str) or not r['content'].strip():raise CdbFailure('CDB-Aufgabenprüfung nicht vollständig bestätigt.')
+                    return r['content']
+                raise CdbFailure('CDB-Aufgabenprüfung am Ausgabelimit. Kleinere Textabschnitte einstellen.')
+            if route['summary']=='cdb':c['summary_model']='cdb/agent-structure-text'
+            return EvidenceSummary(folder,(folder/'transcript.txt').read_text(encoding='utf-8'),c,extract).generate(text,merge)
         if route['summary']=='local':return self.local.generate(text,c,merge)
         max_chars=max(256,int(c.get('chunk_chars',6000))//2-64)
         target_chars=min(2000,max_chars)

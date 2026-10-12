@@ -1,0 +1,73 @@
+/* Shared touch rhythm. Colors continue to come from the selected theme. */
+:root{--space:8px;--text-body:16px;--text-label:14px;--text-small:12px;--text-heading:24px;--touch-height:56px}
+.rail-button{font-size:12px;line-height:1.35}
+.recorder-ready{padding:32px 40px}
+.recorder-ready>img{width:56px;height:56px;filter:var(--active-filter);opacity:1;margin-bottom:24px}
+.recorder-ready h1{font-size:28px;line-height:1.25;letter-spacing:-.5px;margin:0 0 16px}
+.recorder-ready p{font-size:18px;line-height:1.5;margin:0 0 16px;max-width:680px}
+.capture h1,.capture h2{font-size:24px;line-height:1.25;letter-spacing:-.4px}
+.capture .mic{font-size:14px;min-height:56px}
+.content{container-type:inline-size;padding:16px 24px 20px}
+.library-navigation{gap:24px;margin-bottom:16px;padding-bottom:12px}
+.library-back-icon{width:24px;height:24px;transform:rotate(180deg);filter:var(--active-filter)}
+.meeting-header h1,.reading-content .meeting-header h1{font-size:28px;line-height:1.2;letter-spacing:-.5px}
+.meeting-header p{font-size:14px;line-height:1.5;margin-top:4px}
+.tab{min-height:56px;font-size:16px;padding-inline:16px;gap:12px}
+.tabs{gap:8px}
+/* Reading actions and page controls share one row, preserving room for text. */
+.editor-wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:minmax(0,1fr) auto auto;border-radius:12px}
+.editor-wrap>#editor{grid-column:1/-1;grid-row:1;min-height:40px;height:100%;padding:16px;font-size:17px;line-height:1.55}
+.reading-content #editor{font-size:17px;line-height:1.55}
+.editor-wrap>#editor-tools{grid-column:1;grid-row:2;min-width:0;flex-wrap:nowrap;gap:12px;padding:8px 12px;border-top:1px solid var(--line);background:var(--panel)}
+#editor-tools>.touch-select{min-width:160px;margin:0!important;font-size:15px;padding:12px 16px!important}
+#editor-tools>button:not(.touch-select){min-height:56px;font-size:15px;padding:0 16px;white-space:nowrap;border-radius:10px}
+.editor-wrap>.touch-pager{grid-column:2;grid-row:2;gap:8px;padding:8px 12px;border-left:1px solid var(--line)}
+.editor-wrap>.touch-pager button{min-width:96px;font-size:15px}
+.editor-wrap>.touch-pager span{font-size:14px;margin-right:4px;min-width:32px}
+.editor-wrap>.save-state{grid-column:1/-1;grid-row:3;min-height:32px;font-size:12px;line-height:1.35;padding:8px 16px;background:var(--panel)}
+.editor-wrap:has(#editor-tools[hidden])>.touch-pager{grid-column:1/-1}
+.editor-wrap:has(.touch-pager[hidden])>#editor-tools{grid-column:1/-1}
+#settings.workspace-view[open]{grid-template-columns:184px minmax(0,1fr);grid-template-rows:80px minmax(0,1fr) auto}
+#settings.workspace-view>.settings-tabs{gap:8px;padding:8px}
+#settings.workspace-view>.settings-tabs button{min-height:56px;font-size:15px;line-height:1.25;padding:12px;margin:0;border-radius:10px}
+#settings.workspace-view .settings-content{padding:24px}
+#settings .settings-content>h3{font-size:22px;line-height:1.3;letter-spacing:-.3px;margin:0 0 20px}
+#settings .settings-content p{font-size:16px;line-height:1.5;margin:12px 0;max-width:960px}
+#settings .settings-content button{min-height:56px;font-size:15px}
+#settings.workspace-view .theme-manage{gap:12px;margin-top:16px}
+#settings .theme-option strong{font-size:15px;line-height:1.35}
+#settings .settings-content label{font-size:14px;font-weight:550;line-height:1.4;margin:16px 0}
+#settings .touch-select{font-size:16px;padding:12px 16px!important;margin:8px 0 0!important}
+#azure-summary-info{margin-top:24px;max-width:900px}
+#settings #azure-summary-info h3{font-size:18px;line-height:1.35;margin:0 0 12px}
+#azure-summary-status{border-left:3px solid var(--accent);padding:8px 12px;background:var(--panel);border-radius:0 8px 8px 0}
+#settings .dialog-actions{gap:12px;padding:12px 24px}
+#settings .dialog-actions button{min-height:56px;font-size:15px;margin:0;padding:0 16px}
+#settings .model-info{padding:12px 16px;margin:16px 0}
+#settings .model-info p{font-size:14px;line-height:1.45;margin:6px 0}
+.dialog-heading{gap:16px;padding:16px 24px}
+#settings.workspace-view .dialog-heading h2,#library.workspace-view .dialog-heading h2{font-size:24px;line-height:1.25;letter-spacing:-.4px}
+.dialog-body p{font-size:16px;line-height:1.5}
+.dialog-actions{gap:12px}
+.dialog-actions button{min-height:56px;font-size:15px}
+#library .library-item{padding:8px 0}
+#library .library-item button{min-height:72px;padding:16px;font-size:17px;gap:24px;margin:0}
+#library .library-item small{font-size:14px}
+#settings.workspace-view.with-keyboard{grid-template-columns:minmax(0,1fr)}
+@container(max-width:760px){
+ .editor-wrap{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto auto auto}
+ .editor-wrap>#editor-tools{grid-column:1;grid-row:2;gap:8px}
+ .editor-wrap>.touch-pager{grid-column:1;grid-row:3;border-left:0}
+ .editor-wrap>.save-state{grid-row:4}
+ #editor-tools>button:not(.touch-select){font-size:14px;padding:0 12px}
+}
+@media(max-height:650px){
+ #settings.workspace-view[open]{grid-template-rows:64px minmax(0,1fr) auto}
+ #settings.workspace-view>.settings-tabs{gap:4px;padding:6px}
+ #settings.workspace-view>.settings-tabs button{min-height:48px;padding:8px}
+ #settings.workspace-view .settings-content{padding:16px 20px}
+ #settings .settings-content>h3{margin-bottom:12px;font-size:21px}
+ #azure-summary-info{margin-top:16px}
+ #settings .settings-content p{margin:8px 0;font-size:15px;line-height:1.4}
+ #settings .dialog-actions{padding:8px 20px}
+}

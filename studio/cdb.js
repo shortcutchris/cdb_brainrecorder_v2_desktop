@@ -30,6 +30,9 @@ function renderCdb(){
  if(binding!==areaBinding){resetAreas(binding);if(binding)queueMicrotask(()=>{if(areaBinding===binding)void loadCdbAreas()})}
  cdbArea=areaLoaded?cdbAreas.find(a=>a.id===c.destination?.id)||null:c.destination||null;
  for(const [id,key] of [['cdb-server','server'],['cdb-transcription','transcription'],['cdb-summary','summary']]){const el=$(id);if(el.value!==c.config[key])el.value=c.config[key];el.disabled=!allowed('configure')}
+ const cloudAsr=c.config.transcription==='cdb';
+ $('cdb-asr-info').hidden=!cloudAsr;$('local-asr-settings').hidden=cloudAsr;$('local-asr-actions').hidden=cloudAsr;
+ $('cdb-asr-status').textContent=c.identity?'Firmenkonto verbunden · CDB-Transkription ist für neue Aufnahmen aktiv.':'Bitte unter Verbindung mit Microsoft anmelden.';
  const azure=c.config.summary==='cdb';
  $('azure-summary-info').hidden=!azure;$('local-summary-settings').hidden=azure;$('local-summary-actions').hidden=azure;
  $('azure-summary-status').textContent=c.identity?'Firmenkonto verbunden · Azure OpenAI ist für neue Zusammenfassungen aktiv.':'Bitte unter Verbindung mit Microsoft anmelden.';
@@ -81,10 +84,11 @@ $('cdb-send').onclick=run(async()=>{
  }finally{transferSending=false;renderCdb()}
 });
 function drawPageNumbers(nav,count,current,choose){nav.replaceChildren();if(count<2)return;const indices=[...new Set([0,current-1,current,current+1,count-1])].filter(i=>i>=0&&i<count).sort((a,b)=>a-b);let last=-1;for(const i of indices){if(i>last+1){const gap=document.createElement('span');gap.textContent='…';nav.append(gap)}const b=document.createElement('button');b.textContent=String(i+1);b.setAttribute('aria-label','Seite '+(i+1));b.setAttribute('aria-current',i===current?'page':'false');b.onclick=()=>choose(i);nav.append(b);last=i}}
+function readableCdbProgress(text){const match=/^CDB:\s*([^·]+)(.*)$/.exec(text||'');if(!match)return text;const labels={queued:'CDB-Auftrag wartet',pending:'CDB-Auftrag wartet',processing:'CDB verarbeitet',transcribing:'CDB transkribiert',uploading:'Audio wird übertragen',completed:'CDB-Verarbeitung abgeschlossen'};return (labels[match[1].trim()]||'CDB verarbeitet')+(match[2]?' '+match[2].trim():'')}
 // Augment existing rendering without introducing a second polling loop or store.
-const originalRenderState=renderState;renderState=function(){originalRenderState();renderCdb();if((state.cdb?.progress||state.progress)&&state.jobs.some(j=>['transcribing','summarizing'].includes(j.state)))$('phase').textContent=state.cdb.progress||state.progress};
+const originalRenderState=renderState;renderState=function(){originalRenderState();renderCdb();if((state.cdb?.progress||state.progress)&&state.jobs.some(j=>['transcribing','summarizing'].includes(j.state)))$('phase').textContent=readableCdbProgress(state.cdb.progress||state.progress)};
 
 // Theme collections are discrete pages as well; never silently clip custom themes.
 const themeList=$('theme-options'),themePages=document.createElement('nav');themePages.className='direct-pages';themePages.setAttribute('aria-label','Themeseiten');themeList.after(themePages);let themePage=0;
-function drawThemePages(){const entries=[...themeList.children],size=6,count=Math.ceil(entries.length/size);themePage=Math.min(themePage,Math.max(0,count-1));entries.forEach((el,i)=>el.hidden=Math.floor(i/size)!==themePage);drawPageNumbers(themePages,count,themePage,i=>{themePage=i;drawThemePages()})}
+function drawThemePages(){const entries=[...themeList.children],size=4,count=Math.ceil(entries.length/size);themePage=Math.min(themePage,Math.max(0,count-1));entries.forEach((el,i)=>el.hidden=Math.floor(i/size)!==themePage);drawPageNumbers(themePages,count,themePage,i=>{themePage=i;drawThemePages()})}
 new MutationObserver(drawThemePages).observe(themeList,{childList:true});drawThemePages();

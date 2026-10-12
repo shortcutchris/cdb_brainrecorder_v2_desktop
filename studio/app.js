@@ -81,7 +81,7 @@ function renderRecent(){
 function drawWave(peaks){const canvas=$('waveform'),context=canvas.getContext('2d');context.clearRect(0,0,canvas.width,canvas.height);context.strokeStyle=getComputedStyle(document.documentElement).getPropertyValue(state?.recording.id?'--accent':'--wave').trim();context.lineWidth=3;context.lineCap='round';for(let i=0;i<peaks.length;i++){const h=Math.max(1,Math.min(30,peaks[i]*85));const x=5+i*(canvas.width-10)/peaks.length;context.beginPath();context.moveTo(x,36-h);context.lineTo(x,36+h);context.stroke()}}
 let selectedPeaks=[0];
 function renderState(){
- const active=Boolean(state.recording.id);for(const id of ['library-open','settings-open','mic-settings','more-open']){$(id).disabled=active;$(id).title=active?'Aufnahme läuft · zuerst stoppen':''}document.querySelectorAll('[data-field]').forEach(b=>b.disabled=active&&b.dataset.field!=='notes');$('recording-lock').hidden=!active;for(const id of ['seek','volume'])$(id).disabled=active;$('record').classList.toggle('recording',active);$('record').setAttribute('aria-label',active?'Aufnahme stoppen':'Aufnahme starten');$('record-icon').src='/assets/'+(active?'stop':'circle')+'.svg';$('record-label').textContent=recordingAction?(recordingIntent==='stop'?'Aufnahme wird beendet …':'Aufnahme startet …'):active?'Aufnahme stoppen':'Aufnahme starten';$('duration').textContent=duration(state.recording.seconds);$('record').disabled=recordingAction||!online||(!active&&state.config.setup_complete&&!allowed('record'));$('record').title=active?'':state.capabilities?.record.reason||'';for(const b of document.querySelectorAll('.dialog-stop')){b.hidden=!active;b.disabled=recordingAction||!online;b.textContent=recordingAction&&recordingIntent==='stop'?'Wird beendet …':'Aufnahme stoppen'}
+ const active=Boolean(state.recording.id);for(const id of ['library-open','settings-open','queue-toggle','mic-settings','more-open']){$(id).disabled=active;$(id).title=active?'Aufnahme läuft · zuerst stoppen':''}document.querySelectorAll('[data-field]').forEach(b=>b.disabled=active&&b.dataset.field!=='notes');$('recording-lock').hidden=!active;for(const id of ['seek','volume'])$(id).disabled=active;$('record').classList.toggle('recording',active);$('record').setAttribute('aria-label',active?'Aufnahme stoppen':'Aufnahme starten');$('record-icon').src='/assets/'+(active?'stop':'circle')+'.svg';$('record-label').textContent=recordingAction?(recordingIntent==='stop'?'Aufnahme wird beendet …':'Aufnahme startet …'):active?'Aufnahme stoppen':'Aufnahme starten';$('duration').textContent=duration(state.recording.seconds);$('record').disabled=recordingAction||!online||(!active&&state.config.setup_complete&&!allowed('record'));$('record').title=active?'':state.capabilities?.record.reason||'';for(const b of document.querySelectorAll('.dialog-stop')){b.hidden=!active;b.disabled=recordingAction||!online;b.textContent=recordingAction&&recordingIntent==='stop'?'Wird beendet …':'Aufnahme stoppen'}
  const destination=state.cdb?.destination;$('ready-area').textContent=destination?'Standardbereich: '+(destination.label||destination.name)+'. Vor der Übertragung kannst du das Ziel ändern.':'Noch kein Standardbereich gewählt. Du kannst ihn unter Einstellungen → Knowledge Areas festlegen.';
  const c=state.config;$('mic-name').textContent=c.setup_complete?'Mikrofon · eingerichtet':'Mikrofon einrichten';
  $('capture-hint').textContent=state.preview?'Lokale Testbibliothek · künstliche Audioquelle. Keine Verbindung zu persönlichen Pi-Meetings.':active?'Aufnahme läuft. Tippe auf den Button, um sie sicher zu beenden.':c.setup_complete?'Bereit für eine neue Aufnahme. Tippe auf den Button, um zu starten.':'Kein getestetes Mikrofon. Bitte Audio in den Einstellungen einrichten.';
@@ -103,9 +103,8 @@ async function poll(){
  catch(error){online=false;queueSignature='';if(state){renderState();renderSelected()}$('phase').textContent='Verbindung unterbrochen · Entwürfe bleiben lokal';$('record').disabled=true;for(const id of ['delete','retranscribe','process','finish-setup','probe-start','asr-install','llm-install','model-test','binary-save'])$(id).disabled=true;for(const b of document.querySelectorAll('.dialog-stop'))b.disabled=true;if(!state)notice(error.message)}finally{pollRunning=false}
 }
 $('record').onclick=run(async()=>{if(recordingAction||performance.now()<nextRecordAction)return;recordingAction=true;recordingIntent=state?.recording.id?'stop':'start';if(state)renderState();nextRecordAction=performance.now()+700;$('record').disabled=true;try{if(!state)throw new Error('Noch keine Verbindung.');if(!state.recording.id&&!state.config.setup_complete){await openSettings();throw new Error('Bitte zuerst Mikrofon testen und Einrichtung abschließen.')}if(!state.recording.id)audio.pause();const starting=!state.recording.id;if(starting)await flush();const result=await api('/api/record/'+(starting?'start':'stop'),{});if(starting)pendingRecordingId=result.id;await poll();if(!starting){const row=state.sessions.find(r=>r.local_job_id===observedRecordingId);if(row){field='notes';await selectMeeting(row.id,null)}}}finally{recordingAction=false;recordingIntent=null;if(state)renderState()}});
-$('queue-toggle').onclick=()=>{const opened=$('queue-panel').hidden;$('queue-panel').hidden=!opened;document.body.classList.toggle('queue-overlay-open',opened);$('queue-toggle').setAttribute('aria-expanded',String(opened));$('queue-arrow').src='/assets/'+(opened?'caret-down':'caret-up')+'.svg'};
-$('queue-close').onclick=()=>{if(!$('queue-panel').hidden)$('queue-toggle').click()};
-$('errors').onclick=()=>{if($('queue-panel').hidden)$('queue-toggle').click()};
+$('queue-toggle').onclick=run(openQueue);
+$('errors').onclick=run(openQueue);
 $('play').onclick=run(async()=>{if(audio.paused){if(state?.recording.id){$('feedback').showModal();return}await audio.play();}else audio.pause()});
 $('feedback-play').onclick=run(async()=>{$('feedback').close();await audio.play()});
 audio.onplay=()=>{$('play-icon').src='/assets/pause.svg';$('play').setAttribute('aria-label','Wiedergabe pausieren')};audio.onpause=()=>{$('play-icon').src='/assets/play.svg';$('play').setAttribute('aria-label','Wiedergabe starten')};audio.onerror=()=>{if(audio.src)notice('Audio konnte nicht wiedergegeben werden. Datei und Audioausgabe prüfen.')};
@@ -114,15 +113,16 @@ audio.ontimeupdate=()=>{$('play-time').textContent=duration(audio.currentTime);i
 function workspaceView(id=null){
  if(id&&state?.recording.id)throw new Error('Aufnahme läuft. Bitte zuerst stoppen.');
  document.body.dataset.workspace=id||'recorder';
- for(const name of ['library','settings']){const view=$(name);if(view.open&&name!==id)view.close()}
+ for(const name of ['library','settings','queue-region']){const view=$(name);if(view.open&&name!==id)view.close()}
  document.querySelector('.content').hidden=Boolean(id&&id!=='detail')||selected===null;
  $('recorder-ready').hidden=Boolean(id)||selected!==null;
- for(const [button,name] of [['home',null],['library-open','detail'],['settings-open','settings']]){
+ for(const [button,name] of [['home',null],['library-open','detail'],['settings-open','settings'],['queue-toggle','queue-region']]){
   const active=id===name||(button==='library-open'&&id==='library');
   $(button).classList.toggle('active',active);$(button).setAttribute('aria-current',active?'page':'false');
  }
  if(id&&id!=='detail'&&!$(id).open)$(id).show();
 }
+async function openQueue(){if(state?.recording.id)throw new Error('Aufnahme läuft. Bitte zuerst stoppen.');await leaveDraft();workspaceView('queue-region');$('queue-panel').hidden=false;}
 async function showRecorder(){
  await leaveDraft();audio.pause();
  const current=state?.recording.id&&state.sessions.find(row=>row.local_job_id===state.recording.id);
@@ -161,7 +161,7 @@ async function loadSetup(){
   $('binary').value=c.whisper_binary;$('checks').replaceChildren();for(const check of setup.checks){const p=document.createElement('p');p.textContent=check.label+' · '+(check.ok?'bereit':'offen');$('checks').append(p)}setupReady=setup.ready;bindRule('finish-setup','finish_setup',!setupReady);renderModelInfo();renderSettingsStatus();
  }finally{setupBusy=false}
 }
-async function openSettings(){if(state?.recording.id)throw new Error('Aufnahme läuft. Bitte zuerst stoppen.');await leaveDraft();workspaceView('settings');await loadPrompts();await loadSetup()}
+async function openSettings(){if(state?.recording.id)throw new Error('Aufnahme läuft. Bitte zuerst stoppen.');await leaveDraft();if(typeof showSettingsOverview==='function')showSettingsOverview();workspaceView('settings');await loadPrompts();await loadSetup()}
 $('settings-open').onclick=run(openSettings);$('mic-settings').onclick=run(openSettings);$('refresh-devices').onclick=run(loadSetup);
 document.querySelectorAll('[data-settings]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-settings]').forEach(x=>(x.classList.toggle('active',x===b),x.setAttribute('aria-pressed',String(x===b))));document.querySelectorAll('.settings-page').forEach(p=>{p.hidden=p.id!==b.dataset.settings;if(!p.hidden)p.querySelector('.settings-content').scrollTop=0})});
 async function configure(changes){await api('/api/settings',changes);await poll();await loadSetup()}
@@ -187,5 +187,6 @@ let previousDownload='',previousProbe='',previousModelTest='';function renderSet
  $('model-test').disabled=Boolean(catalog?.test_block_reason)||!allowed('model_test')||!chosenModel('whisper')?.installed||!chosenModel('ollama')?.installed||(chosenModel('ollama')?.candidate&&!chosenModel('ollama')?.runtime_compatible)||!catalog?.whisper_runtime||!catalog?.ollama||Boolean(state.model_test&&busyStates.includes(state.model_test.state));if(catalog?.test_block_reason)$('model-test-state').textContent=catalog.test_block_reason;else if(state.model_test){const t=state.model_test;$('model-test-state').textContent=(names[t.state]||t.state)+(t.error?' · '+t.error:'')+(t.summary?'\n'+t.summary:'')}
  if(state.model_test?.state==='completed'&&previousModelTest!=='completed'&&$('settings').open)loadSetup().catch(e=>notice(e.message));previousModelTest=state.model_test?.state||'';
  if(catalog)renderModelInfo();
+ if(typeof renderSettingsOverview==='function')renderSettingsOverview();
 }
 poll().then(()=>loadPrompts()).catch(e=>notice(e.message));setInterval(poll,1000);setInterval(()=>{if(online&&Date.now()-lastStateAt>5000){online=false;renderState();renderSelected();$('phase').textContent='Verbindung wird geprüft · Aktionen warten';}},1000);

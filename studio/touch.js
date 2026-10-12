@@ -10,10 +10,10 @@
   // Clicking navigation must preserve the text cursor and on-screen keyboard.
   for(const b of [up,down])b.onpointerdown=e=>e.preventDefault();
   up.onclick=()=>{el.scrollTop=Math.max(0,el.scrollTop-Math.max(48,el.clientHeight*.8));schedule()};down.onclick=()=>{el.scrollTop+=Math.max(48,el.clientHeight*.8);schedule()};
-  bar.append(info,up,down);el.after(bar);pagers.set(el,{bar,info,up,down});el.addEventListener('scroll',schedule,{passive:true});el.addEventListener('input',schedule);new ResizeObserver(schedule).observe(el);
+  bar.append(info,up,down);el.after(bar);pagers.set(el,{bar,info,up,down,name});el.addEventListener('scroll',schedule,{passive:true});el.addEventListener('input',schedule);new ResizeObserver(schedule).observe(el);
  }
  function refresh(){
-  for(const [el,p] of pagers){const visible=isVisible(el);const max=Math.max(0,el.scrollHeight-el.clientHeight);const show=visible&&max>2; // Keep the controls while they themselves consume space.
+  for(const [el,p] of pagers){const label=el.getAttribute('aria-label')||p.name;if(p.bar.getAttribute('aria-label')!==label+' blättern'){p.bar.setAttribute('aria-label',label+' blättern');p.up.setAttribute('aria-label',label+' nach oben');p.down.setAttribute('aria-label',label+' nach unten')}const visible=isVisible(el);const max=Math.max(0,el.scrollHeight-el.clientHeight);const show=visible&&max>2; // Keep the controls while they themselves consume space.
    if(p.bar.hidden===show)p.bar.hidden=!show;
    const up=el.scrollTop<=1,down=el.scrollTop>=max-2;if(p.up.disabled!==up)p.up.disabled=up;if(p.down.disabled!==down)p.down.disabled=down;
    const text=max>0?Math.round(Math.min(100,el.scrollTop/max*100))+' %':'';if(p.info.textContent!==text)p.info.textContent=text;

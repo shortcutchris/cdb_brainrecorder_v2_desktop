@@ -1,0 +1,1763 @@
+{
+  "version": "grounded-meeting-1",
+  "rejected": 19,
+  "items": {
+    "tasks": [
+      {
+        "quote": "Anna erstellt die Prüfliste bis Mittwoch.",
+        "text": "erstellt die Prüfliste",
+        "position": 57,
+        "owner": "Anna",
+        "unclear_owner": false,
+        "due": "bis Mittwoch",
+        "project": "1",
+        "unclear_project": false
+      },
+      {
+        "quote": "Anna erstellt die Prüfliste bis Mittwoch.",
+        "text": "erstellt die Prüfliste",
+        "position": 5051,
+        "owner": "Anna",
+        "unclear_owner": false,
+        "due": "bis Mittwoch",
+        "project": "3",
+        "unclear_project": false
+      },
+      {
+        "quote": "erstellt die Prüfliste bis Mittwoch.",
+        "text": "erstellt die Prüfliste",
+        "position": 57,
+        "owner": null,
+        "unclear_owner": true,
+        "due": "bis Mittwoch",
+        "project": "1",
+        "unclear_project": false
+      },
+      {
+        "quote": "erstellt die Prüfliste bis Mittwoch.",
+        "text": "erstellt die Prüfliste",
+        "position": 2511,
+        "owner": null,
+        "unclear_owner": true,
+        "due": "bis Mittwoch",
+        "project": "2",
+        "unclear_project": false
+      },
+      {
+        "quote": "erstellt die Prüfliste bis Mittwoch.",
+        "text": "erstellt die Prüfliste",
+        "position": 5051,
+        "owner": null,
+        "unclear_owner": true,
+        "due": "bis Mittwoch",
+        "project": "3",
+        "unclear_project": false
+      },
+      {
+        "quote": "Erstellt die Prüfliste bis Mittwoch.",
+        "text": "Erstellt die Prüfliste",
+        "position": 7560,
+        "owner": null,
+        "unclear_owner": true,
+        "due": "bis Mittwoch",
+        "project": "4",
+        "unclear_project": false
+      },
+      {
+        "quote": "Erstellt die Prüfliste bis Mittwoch.",
+        "text": "Erstellt die Prüfliste",
+        "position": 10057,
+        "owner": null,
+        "unclear_owner": true,
+        "due": "bis Mittwoch",
+        "project": "5",
+        "unclear_project": false
+      },
+      {
+        "quote": "Erstellt die Prüfliste bis Mittwoch.",
+        "text": "Erstellt die Prüfliste",
+        "position": 12580,
+        "owner": null,
+        "unclear_owner": true,
+        "due": "bis Mittwoch",
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Erstellt die Prüfliste bis Mittwoch.",
+        "text": "Erstellt die Prüfliste",
+        "position": 15091,
+        "owner": null,
+        "unclear_owner": true,
+        "due": "bis Mittwoch",
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Erstellt die Prüfliste bis Mittwoch.",
+        "text": "Erstellt die Prüfliste",
+        "position": 17602,
+        "owner": null,
+        "unclear_owner": true,
+        "due": "bis Mittwoch",
+        "project": "8",
+        "unclear_project": false
+      },
+      {
+        "quote": "A erstellt die Prüfliste bis Mittwoch.",
+        "text": "erstellt die Prüfliste",
+        "position": 20138,
+        "owner": "A",
+        "unclear_owner": true,
+        "due": "bis Mittwoch",
+        "project": "9",
+        "unclear_project": false
+      },
+      {
+        "quote": "A erstellt die Prüfliste bis Mittwoch.",
+        "text": "erstellt die Prüfliste",
+        "position": 22605,
+        "owner": "A",
+        "unclear_owner": true,
+        "due": "bis Mittwoch",
+        "project": null,
+        "unclear_project": true
+      },
+      {
+        "quote": "AA erstellt die Prüfliste bis Mittwoch.",
+        "text": "erstellt die Prüfliste",
+        "position": 25115,
+        "owner": "AA",
+        "unclear_owner": true,
+        "due": "bis Mittwoch",
+        "project": "11",
+        "unclear_project": false
+      },
+      {
+        "quote": "Erstellt die Prüfliste bis Mittwoch.",
+        "text": "Erstellt die Prüfliste",
+        "position": 27654,
+        "owner": null,
+        "unclear_owner": true,
+        "due": "bis Mittwoch",
+        "project": "12",
+        "unclear_project": false
+      },
+      {
+        "quote": "prüft das Mikrofon am Donnerstag.",
+        "text": "prüft das Mikrofon",
+        "position": 27691,
+        "owner": null,
+        "unclear_owner": true,
+        "due": "am Donnerstag",
+        "project": "12",
+        "unclear_project": false
+      },
+      {
+        "quote": "Erstellt die Prüfliste bis Mittwoch.",
+        "text": "Erstellt die Prüfliste",
+        "position": 30164,
+        "owner": null,
+        "unclear_owner": true,
+        "due": "bis Mittwoch",
+        "project": "13",
+        "unclear_project": false
+      },
+      {
+        "quote": "Erstellt die Prüfliste bis Mittwoch.",
+        "text": "Erstellt die Prüfliste",
+        "position": 35181,
+        "owner": null,
+        "unclear_owner": true,
+        "due": "bis Mittwoch",
+        "project": "15",
+        "unclear_project": false
+      },
+      {
+        "quote": "A erstellt die Prüfliste bis Mittwoch.",
+        "text": "erstellt die Prüfliste",
+        "position": 32677,
+        "owner": "A",
+        "unclear_owner": true,
+        "due": "bis Mittwoch",
+        "project": "14",
+        "unclear_project": false
+      },
+      {
+        "quote": "Erstellt die Prüfliste bis Mittwoch.",
+        "text": "Erstellt die Prüfliste",
+        "position": 37666,
+        "owner": null,
+        "unclear_owner": true,
+        "due": "bis Mittwoch",
+        "project": "16",
+        "unclear_project": false
+      },
+      {
+        "quote": "Erstellt die Prüfliste bis Mittwoch.",
+        "text": "Erstellt die Prüfliste",
+        "position": 40183,
+        "owner": null,
+        "unclear_owner": true,
+        "due": "bis Mittwoch",
+        "project": "17",
+        "unclear_project": false
+      },
+      {
+        "quote": "Erstellt die Prüfliste bis Mittwoch.",
+        "text": "Erstellt die Prüfliste",
+        "position": 42724,
+        "owner": null,
+        "unclear_owner": true,
+        "due": "bis Mittwoch",
+        "project": "18",
+        "unclear_project": false
+      },
+      {
+        "quote": "Erstellt die Prüfliste bis Mittwoch.",
+        "text": "Erstellt die Prüfliste",
+        "position": 47782,
+        "owner": null,
+        "unclear_owner": true,
+        "due": "bis Mittwoch",
+        "project": "20",
+        "unclear_project": false
+      },
+      {
+        "quote": "An erstellt die Prüfliste bis Mittwoch.",
+        "text": "erstellt die Prüfliste",
+        "position": 45262,
+        "owner": "An",
+        "unclear_owner": true,
+        "due": "bis Mittwoch",
+        "project": "19",
+        "unclear_project": false
+      },
+      {
+        "quote": "Erstellt die Prüfliste bis Mittwoch.",
+        "text": "Erstellt die Prüfliste",
+        "position": 50303,
+        "owner": null,
+        "unclear_owner": true,
+        "due": "bis Mittwoch",
+        "project": "21",
+        "unclear_project": false
+      }
+    ],
+    "events": [
+      {
+        "quote": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "text": "am Freitag um 11 Uhr",
+        "position": 838,
+        "project": "1",
+        "unclear_project": false
+      },
+      {
+        "quote": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "text": "am Freitag um 11 Uhr",
+        "position": 3325,
+        "project": "2",
+        "unclear_project": false
+      },
+      {
+        "quote": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "text": "am Freitag um 11 Uhr",
+        "position": 5867,
+        "project": "3",
+        "unclear_project": false
+      },
+      {
+        "quote": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "text": "am Freitag um 11 Uhr",
+        "position": 8377,
+        "project": "4",
+        "unclear_project": false
+      },
+      {
+        "quote": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "text": "am Freitag um 11 Uhr",
+        "position": 10874,
+        "project": "5",
+        "unclear_project": false
+      },
+      {
+        "quote": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "text": "am Freitag um 11 Uhr",
+        "position": 13370,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "text": "am Freitag um 11 Uhr",
+        "position": 15894,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "text": "am Freitag um 11 Uhr",
+        "position": 18419,
+        "project": "8",
+        "unclear_project": false
+      },
+      {
+        "quote": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "text": "am Freitag um 11 Uhr",
+        "position": 20939,
+        "project": "9",
+        "unclear_project": false
+      },
+      {
+        "quote": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "text": "am Freitag um 11 Uhr",
+        "position": 23417,
+        "project": "10",
+        "unclear_project": false
+      },
+      {
+        "quote": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "text": "am Freitag um 11 Uhr",
+        "position": 25920,
+        "project": "11",
+        "unclear_project": false
+      },
+      {
+        "quote": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "text": "am Freitag um 11 Uhr",
+        "position": 28456,
+        "project": "12",
+        "unclear_project": false
+      },
+      {
+        "quote": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "text": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "position": 30959,
+        "project": "13",
+        "unclear_project": false
+      },
+      {
+        "quote": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "text": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "position": 33463,
+        "project": "14",
+        "unclear_project": false
+      },
+      {
+        "quote": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "text": "am Freitag um 11 Uhr",
+        "position": 35983,
+        "project": "15",
+        "unclear_project": false
+      },
+      {
+        "quote": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "text": "am Freitag um 11 Uhr",
+        "position": 38485,
+        "project": "16",
+        "unclear_project": false
+      },
+      {
+        "quote": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "text": "am Freitag um 11 Uhr",
+        "position": 40987,
+        "project": "17",
+        "unclear_project": false
+      },
+      {
+        "quote": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "text": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "position": 43525,
+        "project": "18",
+        "unclear_project": false
+      },
+      {
+        "quote": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "text": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "position": 46045,
+        "project": "19",
+        "unclear_project": false
+      },
+      {
+        "quote": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "text": "am Freitag um 11 Uhr",
+        "position": 48604,
+        "project": "20",
+        "unclear_project": false
+      },
+      {
+        "quote": "Der nächste Test ist am Freitag um 11 Uhr.",
+        "text": "am Freitag um 11 Uhr",
+        "position": 51126,
+        "project": "21",
+        "unclear_project": false
+      }
+    ],
+    "decisions": [
+      {
+        "quote": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "text": "gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "position": 2112,
+        "project": "1",
+        "unclear_project": false
+      },
+      {
+        "quote": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "text": "gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "position": 4634,
+        "project": "2",
+        "unclear_project": false
+      },
+      {
+        "quote": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "text": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "position": 7127,
+        "project": "3",
+        "unclear_project": false
+      },
+      {
+        "quote": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "text": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "position": 9623,
+        "project": "4",
+        "unclear_project": false
+      },
+      {
+        "quote": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von A und der Mikrofontest von wen.",
+        "text": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von A und der Mikrofontest von wen.",
+        "position": 12148,
+        "project": "5",
+        "unclear_project": false
+      },
+      {
+        "quote": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "text": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "position": 14630,
+        "project": null,
+        "unclear_project": true
+      },
+      {
+        "quote": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "text": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "position": 17155,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "text": "gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen",
+        "position": 19724,
+        "project": "8",
+        "unclear_project": false
+      },
+      {
+        "quote": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "text": "gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen",
+        "position": 22211,
+        "project": null,
+        "unclear_project": true
+      },
+      {
+        "quote": "Zum Abschluss dieses Testprojekts Es gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "text": "Es gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "position": 24697,
+        "project": "10",
+        "unclear_project": false
+      },
+      {
+        "quote": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von Anna und der Mikrofontest von wen.",
+        "text": "gelten weiterhin nur die Prüfliste von Anna und der Mikrofontest von wen.",
+        "position": 29746,
+        "project": "12",
+        "unclear_project": false
+      },
+      {
+        "quote": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "text": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "position": 32226,
+        "project": "13",
+        "unclear_project": false
+      },
+      {
+        "quote": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von Anna und der Mikrofontest von wen.",
+        "text": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von Anna und der Mikrofontest von wen.",
+        "position": 34732,
+        "project": "14",
+        "unclear_project": false
+      },
+      {
+        "quote": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von A und der Mikrofontest von wen.",
+        "text": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von A und der Mikrofontest von wen.",
+        "position": 37232,
+        "project": "15",
+        "unclear_project": false
+      },
+      {
+        "quote": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "text": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "position": 39749,
+        "project": "16",
+        "unclear_project": false
+      },
+      {
+        "quote": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "text": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "position": 42275,
+        "project": "17",
+        "unclear_project": false
+      },
+      {
+        "quote": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "text": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "position": 47333,
+        "project": "19",
+        "unclear_project": false
+      },
+      {
+        "quote": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von A.A. und der Mikrofontest von wen.",
+        "text": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von A.A. und der Mikrofontest von wen.",
+        "position": 44810,
+        "project": "18",
+        "unclear_project": false
+      },
+      {
+        "quote": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "text": "Zum Abschluss dieses Testprojekts gelten weiterhin nur die Prüfliste von AA und der Mikrofontest von wen.",
+        "position": 49869,
+        "project": "20",
+        "unclear_project": false
+      }
+    ],
+    "open_points": [
+      {
+        "quote": "Wen prüft das Mikrofon am Donnerstag?",
+        "text": "Wen prüft das Mikrofon am Donnerstag?",
+        "position": 98,
+        "uncertain": true,
+        "project": "1",
+        "unclear_project": false
+      },
+      {
+        "quote": "Wen prüft das Mikrofon am Donnerstag?",
+        "text": "Wen prüft das Mikrofon am Donnerstag?",
+        "position": 5092,
+        "uncertain": true,
+        "project": "3",
+        "unclear_project": false
+      },
+      {
+        "quote": "Wen prüft das Mikrofon am Donnerstag.",
+        "text": "Wen prüft das Mikrofon am Donnerstag.",
+        "position": 2552,
+        "uncertain": true,
+        "project": "2",
+        "unclear_project": false
+      },
+      {
+        "quote": "Eine Bestellung ist noch nicht freigegeben.",
+        "text": "Eine Bestellung ist noch nicht freigegeben.",
+        "position": 529,
+        "project": "1",
+        "unclear_project": false
+      },
+      {
+        "quote": "Eine Bestellung ist noch nicht freigegeben.",
+        "text": "Eine Bestellung ist noch nicht freigegeben.",
+        "position": 2995,
+        "project": "2",
+        "unclear_project": false
+      },
+      {
+        "quote": "Eine Bestellung ist noch nicht freigegeben.",
+        "text": "Eine Bestellung ist noch nicht freigegeben.",
+        "position": 5534,
+        "project": "3",
+        "unclear_project": false
+      },
+      {
+        "quote": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher. Dies bleibt ein unverbindlicher Vorschlag.",
+        "text": "Dies bleibt ein unverbindlicher Vorschlag.",
+        "position": 1251,
+        "project": "1",
+        "unclear_project": false
+      },
+      {
+        "quote": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher. Dies bleibt ein unverbindlicher Vorschlag.",
+        "text": "Dies bleibt ein unverbindlicher Vorschlag.",
+        "position": 3752,
+        "project": "2",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 326,
+        "project": "1",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 717,
+        "project": "1",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 1087,
+        "project": "1",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 1520,
+        "project": "1",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 2402,
+        "project": "1",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 2779,
+        "project": "2",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 3183,
+        "project": "2",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 3574,
+        "project": "2",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 4021,
+        "project": "2",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 4477,
+        "project": "2",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 5319,
+        "project": "3",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 5723,
+        "project": "3",
+        "unclear_project": false
+      },
+      {
+        "quote": "Wen prüft das Mikrofon am Donnerstag?",
+        "text": "Wen prüft das Mikrofon am Donnerstag?",
+        "position": 7601,
+        "uncertain": true,
+        "project": "4",
+        "unclear_project": false
+      },
+      {
+        "quote": "Wen prüft das Mikrofon am Donnerstag?",
+        "text": "Wen prüft das Mikrofon am Donnerstag?",
+        "position": 10098,
+        "uncertain": true,
+        "project": "5",
+        "unclear_project": false
+      },
+      {
+        "quote": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "text": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "position": 6239,
+        "project": "3",
+        "unclear_project": false
+      },
+      {
+        "quote": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "text": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "position": 8748,
+        "project": "4",
+        "unclear_project": false
+      },
+      {
+        "quote": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "text": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "position": 11246,
+        "project": "5",
+        "unclear_project": false
+      },
+      {
+        "quote": "Wen prüft das Mikrofon am Donnerstag?",
+        "text": "Wen prüft das Mikrofon am Donnerstag?",
+        "position": 12621,
+        "uncertain": true,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Wen prüft das Mikrofon am Donnerstag?",
+        "text": "Wen prüft das Mikrofon am Donnerstag?",
+        "position": 15132,
+        "uncertain": true,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Wen prüft das Mikrofon am Donnerstag?",
+        "text": "Wen prüft das Mikrofon am Donnerstag?",
+        "position": 17643,
+        "uncertain": true,
+        "project": "8",
+        "unclear_project": false
+      },
+      {
+        "quote": "Eine Bestellung ist noch nicht freigegeben.",
+        "text": "Eine Bestellung ist noch nicht freigegeben.",
+        "position": 13051,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Eine Bestellung ist noch nicht freigegeben.",
+        "text": "Eine Bestellung ist noch nicht freigegeben.",
+        "position": 15576,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "text": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "position": 13741,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "text": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "position": 16265,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 12025,
+        "project": "5",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 12471,
+        "project": "5",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 12848,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 13240,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 13619,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 14065,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 14521,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 14969,
+        "project": null,
+        "unclear_project": true
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 15359,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 15764,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 16143,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 16589,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 17032,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 17479,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 17870,
+        "project": "8",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Oberfläche soll übersichtlich bleiben.",
+        "text": "Die Oberfläche soll übersichtlich bleiben.",
+        "position": 12327,
+        "project": "5",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Oberfläche soll übersichtlich bleiben.",
+        "text": "Die Oberfläche soll übersichtlich bleiben.",
+        "position": 12704,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Oberfläche soll übersichtlich bleiben.",
+        "text": "Die Oberfläche soll übersichtlich bleiben.",
+        "position": 13095,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Oberfläche soll übersichtlich bleiben.",
+        "text": "Die Oberfläche soll übersichtlich bleiben.",
+        "position": 13474,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Oberfläche soll übersichtlich bleiben.",
+        "text": "Die Oberfläche soll übersichtlich bleiben.",
+        "position": 13920,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Oberfläche soll übersichtlich bleiben.",
+        "text": "Die Oberfläche soll übersichtlich bleiben.",
+        "position": 14376,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Oberfläche soll übersichtlich bleiben.",
+        "text": "Die Oberfläche soll übersichtlich bleiben.",
+        "position": 15215,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Oberfläche soll übersichtlich bleiben.",
+        "text": "Die Oberfläche soll übersichtlich bleiben.",
+        "position": 15620,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Oberfläche soll übersichtlich bleiben.",
+        "text": "Die Oberfläche soll übersichtlich bleiben.",
+        "position": 15998,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Oberfläche soll übersichtlich bleiben.",
+        "text": "Die Oberfläche soll übersichtlich bleiben.",
+        "position": 16444,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Oberfläche soll übersichtlich bleiben.",
+        "text": "Die Oberfläche soll übersichtlich bleiben.",
+        "position": 16888,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Oberfläche soll übersichtlich bleiben.",
+        "text": "Die Oberfläche soll übersichtlich bleiben.",
+        "position": 17335,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Oberfläche soll übersichtlich bleiben.",
+        "text": "Die Oberfläche soll übersichtlich bleiben.",
+        "position": 17726,
+        "project": "8",
+        "unclear_project": false
+      },
+      {
+        "quote": "Aufgaben werden dauerhaft gespeichert.",
+        "text": "Aufgaben werden dauerhaft gespeichert.",
+        "position": 12370,
+        "project": "5",
+        "unclear_project": false
+      },
+      {
+        "quote": "Aufgaben werden dauerhaft gespeichert.",
+        "text": "Aufgaben werden dauerhaft gespeichert.",
+        "position": 12747,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Aufgaben werden dauerhaft gespeichert.",
+        "text": "Aufgaben werden dauerhaft gespeichert.",
+        "position": 14419,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Aufgaben werden dauerhaft gespeichert.",
+        "text": "Aufgaben werden dauerhaft gespeichert.",
+        "position": 14855,
+        "project": null,
+        "unclear_project": true
+      },
+      {
+        "quote": "Aufgaben werden dauerhaft gespeichert.",
+        "text": "Aufgaben werden dauerhaft gespeichert.",
+        "position": 15258,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Aufgaben werden dauerhaft gespeichert.",
+        "text": "Aufgaben werden dauerhaft gespeichert.",
+        "position": 15663,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Aufgaben werden dauerhaft gespeichert.",
+        "text": "Aufgaben werden dauerhaft gespeichert.",
+        "position": 16931,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Aufgaben werden dauerhaft gespeichert.",
+        "text": "Aufgaben werden dauerhaft gespeichert.",
+        "position": 17378,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Aufgaben werden dauerhaft gespeichert.",
+        "text": "Aufgaben werden dauerhaft gespeichert.",
+        "position": 17769,
+        "project": "8",
+        "unclear_project": false
+      },
+      {
+        "quote": "Aufnahmen werden dauerhaft gespeichert.",
+        "text": "Aufnahmen werden dauerhaft gespeichert.",
+        "position": 13138,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Aufnahmen werden dauerhaft gespeichert.",
+        "text": "Aufnahmen werden dauerhaft gespeichert.",
+        "position": 13517,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Aufnahmen werden dauerhaft gespeichert.",
+        "text": "Aufnahmen werden dauerhaft gespeichert.",
+        "position": 13963,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Aufnahmen werden dauerhaft gespeichert.",
+        "text": "Aufnahmen werden dauerhaft gespeichert.",
+        "position": 16041,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Aufnahmen werden dauerhaft gespeichert.",
+        "text": "Aufnahmen werden dauerhaft gespeichert.",
+        "position": 16487,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "text": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "position": 12409,
+        "project": "5",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "text": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "position": 12786,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "text": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "position": 13178,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "text": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "position": 13557,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "text": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "position": 14003,
+        "project": "6",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "text": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "position": 15297,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "text": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "position": 15702,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "text": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "position": 16081,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "text": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "position": 16527,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "text": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "position": 16970,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "text": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "position": 17417,
+        "project": "7",
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "text": "Die Verarbeitung läuft im Hintergrund in einer Warteschlange.",
+        "position": 17808,
+        "project": "8",
+        "unclear_project": false
+      },
+      {
+        "quote": "Wen prüft das Mikrofon am Donnerstag?",
+        "text": "Wen prüft das Mikrofon am Donnerstag?",
+        "position": 20179,
+        "uncertain": true,
+        "project": "9",
+        "unclear_project": false
+      },
+      {
+        "quote": "Wen prüft das Mikrofon am Donnerstag?",
+        "text": "Wen prüft das Mikrofon am Donnerstag?",
+        "position": 22646,
+        "uncertain": true,
+        "project": null,
+        "unclear_project": true
+      },
+      {
+        "quote": "Eine Bestellung ist noch nicht freigegeben.",
+        "text": "Eine Bestellung ist noch nicht freigegeben.",
+        "position": 18086,
+        "project": "8",
+        "unclear_project": false
+      },
+      {
+        "quote": "Eine Bestellung ist noch nicht freigegeben.",
+        "text": "Eine Bestellung ist noch nicht freigegeben.",
+        "position": 20622,
+        "project": "9",
+        "unclear_project": false
+      },
+      {
+        "quote": "Eine Bestellung ist noch nicht freigegeben.",
+        "text": "Eine Bestellung ist noch nicht freigegeben.",
+        "position": 23084,
+        "project": "10",
+        "unclear_project": false
+      },
+      {
+        "quote": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "text": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "position": 18791,
+        "project": "8",
+        "unclear_project": false
+      },
+      {
+        "quote": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "text": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "position": 23789,
+        "project": "10",
+        "unclear_project": false
+      },
+      {
+        "quote": "Vielleicht kaufen wir einen zu nützlichen Lautsprecher.",
+        "text": "Vielleicht kaufen wir einen zu nützlichen Lautsprecher.",
+        "position": 21297,
+        "project": "9",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 18275,
+        "project": "8",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 18668,
+        "project": "8",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 19115,
+        "project": "8",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 20014,
+        "project": "8",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 20406,
+        "project": "9",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 20811,
+        "project": "9",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 21188,
+        "project": "9",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 21622,
+        "project": "9",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 22077,
+        "project": "9",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 22502,
+        "project": null,
+        "unclear_project": true
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 22873,
+        "project": null,
+        "unclear_project": true
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 23273,
+        "project": "10",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 23666,
+        "project": "10",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge halten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge halten bleiben.",
+        "position": 19570,
+        "project": "8",
+        "unclear_project": false
+      },
+      {
+        "quote": "Wen prüft das Mikrofon am Donnerstag.",
+        "text": "Wen prüft das Mikrofon am Donnerstag.",
+        "position": 25156,
+        "uncertain": true,
+        "project": "11",
+        "unclear_project": false
+      },
+      {
+        "quote": "prüft das Mikrofon am Donnerstag.",
+        "text": "Wen prüft das Mikrofon am Donnerstag.",
+        "position": 25156,
+        "uncertain": true,
+        "project": "11",
+        "unclear_project": false
+      },
+      {
+        "quote": "Eine Bestellung ist noch nicht freigegeben.",
+        "text": "Eine Bestellung ist noch nicht freigegeben.",
+        "position": 25601,
+        "project": "11",
+        "unclear_project": false
+      },
+      {
+        "quote": "Eine Bestellung ist noch nicht freigegeben.",
+        "text": "Eine Bestellung ist noch nicht freigegeben.",
+        "position": 28123,
+        "project": "12",
+        "unclear_project": false
+      },
+      {
+        "quote": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "text": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "position": 26290,
+        "project": "11",
+        "unclear_project": false
+      },
+      {
+        "quote": "Vielleicht kaufen wir einen zu nützlichen Lautsprecher.",
+        "text": "Vielleicht kaufen wir einen zu nützlichen Lautsprecher.",
+        "position": 28823,
+        "project": "12",
+        "unclear_project": false
+      },
+      {
+        "quote": "Für diesen Termin wurde kein Verarbeitsauftrag erteilt.",
+        "text": "Für diesen Termin wurde kein Verarbeitsauftrag erteilt.",
+        "position": 28498,
+        "project": "12",
+        "unclear_project": false
+      },
+      {
+        "quote": "Wen prüft das Mikrofon am Donnerstag?",
+        "text": "Wen prüft das Mikrofon am Donnerstag?",
+        "position": 30201,
+        "project": "13",
+        "unclear_project": false
+      },
+      {
+        "quote": "Wen prüft das Mikrofon am Donnerstag?",
+        "text": "Wen prüft das Mikrofon am Donnerstag?",
+        "position": 32714,
+        "project": "14",
+        "unclear_project": false
+      },
+      {
+        "quote": "Wen prüft das Mikrofon am Donnerstag?",
+        "text": "Wen prüft das Mikrofon am Donnerstag?",
+        "position": 35218,
+        "project": "15",
+        "unclear_project": false
+      },
+      {
+        "quote": "Eine Bestellung ist noch nicht freigegeben.",
+        "text": "Eine Bestellung ist noch nicht freigegeben.",
+        "position": 30649,
+        "project": "13",
+        "unclear_project": false
+      },
+      {
+        "quote": "Eine Bestellung ist noch nicht freigegeben.",
+        "text": "Eine Bestellung ist noch nicht freigegeben.",
+        "position": 33151,
+        "project": "14",
+        "unclear_project": false
+      },
+      {
+        "quote": "Eine Bestellung ist noch nicht freigegeben.",
+        "text": "Eine Bestellung ist noch nicht freigegeben.",
+        "position": 35665,
+        "project": "15",
+        "unclear_project": false
+      },
+      {
+        "quote": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "text": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "position": 31351,
+        "project": "13",
+        "unclear_project": false
+      },
+      {
+        "quote": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "text": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "position": 33854,
+        "project": "14",
+        "unclear_project": false
+      },
+      {
+        "quote": "Das geplante Modell beträgt 400 Euro.",
+        "text": "Das geplante Modell beträgt 400 Euro.",
+        "position": 30555,
+        "project": "13",
+        "unclear_project": false
+      },
+      {
+        "quote": "Das geplante Budget beträgt 400 Euro.",
+        "text": "Das geplante Budget beträgt 400 Euro.",
+        "position": 33057,
+        "project": "14",
+        "unclear_project": false
+      },
+      {
+        "quote": "Das geplante Budget beträgt 400 Euro.",
+        "text": "Das geplante Budget beträgt 400 Euro.",
+        "position": 35571,
+        "project": "15",
+        "unclear_project": false
+      },
+      {
+        "quote": "der offene Kaufvorschlag",
+        "text": "der offene Kaufvorschlag",
+        "position": 32348,
+        "project": "13",
+        "unclear_project": false
+      },
+      {
+        "quote": "der offene Kaufvorschlag",
+        "text": "der offene Kaufvorschlag",
+        "position": 34855,
+        "project": "14",
+        "unclear_project": false
+      },
+      {
+        "quote": "Wen prüft das Mikrofon am Donnerstag?",
+        "text": "Wen prüft das Mikrofon am Donnerstag?",
+        "position": 37707,
+        "uncertain": true,
+        "project": "16",
+        "unclear_project": false
+      },
+      {
+        "quote": "Wen prüft das Mikrofon am Donnerstag?",
+        "text": "Wen prüft das Mikrofon am Donnerstag?",
+        "position": 40224,
+        "uncertain": true,
+        "project": "17",
+        "unclear_project": false
+      },
+      {
+        "quote": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "text": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "position": 36342,
+        "project": "15",
+        "unclear_project": false
+      },
+      {
+        "quote": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "text": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "position": 38858,
+        "project": "16",
+        "unclear_project": false
+      },
+      {
+        "quote": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "text": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "position": 41368,
+        "project": "17",
+        "unclear_project": false
+      },
+      {
+        "quote": "Eine Bestellung ist noch nicht freigegeben.",
+        "text": "Eine Bestellung ist noch nicht freigegeben.",
+        "position": 38152,
+        "project": "16",
+        "unclear_project": false
+      },
+      {
+        "quote": "Eine Bestellung ist noch nicht freigegeben.",
+        "text": "Eine Bestellung ist noch nicht freigegeben.",
+        "position": 40667,
+        "project": "17",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 36232,
+        "project": "15",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 36666,
+        "project": "15",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 37556,
+        "project": "15",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 37934,
+        "project": "16",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 38341,
+        "project": "16",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 38734,
+        "project": "16",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 39182,
+        "project": "16",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 39625,
+        "project": "16",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 40073,
+        "project": "16",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 40450,
+        "project": "17",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 40856,
+        "project": "17",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 41243,
+        "project": "17",
+        "unclear_project": false
+      },
+      {
+        "quote": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "text": "Bei einem Neustart müssen die Aufträge erhalten bleiben.",
+        "position": 41692,
+        "project": "17",
+        "unclear_project": false
+      },
+      {
+        "quote": "Wen prüft das Mikrofon am Donnerstag?",
+        "text": "Wen prüft das Mikrofon am Donnerstag?",
+        "position": 42765,
+        "uncertain": true,
+        "project": "18",
+        "unclear_project": false
+      },
+      {
+        "quote": "Wen prüft das Mikrofon am Donnerstag?",
+        "text": "Wen prüft das Mikrofon am Donnerstag?",
+        "position": 45303,
+        "uncertain": true,
+        "project": "19",
+        "unclear_project": false
+      },
+      {
+        "quote": "Wen prüft das Mikrofon am Donnerstag?",
+        "text": "Wen prüft das Mikrofon am Donnerstag?",
+        "position": 47823,
+        "uncertain": true,
+        "project": "20",
+        "unclear_project": false
+      },
+      {
+        "quote": "Das Burget und der offene Kaufvorschlag sind keine zusätzlichen Aufgaben.",
+        "text": "Das Burget und der offene Kaufvorschlag sind keine zusätzlichen Aufgaben.",
+        "position": 42381,
+        "project": "17",
+        "unclear_project": false
+      },
+      {
+        "quote": "Das Burget und der offene Kaufvorschlag sind keine zusätzlichen Aufgaben.",
+        "text": "Das Burget und der offene Kaufvorschlag sind keine zusätzlichen Aufgaben.",
+        "position": 47439,
+        "project": "19",
+        "unclear_project": false
+      },
+      {
+        "quote": "Das Wort und der offene Kaufvorschlag sind keine zusätzlichen Aufgaben.",
+        "text": "Das Wort und der offene Kaufvorschlag sind keine zusätzlichen Aufgaben.",
+        "position": 44918,
+        "project": "18",
+        "unclear_project": false
+      },
+      {
+        "quote": "Eine Bestellung ist noch nicht freigegeben.",
+        "text": "Eine Bestellung ist noch nicht freigegeben.",
+        "position": 43211,
+        "project": "18",
+        "unclear_project": false
+      },
+      {
+        "quote": "Eine Bestellung ist noch nicht freigegeben.",
+        "text": "Eine Bestellung ist noch nicht freigegeben.",
+        "position": 45733,
+        "project": "19",
+        "unclear_project": false
+      },
+      {
+        "quote": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "text": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "position": 43919,
+        "project": "18",
+        "unclear_project": false
+      },
+      {
+        "quote": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "text": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "position": 46440,
+        "project": "19",
+        "unclear_project": false
+      },
+      {
+        "quote": "Dies bleibt ein unverbindlicher Vorschlag.",
+        "text": "Dies bleibt ein unverbindlicher Vorschlag.",
+        "position": 43974,
+        "project": "18",
+        "unclear_project": false
+      },
+      {
+        "quote": "Dies bleibt ein unverbindlicher Vorschlag.",
+        "text": "Dies bleibt ein unverbindlicher Vorschlag.",
+        "position": 46495,
+        "project": "19",
+        "unclear_project": false
+      },
+      {
+        "quote": "Über den Kauf wurde nichts beschlossen.",
+        "text": "Über den Kauf wurde nichts beschlossen.",
+        "position": 44017,
+        "project": "18",
+        "unclear_project": false
+      },
+      {
+        "quote": "Über den Kauf wurde nichts beschlossen.",
+        "text": "Über den Kauf wurde nichts beschlossen.",
+        "position": 46538,
+        "project": "19",
+        "unclear_project": false
+      },
+      {
+        "quote": "Niemand wurde mit einem Kauf beauftragt.",
+        "text": "Niemand wurde mit einem Kauf beauftragt.",
+        "position": 44057,
+        "project": "18",
+        "unclear_project": false
+      },
+      {
+        "quote": "Niemand wurde mit einem Kauf beauftragt.",
+        "text": "Niemand wurde mit einem Kauf beauftragt.",
+        "position": 46578,
+        "project": "19",
+        "unclear_project": false
+      },
+      {
+        "quote": "Wen prüft das Mikrofon am Donnerstag.",
+        "text": "Wen prüft das Mikrofon am Donnerstag.",
+        "position": 50344,
+        "uncertain": true,
+        "project": "21",
+        "unclear_project": false
+      },
+      {
+        "quote": "Eine Bestellung ist noch nicht freigegeben.",
+        "text": "Eine Bestellung ist noch nicht freigegeben.",
+        "position": 48270,
+        "project": "20",
+        "unclear_project": false
+      },
+      {
+        "quote": "Eine Bestellung ist noch nicht freigegeben.",
+        "text": "Eine Bestellung ist noch nicht freigegeben.",
+        "position": 50791,
+        "project": "21",
+        "unclear_project": false
+      },
+      {
+        "quote": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "text": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "position": 48977,
+        "project": "20",
+        "unclear_project": false
+      },
+      {
+        "quote": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "text": "Vielleicht kaufen wir einen zusätzlichen Lautsprecher.",
+        "position": 51500,
+        "project": "21",
+        "unclear_project": false
+      },
+      {
+        "quote": "Über den Kauf wurde nichts beschlossen.",
+        "text": "Über den Kauf wurde nichts beschlossen.",
+        "position": 49075,
+        "project": "20",
+        "unclear_project": false
+      },
+      {
+        "quote": "Über den Kauf wurde nichts beschlossen.",
+        "text": "Über den Kauf wurde nichts beschlossen.",
+        "position": 51598,
+        "project": "21",
+        "unclear_project": false
+      },
+      {
+        "quote": "Niemand wurde mit einem Kauf beauftragt.",
+        "text": "Niemand wurde mit einem Kauf beauftragt.",
+        "position": 49115,
+        "project": "20",
+        "unclear_project": false
+      },
+      {
+        "quote": "Niemand wurde mit einem Kauf beauftragt.",
+        "text": "Niemand wurde mit einem Kauf beauftragt.",
+        "position": 51638,
+        "project": "21",
+        "unclear_project": false
+      }
+    ]
+  }
+}

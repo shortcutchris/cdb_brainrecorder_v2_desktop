@@ -1,4 +1,4 @@
-# Recorder Studio 0.5.7
+# Recorder Studio 0.5.8
 
 Die HTML-Oberfläche übernimmt die ausgewählte zweite Studio-Variante. Das bestehende Python-Backend verarbeitet weiterhin Aufnahmen und lokale Modelle. `web_server.py` verwendet den vorhandenen `LocalController`, die ursprüngliche `data/sessions.db`, bestehende QSettings-Prompts und die fest versionierte gemeinsame Python-Engine 0.2.6. Es gibt eine Aufnahmeinstanz und einen FIFO-Verarbeiter.
 
@@ -19,7 +19,7 @@ Das Installationsskript ändert nur Anwendungsdienst und Starter; es installiert
 
 „Recorder“ zeigt ohne laufende Aufnahme eine Bereitschaftsansicht mit Standardbereich. Frühere Meetings werden dort nicht automatisch ausgewählt. Während einer Aufnahme führt „Recorder“ immer zu deren aktuellen Notizen zurück. Nach dem Stoppen bleibt die gerade beendete Aufnahme zur Kontrolle sichtbar; beim nächsten Wechsel zurück zu Recorder erscheint wieder die Bereitschaftsansicht. Eine neue Aufnahme ist unabhängig von der Hintergrundverarbeitung möglich.
 
-„Bibliothek“ merkt sich innerhalb der geöffneten App ihre eigene Aufnahme und den ausgewählten Texttab. „Alle Aufnahmen“ öffnet die Liste zur erneuten Auswahl. Ein Browser-Neustart beginnt wieder auf Recorder. Einstellungen öffnen rechts und ihre Schließen-Taste führt zu Recorder. Das Aufnahme-Widget erscheint ausschließlich im Recorder. Bibliothek und Einstellungen nutzen die gesamte Fläche rechts von der Navigation. Während einer Aufnahme sind beide Bereiche gesperrt; Notizen, Bildschirmtastatur und Stoppen bleiben verfügbar. Meetingaktionen, Transkript-/Zusammenfassungstabs und Wiedergaberegler sind währenddessen ebenfalls gesperrt. Die Queue kann angezeigt werden, ihre Aktionen sind bis zum Stoppen gesperrt. Bereits laufende Verarbeitung geht weiter; nach dem Stoppen sind Navigation und Ansichten sofort wieder zugänglich. Die HTTP-Schnittstelle erlaubt während einer Aufnahme nur Stoppen und das Speichern der Notizen dieser Aufnahme.
+„Bibliothek“ merkt sich innerhalb der geöffneten App ihre eigene Aufnahme und den ausgewählten Texttab. „Alle Aufnahmen“ öffnet die Liste zur erneuten Auswahl. Ein Browser-Neustart beginnt wieder auf Recorder. Einstellungen öffnen rechts; Hauptansichten werden ausschließlich über die linke Navigation gewechselt. Das Aufnahme-Widget erscheint ausschließlich im Recorder. Bibliothek und Einstellungen nutzen die gesamte Fläche rechts von der Navigation. Während einer Aufnahme sind beide Bereiche gesperrt; Notizen, Bildschirmtastatur und Stoppen bleiben verfügbar. Meetingaktionen, Transkript-/Zusammenfassungstabs und Wiedergaberegler sind währenddessen ebenfalls gesperrt. Die Warteschlange hat eine eigene rechte Ansicht; ihr Menüpunkt ist bis zum Stoppen gesperrt. Anzahl und Verarbeitungsanimation bleiben am Menü-Icon erkennbar. Bereits laufende Verarbeitung geht weiter; nach dem Stoppen sind Navigation und Ansichten sofort wieder zugänglich. Die HTTP-Schnittstelle erlaubt während einer Aufnahme nur Stoppen und das Speichern der Notizen dieser Aufnahme.
 
 Der Aufnahmebutton startet oder beendet eine Aufnahme unabhängig vom rechts ausgewählten Meeting. Transkription und Zusammenfassung laufen nacheinander in der bestehenden Warteschlange; weitere Aufnahmen sind dabei möglich. Notizen lassen sich parallel bearbeiten. Texte werden verzögert automatisch gespeichert. Bei einem Speicherfehler bleibt die Navigation möglich und der Entwurf lokal erhalten. Ein Konflikt mit einer neueren Fassung verhindert das Überschreiben; ein lokaler Entwurf bleibt erhalten. Während der KI-Verarbeitung sind deren Ergebnisfelder geschützt.
 
@@ -121,3 +121,18 @@ Unter **Einstellungen → Zusammenfassung → Verarbeitung** zwischen „Auf die
 Lange Zusammenfassungen werden abschnittsweise erstellt und zusammengeführt. Der CDB-Zugang verwendet Server-Keepalives, damit das Gateway längere Antworten nicht wegen ausbleibender Daten beendet. Nur vollständige Antworten werden übernommen; abgeschnittene Antworten werden einmal mit größerem Ausgabebudget erneut angefordert. Die Länge der Teilantworten wird geprüft und bei Bedarf durch eine erneute Verdichtung reduziert. Texte werden dabei nicht abgeschnitten. So passen die Ergebnisse in das nächste Zusammenführungsfenster. Fehler bleiben sichtbar und blockieren nachfolgende Aufträge nicht.
 
 In der Bibliothek führt die große Taste „Zur Aufnahmeliste“ zurück zur Suche und Aufnahmeliste. Die Positionsanzeige zeigt die Detailansicht an; dort gibt es keine zweite konkurrierende Leiste letzter Aufnahmen. Während einer Aufnahme sind Bibliothek und Einstellungen weiterhin gesperrt.
+
+
+## Einstellungen und belegte Aufgaben ab 0.5.8
+
+Einstellungen öffnen eine Übersicht aus acht Kacheln. Auf jeder Unterseite führt **Alle Einstellungen** zurück zur Übersicht; eine zweite seitliche Navigation entfällt. Die äußeren App-Icons bleiben sichtbar. Das Mikrofon-Symbol im Recorder öffnet Audio direkt. Während der Aufnahme bleiben Einstellungen und Bibliothek gesperrt.
+
+Die Detailseiten teilen sich Schriftgrößen, Abstände und kompakte Aktionen. Unter Transkription werden lokale Modellfelder nur bei lokaler Verarbeitung gezeigt. Gerätetest → Erweiterte Programmeinstellungen enthält den Whisper-Pfad. Prompts zeigen lange Arbeitsaufträge über direkt anwählbare Textseiten. Ein ungespeicherter Theme-Entwurf wird beim Zurückgehen verworfen. **Einrichtung speichern** erscheint nur, solange die Einrichtung noch offen ist.
+
+Bei Standardvorlagen erfolgt die Zusammenfassung in belegten Abschnitten. Aufgaben, Namen und Fristen müssen wörtlich im selben Satz stehen. Unklare Namensfragmente bleiben als unklar markiert; Vorschläge, Fragen und nicht bestätigte Aufträge werden nicht als Aufgaben übernommen. Ein abschließender deterministischer Schritt führt die Belege zusammen, ohne neue Aufgaben zu formulieren. Eigene Prompts bleiben frei und nutzen weiterhin die bisherige generative Verarbeitung. Die Belegprüfung kann weder Spracherkennungsfehler korrigieren noch vollständige Aufgabenerkennung garantieren. Vor der Brain-Übertragung prüfen.
+
+Aktuelle Testzahlen, Screenshots und Prüfgrenzen: [0.5.8-Prüfbericht](task-quality-0.5.8/README.md).
+
+Die Warteschlange öffnet über das Listen-Icon links als eigene rechte Ansicht. Eine dauerhafte Status-/Queue-Leiste unten entfällt. Dort sind laufender Schritt, wartende Aufträge und Fehler sichtbar. Während der Aufnahme bleibt die Navigation dorthin gesperrt; nach Stoppen ist sie wieder frei.
+
+Hauptansichten besitzen keine zusätzliche Schließen- oder Recorder-Zurück-Taste. Der Rückweg „Alle Einstellungen“ bleibt ausschließlich auf Einstellungs-Unterseiten; „Zur Aufnahmeliste“ ausschließlich im Bibliotheksdetail. Die Tastatur ist ohne erreichbares editierbares Textfeld deaktiviert.

@@ -15,6 +15,9 @@ TASK_RULES = (
     "Ein angekündigter Testtermin gehört zu Terminen, nicht automatisch zu Aufgaben. "
     "Vorschläge sind keine vereinbarten Aufgaben. Verantwortliche und Fristen nur übernehmen, "
     "wenn ausdrücklich genannt, sonst 'nicht genannt'. Wochentage nicht in Kalenderdaten umrechnen. "
+    "Unklare Namensfragmente wie A, AA, An oder Wen nicht zu bekannten Personen ergänzen. "
+    "Kennzeichne die Verantwortlichkeit als unklar. Aus einer unklaren Zuständigkeit nie "
+    "eine Aufgabe wie Zuständigen benennen oder Zuständigkeit klären erzeugen. "
     "Keine Fakten erfinden. Keine zusätzliche abschließende Zusammenfassung. "
 )
 MEETING_PROMPT = (

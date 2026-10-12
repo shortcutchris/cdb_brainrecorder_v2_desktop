@@ -1,0 +1,66 @@
+[
+  {
+    "page": "audio",
+    "backVisible": true,
+    "contentOverflow": 0,
+    "height": 720,
+    "sideNavVisible": false,
+    "width": 1280
+  },
+  {
+    "page": "connection",
+    "backVisible": true,
+    "contentOverflow": 0,
+    "height": 720,
+    "sideNavVisible": false,
+    "width": 1280
+  },
+  {
+    "page": "transcription",
+    "backVisible": true,
+    "contentOverflow": 0,
+    "height": 720,
+    "sideNavVisible": false,
+    "width": 1280
+  },
+  {
+    "page": "summary",
+    "backVisible": true,
+    "contentOverflow": 0,
+    "height": 720,
+    "sideNavVisible": false,
+    "width": 1280
+  },
+  {
+    "page": "knowledge",
+    "backVisible": true,
+    "contentOverflow": 0,
+    "height": 720,
+    "sideNavVisible": false,
+    "width": 1280
+  },
+  {
+    "page": "design",
+    "backVisible": true,
+    "contentOverflow": 0,
+    "height": 720,
+    "sideNavVisible": false,
+    "width": 1280
+  },
+  {
+    "page": "prompts",
+    "backVisible": true,
+    "contentOverflow": 0,
+    "height": 720,
+    "sideNavVisible": false,
+    "width": 1280
+  },
+  {
+    "page": "device",
+    "backVisible": true,
+    "contentOverflow": 0,
+    "height": 720,
+    "sideNavVisible": false,
+    "width": 1280
+  }
+]

@@ -1,0 +1,2117 @@
+[
+  {
+    "at": 1791818789.741677,
+    "stage": "",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "importing",
+        "created": 1791818789.674193,
+        "updated": 1791818789.7015712,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818794.758809,
+    "stage": "",
+    "cdb_progress": "Audio für CDB vorbereiten",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818799.7729359,
+    "stage": "",
+    "cdb_progress": "Audio für CDB vorbereiten",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818804.7865129,
+    "stage": "",
+    "cdb_progress": "Audio für CDB vorbereiten",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818809.8046029,
+    "stage": "",
+    "cdb_progress": "Audio für CDB vorbereiten",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818814.820323,
+    "stage": "",
+    "cdb_progress": "Audio für CDB vorbereiten",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818819.836894,
+    "stage": "",
+    "cdb_progress": "Audio für CDB vorbereiten",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818824.853515,
+    "stage": "",
+    "cdb_progress": "Audio für CDB vorbereiten",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818829.870799,
+    "stage": "",
+    "cdb_progress": "Audio für CDB vorbereiten",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818834.885221,
+    "stage": "",
+    "cdb_progress": "Audio für CDB vorbereiten",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818839.902681,
+    "stage": "",
+    "cdb_progress": "Audio für CDB vorbereiten",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818844.91665,
+    "stage": "",
+    "cdb_progress": "Audio für CDB vorbereiten",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818849.930419,
+    "stage": "",
+    "cdb_progress": "Audio für CDB vorbereiten",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818854.9421482,
+    "stage": "",
+    "cdb_progress": "CDB: queued",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818859.9538088,
+    "stage": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818864.963682,
+    "stage": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818869.9786398,
+    "stage": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818874.989716,
+    "stage": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818879.998768,
+    "stage": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818885.011904,
+    "stage": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818890.0221922,
+    "stage": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818895.0351229,
+    "stage": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818900.0479722,
+    "stage": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818905.061113,
+    "stage": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818910.073856,
+    "stage": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818915.082081,
+    "stage": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818920.097151,
+    "stage": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818925.111464,
+    "stage": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818930.124924,
+    "stage": "",
+    "cdb_progress": "CDB: converting · 15 %",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818935.141804,
+    "stage": "",
+    "cdb_progress": "CDB: transcribing · 30 %",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818940.154997,
+    "stage": "",
+    "cdb_progress": "CDB: transcribing · 30 %",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818945.1730711,
+    "stage": "",
+    "cdb_progress": "CDB: transcribing · 30 %",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818950.195031,
+    "stage": "",
+    "cdb_progress": "CDB: transcribing · 30 %",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818955.212855,
+    "stage": "",
+    "cdb_progress": "CDB: transcribing · 30 %",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818960.224758,
+    "stage": "",
+    "cdb_progress": "CDB: transcribing · 30 %",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818965.239351,
+    "stage": "",
+    "cdb_progress": "CDB: transcribing · 30 %",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "transcribing",
+        "created": 1791818789.674193,
+        "updated": 1791818792.1165402,
+        "error": "",
+        "metrics": "{}"
+      }
+    ]
+  },
+  {
+    "at": 1791818970.261812,
+    "stage": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791818975.2784781,
+    "stage": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791818980.293183,
+    "stage": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791818985.308971,
+    "stage": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791818990.328737,
+    "stage": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791818995.34785,
+    "stage": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819000.3629792,
+    "stage": "Abschnitt 1/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819005.3800588,
+    "stage": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819010.397078,
+    "stage": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819015.411415,
+    "stage": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819020.429109,
+    "stage": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819025.4424891,
+    "stage": "Abschnitt 2/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819030.4592361,
+    "stage": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819035.473857,
+    "stage": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819040.4901829,
+    "stage": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819045.5037901,
+    "stage": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819050.518328,
+    "stage": "Abschnitt 3/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "recording",
+        "created": 1791818917.3228834,
+        "updated": 1791818917.3228836,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819055.532453,
+    "stage": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819060.543772,
+    "stage": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819065.560769,
+    "stage": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819070.5763898,
+    "stage": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819075.5900328,
+    "stage": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819080.604537,
+    "stage": "Abschnitt 4/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819085.616385,
+    "stage": "Abschnitt 5/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819090.631746,
+    "stage": "Abschnitt 5/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819095.645334,
+    "stage": "Abschnitt 5/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819100.6642299,
+    "stage": "Abschnitt 5/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819105.680266,
+    "stage": "Abschnitt 5/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819110.6956632,
+    "stage": "Abschnitt 5/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819115.7122638,
+    "stage": "Abschnitt 5/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819120.728543,
+    "stage": "Abschnitt 5/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819125.747436,
+    "stage": "Abschnitt 6/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819130.7625751,
+    "stage": "Abschnitt 6/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819135.779852,
+    "stage": "Abschnitt 6/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819140.7965372,
+    "stage": "Abschnitt 6/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819145.8066828,
+    "stage": "Abschnitt 6/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819150.8218749,
+    "stage": "Abschnitt 6/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819155.83433,
+    "stage": "Abschnitt 6/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819160.845973,
+    "stage": "Abschnitt 7/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819165.855774,
+    "stage": "Abschnitt 7/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819170.870687,
+    "stage": "Abschnitt 7/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819175.885464,
+    "stage": "Abschnitt 7/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819180.900788,
+    "stage": "Abschnitt 7/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819185.9131782,
+    "stage": "Abschnitt 7/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819190.9280791,
+    "stage": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819195.9406872,
+    "stage": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819200.9512541,
+    "stage": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819205.960027,
+    "stage": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819210.975706,
+    "stage": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819215.992102,
+    "stage": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819221.003045,
+    "stage": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819226.015579,
+    "stage": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819231.032066,
+    "stage": "Abschnitt 8/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819236.0463161,
+    "stage": "Abschnitt 9/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819241.058055,
+    "stage": "Abschnitt 9/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819246.0667331,
+    "stage": "Abschnitt 9/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819251.074611,
+    "stage": "Abschnitt 9/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819256.090218,
+    "stage": "Abschnitt 9/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819261.107014,
+    "stage": "Abschnitt 9/9",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "queued",
+        "created": 1791818917.3228834,
+        "updated": 1791819050.6502926,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "summarizing",
+        "created": 1791818789.674193,
+        "updated": 1791818968.1116009,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      }
+    ]
+  },
+  {
+    "at": 1791819266.118315,
+    "stage": "",
+    "cdb_progress": "Audio wird ins CDB übertragen",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "transcribing",
+        "created": 1791818917.3228834,
+        "updated": 1791819262.8887124,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "completed",
+        "created": 1791818789.674193,
+        "updated": 1791819262.8681128,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 294.74, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 470.75, \"audio_seconds\": 3600.0, \"transcription_rtf\": 0.049, \"system_min_available_mib\": 14964.9, \"ollama_aggregate_peak_rss_mib\": 33.8}"
+      }
+    ]
+  },
+  {
+    "at": 1791819271.1308339,
+    "stage": "",
+    "cdb_progress": "CDB: queued",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "transcribing",
+        "created": 1791818917.3228834,
+        "updated": 1791819262.8887124,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "completed",
+        "created": 1791818789.674193,
+        "updated": 1791819262.8681128,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 294.74, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 470.75, \"audio_seconds\": 3600.0, \"transcription_rtf\": 0.049, \"system_min_available_mib\": 14964.9, \"ollama_aggregate_peak_rss_mib\": 33.8}"
+      }
+    ]
+  },
+  {
+    "at": 1791819276.146792,
+    "stage": "",
+    "cdb_progress": "CDB: transcribing · 30 %",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "transcribing",
+        "created": 1791818917.3228834,
+        "updated": 1791819262.8887124,
+        "error": "",
+        "metrics": "{}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "completed",
+        "created": 1791818789.674193,
+        "updated": 1791819262.8681128,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 294.74, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 470.75, \"audio_seconds\": 3600.0, \"transcription_rtf\": 0.049, \"system_min_available_mib\": 14964.9, \"ollama_aggregate_peak_rss_mib\": 33.8}"
+      }
+    ]
+  },
+  {
+    "at": 1791819281.166687,
+    "stage": "Abschnitt 1/1",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "summarizing",
+        "created": 1791818917.3228834,
+        "updated": 1791819276.6937485,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 13.8, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "completed",
+        "created": 1791818789.674193,
+        "updated": 1791819262.8681128,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 294.74, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 470.75, \"audio_seconds\": 3600.0, \"transcription_rtf\": 0.049, \"system_min_available_mib\": 14964.9, \"ollama_aggregate_peak_rss_mib\": 33.8}"
+      }
+    ]
+  },
+  {
+    "at": 1791819286.1861792,
+    "stage": "Abschnitt 1/1",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "summarizing",
+        "created": 1791818917.3228834,
+        "updated": 1791819276.6937485,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 13.8, \"whisper_model\": \"cdb/transcription-jobs\"}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "completed",
+        "created": 1791818789.674193,
+        "updated": 1791819262.8681128,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 294.74, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 470.75, \"audio_seconds\": 3600.0, \"transcription_rtf\": 0.049, \"system_min_available_mib\": 14964.9, \"ollama_aggregate_peak_rss_mib\": 33.8}"
+      }
+    ]
+  },
+  {
+    "at": 1791819291.2001002,
+    "stage": "",
+    "cdb_progress": "",
+    "jobs": [
+      {
+        "id": "cada51ce62b047f197064e417f12e9a0",
+        "state": "completed",
+        "created": 1791818917.3228834,
+        "updated": 1791819286.8561358,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 13.8, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 10.15, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 23.96, \"audio_seconds\": 133.02825, \"transcription_rtf\": 0.104, \"system_min_available_mib\": 14973.1, \"ollama_aggregate_peak_rss_mib\": 33.3}"
+      },
+      {
+        "id": "63006421a0d24267b2fe4079b41dc3c4",
+        "state": "completed",
+        "created": 1791818789.674193,
+        "updated": 1791819262.8681128,
+        "error": "",
+        "metrics": "{\"transcription_seconds\": 175.99, \"whisper_model\": \"cdb/transcription-jobs\", \"summary_seconds\": 294.74, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 470.75, \"audio_seconds\": 3600.0, \"transcription_rtf\": 0.049, \"system_min_available_mib\": 14964.9, \"ollama_aggregate_peak_rss_mib\": 33.8}"
+      }
+    ]
+  }
+]

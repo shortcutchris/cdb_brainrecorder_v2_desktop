@@ -33,13 +33,20 @@
   if(!panel.hidden){hide();return}
   const dialog=document.querySelector('dialog[open]');
   if(!target||!target.isConnected||target.disabled||target.readOnly||!target.getClientRects().length||(dialog&&!dialog.contains(target)))target=[...(dialog||document).querySelectorAll('textarea:not([disabled]):not([readonly]),input:not([disabled]):not([readonly])')].find(el=>editable(el)&&el.getClientRects().length);
+  if(!target)return;
   (dialog||document.body).append(panel);panel.hidden=false;document.body.classList.add('keyboard-open');if(dialog)dialog.classList.add('with-keyboard');draw();target?.focus({preventScroll:true});focusSettings(target);requestAnimationFrame(()=>target?.scrollIntoView({block:'nearest'}));
  }
  document.getElementById('keyboard').onclick=toggle;
- document.addEventListener('click',event=>{if(event.target.closest('#library-open,#settings-open,#more-open,#theme-save,#theme-cancel,[data-settings]'))hide()},true);
+ document.addEventListener('click',event=>{if(event.target.closest('#library-open,#settings-open,#queue-toggle,#queue-close,#settings-overview-back,[data-settings-tile],#more-open,#theme-save,#theme-cancel,[data-settings]'))hide()},true);
  for(const dialog of document.querySelectorAll('dialog')){
-  const button=document.createElement('button');button.type='button';button.className='icon-button';button.setAttribute('aria-label','Bildschirmtastatur öffnen');const icon=document.createElement('img');icon.src='/assets/keyboard.svg';icon.alt='';button.append(icon);dialog.querySelector('.dialog-heading').insertBefore(button,dialog.querySelector('[data-close]'));
-  button.onclick=toggle;dialog.addEventListener('close',hide);
+  dialog.addEventListener('close',hide);const heading=dialog.querySelector('.dialog-heading');if(!heading||dialog.classList.contains('workspace-view')||!dialog.querySelector('textarea:not([readonly]),input:not([readonly])'))continue;
+  const button=document.createElement('button');button.type='button';button.className='icon-button';button.setAttribute('aria-label','Bildschirmtastatur öffnen');const icon=document.createElement('img');icon.src='/assets/keyboard.svg';icon.alt='';button.append(icon);heading.insertBefore(button,dialog.querySelector('[data-close]'));
+  button.onclick=toggle;
  }
  document.body.append(panel);
+ function refreshAvailability(){
+  const canEdit=[...document.querySelectorAll('textarea:not([disabled]):not([readonly]),input:not([disabled]):not([readonly])')].some(el=>editable(el)&&el.getClientRects().length);
+  const button=document.getElementById('keyboard'),disabled=panel.hidden&&!canEdit;if(button.disabled!==disabled)button.disabled=disabled;
+ }
+ new MutationObserver(refreshAvailability).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['hidden','disabled','readonly','open','class']});refreshAvailability();
 })();

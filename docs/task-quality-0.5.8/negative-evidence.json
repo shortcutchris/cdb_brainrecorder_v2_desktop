@@ -1,0 +1,25 @@
+{
+  "version": "grounded-meeting-1",
+  "rejected": 0,
+  "items": {
+    "tasks": [],
+    "events": [],
+    "decisions": [],
+    "open_points": [
+      {
+        "quote": "Vielleicht kaufen wir einen Lautsprecher.",
+        "text": "Vielleicht kaufen wir einen Lautsprecher.",
+        "position": 77,
+        "project": null,
+        "unclear_project": false
+      },
+      {
+        "quote": "Die Zuständigkeit ist unklar.",
+        "text": "Die Zuständigkeit ist unklar.",
+        "position": 189,
+        "project": null,
+        "unclear_project": false
+      }
+    ]
+  }
+}

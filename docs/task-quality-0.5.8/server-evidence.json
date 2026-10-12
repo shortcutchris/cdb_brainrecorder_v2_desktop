@@ -1,0 +1,73 @@
+{
+  "publications": [
+    {
+      "id": "0cb75d8d35bd41ae842a42271dafc087",
+      "state": "completed",
+      "error": "",
+      "title": "CDB Stundentest 0.5.8 – beleggeprüft",
+      "receipt": {
+        "document_id": "da2206e1-3597-4fca-aa6f-95f9606868db",
+        "job_id": "1b328c22-92e2-4fba-b0ca-7f10caf8dced"
+      },
+      "server_status": {
+        "job_id": "1b328c22-92e2-4fba-b0ca-7f10caf8dced",
+        "document_id": "da2206e1-3597-4fca-aa6f-95f9606868db",
+        "status": "completed",
+        "progress": {
+          "markdown_conversion": "completed",
+          "markdown_cleaning": "completed",
+          "chunking": "completed",
+          "graph_generation": "completed",
+          "knowledge_graph": "completed",
+          "vectorization": "completed"
+        },
+        "error_message": null,
+        "created_at": "2026-10-12T15:39:57.967339",
+        "completed_at": "2026-10-12T15:40:17.554772",
+        "warnings": []
+      }
+    },
+    {
+      "id": "4590ce3695414f3a9aafae4c80e71d27",
+      "state": "completed",
+      "error": "",
+      "title": "Negativkontrolle 0.5.8 – keine vereinbarten Aufgaben",
+      "receipt": {
+        "document_id": "86ecc4ac-6c2d-4062-ad3f-4b2eedb88dfc",
+        "job_id": "f9699d13-24f1-4bfc-a24b-213237f25206"
+      },
+      "server_status": {
+        "job_id": "f9699d13-24f1-4bfc-a24b-213237f25206",
+        "document_id": "86ecc4ac-6c2d-4062-ad3f-4b2eedb88dfc",
+        "status": "completed",
+        "progress": {
+          "markdown_conversion": "completed",
+          "markdown_cleaning": "completed",
+          "chunking": "completed",
+          "graph_generation": "completed",
+          "knowledge_graph": "completed",
+          "vectorization": "completed"
+        },
+        "error_message": null,
+        "created_at": "2026-10-12T15:40:25.009718",
+        "completed_at": "2026-10-12T15:40:33.267484",
+        "warnings": [
+          "Very few chunks created - document may be short"
+        ]
+      }
+    }
+  ],
+  "hour_asr": {
+    "job_id": "e4ef7246-f434-401a-ae40-08d882ac1288",
+    "recording_id": "8c557286-1ddf-4ed2-b832-6c23f8ce8b4b",
+    "status": "completed",
+    "progress": {
+      "stage": "done",
+      "percent": 100
+    },
+    "created_at": "2026-10-12T15:27:32.833011Z",
+    "completed_at": "2026-10-12T15:29:25.242160Z",
+    "error_code": null,
+    "error_message": null
+  }
+}

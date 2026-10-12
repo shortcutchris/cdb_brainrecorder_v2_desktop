@@ -44,7 +44,7 @@
   $('theme-save').onclick=()=>{if(!draft||!validate())return;const id=editingId||'custom-'+crypto.randomUUID();const entry={id,name:$('theme-name').value.trim(),colors:{...draft.colors}};themes=themes.filter(t=>t.id!==id);themes.push(entry);current=id;persist();cancel()};
   $('theme-delete').onclick=()=>{$('theme-delete-confirm').hidden=false};$('theme-delete-no').onclick=()=>{$('theme-delete-confirm').hidden=true};$('theme-delete-yes').onclick=()=>{themes=themes.filter(t=>t.id!==current);current='blue';apply(current);persist();render()};
   $('settings').addEventListener('close',cancel);$('settings').addEventListener('cancel',cancel);
-  document.addEventListener('click',e=>{if(e.target.closest('[data-close="settings"],[data-settings]'))cancel()},true);
+  document.addEventListener('click',e=>{if(e.target.closest('[data-close="settings"],[data-settings],[data-settings-tile],#settings-overview-back'))cancel()},true);
  });
  window.addEventListener('storage',event=>{if(event.key===key||event.key===customKey){cancel();read();apply(current);if($('theme-options'))render()}});
 })();

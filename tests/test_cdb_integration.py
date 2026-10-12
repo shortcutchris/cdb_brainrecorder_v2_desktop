@@ -123,6 +123,21 @@ class CdbTests(unittest.TestCase):
             self.assertLess(call.call_count,40)
             self.assertTrue(any('Stufe' in p for p in progress))
 
+    def test_standard_cdb_summary_uses_grounded_extraction_in_real_job_folder(self):
+        from unittest.mock import patch
+        from settings import TASK_PROMPT
+        b=self.summary_backend();folder=self.root/'meeting';folder.mkdir()
+        source='AA erstellt die Prüfliste bis Mittwoch.';(folder/'transcript.txt').write_text(source)
+        b.store.folder.return_value=folder
+        result={'tasks':[{'quote':source,'action':'erstellt die Prüfliste','owner':'AA','due':'Mittwoch'}],'events':[],'decisions':[],'open_points':[]}
+        config={'chunk_chars':6000,'prompt':TASK_PROMPT}
+        with patch.object(self.c,'call',return_value={'content':json.dumps(result),'stop_reason':'completed'}) as call:
+            summary=b.generate(source,config)
+            self.assertIn('Name unklar (Transkript: „AA“)',summary)
+            self.assertNotIn('Anna:',summary)
+            self.assertEqual(config['summary_model'],'cdb/agent-structure-text')
+            self.assertEqual(call.call_args.args[1]['max_tokens'],8000)
+
     def test_tokens_never_in_public_state_and_private_permissions(self):
         text=json.dumps(self.c.public());self.assertNotIn('synthetic-refresh',text);self.assertNotIn('"token"',text)
         self.assertEqual(os.stat(self.c.root/'session.json').st_mode&0o777,0o600)
