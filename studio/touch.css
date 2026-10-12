@@ -31,3 +31,7 @@ dialog.with-keyboard .touch-pager{padding:4px 12px}
 dialog.with-keyboard .settings-tabs button{min-height:48px!important}
 dialog.with-keyboard .dialog-heading{padding-block:4px}
 dialog.with-keyboard .dialog-actions{padding-block:4px}
+/* The queue must not push recording controls off a short display. */
+.queue-region,.queue-region .queue-panel{max-height:156px}
+.queue-open .capture .local-note,.queue-open .capture #waveform{display:none}
+@media(max-height:650px){.queue-region,.queue-region .queue-panel{max-height:130px}.queue-open .capture{padding-top:12px}.queue-open .capture .record{width:96px;height:96px;min-height:96px;margin-top:14px}.queue-open .capture h2{font-size:18px;margin-top:14px}.queue-open .capture .duration{font-size:30px;margin-top:8px}}
