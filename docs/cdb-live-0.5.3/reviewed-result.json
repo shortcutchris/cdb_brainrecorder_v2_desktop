@@ -1,0 +1,17 @@
+{
+  "id": 2,
+  "title": "CDB Touchtest A – synthetisch",
+  "recorded_at": "2026-10-12T16:01:31.304463",
+  "duration_sec": 31,
+  "path": "/home/chris/cdb-touch-live-053-20261012/queue/meetings/f88b933aa4564184ab4af217d88e0291/audio.wav",
+  "samplerate": 16000,
+  "channels": 1,
+  "notes": "Synthetischer CDB-Gesamttest: Navigation, Aufgaben und Versand nach staging_playground.",
+  "transcript_text": "Dies ist eine künstliche Testaufnahme ohne Kundendaten. Frau Meier erstellt bis Mittwoch die Checkliste. Herr Fischer prüft am Donnerstag das Mikrofon. Das Testbudget beträgt 400 Euro. Eine Bestellung ist noch nicht freigegeben. Der nächste Test findet am Freitag um 11 Uhr statt. Vielleicht bestellen wir ein weiteres Mikrofon. Das ist nur ein Vorschlag. Dazu wurde nichts beschlossen.",
+  "transcript_tokens": null,
+  "transcription_status": "completed",
+  "local_job_id": "6bf849cbf76d49dfb47ea810828514d8",
+  "summary_text": "Aufgaben\nFrau Meier: Checkliste erstellen — bis Mittwoch.\nHerr Fischer: Mikrofon prüfen — am Donnerstag.\n\nTermine\nNächster Test: Freitag, 11:00 Uhr.\n\nOffene Punkte\nBestellung noch nicht freigegeben. (Unklar)\nVorschlag, ein weiteres Mikrofon zu bestellen — nicht beschlossen. (Unklar)",
+  "local_error": "",
+  "local_metrics": "{\"summary_seconds\": 10.67, \"summary_model\": \"cdb/agent-structure-text\", \"last_attempt_seconds\": 10.69, \"audio_seconds\": 31.0725625, \"transcription_rtf\": 0.0, \"system_min_available_mib\": 15043.2, \"ollama_aggregate_peak_rss_mib\": 33.5}"
+}

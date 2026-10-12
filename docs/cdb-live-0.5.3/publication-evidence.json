@@ -1,0 +1,70 @@
+{
+  "publication_id": "03033367fa2341daa1980ae1f1978c70",
+  "state": "completed",
+  "receipt": {
+    "document_id": "b467294a-3929-4212-adcb-4d33a6a77060",
+    "job_id": "6c8a33dc-e443-4212-9c38-f802e5a8e9ad"
+  },
+  "error": "",
+  "server_status": {
+    "job_id": "6c8a33dc-e443-4212-9c38-f802e5a8e9ad",
+    "document_id": "b467294a-3929-4212-adcb-4d33a6a77060",
+    "status": "completed",
+    "progress": {
+      "markdown_conversion": "completed",
+      "markdown_cleaning": "completed",
+      "chunking": "completed",
+      "graph_generation": "completed",
+      "knowledge_graph": "completed",
+      "vectorization": "completed"
+    },
+    "error_message": null,
+    "created_at": "2026-10-12T14:05:33.019748",
+    "updated_at": "2026-10-12T14:05:48.506596",
+    "completed_at": "2026-10-12T14:05:48.506580",
+    "logs": [
+      "=== GPU Convert Started ===",
+      "Document: CDB Touchtest A – synthetisch.md",
+      "Knowledge Area: staging_playground",
+      "\n--- Step 1: Markdown Conversion ---",
+      "✓ Copied text file: 819 bytes",
+      "\n--- Step 2: Markdown Cleaning ---",
+      "✓ Using original markdown: 20 lines",
+      "\n[OK] GPU conversion done in 2.1s — enqueued post-markdown on CPU",
+      "\n=== CPU Post-Markdown Started ===",
+      "\n--- Step 3: Chunking ---",
+      "\n--- Step 5: Knowledge Graph Generation (Graphiti) ---",
+      "Starting chunking: staging_playground config",
+      "Input: 20 lines",
+      "Chunking config: size=1000, overlap=200 (from database)",
+      "Using Markdown-specific chunking (separator-based)",
+      "Split into 1 articles by separator",
+      "✓ Chunking complete: 1 chunks created",
+      "  Average chunk size: 807 chars",
+      "\n--- Step 4: Vectorization ---",
+      "[OK] Vectorization successful:",
+      "  - Embedded: 1/1 chunks",
+      "  - Total tokens: 109",
+      "  - Estimated cost: $0.0000",
+      "Starting Graphiti KG generation for: CDB Touchtest A – synthetisch",
+      "Knowledge area: staging_playground",
+      "Markdown length: 807 chars (~231 tokens)",
+      "Loading custom ontology for 'staging_playground' from database...",
+      "✓ Loaded custom ontology: Staging_Playground Custom Ontology",
+      "Creating Graphiti episode...",
+      "✓ Episode created: c17e914b-3704-4084-8e51-75bd2fad2e77",
+      "✓ Nodes: 3",
+      "✓ Edges: 2",
+      "✓ Duration: 6.8s",
+      "✓ Initialized status='open' on 2 new facts",
+      "✓ Initialized status='open' on 3 new entities",
+      "✓ Augmented fact_embedding on 2/2 edges (source + target names appended)",
+      "\n=== Processing Complete ===",
+      "[OK] Chunks: 1 in database"
+    ],
+    "warnings": [
+      "Very few chunks created - document may be short"
+    ],
+    "media_progress": null
+  }
+}
