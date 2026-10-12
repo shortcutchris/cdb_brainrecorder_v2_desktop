@@ -2,7 +2,7 @@
 const $=id=>document.getElementById(id), fields=['title','notes','transcript_text','summary_text'];
 let online=false, setupReady=false, lastStateAt=0;
 let state=null, selected=null, field='notes', csrf='', namespace='', models=new Map(), prompts=[], catalog=null;
-let observedRecordingId=null,pendingRecordingId=null;
+let observedRecordingId=null,pendingRecordingId=null, librarySelection=null, libraryField='notes';
 let pollRunning=false, saveTimer=null, recordingAction=false, recordingIntent=null, nextRecordAction=0, queueSignature='', recentSignature='', setupBusy=false;
 const names={recording:'Aufnahme läuft',importing:'Audio vorbereiten',queued:'Wartet',transcribing:'Transkription läuft',summarizing:'Zusammenfassung läuft',completed:'Fertig',failed:'Fehler'};
 const busyStates=['recording','importing','queued','transcribing','summarizing'];
@@ -60,26 +60,28 @@ function renderSelected(){
  if(!hasAudio){audio.pause();audio.removeAttribute('src');delete audio.dataset.session;$('seek').value=0;$('play-time').textContent='00:00';$('play-total').textContent='00:00'}
  $('play').disabled=!hasAudio||!online;
 }
-async function selectMeeting(id){
- workspaceView();
- if(selected===id)return;
- await leaveDraft();const row=await api('/api/sessions/'+id);audio.pause();selected=id;
+async function selectMeeting(id,context='detail'){
+ workspaceView(context);
+ if(context==='detail'){librarySelection=id;libraryField=field}
+ if(selected===id){renderSelected();return;}
+ await leaveDraft();const row=await api('/api/sessions/'+id);audio.pause();selected=id;workspaceView(context);
  let model=models.get(id);if(!model)model=makeModel(row);else mergeRow(model,row);
  $('editor').value='';$('editor').scrollTop=0;renderSelected();renderRecent();
  const peaks=await api('/api/sessions/'+id+'/peaks');if(selected===id){selectedPeaks=peaks;drawWave(state.recording.id?state.waveform:peaks)}
  if(model.dirty.size&&!model.failed)flush(model).catch(()=>{});
 }
 function mergeRow(model,row){model.row=row;for(const key of fields){if(!model.dirty.has(key)&&!model.saving){model.base[key]=row[key]||'';model.values[key]=row[key]||''}}}
-document.querySelectorAll('[data-field]').forEach(button=>button.onclick=run(async()=>{await leaveDraft();field=button.dataset.field;renderSelected()}));
+document.querySelectorAll('[data-field]').forEach(button=>button.onclick=run(async()=>{await leaveDraft();field=button.dataset.field;if(document.body.dataset.workspace==='detail')libraryField=field;renderSelected()}));
 function renderRecent(){
  const rows=state?.sessions.slice(0,3)||[];const signature=JSON.stringify([rows,selected]);if(signature===recentSignature)return;recentSignature=signature;
- $('recent').replaceChildren();for(const [i,row] of rows.entries()){const button=document.createElement('button');button.className='recent-card'+(row.id===selected?' selected':'');button.append(icon(['users','chart-bar','user'][i]));const text=document.createElement('span');text.className='card-text';const strong=document.createElement('strong');strong.textContent=row.title;const date=document.createElement('small');const d=new Date(row.recorded_at);date.textContent=Number.isNaN(+d)?row.recorded_at:d.toLocaleDateString('de-DE')+' · '+d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});text.append(strong,date);button.append(text);button.title=row.title;button.onclick=run(async()=>{workspaceView();await selectMeeting(row.id)});$('recent').append(button)}
- const next=document.createElement('button');next.className='recent-next';next.setAttribute('aria-label','Alle Aufnahmen öffnen');next.append(icon('caret-right'));next.onclick=run(openLibrary);$('recent').append(next);
+ $('recent').replaceChildren();for(const [i,row] of rows.entries()){const button=document.createElement('button');button.className='recent-card'+(row.id===selected?' selected':'');button.append(icon(['users','chart-bar','user'][i]));const text=document.createElement('span');text.className='card-text';const strong=document.createElement('strong');strong.textContent=row.title;const date=document.createElement('small');const d=new Date(row.recorded_at);date.textContent=Number.isNaN(+d)?row.recorded_at:d.toLocaleDateString('de-DE')+' · '+d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});text.append(strong,date);button.append(text);button.title=row.title;button.onclick=run(async()=>{await selectMeeting(row.id)});$('recent').append(button)}
+ const next=document.createElement('button');next.className='recent-next';next.setAttribute('aria-label','Alle Aufnahmen öffnen');next.append(icon('caret-right'));next.onclick=run(showLibraryList);$('recent').append(next);
 }
 function drawWave(peaks){const canvas=$('waveform'),context=canvas.getContext('2d');context.clearRect(0,0,canvas.width,canvas.height);context.strokeStyle=getComputedStyle(document.documentElement).getPropertyValue(state?.recording.id?'--accent':'--wave').trim();context.lineWidth=3;context.lineCap='round';for(let i=0;i<peaks.length;i++){const h=Math.max(1,Math.min(30,peaks[i]*85));const x=5+i*(canvas.width-10)/peaks.length;context.beginPath();context.moveTo(x,36-h);context.lineTo(x,36+h);context.stroke()}}
 let selectedPeaks=[0];
 function renderState(){
  const active=Boolean(state.recording.id);$('record').classList.toggle('recording',active);$('record').setAttribute('aria-label',active?'Aufnahme stoppen':'Aufnahme starten');$('record-icon').src='/assets/'+(active?'stop':'circle')+'.svg';$('record-label').textContent=recordingAction?(recordingIntent==='stop'?'Aufnahme wird beendet …':'Aufnahme startet …'):active?'Aufnahme stoppen':'Aufnahme starten';$('duration').textContent=duration(state.recording.seconds);$('record').disabled=recordingAction||!online||(!active&&state.config.setup_complete&&!allowed('record'));$('record').title=active?'':state.capabilities?.record.reason||'';for(const b of document.querySelectorAll('.dialog-stop')){b.hidden=!active;b.disabled=recordingAction||!online;b.textContent=recordingAction&&recordingIntent==='stop'?'Wird beendet …':'Aufnahme stoppen'}
+ const destination=state.cdb?.destination;$('ready-area').textContent=destination?'Standardbereich: '+(destination.label||destination.name)+'. Vor der Übertragung kannst du das Ziel ändern.':'Noch kein Standardbereich gewählt. Du kannst ihn unter Einstellungen → Knowledge Areas festlegen.';
  const c=state.config;$('mic-name').textContent=c.setup_complete?'Mikrofon · eingerichtet':'Mikrofon einrichten';
  $('capture-hint').textContent=state.preview?'Lokale Testbibliothek · künstliche Audioquelle. Keine Verbindung zu persönlichen Pi-Meetings.':active?'Aufnahme läuft. Tippe auf den Button, um sie sicher zu beenden.':c.setup_complete?'Bereit für eine neue Aufnahme. Tippe auf den Button, um zu starten.':'Kein getestetes Mikrofon. Bitte Audio in den Einstellungen einrichten.';
  if(!online)$('capture-hint').textContent='Verbindung unterbrochen. Der letzte Aufnahmestand wird erneut geprüft.';else if(!active&&state.config.setup_complete&&!allowed('record'))$('capture-hint').textContent=state.capabilities.record.reason;drawWave(active?state.waveform:selectedPeaks);renderRecent();renderQueue();renderSettingsStatus();if(!online)$('phase').textContent='Verbindung unterbrochen · Entwürfe bleiben lokal';
@@ -96,10 +98,10 @@ function renderQueue(){
 }
 async function poll(){
  if(pollRunning)return;pollRunning=true;
- try{const s=await api('/api/state');state=s;online=true;lastStateAt=Date.now();csrf=s.csrf;namespace=s.namespace;renderState();const newRecordingId=pendingRecordingId||s.recording.id;const recordingRow=newRecordingId&&s.sessions.find(r=>r.local_job_id===newRecordingId);if(recordingRow&&observedRecordingId!==newRecordingId){observedRecordingId=newRecordingId;pendingRecordingId=null;field='notes';workspaceView();await selectMeeting(recordingRow.id)}else if(selected===null&&s.sessions.length){await selectMeeting(s.sessions[0].id)}else if(selected!==null){const id=selected,row=await api('/api/sessions/'+id);if(id===selected){const model=models.get(id);mergeRow(model,row);renderSelected()}}}
+ try{const s=await api('/api/state');state=s;online=true;lastStateAt=Date.now();csrf=s.csrf;namespace=s.namespace;renderState();const newRecordingId=pendingRecordingId||s.recording.id;const recordingRow=newRecordingId&&s.sessions.find(r=>r.local_job_id===newRecordingId);if(recordingRow&&observedRecordingId!==newRecordingId){observedRecordingId=newRecordingId;pendingRecordingId=null;field='notes';workspaceView();await selectMeeting(recordingRow.id,null)}else if(selected!==null){const id=selected,row=await api('/api/sessions/'+id);if(id===selected){const model=models.get(id);mergeRow(model,row);renderSelected()}}}
  catch(error){online=false;queueSignature='';if(state){renderState();renderSelected()}$('phase').textContent='Verbindung unterbrochen · Entwürfe bleiben lokal';$('record').disabled=true;for(const id of ['delete','retranscribe','process','finish-setup','probe-start','asr-install','llm-install','model-test','binary-save'])$(id).disabled=true;for(const b of document.querySelectorAll('.dialog-stop'))b.disabled=true;if(!state)notice(error.message)}finally{pollRunning=false}
 }
-$('record').onclick=run(async()=>{if(recordingAction||performance.now()<nextRecordAction)return;recordingAction=true;recordingIntent=state?.recording.id?'stop':'start';if(state)renderState();nextRecordAction=performance.now()+700;$('record').disabled=true;try{if(!state)throw new Error('Noch keine Verbindung.');if(!state.recording.id&&!state.config.setup_complete){await openSettings();throw new Error('Bitte zuerst Mikrofon testen und Einrichtung abschließen.')}if(!state.recording.id)audio.pause();const starting=!state.recording.id;const result=await api('/api/record/'+(starting?'start':'stop'),{});if(starting)pendingRecordingId=result.id;await poll()}finally{recordingAction=false;recordingIntent=null;if(state)renderState()}});
+$('record').onclick=run(async()=>{if(recordingAction||performance.now()<nextRecordAction)return;recordingAction=true;recordingIntent=state?.recording.id?'stop':'start';if(state)renderState();nextRecordAction=performance.now()+700;$('record').disabled=true;try{if(!state)throw new Error('Noch keine Verbindung.');if(!state.recording.id&&!state.config.setup_complete){await openSettings();throw new Error('Bitte zuerst Mikrofon testen und Einrichtung abschließen.')}if(!state.recording.id)audio.pause();const starting=!state.recording.id;const result=await api('/api/record/'+(starting?'start':'stop'),{});if(starting)pendingRecordingId=result.id;await poll();if(!starting){const row=state.sessions.find(r=>r.local_job_id===observedRecordingId);if(row){field='notes';await selectMeeting(row.id,null)}}}finally{recordingAction=false;recordingIntent=null;if(state)renderState()}});
 $('queue-toggle').onclick=()=>{const opened=$('queue-panel').hidden;$('queue-panel').hidden=!opened;document.body.classList.toggle('queue-overlay-open',opened);$('queue-toggle').setAttribute('aria-expanded',String(opened));$('queue-arrow').src='/assets/'+(opened?'caret-down':'caret-up')+'.svg'};
 $('queue-close').onclick=()=>{if(!$('queue-panel').hidden)$('queue-toggle').click()};
 $('errors').onclick=()=>{if($('queue-panel').hidden)$('queue-toggle').click()};
@@ -109,22 +111,28 @@ audio.onplay=()=>{$('play-icon').src='/assets/pause.svg';$('play').setAttribute(
 let seeking=false;$('seek').onpointerdown=()=>{seeking=true};$('seek').onchange=()=>{if(Number.isFinite(audio.duration))audio.currentTime=audio.duration*Number($('seek').value)/1000;seeking=false};$('seek').onpointerup=()=>{seeking=false};
 audio.ontimeupdate=()=>{$('play-time').textContent=duration(audio.currentTime);if(!seeking)$('seek').value=Number.isFinite(audio.duration)?audio.currentTime/audio.duration*1000:0};audio.ondurationchange=()=>{$('play-total').textContent=duration(audio.duration)};$('volume').oninput=()=>{audio.volume=Number($('volume').value);$('volume').style.setProperty('--volume',(audio.volume*100)+'%')};
 function workspaceView(id=null){
+ document.body.dataset.workspace=id||'recorder';
  for(const name of ['library','settings']){const view=$(name);if(view.open&&name!==id)view.close()}
- document.querySelector('.content').hidden=Boolean(id);
- for(const [button,name] of [['home',null],['library-open','library'],['settings-open','settings']]){
-  $(button).classList.toggle('active',id===name);$(button).setAttribute('aria-current',id===name?'page':'false');
+ document.querySelector('.content').hidden=Boolean(id&&id!=='detail')||selected===null;
+ $('recorder-ready').hidden=Boolean(id)||selected!==null;
+ for(const [button,name] of [['home',null],['library-open','detail'],['settings-open','settings']]){
+  const active=id===name||(button==='library-open'&&id==='library');
+  $(button).classList.toggle('active',active);$(button).setAttribute('aria-current',active?'page':'false');
  }
- if(id&&!$(id).open)$(id).show();
+ if(id&&id!=='detail'&&!$(id).open)$(id).show();
 }
-for(const id of ['library','settings'])$(id).addEventListener('close',()=>{if(!['library','settings'].some(name=>$(name).open))workspaceView()});
-async function openLibrary(){await leaveDraft();workspaceView('library');await searchLibrary()}
-let searchNumber=0;async function searchLibrary(){const number=++searchNumber;const rows=await api('/api/search?q='+encodeURIComponent($('search').value));if(number!==searchNumber)return;$('library-list').replaceChildren();for(const row of rows){const wrap=document.createElement('div');wrap.className='library-item';const b=document.createElement('button');const title=document.createElement('span');title.textContent=row.title;const date=document.createElement('small');date.textContent=row.recorded_at.slice(0,10);b.append(title,date);b.onclick=run(async()=>{await selectMeeting(row.id);$('library').close()});wrap.append(b);$('library-list').append(wrap)}if(!rows.length)$('library-list').textContent='Keine passenden Meetings.'}
-$('search').oninput=run(searchLibrary);$('library-open').onclick=run(openLibrary);$('home').onclick=run(async()=>{
- for(const d of document.querySelectorAll('dialog[open]'))d.close();workspaceView();
+async function showRecorder(){
+ await leaveDraft();audio.pause();
  const current=state?.recording.id&&state.sessions.find(row=>row.local_job_id===state.recording.id);
- if(current){field='notes';await selectMeeting(current.id);renderSelected()}
-});
-document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>$(b.dataset.close).close());
+ if(current){field='notes';await selectMeeting(current.id,null)}
+ else{selected=null;selectedPeaks=[0];document.body.classList.remove('reading-content');workspaceView();renderState()}
+}
+async function openLibrary(){await leaveDraft();if(librarySelection&&state.sessions.some(r=>r.id===librarySelection)){field=libraryField;await selectMeeting(librarySelection)}else await showLibraryList()}
+async function showLibraryList(){await leaveDraft();workspaceView('library');await searchLibrary()}
+$('library-all').onclick=run(showLibraryList);
+let searchNumber=0;async function searchLibrary(){const number=++searchNumber;const rows=await api('/api/search?q='+encodeURIComponent($('search').value));if(number!==searchNumber)return;$('library-list').replaceChildren();for(const row of rows){const wrap=document.createElement('div');wrap.className='library-item';const b=document.createElement('button');const title=document.createElement('span');title.textContent=row.title;const date=document.createElement('small');date.textContent=row.recorded_at.slice(0,10);b.append(title,date);b.onclick=run(async()=>{await selectMeeting(row.id);$('library').close()});wrap.append(b);$('library-list').append(wrap)}if(!rows.length)$('library-list').textContent='Keine passenden Meetings.'}
+$('search').oninput=run(searchLibrary);$('library-open').onclick=run(openLibrary);$('home').onclick=run(showRecorder);
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=run(async()=>{const id=b.dataset.close;$(id).close();if(['library','settings'].includes(id))await showRecorder()}));
 $('more-open').onclick=run(async()=>{if(!selected)return;await leaveDraft();const m=models.get(selected);$('title-edit').value=m.values.title;$('metadata').textContent=m.row.recorded_at+' · '+duration(m.row.duration_sec)+' · '+m.row.samplerate+' Hz · '+m.row.channels+' Kanal/Kanäle';$('more').showModal()});
 $('rename').onclick=run(async()=>{changed('title',$('title-edit').value);await flush();renderSelected();await poll();$('more').close()});
 async function exportMeeting(){const m=models.get(selected);if(!m)return;const text='# '+m.values.title+'\n\n'+[['Notizen','notes'],['Transkript','transcript_text'],['Zusammenfassung','summary_text']].map(([label,key])=>'## '+label+'\n\n'+m.values[key]).join('\n\n');$('export-text').value=text;$('local-export').showModal();$('export-file').onclick=()=>{const url=URL.createObjectURL(new Blob([text],{type:'text/markdown;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='meeting-'+selected+(m.dirty.size?'-entwurf':'')+'.md';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};}

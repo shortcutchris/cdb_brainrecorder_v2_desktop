@@ -1,0 +1,12 @@
+const test=require('node:test'),assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs');
+const source=fs.readFileSync(require('node:path').join(__dirname,'../../studio/app.js'),'utf8');
+function harness(){
+ const elements=new Map(),calls=[];
+ const el=id=>{if(!elements.has(id))elements.set(id,{hidden:false,open:false,classList:{toggle(){}},setAttribute(){},close(){this.open=false},show(){this.open=true}});return elements.get(id)};
+ const c={state:{recording:{id:null},sessions:[{id:1,local_job_id:'old'},{id:2,local_job_id:'live'}]},selected:1,selectedPeaks:[.5],field:'summary_text',librarySelection:1,libraryField:'summary_text',$:el,document:{body:{dataset:{},classList:{remove(){}}},querySelector:()=>el('content')},audio:{pause(){calls.push('pause')}},leaveDraft:async()=>{calls.push('save')},renderState(){},run:f=>f,searchLibrary:async()=>calls.push('search'),selectMeeting:async(id,context='detail')=>{calls.push({id,context,field:c.field});c.selected=id}};
+ vm.createContext(c);vm.runInContext(source.slice(source.indexOf('function workspaceView('),source.indexOf('let searchNumber=')),c);return {c,el,calls};
+}
+test('Recorder without capture saves draft and clears old selection without losing library memory',async()=>{const h=harness();await h.c.showRecorder();assert.equal(h.c.selected,null);assert.equal(h.c.librarySelection,1);assert.equal(h.c.libraryField,'summary_text');assert.equal(h.el('content').hidden,true);assert.equal(h.el('recorder-ready').hidden,false);assert.equal(h.calls[0],'save')});
+test('Recorder during capture returns current notes rather than last library meeting',async()=>{const h=harness();h.c.state.recording.id='live';await h.c.showRecorder();assert.deepEqual(h.calls.find(v=>typeof v==='object'),{id:2,context:null,field:'notes'});assert.equal(h.c.librarySelection,1)});
+test('Library restores its own meeting and tab across Recorder and Settings',async()=>{const h=harness();h.c.field='notes';await h.c.openLibrary();assert.deepEqual(h.calls.find(v=>typeof v==='object'),{id:1,context:'detail',field:'summary_text'})});
+test('Deleted remembered meeting falls back to list; settings hides ready and detail',async()=>{const h=harness();h.c.librarySelection=99;await h.c.openLibrary();assert.equal(h.el('library').open,true);assert.equal(h.el('recorder-ready').hidden,true);assert.ok(h.calls.includes('search'));h.c.workspaceView('settings');assert.equal(h.el('library').open,false);assert.equal(h.el('settings').open,true);assert.equal(h.el('content').hidden,true)});

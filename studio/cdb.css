@@ -81,3 +81,9 @@ body.keyboard-open{min-height:0}
 .reading-content .player{margin-top:12px}
 .reading-content .tabs{margin-top:12px}
 .reading-content #editor{font-size:16px;line-height:1.55}
+
+.recorder-ready{grid-column:3;grid-row:1;min-width:0;align-self:center;padding:40px;color:var(--ink)}
+.recorder-ready>img{width:64px;height:64px;margin-bottom:20px;opacity:.7}
+.recorder-ready h1{font-size:32px;line-height:1.2}.recorder-ready p{font-size:18px;line-height:1.6;max-width:560px}
+.library-all{min-height:48px;align-self:flex-start}body:not([data-workspace="detail"]) .library-all{display:none}
+body[data-workspace="recorder"] .recent{display:none}

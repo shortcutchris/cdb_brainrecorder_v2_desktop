@@ -1,4 +1,4 @@
-# Recorder Studio 0.4.3
+# Recorder Studio 0.5.4
 
 Die HTML-Oberfläche übernimmt die ausgewählte zweite Studio-Variante. Das bestehende Python-Backend verarbeitet weiterhin Aufnahmen und lokale Modelle. `web_server.py` verwendet den vorhandenen `LocalController`, die ursprüngliche `data/sessions.db`, bestehende QSettings-Prompts und die fest versionierte gemeinsame Python-Engine 0.2.6. Es gibt eine Aufnahmeinstanz und einen FIFO-Verarbeiter.
 
@@ -16,6 +16,10 @@ Der Benutzerdienst `cdb-recorder-studio.service` startet das Python-Backend; der
 Das Installationsskript ändert nur Anwendungsdienst und Starter; es installiert keine Systempakete oder Modelle. `run.sh` bleibt als Starter der bisherigen Python/Qt-Oberfläche erhalten. Sie kann wegen der gemeinsamen exklusiven Datensperre nicht gleichzeitig mit dem Studio laufen.
 
 ## Bedienung und Daten
+
+„Recorder“ zeigt ohne laufende Aufnahme eine Bereitschaftsansicht mit Standardbereich. Frühere Meetings werden dort nicht automatisch ausgewählt. Während einer Aufnahme führt „Recorder“ immer zu deren aktuellen Notizen zurück. Nach dem Stoppen bleibt die gerade beendete Aufnahme zur Kontrolle sichtbar; beim nächsten Wechsel zurück zu Recorder erscheint wieder die Bereitschaftsansicht. Eine neue Aufnahme ist unabhängig von der Hintergrundverarbeitung möglich.
+
+„Bibliothek“ merkt sich innerhalb der geöffneten App ihre eigene Aufnahme und den ausgewählten Texttab. „Alle Aufnahmen“ öffnet die Liste zur erneuten Auswahl. Ein Browser-Neustart beginnt wieder auf Recorder. Einstellungen öffnen rechts und ihre Schließen-Taste führt zu Recorder. Die große Aufnahme-/Stopptaste links bleibt in allen drei Bereichen verfügbar.
 
 Der Aufnahmebutton startet oder beendet eine Aufnahme unabhängig vom rechts ausgewählten Meeting. Transkription und Zusammenfassung laufen nacheinander in der bestehenden Warteschlange; weitere Aufnahmen sind dabei möglich. Notizen lassen sich parallel bearbeiten. Texte werden verzögert automatisch gespeichert. Bei einem Speicherfehler bleibt die Navigation möglich und der Entwurf lokal erhalten. Ein Konflikt mit einer neueren Fassung verhindert das Überschreiben; ein lokaler Entwurf bleibt erhalten. Während der KI-Verarbeitung sind deren Ergebnisfelder geschützt.
 
