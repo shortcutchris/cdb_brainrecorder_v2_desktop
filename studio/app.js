@@ -9,7 +9,7 @@ const busyStates=['recording','importing','queued','transcribing','summarizing']
 const audio=$('audio');audio.volume=.8;
 function duration(n){n=Math.max(0,Math.floor(Number(n)||0));return n>=3600?[Math.floor(n/3600),Math.floor(n/60)%60,n%60].map(x=>String(x).padStart(2,'0')).join(':'):[Math.floor(n/60),n%60].map(x=>String(x).padStart(2,'0')).join(':')}
 function icon(name){const img=document.createElement('img');img.src='/assets/'+name+'.svg';img.alt='';return img}
-function notice(text){$('notice-text').textContent=text;$('notice').hidden=!text}
+function notice(text){(document.querySelector('dialog[open]')||document.body).append($('notice'));$('notice-text').textContent=text;$('notice').hidden=!text}
 $('notice-close').onclick=()=>notice('');
 async function api(path,body,keepalive=false){
  const response=await fetch(path,{method:body===undefined?'GET':'POST',headers:body===undefined?{}:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:body===undefined?undefined:JSON.stringify(body),cache:'no-store',keepalive,signal:keepalive?undefined:AbortSignal.timeout(body===undefined?8000:25000)});

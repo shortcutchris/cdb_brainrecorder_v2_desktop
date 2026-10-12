@@ -1,0 +1,38 @@
+# CDB-Verbindung und Touchseiten · Studio 0.5.0
+
+Stand 12.10.2026. Python-Backend und HTML-Kiosk bleiben eine Anwendung mit einer Aufnahme-/Verarbeitungsqueue. Die gemeinsame lokale Engine bleibt unverändert auf 0.2.6 gepinnt.
+
+## Bedienung
+
+1. Einstellungen → Verbindung → Microsoft anmelden. Die angezeigte Microsoft-Adresse auf dem Handy oder Rechner öffnen und den Gerätecode eingeben. Nach bestätigter Anmeldung zeigt der Pi den CDB-Kontonamen. Abmelden/Abbrechen beendet die lokale Sitzung beziehungsweise die laufende Anmeldung.
+2. Transkription und Zusammenfassung unabhängig auf „Auf diesem Gerät“ oder „Über CDB“ stellen. CDB benötigt eine gültige Firmenanmeldung und überträgt Audio beziehungsweise Text. Lokale Modelle und öffentliche Modelldownloads brauchen keine Firmenanmeldung. Kein automatischer Wechsel zwischen lokal und CDB.
+3. Knowledge Areas → Bereiche laden → Zielbereich wählen. Das bestätigte Ziel bleibt kontogebunden gespeichert. Eine sichtbare Area ist noch kein garantiertes Schreibrecht.
+4. Meetingaktionen → Ins Brain übertragen. Gesendet werden ein eingefrorener Markdown-Text mit Zusammenfassung, vollständigem Transkript und Notizen sowie Titel und festem Ziel. Der Original-Audioversand zur Archivierung gehört nicht zu diesem Text-Ingest. Eine für CDB-Transkription übertragene Audiodatei ist ein eigener Serverbestand.
+5. Unter Knowledge Areas die Übertragung verfolgen: eingereiht → übertragen → angenommen → CDB verarbeitet. „Angenommen“ wird nicht als fertiges Wissensdokument ausgegeben. Antwortverlust nach einem Schreibaufruf bleibt „Empfang unklar“; kein blinder automatischer Neuversand.
+
+Einstellungen besitzen acht direkt anwählbare Aufgabenseiten ohne Scroll-Pfeile. Modellinstallation/-aktivierung ist bei der jeweiligen Modellseite, der technische lokale Modelltest auf einer eigenen Seite. Beim Eingeben mit Bildschirmtastatur wird das aktive Feld freigestellt. Eigene Themes und Übertragungen besitzen direkte Seitennummern. Die übrigen vorhandenen Leser-/Listenpfeile außerhalb der Einstellungen bleiben unverändert.
+
+## Technische Grenzen und Verträge
+
+Referenz: `git_reps_v5/cdb-knowledge-mobile`, insbesondere `ssoProtocol.ts`, `connection.ts`, `serverTranscription.ts`, `remoteSummary.ts`, `brainSend.ts`, `drive.ts` und die zugehörigen Domain-Parser.
+
+- Öffentlicher Microsoft-Client, Device Authorization Grant, delegierter CDB-Scope `access_as_user` plus `offline_access`. Kein Clientsecret. Voreinstellung: vorhandene CDB-Knowledge-Mobile-Client-ID; deren erlaubte Public-Client-Flows und Firmenrichtlinien müssen die Geräteanmeldung erlauben. Die öffentliche ID kann administrativ in der privaten CDB-Konfiguration geändert werden; kein selbsttätiges Ändern der Entra-Registrierung.
+- Microsoft liefert derzeit `https://login.microsoft.com/device`; zusätzlich ist die dokumentierte `https://microsoft.com/devicelogin` erlaubt. Andere Verifikationsziele werden verworfen. Tokenantwort und CDB-Identität werden vor Speicherung geprüft. Refresh prüft unveränderten Benutzer/Mandanten.
+- Serverauswahl ist auf `https://staging.cdbos.de` (Standard) und `https://cdbos.de` begrenzt. Produktion wurde nicht live geprüft. Netzwerkaufrufe folgen keinen Redirects und ignorieren Proxy-Umgebungsvariablen.
+- Zugangsdaten nur serverseitig unter `<Datenablage>/cdb/session.json` (0600, Verzeichnis 0700). Dies ist **Dateizugriffsschutz, keine Verschlüsselung der SD-Karte** und kein Linux-Schlüsselbund. API und Frontend erhalten keine Access-/Refresh-Tokens. Anmeldecodes sind kurzlebig und werden nicht in Git/Screenshots archiviert.
+- Provider und Konto werden beim Erstellen jedes neuen Verarbeitungsjobs in `cdb-request.json` festgeschrieben. Bestehende Jobs ohne diese Datei bleiben lokal. Modelltests bleiben lokal. Die Aufnahme ist weiterhin unabhängig vom FIFO-Verarbeitungsworker.
+- CDB-ASR komprimiert eine Kopie des Originals mit ffmpeg zu Opus (32 kbit/s), streamt sie in begrenzten Blöcken als Multipart und speichert Recording-/Job-ID. Original bleibt unverändert. Größenlimit 95 MiB für die komprimierte Kopie. Ein bestätigter Serverjob wird nach Neustart gepollt. Unklarer Audioupload wird über seinen eindeutigen Dateinamen abgeglichen; ohne eindeutigen Fund kein erneuter Upload.
+- CDB-Zusammenfassung verwendet den vorhandenen abschnittsweisen Worker mit `/api/v1/tqs/agent/structure-text`. Abgeschnittene/leere Antworten gelten als Fehler. Die bekannten Zeichenbudget-/Teilcheckpoint-Grenzen der gemeinsamen Engine sind dadurch noch nicht behoben.
+- Text-Ingest: frische Area-Prüfung, eingefrorene Account-/Server-/Area-/Mandantenbindung, `origin: ai_generated`, `auto_verify_tl1: false`. Publikations-DB mit Payload-Fingerprint verhindert Doppeltippen desselben unveränderten Inhalts/Ziels. Dies ist keine serverseitige Idempotenzgarantie. Nach unklarem Versand manuell im CDB prüfen.
+- Netzwerk-/Anmeldefehler bei noch nicht gesendeten Textaufträgen beziehungsweise bestätigten Statusabfragen lassen den Auftrag erhalten. Neue ASR-/Summary-Versuche bleiben nach Fehler über die bestehende Wiederholen-Aktion steuerbar. Es gibt keinen stillen Cloud-/Lokal-Fallback.
+- Die Knowledge-Areas-Seite zeigt die letzten 30 Übertragungen. Kein vollständiger Drive-Browser und kein bidirektionaler Sync. Originalarchivierung samt verknüpften Texten ist eine spätere Erweiterung.
+
+## Nachweise
+
+Automatische Tests: CDB-Adapter mit synthetischem Transport (Anmeldung, Refresh/Kontowechsel, lokale Defaults, Konto-/Zielbindung, Dateirechte, wiederaufgenommene ASR, bestätigte Publikation, falsche IDs, Antwortverlust, Deduplizierung); bestehende Native-/Studio-Tests einschließlich CSRF-/Origin-Schutz und Anmeldungsvoraussetzungen.
+
+Browser: alle acht Grundseiten bei 1024 × 600 ohne angeschnittene Bedienelemente oder vertikalen Inhaltsüberlauf geprüft; Verbindung zusätzlich bei 1280 × 720. Bildschirmtastatur bei 1024 × 600 geprüft. Screenshots zeigen ausschließlich eine isolierte synthetische Bibliothek, keinen abgeschlossenen Live-Login.
+
+Live: Microsoft-Codeanforderung vom Pi erfolgreich, Testanmeldung anschließend abgebrochen. **Noch offen:** Firmenlogin/Consent, CDB-ASR und CDB-Summary mit Firmenkonto, echte Area-Liste und synthetischer End-to-End-Ingest in `staging_playground`, weitere Firmenrichtlinien, physischer Touchtest durch Chris. Keine produktiven Meetingtexte testweise hochgeladen.
+
+[Microsoft Device Flow](https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-device-code)

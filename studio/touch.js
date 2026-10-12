@@ -42,7 +42,7 @@
   const b=document.createElement('button');b.type='button';b.className='touch-select';b.append(document.createElement('span'));const label=el.getAttribute('aria-label')||el.closest('label')?.firstChild.textContent.trim()||'Auswahl';b.setAttribute('aria-label',label+' auswählen');el.hidden=true;el.after(b);selectButtons.set(el,b);
   b.onclick=()=>{source=el;pageSize=window.innerHeight<=650?3:4;page=Math.floor(Math.max(0,el.selectedIndex)/pageSize);picker.querySelector('h2').textContent=label;picker.showModal();drawPicker()};
  });
- document.querySelectorAll('.dialog-body:not(#settings>.dialog-body),.settings-content,textarea,#queue-panel').forEach(install);
+ document.querySelectorAll('.dialog-body:not(#settings>.dialog-body),textarea:not(#settings textarea),#queue-panel').forEach(install);
  new MutationObserver(schedule).observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['hidden','disabled','open','class']});
  window.addEventListener('resize',()=>{if(picker.open)drawPicker();schedule()});setInterval(()=>{schedule();if(picker.open&&source?.disabled)picker.close()},500);schedule();
 })();

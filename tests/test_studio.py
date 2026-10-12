@@ -29,6 +29,15 @@ class StudioTests(unittest.TestCase):
             with urllib.request.urlopen(req,timeout=8) as r:return r.status,r.read(),r.headers
         except urllib.error.HTTPError as e:
             with e:return e.code,e.read(),e.headers
+    def test_cdb_endpoints_require_login_and_keep_local_default(self):
+        self.assertEqual(self.request('/api/cdb/config',{'summary':'cdb'})[0],400)
+        self.assertEqual(self.request('/api/cdb/areas')[0],400)
+        self.assertEqual(self.request('/api/cdb/send',{'session':self.sid,'area':'invalid'})[0],400)
+        self.assertEqual(json.loads(self.request('/api/state')[1])['cdb']['config']['summary'],'local')
+    def test_cdb_actions_share_origin_and_csrf_protection(self):
+        self.assertEqual(self.request('/api/cdb/login',{}, {'Origin':'http://evil.example'})[0],403)
+        self.assertEqual(self.request('/api/cdb/logout',{}, {'X-CSRF-Token':'bad'})[0],403)
+
     def test_existing_library_content_save_reload_and_optimistic_conflict(self):
         row=json.loads(self.request('/api/sessions/'+str(self.sid))[1]);self.assertEqual(row['notes'],'Alte Notizen')
         status,body,_=self.request('/api/sessions/'+str(self.sid)+'/save',{'changes':{'notes':'Neue Notizen'},'base':{'notes':'Alte Notizen'}})

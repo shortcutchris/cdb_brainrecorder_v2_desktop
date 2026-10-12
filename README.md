@@ -369,3 +369,11 @@ codesign -d --entitlements - dist/CorporateDigitalBrainRecorder.app
 ## Lizenz
 
 MIT
+
+## Recorder Studio 0.5.0: Firmenanmeldung und CDB
+
+Die Pi-Oberfläche bietet direkt anwählbare Einstellungsseiten sowie Microsoft-Anmeldung,
+getrennt wählbare lokale/CDB-Transkription und Zusammenfassung und die bewusste
+Textübertragung in eine Knowledge Area. Lokale Aufnahme und Verarbeitung bleiben verfügbar.
+Bedienung, Datenschutzgrenzen, Auslieferungsnachweise und noch offene Live-Abnahme:
+[docs/cdb-integration/README.md](docs/cdb-integration/README.md).

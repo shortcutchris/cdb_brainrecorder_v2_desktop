@@ -21,12 +21,13 @@ from urllib.parse import urlsplit
 from data.repo import SessionRepository
 from services.local_controller import LocalController
 from settings import SettingsManager
+from services.cdb_integration import CdbService, CdbBackend
 from meeting_recorder.audio import devices
 from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.4.5'
+VERSION = '0.5.0'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -37,10 +38,21 @@ class Conflict(ValueError): pass
 
 class StudioApp:
     def __init__(self, root, database, backend=None, command_factory=None, preview=False, settings_file=None):
+        self.cdb = CdbService(root)
+        self.cdb_backend = CdbBackend(self.cdb) if backend is None else None
         self.repo = SessionRepository(str(database))
-        self.controller = LocalController(self.repo, root, backend=backend, command_factory=command_factory)
+        self.controller = LocalController(self.repo, root, backend=backend or self.cdb_backend, command_factory=command_factory)
         self.engine = self.controller.engine
         self.store, self.models, self.probe = self.engine.store, self.engine.models, self.engine.probe
+        if self.cdb_backend:self.cdb_backend.store = self.store
+        create = self.store.create
+        def create_bound(title):
+            snapshot = self.cdb.snapshot()
+            ident = create(title)
+            atomic_write(self.store.folder(ident)/'cdb-request.json',json.dumps(snapshot))
+            return ident
+        self.store.create = create_bound
+        self.cdb.thread(self.cdb.run)
         self.token = ''
         self.csrf = secrets.token_urlsafe(32)
         self.preview = preview
@@ -147,6 +159,7 @@ class StudioApp:
         else: state['waveform'] = [0]*64
         state['level'] = self.probe.level(raw) if raw else 0
         state['capabilities'] = self.capabilities(state)
+        state['cdb'] = self.cdb.public()
         state.update(csrf=self.csrf, version=VERSION, preview=self.preview,
             namespace=hashlib.sha256(str(self.store.root).encode()).hexdigest()[:16])
         if self.model_test:
@@ -242,6 +255,16 @@ class StudioApp:
                 return {'id':self.engine.start('')}
             if path=='/api/record/stop':
                 ident=self.engine.stop();self.controller.sync();return {'id':ident}
+            if path.startswith('/api/cdb/'):
+                if path=='/api/cdb/config':
+                    self.require('configure');return self.cdb.configure(body)
+                if path=='/api/cdb/login':
+                    self.require('configure');return self.cdb.start_login()
+                if path=='/api/cdb/logout':
+                    self.require('configure');self.cdb.logout();return self.cdb.public()
+                if path=='/api/cdb/area':return self.cdb.select_area(body.get('area'))
+                if path=='/api/cdb/send':return self.cdb.enqueue(self.session(int(body.get('session',0))),body.get('area'))
+                raise KeyError('Unbekannte CDB-Aktion.')
             if path=='/api/settings':
                 self.require('configure')
                 if set(body)-{'device','whisper_binary','whisper_model','summary_model','threads'}:raise ValueError('Unbekannte Einstellung.')
@@ -304,6 +327,7 @@ class StudioApp:
             self.closing=True
             if self.engine.recorder.active:self.engine.stop()
             self.controller.sync()
+            self.cdb.close()
             self.engine.close()
 
 
@@ -314,6 +338,10 @@ class StudioHandler(Handler):
         if path=='/favicon.ico':
             self.send_response(204);self.headers_base('image/x-icon',0);self.end_headers();return
         if path=='/api/state':self.respond(self.server.app.state());return
+        if path=='/api/cdb/areas':
+            try:self.respond(self.server.app.cdb.areas())
+            except ValueError as e:self.respond({'error':str(e)},400)
+            return
         if path=='/api/prompts':self.respond(self.server.app.prompts());return
         if path=='/api/search':
             from urllib.parse import parse_qs
