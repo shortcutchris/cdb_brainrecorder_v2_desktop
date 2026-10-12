@@ -1,0 +1,156 @@
+[
+  {
+    "page": "brain",
+    "buttons": [
+      {
+        "height": 56,
+        "label": "Bereiche aktualisieren",
+        "overflow": false,
+        "width": 208,
+        "y": 624
+      },
+      {
+        "height": 56,
+        "label": "Abmelden",
+        "overflow": false,
+        "width": 208,
+        "y": 624
+      },
+      {
+        "height": 56,
+        "label": "Übertragungen",
+        "overflow": false,
+        "width": 208,
+        "y": 624
+      },
+      {
+        "height": 56,
+        "label": "KI & Modelle",
+        "overflow": false,
+        "width": 208,
+        "y": 624
+      }
+    ]
+  },
+  {
+    "page": "audio",
+    "buttons": [
+      {
+        "height": 56,
+        "label": "Mikrofon testen · 5 Sekunden",
+        "overflow": false,
+        "width": 208,
+        "y": 624
+      },
+      {
+        "height": 56,
+        "label": "Geräte aktualisieren",
+        "overflow": false,
+        "width": 208,
+        "y": 624
+      }
+    ]
+  },
+  {
+    "page": "prompts",
+    "buttons": [
+      {
+        "height": 56,
+        "label": "Neue Vorlage",
+        "overflow": false,
+        "width": 208,
+        "y": 624
+      },
+      {
+        "height": 56,
+        "label": "Vorlage speichern",
+        "overflow": false,
+        "width": 208,
+        "y": 624
+      }
+    ]
+  },
+  {
+    "page": "design",
+    "buttons": [
+      {
+        "height": 56,
+        "label": "Löschen …",
+        "overflow": false,
+        "width": 208,
+        "y": 624
+      },
+      {
+        "height": 56,
+        "label": "Bearbeiten",
+        "overflow": false,
+        "width": 208,
+        "y": 624
+      },
+      {
+        "height": 56,
+        "label": "Duplizieren",
+        "overflow": false,
+        "width": 208,
+        "y": 624
+      },
+      {
+        "height": 56,
+        "label": "Neues Theme",
+        "overflow": false,
+        "width": 208,
+        "y": 624
+      }
+    ]
+  },
+  {
+    "page": "theme-editor",
+    "buttons": [
+      {
+        "height": 56,
+        "label": "Abbrechen",
+        "overflow": false,
+        "width": 208,
+        "y": 624
+      },
+      {
+        "height": 56,
+        "label": "Theme speichern",
+        "overflow": false,
+        "width": 208,
+        "y": 624
+      }
+    ]
+  },
+  {
+    "page": "models",
+    "buttons": [
+      {
+        "height": 56,
+        "label": "Modell testen",
+        "overflow": false,
+        "width": 208,
+        "y": 624
+      },
+      {
+        "height": 56,
+        "label": "Bereits aktiv",
+        "overflow": false,
+        "width": 208,
+        "y": 624
+      }
+    ]
+  },
+  {
+    "page": "diagnosis",
+    "buttons": [
+      {
+        "height": 56,
+        "label": "Programmpfad speichern",
+        "overflow": false,
+        "width": 208,
+        "y": 624
+      }
+    ]
+  }
+]

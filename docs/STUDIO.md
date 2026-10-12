@@ -1,4 +1,8 @@
-# Recorder Studio 0.5.12
+# Recorder Studio 0.5.13
+
+## 0.5.13 – Einheitliche Buttonbreiten
+
+Die unteren Aktionsbuttons sind auf dem 1280 × 720-Touchdisplay einheitlich 208 × 56 px groß. Breadcrumb-Buttons sind 160 px breit. Position und Abstände bleiben beim Wechsel zwischen Seiten und Zuständen erhalten. Auf schmaleren Ansichten verkleinern sich alle Aktionsbuttons gemeinsam. [Prüfung und Vorschauen](buttons-0.5.13/README.md).
 
 ## 0.5.12 – Feste Einstellungsbereiche
 

@@ -95,8 +95,8 @@
 #settings .advanced-settings summary small{display:block;font-size:14px;line-height:22px;color:var(--muted);margin-top:12px}
 /* Breadcrumbs provide direct access to both ancestors on nested settings pages. */
 #settings-breadcrumb{display:flex;align-items:center;gap:12px;min-width:0}
-#settings #settings-overview-back{width:164px;flex:0 0 164px}
-#settings #settings-parent-back{height:56px;min-height:56px;width:180px;margin:0;padding:0 16px;border-radius:12px;font-size:15px;flex:0 0 180px}
+#settings #settings-overview-back{width:var(--settings-trail-width);flex:0 0 var(--settings-trail-width)}
+#settings #settings-parent-back{height:56px;min-height:56px;width:var(--settings-trail-width);margin:0;padding:0 16px;border-radius:12px;font-size:15px;flex:0 0 var(--settings-trail-width)}
 #settings-breadcrumb>span{color:var(--muted);font-size:24px;width:12px;text-align:center}
 #settings-breadcrumb h2{white-space:nowrap}
 #settings .brain-account-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
@@ -110,19 +110,20 @@
 #brain-instance{font-size:15px;line-height:22px;color:var(--ink)}
 #brain-instance-host{font-size:13px;color:var(--muted)}
 #settings #connection-page #cdb-login-message{min-height:44px}
-/* Fixed footer columns: utility / optional action / secondary / primary. */
-#settings.workspace-view :is(#audio-page,#connection-page,#asr-page,#llm-page,#prompts-page,#appearance-page,#models-page)>.dialog-actions{display:grid;grid-template-columns:240px minmax(0,1fr) 180px 240px;gap:12px}
+/* Equal action widths; the flexible second column preserves the left/right grouping. */
+#settings{--settings-action-width:clamp(156px,calc((100vw - 172px)/4),208px);--settings-trail-width:160px}
+#settings.workspace-view :is(#audio-page,#connection-page,#asr-page,#llm-page,#prompts-page,#appearance-page,#models-page)>.dialog-actions{display:grid;grid-template-columns:var(--settings-action-width) minmax(var(--settings-action-width),1fr) repeat(2,var(--settings-action-width));gap:12px}
 #settings.workspace-view :is(#audio-page,#connection-page,#asr-page,#llm-page,#prompts-page,#appearance-page,#models-page)>.dialog-actions button{width:100%;min-width:0;grid-row:1;justify-self:stretch}
-#settings .model-page .model-preparation{grid-column:1;grid-row:1;grid-template-columns:240px}
+#settings .model-page .model-preparation{grid-column:1;grid-row:1;grid-template-columns:var(--settings-action-width)}
 #settings .dialog-actions :is(#asr-test,#llm-test,#prompt-new,#theme-copy,#theme-cancel,#cdb-logout){grid-column:3}
 #settings .dialog-actions :is(#asr-activate,#llm-activate,#probe-start,#prompt-save,#theme-new,#theme-save,#brain-models,#binary-save){grid-column:4}
 #settings .dialog-actions :is(#refresh-devices,#prompt-delete,#theme-delete){grid-column:1}
 #settings #finish-setup{grid-column:3}
-#settings #connection-page .dialog-actions #cdb-logout{grid-column:2;max-width:180px;justify-self:end}
+#settings #connection-page .dialog-actions #cdb-logout{grid-column:2;max-width:var(--settings-action-width);justify-self:end}
 #settings #connection-page .dialog-actions #brain-transfers{grid-column:3}
 #settings #connection-page .dialog-actions #brain-models{grid-column:4}
 #settings #appearance-page .theme-manage,#settings #theme-editor-actions{display:contents}
-#settings #appearance-page .theme-manage #theme-edit{grid-column:2;max-width:180px;justify-self:end}
+#settings #appearance-page .theme-manage #theme-edit{grid-column:2;max-width:var(--settings-action-width);justify-self:end}
 #settings #appearance-page .theme-manage #theme-delete{margin-right:0}
 #settings #appearance-page:has(#theme-library[hidden]) .theme-manage{display:none}
 #settings #ai-page .dialog-actions{justify-content:flex-start}
@@ -131,5 +132,4 @@
 #settings #prompts-page #prompt-text{display:block;width:100%;height:100%;min-height:0;max-height:none;padding:0;border:0;border-radius:0;line-height:24px;background:transparent}
 #settings .prompt-text-pages{height:56px;min-height:56px;margin:0;display:flex;align-items:center}
 #settings.with-keyboard .prompt-field{height:100%;flex:1}
-@media(max-width:1050px){#settings.workspace-view :is(#audio-page,#connection-page,#asr-page,#llm-page,#prompts-page,#appearance-page,#models-page)>.dialog-actions{grid-template-columns:180px minmax(0,1fr) 160px 200px}#settings .model-page .model-preparation{grid-template-columns:180px}#settings #settings-overview-back{width:150px;flex-basis:150px}#settings #settings-parent-back{width:160px;flex-basis:160px}}
 #settings .settings-page>.dialog-actions .direct-pages{height:56px;min-height:56px;margin-block:0;align-items:center}
