@@ -16,19 +16,39 @@ SAMPLE = 'Anna erstellt bis Donnerstag eine Aufgabenliste. Die Kosten sind noch 
 class ModelChecks:
     def __init__(self, app):
         self.app=app; self.root=app.store.root/'model-checks'; self.root.mkdir(exist_ok=True)
+        self.history_path=self.root/'results.json'
+        try:self.history=json.loads(self.history_path.read_text())
+        except (OSError,ValueError):self.history={}
         self.path=self.root/'latest.json'; self.lock=threading.RLock(); self.thread=None
         self.stopping=threading.Event()
         try:self.latest=json.loads(self.path.read_text())
         except (OSError,ValueError):self.latest={'state':'idle'}
+        if self.latest.get('state')=='completed':self.remember(self.latest)
         if self.latest['state']=='running':self.save(state='failed',message='Test unterbrochen. Bitte erneut testen.')
+
+    @staticmethod
+    def key(selection):
+        return json.dumps([selection.get(k) for k in ('stage','provider','model','binding')],sort_keys=True)
+
+    def remember(self, result):
+        with self.lock:
+            self.history[self.key(result)]=dict(result)
+            atomic_write(self.history_path,json.dumps(self.history,ensure_ascii=False))
+            self.history_path.chmod(0o600)
+
+    def results(self):
+        # Fingerprints describe model/runtime versions, never credentials. The UI
+        # compares them with the catalogue before showing a retained local result.
+        with self.lock:return [dict(result) for result in self.history.values()]
 
     def save(self, **values):
         with self.lock:
             self.latest.update(values); atomic_write(self.path,json.dumps(self.latest,ensure_ascii=False))
             self.path.chmod(0o600)
+            if self.latest.get('state')=='completed':self.remember(self.latest)
 
     def public(self):
-        with self.lock:return {k:v for k,v in self.latest.items() if k != 'fingerprint'}
+        with self.lock:return dict(self.latest)
 
     def selection(self, body):
         stage=body.get('stage'); provider=body.get('provider')
@@ -90,7 +110,8 @@ class ModelChecks:
         if entry:
             if not entry[1].get('tested'):raise ValueError('Dieses Modell zuerst erfolgreich testen.')
         else:
-            if self.latest.get('state')!='completed' or any(self.latest.get(k)!=selection.get(k) for k in ('stage','provider','model','binding')):raise ValueError('Diesen Brain-Zugang zuerst erfolgreich testen.')
+            with self.lock:checked=self.history.get(self.key(selection),{})
+            if checked.get('state')!='completed':raise ValueError('Diesen Brain-Zugang zuerst erfolgreich testen.')
         stage=selection['stage']; old_provider=self.app.cdb.config()[stage]
         self.app.cdb.configure({stage:selection['provider']})
         try:

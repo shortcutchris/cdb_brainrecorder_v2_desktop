@@ -1,5 +1,10 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.10 – Einheitliche Touchansichten und dauerhafte Modellnachweise
+
+Aktives Modell und Teststatus bleiben klar getrennt. Ergebnisse bleiben pro Modell gespeichert; die übernommenen Pi-Nachweise werden gegen Modell und Laufzeit geprüft. Header, Fußleisten, Auswahlfelder und Such-/Seitennavigation sind vereinheitlicht. Bibliothek und Queue zeigen vollständige Seiten. Siehe [Audit und Screenshots](docs/stable-models-0.5.10/README.md).
+
+
 Eine Desktop-Anwendung zum Aufzeichnen, Verwalten und Wiedergeben von Audio-Sessions mit Raspberry Pi Touch-Optimierung.
 
 ## Aktueller Raspberry-Pi-Stand: Touch-Oberfläche 0.5.9

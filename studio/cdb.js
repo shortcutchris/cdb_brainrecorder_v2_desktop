@@ -37,7 +37,7 @@ function renderCdb(){
  $('azure-summary-info').hidden=!azure;$('local-summary-settings').hidden=azure;$('local-summary-actions').hidden=azure;
  $('azure-summary-status').textContent=c.identity?'Firmenkonto verbunden · Azure OpenAI ist für neue Zusammenfassungen aktiv.':'Bitte unter Brain-Konto mit Microsoft anmelden.';
  $('cdb-account').textContent=c.identity?'Angemeldet: '+c.identity.name+' · '+c.config.server.replace('https://',''):'Nicht angemeldet · lokale Verarbeitung verfügbar';
- $('cdb-connection-heading').textContent=c.identity?'Dein Brain':'Mit deinem Firmenkonto verbinden';$('cdb-connection-intro').hidden=Boolean(c.identity);$('cdb-server').closest('label').hidden=Boolean(c.identity);
+ $('cdb-connection-heading').textContent=c.identity?'Dein Brain':'Mit deinem Firmenkonto verbinden';$('cdb-connection-intro').hidden=false;$('cdb-server').closest('label').hidden=false;$('cdb-server').disabled=Boolean(c.identity)||!allowed('configure');
  const pending=c.login.state==='pending';$('cdb-login-code').hidden=!pending;
  if(pending){$('cdb-code').textContent=c.login.code;$('cdb-login-url').href=c.login.url;$('cdb-login-url').textContent=c.login.url.replace('https://','');$('cdb-expiry').textContent='Gültig bis '+new Date(c.login.expires*1000).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})}
  $('cdb-login-message').textContent=c.login.message||'';

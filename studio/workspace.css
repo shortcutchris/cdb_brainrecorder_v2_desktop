@@ -1,0 +1,68 @@
+/* All destinations share one header baseline and one horizontal content inset. */
+:root{--view-header:80px;--view-inset:24px;--view-title:24px}
+#settings.workspace-view[open]{grid-template-rows:var(--view-header) minmax(0,1fr) 28px}
+dialog.workspace-view>.dialog-heading,#queue-region.workspace-view>.queue-heading{height:var(--view-header);min-height:var(--view-header);flex:0 0 var(--view-header);display:flex;align-items:center;gap:16px;margin:0;padding:12px var(--view-inset);border-bottom:1px solid var(--line)}
+#settings.workspace-view .dialog-heading h2,#library.workspace-view .dialog-heading h2,#queue-region .queue-heading h2{font-size:var(--view-title);line-height:32px;font-weight:650;letter-spacing:-.4px;margin:0;padding:0}
+#settings-overview-back{height:56px;min-height:56px;margin:0}
+#settings-overview{padding:16px var(--view-inset) 24px}
+#library .dialog-search,#queue-region .queue-status{padding:16px var(--view-inset)}
+#library .dialog-search input{margin:0;min-height:56px}
+#library .dialog-body,#queue-region .queue-body{padding-inline:var(--view-inset)}
+.capture{padding-top:24px}
+.capture h1{font-size:var(--view-title);line-height:32px;margin:0}
+body[data-workspace="detail"] .content{padding-top:0}
+body[data-workspace="detail"] .library-navigation{height:var(--view-header);min-height:var(--view-header);padding:12px 0;margin-bottom:16px;gap:16px}
+body[data-workspace="detail"] .library-location{font-size:var(--view-title);font-weight:650;color:var(--ink);letter-spacing:-.4px;line-height:32px}
+body[data-workspace="recorder"] .content{padding-top:24px}
+body[data-workspace="recorder"] .meeting-header{margin-top:0}
+body[data-workspace="recorder"] .meeting-header h1{font-size:var(--view-title);line-height:32px}
+@media(max-height:650px){:root{--view-header:72px;--view-inset:20px;--view-title:22px}.capture{padding-top:20px}body[data-workspace="recorder"] .content{padding-top:20px}dialog.workspace-view>.dialog-heading,#queue-region.workspace-view>.queue-heading{padding-block:8px}}
+/* Reserve feedback and footer space instead of moving existing controls. */
+#settings.workspace-view .settings-page>.dialog-actions,#settings.workspace-view .settings-page>.dialog-actions:has(>button[hidden]:only-child){display:flex;min-height:80px}
+#settings #probe-audio:not([src]){display:block;visibility:hidden}
+#settings #probe-state{min-height:24px}
+#settings #download-progress[value="0"]{display:block;visibility:hidden}
+#settings #download-state:empty,#settings #model-test-state:empty{display:block;visibility:hidden}
+#settings #download-state,#settings #model-test-state{min-height:24px}
+#settings #theme-validation{min-height:24px}
+/* Model and account actions use stable columns, including unavailable actions. */
+#settings.workspace-view .model-page>.dialog-actions{display:grid}
+#settings.workspace-view #connection-page>.dialog-actions{display:grid}
+#settings-overview-back{width:220px;flex:0 0 220px;justify-content:center}
+#settings.workspace-view .settings-page>.dialog-actions{height:80px;flex:0 0 80px;padding:12px var(--view-inset)}
+#settings .settings-content input:not([type=color]),#settings .touch-select{height:56px;min-height:56px;margin-top:8px}
+#settings .model-page .settings-content{padding:24px}
+#settings-overview{padding-top:24px}
+#theme-status{margin-right:auto;text-align:left}
+#settings #audio-page .dialog-actions #refresh-devices{margin-right:auto}
+#settings #audio-page .dialog-actions #probe-start{order:1}
+#settings #audio-page .dialog-actions #finish-setup{order:2}
+.touch-pager{height:80px;min-height:80px;flex:0 0 80px;flex-direction:row;gap:16px;padding:12px var(--view-inset)}
+.touch-pager .direct-pages{display:flex;gap:8px;align-items:center}
+.touch-pager .direct-pages button{min-width:56px;width:56px;height:56px;padding:0;margin:0}
+.touch-pager.inline-pager{height:56px;min-height:56px;flex:1;min-width:0;margin-right:auto;padding:0;border:0;background:transparent}
+#queue-region>.touch-pager{flex-direction:row;border-left:0;border-top:1px solid var(--line)}
+#queue-region .queue-body{padding-bottom:16px}
+#library>.touch-pager{padding-bottom:40px;height:108px;min-height:108px;flex-basis:108px}
+#queue-region>.touch-pager{padding-bottom:40px;height:108px;min-height:108px;flex-basis:108px}
+dialog:not(.workspace-view)>.dialog-heading{height:80px;min-height:80px;padding:12px 24px;align-items:center}
+dialog:not(.workspace-view)>.dialog-actions{height:80px;min-height:80px;flex:0 0 80px;padding:12px 24px;flex-wrap:nowrap}
+#touch-picker .dialog-search{padding:16px 24px}
+#touch-picker .dialog-search input{height:56px;min-height:56px;margin:0;border-radius:12px}
+#touch-picker .dialog-body{padding:8px 24px 16px}
+#touch-picker .dialog-actions #picker-position{margin-right:auto;white-space:nowrap}
+#touch-picker .dialog-actions .direct-pages{display:flex;gap:8px}
+#touch-picker .dialog-actions .direct-pages button{min-width:56px;width:56px;height:56px;padding:0;margin:0}
+.touch-pager button[aria-current=page],#touch-picker button[aria-current=page]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+@media(max-height:650px){#settings .model-page .settings-content{padding:12px 20px}#settings-overview-back{width:200px;flex-basis:200px}}
+#touch-picker.with-keyboard .dialog-body{padding-block:4px}
+#touch-picker.with-keyboard .dialog-search{padding-block:8px}
+#touch-picker.with-keyboard .dialog-heading,#touch-picker.with-keyboard .dialog-actions{height:64px;min-height:64px;flex-basis:64px;padding-block:4px}
+#touch-picker.with-keyboard .picker-option{min-height:56px;padding:8px 16px}
+#library .library-item{height:96px;padding:8px 0}
+#library .library-item button{height:80px;min-height:80px;overflow:hidden}
+#library .library-item span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+#queue-region .queue-row{height:100px;min-height:100px;margin-bottom:12px}
+#queue-region .queue-row strong{white-space:normal;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+#queue-region>.touch-pager{justify-content:space-between}
+#queue-region>.touch-pager>span,.editor-wrap>.touch-pager>span{margin-right:auto}

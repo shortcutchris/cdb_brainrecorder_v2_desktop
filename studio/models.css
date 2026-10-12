@@ -14,7 +14,6 @@
 #settings .model-page .dialog-actions>div{margin-right:auto}
 #settings .model-page .dialog-actions button{min-width:140px}
 #settings .model-page .primary,#brain-models{background:var(--accent);color:var(--on-accent)}
-#settings .model-result summary{min-height:56px;padding:16px;border-radius:12px;background:var(--panel);cursor:pointer;font-size:16px}
 #settings .model-result p{padding:12px 16px;font-size:16px;white-space:pre-wrap}
 #settings #azure-summary-info,#settings #cdb-asr-info{margin-top:0;padding:16px 20px;background:var(--panel);border-radius:14px}
 #settings #azure-summary-info p,#settings #cdb-asr-info p{margin:8px 0;font-size:15px}
@@ -24,9 +23,48 @@
 #settings .model-result p{margin:0;padding:8px 12px;min-height:52px;line-height:1.4;font-size:15px}
 .model-result .direct-pages{gap:8px;margin:0 12px}
 .model-result .direct-pages:empty{display:none}
-#settings .model-result[open]:not([hidden])+.model-footnote{display:none}
 
 @media(prefers-reduced-motion:reduce){.is-working::before{animation:none}}
-#settings .model-result summary{line-height:24px;min-height:56px;padding:16px}
-#settings .model-page:has(.model-result[open]:not([hidden])) #azure-summary-info p:not([role=status]),#settings .model-page:has(.model-result[open]:not([hidden])) #cdb-asr-info p:not([role=status]){display:none}
 #settings .model-result p{white-space:normal}
+/* Reserved rows keep controls in place across provider, test and download states. */
+#settings .model-page .settings-content{display:grid;grid-template-rows:80px 92px 56px 44px minmax(126px,1fr) 20px;gap:8px;padding:12px 24px}
+#settings .model-page .active-model{grid-row:1;margin:0;padding:10px 16px;gap:2px;justify-content:center}
+#settings .active-model small{font-size:14px;color:var(--accent-text)}
+#settings .model-page .model-choice{grid-row:2;align-items:start}
+#settings .model-page .model-choice label{margin:0;font-size:14px}
+#settings .model-page .model-info,#settings .model-page #cdb-asr-info,#settings .model-page #azure-summary-info{grid-row:3;grid-column:1;margin:0;padding:8px 16px;border:0;border-radius:12px;overflow:hidden}
+#settings .model-page .model-info p,#settings .model-page .model-info a{font-size:14px;line-height:20px}
+#settings .model-page #cdb-asr-info h3,#settings .model-page #azure-summary-info h3{display:none}
+#settings .model-page #cdb-asr-info p,#settings .model-page #azure-summary-info p{margin:0;font-size:14px;line-height:20px}
+#settings .model-page #cdb-asr-info p:nth-of-type(2),#settings .model-page #azure-summary-info p:nth-of-type(2){display:none}
+#settings .model-page .check-status{grid-row:4;margin:0;align-self:center;font-size:14px;line-height:20px;overflow-wrap:anywhere;max-height:44px;overflow:hidden}
+#settings .model-page .model-result{grid-row:5;display:grid;grid-template-rows:26px minmax(0,1fr) 48px;gap:4px;padding:8px 16px;background:var(--panel);border:1px solid var(--line);border-radius:14px;min-height:0}
+#settings .model-result header{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px}
+#settings .model-result header span{color:var(--muted);font-size:13px}
+#settings .model-page .model-result p{margin:0;padding:0;font-size:15px;line-height:21px;min-height:0;overflow:hidden}
+#settings .model-result .direct-pages{margin:0;min-height:48px;display:flex;align-items:center}
+#settings .model-result .direct-pages button{min-height:44px;height:44px;min-width:44px}
+#settings .model-page .model-footnote{grid-row:6;margin:0;font-size:13px;line-height:20px}
+#settings.workspace-view .model-page .dialog-actions{display:grid;grid-template-columns:minmax(0,1fr) 180px 240px;min-height:80px;flex-wrap:nowrap}
+#settings .model-page .dialog-actions>div{margin:0}
+#settings .model-page .dialog-actions button{width:100%;min-height:52px;font-size:15px}
+.model-preparation{display:grid;grid-template-columns:minmax(0,240px)}
+.model-preparation>div,.model-preparation>button{grid-column:1;grid-row:1}
+/* Status changes reserve their own row on every settings page. */
+#settings>#settings-constraint,#settings>#settings-constraint:empty{display:block;min-height:28px;height:28px;padding:4px 24px;line-height:20px;font-size:13px}
+#settings>#settings-constraint:empty{visibility:hidden}
+#settings #prompts-page .dialog-actions #prompt-delete:disabled{display:block;visibility:hidden}
+#settings.workspace-view #connection-page .dialog-actions{display:grid;grid-template-columns:1.2fr .7fr .8fr 1.3fr;min-height:80px}
+#connection-page .dialog-actions>#cdb-login,#connection-page .dialog-actions>#cdb-connection-refresh{grid-column:1;grid-row:1}
+#connection-page .dialog-actions>#cdb-logout{grid-column:2;grid-row:1}
+#connection-page .dialog-actions>#brain-transfers{grid-column:3;grid-row:1}
+#connection-page .dialog-actions>#brain-models{grid-column:4;grid-row:1}
+#settings #connection-page .dialog-actions button{min-width:0;width:100%;font-size:14px}
+#settings #connection-page .settings-content{display:grid;grid-template-rows:32px 24px 76px 28px 40px minmax(0,1fr);gap:6px}
+#settings #connection-page .settings-content>h3,#settings #connection-page .settings-content>p,#settings #connection-page .settings-content>label{margin:0}
+#cdb-connection-heading{grid-row:1}#cdb-connection-intro{grid-row:2}#connection-page label:has(#cdb-server){grid-row:3}#cdb-account{grid-row:4}
+#settings #cdb-login-message,#settings #cdb-login-message:empty{display:block;grid-row:5;margin:0;max-height:40px;overflow:hidden}
+#settings #cdb-connected-area,#settings #cdb-login-code{grid-row:6;grid-column:1;margin:0;padding:16px 20px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+@media(max-height:650px){#settings .model-page .settings-content{grid-template-rows:70px 66px 46px 40px minmax(108px,1fr) 18px;gap:4px;padding:8px 16px}#settings .model-page .active-model strong{font-size:18px}#settings .model-page .model-footnote{font-size:12px}#settings.workspace-view .model-page .dialog-actions{min-height:68px;padding:8px 16px}}
+
+#settings #azure-summary-status{padding:0;border:0;line-height:20px}

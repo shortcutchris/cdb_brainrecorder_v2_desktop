@@ -1,5 +1,10 @@
 # Recorder Studio 0.5.9
 
+## 0.5.10 – Einheitliche Touchansichten und dauerhafte Modellnachweise
+
+Aktives Modell und Teststatus bleiben klar getrennt. Ergebnisse bleiben pro Modell gespeichert; die übernommenen Pi-Nachweise werden gegen Modell und Laufzeit geprüft. Header, Fußleisten, Auswahlfelder und Such-/Seitennavigation sind vereinheitlicht. Bibliothek und Queue zeigen vollständige Seiten. Siehe [Audit und Screenshots](stable-models-0.5.10/README.md).
+
+
 Die HTML-Oberfläche übernimmt die ausgewählte zweite Studio-Variante. Das bestehende Python-Backend verarbeitet weiterhin Aufnahmen und lokale Modelle. `web_server.py` verwendet den vorhandenen `LocalController`, die ursprüngliche `data/sessions.db`, bestehende QSettings-Prompts und die fest versionierte gemeinsame Python-Engine 0.2.6. Es gibt eine Aufnahmeinstanz und einen FIFO-Verarbeiter.
 
 ## Start auf dem Pi

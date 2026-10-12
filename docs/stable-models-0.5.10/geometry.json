@@ -1,0 +1,858 @@
+{
+  "settings": {
+    "header": {
+      "bottom": 80,
+      "height": 80,
+      "left": 88,
+      "right": 1280,
+      "top": 0,
+      "width": 1192,
+      "x": 88,
+      "y": 0
+    },
+    "title": {
+      "bottom": 55.5,
+      "height": 32,
+      "left": 112,
+      "right": 1256,
+      "top": 23.5,
+      "width": 1144,
+      "x": 112,
+      "y": 23.5
+    }
+  },
+  "running": [
+    {
+      "bottom": 172,
+      "height": 80,
+      "left": 112,
+      "right": 1256,
+      "s": "#asr-page .active-model",
+      "top": 92,
+      "width": 1144,
+      "x": 112,
+      "y": 92
+    },
+    {
+      "bottom": 272,
+      "height": 92,
+      "left": 112,
+      "right": 1256,
+      "s": "#asr-page .model-choice",
+      "top": 180,
+      "width": 1144,
+      "x": 112,
+      "y": 180
+    },
+    {
+      "bottom": 572,
+      "height": 176,
+      "left": 112,
+      "right": 1256,
+      "s": "#asr-page .model-result",
+      "top": 396,
+      "width": 1144,
+      "x": 112,
+      "y": 396
+    },
+    {
+      "bottom": 692,
+      "height": 80,
+      "left": 88,
+      "right": 1280,
+      "s": "#asr-page .dialog-actions",
+      "top": 612,
+      "width": 1192,
+      "x": 88,
+      "y": 612
+    }
+  ],
+  "01-settings": [
+    {
+      "client": 79,
+      "cls": "dialog-heading",
+      "id": "",
+      "rect": {
+        "bottom": 80,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 0,
+        "width": 1192,
+        "x": 88,
+        "y": 0
+      },
+      "scroll": 79
+    }
+  ],
+  "02-audio": [
+    {
+      "client": 79,
+      "cls": "dialog-heading",
+      "id": "",
+      "rect": {
+        "bottom": 80,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 0,
+        "width": 1192,
+        "x": 88,
+        "y": 0
+      },
+      "scroll": 79
+    },
+    {
+      "client": 532,
+      "cls": "settings-content",
+      "id": "",
+      "rect": {
+        "bottom": 612,
+        "height": 532,
+        "left": 88,
+        "right": 1280,
+        "top": 80,
+        "width": 1192,
+        "x": 88,
+        "y": 80
+      },
+      "scroll": 532
+    },
+    {
+      "client": 80,
+      "cls": "dialog-actions",
+      "id": "",
+      "rect": {
+        "bottom": 692,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 612,
+        "width": 1192,
+        "x": 88,
+        "y": 612
+      },
+      "scroll": 80
+    }
+  ],
+  "03-brain": [
+    {
+      "client": 79,
+      "cls": "dialog-heading",
+      "id": "",
+      "rect": {
+        "bottom": 80,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 0,
+        "width": 1192,
+        "x": 88,
+        "y": 0
+      },
+      "scroll": 79
+    },
+    {
+      "client": 532,
+      "cls": "settings-content",
+      "id": "",
+      "rect": {
+        "bottom": 612,
+        "height": 532,
+        "left": 88,
+        "right": 1280,
+        "top": 80,
+        "width": 1192,
+        "x": 88,
+        "y": 80
+      },
+      "scroll": 532
+    },
+    {
+      "client": 80,
+      "cls": "dialog-actions",
+      "id": "",
+      "rect": {
+        "bottom": 692,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 612,
+        "width": 1192,
+        "x": 88,
+        "y": 612
+      },
+      "scroll": 80
+    }
+  ],
+  "04-transfers": [
+    {
+      "client": 79,
+      "cls": "dialog-heading",
+      "id": "",
+      "rect": {
+        "bottom": 80,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 0,
+        "width": 1192,
+        "x": 88,
+        "y": 0
+      },
+      "scroll": 79
+    },
+    {
+      "client": 532,
+      "cls": "settings-content",
+      "id": "",
+      "rect": {
+        "bottom": 612,
+        "height": 532,
+        "left": 88,
+        "right": 1280,
+        "top": 80,
+        "width": 1192,
+        "x": 88,
+        "y": 80
+      },
+      "scroll": 532
+    },
+    {
+      "client": 80,
+      "cls": "dialog-actions",
+      "id": "",
+      "rect": {
+        "bottom": 692,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 612,
+        "width": 1192,
+        "x": 88,
+        "y": 612
+      },
+      "scroll": 80
+    }
+  ],
+  "05-prompts": [
+    {
+      "client": 79,
+      "cls": "dialog-heading",
+      "id": "",
+      "rect": {
+        "bottom": 80,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 0,
+        "width": 1192,
+        "x": 88,
+        "y": 0
+      },
+      "scroll": 79
+    },
+    {
+      "client": 520,
+      "cls": "settings-content",
+      "id": "",
+      "rect": {
+        "bottom": 600,
+        "height": 520,
+        "left": 88,
+        "right": 1280,
+        "top": 80,
+        "width": 1192,
+        "x": 88,
+        "y": 80
+      },
+      "scroll": 520
+    },
+    {
+      "client": 92,
+      "cls": "dialog-actions",
+      "id": "",
+      "rect": {
+        "bottom": 692,
+        "height": 92,
+        "left": 88,
+        "right": 1280,
+        "top": 600,
+        "width": 1192,
+        "x": 88,
+        "y": 600
+      },
+      "scroll": 92
+    }
+  ],
+  "06-design": [
+    {
+      "client": 79,
+      "cls": "dialog-heading",
+      "id": "",
+      "rect": {
+        "bottom": 80,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 0,
+        "width": 1192,
+        "x": 88,
+        "y": 0
+      },
+      "scroll": 79
+    },
+    {
+      "client": 532,
+      "cls": "settings-content",
+      "id": "",
+      "rect": {
+        "bottom": 612,
+        "height": 532,
+        "left": 88,
+        "right": 1280,
+        "top": 80,
+        "width": 1192,
+        "x": 88,
+        "y": 80
+      },
+      "scroll": 532
+    },
+    {
+      "client": 80,
+      "cls": "dialog-actions",
+      "id": "",
+      "rect": {
+        "bottom": 692,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 612,
+        "width": 1192,
+        "x": 88,
+        "y": 612
+      },
+      "scroll": 80
+    }
+  ],
+  "07-theme-editor": [
+    {
+      "client": 79,
+      "cls": "dialog-heading",
+      "id": "",
+      "rect": {
+        "bottom": 80,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 0,
+        "width": 1192,
+        "x": 88,
+        "y": 0
+      },
+      "scroll": 79
+    },
+    {
+      "client": 532,
+      "cls": "settings-content",
+      "id": "",
+      "rect": {
+        "bottom": 612,
+        "height": 532,
+        "left": 88,
+        "right": 1280,
+        "top": 80,
+        "width": 1192,
+        "x": 88,
+        "y": 80
+      },
+      "scroll": 532
+    },
+    {
+      "client": 80,
+      "cls": "dialog-actions",
+      "id": "",
+      "rect": {
+        "bottom": 692,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 612,
+        "width": 1192,
+        "x": 88,
+        "y": 612
+      },
+      "scroll": 80
+    }
+  ],
+  "08-diagnostics": [
+    {
+      "client": 79,
+      "cls": "dialog-heading",
+      "id": "",
+      "rect": {
+        "bottom": 80,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 0,
+        "width": 1192,
+        "x": 88,
+        "y": 0
+      },
+      "scroll": 79
+    },
+    {
+      "client": 532,
+      "cls": "settings-content",
+      "id": "",
+      "rect": {
+        "bottom": 612,
+        "height": 532,
+        "left": 88,
+        "right": 1280,
+        "top": 80,
+        "width": 1192,
+        "x": 88,
+        "y": 80
+      },
+      "scroll": 532
+    },
+    {
+      "client": 80,
+      "cls": "dialog-actions",
+      "id": "",
+      "rect": {
+        "bottom": 692,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 612,
+        "width": 1192,
+        "x": 88,
+        "y": 612
+      },
+      "scroll": 80
+    }
+  ],
+  "09-library": [
+    {
+      "client": 79,
+      "cls": "dialog-heading",
+      "id": "",
+      "rect": {
+        "bottom": 80,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 0,
+        "width": 1192,
+        "x": 88,
+        "y": 0
+      },
+      "scroll": 79
+    }
+  ],
+  "10-meeting": [],
+  "11-meeting-actions": [],
+  "12-transfer-dialog": [],
+  "13-picker-before": [],
+  "14-queue": [
+    {
+      "client": 79,
+      "cls": "queue-heading",
+      "id": "",
+      "rect": {
+        "bottom": 80,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 0,
+        "width": 1192,
+        "x": 88,
+        "y": 0
+      },
+      "scroll": 79
+    }
+  ],
+  "15-recorder": [],
+  "16-whisper-passed": [
+    {
+      "client": 79,
+      "cls": "dialog-heading",
+      "id": "",
+      "rect": {
+        "bottom": 80,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 0,
+        "width": 1192,
+        "x": 88,
+        "y": 0
+      },
+      "scroll": 79
+    },
+    {
+      "client": 532,
+      "cls": "settings-content",
+      "id": "",
+      "rect": {
+        "bottom": 612,
+        "height": 532,
+        "left": 88,
+        "right": 1280,
+        "top": 80,
+        "width": 1192,
+        "x": 88,
+        "y": 80
+      },
+      "scroll": 532
+    },
+    {
+      "client": 80,
+      "cls": "dialog-actions",
+      "id": "",
+      "rect": {
+        "bottom": 692,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 612,
+        "width": 1192,
+        "x": 88,
+        "y": 612
+      },
+      "scroll": 80
+    }
+  ],
+  "local": [
+    {
+      "bottom": 184,
+      "height": 80,
+      "left": 112,
+      "right": 1256,
+      "s": "#asr-page .active-model",
+      "top": 104,
+      "width": 1144,
+      "x": 112,
+      "y": 104
+    },
+    {
+      "bottom": 284,
+      "height": 92,
+      "left": 112,
+      "right": 1256,
+      "s": "#asr-page .model-choice",
+      "top": 192,
+      "width": 1144,
+      "x": 112,
+      "y": 192
+    },
+    {
+      "bottom": 560,
+      "height": 152,
+      "left": 112,
+      "right": 1256,
+      "s": "#asr-page .model-result",
+      "top": 408,
+      "width": 1144,
+      "x": 112,
+      "y": 408
+    },
+    {
+      "bottom": 692,
+      "height": 80,
+      "left": 88,
+      "right": 1280,
+      "s": "#asr-page .dialog-actions",
+      "top": 612,
+      "width": 1192,
+      "x": 88,
+      "y": 612
+    }
+  ],
+  "cloud": [
+    {
+      "bottom": 184,
+      "height": 80,
+      "left": 112,
+      "right": 1256,
+      "s": "#asr-page .active-model",
+      "top": 104,
+      "width": 1144,
+      "x": 112,
+      "y": 104
+    },
+    {
+      "bottom": 284,
+      "height": 92,
+      "left": 112,
+      "right": 1256,
+      "s": "#asr-page .model-choice",
+      "top": 192,
+      "width": 1144,
+      "x": 112,
+      "y": 192
+    },
+    {
+      "bottom": 560,
+      "height": 152,
+      "left": 112,
+      "right": 1256,
+      "s": "#asr-page .model-result",
+      "top": 408,
+      "width": 1144,
+      "x": 112,
+      "y": 408
+    },
+    {
+      "bottom": 692,
+      "height": 80,
+      "left": 88,
+      "right": 1280,
+      "s": "#asr-page .dialog-actions",
+      "top": 612,
+      "width": 1192,
+      "x": 88,
+      "y": 612
+    }
+  ],
+  "17-brain-model": [
+    {
+      "client": 79,
+      "cls": "dialog-heading",
+      "id": "",
+      "rect": {
+        "bottom": 80,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 0,
+        "width": 1192,
+        "x": 88,
+        "y": 0
+      },
+      "scroll": 79
+    },
+    {
+      "client": 532,
+      "cls": "settings-content",
+      "id": "",
+      "rect": {
+        "bottom": 612,
+        "height": 532,
+        "left": 88,
+        "right": 1280,
+        "top": 80,
+        "width": 1192,
+        "x": 88,
+        "y": 80
+      },
+      "scroll": 532
+    },
+    {
+      "client": 80,
+      "cls": "dialog-actions",
+      "id": "",
+      "rect": {
+        "bottom": 692,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 612,
+        "width": 1192,
+        "x": 88,
+        "y": 612
+      },
+      "scroll": 80
+    }
+  ],
+  "18-summary": [
+    {
+      "client": 79,
+      "cls": "dialog-heading",
+      "id": "",
+      "rect": {
+        "bottom": 80,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 0,
+        "width": 1192,
+        "x": 88,
+        "y": 0
+      },
+      "scroll": 79
+    },
+    {
+      "client": 532,
+      "cls": "settings-content",
+      "id": "",
+      "rect": {
+        "bottom": 612,
+        "height": 532,
+        "left": 88,
+        "right": 1280,
+        "top": 80,
+        "width": 1192,
+        "x": 88,
+        "y": 80
+      },
+      "scroll": 532
+    },
+    {
+      "client": 80,
+      "cls": "dialog-actions",
+      "id": "",
+      "rect": {
+        "bottom": 692,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 612,
+        "width": 1192,
+        "x": 88,
+        "y": 612
+      },
+      "scroll": 80
+    }
+  ],
+  "19-picker": [
+    {
+      "client": 79,
+      "cls": "dialog-heading",
+      "id": "",
+      "rect": {
+        "bottom": 80,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 0,
+        "width": 1192,
+        "x": 88,
+        "y": 0
+      },
+      "scroll": 79
+    },
+    {
+      "client": 532,
+      "cls": "settings-content",
+      "id": "",
+      "rect": {
+        "bottom": 612,
+        "height": 532,
+        "left": 88,
+        "right": 1280,
+        "top": 80,
+        "width": 1192,
+        "x": 88,
+        "y": 80
+      },
+      "scroll": 532
+    },
+    {
+      "client": 80,
+      "cls": "dialog-actions",
+      "id": "",
+      "rect": {
+        "bottom": 692,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 612,
+        "width": 1192,
+        "x": 88,
+        "y": 612
+      },
+      "scroll": 80
+    }
+  ],
+  "20-library-page4": [
+    {
+      "client": 79,
+      "cls": "dialog-heading",
+      "id": "",
+      "rect": {
+        "bottom": 80,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 0,
+        "width": 1192,
+        "x": 88,
+        "y": 0
+      },
+      "scroll": 79
+    }
+  ],
+  "21-picker-keyboard": [
+    {
+      "client": 79,
+      "cls": "dialog-heading",
+      "id": "",
+      "rect": {
+        "bottom": 80,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 0,
+        "width": 1192,
+        "x": 88,
+        "y": 0
+      },
+      "scroll": 79
+    },
+    {
+      "client": 312,
+      "cls": "settings-content",
+      "id": "",
+      "rect": {
+        "bottom": 392,
+        "height": 312,
+        "left": 88,
+        "right": 1280,
+        "top": 80,
+        "width": 1192,
+        "x": 88,
+        "y": 80
+      },
+      "scroll": 475
+    },
+    {
+      "client": 80,
+      "cls": "dialog-actions",
+      "id": "",
+      "rect": {
+        "bottom": 472,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 392,
+        "width": 1192,
+        "x": 88,
+        "y": 392
+      },
+      "scroll": 80
+    }
+  ],
+  "22-recording": [],
+  "23-queue-working": [
+    {
+      "client": 79,
+      "cls": "queue-heading",
+      "id": "",
+      "rect": {
+        "bottom": 80,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 0,
+        "width": 1192,
+        "x": 88,
+        "y": 0
+      },
+      "scroll": 79
+    }
+  ]
+}

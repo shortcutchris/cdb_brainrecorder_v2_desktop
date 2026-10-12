@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.9'
+VERSION = '0.5.10'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -169,6 +169,7 @@ class StudioApp:
         state['capabilities'] = self.capabilities(state)
         state['cdb'] = self.cdb.public()
         state['model_check'] = self.model_checks.public()
+        state['model_results'] = self.model_checks.results()
         state.update(csrf=self.csrf, version=VERSION, preview=self.preview,
             namespace=hashlib.sha256(str(self.store.root).encode()).hexdigest()[:16])
         if self.model_test:

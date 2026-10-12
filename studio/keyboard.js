@@ -31,7 +31,7 @@
  }
  function toggle(){
   if(!panel.hidden){hide();return}
-  const dialog=document.querySelector('dialog[open]');
+  const dialog=[...document.querySelectorAll('dialog[open]')].findLast(d=>d.matches(':modal'))||document.querySelector('dialog[open]');
   if(!target||!target.isConnected||target.disabled||target.readOnly||!target.getClientRects().length||(dialog&&!dialog.contains(target)))target=[...(dialog||document).querySelectorAll('textarea:not([disabled]):not([readonly]),input:not([disabled]):not([readonly])')].find(el=>editable(el)&&el.getClientRects().length);
   if(!target)return;
   (dialog||document.body).append(panel);panel.hidden=false;document.body.classList.add('keyboard-open');if(dialog)dialog.classList.add('with-keyboard');draw();target?.focus({preventScroll:true});focusSettings(target);requestAnimationFrame(()=>target?.scrollIntoView({block:'nearest'}));
@@ -43,6 +43,7 @@
   const button=document.createElement('button');button.type='button';button.className='icon-button';button.setAttribute('aria-label','Bildschirmtastatur öffnen');const icon=document.createElement('img');icon.src='/assets/keyboard.svg';icon.alt='';button.append(icon);heading.insertBefore(button,dialog.querySelector('[data-close]'));
   button.onclick=toggle;
  }
+ document.addEventListener('close',hide,true);
  document.body.append(panel);
  function refreshAvailability(){
   const canEdit=[...document.querySelectorAll('textarea:not([disabled]):not([readonly]),input:not([disabled]):not([readonly])')].some(el=>editable(el)&&el.getClientRects().length);

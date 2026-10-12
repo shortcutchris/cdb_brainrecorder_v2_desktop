@@ -320,6 +320,23 @@ class StudioTests(unittest.TestCase):
             session['identity']['user_id']='other'
             self.assertEqual(self.request('/api/models/use',body)[0],400)
 
+    def test_successes_survive_other_model_tests_and_restart(self):
+        from services.model_checks import ModelChecks
+        checks=self.app.model_checks
+        binding={'server':'https://staging.cdbos.de','user_id':'one','client_id':'tenant'}
+        checks.latest={'stage':'summary','provider':'cdb','model':'company-standard','binding':binding}
+        checks.save(state='completed',result='Anna erstellt die Liste.')
+        checks.latest={'stage':'transcription','provider':'local','model':'medium','fingerprint':'exact-model-and-runtime'}
+        checks.save(state='completed',result='Anna erstellt die Liste.')
+        checks.latest={'stage':'summary','provider':'local','model':'other'}
+        checks.save(state='failed',message='Test fehlgeschlagen')
+        restored=ModelChecks(self.app)
+        self.assertEqual(len(restored.results()),2)
+        self.assertEqual(next(r for r in restored.results() if r['provider']=='local')['fingerprint'],'exact-model-and-runtime')
+        with patch.object(self.app.cdb,'session',return_value={'server':binding['server'],'identity':binding}),patch.object(self.app.cdb,'configure') as configure:
+            restored.use({'stage':'summary','provider':'cdb'})
+            configure.assert_called_once_with({'summary':'cdb'})
+
     def test_running_check_is_not_reported_as_success_after_restart(self):
         from services.model_checks import ModelChecks
         self.app.model_checks.save(state='running',stage='summary',provider='local',model='example')
