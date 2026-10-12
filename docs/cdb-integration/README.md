@@ -36,3 +36,11 @@ Browser: alle acht Grundseiten bei 1024 × 600 ohne angeschnittene Bedienelement
 Live: Microsoft-Codeanforderung vom Pi erfolgreich, Testanmeldung anschließend abgebrochen. **Noch offen:** Firmenlogin/Consent, CDB-ASR und CDB-Summary mit Firmenkonto, echte Area-Liste und synthetischer End-to-End-Ingest in `staging_playground`, weitere Firmenrichtlinien, physischer Touchtest durch Chris. Keine produktiven Meetingtexte testweise hochgeladen.
 
 [Microsoft Device Flow](https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-device-code)
+
+## Auslieferung 12.10.2026
+
+- Code: `8401583` auf `main`, zuvor `50707b7`; beide gepusht. 50/50 Python-Tests auf dem Pi mit UTF-8 und Qt-Offscreen bestanden. JavaScript-Syntax und Git-Whitespace geprüft.
+- Studio 0.5.0 produktiv unter Pi-Loopback 8088 gestartet. Backend und Kiosk aktiv; Kiosk nach Auslieferung neu gestartet. Datei-Hashes von Backend, CDB-Adapter, HTML und CDB-JavaScript stimmen lokal und auf dem Pi überein.
+- Nachprüfung: 18 bestehende Sitzungen vorhanden, aktueller Testjob weiterhin `completed`, keine aktive Aufnahme, kein neuer Verarbeitungsauftrag. Provider bleiben zunächst lokal; kein Firmenkonto automatisch angemeldet.
+- Vorheriger Stand einschließlich SQLite-Backups gesichert unter `/home/chris/studio-backups/before-cdb-0.5.0-20261012-143055/`. Rückweg: Studio im Leerlauf stoppen, `application.tar.gz` in das Anwendungsverzeichnis zurückspielen, Studio und Kiosk starten. Datenbanken nur bei einem begründeten Datenproblem und nach gesonderter Prüfung restaurieren; die neue Integration verändert die vorhandenen Sitzungs-/Queue-Schemata nicht.
+- Produktive neue Verbindungseinstellungen im Browser geprüft; physisches Pi-Display per Screenshot geprüft. Microsoft-Anmeldung und ein synthetischer CDB-End-to-End-Lauf stehen weiterhin aus. Für den nächsten Test: auf dem Pi Einstellungen → Verbindung → Mit Microsoft anmelden; anschließend nur `staging_playground` für synthetische Übertragungen verwenden.
