@@ -45,3 +45,31 @@ dialog .notice{position:fixed;left:16px;right:16px;bottom:80px;z-index:100;max-w
 #cdb-transfer .dialog-body h3{font-size:20px;margin:0 0 16px;overflow-wrap:anywhere}
 #cdb-transfer .dialog-body p{font-size:14px;line-height:1.4}
 #cdb-transfer #cdb-send{background:var(--accent);color:var(--on-accent)}
+
+/* Persistent workspace pages share the right column; capture stays operable. */
+dialog.workspace-view,#settings.workspace-view{position:static;grid-column:3;grid-row:1;inset:auto;margin:0;width:100%;height:100%;max-width:none;max-height:none;border:0;border-radius:0;box-shadow:none;overflow:hidden;padding:0;min-width:0;min-height:0;z-index:1}
+#settings.workspace-view[open]{grid-template-columns:156px minmax(0,1fr);grid-template-rows:72px minmax(0,1fr) auto}
+#settings.workspace-view>.settings-tabs{gap:2px;padding:6px}
+#settings.workspace-view>.settings-tabs button{min-height:48px;font-size:14px}
+#settings.workspace-view .dialog-heading .dialog-stop,#library.workspace-view .dialog-stop{display:none}
+#settings.workspace-view .dialog-heading h2,#library.workspace-view .dialog-heading h2{font-size:22px}
+#settings.workspace-view .settings-content{padding:12px 16px}
+#settings.workspace-view .dialog-actions{flex-wrap:wrap;padding:8px 12px}
+#settings.workspace-view .dialog-actions button{font-size:14px;margin:0;min-height:52px}
+#settings.workspace-view #theme-options{grid-template-columns:repeat(2,minmax(0,1fr))}
+#library.workspace-view .dialog-body{flex:1;min-height:0;overflow:auto}
+#library .library-item button{min-height:72px;align-items:center}
+#library .library-item span{overflow-wrap:anywhere;flex:1;min-width:0;line-height:1.4}
+#library .library-item small{flex-shrink:0}
+#settings.workspace-view.with-keyboard{height:100%;max-height:none;margin:0;grid-template-columns:minmax(0,1fr)}
+#settings.workspace-view.with-keyboard>.dialog-body{grid-column:1}
+.recent-row{min-height:100px;align-items:stretch}
+.recent-card{height:100px!important;min-height:100px;align-items:center;padding:10px 12px;gap:10px}
+.recent-card .card-text{flex:1;min-width:0}
+.recent-card strong{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;white-space:normal;overflow-wrap:anywhere;line-height:1.25;font-size:14px}
+.recent-card small{white-space:nowrap;margin-top:6px;font-size:11px}
+@media(max-height:650px){#settings.workspace-view[open]{grid-template-rows:64px minmax(0,1fr) auto}#settings.workspace-view>.settings-tabs button{min-height:44px}#settings.workspace-view .settings-content{padding:8px 12px}.recent-row{min-height:88px}.recent-card{height:88px!important;min-height:88px}.recent-card strong{font-size:13px}}
+#settings.workspace-view .theme-manage{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:8px}
+#settings.workspace-view .theme-manage button{margin:0;min-width:0;font-size:14px}
+.meeting-header h1{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere}
+body.keyboard-open{min-height:0}

@@ -32,6 +32,19 @@ class CdbTests(unittest.TestCase):
         self.c.save_token({'access_token':'synthetic','refresh_token':'synthetic-refresh','expires_in':3600,'token_type':'Bearer'},DEFAULT)
         self.row={'id':1,'title':'Synthetic meeting','transcription_status':'completed','notes':'Test','transcript_text':'Hello','summary_text':'Summary'}
     def tearDown(self):self.c.close();self.tmp.cleanup()
+    def test_automatic_summary_uses_meeting_rules_and_custom_task_is_preserved(self):
+        from unittest.mock import Mock
+        from settings import MEETING_PROMPT
+        backend=CdbBackend(self.c);backend.store=Mock();backend.store.list.return_value=[]
+        backend.local=Mock();backend.local.generate.return_value='Protokoll'
+        config={}
+        self.assertEqual(backend.generate('Test',config),'Protokoll')
+        self.assertEqual(backend.local.generate.call_args.args[1]['prompt'],MEETING_PROMPT)
+        custom={'prompt':'Eigene Aufgaben'}
+        backend.generate('Test',custom,merge=True)
+        self.assertEqual(custom['prompt'],'Eigene Aufgaben')
+        self.assertTrue(backend.local.generate.call_args.args[2])
+
     def test_tokens_never_in_public_state_and_private_permissions(self):
         text=json.dumps(self.c.public());self.assertNotIn('synthetic-refresh',text);self.assertNotIn('"token"',text)
         self.assertEqual(os.stat(self.c.root/'session.json').st_mode&0o777,0o600)

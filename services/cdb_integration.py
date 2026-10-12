@@ -305,6 +305,8 @@ class CdbBackend:
             if self.stopping.wait(5):raise Interrupted()
         raise Interrupted()
     def generate(self,text,c,merge=False):
+        from settings import MEETING_PROMPT
+        if not c.get("prompt"):c["prompt"] = MEETING_PROMPT
         if self.store is None:
             from meeting_recorder.core import Store
             self.store=Store(self.service.root.parent)

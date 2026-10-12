@@ -381,3 +381,7 @@ Bedienung, Datenschutzgrenzen, Auslieferungsnachweise und noch offene Live-Abnah
 ### Studio 0.5.1: Standardbereich für „Ins Brain“
 
 Nach der Microsoft-Anmeldung werden die Knowledge Areas automatisch geladen. Unter **Einstellungen → Verbindung** einen Standardbereich wählen; die Auswahl bleibt für dieses Firmenkonto gespeichert und ist dort oder unter **Knowledge Areas** jederzeit änderbar. Am Meeting öffnet **Ins Brain übertragen …** ein eigenes Touchfenster mit vorbelegtem Ziel. Ein dort gewählter anderer Bereich gilt nur für dieses Meeting. **Jetzt übertragen** startet den Versand. Aufnahme und lokale Verarbeitung bleiben unabhängig davon verfügbar.
+
+## Studio 0.5.2
+
+[Rechte Arbeitsansichten, Touchbedienung und Meetingaufgaben](docs/workspace-0.5.2/README.md): Bibliothek und Einstellungen öffnen neben der Aufnahme; Zusammenfassung bietet Meetingprotokoll oder vereinbarte Aufgaben statt Übersetzung.

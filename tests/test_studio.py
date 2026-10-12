@@ -69,6 +69,14 @@ class StudioTests(unittest.TestCase):
         self.assertEqual(status,206);self.assertEqual(len(data),16);self.assertEqual(headers['Content-Range'],'bytes 4-19/32044')
         self.assertEqual(self.request(f'/api/sessions/{self.sid}/audio',headers={'Range':'bytes=999999-'})[0],416)
         data=self.request(f'/api/sessions/{self.sid}/export')[1].decode();self.assertIn('Alte Notizen',data);self.assertIn('Alte Zusammenfassung',data)
+    def test_meeting_tasks_are_available_without_translation_and_custom_prompts_survive(self):
+        self.app.mutate_prompt({'action':'add','name':'Eigener Ablauf','text':'Eigener Arbeitsauftrag'})
+        prompts=self.app.prompts()
+        self.assertEqual([p['id'] for p in prompts if p['is_default']],['zusammenfassen','aufgaben'])
+        self.assertTrue(any(p['name']=='Eigener Ablauf' for p in prompts))
+        self.assertIn('Verantwortliche und Fristen nur übernehmen',prompts[1]['prompt_text'])
+        self.assertIn('Vorschläge und offene Freigaben',prompts[1]['prompt_text'])
+
     def test_prompts_preserved_mutation_and_default_protection(self):
         initial=self.app.prompts()
         self.assertEqual(self.request('/api/prompts',{'action':'add','name':'Eigener','text':'Arbeitsauftrag'})[0],200)

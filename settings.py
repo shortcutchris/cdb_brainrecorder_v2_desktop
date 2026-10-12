@@ -6,6 +6,16 @@ import json
 import uuid
 
 
+
+TASK_RULES = ("Extrahiere nur ausdrücklich vereinbarte Aufgaben. Jede Aufgabe braucht eine konkrete Handlung "
+              "und ein erkennbares Ziel. Verantwortliche und Fristen nur übernehmen, wenn sie genannt sind; "
+              "sonst 'nicht genannt' schreiben. Relative Wochentage nicht eigenmächtig in Kalenderdaten umrechnen. "
+              "Vorschläge und offene Freigaben nicht als beschlossene Aufgaben ausgeben. "
+              "Keine Aufgaben aus fehlenden Angaben erfinden. Wenn keine Aufgaben belegt sind, ausdrücklich sagen. ")
+MEETING_PROMPT = ("Erstelle auf Deutsch ein sachliches Meetingprotokoll ohne Übersetzung, mit Kurzüberblick, "
+                  "Entscheidungen, Aufgaben und offenen Fragen. Erfinde keine Fakten. " + TASK_RULES)
+TASK_PROMPT = ("Erstelle auf Deutsch eine knappe Liste der vereinbarten Aufgaben und nächsten Schritte. " + TASK_RULES)
+
 class SettingsManager:
     """Zentrale Settings-Verwaltung mit QSettings"""
 
@@ -66,50 +76,12 @@ class SettingsManager:
 
     def _get_default_prompts(self) -> list:
         """Gibt die fest codierten Standard-Prompts zurück"""
-        language = self.get_language()
-
-        if language == "Deutsch":
-            return [
-                {
-                    "id": "zusammenfassen",
-                    "name": "Zusammenfassen",
-                    "prompt_text": "Fasse den folgenden Transkript-Text prägnant zusammen. Behalte die wichtigsten Informationen und Kernaussagen bei.",
-                    "is_default": True
-                },
-                {
-                    "id": "uebersetzen",
-                    "name": "Übersetzen",
-                    "prompt_text": "Übersetze den folgenden deutschen Text ins Englische. Achte auf natürliche Formulierungen und korrekte Terminologie.",
-                    "is_default": True
-                },
-                {
-                    "id": "strukturieren",
-                    "name": "Strukturieren",
-                    "prompt_text": "Strukturiere den folgenden Transkript-Text übersichtlich. Erstelle Überschriften, Absätze und Stichpunkte für bessere Lesbarkeit.",
-                    "is_default": True
-                }
-            ]
-        else:  # English
-            return [
-                {
-                    "id": "summarize",
-                    "name": "Summarize",
-                    "prompt_text": "Summarize the following transcript text concisely. Keep the most important information and key points.",
-                    "is_default": True
-                },
-                {
-                    "id": "translate",
-                    "name": "Translate",
-                    "prompt_text": "Translate the following German text into English. Pay attention to natural phrasing and correct terminology.",
-                    "is_default": True
-                },
-                {
-                    "id": "structure",
-                    "name": "Structure",
-                    "prompt_text": "Structure the following transcript text clearly. Create headings, paragraphs, and bullet points for better readability.",
-                    "is_default": True
-                }
-            ]
+        return [
+            {"id": "zusammenfassen", "name": "Meetingprotokoll",
+             "prompt_text": MEETING_PROMPT, "is_default": True},
+            {"id": "aufgaben", "name": "Aufgaben & nächste Schritte",
+             "prompt_text": TASK_PROMPT, "is_default": True},
+        ]
 
     def get_custom_prompts(self) -> list:
         """Gibt Liste von Custom Prompts zurück"""
