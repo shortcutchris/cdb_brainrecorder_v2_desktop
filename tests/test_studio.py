@@ -75,7 +75,8 @@ class StudioTests(unittest.TestCase):
         self.assertEqual([p['id'] for p in prompts if p['is_default']],['zusammenfassen','aufgaben'])
         self.assertTrue(any(p['name']=='Eigener Ablauf' for p in prompts))
         self.assertIn('Verantwortliche und Fristen nur übernehmen',prompts[1]['prompt_text'])
-        self.assertIn('Vorschläge und offene Freigaben',prompts[1]['prompt_text'])
+        self.assertIn('Vorschläge sind keine vereinbarten Aufgaben',prompts[1]['prompt_text'])
+        self.assertIn("keine Aufgabe 'Bestellung freigeben'",prompts[1]['prompt_text'])
 
     def test_prompts_preserved_mutation_and_default_protection(self):
         initial=self.app.prompts()

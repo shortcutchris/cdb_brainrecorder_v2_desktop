@@ -1,6 +1,6 @@
 # Studio 0.5.2 – Arbeitsansichten und sinnvolle Aufgaben
 
-Bibliothek und Einstellungen teilen sich als nichtmodale Ansichten die rechte Arbeitsspalte mit dem Meetinginhalt. Die große Aufnahme-/Stopptaste, Navigation und Queue bleiben erreichbar. Schließen oder „Aufnahme“ führt zum Meeting zurück; Auswahl in der Bibliothek öffnet das gewählte Meeting. Auswahl- und Bestätigungsdialoge bleiben für einzelne Aktionen bestehen.
+Bibliothek und Einstellungen teilen sich als nichtmodale Ansichten die rechte Arbeitsspalte mit dem Meetinginhalt. Die große Aufnahme-/Stopptaste, Navigation und Queue bleiben erreichbar. Schließen oder „Recorder“ führt zum Meeting zurück; Auswahl in der Bibliothek öffnet das gewählte Meeting. Auswahl- und Bestätigungsdialoge bleiben für einzelne Aktionen bestehen.
 
 Letzte Aufnahmen besitzen Platz für drei Titelzeilen und Datum. Längere Titel enden mit Auslassung; der volle Titel steht im Meeting. Auch dessen Überschrift ist auf zwei Zeilen begrenzt, damit die Inhaltsfläche erhalten bleibt.
 
@@ -18,3 +18,9 @@ Browserprüfung der isolierten Vorschau mit synthetischen Daten bei 1280 × 720 
 - [Bibliothek](02-library.png)
 - [Dreizeiliger Aufnahmetitel](03-recent.png)
 - [Tastatur bei 1024 × 600](04-keyboard-1024.png)
+
+## Präzisierte Navigation in 0.5.3
+
+„Recorder“ ist eine Ansicht, kein Startbefehl. Nur die große Taste startet beziehungsweise stoppt. Bei laufender Aufnahme öffnet „Recorder“ deren Notizen, sonst bleibt das zuletzt gewählte Meeting samt Inhalt erhalten. Ein neuer Aufnahmestart wechselt aus Bibliothek/Einstellungen direkt zu den zugehörigen Notizen. Dieses Verhalten wurde mit der synthetischen Aufnahmequelle geprüft, einschließlich Wechsel zu einem älteren Meeting und Rückkehr zur laufenden Aufnahme. Ohne fertige Audiodatei zeigt der Player keine alte Dauer mehr.
+
+Ein echter lokaler Modelltest mit Qwen3 4B zeigte trotz der ersten Regeln unzulässig abgeleitete Aufgaben aus Budget und offener Freigabe. Die Vorlage wurde daraufhin konkreter formuliert: reine Informationen bleiben Informationen, angekündigte Termine sind getrennt, offene Freigaben keine Beauftragung. Aufgaben werden als kurze Zeilen ausgegeben. [Aufnahme und Navigation](05-recording-navigation.png).

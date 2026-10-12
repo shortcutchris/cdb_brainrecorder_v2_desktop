@@ -7,14 +7,28 @@ import uuid
 
 
 
-TASK_RULES = ("Extrahiere nur ausdrücklich vereinbarte Aufgaben. Jede Aufgabe braucht eine konkrete Handlung "
-              "und ein erkennbares Ziel. Verantwortliche und Fristen nur übernehmen, wenn sie genannt sind; "
-              "sonst 'nicht genannt' schreiben. Relative Wochentage nicht eigenmächtig in Kalenderdaten umrechnen. "
-              "Vorschläge und offene Freigaben nicht als beschlossene Aufgaben ausgeben. "
-              "Keine Aufgaben aus fehlenden Angaben erfinden. Wenn keine Aufgaben belegt sind, ausdrücklich sagen. ")
-MEETING_PROMPT = ("Erstelle auf Deutsch ein sachliches Meetingprotokoll ohne Übersetzung, mit Kurzüberblick, "
-                  "Entscheidungen, Aufgaben und offenen Fragen. Erfinde keine Fakten. " + TASK_RULES)
-TASK_PROMPT = ("Erstelle auf Deutsch eine knappe Liste der vereinbarten Aufgaben und nächsten Schritte. " + TASK_RULES)
+TASK_RULES = (
+    "Aufgaben sind nur ausdrücklich genannte Beauftragungen oder Zusagen mit konkreter Handlung. "
+    "Leite niemals eine Aufgabe aus einem Zustand, einer Information oder einem Problem ab. "
+    "Ein Budgetbetrag ist nur eine Information, keine Aufgabe 'Budget festlegen'. "
+    "Eine nicht freigegebene Bestellung ist ein offener Status, keine Aufgabe 'Bestellung freigeben'. "
+    "Ein angekündigter Testtermin gehört zu Terminen, nicht automatisch zu Aufgaben. "
+    "Vorschläge sind keine vereinbarten Aufgaben. Verantwortliche und Fristen nur übernehmen, "
+    "wenn ausdrücklich genannt, sonst 'nicht genannt'. Wochentage nicht in Kalenderdaten umrechnen. "
+    "Keine Fakten erfinden. Keine zusätzliche abschließende Zusammenfassung. "
+)
+MEETING_PROMPT = (
+    "Schreibe ein knappes deutsches Meetingprotokoll ohne Übersetzung. Abschnitte: Kurzüberblick, "
+    "Entscheidungen, Aufgaben, Termine, Offene Punkte. " + TASK_RULES +
+    "Pro Aufgabe nur eine Zeile: Person: konkrete Handlung — Frist. "
+    "Ohne belegte Aufgaben schreibe 'Keine vereinbarten Aufgaben genannt'."
+)
+TASK_PROMPT = (
+    "Schreibe auf Deutsch nur diese drei Abschnitte: Aufgaben, Termine, Offene Punkte. " + TASK_RULES +
+    "Pro Aufgabe genau eine kurze Zeile: Person: konkrete Handlung — Frist. "
+    "Keine Unterpunkte für Handlung oder Ziel. Allgemeine Informationen wie das Budget weglassen. "
+    "Ohne belegte Aufgaben schreibe 'Keine vereinbarten Aufgaben genannt'."
+)
 
 class SettingsManager:
     """Zentrale Settings-Verwaltung mit QSettings"""

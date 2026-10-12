@@ -56,6 +56,7 @@ function renderSelected(){
  document.querySelectorAll('[data-field]').forEach(b=>{const active=b.dataset.field===field;b.classList.toggle('active',active);b.setAttribute('aria-selected',String(active))});
  const hasAudio=state?.sessions.find(r=>r.id===selected)?.has_audio;
  if(hasAudio&&audio.dataset.session!==String(selected)){audio.src='/api/sessions/'+selected+'/audio';audio.dataset.session=String(selected);$('seek').value=0;$('play-time').textContent='00:00'}
+ if(!hasAudio){audio.pause();audio.removeAttribute('src');delete audio.dataset.session;$('seek').value=0;$('play-time').textContent='00:00';$('play-total').textContent='00:00'}
  $('play').disabled=!hasAudio||!online;
 }
 async function selectMeeting(id){
@@ -93,7 +94,7 @@ function renderQueue(){
 }
 async function poll(){
  if(pollRunning)return;pollRunning=true;
- try{const s=await api('/api/state');state=s;online=true;lastStateAt=Date.now();csrf=s.csrf;namespace=s.namespace;renderState();const newRecordingId=pendingRecordingId||s.recording.id;const recordingRow=newRecordingId&&s.sessions.find(r=>r.local_job_id===newRecordingId);if(recordingRow&&observedRecordingId!==newRecordingId){observedRecordingId=newRecordingId;pendingRecordingId=null;field='notes';await selectMeeting(recordingRow.id)}else if(selected===null&&s.sessions.length){await selectMeeting(s.sessions[0].id)}else if(selected!==null){const id=selected,row=await api('/api/sessions/'+id);if(id===selected){const model=models.get(id);mergeRow(model,row);renderSelected()}}}
+ try{const s=await api('/api/state');state=s;online=true;lastStateAt=Date.now();csrf=s.csrf;namespace=s.namespace;renderState();const newRecordingId=pendingRecordingId||s.recording.id;const recordingRow=newRecordingId&&s.sessions.find(r=>r.local_job_id===newRecordingId);if(recordingRow&&observedRecordingId!==newRecordingId){observedRecordingId=newRecordingId;pendingRecordingId=null;field='notes';workspaceView();await selectMeeting(recordingRow.id)}else if(selected===null&&s.sessions.length){await selectMeeting(s.sessions[0].id)}else if(selected!==null){const id=selected,row=await api('/api/sessions/'+id);if(id===selected){const model=models.get(id);mergeRow(model,row);renderSelected()}}}
  catch(error){online=false;queueSignature='';if(state){renderState();renderSelected()}$('phase').textContent='Verbindung unterbrochen · Entwürfe bleiben lokal';$('record').disabled=true;for(const id of ['delete','retranscribe','process','finish-setup','probe-start','asr-install','llm-install','model-test','binary-save'])$(id).disabled=true;for(const b of document.querySelectorAll('.dialog-stop'))b.disabled=true;if(!state)notice(error.message)}finally{pollRunning=false}
 }
 $('record').onclick=run(async()=>{if(recordingAction||performance.now()<nextRecordAction)return;recordingAction=true;recordingIntent=state?.recording.id?'stop':'start';if(state)renderState();nextRecordAction=performance.now()+700;$('record').disabled=true;try{if(!state)throw new Error('Noch keine Verbindung.');if(!state.recording.id&&!state.config.setup_complete){await openSettings();throw new Error('Bitte zuerst Mikrofon testen und Einrichtung abschließen.')}if(!state.recording.id)audio.pause();const starting=!state.recording.id;const result=await api('/api/record/'+(starting?'start':'stop'),{});if(starting)pendingRecordingId=result.id;await poll()}finally{recordingAction=false;recordingIntent=null;if(state)renderState()}});
@@ -116,7 +117,11 @@ function workspaceView(id=null){
 for(const id of ['library','settings'])$(id).addEventListener('close',()=>{if(!['library','settings'].some(name=>$(name).open))workspaceView()});
 async function openLibrary(){await leaveDraft();workspaceView('library');await searchLibrary()}
 let searchNumber=0;async function searchLibrary(){const number=++searchNumber;const rows=await api('/api/search?q='+encodeURIComponent($('search').value));if(number!==searchNumber)return;$('library-list').replaceChildren();for(const row of rows){const wrap=document.createElement('div');wrap.className='library-item';const b=document.createElement('button');const title=document.createElement('span');title.textContent=row.title;const date=document.createElement('small');date.textContent=row.recorded_at.slice(0,10);b.append(title,date);b.onclick=run(async()=>{await selectMeeting(row.id);$('library').close()});wrap.append(b);$('library-list').append(wrap)}if(!rows.length)$('library-list').textContent='Keine passenden Meetings.'}
-$('search').oninput=run(searchLibrary);$('library-open').onclick=run(openLibrary);$('home').onclick=()=>{for(const d of document.querySelectorAll('dialog[open]'))d.close();workspaceView()};
+$('search').oninput=run(searchLibrary);$('library-open').onclick=run(openLibrary);$('home').onclick=run(async()=>{
+ for(const d of document.querySelectorAll('dialog[open]'))d.close();workspaceView();
+ const current=state?.recording.id&&state.sessions.find(row=>row.local_job_id===state.recording.id);
+ if(current){field='notes';await selectMeeting(current.id);renderSelected()}
+});
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>$(b.dataset.close).close());
 $('more-open').onclick=run(async()=>{if(!selected)return;await leaveDraft();const m=models.get(selected);$('title-edit').value=m.values.title;$('metadata').textContent=m.row.recorded_at+' · '+duration(m.row.duration_sec)+' · '+m.row.samplerate+' Hz · '+m.row.channels+' Kanal/Kanäle';$('more').showModal()});
 $('rename').onclick=run(async()=>{changed('title',$('title-edit').value);await flush();renderSelected();await poll();$('more').close()});
