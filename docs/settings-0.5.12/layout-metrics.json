@@ -1,0 +1,682 @@
+[
+  {
+    "name": "01-brain",
+    "buttons": [
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 112,
+        "right": 352,
+        "text": "Bereiche aktualisieren",
+        "top": 624,
+        "width": 240,
+        "x": 112,
+        "y": 624
+      },
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 632,
+        "right": 812,
+        "text": "Abmelden",
+        "top": 624,
+        "width": 180,
+        "x": 632,
+        "y": 624
+      },
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 824,
+        "right": 1004,
+        "text": "\u00dcbertragungen",
+        "top": 624,
+        "width": 180,
+        "x": 824,
+        "y": 624
+      },
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 1016,
+        "right": 1256,
+        "text": "KI & Modelle",
+        "top": 624,
+        "width": 240,
+        "x": 1016,
+        "y": 624
+      }
+    ],
+    "content": {
+      "height": 532,
+      "scroll": 532,
+      "scrollWidth": 1192,
+      "width": 1192
+    },
+    "footer": {
+      "bottom": 692,
+      "height": 80,
+      "left": 88,
+      "right": 1280,
+      "top": 612,
+      "width": 1192,
+      "x": 88,
+      "y": 612
+    },
+    "page": "connection-page"
+  },
+  {
+    "name": "03-transcription",
+    "buttons": [
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 824,
+        "right": 1004,
+        "text": "Modell testen",
+        "top": 624,
+        "width": 180,
+        "x": 824,
+        "y": 624
+      },
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 1016,
+        "right": 1256,
+        "text": "Bereits aktiv",
+        "top": 624,
+        "width": 240,
+        "x": 1016,
+        "y": 624
+      }
+    ],
+    "content": {
+      "height": 532,
+      "scroll": 532,
+      "scrollWidth": 1192,
+      "width": 1192
+    },
+    "footer": {
+      "bottom": 692,
+      "height": 80,
+      "left": 88,
+      "right": 1280,
+      "top": 612,
+      "width": 1192,
+      "x": 88,
+      "y": 612
+    },
+    "page": "asr-page"
+  },
+  {
+    "name": "05-prompts",
+    "buttons": [
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 112,
+        "right": 352,
+        "text": "Vorlage l\u00f6schen \u2026",
+        "top": 624,
+        "width": 240,
+        "x": 112,
+        "y": 624
+      },
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 824,
+        "right": 1004,
+        "text": "Neue Vorlage",
+        "top": 624,
+        "width": 180,
+        "x": 824,
+        "y": 624
+      },
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 1016,
+        "right": 1256,
+        "text": "Vorlage speichern",
+        "top": 624,
+        "width": 240,
+        "x": 1016,
+        "y": 624
+      }
+    ],
+    "content": {
+      "height": 532,
+      "scroll": 532,
+      "scrollWidth": 1192,
+      "width": 1192
+    },
+    "footer": {
+      "bottom": 692,
+      "height": 80,
+      "left": 88,
+      "right": 1280,
+      "top": 612,
+      "width": 1192,
+      "x": 88,
+      "y": 612
+    },
+    "page": "prompts-page"
+  },
+  {
+    "name": "06-prompts-keyboard",
+    "buttons": [
+      {
+        "bottom": 460,
+        "height": 56,
+        "left": 112,
+        "right": 352,
+        "text": "Vorlage l\u00f6schen \u2026",
+        "top": 404,
+        "width": 240,
+        "x": 112,
+        "y": 404
+      },
+      {
+        "bottom": 460,
+        "height": 56,
+        "left": 824,
+        "right": 1004,
+        "text": "Neue Vorlage",
+        "top": 404,
+        "width": 180,
+        "x": 824,
+        "y": 404
+      },
+      {
+        "bottom": 460,
+        "height": 56,
+        "left": 1016,
+        "right": 1256,
+        "text": "Vorlage speichern",
+        "top": 404,
+        "width": 240,
+        "x": 1016,
+        "y": 404
+      }
+    ],
+    "content": {
+      "height": 312,
+      "scroll": 312,
+      "scrollWidth": 1192,
+      "width": 1192
+    },
+    "footer": {
+      "bottom": 472,
+      "height": 80,
+      "left": 88,
+      "right": 1280,
+      "top": 392,
+      "width": 1192,
+      "x": 88,
+      "y": 392
+    },
+    "page": "prompts-page"
+  },
+  {
+    "name": "07-design",
+    "buttons": [
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 112,
+        "right": 352,
+        "text": "L\u00f6schen \u2026",
+        "top": 624,
+        "width": 240,
+        "x": 112,
+        "y": 624
+      },
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 632,
+        "right": 812,
+        "text": "Bearbeiten",
+        "top": 624,
+        "width": 180,
+        "x": 632,
+        "y": 624
+      },
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 824,
+        "right": 1004,
+        "text": "Duplizieren",
+        "top": 624,
+        "width": 180,
+        "x": 824,
+        "y": 624
+      },
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 1016,
+        "right": 1256,
+        "text": "Neues Theme",
+        "top": 624,
+        "width": 240,
+        "x": 1016,
+        "y": 624
+      }
+    ],
+    "content": {
+      "height": 532,
+      "scroll": 532,
+      "scrollWidth": 1192,
+      "width": 1192
+    },
+    "footer": {
+      "bottom": 692,
+      "height": 80,
+      "left": 88,
+      "right": 1280,
+      "top": 612,
+      "width": 1192,
+      "x": 88,
+      "y": 612
+    },
+    "page": "appearance-page"
+  },
+  {
+    "name": "08-theme-editor",
+    "buttons": [
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 824,
+        "right": 1004,
+        "text": "Abbrechen",
+        "top": 624,
+        "width": 180,
+        "x": 824,
+        "y": 624
+      },
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 1016,
+        "right": 1256,
+        "text": "Theme speichern",
+        "top": 624,
+        "width": 240,
+        "x": 1016,
+        "y": 624
+      }
+    ],
+    "content": {
+      "height": 532,
+      "scroll": 532,
+      "scrollWidth": 1192,
+      "width": 1192
+    },
+    "footer": {
+      "bottom": 692,
+      "height": 80,
+      "left": 88,
+      "right": 1280,
+      "top": 612,
+      "width": 1192,
+      "x": 88,
+      "y": 612
+    },
+    "page": "appearance-page"
+  },
+  {
+    "name": "04-transcription-cloud",
+    "buttons": [
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 824,
+        "right": 1004,
+        "text": "Modell testen",
+        "top": 624,
+        "width": 180,
+        "x": 824,
+        "y": 624
+      },
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 1016,
+        "right": 1256,
+        "text": "Modell aktivieren",
+        "top": 624,
+        "width": 240,
+        "x": 1016,
+        "y": 624
+      }
+    ],
+    "content": {
+      "height": 532,
+      "scroll": 532,
+      "scrollWidth": 1192,
+      "width": 1192
+    },
+    "footer": {
+      "bottom": 692,
+      "height": 80,
+      "left": 88,
+      "right": 1280,
+      "top": 612,
+      "width": 1192,
+      "x": 88,
+      "y": 612
+    },
+    "page": "asr-page"
+  },
+  {
+    "name": "05b-prompts-page2",
+    "buttons": [
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 112,
+        "right": 352,
+        "text": "Vorlage l\u00f6schen \u2026",
+        "top": 624,
+        "width": 240,
+        "x": 112,
+        "y": 624
+      },
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 824,
+        "right": 1004,
+        "text": "Neue Vorlage",
+        "top": 624,
+        "width": 180,
+        "x": 824,
+        "y": 624
+      },
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 1016,
+        "right": 1256,
+        "text": "Vorlage speichern",
+        "top": 624,
+        "width": 240,
+        "x": 1016,
+        "y": 624
+      }
+    ],
+    "content": {
+      "height": 532,
+      "scroll": 532,
+      "scrollWidth": 1192,
+      "width": 1192
+    },
+    "footer": {
+      "bottom": 692,
+      "height": 80,
+      "left": 88,
+      "right": 1280,
+      "top": 612,
+      "width": 1192,
+      "x": 88,
+      "y": 612
+    },
+    "page": "prompts-page"
+  },
+  {
+    "name": "09-diagnosis",
+    "buttons": [
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 1016,
+        "right": 1256,
+        "text": "Programmpfad speichern",
+        "top": 624,
+        "width": 240,
+        "x": 1016,
+        "y": 624
+      }
+    ],
+    "content": {
+      "height": 532,
+      "scroll": 532,
+      "scrollWidth": 1192,
+      "width": 1192
+    },
+    "footer": {
+      "bottom": 692,
+      "height": 80,
+      "left": 88,
+      "right": 1280,
+      "top": 612,
+      "width": 1192,
+      "x": 88,
+      "y": 612
+    },
+    "page": "models-page"
+  },
+  {
+    "name": "10-diagnosis-advanced",
+    "buttons": [
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 1016,
+        "right": 1256,
+        "text": "Programmpfad speichern",
+        "top": 624,
+        "width": 240,
+        "x": 1016,
+        "y": 624
+      }
+    ],
+    "content": {
+      "height": 532,
+      "scroll": 532,
+      "scrollWidth": 1192,
+      "width": 1192
+    },
+    "footer": {
+      "bottom": 692,
+      "height": 80,
+      "left": 88,
+      "right": 1280,
+      "top": 612,
+      "width": 1192,
+      "x": 88,
+      "y": 612
+    },
+    "page": "models-page"
+  },
+  {
+    "name": "11-audio",
+    "buttons": [
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 1016,
+        "right": 1256,
+        "text": "Mikrofon testen \u00b7 5 Sekunden",
+        "top": 624,
+        "width": 240,
+        "x": 1016,
+        "y": 624
+      },
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 112,
+        "right": 352,
+        "text": "Ger\u00e4te aktualisieren",
+        "top": 624,
+        "width": 240,
+        "x": 112,
+        "y": 624
+      }
+    ],
+    "content": {
+      "height": 532,
+      "scroll": 532,
+      "scrollWidth": 1192,
+      "width": 1192
+    },
+    "footer": {
+      "bottom": 692,
+      "height": 80,
+      "left": 88,
+      "right": 1280,
+      "top": 612,
+      "width": 1192,
+      "x": 88,
+      "y": 612
+    },
+    "page": "audio-page"
+  },
+  {
+    "name": "12-transfers",
+    "buttons": [],
+    "content": {
+      "height": 532,
+      "scroll": 532,
+      "scrollWidth": 1192,
+      "width": 1192
+    },
+    "footer": {
+      "bottom": 692,
+      "height": 80,
+      "left": 88,
+      "right": 1280,
+      "top": 612,
+      "width": 1192,
+      "x": 88,
+      "y": 612
+    },
+    "page": "brain-page"
+  },
+  {
+    "name": "02-models",
+    "buttons": [],
+    "content": {
+      "height": 532,
+      "scroll": 532,
+      "scrollWidth": 1192,
+      "width": 1192
+    },
+    "footer": {
+      "bottom": 692,
+      "height": 80,
+      "left": 88,
+      "right": 1280,
+      "top": 612,
+      "width": 1192,
+      "x": 88,
+      "y": 612
+    },
+    "page": "ai-page"
+  },
+  {
+    "name": "13-summary",
+    "buttons": [
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 824,
+        "right": 1004,
+        "text": "Modell testen",
+        "top": 624,
+        "width": 180,
+        "x": 824,
+        "y": 624
+      },
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 1016,
+        "right": 1256,
+        "text": "Bereits aktiv",
+        "top": 624,
+        "width": 240,
+        "x": 1016,
+        "y": 624
+      }
+    ],
+    "content": {
+      "height": 532,
+      "scroll": 532,
+      "scrollWidth": 1192,
+      "width": 1192
+    },
+    "footer": {
+      "bottom": 692,
+      "height": 80,
+      "left": 88,
+      "right": 1280,
+      "top": 612,
+      "width": 1192,
+      "x": 88,
+      "y": 612
+    },
+    "page": "llm-page"
+  },
+  {
+    "name": "14-brain-pending",
+    "buttons": [
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 112,
+        "right": 352,
+        "text": "Mit Microsoft anmelden",
+        "top": 624,
+        "width": 240,
+        "x": 112,
+        "y": 624
+      },
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 632,
+        "right": 812,
+        "text": "Anmeldung abbrechen",
+        "top": 624,
+        "width": 180,
+        "x": 632,
+        "y": 624
+      },
+      {
+        "bottom": 680,
+        "height": 56,
+        "left": 1016,
+        "right": 1256,
+        "text": "KI & Modelle",
+        "top": 624,
+        "width": 240,
+        "x": 1016,
+        "y": 624
+      }
+    ],
+    "content": {
+      "height": 532,
+      "scroll": 532,
+      "scrollWidth": 1192,
+      "width": 1192
+    },
+    "footer": {
+      "bottom": 692,
+      "height": 80,
+      "left": 88,
+      "right": 1280,
+      "top": 612,
+      "width": 1192,
+      "x": 88,
+      "y": 612
+    },
+    "page": "connection-page"
+  }
+]

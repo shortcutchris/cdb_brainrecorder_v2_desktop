@@ -31,7 +31,7 @@ function renderModelChoices(){
  $('ai-tile-status').textContent='Transkription: '+(state.cdb.config.transcription==='cdb'?'Brain':'Pi')+' · Zusammenfassung: '+(state.cdb.config.summary==='cdb'?'Brain':'Pi');
  $('ai-asr-active').textContent=activeModelLabel('asr');$('ai-llm-active').textContent=activeModelLabel('llm');
  $('cdb-logout').textContent=state.cdb.login.state==='pending'?'Anmeldung abbrechen':'Abmelden';$('cdb-logout').hidden=!state.cdb.identity&&state.cdb.login.state!=='pending';
- $('brain-transfers').hidden=!state.cdb.identity;$('brain-models').textContent=brainReturn?'Zur Modellwahl zurück':'KI-Verarbeitung einrichten';
+ $('brain-transfers').hidden=!state.cdb.identity;$('brain-models').textContent=brainReturn?'Zur Modellwahl zurück':'KI & Modelle';
  const latest=state.model_check;const t=latest;
  if(t?.state==='running'){document.body.classList.add('working');$('phase').textContent='Modelltest · '+t.label;$('activity-icon').hidden=false;$('activity-icon').src='/assets/circle-notch.svg';$('queue-toggle').title='Modelltest läuft · '+t.label}
  if(t&&t.id+':'+t.state!==lastDirectCheck){lastDirectCheck=t.id+':'+t.state;if(['completed','failed'].includes(t.state)&&$('settings').open)loadSetup().catch(e=>notice(e.message))}

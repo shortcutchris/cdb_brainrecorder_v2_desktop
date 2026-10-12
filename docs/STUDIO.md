@@ -1,4 +1,10 @@
-# Recorder Studio 0.5.11
+# Recorder Studio 0.5.12
+
+## 0.5.12 – Feste Einstellungsbereiche
+
+Die rechte Einstellungsansicht hat einen festen Header, einen mittleren Inhaltsbereich und eine feste Aktionsleiste. Hauptaktionen stehen immer rechts, ergänzende Aktionen direkt daneben. Lange Vorlagen, Testergebnisse, Themes und Übertragungen haben nummerierte Seiten; die umgebende Ansicht bleibt stehen. Bei geöffneter Bildschirmtastatur sitzt die Aktionsleiste direkt über der Tastatur.
+
+Brain-Konto zeigt Anmeldestatus, Benutzer, Umgebung und Standardbereich getrennt und gut lesbar. Die Navigation oben bildet den Weg ab: **Einstellungen › KI & Modelle › Transkription/Zusammenfassung** bzw. **Einstellungen › Brain-Konto › Übertragungen**. Jeder übergeordnete Eintrag ist direkt anwählbar. [Prüfung und Screenshots](settings-0.5.12/README.md).
 
 ## 0.5.11 – Mikrofon und Testplayer
 

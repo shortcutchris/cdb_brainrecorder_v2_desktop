@@ -36,8 +36,7 @@ for(const button of document.querySelectorAll('.rail-button')){
 }
 renderSettingsOverview();
 // Long prompt text has explicit text pages; the surrounding settings page stays put.
-const promptPages=document.createElement('nav');promptPages.className='direct-pages prompt-text-pages';promptPages.setAttribute('aria-label','Arbeitsauftrag Textseiten');
-$('prompts-page').querySelector('.dialog-actions').prepend(promptPages);
+const promptPages=$('prompt-pages-slot');promptPages.className='direct-pages prompt-text-pages';
 let promptPageSignature='';
 function renderPromptPages(){
  const el=$('prompt-text');if(!el.getClientRects().length)return;
