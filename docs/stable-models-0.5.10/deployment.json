@@ -1,0 +1,30 @@
+{
+  "version": "0.5.10",
+  "runtime_commit": "f528264",
+  "sessions": 22,
+  "config_preserved": true,
+  "validation_import": {
+    "accepted": [
+      "whisper:medium",
+      "ollama:qwen3:4b-instruct"
+    ],
+    "matching_model_and_runtime": true,
+    "source": "/home/chris/recorder-059-test/queue",
+    "results": 2
+  },
+  "hashes": {
+    "web_server.py": "c3b68c6dc5e3237802039ce9e6342267ca075ddd15ef7c8ead99b8c75ff0e5cd",
+    "services/model_checks.py": "30b6812328e9020c2475bcebea151222cbb5b8a235ba6b437937e29bc9a9aa6e",
+    "studio/index.html": "1cec4f1a89c4d6702d8624812ce524df1014ecce5ca78d722c00a3c72fc70506",
+    "studio/cdb.js": "01720518a755c868768788dba4a959abdf3cf3dd21b04a5c6efa3fa749079d40",
+    "studio/models.js": "dc1168cc9b1058d6667677673536e9519750460f111205536ea344c494eb2122",
+    "studio/models.css": "aac05f32512b4a73f5a2a0084451c792016abf9b6b9ad0abb6b1f587abb3a394",
+    "studio/keyboard.js": "10d27268053b28e00f3a89d22ed626630f83623398ecfa73573d7293c5337c23",
+    "studio/touch.js": "b2e2f6b0ced8243071d715d9910a97378d34cf2c3312e69077fe55e6fa585008",
+    "studio/workspace.css": "8a84d1ab62d0f15642de97b2228e460771c14fd3012e72918dec894162fdd957"
+  },
+  "services": {
+    "cdb-recorder-studio.service": "active",
+    "cdb-recorder-kiosk-overlay-20261012.service": "active"
+  }
+}

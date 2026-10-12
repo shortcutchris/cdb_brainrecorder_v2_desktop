@@ -854,5 +854,123 @@
       },
       "scroll": 79
     }
+  ],
+  "production-settings": [
+    {
+      "client": 79,
+      "cls": "dialog-heading",
+      "id": "",
+      "rect": {
+        "bottom": 80,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 0,
+        "width": 1192,
+        "x": 88,
+        "y": 0
+      },
+      "scroll": 79
+    }
+  ],
+  "production-whisper": [
+    {
+      "client": 79,
+      "cls": "dialog-heading",
+      "id": "",
+      "rect": {
+        "bottom": 80,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 0,
+        "width": 1192,
+        "x": 88,
+        "y": 0
+      },
+      "scroll": 79
+    },
+    {
+      "client": 532,
+      "cls": "settings-content",
+      "id": "",
+      "rect": {
+        "bottom": 612,
+        "height": 532,
+        "left": 88,
+        "right": 1280,
+        "top": 80,
+        "width": 1192,
+        "x": 88,
+        "y": 80
+      },
+      "scroll": 532
+    },
+    {
+      "client": 80,
+      "cls": "dialog-actions",
+      "id": "",
+      "rect": {
+        "bottom": 692,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 612,
+        "width": 1192,
+        "x": 88,
+        "y": 612
+      },
+      "scroll": 80
+    }
+  ],
+  "production-summary": [
+    {
+      "client": 79,
+      "cls": "dialog-heading",
+      "id": "",
+      "rect": {
+        "bottom": 80,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 0,
+        "width": 1192,
+        "x": 88,
+        "y": 0
+      },
+      "scroll": 79
+    },
+    {
+      "client": 532,
+      "cls": "settings-content",
+      "id": "",
+      "rect": {
+        "bottom": 612,
+        "height": 532,
+        "left": 88,
+        "right": 1280,
+        "top": 80,
+        "width": 1192,
+        "x": 88,
+        "y": 80
+      },
+      "scroll": 532
+    },
+    {
+      "client": 80,
+      "cls": "dialog-actions",
+      "id": "",
+      "rect": {
+        "bottom": 692,
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 612,
+        "width": 1192,
+        "x": 88,
+        "y": 612
+      },
+      "scroll": 80
+    }
   ]
 }

@@ -44,3 +44,12 @@ Einige Auditbilder dokumentieren den Zwischenstand vor den letzten gemeinsamen A
 - Nach Qwen-Test bleibt das Whisper-Ergebnis sichtbar. Modell-/Laufzeitidentitäten stimmen mit den produktiven Dateien überein.
 - Keine neuen Brain-Uploads und keine produktiven Meetings verändert. Kein neuer Stundentest in diesem UI-Audit. Die Aufnahme zum Prüfen der Aufnahmesperren enthält nur synthetisches Audio.
 - Die Prüfung ist keine vollständige WCAG-Zertifizierung und ersetzt keinen Finger-Test am physischen Touchdisplay. Schwerpunkt: Zielauflösung, Bedienbarkeit, dynamische Zustände, Navigation und sichtbare Überläufe.
+
+## Produktiv ausgeliefert
+
+Laufender Stand **0.5.10**, Code-Commit `f528264`. Alle neun Laufzeitdateien stimmen per SHA256 mit dem Repository überein; Recorder-Dienst und Display-Kiosk laufen. 22 produktive Aufnahmen, komplette Verarbeitungskonfiguration, Brain-Anmeldung und Standardbereich wurden vor/nach der Auslieferung verglichen und sind unverändert. Zwei lokale Nachweise wurden nur nach exaktem Fingerprint-Abgleich übernommen.
+
+- [Produktive Einstellungen](production-settings.png)
+- [Produktives Whisper: aktiv und geprüft](production-whisper.png)
+- [Produktive Zusammenfassung: aktiv und geprüft](production-summary.png)
+- [Auslieferungsnachweis](deployment.json)
