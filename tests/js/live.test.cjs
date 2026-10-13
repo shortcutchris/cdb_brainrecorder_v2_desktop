@@ -121,3 +121,20 @@ test('empty selected filter is recoverable and stale filter cannot change a runn
  h.element('live-selected-filter').onclick();h.element('live-areas').children[0].onclick();await h.element('live-start').onclick();
  assert.equal(h.element('live-selected-filter').hidden,true);h.element('live-selected-filter').onclick();assert.equal(h.element('live-areas').children[0].onclick,undefined);
 });
+
+test('saved account selection replaces default, keeps explicit empty, and drops missing areas',async()=>{
+ for(const saved of [['area-1','gone'],[]]){
+  const h=harness(),base=h.c.api;h.c.api=async(p,b)=>p.endsWith('/setup')?{enabled:true,max_areas:8,areas:[{id:'area-0'},{id:'area-1'}],default_area:{id:'area-0'},remembered_area_ids:saved,selection_account_key:'key',audio:{available:true}}:base(p,b);
+  await h.element('live-open').onclick();assert.equal(h.element('live-areas').children[0]['aria-checked'],'false');assert.equal(h.element('live-areas').children[1]['aria-checked'],saved.length?'true':'false');assert.equal(h.element('live-start').disabled,!saved.length);
+ }
+});
+test('selection writes are ordered and finish before conversation reservation',async()=>{
+ const h=await areaHarness(),base=h.c.api;h.c.api=async(p,b)=>{const r=await base(p,b);if(p.endsWith('/setup'))r.selection_account_key='account-A';return r};await h.element('live-refresh').onclick();let release;const writes=[];h.c.api=async(p,b)=>{if(p.endsWith('/areas')){writes.push(b);if(writes.length===1)await new Promise(r=>release=r);return {saved:true}}return base(p,b)};
+ h.element('live-areas').children[1].onclick();await tick();h.element('live-areas').children[2].onclick();const starting=h.element('live-start').onclick();await tick();assert.equal(h.calls.some(([p])=>p.endsWith('/reserve')),false);release();await starting;
+ assert.deepEqual(writes.map(x=>Array.from(x.area_ids)),[['area-0','area-1'],['area-0','area-1','area-2']]);assert.equal(writes[0].account_key,'account-A');assert.equal(h.c.state.live.busy,true);
+});
+test('queued selection for old account is discarded and save failure is visible',async()=>{
+ const h=await areaHarness(),base=h.c.api;h.c.api=async(p,b)=>{const r=await base(p,b);if(p.endsWith('/setup'))r.selection_account_key='old';return r};await h.element('live-refresh').onclick();let saves=0;h.c.api=async()=>{saves++;throw new Error('Speicher nicht verfügbar')};
+ h.element('live-areas').children[1].onclick();await tick();assert.match(h.element('live-notice').textContent,/nicht gemerkt/);
+ h.element('live-areas').children[2].onclick();h.c.state.cdb.identity={name:'New account'};h.c.renderState();await tick();assert.equal(saves,1);
+});

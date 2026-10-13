@@ -4,6 +4,7 @@ The browser never receives a Microsoft token or accesses audio hardware. A short
 owner-only lease reserves Pi audio; lost tabs, stale bindings and failed starts release it.
 """
 import json
+import hashlib
 import os
 from pathlib import Path
 import re
@@ -105,6 +106,35 @@ class LiveConversation:
             if self.native and hasattr(self.native,'set_search_sound'):self.native.set_search_sound(enabled)
             return self.feedback()
 
+    @staticmethod
+    def _selection_key(binding):
+        return hashlib.sha256(json.dumps(binding, sort_keys=True).encode()).hexdigest()
+
+    def remember_areas(self, area_ids, account_key):
+        if not isinstance(area_ids, list) or len(area_ids) > 8 or any(not isinstance(x, str) or not UUID.fullmatch(x) for x in area_ids) or len(set(area_ids)) != len(area_ids):
+            raise ValueError('Ungültige Bereichsauswahl.')
+        with self.lock:
+            if self.state in ACTIVE: raise ValueError('Gespräch läuft. Auswahl ist gesperrt.')
+            binding = self._binding()
+            key = self._selection_key(binding)
+            if not isinstance(account_key, str) or not secrets.compare_digest(key, account_key):
+                raise ValueError('Brain-Konto hat sich geändert. Bereiche neu laden.')
+            path = self.root / ('areas-' + key + '.json')
+            atomic_write(path, json.dumps({'binding': binding, 'area_ids': area_ids}))
+            os.chmod(path, 0o600)
+            return {'saved': True}
+
+    def _remembered_areas(self, binding, areas):
+        try:
+            path = self.root / ('areas-' + self._selection_key(binding) + '.json')
+            if path.stat().st_size > 8192: return None
+            row = json.loads(path.read_text())
+            ids = row.get('area_ids')
+            if row.get('binding') != binding or not isinstance(ids, list) or len(ids) > 8 or any(not isinstance(x, str) or not UUID.fullmatch(x) for x in ids): return None
+            available = {a['id'] for a in areas}
+            return list(dict.fromkeys(x for x in ids if x in available))
+        except (OSError, ValueError, AttributeError): return None
+
     def setup(self):
         binding = self._binding()
         caps = self.cdb.call(BASE + '/capabilities', binding=binding)
@@ -114,6 +144,7 @@ class LiveConversation:
         if not isinstance(maximum, int): maximum = 8
         return {'enabled': caps.get('enabled') is True, 'max_areas': min(8, max(1, maximum)),
                 'areas': areas, 'default_area': self.cdb.public().get('destination'),
+                'remembered_area_ids': self._remembered_areas(binding, areas), 'selection_account_key': self._selection_key(binding),
                 'model': 'CDB Voice One', 'audio': self.audio_setup()}
 
     def audio_setup(self):

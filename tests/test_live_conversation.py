@@ -75,6 +75,50 @@ class LiveTests(unittest.TestCase):
         self.assertIn('Bereichsauswahl nicht freigegeben', self.live.public()['error'])
         self.reserve()
 
+    def test_area_selection_survives_restart_and_isolated_by_user_tenant_and_server(self):
+        first = self.live.setup(); key = first['selection_account_key']
+        self.assertIsNone(first['remembered_area_ids'])
+        self.live.remember_areas([AREA], key)
+        other = LiveConversation(self.brain, self.root.name, events=lambda *args: None)
+        try:
+            self.assertEqual(other.setup()['remembered_area_ids'], [AREA])
+            original = self.brain.session
+            for field in ('user_id', 'client_id', 'server'):
+                def session(binding=None, field=field):
+                    row = original(binding)
+                    if field == 'server': row['server'] = 'https://other.example'
+                    else: row['identity'][field] = 'different-account'
+                    return row
+                self.brain.session = session
+                self.assertIsNone(other.setup()['remembered_area_ids'])
+                with self.assertRaisesRegex(ValueError, 'Konto hat sich geändert'):
+                    other.remember_areas([AREA], key)
+                self.brain.session = original
+            self.assertEqual(other.setup()['remembered_area_ids'], [AREA])
+        finally: other.close()
+        path = next((Path(self.root.name) / 'live').glob('areas-*.json'))
+        self.assertEqual(path.stat().st_mode & 0o777, 0o600)
+
+    def test_remembered_empty_missing_and_corrupt_areas_are_handled_safely(self):
+        key = self.live.setup()['selection_account_key']
+        self.live.remember_areas([], key)
+        self.assertEqual(self.live.setup()['remembered_area_ids'], [])
+        self.live.remember_areas([AREA], key)
+        self.brain.areas = lambda binding=None: []
+        self.assertEqual(self.live.setup()['remembered_area_ids'], [])
+        path = next((Path(self.root.name) / 'live').glob('areas-*.json'))
+        path.write_text('not json')
+        self.assertIsNone(self.live.setup()['remembered_area_ids'])
+        path.write_text('null')
+        self.assertIsNone(self.live.setup()['remembered_area_ids'])
+
+    def test_remembering_rejects_invalid_values_and_running_session(self):
+        key = self.live.setup()['selection_account_key']
+        for value in (None, 'x', [AREA, AREA], ['../x'], [AREA] * 9):
+            with self.assertRaises(ValueError): self.live.remember_areas(value, key)
+        self.reserve()
+        with self.assertRaisesRegex(ValueError, 'gesperrt'): self.live.remember_areas([AREA], key)
+
     def test_cancel_during_remote_start_keeps_lock_until_late_session_closed(self):
         self.brain.block=threading.Event();lease=self.reserve();self.live.start(lease,'v=0\r\n')
         self.assertTrue(self.brain.reached.wait(1));self.live.end(lease)

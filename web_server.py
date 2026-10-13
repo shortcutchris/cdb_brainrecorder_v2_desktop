@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.28'
+VERSION = '0.5.29'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -296,6 +296,8 @@ class StudioApp:
             if path.startswith('/api/live/'):
                 if path=='/api/live/reserve':
                     self.require('live');return self.live.reserve(body.get('area_ids'))
+                if path=='/api/live/areas':
+                    self.require('configure');return self.live.remember_areas(body.get('area_ids'),body.get('account_key'))
                 if path=='/api/live/clear':
                     self.require('configure');return self.live.clear()
                 if self.engine.recorder.active:

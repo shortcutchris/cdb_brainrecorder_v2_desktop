@@ -9,7 +9,7 @@
  <aside class="live-knowledge" aria-labelledby="live-knowledge-heading"><div class="live-knowledge-heading"><img src="/assets/book-open.svg" alt=""><div><h3 id="live-knowledge-heading">Gesprächswissen</h3><span id="live-selection-count" role="status"></span></div></div><div class="live-area-tools"><label id="live-search-label"><img src="/assets/magnifying-glass.svg" alt=""><input id="live-area-search" type="search" aria-label="Wissensbereiche suchen" placeholder="Suchen …" autocomplete="off"></label><button id="live-selected-filter" aria-pressed="false">Ausgewählt (0)</button><p id="live-area-lock" hidden><img src="/assets/lock-simple.svg" alt=""><span id="live-area-lock-text">Auswahl im Gespräch gesperrt</span></p></div><div id="live-areas" role="group" aria-label="Wissensbereiche"></div><div class="live-area-footer"><nav id="live-area-pages" class="direct-pages" aria-label="Bereichsseiten"></nav><span id="live-area-position"></span></div></aside></div><p id="live-notice" role="status"></p></section>
  <footer class="live-footer"><button id="live-audio-settings">Audioeinstellungen</button><button id="live-refresh" aria-label="Bereiche und Geräte aktualisieren" title="Bereiche und Geräte aktualisieren"><img src="/assets/arrow-clockwise.svg" alt=""></button><button id="live-new" hidden>Neues Gespräch</button><button id="live-mute" hidden aria-pressed="false">Mikro stumm</button><button id="live-start" class="primary">Gespräch starten</button><button id="live-end" hidden>Gespräch beenden</button></footer>`;document.body.append(view);
  let setup=null,chosen=new Set(),areaPage=0,chatPage=null,lease=null,heartbeat=null,starting=false,ending=false,loadedOwner=null,generation=0;
- let selectedOnly=false;
+ let selectedOnly=false,selectionSave=Promise.resolve();
  let areaQuery='',areaPageSize=4,areaSignature='',areaNavSignature='',setupLoading=false,setupError='',selectionInitialized=false,loadSerial=0,requestedAreas=[];
  const ownerKey=()=>JSON.stringify([state?.cdb?.identity||null,state?.cdb?.config?.server||null]);
  const areaName=a=>a.label||a.name||'Unbenannter Bereich';
@@ -27,10 +27,18 @@
   try{
    const result=await api('/api/live/setup');if(serial!==loadSerial||owner!==ownerKey())return;
    setup=result;const available=new Set(setup.areas.map(a=>a.id));chosen=new Set([...chosen].filter(id=>available.has(id)));
-   if(!selectionInitialized&&setup.default_area&&available.has(setup.default_area.id))chosen.add(setup.default_area.id);
+   if(!selectionInitialized){if(Array.isArray(setup.remembered_area_ids))chosen=new Set(setup.remembered_area_ids.filter(id=>available.has(id)));else if(setup.default_area&&available.has(setup.default_area.id))chosen.add(setup.default_area.id);}
    selectionInitialized=true;areaPage=0;note(setup.enabled?'':'Voice One ist in dieser Brain-Umgebung nicht freigeschaltet.');
   }catch(e){if(serial===loadSerial){setup=null;setupError=e.message;note(e.message)}}
   finally{if(serial===loadSerial){setupLoading=false;renderLive()}}
+ }
+ function rememberSelection(){
+  const owner=ownerKey(),key=setup?.selection_account_key,ids=[...chosen];if(!key)return;
+  selectionSave=selectionSave.catch(()=>{}).then(async()=>{
+   if(owner!==ownerKey())return;
+   try{await post('areas',{account_key:key,area_ids:ids})}
+   catch(e){if(owner===ownerKey())note('Auswahl konnte nicht gemerkt werden: '+e.message)}
+  });
  }
  const baseWorkspace=workspaceView;
  workspaceView=function(id=null){if(busy()&&id!=='live-view')throw new Error('Gespräch läuft. Bitte zuerst beenden.');if(view.open&&id!=='live-view')view.close();baseWorkspace(id);rail.classList.toggle('active',id==='live-view');rail.setAttribute('aria-current',id==='live-view'?'page':'false');};
@@ -54,7 +62,7 @@
     const icon=document.createElement('img');icon.src='/assets/'+(locked?'check-circle':selected?'check-square':'square')+'.svg';icon.alt='';
     const label=document.createElement('span');label.textContent=areaName(area);row.append(icon,label);
     if(!locked){row.type='button';row.setAttribute('role','checkbox');row.setAttribute('aria-checked',String(selected));row.setAttribute('aria-label',areaName(area));row.disabled=!online||setupLoading||(!selected&&chosen.size>=maxAreas());
-     row.onclick=()=>{if(areaLocked()||!online||setupLoading||!setup?.areas.some(a=>a.id===area.id))return;if(chosen.has(area.id))chosen.delete(area.id);else if(chosen.size<maxAreas())chosen.add(area.id);else return;selectionInitialized=true;note('');renderLive()};
+     row.onclick=()=>{if(areaLocked()||!online||setupLoading||!setup?.areas.some(a=>a.id===area.id))return;if(chosen.has(area.id))chosen.delete(area.id);else if(chosen.size<maxAreas())chosen.add(area.id);else return;selectionInitialized=true;note('');rememberSelection();renderLive()};
     }box.append(row);
    }
    if(!rows.length){const empty=document.createElement('p');empty.className='live-area-empty';empty.textContent=locked?'Bereiche werden bestätigt …':setupLoading?'Bereiche werden geladen …':setupError?'Bereiche konnten nicht geladen werden. Bitte aktualisieren.':query?'Keine passenden Bereiche. Suche ändern.':selectedOnly?'Noch nichts ausgewählt. Filter ausschalten, um Bereiche zu wählen.':'Keine Wissensbereiche verfügbar.';box.append(empty)}
@@ -197,6 +205,7 @@
  $('live-start').onclick=run(async()=>{
   if(starting||busy()||!online||setupLoading||!setup?.enabled||!chosen.size||chosen.size>maxAreas()||!setup?.audio?.available)return;const runId=++generation;requestedAreas=setup.areas.filter(a=>chosen.has(a.id));starting=true;areaPage=0;chatPage=null;if(document.body.classList.contains('keyboard-open'))$('keyboard').click();audio.pause();if(typeof pauseMicrophoneAudio==='function')pauseMicrophoneAudio();note('Mikrofon und Lautsprecher werden am Pi verbunden …');renderLive();
   try{
+   await selectionSave;if(runId!==generation)return;
    const reserved=await post('reserve',{area_ids:[...chosen]});if(runId!==generation){await post('end',{lease:reserved.lease});return;}lease=reserved.lease;
    heartbeat=setInterval(()=>{if(runId===generation&&lease)post('pulse',{lease}).catch(()=>{if(runId===generation)finish().catch(()=>{})})},5000);
    await post('start-native',{lease});if(runId!==generation)return;starting=false;note('Sprich am Pi. Der Recorder bleibt während des Gesprächs gesperrt.');await poll();renderLive();
