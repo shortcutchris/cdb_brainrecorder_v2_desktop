@@ -1,5 +1,14 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.27 – Gesprächswissen in der rechten Seitenleiste
+
+Knowledge Areas vor dem Gespräch mehrfach auswählen, suchen und mit nummerierten
+Seitenbuttons durchblättern. Während des Gesprächs bleibt die Auswahl gesperrt;
+die bestätigten Bereiche stehen rechts neben dem Verlauf. Feste Bedienleisten,
+Touch-Tastatur und alle Themes bleiben erhalten.
+
+[Prüfungen und Vorschauen](docs/live-areas-0.5.27/README.md)
+
 ## 0.5.26 – Suchaktivität sichtbar machen
 
 Ein kleiner Indikator unten rechts zeigt laufenden Suchton, Ausklingen sowie die Suche bei pausiertem oder ausgeschaltetem Ton. Sein Platz bleibt reserviert; das Layout bewegt sich nicht. Die Tonanzeige folgt der tatsächlichen Ausgabe des Python-Players.

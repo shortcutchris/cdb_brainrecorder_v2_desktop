@@ -284,13 +284,15 @@ class LiveConversation:
             with self.lock:
                 if generation != self.generation or self.state == 'closing': return
             threading.Thread(target=self._events, args=(generation, handle, binding), daemon=True).start()
-        except Exception:
+        except Exception as error:
+            # Only expose a locally defined authorization category, never provider details.
+            denied = isinstance(error, CdbFailure) and str(error) == 'Keine Berechtigung für diese CDB-Aktion.'
             if handle:
                 try: self.cdb.call(BASE + '/sessions/' + handle + '/close', {}, binding=binding)
                 except Exception: pass
             with self.lock:
                 if generation == self.generation:
-                    self._finish('error', 'Gespräch konnte nicht verbunden werden. Brain-Verbindung und Live-Freigabe prüfen.')
+                    self._finish('error', 'Brain hat diese Bereichsauswahl nicht freigegeben. Andere Bereiche wählen oder Berechtigung prüfen.' if denied else 'Gespräch konnte nicht verbunden werden. Brain-Verbindung und Live-Freigabe prüfen.')
 
     def status(self, lease):
         with self.lock:

@@ -126,3 +126,25 @@ Die Rückmeldung bestätigt die Ausgabe an den Pi-Audioplayer, nicht die akustis
 Hörbarkeit im Raum. Bluetooth kann den tatsächlichen Klang geringfügig verzögern.
 Bei Gesprächsende, veralteter Audioaktivität oder Verbindungsfehler verschwindet
 die Tonanimation. [Prüfungen und Vorschauen](live-search-indicator-0.5.26/README.md).
+
+## Gesprächswissen ab 0.5.27
+
+Rechts steht eine feste Seitenleiste für die Knowledge Areas. Vor dem Start einen
+bis maximal acht Bereiche auswählen (eine kleinere Servergrenze gilt vorrangig).
+Ein Tipp auf die ganze Zeile setzt oder entfernt das Häkchen. Die Suche filtert
+Namen; bereits ausgewählte Bereiche bleiben beim Suchen und Blättern ausgewählt.
+Nummerierte Seitenbuttons ersetzen Scrollen. Die Anzeige „N von maximal 8“ zählt
+auch Auswahlen auf anderen Seiten. Der Standardbereich ist beim ersten Laden
+vorausgewählt; bewusstes Abwählen wird durch Aktualisieren nicht rückgängig gemacht.
+
+Ab dem Start, während Verbindungsaufbau, Gespräch, Wiederverbindung und Beenden
+ist die Auswahl gesperrt. Angezeigt werden ausschließlich die für diese Sitzung
+bestätigten Bereiche; während des Verbindungsaufbaus zunächst die angeforderten.
+Durchblättern bleibt möglich. Zusätzliche Bereiche lassen sich nicht in eine
+laufende Sitzung zuschalten. Nach dem Beenden bleibt der Kontext beim Verlauf;
+„Neues Gespräch“ öffnet die Auswahl wieder. Das Recorder-Übertragungsziel bleibt
+unverändert. Brain prüft beim Start weiterhin die tatsächlichen Berechtigungen.
+Eine abgelehnte Kombination wird nicht stillschweigend reduziert, sondern mit
+Hinweis beendet; anschließend können andere Bereiche gewählt werden.
+
+[Abnahme und Screenshots](live-areas-0.5.27/README.md)

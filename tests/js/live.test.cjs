@@ -2,7 +2,7 @@ const test=require('node:test'),assert=require('node:assert/strict'),vm=require(
 function harness(){
  const nodes={},events={},calls=[];
  const element=id=>nodes[id]??=({get id(){return id},set id(value){nodes[value]=this},hidden:false,disabled:false,open:false,value:'',dataset:{},style:{},children:[],classList:{toggle(){}},setAttribute(k,v){this[k]=v},append(...a){this.children.push(...a)},before(){},replaceChildren(...a){this.children=a},show(){this.open=true},close(){this.open=false},get innerHTML(){return''},set innerHTML(html){for(const m of html.matchAll(/id="([^"]+)"/g))element(m[1])}});
- const c={document:{createElement:t=>element('new'+Math.random()),body:{append(){},dataset:{}}},window:{addEventListener:(n,f)=>events[n]=f},$:element,state:{recording:{id:null},live:{state:'idle',busy:false,history:[]},cdb:{identity:{name:'Test'}}},online:true,csrf:'csrf',renderState(){},workspaceView(id){c.document.body.dataset.workspace=id;element(id).show()},leaveDraft:async()=>{},audio:{pause(){}},drawPageNumbers(){},run:fn=>fn,setInterval:()=>1,clearInterval(){},fetch:async()=>{},poll:async()=>{},openSettings:async()=>{},showSettingsDetail(){},api:async(path,body)=>{
+ const c={document:{createElement:t=>element('new'+Math.random()),body:{append(){},dataset:{},classList:{contains(){return false}}}},window:{addEventListener:(n,f)=>events[n]=f},$:element,state:{recording:{id:null},live:{state:'idle',busy:false,history:[]},cdb:{identity:{name:'Test'}}},online:true,csrf:'csrf',renderState(){},workspaceView(id){c.document.body.dataset.workspace=id;element(id).show()},leaveDraft:async()=>{},audio:{pause(){}},drawPageNumbers(){},run:fn=>fn,setInterval:()=>1,clearInterval(){},fetch:async()=>{},poll:async()=>{},openSettings:async()=>{},showSettingsDetail(){},api:async(path,body)=>{
   calls.push([path,body]);
   if(path==='/api/live/setup')return {enabled:true,max_areas:8,areas:[{id:'area',label:'Staging'}],default_area:{id:'area'},audio:{available:true,microphone_label:'ReSpeaker',speaker_label:'Pi Lautsprecher'}};
   if(path==='/api/live/reserve'){c.state.live={state:'connecting',busy:true,history:[]};return{lease:'owner-lease'}};
@@ -70,4 +70,38 @@ test('cue indicator follows actual playback, search pauses and terminal states',
  f.search_sound=true;f.active=false;h.c.renderState();assert.equal(h.element('live-cue').dataset.mode,'idle');
  f.active=true;f.unavailable=true;h.c.renderState();assert.equal(h.element('live-cue').dataset.mode,'idle');
  f.unavailable=false;h.c.online=false;h.c.renderState();assert.equal(h.element('live-cue').dataset.mode,'idle');
+});
+
+async function areaHarness(max=8){
+ const h=harness(),api=h.c.api;const areas=Array.from({length:12},(_,i)=>({id:'area-'+i,label:['Projekt Atlas','Teamwissen','Kundenservice','Workshop-Notizen'][i%4]+' '+i}));
+ h.c.api=async(path,body)=>path==='/api/live/setup'?{enabled:true,max_areas:max,areas,default_area:areas[0],audio:{available:true}}:api(path,body);
+ await h.element('live-open').onclick();return {...h,areas};
+}
+test('area search and direct pages preserve multi-selection and send all selected IDs',async()=>{
+ const h=await areaHarness();h.element('live-areas').children[1].onclick();
+ h.element('live-area-pages').children[1].onclick();h.element('live-areas').children[2].onclick();
+ h.element('live-area-search').value='PROJEKT';h.element('live-area-search').oninput();
+ assert.equal(h.element('live-areas').children.length,3);assert.equal(h.element('live-area-position').textContent,'1 / 1');
+ assert.equal(h.element('live-selection-count').textContent,'3 von maximal 8 ausgewählt');
+ h.element('live-area-search').value='kein Treffer';h.element('live-area-search').oninput();assert.match(h.element('live-areas').children[0].textContent,/Keine passenden/);
+ await h.element('live-start').onclick();assert.deepEqual(Array.from(h.calls.find(([p])=>p.endsWith('/reserve'))[1].area_ids),['area-0','area-1','area-6']);
+});
+test('selection limits block additional checks and zero selection blocks start, including refresh',async()=>{
+ const h=await areaHarness(2);h.element('live-areas').children[1].onclick();assert.equal(h.element('live-areas').children[2].disabled,true);
+ h.element('live-areas').children[2].onclick();assert.equal(h.element('live-selection-count').textContent,'2 von maximal 2 ausgewählt');
+ h.element('live-areas').children[0].onclick();h.element('live-areas').children[1].onclick();assert.equal(h.element('live-start').disabled,true);
+ await h.element('live-refresh').onclick();assert.equal(h.element('live-selection-count').textContent,'0 von maximal 2 ausgewählt');
+ await h.element('live-start').onclick();assert.equal(h.calls.some(([p])=>p.endsWith('/reserve')),false);
+});
+test('connecting and running areas are read-only, stale click handlers cannot change selection',async()=>{
+ const h=await areaHarness(),old=h.element('live-areas').children[1];await h.element('live-start').onclick();old.onclick();
+ assert.equal(h.element('live-area-search').disabled,true);assert.equal(h.element('live-areas').children.length,1);assert.equal(h.element('live-areas').children[0].onclick,undefined);
+ h.c.state.live.areas=h.areas.slice(0,8);h.c.renderState();h.element('live-area-pages').children[1].onclick();assert.equal(h.element('live-area-position').textContent,'2 / 2');
+ assert.equal(h.element('live-areas').children.every(row=>row.onclick===undefined),true);
+ h.c.state.live={busy:false,state:'ended',areas:h.areas.slice(0,8),history:[{role:'assistant',text:'Fertig'}]};h.c.renderState();assert.equal(h.element('live-area-search').disabled,true);
+});
+test('account changes discard pending area requests rather than showing another account selection',async()=>{
+ const h=await areaHarness();let resolve;h.c.api=()=>new Promise(r=>resolve=r);const loading=h.element('live-refresh').onclick();
+ assert.equal(h.element('live-start').disabled,true);h.c.state.cdb.identity={name:'Other'};h.c.renderState();resolve({enabled:true,max_areas:8,areas:h.areas,default_area:h.areas[0],audio:{available:true}});await loading;
+ assert.equal(h.element('live-selection-count').textContent,'0 von maximal 8 ausgewählt');assert.equal(h.element('live-start').disabled,true);assert.match(h.element('live-areas').children[0].textContent,/Keine Wissensbereiche/);
 });

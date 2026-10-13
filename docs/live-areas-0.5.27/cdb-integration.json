@@ -1,0 +1,85 @@
+{
+  "test": "Pi, synthetic German speech, CDB staging_playground, no room microphone or speaker",
+  "states": [
+    {
+      "seconds": 0.1,
+      "state": "connecting"
+    },
+    {
+      "seconds": 2.7,
+      "state": "listening"
+    },
+    {
+      "seconds": 30.0,
+      "state": "thinking"
+    },
+    {
+      "seconds": 30.5,
+      "state": "thinking:web"
+    },
+    {
+      "seconds": 30.7,
+      "state": "speaking:web"
+    },
+    {
+      "seconds": 31.9,
+      "state": "listening:web"
+    },
+    {
+      "seconds": 33.2,
+      "state": "listening"
+    },
+    {
+      "seconds": 36.1,
+      "state": "speaking"
+    },
+    {
+      "seconds": 38.7,
+      "state": "thinking"
+    },
+    {
+      "seconds": 38.8,
+      "state": "speaking"
+    }
+  ],
+  "brain_seen": false,
+  "web_seen": true,
+  "input_peak": 1,
+  "output_peak": 0.831,
+  "cue_playing_seen": true,
+  "stats": {
+    "capture_backend": "explicit-device",
+    "captured_frames": 2291,
+    "sent_frames": 2171,
+    "played_frames": 2129,
+    "search_tones": 4,
+    "search_loop_blocks": 112,
+    "search_loop_pauses": 4,
+    "event_types": {
+      "session.started": 1,
+      "session.input_transcript.delta": 17,
+      "session.delegation.created": 2,
+      "response.event:response.created": 2,
+      "response.event:response.in_progress": 2,
+      "response.event:response.output_item.added": 5,
+      "response.event:response.web_search_call.in_progress": 1,
+      "response.event:response.web_search_call.searching": 1,
+      "session.output_transcript.delta": 30,
+      "response.event:response.web_search_call.completed": 1,
+      "response.event:response.output_item.done": 5,
+      "response.event:response.content_part.added": 2,
+      "response.event:response.output_text.delta": 38,
+      "response.event:response.output_text.done": 2,
+      "response.event:response.content_part.done": 2,
+      "response.event:response.completed": 2
+    },
+    "processes_alive": 2,
+    "closed": false
+  },
+  "selected_area_confirmed": true,
+  "mute_and_sound_toggle": true,
+  "interlocks": true,
+  "unlocked": true,
+  "ended_cue_hidden": true,
+  "ended_zero_wave": true
+}

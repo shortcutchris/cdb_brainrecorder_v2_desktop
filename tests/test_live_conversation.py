@@ -4,6 +4,7 @@ import time
 import unittest
 from pathlib import Path
 from services.live_conversation import LiveConversation, BASE
+from services.cdb_integration import CdbFailure
 
 AREA='11111111-1111-1111-1111-111111111111'
 
@@ -62,6 +63,18 @@ class LiveTests(unittest.TestCase):
         self.assertEqual(self.live.public()['state'],'error')
         self.assertNotIn('secret',str(self.live.public()))
         self.reserve()
+    def test_denied_area_selection_is_actionable_and_releases_device(self):
+        original = self.brain.call
+        def call(path, body=None, binding=None):
+            if path == BASE + '/sessions':
+                raise CdbFailure('Keine Berechtigung für diese CDB-Aktion.')
+            return original(path, body, binding)
+        self.brain.call = call
+        lease = self.reserve(); self.live.start(lease, 'v=0\r\n')
+        self.wait(lambda: not self.live.busy())
+        self.assertIn('Bereichsauswahl nicht freigegeben', self.live.public()['error'])
+        self.reserve()
+
     def test_cancel_during_remote_start_keeps_lock_until_late_session_closed(self):
         self.brain.block=threading.Event();lease=self.reserve();self.live.start(lease,'v=0\r\n')
         self.assertTrue(self.brain.reached.wait(1));self.live.end(lease)

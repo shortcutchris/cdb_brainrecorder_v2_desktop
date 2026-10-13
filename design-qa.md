@@ -41,3 +41,28 @@ Der reale Pi hat derzeit kein gefundenes Aufnahmemikrofon. Die Einrichtung bleib
 Ausgewählte Studio-Variante 2 bleibt erhalten. Aktuelle Nachprüfung mit echten Browseraufnahmen bei 1280×720 und 1024×600: Dialog-Stop, beschäftigte Meetingaktionen, Download-/Test-/Konfigurationsregeln, Notizen während KI und Aufnahme, Speicherfehler, lokaler Export, Konfliktvergleich, Wiederherstellung in frisch geladener Seite, Offline/Wiederverbindung, Warteschlange, Einrichtung, Prompts und Tastatur. Fehlerhinweise verdecken die Entwurfsaktionen nicht mehr. Die Tastatur überspringt verborgene Felder und Regler. Die offene Queue reduziert die übrige Ansicht, ohne den Aufnahmestopp zu verdecken.
 
 Die nummerierte Galerie und der Abnahmebericht liegen im lokalen Aufgabenordner `outputs/studio-audit/`. Alle Galerieinhalte sind synthetisch; persönliche produktive Meetingansichten werden nur privat geprüft. Keine vollständige WCAG-Zertifizierung; physischer Fingertest und echte Mikrofonaufnahme bleiben Hardwareprüfungen.
+
+## Variante 3 – Gesprächswissen, 0.5.27 (13.10.2026)
+
+Ausgewählte Referenz: `exec-bc63cad5-f186-4178-8329-f134fab2170c.png`, 1672 × 941.
+Implementierung: `output/playwright/live-0.5.27/01-auswahl.jpg`, 1280 × 720,
+gleicher Vorstartzustand mit Projekt Atlas, Teamwissen und Workshop-Notizen gewählt.
+Beide Bilder gemeinsam betrachtet, Abmessungen proportional auf 1280 × 720
+verglichen. Aktive Ansicht zusätzlich anhand `04-gespraech-gesperrt.jpg` geprüft.
+
+| Prüfung | Ergebnis |
+|---|---|
+| Struktur | Schmale Navigation, fester Header, Statuszeile, Chat links, feste 320-px-Wissensleiste rechts, Footer: bestanden |
+| Typografie/Spacing | Lokale Inter, 16-px-Zeilen, 20-px-Seitentitel, 48-px-Touchziele, 24-px-Inhaltsrand: bestanden |
+| Assets/Farben | Vorhandene Phosphor-SVGs und vier offizielle Ergänzungen; Themefilter im dunklen CDB-Theme nachgebessert |
+| Auswahl/Seiten | Vier Zeilen am Zielbildschirm, Suche und Nummernseiten. Ausgewählte Checkboxen und gesperrte Übersicht unterscheidbar |
+| Stabilität | Footer x88/y612/h80 vor/während Gespräch gleich; Seitenleiste x936/y200/w320/h372; kein Dokumentüberlauf |
+| Tastatur/kleine Größe | 1280 × 720 und 1024 × 600 geprüft; anfänglich abgeschnittene Zeile bei kleiner Tastaturansicht behoben |
+| Status | Keine offenen P0/P1/P2-Layoutprobleme in den geprüften Zuständen |
+
+Bewusste Unterschiede zur hellen Referenz: bestehendes auswählbares CDB-Theme
+(Navy/Orange) statt erzwungenem Blau; tatsächliche Pi-Audiogeräte bleiben sichtbar;
+Aktualisieren als zusätzlicher Iconbutton; vorhandene harmonisierte 208-px-
+Footerbuttons; keine dekorative Mikrofonillustration in der Statusleiste.
+Texte und Zeilenumbrüche wurden auf das reale Display angepasst. Die festen Leisten
+folgen dem übrigen Produkt. Synthetische Bilder sind im Abnahmebericht gekennzeichnet.
