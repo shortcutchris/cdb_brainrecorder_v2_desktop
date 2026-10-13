@@ -54,3 +54,15 @@ subjektiver Hörtest wird hieraus nicht abgeleitet.
 ![Aktive Bereiche – zweite Seite](../../output/playwright/live-0.5.27/05-aktive-bereiche-seite-2.jpg)
 ![1024 × 600 mit Tastatur](../../output/playwright/live-0.5.27/06-kleines-display-tastatur.jpg)
 ![Echter CDB-Test](../../output/playwright/live-0.5.27/07-cdb-echter-test.jpg)
+
+## Produktiv aufgespielt
+
+Version **0.5.27**, Laufzeit-Commit `49419f4`, auf dem Pi aktiviert. Backend und
+Touchdisplay-Kiosk laufen. Alle zehn ausgelieferten Dateien stimmen per SHA256
+mit dem gepushten Commit überein (`deployment.json`). 22 Aufnahmen, Konfiguration,
+aktive Anbieter, Standardbereich und Anmeldung sind erhalten geblieben. Sicherung:
+`/home/chris/backups/recorder-before-0.5.27`. Testinstanz beendet und temporäre
+Anmeldedatei entfernt. Produktive Oberfläche anschließend über den lokalen
+Pi-Zugang geöffnet und ohne Browserfehler geprüft.
+
+![Produktive Auswahl auf dem Pi](../../output/playwright/live-0.5.27/08-produktiv-pi.jpg)
