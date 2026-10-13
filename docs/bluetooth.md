@@ -8,7 +8,9 @@ Ab Recorder Studio 0.5.21: **Einstellungen → Audio → Bluetooth**.
 2. Am Lautsprecher den Kopplungsmodus aktivieren. Bei Marshall hängt die genaue Taste und Haltezeit vom Modell ab; die Bluetooth-Anzeige signalisiert die Suche. Modellbezeichnung und Herstellerhandbuch sind maßgeblich.
 3. Im Recorder gegebenenfalls **Bluetooth einschalten**, dann **Geräte suchen**. Die Suche endet spätestens nach 60 Sekunden oder durch **Abbrechen**. Gefundene und gespeicherte Geräte erscheinen auf direkt anwählbaren Seiten.
 4. Das gewünschte Gerät auswählen und **Koppeln** drücken. Falls ein Code erscheint, mit dem Gerät vergleichen und bestätigen. Angeforderte PIN eingeben; über das Tastatursymbol ist die Touch-Tastatur verfügbar. Niemals einen nicht passenden Code bestätigen.
-5. Nach dem Verbinden unten **Lautsprecher** öffnen, den Bluetooth-Ausgang wählen, Lautstärke setzen und **Testton am Pi** abspielen.
+5. Warten, bis beim Gerät **Audio bereit** steht. **Als Lautsprecher** wählt genau dieses Gerät und öffnet die Lautsprechereinstellungen. Lautstärke setzen und **Testton am Pi** abspielen. Der Button ist erst aktiv, wenn der Pi einen echten Audioausgang dieses Geräts erkannt hat; er fällt nicht auf einen anderen Lautsprecher zurück.
+
+**Status ab 0.5.22:** „Gekoppelt · nicht verbunden“ bedeutet nur gespeicherte Kopplung. „Verbunden · Audio fehlt“ bedeutet eine Bluetooth-Verbindung ohne verfügbaren Audioein- oder -ausgang. Erst „Audio bereit“ erlaubt die passende Audioauswahl. Ein reiner Lautsprecher aktiviert den Mikrofon-Shortcut nicht.
 
 Für spätere Verbindungen genügt bei einem gespeicherten Gerät **Verbinden**. **Trennen** behält die Kopplung. **Kopplung entfernen** verlangt eine zusätzliche Bestätigung auf derselben Seite und erfordert danach erneutes Koppeln. Neu erfolgreich gekoppelte Geräte werden für die Wiederverbindung als vertrauenswürdig gespeichert.
 
@@ -41,3 +43,9 @@ BlueZ über dessen System-D-Bus; eigener Agent mit `KeyboardDisplay`, keine auto
 - [WirePlumber Audioprofil-Einstellungen](https://pipewire.pages.freedesktop.org/wireplumber/daemon/configuration/settings.html)
 
 [Abnahme und Screenshots](bluetooth-0.5.21/README.md).
+
+## Marshall EMBERTON II
+
+Bei unserem Praxistest war die Kopplung gespeichert, der Audio-Verbindungsaufbau wurde aber abgebrochen. Nach erneutem Kopplungsmodus und Wiederverbinden erschien die Box als A2DP-Ausgang; beide Testtöne bei 25 % wurden vom Benutzer gehört. Die Kopplung musste dafür nicht gelöscht werden, zusätzliche Treiber waren nicht nötig. Ob zuvor eine andere Geräteverbindung die Ursache war, ist nicht belegt.
+
+Bei erneutem Auftreten: mögliche Handyverbindung trennen, Bluetooth-Taste halten, bis die Anzeige langsam rot pulsiert, dann am Pi **Verbinden** wählen. Erst falls das nicht hilft, die Kopplung entfernen und neu koppeln. [Offizielle Anleitung für EMBERTON II](https://www.marshall.com/de/en/support/speakers/support-for-emberton-ii/how-to-connect-or-pair).

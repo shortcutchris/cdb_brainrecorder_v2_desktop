@@ -19,12 +19,21 @@ def audio_profiles(address, runner=subprocess.run):
         if str(props.get('api.bluez5.address',props.get('device.string',''))).upper()!=address.upper():continue
         profiles=[]
         for name,p in card.get('profiles',{}).items():
-            if p.get('available')=='no':continue
+            if p.get('available') in ('no',False):continue
             if name.startswith('a2dp-sink'):label='Musik · Lautsprecher'
             elif name.startswith('headset-head-unit'):label='Gespräch · Mikrofon + Lautsprecher'
             else:continue
             profiles.append({'id':name,'label':label+' · '+p.get('description',name)})
-        return {'card':card['name'],'active':card.get('active_profile',''),'profiles':profiles}
+        endpoints={}
+        for kind in ('sinks','sources'):
+            try:
+                entries=json.loads(runner(['pactl','-f','json','list',kind],capture_output=True,text=True,check=True,timeout=4).stdout)
+                endpoints[kind]=[{'id':e['name'],'label':e.get('description',e['name'])} for e in entries
+                    if (str(e.get('properties',{}).get('api.bluez5.address',e.get('properties',{}).get('device.string',''))).upper()==address.upper()
+                        or (card.get('index') is not None and e.get('card')==card['index']))
+                    and (kind!='sources' or not e['name'].endswith('.monitor'))]
+            except (OSError,ValueError,subprocess.SubprocessError):endpoints[kind]=[]
+        return {'card':card['name'],'active':card.get('active_profile',''),'profiles':profiles,**endpoints}
     return None
 
 
@@ -76,7 +85,7 @@ class BluetoothAudio:
         from dbus_next import Message,MessageType
         reply=await asyncio.wait_for(self.bus.call(Message(destination='org.bluez',path=path,interface=interface,
             member=member,signature=signature,body=body or [])),timeout)
-        if reply.message_type==MessageType.ERROR:raise ValueError(reply.error_name)
+        if reply.message_type==MessageType.ERROR:raise ValueError(reply.error_name+': '+str(reply.body[0] if reply.body else ''))
         return reply.body
 
     async def set_property(self,path,interface,key,kind,value):
@@ -167,14 +176,25 @@ class BluetoothAudio:
                 profile=await asyncio.to_thread(audio_profiles,d['address'])
                 if not profile or not any(p['id']==body.get('profile') for p in profile['profiles']):raise ValueError('Audiomodus ist nicht verfügbar.')
                 await asyncio.to_thread(subprocess.run,['pactl','set-card-profile',profile['card'],body['profile']],check=True,capture_output=True,timeout=12)
-            self.update(message='Suche beendet.' if operation=='scan' else 'Fertig. Audio-Gerät bei Mikrofon oder Lautsprecher auswählen.')
+            await self.refresh()
+            if operation in ('pair','connect','profile'):
+                d=next((d for d in self.data['devices'] if d['id']==device),{})
+                profile=d.get('profile') or {}
+                message=('Audio bereit. Unten den gewünschten Ein- oder Ausgang auswählen.' if d.get('connected') and (profile.get('sinks') or profile.get('sources'))
+                    else 'Bluetooth verbunden. Audio noch nicht verfügbar; Status wird weiter geprüft.' if d.get('connected')
+                    else 'Gekoppelt, aber nicht verbunden. Gerät einschalten und erneut verbinden.' if d.get('paired')
+                    else 'Keine Verbindung. Gerät in den Kopplungsmodus versetzen und erneut versuchen.')
+            else:message={'scan':'Suche beendet.','disconnect':'Verbindung getrennt. Kopplung bleibt gespeichert.',
+                'forget':'Kopplung entfernt.','power':'Bluetooth eingeschaltet.' if body.get('powered') else 'Bluetooth ausgeschaltet.'}[operation]
+            self.update(message=message)
         except asyncio.CancelledError:
             cancelled=True;self.update(message='Bluetooth-Aktion abgebrochen.')
         except Exception as error:
             cancelled=True
             name=str(error)
             message='Bluetooth-Aktion fehlgeschlagen. Gerät einschalten, Kopplungsmodus prüfen und erneut versuchen.'
-            if 'Authentication' in name:message='Kopplung nicht bestätigt oder Zeit abgelaufen. Bitte erneut koppeln.'
+            if 'br-connection' in name or 'ConnectionAttemptFailed' in name:message='Keine Audioverbindung. Handyverbindung trennen und erneut verbinden. Falls das nicht hilft: Kopplung entfernen und neu koppeln.'
+            elif 'Authentication' in name:message='Kopplung nicht bestätigt oder Zeit abgelaufen. Bitte erneut koppeln.'
             elif 'NotReady' in name:message='Bluetooth zuerst einschalten. Falls nötig, Funkfreigabe am Pi prüfen.'
             elif 'NotAuthorized' in name or 'AccessDenied' in name:message='Der Pi-Benutzer darf Bluetooth nicht verwalten. Geräteberechtigungen prüfen.'
             elif operation=='profile':message='Audiomodus konnte nicht gewechselt werden. Gerät neu verbinden.'

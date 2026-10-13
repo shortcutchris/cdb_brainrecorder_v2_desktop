@@ -70,3 +70,40 @@ class PairingTests(unittest.IsolatedAsyncioTestCase):
         self.b.reply({'id':p['id'],'accept':True,'value':'001234'});self.assertEqual(await task,'001234')
     async def test_agent_exports_all_required_methods(self):
         a=make_agent(self.b);names={m.name for m in a.introspect().methods};self.assertTrue({'RequestPinCode','RequestPasskey','RequestConfirmation','Cancel','AuthorizeService'}<=names)
+
+class AudioReadinessTests(unittest.TestCase):
+    def test_exact_card_endpoints_exclude_other_speaker_and_monitor(self):
+        card={'name':'bluez_card.AA','index':42,'properties':{'api.bluez5.address':'AA'},'profiles':{'a2dp-sink':{'available':True},'headset-head-unit':{'available':False}}}
+        def run(args,**kw):
+            data=[card] if args[-1]=='cards' else [
+                {'name':'marshall' if args[-1]=='sinks' else 'marshall-mic','card':42},
+                {'name':'respeaker','card':8},{'name':'marshall.monitor','card':42}] if args[-1]=='sources' else [{'name':'marshall','properties':{'api.bluez5.address':'aa'}},{'name':'respeaker','properties':{'api.bluez5.address':'BB'}}]
+            return SimpleNamespace(stdout=json.dumps(data))
+        profile=audio_profiles('AA',run)
+        self.assertEqual(profile['sinks'],[{'id':'marshall','label':'marshall'}])
+        self.assertEqual(profile['sources'],[{'id':'marshall-mic','label':'marshall-mic'}])
+        self.assertEqual([p['id'] for p in profile['profiles']],['a2dp-sink'])
+
+class ConnectionStatusTests(unittest.IsolatedAsyncioTestCase):
+    async def test_disconnected_after_connect_never_reports_audio_ready(self):
+        b=BluetoothAudio(False);b.call=AsyncMock(return_value=[]);b.refresh=AsyncMock()
+        b.update(devices=[{'id':DEVICE,'paired':True,'connected':False}])
+        await b._operate('connect',{'device':DEVICE})
+        self.assertIn('nicht verbunden',b.public()['message'])
+    async def test_connected_without_endpoints_reports_audio_pending(self):
+        b=BluetoothAudio(False);b.call=AsyncMock(return_value=[]);b.refresh=AsyncMock()
+        b.update(devices=[{'id':DEVICE,'paired':True,'connected':True,'profile':{'sinks':[],'sources':[]}}])
+        await b._operate('connect',{'device':DEVICE})
+        self.assertIn('Audio noch nicht verfügbar',b.public()['message'])
+    async def test_connection_error_offers_repair_and_disconnects(self):
+        b=BluetoothAudio(False);b.refresh=AsyncMock()
+        async def call(path,interface,member,**kw):
+            if member=='Connect':raise ValueError('org.bluez.Error.Failed: br-connection-unknown')
+        b.call=AsyncMock(side_effect=call)
+        await b._operate('connect',{'device':DEVICE})
+        self.assertIn('neu koppeln',b.public()['message'])
+        self.assertIn('Disconnect',[c.args[2] for c in b.call.await_args_list])
+    async def test_dbus_error_keeps_reason_for_classification(self):
+        from dbus_next import MessageType
+        b=BluetoothAudio(False);b.bus=SimpleNamespace(call=AsyncMock(return_value=SimpleNamespace(message_type=MessageType.ERROR,error_name='org.bluez.Error.Failed',body=['br-connection-unknown'])))
+        with self.assertRaisesRegex(ValueError,'br-connection-unknown'):await b.call(DEVICE,'org.bluez.Device1','Connect')
