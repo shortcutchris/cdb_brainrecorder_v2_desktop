@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.20'
+VERSION = '0.5.21'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -63,6 +63,8 @@ class StudioApp:
         self.closing = False
         from services.audio_output import AudioOutput
         self.speakers = AudioOutput(self.store.root)
+        from services.bluetooth_audio import BluetoothAudio
+        self.bluetooth = BluetoothAudio(enabled=not preview and backend is None)
         from services.model_checks import ModelChecks
         self.model_checks = ModelChecks(self)
         self.model_test = None
@@ -95,13 +97,14 @@ class StudioApp:
             recording={'id':'live','muted':live['muted'],'paused':False}
         return {'device':self.store.config()['device'],'recording':recording,'probe':self.probe.status()['state']=='running'}
 
-    def activity(self, state=None):
+    def activity(self, state=None, include_bluetooth=True):
         from services.app_activity import AppActivity
         state = state or self.engine.state()
         live = self.live.public() if hasattr(self, 'live') else {'state':'idle','busy':False}
         return AppActivity(recording=bool(state['recording']['id']), paused=state['recording'].get('paused',False),
             live=live['state'], live_reserved=live['busy'], microphone_test=state['microphone_test']['state']=='running',
             speaker_test=self.speakers.test_status()['state']=='running',
+            bluetooth=include_bluetooth and self.bluetooth.busy(),
             download=state['installation']['state']=='running',
             model_test=self.model_checks.public()['state']=='running' or bool(self.model_test and self.store.get(self.model_test)['state'] in BUSY),
             pending=any(j['state'] in BUSY for j in state['jobs']))
@@ -193,6 +196,7 @@ class StudioApp:
         state['speaker_test'] = self.speakers.test_status()
         state['respeaker'] = self.respeaker.public()
         state['live'] = self.live.public()
+        state['bluetooth'] = self.bluetooth.public()
         state.update(csrf=self.csrf, version=VERSION, preview=self.preview,
             namespace=hashlib.sha256(str(self.store.root).encode()).hexdigest()[:16])
         if self.model_test:
@@ -281,6 +285,11 @@ class StudioApp:
         # Lock order matches state(): controller before recorder.
         with self.control_lock, self.controller.lock, self.engine.recorder.lock:
             if self.closing:raise ValueError('Dienst wird beendet. Änderungen bitte kurz aufbewahren.')
+            if path=='/api/bluetooth':
+                activity=self.activity(include_bluetooth=False)
+                if activity.occupied:raise ValueError(activity.reason)
+                return self.bluetooth.action(body)
+            if self.bluetooth.busy():raise ValueError('Bluetooth wird eingerichtet. Bitte abschließen oder abbrechen.')
             live_controls={'/api/live/start-native','/api/live/status','/api/live/pulse','/api/live/end','/api/live/mute'}
             if self.live.busy() and path not in live_controls:
                 raise ValueError(self.activity().reason)
@@ -399,6 +408,7 @@ class StudioApp:
             if self.engine.recorder.active:self.engine.stop()
             self.controller.sync()
             self.model_checks.stopping.set()
+            self.bluetooth.close()
             self.live.close()
             self.cdb.close()
             if self.model_checks.thread:self.model_checks.thread.join(timeout=5)
@@ -415,6 +425,8 @@ class StudioHandler(Handler):
         if path=='/favicon.ico':
             self.send_response(204);self.headers_base('image/x-icon',0);self.end_headers();return
         if path=='/api/state':self.respond(self.server.app.state());return
+        if path=='/api/bluetooth':
+            self.server.app.bluetooth.start();self.respond(self.server.app.bluetooth.public());return
         if path=='/api/speakers':self.respond(self.server.app.speakers.public());return
         if path=='/api/cdb/areas':
             try:self.respond(self.server.app.cdb.areas())
