@@ -1,0 +1,23 @@
+{
+  "version": "0.5.29",
+  "sessions_preserved": 22,
+  "configuration_preserved": true,
+  "account_preserved": true,
+  "services": [
+    "active",
+    "active"
+  ],
+  "sha256": {
+    "web_server.py": "1b5984ecc20531c599468929f3509925ff0b0486195cca73b8cc654b6ede9439",
+    "services/live_audio.py": "ede4b6a63c9d3d6c3e11a2a19e40ddbe1ea9ac7c099acc5a0a08f8d59232108a",
+    "services/live_conversation.py": "9d8a38924a05767d2742aa6a1e17afddd32f9e7a2ac3760825909676453b143b",
+    "studio/live.js": "bfa334b292d42cad39d082d8b547378d7d16f036c1728992957040a5d0933e06",
+    "studio/live.css": "81e3d3308b9e63b4557f007243a9eba4871b595a552395e2829d3d2f4f85f628",
+    "studio/index.html": "a758125dc8ff6479373a6578a875cc8dd2cdf798bd28791649c972882d791a18",
+    "studio/assets/book-open.svg": "b38cdb3a15dcf00cfa4811e318b021e25c6a87b47acbb11888e16d107a5642da",
+    "studio/assets/check-square.svg": "69fc9a39cab4af71874d4cc56eaa6d8943962f2619f5c9a7e2e38d01e232c928",
+    "studio/assets/lock-simple.svg": "b99d3713ac86cb610eb66974d69de2aa1223c4f6387fb1053e3d375e62f5dc1c",
+    "studio/assets/square.svg": "b576b2c78227d150d8d5dab88557b0f6236ad8530179ef671cdc118d5aa3c7bc"
+  },
+  "runtime_commit": "33c948079059ef5a3c1d24afe38dcab3d2462a71"
+}

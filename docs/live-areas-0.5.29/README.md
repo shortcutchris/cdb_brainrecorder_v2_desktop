@@ -29,3 +29,12 @@ Das laufende Gespräch kann dann trotzdem mit der aktuellen Auswahl starten.
 
 Die separate Untersuchung des externen Mira-Displays steht in
 [Mira: Sender und Empfänger](../mira-receiver-review.md).
+
+## Auslieferung
+
+Version 0.5.29 mit Laufzeit-Commit `33c9480` produktiv auf dem Pi aktiviert.
+Backend und Touchdisplay-Kiosk sind aktiv. Die zehn geprüften Laufzeitdateien
+stimmen mit dem gepushten Commit überein (`deployment.json`). Alle 22 Aufnahmen,
+Anmeldung, Standardbereich und Konfiguration sind erhalten. Sicherung unter
+`/home/chris/backups/recorder-before-0.5.29`. Die isolierte Testinstanz wurde
+beendet und ihre temporäre Anmeldung entfernt.
