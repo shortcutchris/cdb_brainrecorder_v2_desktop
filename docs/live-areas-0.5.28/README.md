@@ -16,3 +16,11 @@ Screenshots mit synthetischen Bereichen in der Pi-Testinstanz:
 
 ![Ausgewählte Bereiche](../../output/playwright/live-0.5.28/01-ausgewaehlte-bereiche.jpg)
 ![Filter und Tastatur](../../output/playwright/live-0.5.28/02-filter-touch-tastatur.jpg)
+
+## Auslieferung
+
+Version 0.5.28 mit Laufzeit-Commit `a0e8317` produktiv aktiviert. Backend und
+Touchdisplay-Kiosk aktiv; zehn Dateihashes stimmen mit dem gepushten Stand überein
+(`deployment.json`). Alle 22 Aufnahmen sowie Anmeldung und Konfiguration erhalten.
+Sicherung: `/home/chris/backups/recorder-before-0.5.28`. Testinstanz beendet,
+temporäre Anmeldung entfernt.
