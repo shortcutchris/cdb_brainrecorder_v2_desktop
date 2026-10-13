@@ -1,0 +1,12 @@
+#capture-controls{display:flex;gap:12px;width:100%;margin:12px 0 0;flex-shrink:0}
+#capture-controls[hidden]{display:none}
+#capture-controls button{display:flex;align-items:center;justify-content:center;width:calc(50% - 6px);height:56px;min-height:56px;padding:0 8px;border:1px solid var(--line);border-radius:12px;background:var(--soft);color:var(--accent-text);font-size:14px;font-weight:600}
+#capture-controls button[aria-pressed=true]{background:var(--accent);color:var(--on-accent)}
+.capture.is-active .record{width:128px;height:128px;min-height:128px;margin-top:20px}
+.capture.is-active #waveform{height:32px;margin-top:8px}
+.capture.is-active .duration{font-size:42px;margin-top:8px}
+.capture.is-active #recording-lock{font-size:13px;line-height:18px;margin-top:12px;margin-bottom:8px}
+body.keyboard-open .capture.is-active .record{width:88px;height:88px;min-height:88px;margin-top:12px}
+body.keyboard-open .capture.is-active .duration{font-size:30px;margin-top:4px}
+body.keyboard-open .capture.is-active #waveform{display:none}
+body.keyboard-open .capture.is-active #recording-lock{margin-top:8px}

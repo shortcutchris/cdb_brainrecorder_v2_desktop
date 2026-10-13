@@ -400,3 +400,21 @@ Nach der Microsoft-Anmeldung werden die Knowledge Areas automatisch geladen. Unt
 ## Studio 0.5.2
 
 [Rechte Arbeitsansichten, Touchbedienung und Meetingaufgaben](docs/workspace-0.5.2/README.md): Bibliothek und Einstellungen öffnen neben der Aufnahme; Zusammenfassung bietet Meetingprotokoll oder vereinbarte Aufgaben statt Übersetzung.
+
+## Stummschaltung, Pause und Bluetooth (Studio 0.5.17)
+
+Während der Aufnahme stehen unter der Pegelanzeige zwei Touchbuttons bereit:
+**Mikro stumm** speichert Stille, die Aufnahmedauer läuft weiter.
+**Pause** speichert keine Audiodaten; **Fortsetzen** führt dieselbe Aufnahme weiter.
+Ein stummgeschaltetes Mikrofon bleibt auch nach dem Fortsetzen stumm, bis es ausdrücklich eingeschaltet wird.
+Bibliothek, Warteschlange und Einstellungen bleiben während einer Pause gesperrt.
+**Stoppen** schließt die Aufnahme auch im Pausenzustand ab und stellt genau einen Auftrag in die Warteschlange.
+Notizen können weiterhin bearbeitet werden. Die App-Stummschaltung steuert noch keine Hardware-LEDs.
+
+Verbundene Bluetooth-Mikrofone erscheinen zusätzlich in der Mikrofonauswahl, wenn
+PipeWire/PulseAudio sie im Headset-/Freisprechprofil als Quelle bereitstellt.
+Bloßes Pairing oder ein reines A2DP-Wiedergabeprofil reicht nicht. Die App übernimmt
+keine Kopplung und schaltet Profile nicht selbstständig um. Bluetooth-Lautsprecher
+werden bereits über die Lautsprecherauswahl angeboten, sobald sie verbunden sind.
+
+Details, Tests und ReSpeaker-Diagnose: [Aufnahmesteuerung 0.5.17](docs/capture-0.5.17/README.md).

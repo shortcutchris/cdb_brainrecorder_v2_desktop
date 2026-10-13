@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.16'
+VERSION = '0.5.17'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -163,6 +163,7 @@ class StudioApp:
                     f.seek(max(0,path.stat().st_size-32000));raw=f.read(32000)
             except OSError: pass
         # Actual bounded PCM measurements, never decorative fake microphone levels.
+        if state['recording'].get('paused') or state['recording'].get('muted'):raw=b''
         if raw:
             import numpy as np
             samples = np.frombuffer(raw[:len(raw)//2*2],dtype='<i2').astype('float32')/32768
@@ -262,13 +263,13 @@ class StudioApp:
         # Lock order matches state(): controller before recorder.
         with self.control_lock, self.controller.lock, self.engine.recorder.lock:
             if self.closing:raise ValueError('Dienst wird beendet. Änderungen bitte kurz aufbewahren.')
-            if self.engine.recorder.active and path!='/api/record/stop':
+            if self.engine.recorder.active and path not in ('/api/record/stop','/api/record/control'):
                 parts=path.strip('/').split('/')
                 note_save=(len(parts)==4 and parts[:2]==['api','sessions'] and parts[3]=='save'
                            and isinstance(body.get('changes'),dict) and set(body['changes'])=={'notes'})
                 active_id=self.engine.state()['recording']['id']
                 if not note_save or self.session(int(parts[2])).get('local_job_id')!=active_id:
-                    raise ValueError('Aufnahme läuft. Nur aktuelle Notizen und Stoppen sind verfügbar.')
+                    raise ValueError('Aufnahme läuft. Nur aktuelle Notizen, Stummschaltung, Pause und Stoppen sind verfügbar.')
             if path=='/api/speakers/stop':return self.speakers.stop_test()
             if path=='/api/speakers':
                 self.require('configure');return self.speakers.configure(body)
@@ -279,6 +280,9 @@ class StudioApp:
                 if not self.store.config()['setup_complete']:raise ValueError('Kein getestetes Mikrofon. Bitte Einstellungen öffnen und Audio-Einrichtung abschließen.')
                 if self.engine.recorder.active:raise ValueError('Aufnahme läuft bereits.')
                 return {'id':self.engine.start('')}
+            if path=='/api/record/control':
+                if not body or set(body)-{'paused','muted'} or any(type(v) is not bool for v in body.values()):raise ValueError('Ungültige Aufnahmesteuerung.')
+                return self.engine.recorder.control(**body)
             if path=='/api/record/stop':
                 ident=self.engine.stop();self.controller.sync();return {'id':ident}
             if path.startswith('/api/cdb/'):

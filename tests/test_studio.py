@@ -29,6 +29,15 @@ class StudioTests(unittest.TestCase):
             with urllib.request.urlopen(req,timeout=8) as r:return r.status,r.read(),r.headers
         except urllib.error.HTTPError as e:
             with e:return e.code,e.read(),e.headers
+    def test_capture_controls_reject_idle_invalid_and_cross_origin_requests(self):
+        self.assertEqual(self.request('/api/record/control',{'paused':True})[0],400)
+        self.assertEqual(self.request('/api/record/control',{'muted':True},{'Origin':'http://evil.example'})[0],403)
+        self.assertEqual(self.request('/api/record/control',{'unknown':True})[0],400)
+        self.assertEqual(self.request('/api/record/control',{'paused':None})[0],400)
+        with patch.object(self.app.engine.recorder,'control',return_value={'id':'test','paused':True}) as control:
+            self.assertEqual(self.request('/api/record/control',{'paused':True})[0],200)
+            control.assert_called_once_with(paused=True)
+
     def test_speaker_routes_are_protected_and_recording_interlocked(self):
         with patch.object(self.app.speakers,'public',return_value={'devices':[]}), patch.object(self.app.speakers,'configure',return_value={'ok':True}) as configure:
             self.assertEqual(self.request('/api/speakers')[0],200)
