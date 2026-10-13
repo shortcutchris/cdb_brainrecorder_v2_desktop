@@ -1,0 +1,25 @@
+{
+  "version": "0.5.20",
+  "sessions_preserved": 22,
+  "configuration_preserved": true,
+  "account_preserved": true,
+  "services": [
+    "active",
+    "active"
+  ],
+  "sha256": {
+    "web_server.py": "1420c401a7499f5e86850986f3a2c809377723acef5a7e5e325131aea9723200",
+    "studio/index.html": "7520bc6746519139bfe7739c702bf6ca2393144763c66453034125610037335e",
+    "studio/live.js": "56ac90864aaf6ee53ccba4d30e101b0ac7c649f94b2e7007eebc04e790dedb45",
+    "studio/live.css": "adcd3ffa5b912f513d329db025dc9fb78c40105478437601fc6ca363e56b6c16",
+    "services/live_conversation.py": "51723fa2c7d8f343ba61b7ba7d9a93d5c29709c25e8351b7cb4ed791e12b3d63",
+    "services/live_audio.py": "2697994053299a646ccfa238b66b8648b6fccd498b4d3df7bae0c5c1e4fe3f79",
+    "requirements.txt": "236fcd8e4f364288b24a6ceeb275baddbd7c62cd7d9b0c9a0fe27abd014a098b"
+  },
+  "source_commit": "1907a69",
+  "python_tests": 125,
+  "javascript_tests": 57,
+  "dependency_check": "No broken requirements found.",
+  "pi_audio_available": true,
+  "temporary_session_removed": true
+}

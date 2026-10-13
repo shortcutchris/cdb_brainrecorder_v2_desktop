@@ -8,7 +8,7 @@ CDB Voice One erhält Audio direkt aus Python. Die Oberfläche zeigt die vorhand
 
 ## Prüfungen
 
-- Vollständige Python-Suite und JavaScript-Suite auf dem finalen Stand: siehe Deployment-Protokoll.
+- 125 Python- und 57 JavaScript-Tests bestanden; alle installierten Python-Abhängigkeiten konsistent.
 - Echte CDB-Staging-Sitzung mit künstlicher Sprache, `staging_playground`. Native WebRTC-Verbindung vom Pi, Rückkanal mit mehr als 1.800 empfangenen Audioblöcken. Vollständiger synthetischer Satz im Chat; Antwort unter anderem „Verstanden, Test erfolgreich.“ Keine Raumaufnahme an CDB übertragen.
 - Im Browser geprüft: Start ohne Berechtigungsabfrage, gesperrte Navigation, Stummschaltung bestätigt, Beenden, Navigation wieder freigegeben. Aufnahme und Einstellungen auch über die API während des Gesprächs abgewiesen; nach Ende wieder erlaubt.
 - Echter Hardwaretest ohne Cloud: ReSpeaker-Eingang und gewählter Ausgang gleichzeitig geöffnet, 102 PCM-Blöcke in etwa zwei Sekunden erfasst. Danach beide Kindprozesse beendet. Keine Audioaufzeichnung gespeichert.
@@ -24,3 +24,7 @@ Die Testquellen sind von der produktiven Meeting-Bibliothek getrennt. Die tempor
 - [Stumm und gesperrte Navigation](live-muted.png)
 - [Beendet und entsperrt](live-ended.png)
 - [Produktive Startansicht](live-ready.png)
+
+## Deployment
+
+Version 0.5.20 produktiv auf dem Pi, Code-Commit `1907a69`. Backend und Touchdisplay-Kiosk aktiv. SHA256 der Laufzeitdateien stimmt mit dem Commit überein. 22 bestehende Meetings, Brain-Anmeldung, Aufnahme-/Modellkonfiguration und Übertragungsziel unverändert. [Deployment-Nachweis](deployment.json).
