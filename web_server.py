@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.17'
+VERSION = '0.5.18'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -73,32 +73,32 @@ class StudioApp:
                 self.model_test=candidate
             except (OSError,KeyError,ValueError):pass
 
+        from services.live_conversation import LiveConversation
+        self.live = LiveConversation(self.cdb, self.store.root)
+        from services.respeaker_leds import ReSpeakerLeds
+        self.respeaker = ReSpeakerLeds(self.store.root, lambda: {
+            'device': self.store.config()['device'], 'recording': self.engine.recorder.status(),
+            'probe': self.probe.status()['state'] == 'running'}, enabled=not preview and backend is None)
+
+    def activity(self, state=None):
+        from services.app_activity import AppActivity
+        state = state or self.engine.state()
+        live = self.live.public() if hasattr(self, 'live') else {'state':'idle','busy':False}
+        return AppActivity(recording=bool(state['recording']['id']), paused=state['recording'].get('paused',False),
+            live=live['state'], live_reserved=live['busy'], microphone_test=state['microphone_test']['state']=='running',
+            speaker_test=self.speakers.test_status()['state']=='running',
+            download=state['installation']['state']=='running',
+            model_test=self.model_checks.public()['state']=='running' or bool(self.model_test and self.store.get(self.model_test)['state'] in BUSY),
+            pending=any(j['state'] in BUSY for j in state['jobs']))
+
     def capabilities(self, state=None):
         state = state or self.engine.state()
-        recording = bool(state['recording']['id'])
-        probe = state['microphone_test']['state'] == 'running'
-        download = state['installation']['state'] == 'running'
-        test = self.model_checks.public()['state']=='running' or bool(self.model_test and self.store.get(self.model_test)['state'] in BUSY)
-        pending = any(j['state'] in BUSY for j in state['jobs'])
-        speaker_test = self.speakers.test_status()['state'] == 'running'
-        occupied = recording or probe or download or test or speaker_test
-        reason = ('Aufnahme läuft.' if recording else 'Mikrofontest läuft.' if probe else
-                  'Modelldownload läuft.' if download else 'Modelltest läuft.' if test else 'Lautsprechertest läuft.' if speaker_test else '')
         cdb_config=self.cdb.config()
-        needs_login='cdb' in (cdb_config['transcription'],cdb_config['summary']) and not self.cdb.read('session.json',{}).get('identity')
-        low_disk = self.store.free_mb() < state['config'].get('min_free_mb', 1024)
-        def rule(allowed, why=''): return {'allowed': bool(allowed), 'reason': '' if allowed else why}
-        return {
-            'record': rule(not occupied and not low_disk and not needs_login and state['config']['setup_complete'],
-                           reason or ('Microsoft anmelden oder Verarbeitung auf lokal stellen.' if needs_login else 'Zu wenig freier Speicher.' if low_disk else 'Mikrofon zuerst einrichten.')),
-            'configure': rule(not occupied, reason),
-            'probe': rule(not occupied and not low_disk, reason or 'Zu wenig freier Speicher.'),
-            'install': rule(not occupied and not pending, reason or 'Offene Verarbeitung zuerst abschließen.'),
-            'model_test': rule(not occupied and not pending and not low_disk,
-                               reason or ('Zu wenig freier Speicher.' if low_disk else 'Offene Verarbeitung zuerst abschließen.')),
-            'finish_setup': rule(not occupied, reason),
-            'process': rule(not recording and not download and not test, reason),
-        }
+        signed_in=bool(self.cdb.read('session.json',{}).get('identity'))
+        needs_login='cdb' in (cdb_config['transcription'],cdb_config['summary']) and not signed_in
+        return self.activity(state).capabilities(
+            low_disk=self.store.free_mb()<state['config'].get('min_free_mb',1024), needs_login=needs_login,
+            setup_complete=state['config']['setup_complete'], brain_signed_in=signed_in)
 
     def require(self, capability):
         rule = self.capabilities()[capability]
@@ -171,10 +171,13 @@ class StudioApp:
         else: state['waveform'] = [0]*64
         state['level'] = self.probe.level(raw) if raw else 0
         state['capabilities'] = self.capabilities(state)
+        state['activity'] = self.activity(state).public()
         state['cdb'] = self.cdb.public()
         state['model_check'] = self.model_checks.public()
         state['model_results'] = self.model_checks.results()
         state['speaker_test'] = self.speakers.test_status()
+        state['respeaker'] = self.respeaker.public()
+        state['live'] = self.live.public()
         state.update(csrf=self.csrf, version=VERSION, preview=self.preview,
             namespace=hashlib.sha256(str(self.store.root).encode()).hexdigest()[:16])
         if self.model_test:
@@ -263,6 +266,23 @@ class StudioApp:
         # Lock order matches state(): controller before recorder.
         with self.control_lock, self.controller.lock, self.engine.recorder.lock:
             if self.closing:raise ValueError('Dienst wird beendet. Änderungen bitte kurz aufbewahren.')
+            live_controls={'/api/live/start','/api/live/status','/api/live/pulse','/api/live/end','/api/live/mute'}
+            if self.live.busy() and path not in live_controls:
+                raise ValueError(self.activity().reason)
+            if path.startswith('/api/live/'):
+                if path=='/api/live/reserve':
+                    self.require('live');return self.live.reserve(body.get('area_ids'))
+                if path=='/api/live/clear':
+                    self.require('configure');return self.live.clear()
+                if self.engine.recorder.active:
+                    raise ValueError('Aufnahme läuft. Bitte zuerst stoppen.')
+                lease=body.get('lease')
+                if path=='/api/live/start':return self.live.start(lease,body.get('sdp'))
+                if path=='/api/live/status':return self.live.status(lease)
+                if path=='/api/live/pulse':return self.live.pulse(lease)
+                if path=='/api/live/mute':return self.live.mute(lease,body.get('muted'))
+                if path=='/api/live/end':return self.live.end(lease)
+                raise KeyError('Unbekannte Gesprächsaktion.')
             if self.engine.recorder.active and path not in ('/api/record/stop','/api/record/control'):
                 parts=path.strip('/').split('/')
                 note_save=(len(parts)==4 and parts[:2]==['api','sessions'] and parts[3]=='save'
@@ -363,8 +383,10 @@ class StudioApp:
             if self.engine.recorder.active:self.engine.stop()
             self.controller.sync()
             self.model_checks.stopping.set()
+            self.live.close()
             self.cdb.close()
             if self.model_checks.thread:self.model_checks.thread.join(timeout=5)
+            self.respeaker.close()
             self.engine.close()
 
 
@@ -372,6 +394,8 @@ class StudioHandler(Handler):
     def get(self):
         if not self.authorized():return
         path=urlsplit(self.path).path
+        if path=='/api/live/setup':
+            self.respond(self.server.app.live.setup());return
         if path=='/favicon.ico':
             self.send_response(204);self.headers_base('image/x-icon',0);self.end_headers();return
         if path=='/api/state':self.respond(self.server.app.state());return
@@ -421,7 +445,7 @@ class StudioHandler(Handler):
 
     def headers_base(self,mime,length):
         super().headers_base(mime,length)
-        self.send_header('Permissions-Policy','microphone=(), camera=()')
+        self.send_header('Permissions-Policy','microphone=(self), camera=()')
 
     def serve_file(self,path,mime,ranges=False):
         if not path.is_file():raise KeyError('Audiodatei fehlt.' if ranges else 'Datei fehlt.')
