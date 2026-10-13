@@ -112,3 +112,9 @@ Der direkte Hugging-Face-Download wurde im Zielnetz zunächst zurückgesetzt. Di
 `scripts/layout_acceptance.py NEUER_TESTORDNER` startet eine ausdrücklich isolierte Qt-Abnahme mit künstlicher PCM-Quelle und kontrollierter Test-Inferenz. Sie prüft Start/Stop, Doppeltippen, neue Aufnahme während ASR und Zusammenfassung, unabhängige Meetingauswahl, Queue ein/aus, Inhaltsreiter, Details, Fehler und Wiederholen. Keine persönliche Datenbank und kein reales Mikrofon werden dabei benutzt. Die realen Modelle wurden in der vorhergehenden Engine-Abnahme geprüft; der UI-Test lädt sie wegen des stillstehenden Lüfters nicht erneut.
 
 Die 10 nativen Tests ergänzen insbesondere Speicherung bei Auswahl-/Reiterwechsel, Cursor/Scrollschutz, fehlgeschlagene Speicherung, Erhalt korrigierter KI-Texte über Poll/Neustart und Touch-Geometrie bei 1280×720 und 1024×600. Die Engine bleibt unverändert 0.2.3.
+
+### Lautsprecher am Pi (ab Studio 0.5.16)
+
+Unter **Einstellungen → Audio → Lautsprecher** einen vorhandenen Pi-Ausgang wählen, Lautstärke mit −/+ ändern und **Testton am Pi** starten. Der Test spielt links und rechts je einen kurzen Ton direkt am Gerät. Ohne angeschlossenen Ausgang bleibt er gesperrt; „Dummy Output“ zählt nicht als Lautsprecher. Änderungen werden direkt übernommen. Während einer Aufnahme stehen diese Einstellungen nicht zur Verfügung.
+
+Die Audioausgabe verwendet die vorhandene PipeWire/PulseAudio-Benutzersitzung mit `pactl` und `paplay` (Paket `pulseaudio-utils`). Der Studio-Dienst muss unter demselben Benutzer wie die Audiositzung laufen. Kein Root-Dienst und keine neue Netzwerkfreigabe erforderlich. Aufnahmen im Browser nutzen weiterhin den Ausgang des jeweiligen Browsergeräts; der Testton läuft auch beim Fernzugriff immer auf dem Pi. Gerätauswahl liegt unter dem Studio-Datenordner in `speaker.json`; Systemroute, Lautstärke und Stummschaltung verwaltet die Audiositzung.

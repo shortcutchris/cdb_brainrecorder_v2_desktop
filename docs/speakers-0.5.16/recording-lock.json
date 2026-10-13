@@ -1,0 +1,5 @@
+{
+  "/api/speakers{'volume': 90}": "Aufnahme läuft. Nur aktuelle Notizen und Stoppen sind verfügbar.",
+  "/api/speakers{'device': 'recorder_speaker_test'}": "Aufnahme läuft. Nur aktuelle Notizen und Stoppen sind verfügbar.",
+  "/api/speakers/test{}": "Aufnahme läuft. Nur aktuelle Notizen und Stoppen sind verfügbar."
+}

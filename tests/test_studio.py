@@ -29,6 +29,24 @@ class StudioTests(unittest.TestCase):
             with urllib.request.urlopen(req,timeout=8) as r:return r.status,r.read(),r.headers
         except urllib.error.HTTPError as e:
             with e:return e.code,e.read(),e.headers
+    def test_speaker_routes_are_protected_and_recording_interlocked(self):
+        with patch.object(self.app.speakers,'public',return_value={'devices':[]}), patch.object(self.app.speakers,'configure',return_value={'ok':True}) as configure:
+            self.assertEqual(self.request('/api/speakers')[0],200)
+            self.assertEqual(self.request('/api/speakers',{'volume':50},{'X-CSRF-Token':'bad'})[0],403)
+            self.assertEqual(self.request('/api/speakers',{'volume':50})[0],200)
+            self.app.engine.recorder.active={'id':'synthetic-lock'}
+            try:
+                self.assertEqual(self.request('/api/speakers',{'volume':20})[0],400)
+                self.assertEqual(self.request('/api/speakers/test',{})[0],400)
+            finally:self.app.engine.recorder.active=None
+            configure.assert_called_once()
+        with patch.object(self.app.speakers,'test_status',return_value={'state':'running'}):
+            self.assertFalse(self.app.capabilities()['record']['allowed'])
+            self.assertFalse(self.app.capabilities()['probe']['allowed'])
+            self.assertEqual(self.request('/api/record/start',{})[0],400)
+        with patch.object(self.app.speakers,'stop_test',return_value={'state':'cancelled'}):
+            self.assertEqual(self.request('/api/speakers/stop',{})[0],200)
+
     def test_cdb_endpoints_require_login_and_keep_local_default(self):
         self.assertEqual(self.request('/api/cdb/config',{'summary':'cdb'})[0],400)
         self.assertEqual(self.request('/api/cdb/areas')[0],400)

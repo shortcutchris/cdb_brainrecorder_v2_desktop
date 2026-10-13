@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.15'
+VERSION = '0.5.16'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -61,6 +61,8 @@ class StudioApp:
         self.settings_lock = threading.RLock()
         self.control_lock = threading.RLock()
         self.closing = False
+        from services.audio_output import AudioOutput
+        self.speakers = AudioOutput(self.store.root)
         from services.model_checks import ModelChecks
         self.model_checks = ModelChecks(self)
         self.model_test = None
@@ -78,9 +80,10 @@ class StudioApp:
         download = state['installation']['state'] == 'running'
         test = self.model_checks.public()['state']=='running' or bool(self.model_test and self.store.get(self.model_test)['state'] in BUSY)
         pending = any(j['state'] in BUSY for j in state['jobs'])
-        occupied = recording or probe or download or test
+        speaker_test = self.speakers.test_status()['state'] == 'running'
+        occupied = recording or probe or download or test or speaker_test
         reason = ('Aufnahme läuft.' if recording else 'Mikrofontest läuft.' if probe else
-                  'Modelldownload läuft.' if download else 'Modelltest läuft.' if test else '')
+                  'Modelldownload läuft.' if download else 'Modelltest läuft.' if test else 'Lautsprechertest läuft.' if speaker_test else '')
         cdb_config=self.cdb.config()
         needs_login='cdb' in (cdb_config['transcription'],cdb_config['summary']) and not self.cdb.read('session.json',{}).get('identity')
         low_disk = self.store.free_mb() < state['config'].get('min_free_mb', 1024)
@@ -170,6 +173,7 @@ class StudioApp:
         state['cdb'] = self.cdb.public()
         state['model_check'] = self.model_checks.public()
         state['model_results'] = self.model_checks.results()
+        state['speaker_test'] = self.speakers.test_status()
         state.update(csrf=self.csrf, version=VERSION, preview=self.preview,
             namespace=hashlib.sha256(str(self.store.root).encode()).hexdigest()[:16])
         if self.model_test:
@@ -265,6 +269,11 @@ class StudioApp:
                 active_id=self.engine.state()['recording']['id']
                 if not note_save or self.session(int(parts[2])).get('local_job_id')!=active_id:
                     raise ValueError('Aufnahme läuft. Nur aktuelle Notizen und Stoppen sind verfügbar.')
+            if path=='/api/speakers/stop':return self.speakers.stop_test()
+            if path=='/api/speakers':
+                self.require('configure');return self.speakers.configure(body)
+            if path=='/api/speakers/test':
+                self.require('configure');return self.speakers.start_test()
             if path=='/api/record/start':
                 self.require('record')
                 if not self.store.config()['setup_complete']:raise ValueError('Kein getestetes Mikrofon. Bitte Einstellungen öffnen und Audio-Einrichtung abschließen.')
@@ -346,6 +355,7 @@ class StudioApp:
     def close(self):
         with self.control_lock:
             self.closing=True
+            self.speakers.stop_test()
             if self.engine.recorder.active:self.engine.stop()
             self.controller.sync()
             self.model_checks.stopping.set()
@@ -361,6 +371,7 @@ class StudioHandler(Handler):
         if path=='/favicon.ico':
             self.send_response(204);self.headers_base('image/x-icon',0);self.end_headers();return
         if path=='/api/state':self.respond(self.server.app.state());return
+        if path=='/api/speakers':self.respond(self.server.app.speakers.public());return
         if path=='/api/cdb/areas':
             try:self.respond(self.server.app.cdb.areas())
             except ValueError as e:self.respond({'error':str(e)},400)

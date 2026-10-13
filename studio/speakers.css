@@ -1,0 +1,22 @@
+#settings #speaker-page .audio-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;align-content:start}
+#settings #speaker-page h3{font-size:22px;line-height:28px;letter-spacing:-.3px;margin:0 0 8px}
+#settings #speaker-page .audio-section-heading p{font-size:15px;line-height:22px;margin:0;min-height:44px;color:var(--muted)}
+#settings #speaker-page .audio-device-label{margin:0;font-size:14px}
+#speaker-page .audio-meter-card p,#speaker-page .probe-player p{font-size:14px;line-height:22px;margin:12px 0 0;color:var(--muted)}
+#speaker-test-status{min-height:44px}
+.speaker-volume-controls{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:16px}
+#settings .speaker-volume-controls button{display:grid;place-items:center;padding:0;width:56px;min-width:56px;height:56px;border-radius:14px;font-size:28px;line-height:1;background:var(--soft);color:var(--accent-text)}
+#speaker-volume{font-size:32px;font-weight:650;font-variant-numeric:tabular-nums;line-height:40px}
+.speaker-connection{position:relative;padding-left:40px!important}
+.speaker-connection .readiness-led{position:absolute;left:16px;top:21px}
+#speaker-led[data-ready=true]{background:#26a66f;box-shadow:0 0 0 4px #26a66f20}
+#speaker-led[data-ready=false]{background:#e35164;box-shadow:0 0 0 4px #e3516420}
+#speaker-page .dialog-actions #speaker-refresh{margin-right:auto}
+#speaker-page .dialog-actions #speaker-test{margin-left:0}
+#speaker-page [data-running=true]{animation:speaker-pulse 1s ease-in-out infinite}
+@keyframes speaker-pulse{50%{opacity:.55}}
+@media(prefers-reduced-motion:reduce){#speaker-page [data-running=true]{animation:none}}
+@media(max-height:740px){#settings #speaker-page .audio-layout{gap:20px}.speaker-volume-controls{margin-top:12px}}
+@media(max-width:850px){#settings #speaker-page .audio-layout{grid-template-columns:minmax(0,1fr)}}
+
+#settings.workspace-view #speaker-page>.dialog-actions button{width:208px;min-width:208px;max-width:208px;flex:0 0 208px}

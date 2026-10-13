@@ -1,7 +1,7 @@
 /* One hierarchy and fixed action slots across settings destinations. */
 function renderSettingsTrail(){
  const detail=$('settings').dataset.overview!=='true',page=$('settings').dataset.detail;
- const parent=['asr-page','llm-page'].includes(page)?{page:'ai-page',label:'KI & Modelle'}:page==='brain-page'?{page:'connection-page',label:'Brain-Konto'}:null;
+ const parent=['asr-page','llm-page'].includes(page)?{page:'ai-page',label:'KI & Modelle'}:page==='brain-page'?{page:'connection-page',label:'Brain-Konto'}:['audio-page','speaker-page'].includes(page)?{page:'audio-home',label:'Audio'}:null;
  $('settings-overview-back').textContent='Einstellungen';$('settings-overview-back').hidden=!detail;
  $('settings-root-separator').hidden=!detail;
  $('settings-parent-back').hidden=!detail||!parent;$('settings-parent-separator').hidden=!detail||!parent;
