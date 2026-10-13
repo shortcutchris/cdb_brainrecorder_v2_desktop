@@ -33,12 +33,28 @@ test('unavailable Pi audio blocks start and offers settings',async()=>{
 test('recording prevents entry to live',async()=>{
  const h=harness();h.c.state.recording.id='record';h.c.renderState();assert.equal(h.element('live-open').disabled,true);await assert.rejects(h.element('live-open').onclick(),/Aufnahme läuft/);
 });
-test('chat pages preserve long and multiline content without oversize bubbles',()=>{
- const source=fs.readFileSync('studio/live.js','utf8');const fn=source.slice(source.indexOf('function historyPages('),source.indexOf('function drawHistory('));const c={};vm.createContext(c);vm.runInContext(fn,c);
- for(const text of ['Langer Testtext '.repeat(200),Array.from({length:30},(_,i)=>'Zeile '+i).join('\n'),'\n\n\n\n','W'.repeat(999)]){const pages=c.historyPages([{role:'user',text}]);assert.equal(pages.flat().map(x=>x.text).join(''),text);assert.ok(pages.every(p=>p.length<=2&&p.every(b=>b.text.length<=273&&b.lines<=3)));}
+test('measured pages preserve every character, separate turns and fit the viewport',()=>{
+ const source=fs.readFileSync('studio/live.js','utf8');const fn=source.slice(source.indexOf('function historyPages('),source.indexOf('const bubbleNodes='));const c={};vm.createContext(c);vm.runInContext(fn,c);
+ const measure=text=>46+Math.max(1,text.split('\n').reduce((n,line)=>n+Math.max(1,Math.ceil(line.length/40)),0))*27;
+ for(const text of ['Langer Testtext '.repeat(200),Array.from({length:30},(_,i)=>'Zeile '+i).join('\n'),'\n\n\n\n','W'.repeat(999),'👋 '.repeat(900)]){
+  const pages=c.historyPages([{role:'user',text}],measure,280);assert.equal(pages.flat().map(x=>x.text).join(''),text);
+  assert.ok(pages.every(p=>p.reduce((n,b)=>n+measure(b.text),0)+(p.length-1)*12<=280));
+  assert.ok(pages.flat().every(b=>!/[\uD800-\uDBFF]$/.test(b.text)));
+ }
+ const pages=c.historyPages([{role:'user',text:'Eins'},{role:'user',text:'Zwei'}],measure,280);assert.equal(pages[0].length,2);assert.notEqual(pages[0][0].key,pages[0][1].key);
+});
+test('streaming appends into the same bubble and explicit history selection survives updates',()=>{
+ const h=harness();h.c.state.live={state:'speaking',busy:true,history:[{role:'assistant',text:'Hallo'}]};h.c.renderState();const bubble=h.element('live-messages').children[0];
+ h.c.state.live.history[0].text+=' Welt';h.c.renderState();assert.equal(h.element('live-messages').children[0],bubble);assert.equal(bubble._tail.textContent,' Welt');assert.equal(bubble._stable.textContent,'Hallo');
+ let choose;h.c.drawPageNumbers=(nav,count,current,fn)=>{choose=fn};h.c.state.live.history[0].text='Langer Text '.repeat(200);h.c.renderState();choose(0);const old=h.element('live-messages').children[0]._text;
+ h.c.state.live.history[0].text+=' Weitere Wörter';h.c.renderState();assert.equal(h.element('live-messages').children[0]._text,old);assert.equal(h.element('live-follow').textContent,'Zum Live-Gespräch');h.element('live-follow').onclick();assert.equal(h.element('live-follow').disabled,true);
 });
 test('feedback uses measured audio and confirmed search, mute zeros input',()=>{
  const h=harness();h.c.state.live={state:'listening',busy:true,history:[],feedback:{active:true,state:'thinking',search:{web:1},input:{bars:Array(16).fill(.5)},output:{active:false},search_sound:false}};h.c.renderState();assert.equal(h.element('live-feedback-title').textContent,'Sucht im Web …');assert.equal(h.element('live-sound').textContent,'Suchton aus');assert.match(h.element('live-bar-0').style.transform,/0.52/);
  h.c.state.live.feedback={active:true,muted:true,output:{active:false},input:{bars:Array(16).fill(1)}};h.c.renderState();assert.equal(h.element('live-feedback-title').textContent,'Mikrofon stumm');assert.equal(h.element('live-bar-0').style.transform,'scaleY(0.04)');
  h.c.state.live.feedback.output={active:true,bars:Array(16).fill(.8)};h.c.renderState();assert.equal(h.element('live-feedback-title').textContent,'Voice One spricht');
+});
+
+test('opening a completed transcript does not request cloud setup again',async()=>{
+ const h=harness();h.c.state.live={state:'ended',busy:false,history:[{role:'assistant',text:'Fertig.'}]};await h.element('live-open').onclick();assert.equal(h.calls.some(([p])=>p==='/api/live/setup'),false);assert.equal(h.element('live-new').hidden,false);
 });

@@ -41,20 +41,49 @@ class SearchLoopTests(unittest.TestCase):
         time.sleep(.15)
         self.assertEqual(a.search_loop_blocks, stopped)
 
-    def test_both_speakers_pause_resume_without_muting_capture(self):
-        a = self.audio
-        a.update_search('web', 'a', 'started')
-        self.wait(lambda: a.search_loop_blocks > 5)
-        for meter in (a.input_meter, a.output_meter):
-            before = a.search_tones
-            for _ in range(3):meter.feed(array('h', [8192] * 320).tobytes())
-            self.wait(lambda: a.stats()['processes_alive'] == 0)
-            stopped = a.search_loop_blocks
-            time.sleep(.2)
-            self.assertEqual(a.search_loop_blocks, stopped)
-            self.assertFalse(a.gate.snapshot()[1])
-            self.wait(lambda: a.search_tones > before)
-        self.assertEqual(a.search_loop_pauses, 2)
+    def test_human_speech_interrupts_and_then_resumes_without_muting_capture(self):
+        a=self.audio
+        a.update_search('web','a','started')
+        self.wait(lambda:a.search_loop_blocks>5)
+        before=a.search_tones
+        a.note_user_speech()
+        self.wait(lambda:a.stats()['processes_alive']==0)
+        self.assertFalse(a.gate.snapshot()[1])
+        self.wait(lambda:a.search_tones>before)
+
+    def test_short_search_finishes_a_minimum_phrase(self):
+        a=self.audio
+        a.update_search('web','a','started')
+        self.wait(lambda:a.search_loop_blocks>3)
+        a.update_search('web','a','done')
+        self.wait(lambda:a.stats()['processes_alive']==0,3)
+        self.assertGreaterEqual(a.search_loop_blocks,89)
+        self.assertEqual(a.search_tones,1)
+
+    def test_answer_onset_ducks_but_does_not_cut_the_minimum_phrase(self):
+        import threading
+        a=self.audio
+        a.update_search('web','a','started')
+        self.wait(lambda:a.search_loop_blocks>3)
+        def answer():
+            for _ in range(110):
+                a.output_meter.feed(array('h',[8192]*320).tobytes());time.sleep(.02)
+        thread=threading.Thread(target=answer);thread.start()
+        try:
+            self.wait(lambda:a.stats()['processes_alive']==0,3)
+            self.assertGreaterEqual(a.search_loop_blocks,89)
+            self.assertEqual(a.search_tones,1)
+        finally:thread.join()
+        self.wait(lambda:a.search_tones>1)
+
+    def test_followup_tool_inside_grace_keeps_one_player(self):
+        a=self.audio
+        a.update_search('web','a','started')
+        self.wait(lambda:a.search_loop_blocks>90,3)
+        a.update_search('web','a','done');time.sleep(.2)
+        a.update_search('brain','b','started');time.sleep(.3)
+        self.assertEqual(a.search_tones,1)
+        self.assertEqual(a.search_loop_pauses,0)
 
     def test_disabled_start_reenable_and_end_while_speech_paused(self):
         a = self.audio

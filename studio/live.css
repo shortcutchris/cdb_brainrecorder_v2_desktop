@@ -28,11 +28,22 @@ body[data-workspace="live-view"] .capture,body[data-workspace="live-view"] .rece
 #live-start,#live-end{margin-left:auto}
 .live-scope-summary{min-height:24px;font-size:14px;color:var(--muted);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 #live-messages{flex:1;min-height:0;display:flex;flex-direction:column;gap:12px;overflow:hidden}
-.live-message{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;flex:1;min-height:0;overflow:hidden}
-.live-message.user{border-left:4px solid var(--accent)}
+.live-message{box-sizing:border-box;background:transparent;border:1px solid transparent;border-radius:0;padding:12px 0;flex:0 0 auto;width:94%;min-height:0;overflow:visible;align-self:flex-start}
+.live-message.user{width:fit-content;max-width:76%;align-self:flex-end;background:var(--soft);padding:12px 18px;border-radius:22px 22px 6px 22px}
+.live-message.assistant{align-self:flex-start}
+.live-message[data-streaming="true"] p::after{content:"";display:inline-block;width:5px;height:16px;margin-left:5px;border-radius:3px;background:var(--accent);vertical-align:-1px}
+.live-message strong{display:block;line-height:20px}
+.live-measure{position:fixed!important;top:0;left:-20000px;visibility:hidden;pointer-events:none;max-width:none!important}
+.live-measure p::after{content:"";display:inline-block;width:10px;height:1px}
+.live-history-controls{flex:0 0 56px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+#live-view #live-follow{height:48px;min-height:48px;min-width:210px;padding:0 16px;font-size:14px}
+#live-follow:disabled{opacity:1;color:var(--muted);background:transparent;border-color:transparent}
+#live-messages{justify-content:flex-start}
+.live-text-tail{white-space:pre-wrap}
+
 .live-message strong{font-size:14px;color:var(--muted)}
-.live-message p{margin:8px 0 0;font-size:17px;line-height:25px;white-space:pre-wrap}
-@media(max-height:680px){.live-content{padding-top:12px}#live-setup{gap:8px}#live-setup h3{font-size:20px}#live-setup p{font-size:14px;line-height:20px}.live-message{padding:12px}.live-message p{font-size:16px;line-height:23px}}
+.live-message p{color:var(--ink);margin:6px 0 0;font-size:18px;line-height:27px;white-space:pre-wrap}
+@media(max-height:680px){.live-content{padding-top:12px}#live-setup{gap:8px}#live-setup h3{font-size:20px}#live-setup p{font-size:14px;line-height:20px}.live-message p{font-size:17px;line-height:25px}}
 
 body[data-workspace="live-view"] #live-view.workspace-view{grid-column:2;grid-row:1}
 #live-view button{margin:0;border-radius:12px}

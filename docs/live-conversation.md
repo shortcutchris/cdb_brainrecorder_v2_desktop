@@ -47,18 +47,28 @@ Staging meldete am 13.10.2026 maximal acht Bereiche, 20 Minuten Gespräch und ei
 
 Die 16 Balken bilden die Lautstärke aufeinanderfolgender echter PCM-Blöcke ab, kein zufälliges Equalizer-Muster. Bei Antwortaudio zeigen sie den Ausgang, sonst den Mikrofoneingang nach der Stummschaltung. Veraltete Messwerte werden nach 300 ms auf null gesetzt. Bluetooth- und Wiedergabepuffer können den tatsächlich hörbaren Ton etwas gegenüber dieser Messung verzögern. Es werden keine Rohdaten für die Anzeige gespeichert oder an den Browser übertragen.
 
-**Suchton an/aus** schaltet ab **0.5.24** einen leisen, wiederholten Glockenklang
-am ausgewählten Pi-Lautsprecher. Während einer bestätigten Brain- oder Websuche
-läuft Variante 1 als Drei-Sekunden-Loop. Parallel laufende Suchen teilen sich einen
-Player. Sobald die letzte Suche fertig oder fehlgeschlagen ist, stoppt der Klang.
+**Suchton an/aus** schaltet einen leisen, wiederholten Glockenklang am
+gewählten Pi-Lautsprecher. Ab **0.5.25** beendet eine kurze bestätigte Brain- oder
+Websuche die bereits gestartete Phrase nicht abrupt: Sie spielt mindestens
+1,6 Sekunden und blendet anschließend in 180 ms aus. Neue Suchaufrufe innerhalb
+von 450 ms verwenden denselben Player. Parallel laufende Suchen werden nicht
+übereinander abgespielt.
 
-Sprache vom Mikrofon oder von Voice One pausiert den Loop. Nach 600 ms Ruhe setzt
-er wieder am Anfang ein, sofern noch gesucht wird. Die Haupt-Antwort und das
-Mikrofon werden dafür nicht stummgeschaltet. Abschalten, Gesprächsende und
-Verbindungsabbruch beenden den Klang ebenfalls. Der Schalter bleibt auf dem Pi
-gespeichert und kann während des Gesprächs nur vom steuernden Browser verändert
-werden. Bluetooth kann beim hörbaren Stoppen eine kleine zusätzliche Verzögerung
-verursachen. Der Loop zeigt Aktivität an, keinen prozentualen Fortschritt.
+Beginnt Voice One zu sprechen, wird der Suchklang zusätzlich auf 20 % seiner
+Lautstärke abgesenkt und die kurze Phrase beendet. Danach bleibt er während der
+Antwort stumm; bei weiterlaufender Suche kann er nach der Antwort fortsetzen.
+Eigene Sprache hat Vorrang und unterbricht auch eine noch nicht fertige Phrase
+mit kurzer Ausblendung. Ohne Antwortaudio erkennt die vorhandene Pegelanalyse
+die Unterbrechung; während Antwortaudio werden bestätigte Nutzer-Transkriptereignisse
+verwendet, damit das Lautsprecherecho nicht erneut den Loop abbricht. Diese
+Unterscheidung hängt dann von der Erkennungslatenz des Anbieters ab.
+
+Abschalten, Gesprächsende und Verbindungsabbruch beenden den Klang auch vor Ende
+der Mindestphrase. Der Schalter bleibt auf dem Pi gespeichert und kann während
+des Gesprächs nur vom steuernden Browser verändert werden. Bluetooth kann beim
+hörbaren Stoppen eine zusätzliche Verzögerung verursachen. Mikrofon und Hauptantwort
+werden durch den Suchklang nicht stummgeschaltet. Der Loop zeigt Aktivität an,
+keinen prozentualen Fortschritt.
 
 Die WAV-Datei wird einmal vorgeladen; es gibt keine laufende Klangerzeugung und
 keinen Cloud-Abruf. Nur kleine 20-ms-Blöcke werden weitergereicht, damit keine
@@ -79,3 +89,20 @@ Die Anzeige fragt ausschließlich während einer sichtbaren aktiven Unterhaltung
 Unter **Einstellungen → Design → Seite 2** steht das Standardtheme **Corporate Digital Brain**. Farben nach `git_reps_v4/cdb_design_system/tokens/colors.css`: Navy `#000e22`/`#04162b`, Weiß, Orange `#ffaa3a` und Slate-Neutrals. Bestehende Touch-Typografie und Abmessungen bleiben erhalten. Das Theme kann wie die anderen Standardthemes dupliziert werden. Die Auswahl wird pro Browser/Kiosk gespeichert; eine Auswahl am entfernten Rechner ändert daher nicht automatisch den Touchdisplay-Browser.
 
 [Abnahme, Messwerte und Screenshots 0.5.23](live-feedback-0.5.23/README.md).
+
+## Gesprächsdarstellung ab 0.5.25
+
+Eigene Beiträge stehen in kleinen, rechtsbündigen Blasen. Antworten von Voice One
+stehen links als offener Text ohne Kartenrahmen. Neue Transkriptfragmente ergänzen
+den vorhandenen Beitrag; nur der neue Text wird kurz eingeblendet. Es gibt keine
+künstliche Schreibsimulation. Reduzierte Bewegung wird berücksichtigt.
+
+Header, Status/Waveform, Verlaufsschaltflächen und die untere Bedienleiste bleiben
+an festen Positionen. Die Seitenaufteilung misst den tatsächlich gerenderten Text
+mit aktueller Schrift und Fenstergröße. Lange Antworten bleiben vollständig über
+die nummerierten Seiten erreichbar, ohne sichtbare Scrollleisten. Wer eine ältere
+Seite auswählt, bleibt dort auch bei neuen Antworten. **Zum Live-Gespräch** schaltet
+wieder auf die jeweils neueste Seite. Nach Gesprächsende werden die anderen
+Ansichten wieder freigegeben.
+
+[Prüfungen und Screenshots 0.5.25](live-conversation-0.5.25/README.md).

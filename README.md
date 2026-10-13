@@ -1,5 +1,11 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.25 – Ruhiger Gesprächsverlauf und fließender Suchklang
+
+Kleine Nutzerblasen rechts, offene Antworten links und feste Bedienleisten. Lange Antworten werden anhand ihrer tatsächlichen Darstellung auf Seiten verteilt. Beim Zurückblättern bleibt der Verlauf stehen. Kurze Suchen beenden eine 1,6-Sekunden-Klangphrase mit sanfter Ausblendung; Folgeaufrufe teilen sich einen Player.
+
+[Bedienung](docs/live-conversation.md) · [Prüfungen und Screenshots](docs/live-conversation-0.5.25/README.md)
+
 ## 0.5.21 – Bluetooth-Geräte verwalten
 
 Unter **Einstellungen → Audio → Bluetooth** Geräte suchen, mit Code/PIN koppeln, verbinden, trennen und gespeicherte Kopplungen entfernen. Verfügbare Audiomodi unterscheiden Musik und Freisprechen. Mikrofon und Lautsprecher werden anschließend in den vorhandenen Audioeinstellungen gewählt. Aufnahme, Live-Gespräch und Bluetooth-Einrichtung sind gegenseitig abgesichert.

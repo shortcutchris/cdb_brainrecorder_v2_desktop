@@ -365,6 +365,8 @@ class LiveConversation:
                 self.state = data['state']
             elif event == 'transcript' and data.get('role') in ('user', 'assistant') and isinstance(data.get('delta'), str):
                 self._transcript(data)
+                if data.get('role')=='user' and self.native and hasattr(self.native,'note_user_speech'):
+                    self.native.note_user_speech()
             elif event == 'search' and self.state!='closing':
                 self.searches.update('brain',data.get('call_id'),data.get('status'))
                 if self.native and hasattr(self.native,'update_search'):

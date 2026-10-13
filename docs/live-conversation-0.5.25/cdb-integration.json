@@ -1,0 +1,116 @@
+{
+  "test": "Pi, synthetic German speech, CDB staging_playground, no room microphone or speaker",
+  "states": [
+    {
+      "seconds": 0.1,
+      "state": "connecting"
+    },
+    {
+      "seconds": 1.9,
+      "state": "listening"
+    },
+    {
+      "seconds": 15.0,
+      "state": "thinking"
+    },
+    {
+      "seconds": 15.7,
+      "state": "speaking"
+    },
+    {
+      "seconds": 16.1,
+      "state": "listening"
+    },
+    {
+      "seconds": 16.3,
+      "state": "speaking"
+    },
+    {
+      "seconds": 16.5,
+      "state": "thinking:brain"
+    },
+    {
+      "seconds": 17.0,
+      "state": "listening:brain"
+    },
+    {
+      "seconds": 17.4,
+      "state": "listening"
+    },
+    {
+      "seconds": 20.6,
+      "state": "speaking"
+    },
+    {
+      "seconds": 21.1,
+      "state": "listening"
+    },
+    {
+      "seconds": 25.7,
+      "state": "listening:web"
+    },
+    {
+      "seconds": 28.5,
+      "state": "listening"
+    },
+    {
+      "seconds": 30.9,
+      "state": "speaking"
+    },
+    {
+      "seconds": 33.8,
+      "state": "thinking"
+    },
+    {
+      "seconds": 34.7,
+      "state": "speaking"
+    },
+    {
+      "seconds": 35.3,
+      "state": "speaking:web"
+    },
+    {
+      "seconds": 37.9,
+      "state": "speaking"
+    }
+  ],
+  "brain_seen": true,
+  "web_seen": true,
+  "input_peak": 1,
+  "output_peak": 0.797,
+  "stats": {
+    "capture_backend": "explicit-device",
+    "captured_frames": 2273,
+    "sent_frames": 2195,
+    "played_frames": 2154,
+    "search_tones": 3,
+    "search_loop_blocks": 277,
+    "search_loop_pauses": 3,
+    "event_types": {
+      "session.started": 1,
+      "session.input_transcript.delta": 39,
+      "session.delegation.created": 3,
+      "response.event:response.created": 3,
+      "response.event:response.in_progress": 4,
+      "session.output_transcript.delta": 47,
+      "response.event:response.output_item.added": 9,
+      "response.event:response.output_item.done": 9,
+      "response.event:response.function_call_arguments.delta": 25,
+      "response.event:response.function_call_arguments.done": 1,
+      "response.event:response.completed": 4,
+      "response.event:response.content_part.added": 3,
+      "response.event:response.output_text.delta": 77,
+      "response.event:response.output_text.done": 3,
+      "response.event:response.content_part.done": 3,
+      "response.event:response.web_search_call.in_progress": 2,
+      "response.event:response.web_search_call.searching": 2,
+      "response.event:response.web_search_call.completed": 2
+    },
+    "processes_alive": 2,
+    "closed": false
+  },
+  "mute_and_sound_toggle": true,
+  "interlocks": true,
+  "unlocked": true,
+  "ended_zero_wave": true
+}

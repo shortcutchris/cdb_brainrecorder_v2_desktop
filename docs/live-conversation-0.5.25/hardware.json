@@ -1,0 +1,34 @@
+{
+  "version": "0.5.25",
+  "real_capture": true,
+  "real_speaker": true,
+  "room_audio_saved": false,
+  "cloud_used": false,
+  "short_search_blocks": 89,
+  "followup_kept_player": true,
+  "human_interrupt_resume": true,
+  "before_close": {
+    "capture_backend": "pipewire",
+    "captured_frames": 366,
+    "sent_frames": 0,
+    "played_frames": 0,
+    "search_tones": 3,
+    "search_loop_blocks": 301,
+    "search_loop_pauses": 3,
+    "event_types": {},
+    "processes_alive": 2,
+    "closed": false
+  },
+  "after_close": {
+    "capture_backend": "pipewire",
+    "captured_frames": 366,
+    "sent_frames": 0,
+    "played_frames": 0,
+    "search_tones": 3,
+    "search_loop_blocks": 301,
+    "search_loop_pauses": 3,
+    "event_types": {},
+    "processes_alive": 0,
+    "closed": true
+  }
+}

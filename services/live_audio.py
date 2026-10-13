@@ -4,6 +4,8 @@ Only the configured ALSA/Pulse input and PipeWire output are used. Audio subproc
 are parent-owned; microphone frames are continuously drained into an 80 ms queue.
 """
 import asyncio
+from array import array
+import sys
 from fractions import Fraction
 import importlib.util
 import os
@@ -112,7 +114,7 @@ class NativeLiveAudio:
                                                      '--channels=1', '--latency-msec=80', '--device=' + config['speaker']]
         self.gate = PcmGate()
         self.input_meter=SearchInputEnvelope();self.output_meter=AudioEnvelope();self.searches=SearchActivity()
-        self.search_sound=True;self.cue_task=None;self.search_loop_blocks=0;self.search_loop_pauses=0;self.web_event_count=0;self.event_types={};self.search_tones=0
+        self.search_sound=True;self.cue_task=None;self.cue_serial=0;self.cue_requested_at=0;self.user_speech_at=0;self.search_loop_blocks=0;self.search_loop_pauses=0;self.web_event_count=0;self.event_types={};self.search_tones=0
         self.closed = threading.Event()
         self.loop = asyncio.new_event_loop()
         self.processes = []
@@ -281,8 +283,14 @@ class NativeLiveAudio:
         self.request_search_tone()
 
     def update_search(self, kind, identifier, status):
-        self.searches.update(kind, identifier, status)
+        if self.searches.update(kind, identifier, status):
+            self.cue_serial+=1
+            self.cue_requested_at=time.monotonic()
         self.request_search_tone()
+
+    def note_user_speech(self):
+        # Provider-confirmed input distinguishes a real interruption from speaker echo.
+        self.user_speech_at=time.monotonic()
 
     def _search_pending(self):
         search=self.searches.public()
@@ -291,51 +299,90 @@ class NativeLiveAudio:
     def request_search_tone(self):
         if self.closed.is_set() or self.loop.is_closed():return
         def schedule():
-            if self.closed.is_set() or not self._search_pending():return
+            if self.closed.is_set() or (not self._search_pending() and time.monotonic()-self.cue_requested_at>2):return
             if self.cue_task and not self.cue_task.done():return
             self.cue_task=self._task(self._search_tone())
         self.loop.call_soon_threadsafe(schedule)
 
     async def _search_tone(self):
-        """One bounded, paced player across all concurrent searches.
+        """Coalesce tool calls and finish one 1.6 s motif with a soft release.
 
-        Write only 20 ms per tick. Never enqueue a complete loop into PipeWire;
-        speech, disable, terminal events and close are rechecked between blocks.
-        The microphone is never muted to hide the cue from voice detection.
+        Answer onset ducks an already-started motif; it does not cut it off.
+        Human speech, sound off and session close retain interruption priority.
         """
         process=None
-        offset=0
+        offset=total=handled=0
         deadline=0
+        idle_since=None
+        waiting_output=False
+        gain=1.0
+        fade=None
+        fade_reason=None
         try:
             pcm=search_loop_pcm()
             while not self.closed.is_set():
-                audible=(self._search_pending() and self.search_sound and self.input_meter.quiet(.6)
-                         and self.output_meter.quiet(.6))
-                if not audible:
-                    if process:
-                        await self._terminate(process)
-                        process=None
-                        self.search_loop_pauses+=1
-                    offset=0
-                    deadline=0
-                    await asyncio.sleep(.02 if self._search_pending() else .1)
+                now=time.monotonic()
+                pending=self._search_pending()
+                output_speech=not self.output_meter.quiet(.25)
+                # During answer playback the room mic also hears the speaker.
+                human_speech=(now-self.user_speech_at<.35 or
+                              (not output_speech and not self.input_meter.quiet(.3)))
+                fresh=self.cue_serial>handled and now-self.cue_requested_at<2
+                if pending:idle_since=None
+                elif idle_since is None:idle_since=now
+                if not output_speech:waiting_output=False
+                if not self.search_sound:
+                    if process:await self._terminate(process);process=None;self.search_loop_pauses+=1
+                    handled=self.cue_serial
+                    offset=total=0;deadline=0;fade=None
+                    await asyncio.sleep(.02 if pending else .1)
                     continue
                 if process is None:
+                    if human_speech or waiting_output or not (pending or fresh):
+                        await asyncio.sleep(.02 if pending or fresh else .1)
+                        continue
                     process=await self._spawn(self.playback_command,stdin=asyncio.subprocess.PIPE)
                     process.stdin.transport.set_write_buffer_limits(high=1920,low=960)
                     self.search_tones+=1
+                    offset=total=0;deadline=0;fade=None;gain=.2 if output_speech else 1.0
+                handled=self.cue_serial
                 if process.returncode is not None:break
+                stop_reason=('human' if human_speech else
+                             'answer' if output_speech and total>=80 else
+                             'complete' if not pending and total>=80 and now-idle_since>=.45 else None)
+                if stop_reason:
+                    steps=2 if stop_reason=='human' else 9
+                    if fade is None or (stop_reason=='human' and fade>2):
+                        fade=steps;fade_reason=stop_reason
+                elif fade_reason=='complete' and pending:
+                    fade=None;fade_reason=None
+                target=.2 if output_speech else 1.0
+                next_gain=gain+(target-gain)*.35
+                if fade is not None:next_gain=min(next_gain,gain*(fade-1)/fade)
+                block=array('h');block.frombytes(pcm[offset:offset+960])
+                if sys.byteorder!='little':block.byteswap()
+                count=len(block)
+                block=array('h',(round(v*(gain+(next_gain-gain)*(i+1)/count)) for i,v in enumerate(block)))
+                if sys.byteorder!='little':block.byteswap()
                 self.input_meter.cue_playing()
-                process.stdin.write(pcm[offset:offset+960])
-                await asyncio.wait_for(process.stdin.drain(), .5)
-                offset=(offset+960)%len(pcm)
-                self.search_loop_blocks+=1
-                now=asyncio.get_running_loop().time()
-                deadline=max(deadline+.02,now) if deadline else now+.02
-                await asyncio.sleep(max(0,deadline-now))
+                process.stdin.write(block.tobytes())
+                await asyncio.wait_for(process.stdin.drain(),.5)
+                offset=(offset+960)%len(pcm);total+=1;self.search_loop_blocks+=1;gain=next_gain
+                clock=asyncio.get_running_loop().time()
+                deadline=max(deadline+.02,clock) if deadline else clock+.02
+                await asyncio.sleep(max(0,deadline-clock))
+                if fade is not None:
+                    fade-=1
+                    if fade<=0:
+                        # Give the short fade time to reach the sink before releasing it.
+                        process.stdin.close()
+                        try:await asyncio.wait_for(process.wait(),.25)
+                        except asyncio.TimeoutError:pass
+                        await self._terminate(process);process=None;self.search_loop_pauses+=1
+                        waiting_output=fade_reason=='answer'
+                        offset=total=0;deadline=0;fade=None;fade_reason=None
         except (OSError,ValueError,EOFError,asyncio.TimeoutError,ConnectionError):
-            # An optional sound failure must not end the conversation.
-            pass
+            pass  # An optional sound failure must not end the conversation.
         finally:
             if process:await self._terminate(process)
 
