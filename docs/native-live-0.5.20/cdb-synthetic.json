@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-13",
+  "source": "synthetic speech only; no room audio sent to CDB",
+  "area": "staging_playground",
+  "history": [
+    {
+      "role": "user",
+      "text": "Dies ist ein technischer Test ohne Kundendaten Bitte antworte kurz auf deutsch mit Die Test Verbindung funktioniert"
+    },
+    {
+      "role": "assistant",
+      "text": "Alles klar. Was soll ich tun? Verstanden, Test erfolgreich."
+    }
+  ],
+  "muted": true,
+  "audio_stats": {
+    "sent_frames": 1845,
+    "played_frames": 1806,
+    "processes_alive": 2,
+    "closed": false
+  },
+  "record_allowed_during_live": false,
+  "configure_allowed_during_live": false,
+  "note": "Synthetic padded silence ran without input pacing after EOF. WebRTC sending remained paced; captured-frame count is not a real-time measurement."
+}

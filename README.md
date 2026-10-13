@@ -1,5 +1,11 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.20 – Live-Audio direkt am Pi
+
+CDB Voice One verwendet jetzt das eingerichtete Pi-Mikrofon und den gewählten Pi-Lautsprecher über Python. Der Browser steuert die Oberfläche, ohne zusätzliche Mikrofonfreigabe oder separate Geräteauswahl. Aufnahme und Gespräch bleiben gegenseitig gesperrt; Stummschaltung und Abbruch geben keine alten Audioblöcke weiter.
+
+[Bedienung](docs/live-conversation.md) · [Tests und Screenshots](docs/native-live-0.5.20/README.md)
+
 ## 0.5.18 – ReSpeaker-LEDs und Live-Gespräch
 
 Der ReSpeaker-Ring zeigt Aufnahme blau, Pause gelb und App-Stumm rot blinkend. Die physische Stummtaste behält ihre eigene rote Anzeige. In der Navigation öffnet **Live-Gespräch** CDB Voice One mit ein bis acht Knowledge Areas, Browser-Mikrofonwahl und lokalem Chatverlauf. Eine zentrale Zustandsprüfung sperrt Aufnahme und Gespräch gegenseitig, auch bei Verbindungsaufbau, Abbruch und mehreren Browsern.

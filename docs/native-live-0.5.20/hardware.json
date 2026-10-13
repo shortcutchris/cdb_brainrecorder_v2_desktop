@@ -1,0 +1,21 @@
+{
+  "test": "real Pi capture and output opened locally, no cloud connection, no audio file",
+  "device": "plughw:CARD=Array,DEV=0",
+  "speaker": "configured ReSpeaker PipeWire sink",
+  "during": {
+    "capture_backend": "pipewire",
+    "captured_frames": 102,
+    "sent_frames": 0,
+    "played_frames": 0,
+    "processes_alive": 2,
+    "closed": false
+  },
+  "after": {
+    "capture_backend": "pipewire",
+    "captured_frames": 102,
+    "sent_frames": 0,
+    "played_frames": 0,
+    "processes_alive": 0,
+    "closed": true
+  }
+}

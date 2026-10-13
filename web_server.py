@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.19'
+VERSION = '0.5.20'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -74,11 +74,26 @@ class StudioApp:
             except (OSError,KeyError,ValueError):pass
 
         from services.live_conversation import LiveConversation
-        self.live = LiveConversation(self.cdb, self.store.root)
+        self.live = LiveConversation(self.cdb, self.store.root, audio_config=self.live_audio_config)
         from services.respeaker_leds import ReSpeakerLeds
-        self.respeaker = ReSpeakerLeds(self.store.root, lambda: {
-            'device': self.store.config()['device'], 'recording': self.engine.recorder.status(),
-            'probe': self.probe.status()['state'] == 'running'}, enabled=not preview and backend is None)
+        self.respeaker = ReSpeakerLeds(self.store.root, self.respeaker_state, enabled=not preview and backend is None)
+
+    def live_audio_config(self):
+        device=self.store.config()['device']
+        microphone=next((d for d in self.audio_devices().get('devices',[]) if d['id']==device),None)
+        if not microphone:raise ValueError('Das eingerichtete Pi-Mikrofon fehlt. Unter Einstellungen → Audio prüfen.')
+        speaker=self.speakers.public()
+        if not speaker['available']:raise ValueError(speaker['message'])
+        if speaker['muted'] or speaker['volume']==0:raise ValueError('Pi-Lautsprecher ist stumm. Unter Einstellungen → Audio einschalten.')
+        output=next(d for d in speaker['devices'] if d['id']==speaker['selected'])
+        return {'device':device,'speaker':speaker['selected'],'microphone_label':microphone['label'],'speaker_label':output['label']}
+
+    def respeaker_state(self):
+        recording=self.engine.recorder.status()
+        live=self.live.public()
+        if not recording['id'] and live.get('transport')=='pi' and live['busy']:
+            recording={'id':'live','muted':live['muted'],'paused':False}
+        return {'device':self.store.config()['device'],'recording':recording,'probe':self.probe.status()['state']=='running'}
 
     def activity(self, state=None):
         from services.app_activity import AppActivity
@@ -266,7 +281,7 @@ class StudioApp:
         # Lock order matches state(): controller before recorder.
         with self.control_lock, self.controller.lock, self.engine.recorder.lock:
             if self.closing:raise ValueError('Dienst wird beendet. Änderungen bitte kurz aufbewahren.')
-            live_controls={'/api/live/start','/api/live/status','/api/live/pulse','/api/live/end','/api/live/mute'}
+            live_controls={'/api/live/start-native','/api/live/status','/api/live/pulse','/api/live/end','/api/live/mute'}
             if self.live.busy() and path not in live_controls:
                 raise ValueError(self.activity().reason)
             if path.startswith('/api/live/'):
@@ -277,7 +292,8 @@ class StudioApp:
                 if self.engine.recorder.active:
                     raise ValueError('Aufnahme läuft. Bitte zuerst stoppen.')
                 lease=body.get('lease')
-                if path=='/api/live/start':return self.live.start(lease,body.get('sdp'))
+                if path=='/api/live/start-native':return self.live.start_native(lease)
+                if path=='/api/live/start':raise ValueError('Live-Audio läuft jetzt direkt am Pi. Bitte die Oberfläche neu laden.')
                 if path=='/api/live/status':return self.live.status(lease)
                 if path=='/api/live/pulse':return self.live.pulse(lease)
                 if path=='/api/live/mute':return self.live.mute(lease,body.get('muted'))
@@ -445,7 +461,7 @@ class StudioHandler(Handler):
 
     def headers_base(self,mime,length):
         super().headers_base(mime,length)
-        self.send_header('Permissions-Policy','microphone=(self), camera=()')
+        self.send_header('Permissions-Policy','microphone=(), camera=()')
 
     def serve_file(self,path,mime,ranges=False):
         if not path.is_file():raise KeyError('Audiodatei fehlt.' if ranges else 'Datei fehlt.')

@@ -1,59 +1,39 @@
 const test=require('node:test'),assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs');
 function harness(){
- const nodes={},events={},calls=[];let resolveMedia,rejectMedia,stopped=0;
- const element=id=>nodes[id]??=( {get id(){return id},set id(value){nodes[value]=this},hidden:false,disabled:false,open:false,value:'',dataset:{},children:[],classList:{toggle(){}},setAttribute(k,v){this[k]=v},append(...a){this.children.push(...a)},before(){},replaceChildren(...a){this.children=a},show(){this.open=true},close(){this.open=false},pause(){},play:async()=>{},get innerHTML(){return''},set innerHTML(html){for(const m of html.matchAll(/id="([^"]+)"/g))element(m[1])}} );
- const media=new Promise((r,j)=>{resolveMedia=r;rejectMedia=j});const track={stop(){stopped++},enabled:true};
- const c={document:{createElement:t=>element('new'+Math.random()),body:{append(){},dataset:{}},addEventListener:(n,f)=>events[n]=f,hidden:false},window:{addEventListener:(n,f)=>events[n]=f},navigator:{mediaDevices:{getUserMedia:()=>media,enumerateDevices:async()=>[{kind:'audioinput',deviceId:'respeaker',label:'ReSpeaker XVF3800'}]}},$:element,state:{recording:{id:null},live:{state:'idle',busy:false,history:[]},cdb:{identity:{name:'Test'}}},online:true,csrf:'csrf',starting:false,renderState(){},workspaceView(id){c.document.body.dataset.workspace=id;element(id).show()},leaveDraft:async()=>{},audio:{pause(){}},notice:()=>{},drawPageNumbers(){},run:fn=>fn,setInterval:()=>1,clearInterval(){},setTimeout,fetch:async()=>{},MediaStream:class{},poll:async()=>{},api:async(path,body)=>{
+ const nodes={},events={},calls=[];
+ const element=id=>nodes[id]??=({get id(){return id},set id(value){nodes[value]=this},hidden:false,disabled:false,open:false,value:'',dataset:{},children:[],classList:{toggle(){}},setAttribute(k,v){this[k]=v},append(...a){this.children.push(...a)},before(){},replaceChildren(...a){this.children=a},show(){this.open=true},close(){this.open=false},get innerHTML(){return''},set innerHTML(html){for(const m of html.matchAll(/id="([^"]+)"/g))element(m[1])}});
+ const c={document:{createElement:t=>element('new'+Math.random()),body:{append(){},dataset:{}}},window:{addEventListener:(n,f)=>events[n]=f},$:element,state:{recording:{id:null},live:{state:'idle',busy:false,history:[]},cdb:{identity:{name:'Test'}}},online:true,csrf:'csrf',renderState(){},workspaceView(id){c.document.body.dataset.workspace=id;element(id).show()},leaveDraft:async()=>{},audio:{pause(){}},drawPageNumbers(){},run:fn=>fn,setInterval:()=>1,clearInterval(){},fetch:async()=>{},poll:async()=>{},openSettings:async()=>{},showSettingsDetail(){},api:async(path,body)=>{
   calls.push([path,body]);
-  if(path==='/api/live/setup')return {enabled:true,max_areas:8,areas:[{id:'area',label:'Staging'}],default_area:{id:'area'}};
+  if(path==='/api/live/setup')return {enabled:true,max_areas:8,areas:[{id:'area',label:'Staging'}],default_area:{id:'area'},audio:{available:true,microphone_label:'ReSpeaker',speaker_label:'Pi Lautsprecher'}};
   if(path==='/api/live/reserve'){c.state.live={state:'connecting',busy:true,history:[]};return{lease:'owner-lease'}};
+  if(path==='/api/live/start-native')return{starting:true};
+  if(path==='/api/live/mute'){c.state.live.muted=body.muted;return {muted:body.muted}};
   if(path==='/api/live/end'){c.state.live={state:'ended',busy:false,history:[]};return{closed:true}};
   return {};
  }};
- vm.createContext(c);vm.runInContext(fs.readFileSync('studio/live.js','utf8'),c);
- return{c,element,events,calls,resolveMedia:()=>resolveMedia({getTracks:()=>[track],getAudioTracks:()=>[track]}),rejectMedia,stopped:()=>stopped};
+ vm.createContext(c);vm.runInContext(fs.readFileSync('studio/live.js','utf8'),c);return{c,element,events,calls};
 }
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
-test('microphone permission reserves backend audio first and cancelled late stream is stopped',async()=>{
- const h=harness();await h.element('live-open').onclick();const pending=h.element('live-devices').onclick();await tick();
- assert.equal(h.calls.at(-1)[0],'/api/live/reserve');assert.equal(h.c.state.live.busy,true);
- assert.throws(()=>h.c.workspaceView('settings'),/Gespräch läuft/);
- await h.element('live-end').onclick();h.resolveMedia();await pending;
- assert.equal(h.stopped()>0,true);assert.equal(h.c.state.live.busy,false);
- assert.equal(h.calls.some(([path])=>path==='/api/live/start'),false);
+test('native start uses Pi settings and needs no browser audio APIs',async()=>{
+ const h=harness();await h.element('live-open').onclick();assert.equal(h.element('live-input-name').textContent,'ReSpeaker');assert.equal(h.element('live-start').disabled,false);await h.element('live-start').onclick();assert.deepEqual(h.calls.slice(-2).map(c=>c[0]),['/api/live/reserve','/api/live/start-native']);assert.equal(h.c.state.live.busy,true);assert.throws(()=>h.c.workspaceView('settings'),/Gespräch läuft/);
+ assert.doesNotMatch(fs.readFileSync('studio/live.js','utf8'),/getUserMedia|RTCPeerConnection|enumerateDevices|navigator/);
 });
-test('permission denial releases the lease; successful probe explicitly picks ReSpeaker',async()=>{
- const failed=harness();await failed.element('live-open').onclick();const pending=failed.element('live-devices').onclick();await tick();failed.rejectMedia(new Error('denied'));await assert.rejects(pending,/denied/);assert.equal(failed.c.state.live.busy,false);
- const good=harness();await good.element('live-open').onclick();const probing=good.element('live-devices').onclick();await tick();good.resolveMedia();await probing;
- assert.equal(good.element('live-microphone').value,'respeaker');assert.equal(good.stopped(),1);assert.equal(good.c.state.live.busy,false);
+test('muting is acknowledged by Python and stopping unlocks recorder',async()=>{
+ const h=harness();await h.element('live-open').onclick();await h.element('live-start').onclick();assert.equal(h.element('home').disabled,true);await h.element('live-mute').onclick();assert.equal(h.c.state.live.muted,true);assert.equal(h.calls.at(-1)[0],'/api/live/mute');await h.element('live-end').onclick();assert.equal(h.c.state.live.busy,false);assert.equal(h.element('home').disabled,false);assert.equal(h.element('live-notice').textContent,'');
+});
+test('cancellation while reserve response is delayed cannot start native capture',async()=>{
+ const h=harness();await h.element('live-open').onclick();const api=h.c.api;let resolve;h.c.api=async(path,body)=>path.endsWith('/reserve')?await new Promise(r=>resolve=r):api(path,body);const pending=h.element('live-start').onclick();await tick();await h.element('live-end').onclick();resolve({lease:'late-lease'});await pending;assert.equal(h.calls.some(([p])=>p.endsWith('/start-native')),false);assert.equal(h.calls.at(-1)[1].lease,'late-lease');
+});
+test('native start failure releases reservation and leaves an actionable error',async()=>{
+ const h=harness();await h.element('live-open').onclick();const api=h.c.api;h.c.api=async(path,body)=>{if(path.endsWith('/start-native'))throw new Error('Pi-Mikrofon fehlt');return api(path,body)};await assert.rejects(h.element('live-start').onclick(),/Pi-Mikrofon fehlt/);assert.equal(h.c.state.live.busy,false);assert.match(h.element('live-notice').textContent,/Pi-Mikrofon fehlt/);
+});
+test('unavailable Pi audio blocks start and offers settings',async()=>{
+ const h=harness(),api=h.c.api;h.c.api=async(path,body)=>{const r=await api(path,body);if(path.endsWith('/setup'))r.audio={available:false,message:'Pi-Lautsprecher fehlt'};return r};await h.element('live-open').onclick();assert.equal(h.element('live-start').disabled,true);assert.match(h.element('live-audio-status').textContent,/Pi-Lautsprecher fehlt/);let destination;h.c.showSettingsDetail=p=>destination=p;await h.element('live-audio-settings').onclick();assert.equal(destination,'audio-home');
 });
 test('recording prevents entry to live',async()=>{
  const h=harness();h.c.state.recording.id='record';h.c.renderState();assert.equal(h.element('live-open').disabled,true);await assert.rejects(h.element('live-open').onclick(),/Aufnahme läuft/);
 });
 test('chat pages preserve long and multiline content without oversize bubbles',()=>{
  const source=fs.readFileSync('studio/live.js','utf8');const fn=source.slice(source.indexOf('function historyPages('),source.indexOf('function drawHistory('));const c={};vm.createContext(c);vm.runInContext(fn,c);
- for(const text of ['Langer Testtext '.repeat(200),Array.from({length:30},(_,i)=>'Zeile '+i).join('\n'),'\n\n\n\n','W'.repeat(999)]){
-  const pages=c.historyPages([{role:'user',text}]);assert.equal(pages.flat().map(x=>x.text).join(''),text);assert.ok(pages.every(p=>p.length<=2&&p.every(b=>b.text.length<=273&&b.lines<=3)));
- }
-});
-test('recorder navigation unlocks after live ends',()=>{
- const h=harness();h.c.state.live={state:'listening',busy:true,history:[]};h.c.renderState();assert.equal(h.element('home').disabled,true);h.c.state.live={state:'ended',busy:false,history:[]};h.c.renderState();assert.equal(h.element('home').disabled,false);
-});
-test('permission request keeps setup visible and explains the pending browser prompt',async()=>{
- const h=harness();await h.element('live-open').onclick();const pending=h.element('live-devices').onclick();await tick();
- assert.equal(h.element('live-setup').hidden,false);assert.equal(h.element('live-chat').hidden,true);assert.equal(h.element('live-microphone').disabled,true);assert.equal(h.element('live-end').textContent,'Abbrechen');assert.match(h.element('live-notice').textContent,/Browser bestätigen/);
- await h.element('live-end').onclick();h.resolveMedia();await pending;
-});
-test('blocked browser permission has a persistent actionable message and releases audio',async()=>{
- const h=harness();await h.element('live-open').onclick();const pending=h.element('live-devices').onclick();await tick();const error=new Error('Permission denied');error.name='NotAllowedError';h.rejectMedia(error);await assert.rejects(pending,/Mikrofonzugriff wurde blockiert/);
- assert.match(h.element('live-notice').textContent,/Recorder-Seite im Browser erlauben/);assert.equal(h.c.state.live.busy,false);assert.equal(h.element('home').disabled,false);
-});
-test('existing browser permission populates ReSpeaker without opening an audio track',async()=>{
- const h=harness();await h.element('live-open').onclick();assert.equal(h.element('live-microphone').value,'respeaker');assert.equal(h.element('live-microphone').disabled,false);assert.equal(h.element('live-devices').textContent,'Geräte aktualisieren');assert.equal(h.calls.some(([p])=>p.endsWith('/reserve')),false);
-});
-test('no device labels leaves an explicitly disabled selection and a release button',async()=>{
- const h=harness();h.c.navigator.mediaDevices.enumerateDevices=async()=>[{kind:'audioinput',deviceId:'default',label:''}];await h.element('live-open').onclick();assert.equal(h.element('live-microphone').disabled,true);assert.equal(h.element('live-devices').textContent,'Mikrofon freigeben');assert.equal(h.element('live-start').disabled,true);
-});
-test('opening microphone permission stops existing audio playback',async()=>{
- const h=harness();let paused=0;h.c.audio.pause=()=>paused++;h.c.pauseMicrophoneAudio=()=>paused++;await h.element('live-open').onclick();paused=0;const pending=h.element('live-devices').onclick();await tick();assert.equal(paused,2);h.resolveMedia();await pending;
+ for(const text of ['Langer Testtext '.repeat(200),Array.from({length:30},(_,i)=>'Zeile '+i).join('\n'),'\n\n\n\n','W'.repeat(999)]){const pages=c.historyPages([{role:'user',text}]);assert.equal(pages.flat().map(x=>x.text).join(''),text);assert.ok(pages.every(p=>p.length<=2&&p.every(b=>b.text.length<=273&&b.lines<=3)));}
 });

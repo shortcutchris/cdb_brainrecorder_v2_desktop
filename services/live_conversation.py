@@ -1,7 +1,7 @@
-"""CDB Voice One session broker. Audio stays in the kiosk WebRTC connection.
+"""CDB Voice One broker with native Python audio on the Pi.
 
-The browser never receives a Microsoft token. A short, owner-only lease reserves audio
-before getUserMedia; lost tabs, stale account bindings and failed starts release it.
+The browser never receives a Microsoft token or accesses audio hardware. A short
+owner-only lease reserves Pi audio; lost tabs, stale bindings and failed starts release it.
 """
 import json
 import os
@@ -22,8 +22,11 @@ ACTIVE = {'connecting', 'listening', 'thinking', 'speaking', 'reconnecting', 'cl
 
 
 class LiveConversation:
-    def __init__(self, cdb, root, clock=time.monotonic, events=None):
+    def __init__(self, cdb, root, clock=time.monotonic, events=None, audio_config=None, audio_factory=None):
         self.cdb = cdb
+        self.audio_config = audio_config
+        self.audio_factory = audio_factory
+        self.native = None
         self.root = Path(root) / 'live'
         self.root.mkdir(mode=0o700, parents=True, exist_ok=True)
         os.chmod(self.root, 0o700)
@@ -68,7 +71,9 @@ class LiveConversation:
                         'error': '', 'muted': True, 'areas': [], 'history': [], 'model': 'CDB Voice One', 'started_at': None}
             return {'state': self.state, 'busy': self.state in ACTIVE, 'error': self.error,
                     'muted': self.muted, 'areas': list(self.areas), 'history': [dict(h) for h in self.history],
-                    'model': 'CDB Voice One', 'started_at': getattr(self, 'started_at', None)}
+                    'model': 'CDB Voice One', 'started_at': getattr(self, 'started_at', None),
+                    'transport': 'pi' if self.audio_config else 'browser',
+                    'audio_stats': self.native.stats() if self.native and hasattr(self.native, 'stats') else {}}
 
     def setup(self):
         binding = self._binding()
@@ -79,7 +84,21 @@ class LiveConversation:
         if not isinstance(maximum, int): maximum = 8
         return {'enabled': caps.get('enabled') is True, 'max_areas': min(8, max(1, maximum)),
                 'areas': areas, 'default_area': self.cdb.public().get('destination'),
-                'model': 'CDB Voice One'}
+                'model': 'CDB Voice One', 'audio': self.audio_setup()}
+
+    def audio_setup(self):
+        from services.live_audio import NativeLiveAudio
+        runtime = self.audio_factory is not None or NativeLiveAudio.available()
+        try:
+            if not self.audio_config: raise ValueError('Pi-Audio ist noch nicht eingerichtet.')
+            config = self.audio_config()
+            if not config.get('device') or not config.get('speaker'): raise ValueError('Mikrofon und Lautsprecher am Pi auswählen.')
+            return {'available': runtime, 'runtime_available': runtime, 'transport': 'pi',
+                    'microphone_label': config.get('microphone_label', config['device']),
+                    'speaker_label': config.get('speaker_label', config['speaker']),
+                    'message': '' if runtime else 'Native Live-Audio-Komponenten fehlen auf dem Pi.'}
+        except ValueError as error:
+            return {'available': False, 'runtime_available': runtime, 'transport': 'pi', 'message': str(error)}
 
     def _restore(self, binding):
         with self.lock:
@@ -148,10 +167,50 @@ class LiveConversation:
         threading.Thread(target=self._start, args=(generation, sdp), daemon=True).start()
         return {'starting': True}
 
-    def _start(self, generation, sdp):
+    def start_native(self, lease):
+        from services.live_audio import NativeLiveAudio
+        with self.lock:
+            self._owner(lease)
+            if self.started_request: raise ValueError('Gespräch wird bereits verbunden.')
+            if not self.audio_config: raise ValueError('Pi-Audio ist noch nicht eingerichtet.')
+            config = self.audio_config()
+            if not config.get('device') or not config.get('speaker'):
+                raise ValueError('Mikrofon und Lautsprecher am Pi auswählen.')
+            factory = self.audio_factory or NativeLiveAudio
+            if self.audio_factory is None and not NativeLiveAudio.available():
+                raise ValueError('Native Live-Audio-Komponenten fehlen auf dem Pi.')
+            generation = self.generation
+            self.native = factory(config, lambda: self._native_failed(generation))
+            self.started_request = True
+        threading.Thread(target=self._start_native, args=(generation, self.native), daemon=True).start()
+        return {'starting': True, 'transport': 'pi'}
+
+    def _native_failed(self, generation):
+        with self.lock:
+            if generation != self.generation or self.state not in ACTIVE: return
+            self.error = 'Pi-Audio wurde unterbrochen. Mikrofon und Lautsprecher prüfen.'
+        self.end()
+
+    def _start_native(self, generation, native):
+        try:
+            with self.lock:
+                if generation != self.generation: native.close(); return
+            sdp = native.open()
+            self._start(generation, sdp, native)
+        except Exception:
+            with self.lock:
+                if generation == self.generation:
+                    cancelled = self.state == 'closing'
+                    self._finish('ended' if cancelled else 'error', '' if cancelled else 'Pi-Audio konnte nicht verbunden werden. Mikrofon und Lautsprecher prüfen.')
+
+    def _start(self, generation, sdp, native=None):
         handle = None
-        binding = self.binding
-        area_ids = list(self.area_ids)
+        with self.lock:
+            if generation != self.generation:
+                if native: native.close()
+                return
+            binding = self.binding
+            area_ids = list(self.area_ids)
         try:
             caps = self.cdb.call(BASE + '/capabilities', binding=binding)
             if caps.get('enabled') is not True:
@@ -188,6 +247,10 @@ class LiveConversation:
                 with self.lock:
                     if generation == self.generation: self._finish('ended')
                 return
+            if native:
+                native.answer(answer)
+            with self.lock:
+                if generation != self.generation or self.state == 'closing': return
             threading.Thread(target=self._events, args=(generation, handle, binding), daemon=True).start()
         except Exception:
             if handle:
@@ -212,6 +275,7 @@ class LiveConversation:
         if type(muted) is not bool: raise ValueError('Stumm muss ein Wahrheitswert sein.')
         with self.lock:
             self._owner(lease)
+            if self.native: self.native.mute(muted)
             self.muted = muted
             return {'muted': muted}
 
@@ -221,6 +285,9 @@ class LiveConversation:
             if self.state not in ACTIVE: return {'closed': True}
             if self.state == 'closing': return {'closing': True}
             self.state = 'closing'
+            if self.native:
+                try: self.native.close()
+                except Exception: pass
             generation, handle, binding = self.generation, self.handle, self.binding
             if self.started_request and handle is None: return {'closing': True}
         threading.Thread(target=self._end, args=(generation, handle, binding), daemon=True).start()
@@ -241,6 +308,10 @@ class LiveConversation:
             return self.public()
 
     def _finish(self, state, error=''):
+        if self.native:
+            try: self.native.close()
+            except Exception: pass
+            self.native = None
         self.state, self.error = state, error
         self.lease = self.answer = None
         self.generation += 1

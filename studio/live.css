@@ -15,10 +15,13 @@ body[data-workspace="live-view"] .capture,body[data-workspace="live-view"] .rece
 #live-areas button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
 #live-area-pages,#live-chat-pages{height:48px;min-height:48px;display:flex;gap:8px;align-items:center;margin:0}
 #live-area-pages button,#live-chat-pages button{width:48px;min-width:48px;height:48px;min-height:48px;padding:0}
-.live-audio-choice{margin-top:auto;display:flex;flex-direction:column;gap:8px;font-size:14px}
-.live-audio-choice>div{display:flex;gap:12px;align-items:center}
-#live-microphone{flex:1;min-width:0;height:56px;padding:0 12px;border:1px solid var(--line);border-radius:12px;color:var(--ink);background:var(--panel)}
-#live-devices{width:var(--view-action-width);height:56px;padding:0 12px}
+.live-pi-audio{margin-top:auto;display:flex;flex-direction:column;gap:10px}
+.live-pi-audio .live-scope-heading>span{font-size:14px;color:var(--muted)}
+.live-device-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.live-device-cards>div{min-height:76px;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:var(--panel);display:flex;flex-direction:column;gap:6px;min-width:0}
+.live-device-cards span{font-size:13px;color:var(--muted)}
+.live-device-cards strong{font-size:15px;line-height:20px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow-wrap:anywhere}
+#live-setup #live-audio-status{font-size:13px;line-height:18px;min-height:18px}
 #live-notice{font-size:13px;color:var(--muted);min-height:20px;line-height:20px;margin:8px 0 0;overflow:hidden;max-height:40px}
 .live-footer{display:flex;gap:12px;align-items:center;height:80px;min-height:80px;padding:12px var(--view-inset);border-top:1px solid var(--line);background:var(--panel)}
 .live-footer>button{width:var(--view-action-width);min-height:56px;height:56px;padding:0 12px;font-size:15px}
@@ -29,11 +32,11 @@ body[data-workspace="live-view"] .capture,body[data-workspace="live-view"] .rece
 .live-message.user{border-left:4px solid var(--accent)}
 .live-message strong{font-size:14px;color:var(--muted)}
 .live-message p{margin:8px 0 0;font-size:17px;line-height:25px;white-space:pre-wrap}
-@media(max-height:680px){.live-content{padding-top:12px}#live-setup{gap:8px}#live-setup h3{font-size:20px}#live-setup p{font-size:14px;line-height:20px}.live-audio-choice{font-size:13px}.live-message{padding:12px}.live-message p{font-size:16px;line-height:23px}}
+@media(max-height:680px){.live-content{padding-top:12px}#live-setup{gap:8px}#live-setup h3{font-size:20px}#live-setup p{font-size:14px;line-height:20px}.live-message{padding:12px}.live-message p{font-size:16px;line-height:23px}}
 
 body[data-workspace="live-view"] #live-view.workspace-view{grid-column:2;grid-row:1}
 #live-view button{margin:0;border-radius:12px}
 #live-view .live-footer>button{flex:0 0 var(--view-action-width)}
 #live-view #live-start,#live-view #live-end{margin-left:auto}
-#live-view #live-microphone{margin:0}
+
 .live-message p{overflow-wrap:anywhere}

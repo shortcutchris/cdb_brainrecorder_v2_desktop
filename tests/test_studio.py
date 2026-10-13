@@ -59,6 +59,24 @@ class StudioTests(unittest.TestCase):
             self.assertTrue(self.app.capabilities()['live']['allowed'])
             self.assertEqual(self.request('/api/settings',{'threads':2})[0],200)
 
+    def test_live_audio_uses_exact_configured_pi_devices(self):
+        self.app.engine.configure({'device':'plughw:CARD=Array,DEV=0'})
+        speaker={'available':True,'muted':False,'volume':40,'selected':'chosen-speaker','devices':[{'id':'chosen-speaker','label':'USB Speaker'}]}
+        with patch.object(self.app,'audio_devices',return_value={'devices':[{'id':'plughw:CARD=Array,DEV=0','label':'ReSpeaker'}]}), patch.object(self.app.speakers,'public',return_value=speaker):
+            c=self.app.live_audio_config();self.assertEqual(c['device'],'plughw:CARD=Array,DEV=0');self.assertEqual(c['speaker'],'chosen-speaker')
+            speaker['muted']=True
+            with self.assertRaisesRegex(ValueError,'stumm'):self.app.live_audio_config()
+        with patch.object(self.app,'audio_devices',return_value={'devices':[]}):
+            with self.assertRaisesRegex(ValueError,'Mikrofon fehlt'):self.app.live_audio_config()
+
+    def test_native_live_route_and_browser_audio_policy(self):
+        self.assertEqual(self.request('/api/live/start',{'sdp':'v=0','lease':'old'})[0],400)
+        with patch.object(self.app.live,'start_native',return_value={'starting':True,'transport':'pi'}) as native:
+            self.assertEqual(self.request('/api/live/start-native',{'lease':'test'},{'X-CSRF-Token':'invalid'})[0],403)
+            self.assertEqual(self.request('/api/live/start-native',{'lease':'test'})[0],200)
+            native.assert_called_once_with('test')
+        self.assertEqual(self.request('/')[2]['Permissions-Policy'],'microphone=(), camera=()')
+
     def test_speaker_routes_are_protected_and_recording_interlocked(self):
         with patch.object(self.app.speakers,'public',return_value={'devices':[]}), patch.object(self.app.speakers,'configure',return_value={'ok':True}) as configure:
             self.assertEqual(self.request('/api/speakers')[0],200)
@@ -111,7 +129,7 @@ class StudioTests(unittest.TestCase):
         self.assertEqual(self.request('/api/record/start',{})[0],400)
         with self.assertRaises(ValueError):StudioServer(('0.0.0.0',0),self.app)
         self.assertIn("script-src 'self'",self.request('/')[2]['Content-Security-Policy'])
-        self.assertEqual(self.request('/')[2]['Permissions-Policy'],'microphone=(self), camera=()')
+        self.assertEqual(self.request('/')[2]['Permissions-Policy'],'microphone=(), camera=()')
     def test_audio_stream_range_and_export_use_session_mapping(self):
         status,data,headers=self.request(f'/api/sessions/{self.sid}/audio',headers={'Range':'bytes=4-19'})
         self.assertEqual(status,206);self.assertEqual(len(data),16);self.assertEqual(headers['Content-Range'],'bytes 4-19/32044')

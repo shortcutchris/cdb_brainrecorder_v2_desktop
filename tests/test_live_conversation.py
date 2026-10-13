@@ -126,6 +126,51 @@ class LiveTests(unittest.TestCase):
         self.live._frame(g,'closed',{'reason':'user'})
         self.assertFalse(self.live.busy())
 
+    def install_native(self, block=None, fail=False):
+        class FakeAudio:
+            def __init__(self, config, on_failure):
+                self.config=config;self.on_failure=on_failure;self.closed=False;self.muted=False;self.entered=threading.Event();self.reply=None
+            def open(inner):
+                inner.entered.set()
+                if block:block.wait(2)
+                if fail or inner.closed:raise ValueError('hardware failed')
+                return 'v=0\r\nnative offer'
+            def answer(inner, sdp):inner.reply=sdp
+            def mute(inner, muted):inner.muted=muted
+            def close(inner):inner.closed=True;block.set() if block else None
+        self.live.audio_config=lambda:{'device':'plughw:CARD=Array,DEV=0','speaker':'chosen-sink'}
+        self.live.audio_factory=FakeAudio
+
+    def test_native_audio_uses_snapshot_mutes_and_stops_before_ownership_release(self):
+        self.install_native();lease=self.reserve();self.live.start_native(lease)
+        native=self.live.native
+        self.wait(lambda:native.reply is not None)
+        self.assertEqual(native.config['device'],'plughw:CARD=Array,DEV=0')
+        self.live.mute(lease,True);self.assertTrue(native.muted)
+        self.live.end(lease);self.wait(lambda:not self.live.busy())
+        self.assertTrue(native.closed);self.assertIsNone(self.live.native)
+
+    def test_cancel_during_native_open_stops_hardware_and_never_starts_cloud(self):
+        block=threading.Event();self.install_native(block=block)
+        lease=self.reserve();self.live.start_native(lease);native=self.live.native
+        self.assertTrue(native.entered.wait(1));self.live.end(lease)
+        self.wait(lambda:not self.live.busy())
+        self.assertTrue(native.closed)
+        self.assertFalse(any(path==BASE+'/sessions' for path,_,_ in self.brain.calls))
+
+    def test_native_open_failure_releases_audio_and_reservation(self):
+        self.install_native(fail=True);lease=self.reserve();self.live.start_native(lease)
+        self.wait(lambda:not self.live.busy())
+        self.assertIsNone(self.live.native);self.assertEqual(self.live.state,'error')
+
+    def test_native_constructor_failure_does_not_leave_unclosable_reservation(self):
+        self.install_native()
+        def broken(config, callback):raise ValueError('failed constructor')
+        self.live.audio_factory=broken;lease=self.reserve()
+        with self.assertRaises(ValueError):self.live.start_native(lease)
+        self.assertFalse(self.live.started_request)
+        self.live.end(lease);self.wait(lambda:not self.live.busy())
+
     def test_browser_lease_timeout_and_account_change_end_sessions(self):
         lease=self.reserve();self.live.deadline=0
         self.wait(lambda:not self.live.busy())
