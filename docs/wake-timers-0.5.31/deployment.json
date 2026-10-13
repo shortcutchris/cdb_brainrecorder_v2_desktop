@@ -1,0 +1,25 @@
+{
+  "version": "0.5.31",
+  "sessions_preserved": 22,
+  "configuration_preserved": true,
+  "account_preserved": true,
+  "services": [
+    "active",
+    "active"
+  ],
+  "sha256": {
+    "requirements-wake.txt": "2d2c99737b055ee25f066d18a61763fb11b3cc7ee637f75df7432d1cf769297a",
+    "scripts/install-wake.sh": "f1e41c33983ab303dbf95c0c057fe544965f97e624a6fbfb5fa1db836224ff09",
+    "services/live_conversation.py": "744f5f694a71f4dc3592df344c168ed3312913030e063de9c216dbe390a6df38",
+    "services/schedules.py": "9a58528c09a5afa017e241f1348ef479828784f6d659bef0ada62379cda9efcd",
+    "services/wake_word.py": "3a4d420a09e1cd9221d39dbddb66278e01d2b273e15a49220bbac5b291fdd611",
+    "studio/assets/timer.svg": "aec11f727b31124c6c83bc78acff50a38dd3a1cc1ac9370403dfb5fd904f081f",
+    "studio/assistant-tools.css": "6d709dc3eff408aa430e5569caafd4ec18bd74556b05daf50622f5686c4974d6",
+    "studio/assistant-tools.js": "1b007e251a54e69c47b5f4510075dfdc8236c1eb9fda4e921b83151ff24c0db8",
+    "studio/index.html": "a06a6c9e99c49cf51cb0d53932e44c7ef81d78d109a00a8499d07ab801ef75b1",
+    "studio/live.js": "1e2282fbb08742a4f8329476c91f7c1af5599bd76c4fac8e8f04dcfd798b85d6",
+    "studio/settings.js": "2759ac5199623887d8bd2be6ce48a3f2673f74a02bd746a17eb56fbb59d8bceb",
+    "web_server.py": "206cbd75101b5ecb9fa989b72588df6963d686f78cf2422b7dae72d2a02a2897"
+  },
+  "runtime_commit": "6217a7d9a6c60587b30e094fffec6fbd1649b1b3"
+}

@@ -110,3 +110,27 @@ noch vor Ort erprobt werden; die zwölf Referenzdateien belegen diese nicht.
 ![Aktivierungswort](../../output/playwright/wake-timers-0.5.31/01-wake-word.jpg)
 ![Timer](../../output/playwright/wake-timers-0.5.31/02-timer.jpg)
 ![Alarm bei Aufnahme](../../output/playwright/wake-timers-0.5.31/05-aufnahme-sperren.jpg)
+
+## Auslieferung
+
+Laufzeit-Commit `6217a7d` auf dem produktiven Pi installiert. Backend und Kiosk
+aktiv, alle zwölf ausgelieferten Laufzeitdateien per SHA256 mit dem Repository
+verglichen. Die 22 bestehenden Aufnahmen, das Konto und die Verarbeitungseinstellungen
+sind erhalten. Sicherung: `/home/chris/backups/recorder-before-0.5.31`.
+[Auslieferungsnachweis](deployment.json).
+
+Nach der kompletten Testsuite wurde zusätzlich die explizite Stopptaste für den
+lokalen Erkennungstest ergänzt und mit zwei gezielten Tests sowie am produktiven
+Touch-Frontend geprüft (ein zusätzlicher Testfall: insgesamt 185 unterschiedliche
+Python-Tests). Die isolierte Testinstanz ist beendet; ihre synthetischen Timer
+laufen nicht im Produktivsystem.
+
+![Lokaler Test auf dem produktiven Pi](../../output/playwright/wake-timers-0.5.31/06-wake-pi-produktiv.jpg)
+
+Der lokale Test wurde auch nach Auslieferung gestartet und ausdrücklich beendet.
+Beim Aktivierungsversuch im produktiven Konto fehlt derzeit eine gültige gemerkte
+Bereichsauswahl: Der Backend-Check verhindert korrekt den automatischen Start und
+fordert zur Auswahl im Live-Bereich auf. Wake Word wurde ausgeschaltet hinterlassen;
+keine produktiven Timer oder Gespräche für den Test angelegt.
+
+![Timer auf dem produktiven Pi](../../output/playwright/wake-timers-0.5.31/07-timer-pi-produktiv.jpg)
