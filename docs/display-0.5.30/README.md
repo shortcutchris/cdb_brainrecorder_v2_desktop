@@ -98,3 +98,24 @@ Gesprächsdaten; die Testadresse dort verwendet Port 8091.
   oder startendes Gespräch auslösen; atomare Sperre im Python-Backend.
 - [Timer und Erinnerungen](../timer-reminders-research.md): separate Untersuchung
   mit lokaler Zeitplanung und benötigtem CDB-Toolvertrag. Noch nicht implementiert.
+
+## Produktive Auslieferung
+
+Am 13. Oktober 2026 wurde Laufzeit-Commit `750c73a` auf den Pi gespielt.
+Backend und Kiosk laufen; die SHA256-Werte aller 14 ausgelieferten Dateien
+stimmen mit dem Repository überein (siehe [deployment.json](deployment.json)).
+Alle 22 Aufnahmen, Einstellungen und das Brain-Konto blieben erhalten.
+Die Sicherung liegt auf dem Pi unter `/home/chris/backups/recorder-before-0.5.30`.
+Die getrennte Testinstanz wurde gestoppt und ihre Sitzung entfernt.
+
+Die Bildschirmfreigabe ist eingeschaltet. Die Empfängerseite wurde direkt im
+WLAN unter `http://192.168.2.147:8090/` im Browser erfolgreich geöffnet.
+Der In-App-Browser konnte den `.local`-Namen nicht auflösen; bei diesem Problem
+die aktuelle IP-Adresse des Pi verwenden. Es wurde kein produktiver Empfänger
+gekoppelt. Kopplung, Verlauf und Heartbeat wurden mit den oben genannten
+synthetischen Daten auf der getrennten Pi-Testinstanz geprüft.
+
+Diese beiden Screenshots zeigen die produktive Oberfläche:
+
+![Produktive Startseite](../../output/playwright/display-0.5.30/10-home-produktiv.jpg)
+![Eigene Bildschirm-Ansicht](../../output/playwright/display-0.5.30/11-bildschirm-produktiv.jpg)

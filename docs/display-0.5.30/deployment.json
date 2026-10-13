@@ -1,0 +1,27 @@
+{
+  "version": "0.5.30",
+  "sessions_preserved": 22,
+  "configuration_preserved": true,
+  "account_preserved": true,
+  "services": [
+    "active",
+    "active"
+  ],
+  "sha256": {
+    "web_server.py": "fc759be7cffe42a2588cb587d79daca856d86f234f3405eb8a9112252e9c30f9",
+    "services/live_conversation.py": "c0e4bb13ee16d261ce15144c104dca1eb4988a0f9eb59f58e62646a45c1ffbab",
+    "services/remote_display.py": "2021936f6fc942777f93c501025b4c0ed4c20bc9ce96e2b9bdedbb848bdc0fec",
+    "studio/index.html": "6577694acc132e02541e2eed0722c75d7fb9645bf5d3af834480e2d491423d5f",
+    "studio/keyboard.js": "01a62168029c1ccee79ec1e3628ad37667248fa7eb20f8d1fcf5b5e34352df5b",
+    "studio/display.js": "4cacdbdebb27cd8148edb1fbdf5f4c077b1b8ca1507d7306620ae5ca6b902c08",
+    "studio/display.css": "f68f246c00333234d083b8ac5186b7d56c3ef825f6a76670473a40b1982689f7",
+    "studio/home.js": "4871442ca282a8b76dc704359eea92633fb6445104946120b256dc79ad4977e7",
+    "studio/home.css": "1a22a20de0471c4a5621c5f6544e5db2f9a6f4a08c99eb273b4b6cab6e4611f2",
+    "studio/assets/house.svg": "42136a513f0274c6924529625d7008792377e008daf2c94c8f17aafe4d042e87",
+    "studio/assets/monitor.svg": "5439d2a15dcdfa9f25f610be94f31a7e575448a084cafba82c66707737c3e375",
+    "studio/receiver/index.html": "2583c8240aa2dae7fdf623312208071f89f7bb8fb670a85ddcb5d79d8d45ab78",
+    "studio/receiver/receiver.css": "2ffe36c578afb2254f81512b99ba2f19763b3051d74958122468a434c5dad504",
+    "studio/receiver/receiver.js": "ea7deb64883e5ce6a33e2416f6060321889d6492592cfc5162a80dc246575bdb"
+  },
+  "runtime_commit": "750c73aec52ef154f186c60f1b91640a08897835"
+}
