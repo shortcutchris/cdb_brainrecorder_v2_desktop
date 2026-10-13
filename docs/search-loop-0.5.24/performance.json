@@ -1,0 +1,8 @@
+{
+  "simulated_audio_seconds": 200,
+  "cpu_seconds": 0.8754,
+  "one_core_percent": 0.438,
+  "speech_frames": 792,
+  "total_speech_fixture_frames": 903,
+  "scope": "Cue-aware input meter only; not full WebRTC or rendering benchmark"
+}

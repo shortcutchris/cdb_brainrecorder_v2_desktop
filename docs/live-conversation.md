@@ -47,7 +47,28 @@ Staging meldete am 13.10.2026 maximal acht Bereiche, 20 Minuten Gespräch und ei
 
 Die 16 Balken bilden die Lautstärke aufeinanderfolgender echter PCM-Blöcke ab, kein zufälliges Equalizer-Muster. Bei Antwortaudio zeigen sie den Ausgang, sonst den Mikrofoneingang nach der Stummschaltung. Veraltete Messwerte werden nach 300 ms auf null gesetzt. Bluetooth- und Wiedergabepuffer können den tatsächlich hörbaren Ton etwas gegenüber dieser Messung verzögern. Es werden keine Rohdaten für die Anzeige gespeichert oder an den Browser übertragen.
 
-**Suchton an/aus** schaltet einen 120 ms langen Hinweis am gewählten Pi-Lautsprecher. Die Einstellung bleibt auf dem Pi gespeichert und gilt für alle Browser. Während einer Sitzung darf sie nur der steuernde Browser ändern. Der Ton wird einmal pro erkanntem Suchaufruf angefordert, mit mindestens zwei Sekunden Abstand. Bei laufender Sprache wird er ausgelassen; beginnt Sprache während des Tons, wird dessen Wiedergabe abgebrochen. Er wird nicht später nachgeholt. Die Haupt-Antwort wird dabei nicht angehalten.
+**Suchton an/aus** schaltet ab **0.5.24** einen leisen, wiederholten Glockenklang
+am ausgewählten Pi-Lautsprecher. Während einer bestätigten Brain- oder Websuche
+läuft Variante 1 als Drei-Sekunden-Loop. Parallel laufende Suchen teilen sich einen
+Player. Sobald die letzte Suche fertig oder fehlgeschlagen ist, stoppt der Klang.
+
+Sprache vom Mikrofon oder von Voice One pausiert den Loop. Nach 600 ms Ruhe setzt
+er wieder am Anfang ein, sofern noch gesucht wird. Die Haupt-Antwort und das
+Mikrofon werden dafür nicht stummgeschaltet. Abschalten, Gesprächsende und
+Verbindungsabbruch beenden den Klang ebenfalls. Der Schalter bleibt auf dem Pi
+gespeichert und kann während des Gesprächs nur vom steuernden Browser verändert
+werden. Bluetooth kann beim hörbaren Stoppen eine kleine zusätzliche Verzögerung
+verursachen. Der Loop zeigt Aktivität an, keinen prozentualen Fortschritt.
+
+Die WAV-Datei wird einmal vorgeladen; es gibt keine laufende Klangerzeugung und
+keinen Cloud-Abruf. Nur kleine 20-ms-Blöcke werden weitergereicht, damit keine
+mehrsekündige Tonschleife nachläuft.
+
+Damit der Lautsprecherklang nicht selbst die Sprachpause auslöst, berücksichtigt
+die Pausensteuerung die bekannten Frequenzen des Loops. Das verändert weder die
+übertragenen Mikrofondaten noch die echte Pegelanzeige. Es ist eine Erkennung
+dieses speziellen Suchklangs, keine allgemeine Echo-Unterdrückung. Die Raumlautstärke
+bleibt unverändert; der Suchklang selbst wird leiser als die Hörprobe abgespielt.
 
 Brain-Suchen stammen aus den authentifizierten SSE-`search`-Ereignissen. Websuchen erkennt der Pi aus den tatsächlichen `response.web_search_call.*`-/`web_search_call`-Ereignissen des **nur gelesenen** WebRTC-Datenkanals. Reines Nachdenken oder Delegation lösen keine Suchanzeige aus. Suchargumente, URLs, Werkzeugergebnisse und Providertexte werden nicht für dieses Feedback veröffentlicht. Wiederholte Ereignisse lösen keine mehrfachen Töne aus; alte Sitzungen und unvollständige Vorgänge bleiben zeitlich und mengenmäßig begrenzt.
 

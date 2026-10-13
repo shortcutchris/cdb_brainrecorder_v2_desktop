@@ -1,0 +1,132 @@
+{
+  "test": "Pi, synthetic German speech, CDB staging_playground, no room microphone or speaker",
+  "states": [
+    {
+      "seconds": 0.0,
+      "state": "connecting"
+    },
+    {
+      "seconds": 1.8,
+      "state": "listening"
+    },
+    {
+      "seconds": 9.4,
+      "state": "speaking"
+    },
+    {
+      "seconds": 10.5,
+      "state": "listening"
+    },
+    {
+      "seconds": 10.8,
+      "state": "thinking"
+    },
+    {
+      "seconds": 11.3,
+      "state": "listening"
+    },
+    {
+      "seconds": 12.9,
+      "state": "speaking"
+    },
+    {
+      "seconds": 13.9,
+      "state": "listening"
+    },
+    {
+      "seconds": 14.0,
+      "state": "speaking"
+    },
+    {
+      "seconds": 15.1,
+      "state": "listening"
+    },
+    {
+      "seconds": 15.4,
+      "state": "speaking"
+    },
+    {
+      "seconds": 16.1,
+      "state": "listening"
+    },
+    {
+      "seconds": 22.9,
+      "state": "speaking"
+    },
+    {
+      "seconds": 23.6,
+      "state": "listening"
+    },
+    {
+      "seconds": 25.7,
+      "state": "thinking"
+    },
+    {
+      "seconds": 27.5,
+      "state": "thinking:web"
+    },
+    {
+      "seconds": 29.6,
+      "state": "thinking"
+    },
+    {
+      "seconds": 33.2,
+      "state": "speaking"
+    },
+    {
+      "seconds": 40.6,
+      "state": "thinking:brain"
+    },
+    {
+      "seconds": 41.6,
+      "state": "thinking"
+    },
+    {
+      "seconds": 42.9,
+      "state": "thinking:web"
+    },
+    {
+      "seconds": 44.7,
+      "state": "thinking"
+    }
+  ],
+  "brain_seen": true,
+  "web_seen": true,
+  "input_peak": 1,
+  "output_peak": 0.72,
+  "stats": {
+    "capture_backend": "explicit-device",
+    "captured_frames": 2250,
+    "sent_frames": 2158,
+    "played_frames": 2117,
+    "search_tones": 2,
+    "search_loop_blocks": 193,
+    "search_loop_pauses": 2,
+    "event_types": {
+      "session.started": 1,
+      "session.input_transcript.delta": 46,
+      "session.output_transcript.delta": 46,
+      "session.delegation.created": 3,
+      "response.event:response.created": 3,
+      "response.event:response.in_progress": 4,
+      "response.event:response.output_item.added": 11,
+      "response.event:response.output_item.done": 10,
+      "response.event:response.content_part.added": 2,
+      "response.event:response.output_text.delta": 49,
+      "response.event:response.output_text.done": 2,
+      "response.event:response.content_part.done": 2,
+      "response.event:response.completed": 3,
+      "response.event:response.web_search_call.in_progress": 2,
+      "response.event:response.web_search_call.searching": 2,
+      "response.event:response.web_search_call.completed": 2,
+      "response.event:response.function_call_arguments.delta": 28,
+      "response.event:response.function_call_arguments.done": 1
+    },
+    "processes_alive": 2,
+    "closed": false
+  },
+  "mute_and_sound_toggle": true,
+  "interlocks": true,
+  "unlocked": true,
+  "ended_zero_wave": true
+}

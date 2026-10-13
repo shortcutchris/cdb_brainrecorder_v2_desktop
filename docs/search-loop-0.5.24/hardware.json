@@ -1,0 +1,53 @@
+{
+  "output": "bluez_output.78_5E_A2_E4_B3_BD.1",
+  "volume": 82,
+  "cloud_used": false,
+  "room_audio_saved": false,
+  "baseline": {
+    "peak_meter": 0.002,
+    "active_samples": 0,
+    "samples": 60
+  },
+  "loop_capture": {
+    "peak_meter": 0.249,
+    "active_samples": 199,
+    "samples": 359
+  },
+  "after_loop": {
+    "capture_backend": "pipewire",
+    "captured_frames": 424,
+    "sent_frames": 0,
+    "played_frames": 0,
+    "search_tones": 1,
+    "search_loop_blocks": 360,
+    "search_loop_pauses": 0,
+    "event_types": {},
+    "processes_alive": 3,
+    "closed": false
+  },
+  "microphone_speech": {
+    "pause": true,
+    "resume": true,
+    "microphone_not_muted": true
+  },
+  "assistant_speech": {
+    "pause": true,
+    "resume": true,
+    "microphone_not_muted": true
+  },
+  "parallel_searches": true,
+  "sound_toggle": true,
+  "terminal_stop": true,
+  "cleanup": {
+    "capture_backend": "pipewire",
+    "captured_frames": 504,
+    "sent_frames": 0,
+    "played_frames": 0,
+    "search_tones": 4,
+    "search_loop_blocks": 367,
+    "search_loop_pauses": 4,
+    "event_types": {},
+    "processes_alive": 0,
+    "closed": true
+  }
+}

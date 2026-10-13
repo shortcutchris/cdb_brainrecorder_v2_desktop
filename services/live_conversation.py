@@ -87,7 +87,8 @@ class LiveConversation:
             active=self.state in ACTIVE and self.state!='closing' and (not self.binding or self.cdb.generation==getattr(self,'account_generation',None))
             native=self.native.feedback() if active and self.native and hasattr(self.native,'feedback') else {}
             search=self.searches.public() if active else {'brain':0,'web':0,'failed':False}
-            for key in ('brain','web'):search[key]+=native.get('search',{}).get(key,0)
+            # Brain lifecycle is mirrored into native playback; count it only here.
+            search['web']+=native.get('search',{}).get('web',0)
             search['failed']=search['failed'] or native.get('search',{}).get('failed',False)
             return {'state':self.state,'active':active,'muted':self.muted,'search':search,
                     'input':native.get('input',{'bars':[0]*16,'active':False}) if not self.muted else {'bars':[0]*16,'active':False},
@@ -365,8 +366,9 @@ class LiveConversation:
             elif event == 'transcript' and data.get('role') in ('user', 'assistant') and isinstance(data.get('delta'), str):
                 self._transcript(data)
             elif event == 'search' and self.state!='closing':
-                if self.searches.update('brain',data.get('call_id'),data.get('status')) and self.native and self.search_sound:
-                    if hasattr(self.native,'request_search_tone'):self.native.request_search_tone()
+                self.searches.update('brain',data.get('call_id'),data.get('status'))
+                if self.native and hasattr(self.native,'update_search'):
+                    self.native.update_search('brain',data.get('call_id'),data.get('status'))
             elif event == 'closed': self._finish('ended')
 
     def _transcript(self, data):

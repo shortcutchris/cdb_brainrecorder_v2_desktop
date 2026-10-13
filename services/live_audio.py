@@ -16,7 +16,7 @@ import queue
 import signal
 import threading
 import time
-from services.live_feedback import AudioEnvelope, SearchActivity, web_search_event, search_chime
+from services.live_feedback import AudioEnvelope, SearchInputEnvelope, SearchActivity, web_search_event, search_loop_pcm
 
 from meeting_recorder.audio import Recorder
 from meeting_recorder.child_process import owned_command
@@ -111,8 +111,8 @@ class NativeLiveAudio:
         self.playback_command = playback_command or ['paplay', '--raw', '--format=s16le', '--rate=24000',
                                                      '--channels=1', '--latency-msec=80', '--device=' + config['speaker']]
         self.gate = PcmGate()
-        self.input_meter=AudioEnvelope();self.output_meter=AudioEnvelope();self.searches=SearchActivity()
-        self.search_sound=True;self.cue_task=None;self.last_cue=0;self.web_event_count=0;self.event_types={};self.search_tones=0
+        self.input_meter=SearchInputEnvelope();self.output_meter=AudioEnvelope();self.searches=SearchActivity()
+        self.search_sound=True;self.cue_task=None;self.search_loop_blocks=0;self.search_loop_pauses=0;self.web_event_count=0;self.event_types={};self.search_tones=0
         self.closed = threading.Event()
         self.loop = asyncio.new_event_loop()
         self.processes = []
@@ -229,7 +229,7 @@ class NativeLiveAudio:
             found=web_search_event(event)
             if found:
                 self.web_event_count+=1
-                if self.searches.update('web',*found):self.request_search_tone()
+                self.update_search('web',*found)
         @self.peer.on('connectionstatechange')
         def state_changed():
             if self.peer.connectionState == 'failed': self._fail()
@@ -277,28 +277,65 @@ class NativeLiveAudio:
 
     def set_search_sound(self, enabled):
         self.search_sound=enabled
-        if not enabled and self.cue_task and not self.loop.is_closed():self.loop.call_soon_threadsafe(self.cue_task.cancel)
+        # Keep lifecycle state even when disabled; enabling during a search resumes it.
+        self.request_search_tone()
+
+    def update_search(self, kind, identifier, status):
+        self.searches.update(kind, identifier, status)
+        self.request_search_tone()
+
+    def _search_pending(self):
+        search=self.searches.public()
+        return bool(search['brain'] or search['web'])
 
     def request_search_tone(self):
-        if not self.search_sound or self.closed.is_set() or self.loop.is_closed():return
+        if self.closed.is_set() or self.loop.is_closed():return
         def schedule():
-            if self.closed.is_set() or not self.search_sound or time.monotonic()-self.last_cue<2:return
+            if self.closed.is_set() or not self._search_pending():return
             if self.cue_task and not self.cue_task.done():return
-            self.last_cue=time.monotonic();self.cue_task=self._task(self._search_tone())
+            self.cue_task=self._task(self._search_tone())
         self.loop.call_soon_threadsafe(schedule)
 
     async def _search_tone(self):
+        """One bounded, paced player across all concurrent searches.
+
+        Write only 20 ms per tick. Never enqueue a complete loop into PipeWire;
+        speech, disable, terminal events and close are rechecked between blocks.
+        The microphone is never muted to hide the cue from voice detection.
+        """
         process=None
+        offset=0
+        deadline=0
         try:
-            # Skip a cue while either participant is speaking; never queue a late cue.
-            if not self.input_meter.quiet() or not self.output_meter.quiet():return
-            process=await self._spawn(self.playback_command,stdin=asyncio.subprocess.PIPE)
-            process.stdin.write(search_chime());await process.stdin.drain();process.stdin.close();self.search_tones+=1
-            deadline=time.monotonic()+.4
-            while process.returncode is None and time.monotonic()<deadline:
-                if not self.search_sound or not self.output_meter.quiet(.15) or not self.input_meter.quiet(.15):break
-                await asyncio.sleep(.02)
-        except (OSError,BrokenPipeError,ConnectionError):pass
+            pcm=search_loop_pcm()
+            while not self.closed.is_set():
+                audible=(self._search_pending() and self.search_sound and self.input_meter.quiet(.6)
+                         and self.output_meter.quiet(.6))
+                if not audible:
+                    if process:
+                        await self._terminate(process)
+                        process=None
+                        self.search_loop_pauses+=1
+                    offset=0
+                    deadline=0
+                    await asyncio.sleep(.02 if self._search_pending() else .1)
+                    continue
+                if process is None:
+                    process=await self._spawn(self.playback_command,stdin=asyncio.subprocess.PIPE)
+                    process.stdin.transport.set_write_buffer_limits(high=1920,low=960)
+                    self.search_tones+=1
+                if process.returncode is not None:break
+                self.input_meter.cue_playing()
+                process.stdin.write(pcm[offset:offset+960])
+                await asyncio.wait_for(process.stdin.drain(), .5)
+                offset=(offset+960)%len(pcm)
+                self.search_loop_blocks+=1
+                now=asyncio.get_running_loop().time()
+                deadline=max(deadline+.02,now) if deadline else now+.02
+                await asyncio.sleep(max(0,deadline-now))
+        except (OSError,ValueError,EOFError,asyncio.TimeoutError,ConnectionError):
+            # An optional sound failure must not end the conversation.
+            pass
         finally:
             if process:await self._terminate(process)
 
@@ -313,13 +350,14 @@ class NativeLiveAudio:
                 await process.wait()
         for stream in (process.stdin,):
             if stream: stream.close()
+        if process in self.processes:self.processes.remove(process)
 
     async def _shutdown(self):
         if self.opening_task and not self.opening_task.done():
             self.opening_task.cancel()
             await asyncio.gather(self.opening_task, return_exceptions=True)
         # Close input/output hardware before allowing the service to release ownership.
-        await asyncio.gather(*(self._terminate(p) for p in self.processes), return_exceptions=True)
+        await asyncio.gather(*(self._terminate(p) for p in list(self.processes)), return_exceptions=True)
         for task in list(self.tasks): task.cancel()
         if self.tasks: await asyncio.gather(*list(self.tasks), return_exceptions=True)
         if self.peer: await self.peer.close()
@@ -327,7 +365,7 @@ class NativeLiveAudio:
     def stats(self):
         return {'capture_backend': 'pipewire' if self.capture_command[0] == 'parec' else 'explicit-device',
                 'captured_frames': self.captured_frames, 'sent_frames': self.sent_frames,
-                'played_frames': self.received_frames, 'search_tones':self.search_tones, 'event_types':dict(self.event_types), 'processes_alive': sum(p.returncode is None for p in self.processes),
+                'played_frames': self.received_frames, 'search_tones':self.search_tones, 'search_loop_blocks':self.search_loop_blocks, 'search_loop_pauses':self.search_loop_pauses, 'event_types':dict(self.event_types), 'processes_alive': sum(p.returncode is None for p in list(self.processes)),
                 'closed': self.closed.is_set()}
 
     def close(self):
@@ -342,7 +380,7 @@ class NativeLiveAudio:
                         try: os.killpg(process.pid, signal.SIGKILL)
                         except ProcessLookupError: pass
                 async def reap():
-                    await asyncio.gather(*(p.wait() for p in self.processes), return_exceptions=True)
+                    await asyncio.gather(*(p.wait() for p in list(self.processes)), return_exceptions=True)
                 try: asyncio.run_coroutine_threadsafe(reap(), self.loop).result(2)
                 finally:
                     self.loop.call_soon_threadsafe(self.loop.stop)

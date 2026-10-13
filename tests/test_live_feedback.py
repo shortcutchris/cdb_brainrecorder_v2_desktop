@@ -1,6 +1,6 @@
 import unittest
 from array import array
-from services.live_feedback import AudioEnvelope,SearchActivity,web_search_event,search_chime
+from services.live_feedback import AudioEnvelope,SearchInputEnvelope,SearchActivity,web_search_event,search_loop_pcm
 
 class FeedbackTests(unittest.TestCase):
     def test_real_envelope_silence_staleness_and_bound(self):
@@ -21,6 +21,25 @@ class FeedbackTests(unittest.TestCase):
         for event in ({'type':'session.delegation.created'},{'type':'response.event','event':{'type':'response.created'}},{'type':'response.event','event':None}):self.assertIsNone(web_search_event(event))
         self.assertEqual(web_search_event({'type':'response.event','event':{'type':'response.web_search_call.searching','item_id':'a'}}),('a','started'))
         self.assertEqual(web_search_event({'type':'response.event','event':{'type':'response.output_item.done','item':{'type':'web_search_call','id':'a','status':'completed'}}}),('a','done'))
-    def test_chime_is_short_quiet_pcm(self):
-        pcm=search_chime();samples=array('h');samples.frombytes(pcm)
-        self.assertEqual(len(pcm),5760);self.assertLessEqual(max(abs(x) for x in samples),900);self.assertEqual(samples[0],0)
+    def test_loop_is_three_seconds_quiet_pcm_with_silent_seam(self):
+        pcm=search_loop_pcm();samples=array('h');samples.frombytes(pcm)
+        self.assertEqual(len(pcm),144000);self.assertLessEqual(max(abs(x) for x in samples),2068);self.assertEqual(samples[0],0);self.assertEqual(samples[-1],0)
+
+    def test_bell_echo_is_not_speech_but_voice_with_bells_still_interrupts(self):
+        import numpy as np
+        now=[100.];meter=SearchInputEnvelope(lambda:now[0])
+        def feed(voice=False):
+            for index in range(30):
+                t=(np.arange(320)+320*index)/16000
+                x=.12*np.sin(2*np.pi*523.251*t)+.04*np.sin(2*np.pi*1444.17*t)
+                if voice:
+                    # Voiced speech-like harmonic content outside the cue's bands.
+                    x+=sum(.03/n*np.sin(2*np.pi*173*n*t) for n in range(1,12))
+                block=(x*32767).astype('<i2').tobytes()
+                meter.cue_playing();meter.feed(block);now[0]+=.02
+        feed()
+        self.assertTrue(meter.quiet())
+        self.assertGreater(max(meter.public()['bars']),.3)  # waveform remains real
+        feed(True)
+        self.assertFalse(meter.quiet())
+        meter.clear();self.assertTrue(meter.quiet())
