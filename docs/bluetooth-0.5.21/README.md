@@ -26,4 +26,10 @@ Die folgenden Ansichten verwenden ausdrücklich synthetische Daten. Sie belegen 
 
 BlueZ und PipeWire auf dem Pi erreichbar; gespeichertes Anker PowerConf S3 wird korrekt als getrennt angezeigt. Kein vorhandenes Gerät entfernt oder neu gekoppelt. Die Marshall-Box des Benutzers war beim Implementieren ausgeschaltet. Ihr Pairing und hörbarer Testton sowie ein echter Bluetooth-Mikrofontest bleiben deshalb als gemeinsame Hardwareabnahme offen.
 
-Deployment und Suche/Abbruch auf dem Pi werden im abschließenden Protokoll ergänzt. [Anleitung](../bluetooth.md).
+Version 0.5.21 wurde auf den Pi gespielt (Code `7d4391a`). Echte BlueZ-Suche gestartet, 14 Geräte sichtbar, parallele Aufnahme/Gespräch/Einstellungsänderung serverseitig abgewiesen, Suche sauber beendet und Steuerung wieder freigegeben. Vorhandene Kopplungen unverändert. Backend und Kiosk aktiv, SHA256 aller geänderten Laufzeitdateien stimmt mit dem Commit überein; 22 Meetings und vorhandene Konfiguration erhalten. [Deployment-Protokoll](deployment.json). [Anleitung](../bluetooth.md).
+
+## Produktive Oberfläche
+
+![Bluetooth bereit auf dem Pi](bluetooth-ready.png)
+
+![Audioübersicht mit Bluetooth](audio-overview.png)
