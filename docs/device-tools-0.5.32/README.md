@@ -65,3 +65,16 @@ Die drei synthetisierten Alarmtöne wurden auf der isolierten Pi-Instanz über
 Server-Änderungen zur Freigabe:
 [TQS #1999](https://github.com/BIK-GmbH/cdb_tqs/pull/1999) und
 [BFF #1332](https://github.com/BIK-GmbH/cdb_webos/pull/1332).
+
+## Auslieferung
+
+Laufzeit-Commit **9670d74** ist am 13.10.2026 auf dem Pi aktiv. Backend und Kiosk
+laufen; der Kiosk wurde im Leerlauf neu geladen. SHA256 aller acht Laufzeitdateien
+stimmt mit dem Repository überein ([deployment.json](deployment.json)). Alle
+22 Aufnahmen, Konto, Zielbereich und Modellkonfiguration bleiben erhalten.
+Backup inklusive Timer-Datenbank: `/home/chris/backups/recorder-before-0.5.32`.
+Die isolierte Testinstanz wurde anschließend beendet.
+
+![Produktive Timeransicht](../../output/playwright/device-tools-0.5.32/04-pi-produktiv.png)
+
+![Erinnerung mit Tonwahl, isolierte Testinstanz](../../output/playwright/device-tools-0.5.32/02-erinnerung-tonauswahl.png)

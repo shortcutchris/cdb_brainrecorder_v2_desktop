@@ -1,0 +1,21 @@
+{
+  "version": "0.5.32",
+  "runtime_commit": "9670d74",
+  "recordings": 22,
+  "configuration_preserved": true,
+  "brain_signed_in": true,
+  "services": {
+    "cdb-recorder-studio.service": "active",
+    "cdb-recorder-kiosk-overlay-20261012.service": "active"
+  },
+  "sha256": {
+    "services/alarm_tones.py": "7c6c513492f885b85c01497addb2d47e72135102b5a8c1022e5384d85a4cdf65",
+    "services/audio_output.py": "780df5992880cd40825e863e1898703ca4b7c8e3701c387ef0d2ad142ec4f5c8",
+    "services/live_conversation.py": "02374c5ddf3b1852b7b25579c9fffc109fdce861dcd32ca60d13d9d77d9f36f8",
+    "services/schedules.py": "dd3543d4e7df4bdfaf5dd18cae5ce8a41a7f0f24344eb7a6a26f6a9ebc95557f",
+    "web_server.py": "c5fc6b8e0fdb3587064ffcb014b9714d542b614fcb136d4f6f499f382bb28ea7",
+    "studio/assistant-tools.css": "b420d94683d23e3457cd20f9dd17fbd9536f1fecf599c946dc9bd1af54042ace",
+    "studio/assistant-tools.js": "edf7a3484f6be1175d4b731f429b24c060333ebc0a0ac4cdc36236c47bb8ee1e",
+    "studio/index.html": "e0e1541354776c39a7a43e3dd57ff072f282eb6c6f1900ffdba5c1dc6809273e"
+  }
+}
