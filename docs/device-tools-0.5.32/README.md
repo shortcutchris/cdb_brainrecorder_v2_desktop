@@ -54,15 +54,17 @@ sitzungsübergreifendes Wiederholen versprochen.
 - BFF: 73 Weiterleitungstests bestanden.
 - UI bei 1280 × 720 auf isolierter Pi-Instanz: Ton wählen, Timer speichern,
   Ton nach Neuladen in der Liste erhalten, feste Leisten, kein Inhaltsüberlauf.
-- Echter Sprachauftrag über Azure/CDB ist **noch nicht abgenommen**: dafür
-  müssen erst beide Server-PRs auf Staging ausgerollt sein. Keine Behauptung,
-  dass ein künstlich injizierter Tool-Auftrag ein echter Sprachtest wäre.
+- Echter synthetischer Sprachtest über Azure/CDB nach dem Server-Rollout:
+  Timer, Erinnerung (exakter Termin und Ton), Auflisten und lokale Quittierung
+  bestanden. **Vollständige Abnahme offen:** Bei mehreren Werkzeugrunden fehlt
+  die Fortsetzung der Antwort; der nächste Löschauftrag bleibt unbearbeitet.
+  Ursache reproduziert, Serverfix #2000 und Changelog #1337 vorbereitet.
 
 Die drei synthetisierten Alarmtöne wurden auf der isolierten Pi-Instanz über
 `paplay` am ausgewählten Ausgang vollständig abgespielt (jeweils Status
 `completed`). Eine Hörbestätigung durch den Benutzer wurde dabei nicht erhoben.
 
-Server-Änderungen zur Freigabe:
+Server-Änderungen gemergt und auf Staging aktiv:
 [TQS #1999](https://github.com/BIK-GmbH/cdb_tqs/pull/1999) und
 [BFF #1332](https://github.com/BIK-GmbH/cdb_webos/pull/1332).
 
@@ -78,3 +80,35 @@ Die isolierte Testinstanz wurde anschließend beendet.
 ![Produktive Timeransicht](../../output/playwright/device-tools-0.5.32/04-pi-produktiv.png)
 
 ![Erinnerung mit Tonwahl, isolierte Testinstanz](../../output/playwright/device-tools-0.5.32/02-erinnerung-tonauswahl.png)
+
+## Staging-Abnahme am 13.10.2026
+
+- TQS #1999: `46c4b818`, Backend-Revision `tqs-backend-stg--0000960`.
+- BFF #1332: `15d61776`, Revision `cdb-webos-bff-stg--0000218`.
+- Deployments und Tests nach Merge grün; WebOS-Version 1.309.0.
+- [Echter Sprachtest und Gerätequittungen](staging-voice-result.json).
+  Native WebRTC-Verbindung, synthetisches PCM statt Raum-Mikrofon, echte CDB-
+  Verarbeitung mit `staging_playground`, getrennte Pi-Datenbank.
+- [Freigabe nach Gesprächsende](release-after-end.json): `busy=false`,
+  Aufnahme und Einstellungen wieder erlaubt; im Browser ebenfalls geprüft.
+- [Bereinigte Azure-Ereignisfolge](azure-continuation-events.jsonl): ausschließlich
+  Ereignistypen, Werkzeugnamen und flüchtige IDs, keine Schlüssel oder Inhalte.
+
+Der Nachfolgetool-Aufruf wird noch der ersten Antwort zugeordnet, weil Azure
+Fortsetzungen nur mit `response.in_progress` und neuer ID ankündigt. Deshalb
+wird eine zweite Gerätequittung nicht weitergereicht. Fix:
+[TQS #2000](https://github.com/BIK-GmbH/cdb_tqs/pull/2000), mit negativem/positivem
+Regressionstest und 152 bestandenen Tests; Changelog
+[WebOS #1337](https://github.com/BIK-GmbH/cdb_webos/pull/1337). Mergefreigabe und
+erneuter vollständiger Sprachtest stehen aus. Pi-Laufzeit braucht dafür kein Update.
+
+Testgrenzen: Die synthetische Stimme wurde vereinzelt als „Test T“ statt „Test Tee“
+erkannt. Ein undeutliches Datum wurde korrekt nachgefragt. Ein Vorlauf ohne
+Zeitfreigabe wurde korrekt abgelehnt. Der Testtreiber war anfangs zu grob getaktet;
+für den dokumentierten Lauf liefert er 20-ms-Blöcke wie das echte Mikrofon und
+prüft die NTP-Synchronisierung vor Erinnerungen. Diese Vorläufe sind keine
+bestandenen End-to-End-Tests. Keine Hörbestätigung oder Wake-Word-Abnahme in diesem Lauf.
+
+![Nach Gesprächsende: Navigation frei, Sprach-Timer im Verlauf](../../output/playwright/device-tools-0.5.32/09-nach-gespraech-entsperrt.png)
+
+Nach den Tests: Pi-Backend und Kiosk aktiv, 22 Aufnahmen und Konfiguration gegen die Sicherung unverändert. Temporäre Zugangskopien aller isolierten Testinstanzen entfernt; diagnostische Audio-Instrumentierung zurückgenommen.

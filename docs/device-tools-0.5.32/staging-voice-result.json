@@ -1,0 +1,208 @@
+{
+  "synthetic_audio": true,
+  "room_audio": false,
+  "server": "https://staging.cdbos.de",
+  "commands": [
+    {
+      "at_seconds": 18.24,
+      "name": "create_timer",
+      "arguments": {
+        "label": "Test T",
+        "seconds": 60,
+        "tone": "chime"
+      },
+      "result": {
+        "ok": true,
+        "id": "016ec986-451e-4c4b-8781-a3f31de97551",
+        "label": "Test T",
+        "tone": "chime",
+        "message": "Auf dem Pi gespeichert."
+      }
+    },
+    {
+      "at_seconds": 45.48,
+      "name": "create_reminder",
+      "arguments": {
+        "zone": "Europe/Berlin",
+        "label": "Test Blumen",
+        "local_time": "2026-10-14T11:30:00",
+        "tone": "bell"
+      },
+      "result": {
+        "ok": true,
+        "id": "40f5d733-1fa1-4a1e-a6fe-fb81e464e941",
+        "label": "Test Blumen",
+        "tone": "bell",
+        "message": "Auf dem Pi gespeichert."
+      }
+    },
+    {
+      "at_seconds": 66.32,
+      "name": "list_schedules",
+      "arguments": {},
+      "result": {
+        "ok": true,
+        "items": [
+          {
+            "id": "016ec986-451e-4c4b-8781-a3f31de97551",
+            "kind": "timer",
+            "label": "Test T",
+            "due": 1791922334.1888456,
+            "state": "scheduled",
+            "revision": 1,
+            "tone": "chime"
+          },
+          {
+            "id": "40f5d733-1fa1-4a1e-a6fe-fb81e464e941",
+            "kind": "reminder",
+            "label": "Test Blumen",
+            "due": 1791970200.0,
+            "state": "scheduled",
+            "revision": 1,
+            "tone": "bell"
+          }
+        ]
+      }
+    },
+    {
+      "at_seconds": 91.3,
+      "name": "list_schedules",
+      "arguments": {},
+      "result": {
+        "ok": true,
+        "items": [
+          {
+            "id": "016ec986-451e-4c4b-8781-a3f31de97551",
+            "kind": "timer",
+            "label": "Test T",
+            "due": 1791922334.1888456,
+            "state": "due",
+            "revision": 2,
+            "tone": "chime"
+          },
+          {
+            "id": "40f5d733-1fa1-4a1e-a6fe-fb81e464e941",
+            "kind": "reminder",
+            "label": "Test Blumen",
+            "due": 1791970200.0,
+            "state": "scheduled",
+            "revision": 1,
+            "tone": "bell"
+          }
+        ]
+      }
+    },
+    {
+      "at_seconds": 92.79,
+      "name": "acknowledge_alarm",
+      "arguments": {
+        "id": "016ec986-451e-4c4b-8781-a3f31de97551",
+        "revision": 2
+      },
+      "result": {
+        "ok": true,
+        "id": "016ec986-451e-4c4b-8781-a3f31de97551"
+      }
+    }
+  ],
+  "stages": [
+    {
+      "spoken": "Stelle bitte einen Timer mit dem Namen Test Tee und dem Ton Klangspiel auf sechzig Sekunden.",
+      "at_seconds": 9.92
+    },
+    {
+      "spoken": "Erstelle außerdem eine Erinnerung mit dem Namen Test Blumen, am 14. Oktober zweitausendsechsundzwanzig um elf Uhr dreißig, Zeitzone Europa Berlin. Als Ton bitte Glocke.",
+      "at_seconds": 28.6
+    },
+    {
+      "spoken": "Welche Timer und Erinnerungen sind gerade auf diesem Gerät vorhanden? Bitte prüfe die aktuelle Liste.",
+      "at_seconds": 55.76
+    },
+    {
+      "spoken": "Bitte bestätige den abgelaufenen Alarm Test Tee als erledigt. Ich brauche diesen Timer nicht mehr.",
+      "at_seconds": 78.43
+    },
+    {
+      "spoken": "Lösche jetzt bitte die Erinnerung Test Blumen, damit sie morgen nicht mehr ausgelöst wird.",
+      "at_seconds": 103.1
+    }
+  ],
+  "blocked_during_live": true,
+  "passed": false,
+  "error": "Timeout: {'state': 'listening', 'history': [{'role': 'user', 'text': 'Stelle bitte einen Timer mit dem Namen Test T und dem Ton Klangspiel auf 60 Sekunden'}, {'role': 'assistant', 'text': 'Alles klar, ich kümmere mich drum.'}, {'role': 'assistant', 'text': 'Der Timer Test T mit dem Ton Klangspiel läuft jetzt und geht in 60 Sekunden los.'}, {'role': 'user', 'text': 'Erstelle außerdem eine Erinnerung mit dem Namen Test Blumen am 14. Oktober zweitausend sechsund zwanzig um elf Uhr dreißig, Zeitzone Europa Berlin, als Ton Bell Bitte Glocke'}, {'role': 'assistant', 'text': 'Einen Augenblick.'}, {'role': 'assistant', 'text': 'Alles klar. Die Erinnerung Test Blumen ist für den 14. Oktober 202 30 in Europa Berlin gespeichert, mit Glockenton. Und dein Timer läuft weiterhin.'}, {'role': 'user', 'text': 'Welche Timer und Erinnerungen sind gerade auf diesem Gerät vorhanden Bitte prüfe die aktuelle Liste'}, {'role': 'assistant', 'text': 'Einen Moment.'}, {'role': 'assistant', 'text': 'Du hast gerade den Timer Test T mit dem Ton Klangspiel geplant. Und die Erinnerung Test Blumen mit dem Glockenton für den 14. Oktober 2026 um 11.30 Uhr.'}, {'role': 'user', 'text': 'Bitte bestätige den abgelaufenen Alarm Test T als erledigt. Ich brauche diesen Timer nicht mehr'}, {'role': 'assistant', 'text': 'Alles klar, ich schaue nach.'}, {'role': 'user', 'text': 'Lösche jetzt bitte die Erinnerung Test Blumen, damit sie morgen nicht mehr ausgelöst wird'}], 'items': [{'id': '40f5d733-1fa1-4a1e-a6fe-fb81e464e941', 'kind': 'reminder', 'label': 'Test Blumen', 'due': 1791970200.0, 'state': 'scheduled', 'revision': 1, 'sound': 'pending', 'tone': 'bell', 'remaining': 47741}, {'id': '016ec986-451e-4c4b-8781-a3f31de97551', 'kind': 'timer', 'label': 'Test T', 'due': 1791922334.1888456, 'state': 'done', 'revision': 3, 'sound': 'pending', 'tone': 'chime', 'remaining': 0}]}",
+  "history": [
+    {
+      "role": "user",
+      "text": "Stelle bitte einen Timer mit dem Namen Test T und dem Ton Klangspiel auf 60 Sekunden"
+    },
+    {
+      "role": "assistant",
+      "text": "Alles klar, ich kümmere mich drum."
+    },
+    {
+      "role": "assistant",
+      "text": "Der Timer Test T mit dem Ton Klangspiel läuft jetzt und geht in 60 Sekunden los."
+    },
+    {
+      "role": "user",
+      "text": "Erstelle außerdem eine Erinnerung mit dem Namen Test Blumen am 14. Oktober zweitausend sechsund zwanzig um elf Uhr dreißig, Zeitzone Europa Berlin, als Ton Bell Bitte Glocke"
+    },
+    {
+      "role": "assistant",
+      "text": "Einen Augenblick."
+    },
+    {
+      "role": "assistant",
+      "text": "Alles klar. Die Erinnerung Test Blumen ist für den 14. Oktober 202 30 in Europa Berlin gespeichert, mit Glockenton. Und dein Timer läuft weiterhin."
+    },
+    {
+      "role": "user",
+      "text": "Welche Timer und Erinnerungen sind gerade auf diesem Gerät vorhanden Bitte prüfe die aktuelle Liste"
+    },
+    {
+      "role": "assistant",
+      "text": "Einen Moment."
+    },
+    {
+      "role": "assistant",
+      "text": "Du hast gerade den Timer Test T mit dem Ton Klangspiel geplant. Und die Erinnerung Test Blumen mit dem Glockenton für den 14. Oktober 2026 um 11.30 Uhr."
+    },
+    {
+      "role": "user",
+      "text": "Bitte bestätige den abgelaufenen Alarm Test T als erledigt. Ich brauche diesen Timer nicht mehr"
+    },
+    {
+      "role": "assistant",
+      "text": "Alles klar, ich schaue nach."
+    },
+    {
+      "role": "user",
+      "text": "Lösche jetzt bitte die Erinnerung Test Blumen, damit sie morgen nicht mehr ausgelöst wird"
+    }
+  ],
+  "items": [
+    {
+      "id": "40f5d733-1fa1-4a1e-a6fe-fb81e464e941",
+      "kind": "reminder",
+      "label": "Test Blumen",
+      "due": 1791970200.0,
+      "state": "scheduled",
+      "revision": 1,
+      "sound": "pending",
+      "tone": "bell",
+      "remaining": 47741
+    },
+    {
+      "id": "016ec986-451e-4c4b-8781-a3f31de97551",
+      "kind": "timer",
+      "label": "Test T",
+      "due": 1791922334.1888456,
+      "state": "done",
+      "revision": 3,
+      "sound": "pending",
+      "tone": "chime",
+      "remaining": 0
+    }
+  ],
+  "seconds": 203.24
+}
