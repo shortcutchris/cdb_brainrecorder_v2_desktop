@@ -15,6 +15,8 @@ import subprocess
 import queue
 import signal
 import threading
+import time
+from services.live_feedback import AudioEnvelope, SearchActivity, web_search_event, search_chime
 
 from meeting_recorder.audio import Recorder
 from meeting_recorder.child_process import owned_command
@@ -109,6 +111,8 @@ class NativeLiveAudio:
         self.playback_command = playback_command or ['paplay', '--raw', '--format=s16le', '--rate=24000',
                                                      '--channels=1', '--latency-msec=80', '--device=' + config['speaker']]
         self.gate = PcmGate()
+        self.input_meter=AudioEnvelope();self.output_meter=AudioEnvelope();self.searches=SearchActivity()
+        self.search_sound=True;self.cue_task=None;self.last_cue=0;self.web_event_count=0;self.event_types={};self.search_tones=0
         self.closed = threading.Event()
         self.loop = asyncio.new_event_loop()
         self.processes = []
@@ -202,7 +206,9 @@ class NativeLiveAudio:
                 if self.origin is None: self.origin = now
                 await asyncio.sleep(max(0, self.origin + self.samples / 16000 - now))
                 frame = av.AudioFrame(format='s16', layout='mono', samples=320)
-                frame.planes[0].update(transport.gate.take())
+                block=transport.gate.take()
+                transport.input_meter.feed(block)
+                frame.planes[0].update(block)
                 transport.sent_frames += 1
                 frame.sample_rate = 16000; frame.pts = self.samples; frame.time_base = Fraction(1, 16000)
                 self.samples += 320
@@ -210,7 +216,20 @@ class NativeLiveAudio:
 
         self.peer = RTCPeerConnection()
         self.peer.addTransceiver(InputTrack(), direction='sendrecv')
-        self.peer.createDataChannel('oai-events')  # Azure requires the channel; never send commands.
+        channel=self.peer.createDataChannel('oai-events')  # Read-only: never send commands.
+        @channel.on('message')
+        def provider_event(message):
+            if not isinstance(message,str) or len(message)>1_000_000:return
+            try:event=json.loads(message)
+            except (ValueError,TypeError):return
+            if isinstance(event,dict):
+                name=event.get('type','')
+                if name=='response.event' and isinstance(event.get('event'),dict):name+=':'+str(event['event'].get('type',''))
+                if isinstance(name,str) and re.fullmatch(r'[a-zA-Z_.:]{1,100}',name) and (name in self.event_types or len(self.event_types)<64):self.event_types[name]=self.event_types.get(name,0)+1
+            found=web_search_event(event)
+            if found:
+                self.web_event_count+=1
+                if self.searches.update('web',*found):self.request_search_tone()
         @self.peer.on('connectionstatechange')
         def state_changed():
             if self.peer.connectionState == 'failed': self._fail()
@@ -223,7 +242,9 @@ class NativeLiveAudio:
                     while not self.closed.is_set():
                         frame = await track.recv()
                         for pcm in resampler.resample(frame):
-                            playback.stdin.write(bytes(pcm.planes[0])[:pcm.samples * 2])
+                            block=bytes(pcm.planes[0])[:pcm.samples * 2]
+                            self.output_meter.feed(block)
+                            playback.stdin.write(block)
                             await asyncio.wait_for(playback.stdin.drain(), 2)
                             self.received_frames += 1
                 except asyncio.CancelledError: raise
@@ -248,6 +269,38 @@ class NativeLiveAudio:
 
     def mute(self, value):
         self.gate.mute(value)
+        self.input_meter.clear()
+
+    def feedback(self):
+        return {'input':self.input_meter.public(),'output':self.output_meter.public(),
+                'search':self.searches.public(),'web_events':self.web_event_count}
+
+    def set_search_sound(self, enabled):
+        self.search_sound=enabled
+        if not enabled and self.cue_task and not self.loop.is_closed():self.loop.call_soon_threadsafe(self.cue_task.cancel)
+
+    def request_search_tone(self):
+        if not self.search_sound or self.closed.is_set() or self.loop.is_closed():return
+        def schedule():
+            if self.closed.is_set() or not self.search_sound or time.monotonic()-self.last_cue<2:return
+            if self.cue_task and not self.cue_task.done():return
+            self.last_cue=time.monotonic();self.cue_task=self._task(self._search_tone())
+        self.loop.call_soon_threadsafe(schedule)
+
+    async def _search_tone(self):
+        process=None
+        try:
+            # Skip a cue while either participant is speaking; never queue a late cue.
+            if not self.input_meter.quiet() or not self.output_meter.quiet():return
+            process=await self._spawn(self.playback_command,stdin=asyncio.subprocess.PIPE)
+            process.stdin.write(search_chime());await process.stdin.drain();process.stdin.close();self.search_tones+=1
+            deadline=time.monotonic()+.4
+            while process.returncode is None and time.monotonic()<deadline:
+                if not self.search_sound or not self.output_meter.quiet(.15) or not self.input_meter.quiet(.15):break
+                await asyncio.sleep(.02)
+        except (OSError,BrokenPipeError,ConnectionError):pass
+        finally:
+            if process:await self._terminate(process)
 
     async def _terminate(self, process):
         if process.returncode is None:
@@ -274,7 +327,7 @@ class NativeLiveAudio:
     def stats(self):
         return {'capture_backend': 'pipewire' if self.capture_command[0] == 'parec' else 'explicit-device',
                 'captured_frames': self.captured_frames, 'sent_frames': self.sent_frames,
-                'played_frames': self.received_frames, 'processes_alive': sum(p.returncode is None for p in self.processes),
+                'played_frames': self.received_frames, 'search_tones':self.search_tones, 'event_types':dict(self.event_types), 'processes_alive': sum(p.returncode is None for p in self.processes),
                 'closed': self.closed.is_set()}
 
     def close(self):

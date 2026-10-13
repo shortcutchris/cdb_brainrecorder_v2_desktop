@@ -178,3 +178,24 @@ class LiveTests(unittest.TestCase):
         self.wait(lambda:not self.live.busy())
 
 if __name__=='__main__':unittest.main()
+
+class FeedbackConversationTests(unittest.TestCase):
+    setUp=LiveTests.setUp
+    tearDown=LiveTests.tearDown
+    wait=LiveTests.wait
+    reserve=LiveTests.reserve
+    def test_search_replay_only_plays_once_and_preferences_survive(self):
+        from unittest.mock import Mock
+        lease=self.reserve();native=Mock();native.feedback.return_value={};self.live.native=native
+        self.live._frame(self.live.generation,'search',{'call_id':'a','status':'started'})
+        self.live._frame(self.live.generation,'search',{'call_id':'a','status':'started'})
+        self.assertEqual(self.live.feedback()['search']['brain'],1);native.request_search_tone.assert_called_once()
+        with self.assertRaises(ValueError):self.live.preferences(False,'foreign')
+        self.live.preferences(False,lease);self.live._frame(self.live.generation,'search',{'call_id':'b','status':'started'})
+        native.request_search_tone.assert_called_once();self.assertFalse(self.live.feedback()['search_sound'])
+        self.live._frame(self.live.generation-1,'search',{'call_id':'stale','status':'started'})
+        self.assertEqual(self.live.feedback()['search']['brain'],2)
+        self.live.end(lease);self.wait(lambda:not self.live.busy());self.assertEqual(self.live.feedback()['search']['brain'],0)
+        restored=LiveConversation(self.brain,self.root.name)
+        try:self.assertFalse(restored.search_sound)
+        finally:restored.close()

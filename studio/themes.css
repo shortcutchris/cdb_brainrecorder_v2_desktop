@@ -43,3 +43,9 @@ button.active img,.tab.active img,.recent-card.selected img,.status>img#activity
 /* Accent fills and accent text have separate contrast requirements. */
 :root{--blue:var(--accent)}
 button.active,.tab.active{color:var(--accent-text)}
+
+/* CDB Design System: git_reps_v4/cdb_design_system/tokens/colors.css */
+:root[data-theme=cdb]{color-scheme:dark;--ink:#ffffff;--muted:#b4c0ce;--surface:#000e22;--panel:#04162b;--capture:#0a2238;--line:#324153;--accent:#ffaa3a;--on-accent:#04162b;--soft:#143049;--accent-text:#ffc06b;--ring:#20415f;--keyboard:#04162b;--scroll:#8595a8;--player:#ffaa3a;--wave:#b4c0ce;--icon-filter:brightness(0) invert(.85);--active-filter:invert(77%) sepia(90%) saturate(909%) hue-rotate(326deg) brightness(103%) contrast(101%);--on-icon:0}
+.swatch-cdb{background:linear-gradient(90deg,#ffaa3a 0 33%,#04162b 33% 66%,#000e22 66%)}
+:root[data-theme=cdb] .record:not(.recording) img,:root[data-theme=cdb] .play img,:root[data-theme=cdb] .status button img{filter:brightness(0)}
+:root[data-theme=cdb] .status #errors{color:#ff9bb0}

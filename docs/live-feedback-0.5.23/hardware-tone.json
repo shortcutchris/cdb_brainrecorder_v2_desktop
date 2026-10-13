@@ -1,0 +1,9 @@
+{
+  "test": "Pi hardware locally opened, no cloud, no saved room audio; short search cue",
+  "output": "bluez_output.78_5E_A2_E4_B3_BD.1",
+  "volume": 25,
+  "disabled_silent": true,
+  "enabled_cue_count": 1,
+  "cooldown": true,
+  "cleanup": true
+}

@@ -40,3 +40,21 @@ Staging meldete am 13.10.2026 maximal acht Bereiche, 20 Minuten Gespräch und ei
 [Abnahme 0.5.20](native-live-0.5.20/README.md): echte CDB-Sitzung mit synthetischer Sprache, Pi-Audioprozesse, Stumm/Weiter, gegenseitige Sperren, Abbruch und Freigabe sowie UI-Nachweise. Automatisierte Tests unterscheiden künstliche Quellen und echte Hardware; eine empfangene Audioantwort allein bestätigt nicht, dass ein physisch angeschlossener Lautsprecher hörbar ist.
 
 0.5.18 und 0.5.19 verwendeten noch Browser-Audio. Deren Mikrofonfreigabe und separate Geräteauswahl wurden mit 0.5.20 entfernt. Nach dem Update lädt der Kiosk die neue Oberfläche neu; vorhandene Browserberechtigungen werden nicht mehr genutzt.
+
+## Status, Waveform und Suchton ab 0.5.23
+
+Über dem Verlauf bleibt eine feste Statusfläche. Sie unterscheidet Zuhören, Vorbereitung der Antwort, hörbare Antwortdaten, Brain-Suche, Websuche, Stumm und Verbindungsunterbrechung. Die Chatfläche und Fußleiste behalten ihre Position beim Zustandswechsel.
+
+Die 16 Balken bilden die Lautstärke aufeinanderfolgender echter PCM-Blöcke ab, kein zufälliges Equalizer-Muster. Bei Antwortaudio zeigen sie den Ausgang, sonst den Mikrofoneingang nach der Stummschaltung. Veraltete Messwerte werden nach 300 ms auf null gesetzt. Bluetooth- und Wiedergabepuffer können den tatsächlich hörbaren Ton etwas gegenüber dieser Messung verzögern. Es werden keine Rohdaten für die Anzeige gespeichert oder an den Browser übertragen.
+
+**Suchton an/aus** schaltet einen 120 ms langen Hinweis am gewählten Pi-Lautsprecher. Die Einstellung bleibt auf dem Pi gespeichert und gilt für alle Browser. Während einer Sitzung darf sie nur der steuernde Browser ändern. Der Ton wird einmal pro erkanntem Suchaufruf angefordert, mit mindestens zwei Sekunden Abstand. Bei laufender Sprache wird er ausgelassen; beginnt Sprache während des Tons, wird dessen Wiedergabe abgebrochen. Er wird nicht später nachgeholt. Die Haupt-Antwort wird dabei nicht angehalten.
+
+Brain-Suchen stammen aus den authentifizierten SSE-`search`-Ereignissen. Websuchen erkennt der Pi aus den tatsächlichen `response.web_search_call.*`-/`web_search_call`-Ereignissen des **nur gelesenen** WebRTC-Datenkanals. Reines Nachdenken oder Delegation lösen keine Suchanzeige aus. Suchargumente, URLs, Werkzeugergebnisse und Providertexte werden nicht für dieses Feedback veröffentlicht. Wiederholte Ereignisse lösen keine mehrfachen Töne aus; alte Sitzungen und unvollständige Vorgänge bleiben zeitlich und mengenmäßig begrenzt.
+
+Die Anzeige fragt ausschließlich während einer sichtbaren aktiven Unterhaltung zehnmal pro Sekunde eine kleine lokale Statusantwort ab. Die vollständige App und der Verlauf behalten ihren bisherigen Aktualisierungstakt. Animationen ändern nur Größe/Deckkraft, respektieren reduzierte Bewegung und benötigen keine zusätzliche Audioberechtigung.
+
+## Corporate-Digital-Brain-Theme
+
+Unter **Einstellungen → Design → Seite 2** steht das Standardtheme **Corporate Digital Brain**. Farben nach `git_reps_v4/cdb_design_system/tokens/colors.css`: Navy `#000e22`/`#04162b`, Weiß, Orange `#ffaa3a` und Slate-Neutrals. Bestehende Touch-Typografie und Abmessungen bleiben erhalten. Das Theme kann wie die anderen Standardthemes dupliziert werden. Die Auswahl wird pro Browser/Kiosk gespeichert; eine Auswahl am entfernten Rechner ändert daher nicht automatisch den Touchdisplay-Browser.
+
+[Abnahme, Messwerte und Screenshots 0.5.23](live-feedback-0.5.23/README.md).

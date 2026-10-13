@@ -1,0 +1,68 @@
+{
+  "test": "Pi, synthetic German speech, CDB staging_playground, no room microphone or speaker",
+  "states": [
+    {
+      "seconds": 0.0,
+      "state": "connecting"
+    },
+    {
+      "seconds": 2.6,
+      "state": "listening"
+    },
+    {
+      "seconds": 14.0,
+      "state": "speaking"
+    },
+    {
+      "seconds": 15.7,
+      "state": "speaking:web"
+    },
+    {
+      "seconds": 17.7,
+      "state": "speaking"
+    },
+    {
+      "seconds": 18.2,
+      "state": "speaking:web"
+    },
+    {
+      "seconds": 21.7,
+      "state": "speaking"
+    }
+  ],
+  "brain_seen": false,
+  "web_seen": true,
+  "input_peak": 1,
+  "output_peak": 0.77,
+  "stats": {
+    "capture_backend": "explicit-device",
+    "captured_frames": 6720946,
+    "sent_frames": 3880,
+    "played_frames": 3829,
+    "event_types": {
+      "session.started": 1,
+      "session.input_transcript.delta": 24,
+      "session.delegation.created": 1,
+      "response.event:response.created": 1,
+      "response.event:response.in_progress": 1,
+      "session.output_transcript.delta": 100,
+      "response.event:response.output_item.added": 5,
+      "response.event:response.output_item.done": 5,
+      "response.event:response.web_search_call.in_progress": 2,
+      "response.event:response.web_search_call.searching": 2,
+      "response.event:response.web_search_call.completed": 2,
+      "response.event:response.content_part.added": 1,
+      "response.event:response.output_text.delta": 28,
+      "response.event:response.output_text.done": 1,
+      "response.event:response.content_part.done": 1,
+      "response.event:response.completed": 1,
+      "session.usage.updated": 1
+    },
+    "processes_alive": 2,
+    "closed": false
+  },
+  "mute_and_sound_toggle": true,
+  "interlocks": true,
+  "unlocked": true,
+  "ended_zero_wave": true
+}

@@ -14,6 +14,7 @@ import urllib.request
 import uuid
 
 from meeting_recorder.core import atomic_write
+from services.live_feedback import SearchActivity
 from services.cdb_integration import CdbFailure, USER_AGENT, UUID
 
 BASE = '/api/v1/tqs/voice-live'
@@ -31,6 +32,12 @@ class LiveConversation:
         self.root.mkdir(mode=0o700, parents=True, exist_ok=True)
         os.chmod(self.root, 0o700)
         self.lock = threading.RLock()
+        self.searches=SearchActivity(clock)
+        self.search_sound=True
+        try:
+            pref=json.loads((self.root/'preferences.json').read_text())
+            if type(pref.get('search_sound')) is bool:self.search_sound=pref['search_sound']
+        except (OSError,ValueError):pass
         self.clock = clock
         self.event_reader = events or self._read_events
         self.stop = threading.Event()
@@ -72,8 +79,29 @@ class LiveConversation:
             return {'state': self.state, 'busy': self.state in ACTIVE, 'error': self.error,
                     'muted': self.muted, 'areas': list(self.areas), 'history': [dict(h) for h in self.history],
                     'model': 'CDB Voice One', 'started_at': getattr(self, 'started_at', None),
-                    'transport': 'pi' if self.audio_config else 'browser',
+                    'transport': 'pi' if self.audio_config else 'browser', 'feedback':self.feedback(),
                     'audio_stats': self.native.stats() if self.native and hasattr(self.native, 'stats') else {}}
+
+    def feedback(self):
+        with self.lock:
+            active=self.state in ACTIVE and self.state!='closing' and (not self.binding or self.cdb.generation==getattr(self,'account_generation',None))
+            native=self.native.feedback() if active and self.native and hasattr(self.native,'feedback') else {}
+            search=self.searches.public() if active else {'brain':0,'web':0,'failed':False}
+            for key in ('brain','web'):search[key]+=native.get('search',{}).get(key,0)
+            search['failed']=search['failed'] or native.get('search',{}).get('failed',False)
+            return {'state':self.state,'active':active,'muted':self.muted,'search':search,
+                    'input':native.get('input',{'bars':[0]*16,'active':False}) if not self.muted else {'bars':[0]*16,'active':False},
+                    'output':native.get('output',{'bars':[0]*16,'active':False}),
+                    'search_sound':self.search_sound,'web_events':native.get('web_events',0)}
+
+    def preferences(self, enabled, lease=None):
+        if type(enabled) is not bool:raise ValueError('Ungültige Suchton-Einstellung.')
+        with self.lock:
+            if self.state in ACTIVE:self._owner(lease)
+            atomic_write(self.root/'preferences.json',json.dumps({'search_sound':enabled}))
+            self.search_sound=enabled
+            if self.native and hasattr(self.native,'set_search_sound'):self.native.set_search_sound(enabled)
+            return self.feedback()
 
     def setup(self):
         binding = self._binding()
@@ -140,6 +168,7 @@ class LiveConversation:
             self.history = []
             self.transcript_turns = {}
             self.seen_transcripts = set()
+            self.searches=SearchActivity(self.clock)
             self.area_ids = list(area_ids)
             self.areas = []
             self.deadline = self.clock() + 25
@@ -181,6 +210,7 @@ class LiveConversation:
                 raise ValueError('Native Live-Audio-Komponenten fehlen auf dem Pi.')
             generation = self.generation
             self.native = factory(config, lambda: self._native_failed(generation))
+            if hasattr(self.native,'set_search_sound'):self.native.set_search_sound(self.search_sound)
             self.started_request = True
         threading.Thread(target=self._start_native, args=(generation, self.native), daemon=True).start()
         return {'starting': True, 'transport': 'pi'}
@@ -334,6 +364,9 @@ class LiveConversation:
                 self.state = data['state']
             elif event == 'transcript' and data.get('role') in ('user', 'assistant') and isinstance(data.get('delta'), str):
                 self._transcript(data)
+            elif event == 'search' and self.state!='closing':
+                if self.searches.update('brain',data.get('call_id'),data.get('status')) and self.native and self.search_sound:
+                    if hasattr(self.native,'request_search_tone'):self.native.request_search_tone()
             elif event == 'closed': self._finish('ended')
 
     def _transcript(self, data):

@@ -1,0 +1,71 @@
+{
+  "test": "Pi, synthetic German speech, CDB staging_playground, no room microphone or speaker",
+  "states": [
+    {
+      "seconds": 0.0,
+      "state": "connecting"
+    },
+    {
+      "seconds": 1.8,
+      "state": "listening"
+    },
+    {
+      "seconds": 14.7,
+      "state": "thinking"
+    },
+    {
+      "seconds": 15.2,
+      "state": "speaking"
+    },
+    {
+      "seconds": 15.7,
+      "state": "thinking:brain"
+    },
+    {
+      "seconds": 16.3,
+      "state": "listening:brain"
+    },
+    {
+      "seconds": 17.3,
+      "state": "listening"
+    },
+    {
+      "seconds": 20.1,
+      "state": "speaking"
+    }
+  ],
+  "brain_seen": true,
+  "web_seen": false,
+  "input_peak": 1,
+  "output_peak": 0.82,
+  "stats": {
+    "capture_backend": "explicit-device",
+    "captured_frames": 2041,
+    "sent_frames": 1954,
+    "played_frames": 1914,
+    "search_tones": 0,
+    "event_types": {
+      "session.started": 1,
+      "session.input_transcript.delta": 20,
+      "session.delegation.created": 1,
+      "response.event:response.created": 1,
+      "response.event:response.in_progress": 2,
+      "session.output_transcript.delta": 63,
+      "response.event:response.output_item.added": 2,
+      "response.event:response.function_call_arguments.delta": 25,
+      "response.event:response.function_call_arguments.done": 1,
+      "response.event:response.output_item.done": 2,
+      "response.event:response.completed": 2,
+      "response.event:response.content_part.added": 1,
+      "response.event:response.output_text.delta": 52,
+      "response.event:response.output_text.done": 1,
+      "response.event:response.content_part.done": 1
+    },
+    "processes_alive": 2,
+    "closed": false
+  },
+  "mute_and_sound_toggle": true,
+  "interlocks": true,
+  "unlocked": true,
+  "ended_zero_wave": true
+}

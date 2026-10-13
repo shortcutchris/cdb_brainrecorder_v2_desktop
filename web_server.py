@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.22'
+VERSION = '0.5.23'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -290,7 +290,7 @@ class StudioApp:
                 if activity.occupied:raise ValueError(activity.reason)
                 return self.bluetooth.action(body)
             if self.bluetooth.busy():raise ValueError('Bluetooth wird eingerichtet. Bitte abschließen oder abbrechen.')
-            live_controls={'/api/live/start-native','/api/live/status','/api/live/pulse','/api/live/end','/api/live/mute'}
+            live_controls={'/api/live/start-native','/api/live/status','/api/live/pulse','/api/live/end','/api/live/mute','/api/live/preferences'}
             if self.live.busy() and path not in live_controls:
                 raise ValueError(self.activity().reason)
             if path.startswith('/api/live/'):
@@ -305,6 +305,7 @@ class StudioApp:
                 if path=='/api/live/start':raise ValueError('Live-Audio läuft jetzt direkt am Pi. Bitte die Oberfläche neu laden.')
                 if path=='/api/live/status':return self.live.status(lease)
                 if path=='/api/live/pulse':return self.live.pulse(lease)
+                if path=='/api/live/preferences':return self.live.preferences(body.get('search_sound'),lease)
                 if path=='/api/live/mute':return self.live.mute(lease,body.get('muted'))
                 if path=='/api/live/end':return self.live.end(lease)
                 raise KeyError('Unbekannte Gesprächsaktion.')
@@ -420,6 +421,8 @@ class StudioHandler(Handler):
     def get(self):
         if not self.authorized():return
         path=urlsplit(self.path).path
+        if path=='/api/live/activity':
+            self.respond(self.server.app.live.feedback());return
         if path=='/api/live/setup':
             self.respond(self.server.app.live.setup());return
         if path=='/favicon.ico':

@@ -2,7 +2,7 @@
 // Preferences stay in this kiosk profile and never change audio/model settings.
 (()=>{
  const root=document.documentElement,key='cdb-studio-theme',customKey='cdb-studio-custom-themes-v1';
- const labels={blue:'Blau · Hell',petrol:'Petrol · Hell',midnight:'Mitternacht',graphite:'Graphit'};
+ const labels={blue:'Blau · Hell',petrol:'Petrol · Hell',midnight:'Mitternacht',graphite:'Graphit',cdb:'Corporate Digital Brain'};
  const fields={surface:'Hintergrund',panel:'Flächen',capture:'Aufnahmebereich',ink:'Text',accent:'Akzentfarbe'};
  const tokens=['ink','muted','surface','panel','capture','line','accent','on-accent','soft','accent-text','ring','keyboard','scroll','player','wave','icon-filter','active-filter','on-icon'];
  const hex=value=>typeof value==='string'&&/^#[0-9a-f]{6}$/i.test(value);

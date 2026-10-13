@@ -40,3 +40,15 @@ body[data-workspace="live-view"] #live-view.workspace-view{grid-column:2;grid-ro
 #live-view #live-start,#live-view #live-end{margin-left:auto}
 
 .live-message p{overflow-wrap:anywhere}
+
+/* Fixed feedback slot: only transforms change, chat/footer never move with state. */
+.live-feedback{height:88px;min-height:88px;display:grid;grid-template-columns:minmax(220px,1fr) 200px 160px;align-items:center;gap:20px;padding:12px 16px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+.live-feedback-copy{min-width:0;display:flex;flex-direction:column;gap:6px}
+.live-feedback-copy strong{font-size:19px;line-height:24px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.live-feedback-copy span{font-size:13px;line-height:18px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.live-wave{height:48px;display:flex;align-items:center;justify-content:center;gap:5px;color:var(--accent-text)}
+.live-wave i{display:block;width:7px;height:44px;border-radius:5px;background:currentColor;transform:scaleY(.04);transition:transform 100ms linear}
+#live-sound{height:56px;min-height:56px;padding:0 12px;font-size:15px}
+.live-feedback[data-mode=search] .live-feedback-copy strong{animation:live-search-pulse 1.6s ease-in-out infinite}
+@keyframes live-search-pulse{50%{opacity:.55}}
+@media(prefers-reduced-motion:reduce){.live-wave i{transition:none}.live-feedback[data-mode=search] .live-feedback-copy strong{animation:none}}

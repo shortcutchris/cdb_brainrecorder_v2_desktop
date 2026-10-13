@@ -1,0 +1,11 @@
+{
+  "envelope_cpu_percent_one_core": 0.447,
+  "envelope_duplex_seconds_equivalent": 100,
+  "api_under_load": {
+    "competing_cpu_workers": 2,
+    "requests": 40,
+    "mean_ms": 1.65,
+    "max_ms": 17.21,
+    "max_payload_bytes": 314
+  }
+}
