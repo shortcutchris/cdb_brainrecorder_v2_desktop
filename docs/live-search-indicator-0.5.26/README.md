@@ -57,3 +57,12 @@ bestätigte Suchaufruf samt Audio-/UI-Zustand, nicht Transkriptionsqualität.
 Tatsächlicher Browserzustand während der bestätigten CDB-Websuche:
 
 ![CDB-Suche mit aktiver Tonanimation](../../output/playwright/live-0.5.26/03-cdb-search.png)
+
+## Produktiv aufgespielt
+
+Version **0.5.26**, Laufzeit-Commit `cd66db9`, auf dem Pi aktiviert. Backend und
+Touchdisplay-Kiosk laufen; alle sechs ausgelieferten Dateien stimmen per SHA256
+mit dem Commit überein (`deployment.json`). 22 Aufnahmen, Konfiguration, aktive
+Anbieter, Standardbereich und Anmeldung sind erhalten geblieben. Sicherung unter
+`/home/chris/backups/recorder-before-0.5.26`. Testinstanz beendet und temporäre
+Anmeldedatei entfernt.

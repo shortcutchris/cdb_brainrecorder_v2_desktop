@@ -1,0 +1,20 @@
+{
+  "version": "0.5.26",
+  "sessions_preserved": 22,
+  "configuration_preserved": true,
+  "account_preserved": true,
+  "services": [
+    "active",
+    "active"
+  ],
+  "sha256": {
+    "web_server.py": "ba20d53897cb3c80fde05e7fcdf69413af04142734ce48ce84ed84a8c7048e3b",
+    "services/live_audio.py": "ede4b6a63c9d3d6c3e11a2a19e40ddbe1ea9ac7c099acc5a0a08f8d59232108a",
+    "services/live_conversation.py": "441e1c50ea5a6282ca8ab9ef27e53fabf9a9b5a8d0cb5b4de12d1491b4589317",
+    "studio/live.js": "2091e8a4568eea5de00f8b7ea98f410060417ac13955a646887621cef053efe0",
+    "studio/live.css": "5e6dea94532151474e3e5c96285170bcf6c6b06e9df5f4348b1f012fd3399cac",
+    "studio/index.html": "16b38ab54207cd828cbb556dc7d0313d711db6fc9eb7f7f4ae21cbfbe712a5ff"
+  },
+  "runtime_commit": "cd66db90c1553cae76c8740336119023329cca79",
+  "hashes_match_commit": true
+}
