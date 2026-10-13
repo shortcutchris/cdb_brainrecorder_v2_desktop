@@ -87,3 +87,18 @@ Modellanbieter, Standardbereich und Anmeldung sind erhalten geblieben.
 `deployment.json` enthält den überprüften Stand. Vorheriger Stand gesichert unter
 `/home/chris/backups/recorder-before-0.5.24`. Die isolierte Testinstanz wurde beendet
 und ihre temporäre Anmeldedatei entfernt.
+
+## Bestätigter Hörtest am 13. Oktober 2026
+
+Nach der Rückmeldung „Suchton nicht gehört“ wurden Schalter, Ausgabegerät und
+Lautstärke geprüft. Ein direkter 7,2-Sekunden-Loop lief durch; der Benutzer
+bestätigte „Ja, gut hörbar“. Anschließend bestätigte er den Ton auch während
+einer selbst gestarteten echten Websuche („Suche fertig, Loop gehört“).
+
+Die beobachtete Websuche dauerte ungefähr zwei Sekunden. Sprache überlagerte
+einen großen Teil dieses Zeitraums; der Player lieferte 11 Blöcke bzw. 220 ms
+Suchaudio und pausierte dann. Nach Ende blieben keine Audioprozesse offen.
+Die Auswertung enthält keine Gesprächsinhalte oder Rohaufnahmen, siehe
+`user-listening-test.json`. Die Ursache des früheren, nicht beobachteten
+Versuchs lässt sich daraus nicht sicher rekonstruieren. Lautstärke und Code
+wurden bei dieser Nachprüfung nicht verändert.

@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-13",
+  "version": "0.5.24",
+  "direct_loop_human_confirmation": "Ja, gut hörbar",
+  "live_web_search_human_confirmation": "Suche fertig, Loop gehört",
+  "observed_search_seconds": 2.0,
+  "scheduled_loop_audio_seconds": 0.22,
+  "search_tones": 1,
+  "search_loop_pauses": 1,
+  "confirmed_web_calls": 1,
+  "audio_processes_after_close": 0,
+  "scope": "Read-only observation of the user-initiated conversation; no transcript or raw audio in this report. Polling times approximate; scheduled audio duration is not an acoustic measurement."
+}
