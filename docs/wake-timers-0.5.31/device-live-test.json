@@ -1,0 +1,1 @@
+{"synthetic_audio": true, "room_audio": false, "state": "speaking", "owner": "device", "turns": 2, "roles": ["user", "assistant"], "history": [{"role": "user", "text": "Wie ist ein künstlicher Geräte test? Sage bitte nur"}, {"role": "assistant", "text": "Meinst du"}], "released": true}

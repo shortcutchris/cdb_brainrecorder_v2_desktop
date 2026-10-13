@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.30'
+VERSION = '0.5.31'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -82,6 +82,105 @@ class StudioApp:
         self.display_preferences = self.store.root/'display-enabled.json'
         from services.respeaker_leds import ReSpeakerLeds
         self.respeaker = ReSpeakerLeds(self.store.root, self.respeaker_state, enabled=not preview and backend is None)
+        from services.wake_word import WakeWord
+        from services.schedules import Schedules
+        self.wake = WakeWord(self.store.root)
+        self.schedules = Schedules(self.store.root)
+        self.playback_leases = {}
+        self.ambient_stop = threading.Event()
+        self.alarm_id = None
+        self.clock_ready = False
+        self.ambient_error = ''
+        self.output_busy_until = 0
+        self.ambient_thread = threading.Thread(target=self.ambient_loop, daemon=True)
+        self.ambient_thread.start()
+
+    def wake_account(self):
+        # Refreshes are performed by the existing CDB session lifecycle, never by a detector.
+        account = self.display_account()
+        return account['binding'] if account else None
+
+    def wake_reason(self):
+        import time
+        activity = self.activity()
+        if activity.occupied: return activity.reason
+        if any(deadline > time.monotonic() for deadline in self.playback_leases.values()):
+            return 'Audiowiedergabe läuft.'
+        if self.alarm_id: return 'Timer-Signal läuft.'
+        if self.output_busy_until > time.monotonic(): return 'Audioausgabe am Pi läuft.'
+        return ''
+
+    def wake_start(self):
+        # Called under the same control/controller/recorder locks as Record and Live.
+        reason = self.wake_reason()
+        if reason: raise ValueError(reason)
+        if not self.wake.enabled or self.wake.account != self.wake_account():
+            raise ValueError('Brain-Anmeldung oder Freigabe hat sich geändert.')
+        self.require('live')
+        binding = self.wake.account
+        path = self.live.root/('areas-'+self.live._selection_key(binding)+'.json')
+        try: remembered = json.loads(path.read_text())
+        except (OSError, ValueError): raise ValueError('Im Live-Gespräch zuerst Wissensbereiche auswählen.') from None
+        if remembered.get('binding') != binding or not remembered.get('area_ids'):
+            raise ValueError('Im Live-Gespräch zuerst Wissensbereiche auswählen.')
+        self.live_audio_config()
+        lease = self.live.reserve(remembered['area_ids'], owner_kind='device')['lease']
+        try: self.live.start_native(lease)
+        except Exception:
+            self.live.end(lease)
+            raise
+
+    def ambient_loop(self):
+        import time
+        next_clock = 0
+        next_output = 0
+        while not self.ambient_stop.wait(.5):
+            try:
+                if time.monotonic() >= next_clock:
+                    try:
+                        result = subprocess.run(['timedatectl','show','-p','NTPSynchronized','--value'], capture_output=True,text=True,timeout=2)
+                        self.clock_ready = result.returncode == 0 and result.stdout.strip() == 'yes'
+                    except (OSError, subprocess.SubprocessError): self.clock_ready = False
+                    next_clock = time.monotonic()+60
+                if (self.wake.enabled or self.wake.test_until) and time.monotonic() >= next_output:
+                    try:
+                        output = subprocess.run(['pactl','-f','json','list','sink-inputs'],capture_output=True,text=True,timeout=2)
+                        if output.returncode != 0: raise ValueError()
+                        if any(not row.get('corked',False) for row in json.loads(output.stdout)):
+                            self.output_busy_until = time.monotonic()+2
+                    except (OSError, ValueError, subprocess.SubprocessError):
+                        self.output_busy_until = time.monotonic()+2
+                    next_output = time.monotonic()+1
+                self.schedules.tick(self.clock_ready)
+                with self.control_lock, self.controller.lock, self.engine.recorder.lock:
+                    if self.closing: return
+                    self.playback_leases = {key:value for key,value in self.playback_leases.items() if value>time.monotonic()}
+                    if self.alarm_id and self.speakers.test_status()['state'] != 'running':
+                        outcome = 'played' if self.speakers.test_status()['state']=='completed' else 'failed'
+                        self.schedules.sound_result(self.alarm_id, outcome)
+                        self.alarm_id = None
+                    reason = self.wake_reason()
+                    if not reason:
+                        for item in self.schedules.items():
+                            if item['state']=='due' and item['sound']=='pending':
+                                self.wake.suspend('Timer-Signal läuft.')
+                                # Claim before playback: at most one attempt after a crash.
+                                self.schedules.sound_result(item['id'],'attempted')
+                                try:
+                                    self.speakers.start_test()
+                                    self.alarm_id = item['id']
+                                except ValueError: self.schedules.sound_result(item['id'],'failed')
+                                break
+                    reason = self.wake_reason()
+                    self.wake.tick(account=self.wake_account(),reason=reason,
+                                   config=self.store.config(),trigger=self.wake_start)
+                    self.ambient_error = ''
+            except Exception as error:
+                with self.control_lock:
+                    self.wake.suspend(str(error) if isinstance(error,ValueError) else 'Lokale Bereitschaft unterbrochen. Geräte prüfen.')
+                    self.wake.cooldown = time.monotonic()+10
+                    self.ambient_error = 'Bereitschaft prüfen.'
+
 
     def display_account(self):
         import time
@@ -209,6 +308,8 @@ class StudioApp:
         state['respeaker'] = self.respeaker.public()
         state['live'] = self.live.public()
         state['display'] = self.display.status()
+        state['wake'] = self.wake.public()
+        state['timers'] = {'items': self.schedules.items(), 'clock_ready': self.clock_ready, 'voice_available': False}
         state['bluetooth'] = self.bluetooth.public()
         state.update(csrf=self.csrf, version=VERSION, preview=self.preview,
             namespace=hashlib.sha256(str(self.store.root).encode()).hexdigest()[:16])
@@ -298,6 +399,43 @@ class StudioApp:
         # Lock order matches state(): controller before recorder.
         with self.control_lock, self.controller.lock, self.engine.recorder.lock:
             if self.closing:raise ValueError('Dienst wird beendet. Änderungen bitte kurz aufbewahren.')
+            if path == '/api/playback':
+                import time
+                key = body.get('client')
+                if not isinstance(key,str) or not 8<=len(key)<=80 or type(body.get('playing')) is not bool:
+                    raise ValueError('Ungültiger Wiedergabestatus.')
+                if body['playing']:
+                    if len(self.playback_leases)>=20 and key not in self.playback_leases: raise ValueError('Zu viele Wiedergaben.')
+                    self.playback_leases[key]=time.monotonic()+6
+                    self.wake.suspend('Audiowiedergabe läuft.')
+                else: self.playback_leases.pop(key,None)
+                return {'ok':True}
+            if path == '/api/timers':
+                action = body.get('action')
+                if action == 'create':
+                    if body.get('kind')=='reminder' and not self.clock_ready: raise ValueError('Gerätezeit zuerst synchronisieren lassen.')
+                    return self.schedules.create(body)
+                result = self.schedules.change(body)
+                if self.alarm_id == body.get('id'):
+                    self.speakers.stop_test(); self.alarm_id=None
+                return result
+            if path == '/api/wake':
+                if body.get('action') == 'off': return self.wake.configure(False,None)
+                self.require('configure')
+                if body.get('action') == 'test': return self.wake.test()
+                if body.get('action') == 'on':
+                    setup=self.live.setup()
+                    if not setup['enabled']: raise ValueError('Voice One ist für dieses Brain-Konto nicht freigeschaltet.')
+                    if not setup.get('remembered_area_ids'): raise ValueError('Im Live-Gespräch zuerst Wissensbereiche auswählen.')
+                    self.live_audio_config()
+                    return self.wake.configure(True,self.wake_account())
+                raise ValueError('Unbekannte Aktivierungswort-Aktion.')
+            if path in ('/api/record/start','/api/live/reserve','/api/microphone/test') and self.alarm_id:
+                self.speakers.stop_test();self.schedules.sound_result(self.alarm_id,'interrupted');self.alarm_id=None
+            if path == '/api/cdb/logout': self.wake.configure(False,None)
+            if path not in ('/api/live/pulse','/api/live/status'):
+                self.wake.test_until=0
+                self.wake.suspend()
             if path == '/api/display/revoke':
                 return self.display.revoke()
             if path == '/api/display/control':
@@ -334,6 +472,8 @@ class StudioApp:
                 if self.engine.recorder.active:
                     raise ValueError('Aufnahme läuft. Bitte zuerst stoppen.')
                 lease=body.get('lease')
+                if path in ('/api/live/mute','/api/live/preferences') and self.live.owner_kind=='device':
+                    lease=self.live.lease
                 if path=='/api/live/start-native':return self.live.start_native(lease)
                 if path=='/api/live/start':raise ValueError('Live-Audio läuft jetzt direkt am Pi. Bitte die Oberfläche neu laden.')
                 if path=='/api/live/status':return self.live.status(lease)
@@ -438,6 +578,9 @@ class StudioApp:
     def close(self):
         with self.control_lock:
             self.closing=True
+            self.ambient_stop.set()
+            self.wake.test_until=0
+            self.wake.suspend()
             self.display.close()
             self.speakers.stop_test()
             if self.engine.recorder.active:self.engine.stop()
@@ -449,6 +592,7 @@ class StudioApp:
             if self.model_checks.thread:self.model_checks.thread.join(timeout=5)
             self.respeaker.close()
             self.engine.close()
+        self.ambient_thread.join(timeout=3)
 
 
 class StudioHandler(Handler):

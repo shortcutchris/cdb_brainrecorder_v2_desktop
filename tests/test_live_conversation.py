@@ -38,6 +38,16 @@ class LiveTests(unittest.TestCase):
         while not predicate() and time.monotonic()<until:time.sleep(.01)
         self.assertTrue(predicate())
     def reserve(self):return self.live.reserve([AREA])['lease']
+    def test_device_owner_retains_browser_timeout_and_activity_extension(self):
+        now=[100.];self.live.clock=lambda:now[0]
+        self.live.reserve([AREA],owner_kind='device')
+        self.assertEqual(self.live.deadline,220)
+        self.assertEqual(self.live.public()['owner_kind'],'device')
+        now[0]=130;self.live._transcript({'role':'user','delta':'Hallo'})
+        self.assertEqual(self.live.deadline,250)
+        self.live._finish('ended');self.live.reserve([AREA])
+        self.assertEqual(self.live.deadline,155)
+
     def test_display_preserves_more_than_200_turns_and_long_messages_after_restart(self):
         self.reserve()
         for i in range(305):

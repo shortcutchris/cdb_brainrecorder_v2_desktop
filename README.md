@@ -484,3 +484,12 @@ Haus-Symbol und große Kacheln öffnen die Bereiche direkt. Unter dem neuen
 Monitor-Symbol lässt sich ein Browser im selben Netzwerk per Code koppeln.
 Er zeigt den vollständigen aktuellen Gesprächsverlauf, mit Heartbeat und
 Wiederverbindung. [Bedienung, Grenzen und Testnachweise](docs/display-0.5.30/README.md).
+
+### 0.5.31 · Aktivierungswort und lokale Timer
+
+Unter **Einstellungen → Audio → Aktivierungswort** lässt sich „Okay Nabu“
+einschalten und lokal testen. Aufnahme, Pause, Gespräch und Wiedergabe haben
+Vorrang. **Timer & Erinnerungen** ist über ein eigenes Symbol erreichbar;
+Einträge überstehen einen Neustart. Alarme bleiben während Aufnahme/Gespräch
+zunächst leise. Timer-Sprachbefehle benötigen noch die CDB-Tool-Brücke.
+[Bedienung, Installation und Testnachweise](docs/wake-timers-0.5.31/README.md).

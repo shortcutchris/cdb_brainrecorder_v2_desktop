@@ -29,6 +29,35 @@ class StudioTests(unittest.TestCase):
             with urllib.request.urlopen(req,timeout=8) as r:return r.status,r.read(),r.headers
         except urllib.error.HTTPError as e:
             with e:return e.code,e.read(),e.headers
+    def test_timers_survive_audio_locks_and_require_csrf(self):
+        body={'action':'create','kind':'timer','label':'Test','seconds':30,'request_id':'studio-timer'}
+        self.assertEqual(self.request('/api/timers',body,{'X-CSRF-Token':'bad'})[0],403)
+        self.app.engine.recorder.active={'id':'lock','paused':True}
+        try:
+            self.assertEqual(self.request('/api/timers',body)[0],200)
+            self.assertEqual(self.request('/api/wake',{'action':'test'})[0],400)
+            self.assertEqual(self.request('/api/wake',{'action':'on'})[0],400)
+        finally:self.app.engine.recorder.active=None
+        with patch.object(self.app.live,'busy',return_value=True):
+            item=self.app.schedules.items()[0]
+            self.assertEqual(self.request('/api/timers',{'action':'cancel','id':item['id'],'revision':item['revision']})[0],200)
+        self.assertEqual(self.app.schedules.items()[0]['state'],'cancelled')
+
+    def test_wake_is_preempted_before_record_and_live(self):
+        with patch.object(self.app.wake,'suspend') as suspend,patch.object(self.app.engine,'start',return_value='synthetic') as start:
+            self.app.engine.configure({'setup_complete':True})
+            self.assertEqual(self.request('/api/record/start',{})[0],200)
+            self.assertTrue(suspend.called);start.assert_called_once()
+        with patch.object(self.app.live,'busy',return_value=True),patch.object(self.app.live,'public',return_value={'state':'connecting','busy':True}):
+            self.assertEqual(self.request('/api/wake',{'action':'test'})[0],400)
+            self.assertEqual(self.request('/api/wake',{'action':'off'})[0],200)
+
+    def test_browser_playback_holds_detector_and_expires(self):
+        self.assertEqual(self.request('/api/playback',{'client':'browser-test','playing':True})[0],200)
+        self.assertEqual(self.app.wake_reason(),'Audiowiedergabe läuft.')
+        self.assertEqual(self.request('/api/playback',{'client':'browser-test','playing':False})[0],200)
+        self.assertNotEqual(self.app.wake_reason(),'Audiowiedergabe läuft.')
+
     def test_display_control_is_loopback_csrf_protected_and_recording_locked(self):
         self.app.display.address=('127.0.0.1',0)
         self.assertEqual(self.request('/api/display/control',{'action':'enable'},{'X-CSRF-Token':'bad'})[0],403)

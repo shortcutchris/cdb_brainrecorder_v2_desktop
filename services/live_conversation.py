@@ -45,6 +45,7 @@ class LiveConversation:
         self.state = 'idle'
         self.error = ''
         self.lease = None
+        self.owner_kind = 'browser'
         self.handle = None
         self.answer = None
         self.binding = None
@@ -80,7 +81,7 @@ class LiveConversation:
             return {'state': self.state, 'busy': self.state in ACTIVE, 'error': self.error,
                     'muted': self.muted, 'areas': list(self.areas), 'history': [dict(h) for h in self.history],
                     'model': 'CDB Voice One', 'started_at': getattr(self, 'started_at', None),
-                    'transport': 'pi' if self.audio_config else 'browser', 'feedback':self.feedback(),
+                    'owner_kind': self.owner_kind, 'transport': 'pi' if self.audio_config else 'browser', 'feedback':self.feedback(),
                     'audio_stats': self.native.stats() if self.native and hasattr(self.native, 'stats') else {}}
 
     def feedback(self):
@@ -181,7 +182,7 @@ class LiveConversation:
                     self.state = 'ended'; break
                 except (ValueError, OSError): continue
 
-    def reserve(self, area_ids):
+    def reserve(self, area_ids, *, owner_kind="browser"):
         if not isinstance(area_ids, list) or not 1 <= len(area_ids) <= 8 or any(not isinstance(x, str) for x in area_ids) or len(set(area_ids)) != len(area_ids):
             raise ValueError('Bitte ein bis acht unterschiedliche Knowledge Areas wählen.')
         if any(not isinstance(x, str) or not UUID.fullmatch(x) for x in area_ids):
@@ -193,6 +194,7 @@ class LiveConversation:
             self.account_generation = self.cdb.generation
             self.restored_binding = dict(self.binding)
             self.generation += 1
+            self.owner_kind = owner_kind
             self.lease = secrets.token_urlsafe(32)
             self.state = 'connecting'
             self.error = ''
@@ -204,7 +206,7 @@ class LiveConversation:
             self.searches=SearchActivity(self.clock)
             self.area_ids = list(area_ids)
             self.areas = []
-            self.deadline = self.clock() + 25
+            self.deadline = self.clock() + (120 if owner_kind == "device" else 25)
             self.maximum = self.clock() + 1200
             self.started_at = time.time()
             self.started_request = False
@@ -419,6 +421,10 @@ class LiveConversation:
             elif event == 'closed': self._finish('ended')
 
     def _transcript(self, data):
+        if self.owner_kind == "device": self.deadline = self.clock()+120
+        self._append_transcript(data)
+
+    def _append_transcript(self, data):
         """Join each speaker's concurrent stream independently.
 
         TQS currently supplies no utterance ID: start/end are audio offsets, not

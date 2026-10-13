@@ -174,7 +174,7 @@
   $('live-wave').style.visibility=ready?'hidden':'visible';$('live-sound').style.visibility=ready?'hidden':'visible';feedbackText('live-feedback-title',p.title);feedbackText('live-feedback-detail',p.detail);$('live-feedback').dataset.mode=p.mode;
   $('live-wave').setAttribute('aria-label',p.mode==='speaking'?'Pegel der Antwort':'Mikrofonpegel');
   for(let i=0;i<16;i++){const v=Number(p.bars?.[i]);$('live-bar-'+i).style.transform='scaleY('+(.04+.96*(Number.isFinite(v)?Math.min(1,Math.max(0,v)):0))+')'}
-  feedbackText('live-sound',f?.search_sound===false?'Suchton aus':'Suchton an');$('live-sound').setAttribute('aria-pressed',String(f?.search_sound!==false));$('live-sound').disabled=!online||soundSaving||Boolean(f?.active&&!lease);
+  feedbackText('live-sound',f?.search_sound===false?'Suchton aus':'Suchton an');$('live-sound').setAttribute('aria-pressed',String(f?.search_sound!==false));$('live-sound').disabled=!online||soundSaving||Boolean(f?.active&&!lease&&state?.live?.owner_kind!=='device');
  }
  let feedbackLoading=false,soundSaving=false;
  async function refreshFeedback(){
@@ -189,7 +189,7 @@
   const owner=ownerKey();if(owner!==loadedOwner&&!active){loadedOwner=owner;setup=null;chosen.clear();requestedAreas=[];selectedOnly=false;selectionInitialized=false;setupLoading=false;setupError='';loadSerial++;areaQuery='';$('live-area-search').value='';areaPage=0;}
   $('live-status').textContent='CDB Voice One';$('live-setup').hidden=active||history;$('live-chat').hidden=!active&&!history;
   $('live-start').hidden=active||history;$('live-end').hidden=!active;$('live-end').disabled=ending||live.state==='closing';
-  $('live-mute').hidden=!active;$('live-mute').disabled=!lease||ending||live.state==='closing';$('live-mute').textContent=live.muted?'Mikro einschalten':'Mikro stumm';$('live-mute').setAttribute('aria-pressed',String(Boolean(live.muted)));
+  $('live-mute').hidden=!active;$('live-mute').disabled=(!lease&&live.owner_kind!=='device')||ending||live.state==='closing';$('live-mute').textContent=live.muted?'Mikro einschalten':'Mikro stumm';$('live-mute').setAttribute('aria-pressed',String(Boolean(live.muted)));
   $('live-refresh').hidden=active||history;$('live-audio-settings').hidden=active||history;$('live-new').hidden=active||!history;
   $('live-start').disabled=!online||recording||!setup?.enabled||setupLoading||!chosen.size||chosen.size>maxAreas()||!setup?.audio?.available;
   $('live-refresh').disabled=setupLoading||!online;$('live-audio-settings').disabled=active||recording||!online;
@@ -212,7 +212,7 @@
   }catch(e){if(runId===generation){await finish().catch(()=>{});note(e.message);}throw e;}
  });
  $('live-end').onclick=run(finish);
- $('live-mute').onclick=run(async()=>{if(!lease)return;await post('mute',{lease,muted:!state?.live?.muted});await poll()});
+ $('live-mute').onclick=run(async()=>{if(!lease&&state?.live?.owner_kind!=='device')return;await post('mute',{lease,muted:!state?.live?.muted});await poll()});
  window.addEventListener('pagehide',()=>{stopHeartbeat();if(lease)fetch('/api/live/end',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({lease}),keepalive:true}).catch(()=>{})});
  window.addEventListener('offline',()=>{if(lease)finish().catch(()=>{})});
  renderLive();

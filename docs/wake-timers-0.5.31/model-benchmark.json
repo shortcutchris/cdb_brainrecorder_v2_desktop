@@ -1,0 +1,79 @@
+{
+  "samples": [
+    {
+      "file": "alexa-1.wav",
+      "seconds": 2.0,
+      "detections": 0,
+      "cpu_seconds": 0.0366
+    },
+    {
+      "file": "alexa-2.wav",
+      "seconds": 2.0,
+      "detections": 0,
+      "cpu_seconds": 0.0151
+    },
+    {
+      "file": "alexa-3.wav",
+      "seconds": 2.0,
+      "detections": 0,
+      "cpu_seconds": 0.012
+    },
+    {
+      "file": "hey_jarvis-1.wav",
+      "seconds": 2.0,
+      "detections": 0,
+      "cpu_seconds": 0.0091
+    },
+    {
+      "file": "hey_jarvis-2.wav",
+      "seconds": 2.0,
+      "detections": 0,
+      "cpu_seconds": 0.0113
+    },
+    {
+      "file": "hey_jarvis-3.wav",
+      "seconds": 0.935,
+      "detections": 0,
+      "cpu_seconds": 0.0076
+    },
+    {
+      "file": "hey_mycroft-1.wav",
+      "seconds": 2.0,
+      "detections": 0,
+      "cpu_seconds": 0.0102
+    },
+    {
+      "file": "hey_mycroft-2.wav",
+      "seconds": 2.5,
+      "detections": 0,
+      "cpu_seconds": 0.0112
+    },
+    {
+      "file": "hey_mycroft-3.wav",
+      "seconds": 2.5,
+      "detections": 0,
+      "cpu_seconds": 0.0108
+    },
+    {
+      "file": "okay_nabu-1.wav",
+      "seconds": 3.72,
+      "detections": 16,
+      "cpu_seconds": 0.016
+    },
+    {
+      "file": "okay_nabu-2.wav",
+      "seconds": 2.0,
+      "detections": 19,
+      "cpu_seconds": 0.0086
+    },
+    {
+      "file": "okay_nabu-3.wav",
+      "seconds": 7.221,
+      "detections": 34,
+      "cpu_seconds": 0.0315
+    }
+  ],
+  "rss_kib": 31168,
+  "cpu_seconds": 0.207,
+  "wall_seconds": 0.193
+}

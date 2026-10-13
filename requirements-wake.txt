@@ -1,0 +1,3 @@
+# ARM64 Pi runtime; small built-in Okay Nabu model, no cloud detection.
+pymicro-wakeword==2.5.0
+pymicro-features==2.0.2
