@@ -418,3 +418,8 @@ keine Kopplung und schaltet Profile nicht selbstständig um. Bluetooth-Lautsprec
 werden bereits über die Lautsprecherauswahl angeboten, sobald sie verbunden sind.
 
 Details, Tests und ReSpeaker-Diagnose: [Aufnahmesteuerung 0.5.17](docs/capture-0.5.17/README.md).
+
+## ReSpeaker XVF3800 am Raspberry Pi
+
+[Anschluss, erneutes Verbinden, Firmware und Fehlerbehebung](docs/respeaker.md).
+Die Firmware bleibt im Mikrofon gespeichert: Beim erneuten Anschließen ist **kein erneutes Flashen** nötig. Ein neues Gerät mit I²S-Firmware muss dagegen einmalig auf USB umgestellt werden. Die Anleitung enthält die geprüfte Version, Safe Mode, Mikrofontest, Mute/Pause, LED-Status und Diagnosebefehle.

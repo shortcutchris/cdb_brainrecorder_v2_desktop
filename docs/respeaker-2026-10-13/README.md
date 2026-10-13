@@ -1,5 +1,7 @@
 # ReSpeaker XVF3800 am Pi · 13.10.2026
 
+Für den laufenden Betrieb: [Anschluss- und Wartungsanleitung](../respeaker.md). Dieses Dokument hält die konkrete Installation und ihre Messergebnisse fest.
+
 ## Ergebnis
 
 Mit ausdrücklicher Zustimmung des Benutzers wurde im Safe Mode die offizielle USB-Firmware **2.1.1**, Variante mit zwei Kanälen, in die **Upgrade-Partition (alt 1)** installiert. Factory- und DataPartition wurden nicht gezielt beschrieben. Die zuvor installierte Betriebsfirmware war nicht auslesbar und wurde nicht gesichert. Der ursprüngliche I²S-Modus bleibt daher eine plausible Diagnose, keine bestätigte Versionsmessung.

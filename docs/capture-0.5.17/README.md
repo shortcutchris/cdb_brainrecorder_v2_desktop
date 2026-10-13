@@ -20,6 +20,8 @@ Auswahl ergänzt um verbundene Bluetooth-Mikrofone aus PipeWire/PulseAudio. Moni
 
 ## ReSpeaker XVF3800: Diagnose und Quellen
 
+**Nachtrag:** USB-Firmware 2.1.1 wurde nach Zustimmung installiert; Gerät und LEDs getestet. Die folgenden Diagnoseangaben beschreiben den Stand vor diesem Wechsel. Aktuell: [Anschluss- und Wartungsanleitung](../respeaker.md), [Installationsnachweis](../respeaker-2026-10-13/README.md).
+
 Zunächst erschien das eingeschaltete Gerät weder in `lsusb` noch in `arecord -l`. Der USB-Audiotreiber war bereits geladen. Nach dem vom Benutzer ausgelösten Safe Mode wurde **2886:001a, reSpeaker XVF3800 4-Mic Array**, einschließlich DFU Upgrade/Factory/DataPartition erkannt. Die USB-Verbindung funktioniert somit grundsätzlich. Der ursprüngliche Firmwarestand ist unbekannt; I²S-Modus ist eine plausible Ursache, nicht ausgelesen bestätigt.
 
 Seeed dokumentiert für die XIAO-ESP32S3-Variante ab Werk I²S-Firmware, die nicht als USB-Audiogerät erscheint. Die USB-Firmware unterstützt Raspberry Pi OS ohne separaten Audio-Kerneltreiber. LED-Steuerung ist über das offizielle Python-Hosttool möglich. Ein Firmwarewechsel ist separat mit dem Benutzer abzustimmen.
@@ -34,4 +36,4 @@ Offizielles Repository lokal geprüft bei Commit `4b49bfd19977c63cf6e90dfe9e5827
 
 ## Produktiv installiert
 
-Studio **0.5.17**, Engine **0.2.7** auf dem Pi installiert; Backend und Kiosk aktiv. Alle 22 vorhandenen Aufnahmen, Modellkonfiguration, Brain-Anmeldung und Standardbereich erhalten. Dateihashes lokal/remote identisch (siehe `deployment.json`). Rücksicherung inklusive vorheriger Engine unter `/home/chris/backups/recorder-before-0.5.17`. Separater Vorschaudienst beendet, temporäre Anmeldung entfernt. Das ReSpeaker befindet sich noch im Safe Mode; Firmwarewechsel wartet auf Zustimmung, deshalb noch kein echter Mikrofon-Audiotest.
+Studio **0.5.17**, Engine **0.2.7** auf dem Pi installiert; Backend und Kiosk aktiv. Alle 22 vorhandenen Aufnahmen, Modellkonfiguration, Brain-Anmeldung und Standardbereich erhalten. Dateihashes lokal/remote identisch (siehe `deployment.json`). Rücksicherung inklusive vorheriger Engine unter `/home/chris/backups/recorder-before-0.5.17`. Separater Vorschaudienst beendet, temporäre Anmeldung entfernt. Zum Zeitpunkt dieses App-Rollouts befand sich das ReSpeaker noch im Safe Mode. Der anschließend genehmigte Firmwarewechsel und die echten Mikrofontests sind im oben verlinkten Installationsnachweis dokumentiert.
