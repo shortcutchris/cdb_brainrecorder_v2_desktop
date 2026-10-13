@@ -25,9 +25,9 @@ function renderSpeakers(){
  $('speaker-led').dataset.ready=String(online&&c.usable);
  $('speaker-description').textContent=speakerError||d?.message||'Audioausgänge werden geladen.';
  const matching=test.device===selected||!test.device;
- $('speaker-test-label').textContent=c.running?'Wird abgespielt …':matching&&test.state==='completed'?'Testton beendet':matching&&test.state==='failed'?'Fehlgeschlagen':'Bereit zum Prüfen';
+ $('speaker-test-label').textContent=!c.usable?'Kein Ausgang':c.running?'Wird abgespielt …':matching&&test.state==='completed'?'Testton beendet':matching&&test.state==='failed'?'Fehlgeschlagen':'Bereit zum Prüfen';
  $('speaker-test-label').dataset.running=String(c.running);
- $('speaker-test-status').textContent=!online?'Verbindung zum Pi prüfen.':state?.recording.id?'Während der Aufnahme gesperrt.':c.running?test.message:d?.muted?'Vor dem Testton den Ton einschalten.':c.usable&&d.volume===0?'Vor dem Testton die Lautstärke erhöhen.':matching&&['completed','failed','cancelled'].includes(test.state)?test.message:'Zwei kurze Töne: erst links, dann rechts.';
+ $('speaker-test-status').textContent=!online?'Verbindung zum Pi prüfen.':state?.recording.id?'Während der Aufnahme gesperrt.':c.running?test.message:!c.usable?'Zuerst einen Lautsprecher anschließen und auswählen.':d?.muted?'Vor dem Testton den Ton einschalten.':c.usable&&d.volume===0?'Vor dem Testton die Lautstärke erhöhen.':matching&&['completed','failed','cancelled'].includes(test.state)?test.message:'Zwei kurze Töne: erst links, dann rechts.';
 }
 async function loadSpeakers(force=false){
  if(speakerLoading||speakerBusy||!online||state?.recording.id)return;

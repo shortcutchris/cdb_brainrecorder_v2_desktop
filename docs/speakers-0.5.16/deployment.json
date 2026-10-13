@@ -1,0 +1,18 @@
+{
+  "version": "0.5.16",
+  "sessions_preserved": 22,
+  "configuration_preserved": true,
+  "account_preserved": true,
+  "services": [
+    "active",
+    "active"
+  ],
+  "sha256": {
+    "web_server.py": "cca59c16d74984434d66ea341020866d286251d48fb8045aa5a7055ca17edf90",
+    "services/audio_output.py": "8272515af5a3905a825608ad6100bc31ada09ddeafce72d608d5efedc05cd51f",
+    "studio/index.html": "50166b76c4503d4c9c2dc0294c405fb3ae967ef25bce2fc4f098e9c6963e39b9",
+    "studio/settings.js": "ada3841fc413ab507c9548c5a2b72adea688b05bea6b6d778b1573bbf121e873",
+    "studio/speakers.js": "64a43fbf3951ed397b11fe1c46e3f3d833f6f54270a73c43c92558b0eb5fffee",
+    "studio/speakers.css": "c126df46ffa86e1a1140e0bed19d34b99aacd5af085c9ea567a3d98c60ea00d8"
+  }
+}

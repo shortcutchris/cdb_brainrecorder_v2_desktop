@@ -19,3 +19,7 @@ PipeWire-Dokumentation zum verwendeten Testausgang: [Null Sink](https://docs.pip
 ## Vorschauen
 
 [Audioübersicht](01-audio.png) · [Lautsprecher hell](02-speakers-light.png) · [Stumm](03-muted.png) · [Testton läuft](04-tone-running.png).
+
+## Produktiver Pi
+
+Version 0.5.16 läuft mit aktivem Backend und Kiosk. Sicherung: `/home/chris/backups/recorder-before-0.5.16`. Alle 22 Aufnahmen, aktive Modelle, Brain-Anmeldung und Standardbereich erhalten. Sechs ausgelieferte Dateien per SHA256 abgeglichen (`deployment.json`). Produktive Geräteübersicht: kein physischer Ausgang, deshalb Auswahl/Lautstärke/Testton deaktiviert; Geräte aktualisieren bleibt möglich. [Produktive dunkle Ansicht](05-production-no-speaker.png). Bei 1280 × 720: Inhaltsbereich 532 px ohne Überlauf, Fußleistenaktionen jeweils 208 × 56 px.
