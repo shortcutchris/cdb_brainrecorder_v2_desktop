@@ -1,0 +1,26 @@
+{
+  "soft-bells": {
+    "sample_rate": 24000,
+    "channels": 1,
+    "bits": 16,
+    "loop_seconds": 3,
+    "preview_seconds": 12,
+    "peak_dbfs": -24.0,
+    "rms_dbfs": -38.27,
+    "first_sample": 0.0,
+    "last_sample": 0.0,
+    "preview_gain_db": 10
+  },
+  "warm-plucks": {
+    "sample_rate": 24000,
+    "channels": 1,
+    "bits": 16,
+    "loop_seconds": 3,
+    "preview_seconds": 12,
+    "peak_dbfs": -24.0,
+    "rms_dbfs": -36.95,
+    "first_sample": 0.0,
+    "last_sample": 0.0,
+    "preview_gain_db": 10
+  }
+}
