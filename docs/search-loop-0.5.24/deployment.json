@@ -1,0 +1,19 @@
+{
+  "version": "0.5.24",
+  "sessions_preserved": 22,
+  "configuration_preserved": true,
+  "account_preserved": true,
+  "services": [
+    "active",
+    "active"
+  ],
+  "sha256": {
+    "web_server.py": "4464df7b66a0d2efeabd1817237bdb9a1c50121c50ef05462dfd0e98738eb7cf",
+    "services/live_audio.py": "aa74fd89ffc5c80b1344759a046238d1ee27497e1e037252e7474cc64f6a8916",
+    "services/live_conversation.py": "eacaed50c2c4b82019d52b7f67e02cbf8e9f93dff1675d296864859fd66b0936",
+    "services/live_feedback.py": "cd4ed608d2a6011c9ee35272da59e0d26cb31544edc2a95d986edfd6aba06982",
+    "studio/sounds/search-loop.wav": "b847020fdc7a9be954e256088e06eb3348a79ba4ce27de85dbc3345254f044a8"
+  },
+  "runtime_commit": "787a93041ba73e50e361828d423f306ed7041655",
+  "committed_files_verified": true
+}

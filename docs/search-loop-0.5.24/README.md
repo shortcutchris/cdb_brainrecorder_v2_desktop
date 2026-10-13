@@ -19,7 +19,8 @@ Der erste Hardwaretest zeigte Selbstunterbrechungen: Das ReSpeaker hörte die
 Marshall-Wiedergabe und die bisherige reine Pegelschwelle wertete sie als Sprache.
 Eine vorübergehend getestete PipeWire-Echokompensation löste das bei dieser
 Bluetooth-Verbindung nicht ausreichend; das Testmodul wurde wieder entfernt.
-Es wurden keine permanenten PipeWire-Konfigurationen oder Audio-Defaults verändert.
+Es wurde keine dauerhafte PipeWire-Konfiguration angelegt; die explizit ausgewählten
+Ein- und Ausgabegeräte der App bleiben unverändert.
 
 Die endgültige Lösung spielt den Loop 12 dB leiser als die Quelldatei ab
 (Spitzenpegel ca. −36 dBFS, Hörprobe nochmals 10 dB lauter als die Quelldatei).
@@ -76,3 +77,13 @@ Beim ersten Durchlauf war der Suchton in der vorhandenen Testinstanz ausgeschalt
 die Prüfung bemerkte korrekt die fehlende Wiedergabe. Der abschließende Lauf
 aktivierte die Einstellung ausdrücklich. Produktive Einstellungen blieben dabei
 unverändert.
+
+## Produktiv aufgespielt
+
+Version **0.5.24**, Laufzeit-Commit `787a930`, auf dem Pi aktiviert. Backend und
+Touchdisplay-Kiosk laufen. Alle fünf ausgelieferten Dateien wurden per SHA256
+gegen den Git-Commit geprüft. 22 vorhandene Aufnahmen, Gerätekonfiguration,
+Modellanbieter, Standardbereich und Anmeldung sind erhalten geblieben.
+`deployment.json` enthält den überprüften Stand. Vorheriger Stand gesichert unter
+`/home/chris/backups/recorder-before-0.5.24`. Die isolierte Testinstanz wurde beendet
+und ihre temporäre Anmeldedatei entfernt.
