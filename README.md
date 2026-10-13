@@ -1,5 +1,12 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.18 – ReSpeaker-LEDs und Live-Gespräch
+
+Der ReSpeaker-Ring zeigt Aufnahme blau, Pause gelb und App-Stumm rot blinkend. Die physische Stummtaste behält ihre eigene rote Anzeige. In der Navigation öffnet **Live-Gespräch** CDB Voice One mit ein bis acht Knowledge Areas, Browser-Mikrofonwahl und lokalem Chatverlauf. Eine zentrale Zustandsprüfung sperrt Aufnahme und Gespräch gegenseitig, auch bei Verbindungsaufbau, Abbruch und mehreren Browsern.
+
+[Bedienung und Grenzen](docs/live-conversation.md) · [ReSpeaker einrichten](docs/respeaker.md) · [Abnahme und Screenshots](docs/leds-live-0.5.18/README.md)
+
+
 ## 0.5.11 – Mikrofon und Testplayer
 
 Die Audioseite nutzt zwei feste Spalten: Mikrofon, Live-Pegel und ein Player im aktiven Theme links, geordnete Einrichtungsprüfungen rechts. Alte Testaufnahmen werden von einem aktuellen Eingangssignal unterschieden. [Prüfung und Screenshots](docs/audio-0.5.11/README.md).
@@ -11,7 +18,7 @@ Aktives Modell und Teststatus bleiben klar getrennt. Ergebnisse bleiben pro Mode
 
 Eine Desktop-Anwendung zum Aufzeichnen, Verwalten und Wiedergeben von Audio-Sessions mit Raspberry Pi Touch-Optimierung.
 
-## Aktueller Raspberry-Pi-Stand: Touch-Oberfläche 0.5.11
+## Raspberry-Pi-Grundfunktionen
 
 Der Pi verwendet die HTML-Studio-Oberfläche mit dem vorhandenen Python-Backend, der bisherigen Meeting-Datenbank und lokalen Whisper-/Ollama-Modellen. Installation, Autostart, isolierte Funktionsvorschau und Rückkehr zur bisherigen Oberfläche: [docs/STUDIO.md](docs/STUDIO.md). Gestaltung und Prüfungsumfang: [design-qa.md](design-qa.md). Die gemeinsame Python-Engine ist auf Version 0.2.6 gepinnt. Zustandsregeln und Entwurfswiederherstellung: [docs/STUDIO.md](docs/STUDIO.md).
 
@@ -409,7 +416,7 @@ Während der Aufnahme stehen unter der Pegelanzeige zwei Touchbuttons bereit:
 Ein stummgeschaltetes Mikrofon bleibt auch nach dem Fortsetzen stumm, bis es ausdrücklich eingeschaltet wird.
 Bibliothek, Warteschlange und Einstellungen bleiben während einer Pause gesperrt.
 **Stoppen** schließt die Aufnahme auch im Pausenzustand ab und stellt genau einen Auftrag in die Warteschlange.
-Notizen können weiterhin bearbeitet werden. Die App-Stummschaltung steuert noch keine Hardware-LEDs.
+Notizen können weiterhin bearbeitet werden. Ab Studio 0.5.18 zeigt der ReSpeaker-Ring App-Stumm durch rotes Blinken, Aufnahme blau und Pause gelb. Die physische Mute-Taste bleibt unabhängig und hat Vorrang.
 
 Verbundene Bluetooth-Mikrofone erscheinen zusätzlich in der Mikrofonauswahl, wenn
 PipeWire/PulseAudio sie im Headset-/Freisprechprofil als Quelle bereitstellt.

@@ -10,6 +10,12 @@ function renderCaptureControls(){
   const label=r.paused?(r.muted?'Pausiert · Mikro stumm':'Aufnahme pausiert'):r.muted?'Mikrofon stumm':'Aufnahme läuft';
   $('mic-name').textContent=label;$('mic-settings').setAttribute('aria-label',label);$('mic-settings').dataset.status=r.paused||r.muted?'waiting':'ready';
   $('recording-lock').textContent=r.paused?'Pausiert · Keine Audiodaten werden gespeichert.':r.muted?'Mikro stumm · Die Aufnahme speichert Stille.':'Aufnahme läuft · Einstellungen bleiben gesperrt.';
+  if(state?.respeaker?.hardware_muted){
+   $('mic-name').textContent='ReSpeaker am Gerät stumm';$('mic-settings').setAttribute('aria-label','ReSpeaker am Gerät stumm');$('mic-settings').dataset.status='waiting';
+   $('recording-lock').textContent='ReSpeaker am Gerät stumm · Zum Einschalten die Taste am Mikrofon drücken.';
+  }else if(state?.respeaker?.state==='error'){
+   $('recording-lock').textContent+=' LED-Anzeige nicht erreichbar.';
+  }
   if(captureControlBusy)$('record').disabled=true;
  }
 }

@@ -38,6 +38,27 @@ class StudioTests(unittest.TestCase):
             self.assertEqual(self.request('/api/record/control',{'paused':True})[0],200)
             control.assert_called_once_with(paused=True)
 
+    def test_live_and_recorder_share_server_side_interlock(self):
+        area='11111111-1111-1111-1111-111111111111'
+        with patch.object(self.app.cdb,'read',return_value={'identity':{'user_id':'test'}}), patch.object(self.app.live,'_binding',return_value={'server':'https://staging.cdbos.de','user_id':'test','client_id':area}):
+            self.app.engine.recorder.active={'id':'lock'}
+            try:self.assertEqual(self.request('/api/live/reserve',{'area_ids':[area]})[0],400)
+            finally:self.app.engine.recorder.active=None
+            self.assertEqual(self.request('/api/live/reserve',{'area_ids':[area]},{'X-CSRF-Token':'bad'})[0],403)
+            status,body,_=self.request('/api/live/reserve',{'area_ids':[area]})
+            self.assertEqual(status,200);lease=json.loads(body)['lease']
+            for mode in ('connecting','listening','thinking','speaking','reconnecting','closing'):
+                self.app.live.state=mode
+                for path in ('/api/record/start','/api/settings','/api/speakers/test','/api/cdb/logout','/api/live/reserve'):
+                    with self.subTest(mode=mode,path=path):self.assertEqual(self.request(path,{})[0],400)
+            self.app.live.state='connecting'
+            self.assertEqual(self.request('/api/live/pulse',{'lease':'other-browser'})[0],400)
+            self.assertEqual(self.request('/api/live/end',{'lease':lease})[0],200)
+            self.assertTrue(self.app.live.finished.wait(2))
+            self.assertTrue(self.app.capabilities()['configure']['allowed'])
+            self.assertTrue(self.app.capabilities()['live']['allowed'])
+            self.assertEqual(self.request('/api/settings',{'threads':2})[0],200)
+
     def test_speaker_routes_are_protected_and_recording_interlocked(self):
         with patch.object(self.app.speakers,'public',return_value={'devices':[]}), patch.object(self.app.speakers,'configure',return_value={'ok':True}) as configure:
             self.assertEqual(self.request('/api/speakers')[0],200)
@@ -90,7 +111,7 @@ class StudioTests(unittest.TestCase):
         self.assertEqual(self.request('/api/record/start',{})[0],400)
         with self.assertRaises(ValueError):StudioServer(('0.0.0.0',0),self.app)
         self.assertIn("script-src 'self'",self.request('/')[2]['Content-Security-Policy'])
-        self.assertEqual(self.request('/')[2]['Permissions-Policy'],'microphone=(), camera=()')
+        self.assertEqual(self.request('/')[2]['Permissions-Policy'],'microphone=(self), camera=()')
     def test_audio_stream_range_and_export_use_session_mapping(self):
         status,data,headers=self.request(f'/api/sessions/{self.sid}/audio',headers={'Range':'bytes=4-19'})
         self.assertEqual(status,206);self.assertEqual(len(data),16);self.assertEqual(headers['Content-Range'],'bytes 4-19/32044')

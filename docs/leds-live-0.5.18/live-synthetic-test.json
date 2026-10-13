@@ -1,0 +1,12 @@
+{
+  "synthetic_audio_only": true,
+  "area": "staging_playground",
+  "recording_locked": true,
+  "sdp_answer": true,
+  "peer_state": "connected",
+  "received_audio_frames": 1296,
+  "user_turns": 1,
+  "assistant_turns": 1,
+  "audio_released": true,
+  "recording_unlocked": true
+}

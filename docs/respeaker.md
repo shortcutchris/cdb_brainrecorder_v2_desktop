@@ -1,6 +1,6 @@
 # ReSpeaker XVF3800: Anschluss, Einrichtung und Wartung
 
-Gültig für unseren Raspberry-Pi-Recorder mit **Seeed Studio reSpeaker XVF3800 USB 4-Mic Array mit Gehäuse**. Geprüfter Stand: 13.10.2026, Recorder Studio 0.5.17, USB-Firmware 2.1.1.
+Gültig für unseren Raspberry-Pi-Recorder mit **Seeed Studio reSpeaker XVF3800 USB 4-Mic Array mit Gehäuse**. Geprüfter Stand: 13.10.2026, Recorder Studio 0.5.18, USB-Firmware 2.1.1.
 
 ## Muss bei jedem Anschließen die Firmware installiert werden?
 
@@ -50,11 +50,23 @@ Vier eingebaute Mikrofone bedeuten nicht vier Einträge in der Geräteauswahl. U
 | **Pause** in der App | Verwirft eingehendes Audio; die gespeicherte Aufnahmedauer bleibt stehen. |
 | **Fortsetzen** | Setzt dieselbe Aufnahme fort. Ein zuvor stummgeschaltetes Mikro bleibt stumm, bis es eingeschaltet wird. |
 | **Stoppen** | Beendet auch eine pausierte Aufnahme und reiht sie in die Verarbeitung ein. |
-| Physische Mute-Taste am ReSpeaker | Eigene Hardware-Stummschaltung. Ihr Zustand ist derzeit nicht mit der App synchronisiert. |
+| Physische Mute-Taste am ReSpeaker | Eigene Hardware-Stummschaltung. Die App zeigt sie während einer Aufnahme an; Einschalten erfolgt an der physischen Taste. |
 
 Auch während Pause bleiben Bibliothek und Einstellungen gesperrt. Notizen sind weiterhin möglich.
 
-Die LED-Steuerung wurde technisch getestet: Blau und Grün gesetzt und zurückgelesen, danach die vorherigen Werte wiederhergestellt. **Eine automatische LED-Anzeige für Aufnahme, Pause oder App-Mute ist noch nicht implementiert.** Aus der LED-Farbe deshalb nicht auf den App-Aufnahmestatus schließen.
+Ab Studio 0.5.18 zeigt der Ring bei ausdrücklich ausgewähltem ReSpeaker den App-Status:
+
+| LED-Ring | Bedeutung |
+| --- | --- |
+| Blau | Aufnahme oder fünfsekündiger Mikrofontest läuft |
+| Gelb | Aufnahme pausiert |
+| Rot blinkend | Mikro in der App stumm; bei gleichzeitiger Pause hat Stumm Vorrang |
+| Hardware-eigene rote Mute-Anzeige | Physische Mute-Taste aktiv; die App lässt diese Anzeige unverändert |
+| Ursprünglicher Modus (bei uns DOA) | Aufnahme gestoppt / Recorder bereit |
+
+Die Steuerung verändert weder die Hardware-Mute-Funktion noch die gespeicherte Firmware-Konfiguration. Ein separater Thread führt die USB-Zugriffe aus; Audioaufnahme und HTTP-Antworten warten nicht auf USB-Kommandos. Bei fehlendem Gerät oder Zugriffsfehler läuft die Audioverarbeitung weiter. Der Aufnahmescreen meldet einen LED-Fehler. Vorherige Ringwerte werden beim Stop und ordentlichen Dienstende wiederhergestellt; nach einem Prozessabbruch stellt der nächste Dienststart sie anhand einer lokalen Sicherung wieder her. Während der Dienst ausgefallen ist, kann die letzte Farbe stehen bleiben – die LED ersetzt keine Kontrolle des App-Status.
+
+Für eine neue Pi-Installation einmalig `scripts/install-respeaker.sh` aus dem Repository ausführen. Das installiert PyUSB und eine auf USB-ID `2886:001a` begrenzte Geräteberechtigung für die Gruppe `audio`. Der Recorder läuft weiterhin als normaler Benutzer. Dies ist eine Host-Einrichtung, **kein Firmwareupdate**. Beim bloßen Umstecken ist sie nicht zu wiederholen. Die Quelle muss ausdrücklich als ReSpeaker-Karte gewählt sein; bei einer unbestimmten „default“-Quelle steuert die App keinen beliebigen USB-Ring.
 
 ## Fehler gezielt eingrenzen
 

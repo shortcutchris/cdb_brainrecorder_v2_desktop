@@ -65,6 +65,7 @@ class Transport:
         opener=urllib.request.build_opener(urllib.request.ProxyHandler({}),NoRedirect())
         try:
             with opener.open(urllib.request.Request(url,data=data,headers=headers),timeout=90) as r:
+                if r.status == 204:return {}  # Voice One heartbeat/close intentionally have no JSON body.
                 if 'text/event-stream' in r.headers.get('Content-Type',''):return structure_stream(r)
                 return json.loads(r.read(4_000_001))
         except urllib.error.HTTPError as e:

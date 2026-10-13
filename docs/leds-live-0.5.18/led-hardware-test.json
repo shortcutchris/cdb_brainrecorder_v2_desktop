@@ -1,0 +1,55 @@
+{
+  "fixture": "Synthetic recording state, real USB LEDs; no room audio captured",
+  "runs_as_root": false,
+  "results": [
+    {
+      "state": "recording",
+      "readback": {
+        "effect": 3,
+        "color": 2254591
+      },
+      "ok": true
+    },
+    {
+      "state": "paused",
+      "readback": {
+        "effect": 3,
+        "color": 14721024
+      },
+      "ok": true
+    },
+    {
+      "state": "muted-on",
+      "readback": {
+        "effect": 3,
+        "color": 13378596
+      },
+      "ok": true
+    },
+    {
+      "state": "muted-off",
+      "readback": {
+        "effect": 0,
+        "color": 13378596
+      },
+      "ok": true
+    },
+    {
+      "state": "resume",
+      "readback": {
+        "effect": 3,
+        "color": 2254591
+      },
+      "ok": true
+    },
+    {
+      "state": "stopped",
+      "readback": {
+        "effect": 4,
+        "color": 8256
+      },
+      "ok": true
+    }
+  ],
+  "original_restored": true
+}

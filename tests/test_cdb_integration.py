@@ -222,6 +222,16 @@ if __name__=='__main__':unittest.main()
 
 
 class HttpIdentificationTests(unittest.TestCase):
+    def test_live_heartbeat_accepts_no_content_response(self):
+        from services.cdb_integration import Transport as HttpTransport
+        from unittest.mock import MagicMock
+        opener=MagicMock();response=opener.open.return_value.__enter__.return_value
+        response.status=204;response.read.return_value=b''
+        with patch('services.cdb_integration.urllib.request.build_opener',return_value=opener):
+            self.assertEqual(HttpTransport().request('https://staging.cdbos.de/api/v1/tqs/voice-live/sessions/test/heartbeat',{},token='synthetic'),{})
+        self.assertEqual(opener.open.call_args.args[0].get_method(),'POST')
+        response.read.assert_not_called()
+
     def test_json_requests_identify_application(self):
         from services.cdb_integration import Transport as HttpTransport, USER_AGENT
         from unittest.mock import MagicMock

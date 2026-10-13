@@ -1,0 +1,2 @@
+# Access only the XVF3800; recorder runs as the logged-in audio-group user, not root.
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="2886", ATTR{idProduct}=="001a", GROUP="audio", MODE="0660"
