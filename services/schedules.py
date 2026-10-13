@@ -5,6 +5,7 @@ A due item remains visible until acknowledged. Audio delivery is separate from
 firing and never interrupts a recorder/live session.
 """
 from contextlib import contextmanager
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -44,6 +45,9 @@ class Schedules:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self.db() as db:
             db.execute('CREATE TABLE IF NOT EXISTS schedules (id TEXT PRIMARY KEY, request TEXT UNIQUE, payload TEXT, kind TEXT, label TEXT, due REAL, boot TEXT, deadline REAL, state TEXT, revision INTEGER, sound TEXT, created REAL)')
+            if 'tone' not in {r[1] for r in db.execute('PRAGMA table_info(schedules)')}:
+                db.execute("ALTER TABLE schedules ADD COLUMN tone TEXT NOT NULL DEFAULT 'bell'")
+            db.execute('CREATE TABLE IF NOT EXISTS tool_results (request TEXT PRIMARY KEY, payload TEXT NOT NULL, result TEXT NOT NULL, created REAL NOT NULL)')
         os.chmod(self.path, 0o600)
 
     @contextmanager
@@ -62,48 +66,56 @@ class Schedules:
         return value
 
     def create(self, body):
+        with self.lock, self.db() as db:
+            db.execute('BEGIN IMMEDIATE')
+            return self._create(db, body)
+
+    def _create(self, db, body):
         kind, label, request = body.get('kind'), body.get('label', ''), body.get('request_id')
         if kind not in ('timer','reminder'): raise ValueError('Timer oder Erinnerung wählen.')
         if not isinstance(label, str) or not 1 <= len(label.strip()) <= 80: raise ValueError('Titel mit 1–80 Zeichen eingeben.')
         if not isinstance(request, str) or not 8 <= len(request) <= 100: raise ValueError('Anfragekennung fehlt.')
+        from services.alarm_tones import TONES
+        if body.get('tone', 'bell') not in TONES: raise ValueError('Unbekannter Alarmton.')
         payload = json.dumps(body, sort_keys=True)
-        with self.lock, self.db() as db:
-            db.execute('BEGIN IMMEDIATE')
-            old = db.execute('SELECT * FROM schedules WHERE request=?', (request,)).fetchone()
-            if old:
-                if old['payload'] != payload: raise ValueError('Anfragekennung wurde bereits anders verwendet.')
-                return dict(old)
-            if db.execute("SELECT count(*) FROM schedules WHERE state IN ('scheduled','due','missed')").fetchone()[0] >= 100:
-                raise ValueError('Maximal 100 offene Timer und Erinnerungen.')
-            now = self.wall()
-            if kind == 'timer':
-                duration = self.duration(body.get('seconds'))
-                due, deadline = now+duration, self.elapsed()+duration
-            else:
-                due, deadline = local_due(body.get('local_time'), body.get('zone','Europe/Berlin')), 0
-                if not now < due <= now+366*86400: raise ValueError('Erinnerung innerhalb des nächsten Jahres wählen.')
-            ident = str(uuid.uuid4())
-            db.execute('INSERT INTO schedules VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
-                (ident,request,payload,kind,label.strip(),due,self.boot,deadline,'scheduled',1,'pending',now))
-            return {'id': ident}
+        old = db.execute('SELECT * FROM schedules WHERE request=?', (request,)).fetchone()
+        if old:
+            if old['payload'] != payload: raise ValueError('Anfragekennung wurde bereits anders verwendet.')
+            return dict(old)
+        if db.execute("SELECT count(*) FROM schedules WHERE state IN ('scheduled','due','missed')").fetchone()[0] >= 100:
+            raise ValueError('Maximal 100 offene Timer und Erinnerungen.')
+        now = self.wall()
+        if kind == 'timer':
+            duration = self.duration(body.get('seconds'))
+            due, deadline = now+duration, self.elapsed()+duration
+        else:
+            due, deadline = local_due(body.get('local_time'), body.get('zone','Europe/Berlin')), 0
+            if not now < due <= now+366*86400: raise ValueError('Erinnerung innerhalb des nächsten Jahres wählen.')
+        ident = str(uuid.uuid4())
+        db.execute('INSERT INTO schedules VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            (ident,request,payload,kind,label.strip(),due,self.boot,deadline,'scheduled',1,'pending',now,body.get('tone','bell')))
+        return {'id': ident}
 
     def change(self, body):
         with self.lock, self.db() as db:
             db.execute('BEGIN IMMEDIATE')
-            row = db.execute('SELECT * FROM schedules WHERE id=?',(body.get('id'),)).fetchone()
-            if not row: raise ValueError('Eintrag fehlt.')
-            if type(body.get('revision')) is not int or row['revision'] != body['revision']:
-                raise ValueError('Eintrag wurde geändert. Bitte aktualisieren.')
-            action = body.get('action')
-            if action not in ('cancel','ack','snooze'): raise ValueError('Unbekannte Timeraktion.')
-            if action in ('ack','snooze') and row['state'] not in ('due','missed'): raise ValueError('Dieser Eintrag ist noch nicht fällig.')
-            if action == 'cancel' and row['state'] not in ('scheduled','due','missed'): raise ValueError('Eintrag ist bereits erledigt.')
-            state = {'cancel':'cancelled','ack':'done','snooze':'scheduled'}[action]
-            if action == 'snooze':
-                db.execute("UPDATE schedules SET kind='timer',due=?,boot=?,deadline=?,state=?,sound='pending',revision=revision+1 WHERE id=?",
-                    (self.wall()+300,self.boot,self.elapsed()+300,state,row['id']))
-            else: db.execute('UPDATE schedules SET state=?,revision=revision+1 WHERE id=?',(state,row['id']))
-            return {'ok':True}
+            return self._change(db, body)
+
+    def _change(self, db, body):
+        row = db.execute('SELECT * FROM schedules WHERE id=?',(body.get('id'),)).fetchone()
+        if not row: raise ValueError('Eintrag fehlt.')
+        if type(body.get('revision')) is not int or row['revision'] != body['revision']:
+            raise ValueError('Eintrag wurde geändert. Bitte aktualisieren.')
+        action = body.get('action')
+        if action not in ('cancel','ack','snooze'): raise ValueError('Unbekannte Timeraktion.')
+        if action in ('ack','snooze') and row['state'] not in ('due','missed'): raise ValueError('Dieser Eintrag ist noch nicht fällig.')
+        if action == 'cancel' and row['state'] not in ('scheduled','due','missed'): raise ValueError('Eintrag ist bereits erledigt.')
+        state = {'cancel':'cancelled','ack':'done','snooze':'scheduled'}[action]
+        if action == 'snooze':
+            db.execute("UPDATE schedules SET kind='timer',due=?,boot=?,deadline=?,state=?,sound='pending',revision=revision+1 WHERE id=?",
+                (self.wall()+300,self.boot,self.elapsed()+300,state,row['id']))
+        else: db.execute('UPDATE schedules SET state=?,revision=revision+1 WHERE id=?',(state,row['id']))
+        return {'ok':True}
 
     def remaining(self, row):
         if row['kind']=='timer' and row['boot']==self.boot: return row['deadline']-self.elapsed()
@@ -124,9 +136,45 @@ class Schedules:
     def items(self):
         with self.lock, self.db() as db:
             rows = db.execute("SELECT * FROM schedules ORDER BY CASE state WHEN 'due' THEN 0 WHEN 'scheduled' THEN 1 WHEN 'missed' THEN 2 ELSE 3 END,due LIMIT 150").fetchall()
-        return [{k:r[k] for k in ('id','kind','label','due','state','revision','sound')} |
+        return [{k:r[k] for k in ('id','kind','label','due','state','revision','sound','tone')} |
                 {'remaining':max(0,round(self.remaining(r)))} for r in rows]
 
     def sound_result(self, ident, result):
         with self.lock, self.db() as db:
             db.execute("UPDATE schedules SET sound=? WHERE id=? AND state='due'",(result,ident))
+
+    def execute_tool(self, scope, request, clock_ready=True):
+        """Mutation and replayable receipt commit together; no transcript interpretation."""
+        ident, name, args = request.get('id'), request.get('name'), request.get('arguments')
+        if not isinstance(ident,str) or not 16 <= len(ident) <= 100 or not isinstance(args,dict):
+            raise ValueError('Ungültiger Geräteauftrag.')
+        key = hashlib.sha256(json.dumps([scope,ident],sort_keys=True).encode()).hexdigest()
+        payload = json.dumps(request,sort_keys=True)
+        with self.lock, self.db() as db:
+            db.execute('BEGIN IMMEDIATE')
+            old=db.execute('SELECT * FROM tool_results WHERE request=?',(key,)).fetchone()
+            if old:
+                if old['payload'] != payload: raise ValueError('Geräteauftrag wurde nachträglich verändert.')
+                return json.loads(old['result'])
+            try:
+                if type(request.get('expires_at')) not in (int,float) or self.wall() >= request['expires_at']:
+                    raise ValueError('Geräteauftrag abgelaufen. Nicht automatisch erneut anlegen.')
+                if name in ('create_timer','create_reminder'):
+                    fields={'label','seconds','tone'} if name=='create_timer' else {'label','local_time','zone','tone'}
+                    if set(args)!=fields: raise ValueError('Ungültige Parameter.')
+                    if name=='create_reminder' and not clock_ready: raise ValueError('Gerätezeit ist nicht synchronisiert.')
+                    body={**args,'kind':'timer' if name=='create_timer' else 'reminder','request_id':key}
+                    created=self._create(db,body)
+                    result={'ok':True,'id':created['id'],'label':args['label'],'tone':args['tone'],'message':'Auf dem Pi gespeichert.'}
+                elif name=='list_schedules' and not args:
+                    rows=db.execute("SELECT id,kind,label,due,state,revision,tone FROM schedules WHERE state IN ('scheduled','due','missed') ORDER BY due LIMIT 100").fetchall()
+                    result={'ok':True,'items':[dict(r) for r in rows]}
+                elif name in ('cancel_schedule','acknowledge_alarm','snooze_alarm') and set(args)=={'id','revision'}:
+                    self._change(db,{**args,'action':{'cancel_schedule':'cancel','acknowledge_alarm':'ack','snooze_alarm':'snooze'}[name]})
+                    result={'ok':True,'id':args['id']}
+                else: raise ValueError('Gerätewerkzeug nicht verfügbar.')
+            except (ValueError,TypeError,KeyError) as error:
+                result={'ok':False,'message':str(error),'instruction':'Keinen Erfolg behaupten. Bei unklarer Zeit nachfragen; bei unbestätigtem Ergebnis zuerst die Timerliste prüfen.'}
+            db.execute('INSERT INTO tool_results VALUES (?,?,?,?)',(key,payload,json.dumps(result),self.wall()))
+            db.execute('DELETE FROM tool_results WHERE created < ?',(self.wall()-7*86400,))
+            return result

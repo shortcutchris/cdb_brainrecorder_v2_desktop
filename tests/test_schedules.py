@@ -44,3 +44,43 @@ class ScheduleTests(unittest.TestCase):
         self.wall=stamp;self.service.tick();row=self.service.items()[0]
         self.service.change({'id':row['id'],'revision':row['revision'],'action':'ack'})
         self.assertEqual(Schedules(self.tmp.name).items()[0]['state'],'done')
+    def tool(self, name='create_timer', args=None, ident='tool-request-0001'):
+        return {'id':ident,'name':name,'arguments':args or {'label':'Tee','seconds':60,'tone':'chime'},'expires_at':self.wall+60}
+    def test_tool_receipt_survives_restart_and_lost_ack(self):
+        request=self.tool();first=self.service.execute_tool('scope-a',request)
+        self.assertTrue(first['ok'])
+        self.assertEqual(first,self.service.execute_tool('scope-a',request))
+        self.assertEqual(first,Schedules(self.tmp.name).execute_tool('scope-a',request))
+        self.assertEqual(len(self.service.items()),1)
+        self.assertEqual(self.service.items()[0]['tone'],'chime')
+    def test_tool_expiry_invalid_args_and_payload_conflict(self):
+        request=self.tool();request['expires_at']=self.wall-1
+        self.assertFalse(self.service.execute_tool('scope-a',request)['ok'])
+        self.assertEqual(self.service.items(),[])
+        request=self.tool();request['arguments']['seconds']=True
+        self.assertFalse(self.service.execute_tool('scope-b',request)['ok'])
+        request=self.tool();self.service.execute_tool('scope-c',request)
+        request['arguments']['seconds']=90
+        with self.assertRaises(ValueError):self.service.execute_tool('scope-c',request)
+    def test_tool_mutation_and_receipt_rollback_together(self):
+        import sqlite3
+        with self.service.db() as db:
+            db.execute("CREATE TRIGGER fail_receipt BEFORE INSERT ON tool_results BEGIN SELECT RAISE(ABORT,'disk full simulation'); END")
+        with self.assertRaises(sqlite3.IntegrityError):self.service.execute_tool('scope',self.tool())
+        self.assertEqual(self.service.items(),[])
+    def test_tool_cancel_is_idempotent_and_stale_revision_fails(self):
+        self.create();row=self.service.items()[0]
+        request=self.tool('cancel_schedule',{'id':row['id'],'revision':row['revision']})
+        first=self.service.execute_tool('scope',request)
+        self.assertTrue(first['ok']);self.assertEqual(first,self.service.execute_tool('scope',request))
+        request['id']='tool-request-0002'
+        self.assertFalse(self.service.execute_tool('scope',request)['ok'])
+    def test_tone_validation_and_alarm_samples(self):
+        import wave
+        from services.alarm_tones import write_alarm
+        from pathlib import Path
+        for tone in ('bell','chime','pulse'):
+            path=Path(self.tmp.name)/(tone+'.wav');write_alarm(path,tone)
+            with wave.open(str(path)) as wav:
+                self.assertEqual(wav.getnframes(),72000);self.assertEqual(wav.getnchannels(),2)
+        with self.assertRaises(ValueError):self.service.create({'kind':'timer','label':'x','seconds':5,'request_id':'invalid-tone','tone':'/etc/passwd'})

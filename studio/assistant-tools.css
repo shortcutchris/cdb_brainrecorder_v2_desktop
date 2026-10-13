@@ -15,3 +15,7 @@
 #settings #wake-word{font-size:38px;line-height:46px;letter-spacing:-1px;margin:12px 0}#settings #wake-page .dialog-actions{display:flex;justify-content:space-between}#settings #wake-page .dialog-actions button{width:var(--view-action-width);min-width:var(--view-action-width);max-width:var(--view-action-width);height:56px;white-space:normal;line-height:20px}
 #timers-view button{border-radius:12px}#timers-view.with-keyboard .tools-content{grid-template-columns:1fr}.has-timer-alarm .dialog-heading>span{visibility:hidden}
 #timer-alarm button{border:1px solid var(--line);background:var(--surface);color:var(--accent-text);border-radius:10px}#timer-alarm #alarm-ack{background:var(--accent);color:var(--on-accent)}
+
+.timer-tone{display:flex;align-items:center;gap:12px}.timer-tone select{flex:1;min-width:0}.timer-tone button{margin-top:8px;min-width:112px;height:54px}#timers-view .tools-column{gap:12px}#timers-view .tools-info{padding:10px;line-height:18px}#timers-view .tools-info strong{display:none}
+
+#timers-view .tools-column{gap:8px}#timers-view .tools-info p{margin:2px 0}#timers-view .timer-row span{font-size:17px}

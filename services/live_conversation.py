@@ -28,6 +28,9 @@ class LiveConversation:
         self.cdb = cdb
         self.audio_config = audio_config
         self.audio_factory = audio_factory
+        self.device_executor = None
+        self.device_key = None
+        self.device_tools = False
         self.native = None
         self.root = Path(root) / 'live'
         self.root.mkdir(mode=0o700, parents=True, exist_ok=True)
@@ -78,7 +81,7 @@ class LiveConversation:
             if self.binding and self.cdb.generation != getattr(self, 'account_generation', None):
                 return {'state': 'closing' if self.state in ACTIVE else 'idle', 'busy': self.state in ACTIVE,
                         'error': '', 'muted': True, 'areas': [], 'history': [], 'model': 'CDB Voice One', 'started_at': None}
-            return {'state': self.state, 'busy': self.state in ACTIVE, 'error': self.error,
+            return {'device_tools': self.device_tools, 'state': self.state, 'busy': self.state in ACTIVE, 'error': self.error,
                     'muted': self.muted, 'areas': list(self.areas), 'history': [dict(h) for h in self.history],
                     'model': 'CDB Voice One', 'started_at': getattr(self, 'started_at', None),
                     'owner_kind': self.owner_kind, 'transport': 'pi' if self.audio_config else 'browser', 'feedback':self.feedback(),
@@ -289,8 +292,10 @@ class LiveConversation:
                 if generation != self.generation: return
                 if self.state == 'closing':
                     self._finish('ended'); return
-            result = self.cdb.call(BASE + '/sessions', {'sdp': sdp, 'area_ids': area_ids,
-                'language': 'de', 'client_request_id': str(uuid.uuid4())}, binding=binding)
+            body = {'sdp':sdp,'area_ids':area_ids,'language':'de','client_request_id':str(uuid.uuid4())}
+            device_key = secrets.token_urlsafe(32) if self.device_executor and caps.get('device_tools_v1') is True else None
+            if device_key: body['device_tools']={'version':1,'key':device_key}
+            result = self.cdb.call(BASE + '/sessions', body, binding=binding)
             handle = result.get('session_handle')
             if not isinstance(handle, str) or not HANDLE.fullmatch(handle):
                 raise CdbFailure('Brain hat keine gültige Gesprächssitzung bestätigt.')
@@ -300,6 +305,8 @@ class LiveConversation:
             with self.lock:
                 stale = generation != self.generation or self.state == 'closing'
                 if not stale:
+                    self.device_key = device_key
+                    self.device_tools = bool(device_key)
                     self.handle = handle
                     self.answer = answer
                     self.areas = [allowed[a] for a in area_ids]
@@ -317,6 +324,8 @@ class LiveConversation:
             with self.lock:
                 if generation != self.generation or self.state == 'closing': return
             threading.Thread(target=self._events, args=(generation, handle, binding), daemon=True).start()
+            if device_key:
+                threading.Thread(target=self._device_loop,args=(generation,handle,binding),daemon=True).start()
         except Exception as error:
             # Only expose a locally defined authorization category, never provider details.
             denied = isinstance(error, CdbFailure) and str(error) == 'Keine Berechtigung für diese CDB-Aktion.'
@@ -375,6 +384,8 @@ class LiveConversation:
             return self.public()
 
     def _finish(self, state, error=''):
+        self.device_tools = False
+        self.device_key = None
         if self.native:
             try: self.native.close()
             except Exception: pass
@@ -520,6 +531,30 @@ class LiveConversation:
             if heartbeat:
                 try: self.cdb.call(BASE + '/sessions/' + handle + '/heartbeat', {}, binding=binding)
                 except Exception: self.end()
+
+    def _device_loop(self, generation, handle, binding):
+        while not self.stop.wait(1):
+            with self.lock:
+                if generation!=self.generation or self.handle!=handle or self.state not in ACTIVE or self.state=='closing': return
+            try: self._device_commands(handle,binding)
+            except Exception: pass  # Retry receipt; never block voice heartbeat or microphone release.
+
+    def _device_commands(self, handle, binding):
+        with self.lock:
+            key = self.device_key
+            generation = self.generation
+            if not key or self.state not in ACTIVE or self.state=='closing': return
+        path=BASE+'/sessions/'+handle+'/device-tools'
+        response=self.cdb.call(path,{'key':key},binding=binding)
+        requests=response.get('requests',[])
+        if not isinstance(requests,list) or len(requests)>64: raise ValueError('Ungültige Geräteaufträge.')
+        for request in requests:
+            with self.lock:
+                if generation!=self.generation or handle!=self.handle or self.state not in ACTIVE or self.state=='closing' or self.cdb.generation!=self.account_generation:
+                    return
+                # The generation check and SQLite commit are indivisible to end/logout.
+                result=self.device_executor({'binding':binding,'handle':handle},request)
+            self.cdb.call(path,{'key':key,'id':request['id'],'result':result},binding=binding)
 
     def close(self):
         self.end()

@@ -126,7 +126,10 @@ class AudioOutput:
             output.setparams((2, 2, rate, 0, 'NONE', 'not compressed'))
             output.writeframes(frames.tobytes())
 
-    def start_test(self):
+    def start_test(self, tone=None):
+        if tone is not None:
+            from services.alarm_tones import TONES
+            if tone not in TONES or tone=='silent': raise ValueError('Kein abspielbarer Alarmton.')
         with self.lock:
             if self.test['state'] == 'running':
                 raise ValueError('Testton läuft bereits.')
@@ -136,15 +139,18 @@ class AudioOutput:
             if state['muted'] or state['volume'] == 0:
                 raise ValueError('Stummschaltung aufheben und Lautstärke erhöhen.')
             self.cancelled = False
-            self.test = {'state': 'running', 'message': 'Testton am Pi: erst links, dann rechts.', 'device': state['selected']}
-            self.thread = threading.Thread(target=self._play, args=(state['selected'],), daemon=True)
+            self.test = {'state': 'running', 'message': 'Alarmton am Pi.' if tone else 'Testton am Pi: erst links, dann rechts.', 'device': state['selected']}
+            self.thread = threading.Thread(target=self._play, args=(state['selected'],tone), daemon=True)
             self.thread.start()
             return self.test_status()
 
-    def _play(self, device):
+    def _play(self, device, tone=None):
         try:
             path = self.root / 'speaker-test.wav'
-            self.write_tone(path)
+            if tone is None: self.write_tone(path)
+            else:
+                from services.alarm_tones import write_alarm
+                write_alarm(path,tone)
             with self.lock:
                 if self.cancelled:
                     return
@@ -155,7 +161,7 @@ class AudioOutput:
             with self.lock:
                 if not self.cancelled:
                     self.test = {'state': 'completed' if code == 0 else 'failed', 'device': device,
-                                 'message': 'Testton beendet. Waren beide Töne hörbar?' if code == 0 else 'Testton fehlgeschlagen. Ausgang und Verbindung prüfen.'}
+                                 'message': ('Alarmton beendet.' if tone else 'Testton beendet. Waren beide Töne hörbar?') if code == 0 else 'Testton fehlgeschlagen. Ausgang und Verbindung prüfen.'}
         except (OSError, subprocess.SubprocessError):
             with self.lock:
                 if self.process and self.process.poll() is None:

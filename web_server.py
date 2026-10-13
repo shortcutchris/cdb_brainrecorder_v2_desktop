@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.31'
+VERSION = '0.5.32'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -86,6 +86,7 @@ class StudioApp:
         from services.schedules import Schedules
         self.wake = WakeWord(self.store.root)
         self.schedules = Schedules(self.store.root)
+        self.live.device_executor = lambda scope, request: self.schedules.execute_tool(scope, request, self.clock_ready)
         self.playback_leases = {}
         self.ambient_stop = threading.Event()
         self.alarm_id = None
@@ -167,7 +168,9 @@ class StudioApp:
                                 # Claim before playback: at most one attempt after a crash.
                                 self.schedules.sound_result(item['id'],'attempted')
                                 try:
-                                    self.speakers.start_test()
+                                    if item.get('tone')=='silent':
+                                        self.schedules.sound_result(item['id'],'silent'); continue
+                                    self.speakers.start_test(item.get('tone','bell'))
                                     self.alarm_id = item['id']
                                 except ValueError: self.schedules.sound_result(item['id'],'failed')
                                 break
@@ -309,7 +312,7 @@ class StudioApp:
         state['live'] = self.live.public()
         state['display'] = self.display.status()
         state['wake'] = self.wake.public()
-        state['timers'] = {'items': self.schedules.items(), 'clock_ready': self.clock_ready, 'voice_available': False}
+        state['timers'] = {'items': self.schedules.items(), 'clock_ready': self.clock_ready, 'voice_available': bool(self.live.public().get('device_tools'))}
         state['bluetooth'] = self.bluetooth.public()
         state.update(csrf=self.csrf, version=VERSION, preview=self.preview,
             namespace=hashlib.sha256(str(self.store.root).encode()).hexdigest()[:16])
@@ -410,6 +413,10 @@ class StudioApp:
                     self.wake.suspend('Audiowiedergabe läuft.')
                 else: self.playback_leases.pop(key,None)
                 return {'ok':True}
+            if path == '/api/timers/tone':
+                self.require('configure')
+                self.wake.suspend('Alarmton wird vorgespielt.')
+                return self.speakers.start_test(body.get('tone','bell'))
             if path == '/api/timers':
                 action = body.get('action')
                 if action == 'create':

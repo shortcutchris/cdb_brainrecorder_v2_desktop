@@ -77,3 +77,44 @@ aktivieren.
 Empfehlung: Ereignistypen und Darstellungsansatz aus Mira übernehmen, die
 Verbindung aber mit echter Kopplung, Heartbeat und sitzungsgebundenem Verlauf
 aufbauen. Der Empfänger benötigt kein Mikrofon und steuert keine Aufnahme.
+
+## Nachtrag 13.10.2026: tatsächlicher externer Receiver gefunden
+
+Die erste Untersuchung erfasste nur den lokalen Desktop-Prototyp. Auf dem über
+Tailscale erreichbaren Host **coolify-test** (`100.117.50.28`) liegt zusätzlich
+`/opt/mira-agent-display/current`. Seine Compose-Container heißen
+`current-frontend-1` und `current-backend-1`; beide laufen. Die Zuordnung wurde
+über die Compose-Labels geprüft, `/health` liefert `status: ok`.
+
+- Empfänger im Tailnet: `http://100.117.50.28:5173/`
+- Simulator: `http://100.117.50.28:5173/simulator`
+- Backend: FastAPI, Port 8000; Frontend: Vite/TypeScript über nginx, Port 5173.
+- Compose: `/opt/mira-agent-display/current/docker-compose.yml`
+- Protokoll: `backend/app/{main,models,rooms}.py`, Beschreibung in dessen README.
+- Sender erzeugt Code (`/api/pairing/create`), Browser beansprucht ihn
+  (`/api/pairing/claim`). Je Rolle eigener Token; WebSocket `/ws/app/{room_id}`
+  und `/ws/receiver/{room_id}`. Vollständiger Snapshot und einzelne Änderungen,
+  Bild-/Suchkarten sind vorgesehen. Das ist eine andere Code-Richtung als die
+  aktuelle Pi-LAN-Anzeige (dort erzeugt der Browser den Code).
+
+**Kein Coolify-Dienst ist installiert/laufend sichtbar**; der Hostname ist kein
+Beleg für einen aktiven Coolify-Controller. Die übrigen Anwendungen laufen mit
+Docker Compose und einem gemeinsamen nginx für HTTPS. Die Tailscale-Funnel-
+Ports 443 und 8443 sind bereits anderen Anwendungen zugewiesen.
+
+### Nächster Integrationsschritt
+
+Den bestehenden Gateway-Code als eigene versionierte Komponente übernehmen,
+den Pi als ausgehenden Sender anbinden und den Receiver hinter einer eigenen
+HTTPS-Adresse am vorhandenen nginx betreiben. Weder die belegten Funnel-Ziele
+überschreiben noch den Studio-Steuerdienst veröffentlichen. Die Brain-Tokens
+bleiben ausschließlich beim Pi; der Gateway braucht keine Microsoft-Anmeldung.
+
+Vor Nutzung mit echten Gesprächsdaten sind im alten Prototyp noch anzupassen:
+Code nur einmal einlösbar, begrenzte Versuche/Räume und Datenmengen, verbindlicher
+Heartbeat mit Ablauf/Widerruf, Konto-/Sitzungswechsel leert die Anzeige,
+Empfängerauthentifizierung auch für Medien, keine Tokens in URL-/Zugriffslogs,
+HTTPS/WSS und eingeschränkte Origins. Der vorhandene Server akzeptiert derzeit
+breite CORS-Origins und liefert Medien ohne Rollenprüfung. Diese Untersuchung
+hat nur Code, Containerzuordnung und Health geprüft; keine echten Chats an den
+alten Gateway übertragen und keine Serverkonfiguration geändert.

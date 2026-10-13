@@ -493,3 +493,12 @@ Vorrang. **Timer & Erinnerungen** ist über ein eigenes Symbol erreichbar;
 Einträge überstehen einen Neustart. Alarme bleiben während Aufnahme/Gespräch
 zunächst leise. Timer-Sprachbefehle benötigen noch die CDB-Tool-Brücke.
 [Bedienung, Installation und Testnachweise](docs/wake-timers-0.5.31/README.md).
+
+### Studio 0.5.32 · Alarmtöne und vorbereitete Live-Geräteaufträge
+
+Timer und Erinnerungen besitzen auswählbare Alarmtöne mit Vorhören am Pi.
+Der neue Geräte-Executor verarbeitet bestätigte CDB-Tool-Aufträge idempotent;
+Sprachsteuerung setzt den passenden TQS-/BFF-Rollout voraus.
+[Bedienung, Vertrag und Teststand](docs/device-tools-0.5.32/README.md).
+Der externe Mira-Receiver wurde auf dem Tailscale-Server wiedergefunden:
+[Bestand und Integrationsplan](docs/mira-receiver-review.md).

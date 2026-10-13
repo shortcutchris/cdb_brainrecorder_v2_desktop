@@ -290,3 +290,24 @@ class FeedbackConversationTests(unittest.TestCase):
         restored=LiveConversation(self.brain,self.root.name)
         try:self.assertFalse(restored.search_sound)
         finally:restored.close()
+
+    def test_device_receipt_retry_and_account_change(self):
+        from services.schedules import Schedules
+        schedules=Schedules(self.root.name)
+        self.reserve();self.live.handle='safe-handle';self.live.device_key='private-device-key';self.live.device_tools=True
+        self.live.device_executor=lambda scope,request:schedules.execute_tool(scope,request)
+        request={'id':'request-device-0001','name':'create_timer','arguments':{'label':'Tee','seconds':60,'tone':'bell'},'expires_at':time.time()+60}
+        answers=[]
+        def call(path,body=None,binding=None):
+            if 'result' not in body:return {'requests':[request]}
+            answers.append(body['result'])
+            if len(answers)==1:raise OSError('lost ack')
+            return {'ok':True}
+        self.brain.call=call
+        with self.assertRaises(OSError):self.live._device_commands('safe-handle',self.live.binding)
+        self.live._device_commands('safe-handle',self.live.binding)
+        self.assertEqual(len(schedules.items()),1);self.assertEqual(answers[0],answers[1])
+        self.assertNotIn('private-device-key',str(self.live.public()))
+        request['id']='request-device-0002';self.brain.generation+=1
+        self.live._device_commands('safe-handle',self.live.binding)
+        self.assertEqual(len(schedules.items()),1)
