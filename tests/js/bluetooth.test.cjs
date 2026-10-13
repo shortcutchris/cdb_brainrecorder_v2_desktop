@@ -1,0 +1,5 @@
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const source=fs.readFileSync('studio/bluetooth.js','utf8'),code=source.slice(source.indexOf('function btControls('),source.indexOf('function renderBluetooth(')),c={};vm.createContext(c);vm.runInContext(code,c);
+const state={recording:{id:null},live:{busy:false},capabilities:{configure:{allowed:true}}},data={supported:true,powered:true,busy:false};
+test('Bluetooth blocks during recording, live, other activity or offline',()=>{for(const s of [{...state,recording:{id:'active'}},{...state,live:{busy:true}},{...state,capabilities:{configure:{allowed:false}}}])assert.equal(c.btControls(data,s,true,false).locked,true);assert.equal(c.btControls(data,state,false,false).locked,true)});
+test('Bluetooth own operation allows cancellation while other operations stay blocked',()=>{assert.equal(c.btControls({...data,busy:true},{...state,capabilities:{configure:{allowed:false}}},true,false).locked,false);assert.equal(c.btControls(data,state,true,true).locked,true)});

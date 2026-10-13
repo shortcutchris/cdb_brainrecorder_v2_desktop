@@ -1,0 +1,29 @@
+#settings #bluetooth-page .bt-content{display:flex;flex-direction:column;gap:16px;overflow:hidden}
+.bt-heading,.bt-list-heading{display:flex;justify-content:space-between;align-items:center;gap:16px}
+#bluetooth-page h3{font-size:22px;line-height:28px;margin:0 0 6px}
+#bluetooth-page p{font-size:14px;line-height:21px;margin:0;color:var(--muted)}
+.bt-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:24px;min-height:0;flex:1}
+#bt-devices{display:grid;gap:10px;margin:12px 0;min-height:220px;align-content:start}
+#settings .bt-device{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:5px;text-align:left;padding:14px 16px;min-height:70px;width:100%;border:1px solid var(--line);background:var(--soft);border-radius:14px}
+.bt-device strong,.bt-device span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bt-device span{font-size:13px;color:var(--muted)}
+#settings .bt-device[aria-pressed=true]{border-color:var(--accent);background:var(--accent);color:var(--on-accent)}.bt-device[aria-pressed=true] span{color:inherit}
+.bt-detail{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:20px;min-width:0;overflow:hidden}
+#bt-device-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#bt-device-state{min-height:42px}
+#bt-profile-label{display:block;margin:12px 0 6px;font-size:14px}#bt-profile{width:100%;min-height:48px;font-size:14px}
+#bt-profile-hint{margin:10px 0!important;min-height:42px}.bt-small-actions{display:flex;gap:10px;margin-top:12px}
+#settings .bt-small-actions button,#settings #bt-forget-confirm button{min-height:48px;flex:1;font-size:14px;padding:8px 12px;max-width:220px}
+#bt-pairing{padding-top:18px}#bt-code{font-size:34px;letter-spacing:5px;margin:12px 0;font-variant-numeric:tabular-nums}#bt-pin{width:100%;min-height:48px}
+#bt-message{min-height:42px}#bt-state{color:var(--accent-text);font-size:14px}#bt-state[data-busy=true]{animation:speaker-pulse 1s infinite}
+#settings.workspace-view #bluetooth-page>.dialog-actions{gap:12px}#settings.workspace-view #bluetooth-page>.dialog-actions button{width:200px;min-width:0;max-width:200px;flex:1;font-size:15px}#bt-to-mic{margin-left:auto}
+#settings .audio-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(prefers-reduced-motion:reduce){#bt-state[data-busy=true]{animation:none}}
+
+#settings #bt-device-controls:has(#bt-forget-confirm:not([hidden])) #bt-main-controls{display:none}
+#settings.workspace-view #bluetooth-page>.dialog-actions{display:grid;grid-template-columns:200px minmax(200px,1fr) 200px 200px}
+#settings.workspace-view #bluetooth-page>.dialog-actions button{margin:0;grid-row:1}
+#bt-power{grid-column:1}#bt-scan,#bt-cancel{grid-column:2}#bt-to-mic{grid-column:3}#bt-to-speaker{grid-column:4}
+#settings .bt-small-actions button,#settings #bt-forget-confirm button{background:var(--surface);border:1px solid var(--line)}
+#settings #bluetooth-page p{font-size:14px;line-height:21px;margin:0}
+#settings #bluetooth-page #bt-profile-label{margin:12px 0 6px}
+#settings.with-keyboard #bluetooth-page .bt-columns{display:block}
+#settings.with-keyboard #bluetooth-page .bt-detail{padding:12px}

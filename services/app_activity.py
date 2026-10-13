@@ -14,6 +14,7 @@ class AppActivity:
     live_reserved: bool = False
     microphone_test: bool = False
     speaker_test: bool = False
+    bluetooth: bool = False
     download: bool = False
     model_test: bool = False
     pending: bool = False
@@ -24,7 +25,7 @@ class AppActivity:
 
     @property
     def occupied(self):
-        return self.recording or self.live_busy or self.microphone_test or self.speaker_test or self.download or self.model_test
+        return self.recording or self.live_busy or self.microphone_test or self.speaker_test or self.download or self.model_test or self.bluetooth
 
     @property
     def mode(self):
@@ -32,6 +33,7 @@ class AppActivity:
         if self.live_busy:return 'live-connecting' if self.live in ('connecting','reconnecting') else 'live-stopping' if self.live in ('closing','stopping') else 'live-active'
         if self.microphone_test:return 'microphone-test'
         if self.speaker_test:return 'speaker-test'
+        if self.bluetooth:return 'bluetooth'
         if self.model_test:return 'model-test'
         if self.download:return 'download'
         return 'idle'
@@ -42,7 +44,7 @@ class AppActivity:
                 'live-connecting':'Live-Gespräch wird verbunden.', 'live-active':'Live-Gespräch läuft. Bitte zuerst beenden.',
                 'live-stopping':'Live-Gespräch wird beendet.', 'microphone-test':'Mikrofontest läuft.',
                 'speaker-test':'Lautsprechertest läuft.', 'model-test':'Modelltest läuft.',
-                'download':'Modelldownload läuft.', 'idle':''}[self.mode]
+                'bluetooth':'Bluetooth wird eingerichtet. Bitte abschließen oder abbrechen.', 'download':'Modelldownload läuft.', 'idle':''}[self.mode]
 
     def public(self):
         return {'mode':self.mode, 'busy':bool(self.occupied), 'reason':self.reason,
@@ -60,6 +62,6 @@ class AppActivity:
             'install':rule(not self.occupied and not self.pending,reason or 'Offene Verarbeitung zuerst abschließen.'),
             'model_test':rule(not self.occupied and not self.pending and not low_disk,reason or ('Zu wenig freier Speicher.' if low_disk else 'Offene Verarbeitung zuerst abschließen.')),
             'finish_setup':rule(not self.occupied,reason),
-            'process':rule(not self.recording and not self.live_busy and not self.download and not self.model_test,reason),
+            'process':rule(not self.recording and not self.live_busy and not self.download and not self.model_test and not self.bluetooth,reason),
             'live':rule(not self.occupied and brain_signed_in,reason or 'Bitte zuerst beim Brain-Konto anmelden.'),
         }

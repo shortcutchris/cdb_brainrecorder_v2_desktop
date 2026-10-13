@@ -29,6 +29,21 @@ class StudioTests(unittest.TestCase):
             with urllib.request.urlopen(req,timeout=8) as r:return r.status,r.read(),r.headers
         except urllib.error.HTTPError as e:
             with e:return e.code,e.read(),e.headers
+    def test_bluetooth_interlocks_and_csrf(self):
+        with patch.object(self.app.bluetooth,'action',return_value={'ok':True}) as action:
+            self.assertEqual(self.request('/api/bluetooth',{'action':'scan'},{'X-CSRF-Token':'bad'})[0],403)
+            self.app.engine.recorder.active={'id':'lock'}
+            try:self.assertEqual(self.request('/api/bluetooth',{'action':'scan'})[0],400)
+            finally:self.app.engine.recorder.active=None
+            with patch.object(self.app.live,'public',return_value={'state':'speaking','busy':True}):
+                self.assertEqual(self.request('/api/bluetooth',{'action':'scan'})[0],400)
+            action.assert_not_called()
+            self.app.bluetooth.update(busy=True,operation='scan')
+            for path in ('/api/record/start','/api/live/reserve','/api/settings','/api/microphone/test'):
+                self.assertEqual(self.request(path,{})[0],400)
+            self.assertEqual(self.request('/api/bluetooth',{'action':'cancel'})[0],200)
+            self.app.bluetooth.update(busy=False)
+
     def test_capture_controls_reject_idle_invalid_and_cross_origin_requests(self):
         self.assertEqual(self.request('/api/record/control',{'paused':True})[0],400)
         self.assertEqual(self.request('/api/record/control',{'muted':True},{'Origin':'http://evil.example'})[0],403)

@@ -1,5 +1,11 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.21 – Bluetooth-Geräte verwalten
+
+Unter **Einstellungen → Audio → Bluetooth** Geräte suchen, mit Code/PIN koppeln, verbinden, trennen und gespeicherte Kopplungen entfernen. Verfügbare Audiomodi unterscheiden Musik und Freisprechen. Mikrofon und Lautsprecher werden anschließend in den vorhandenen Audioeinstellungen gewählt. Aufnahme, Live-Gespräch und Bluetooth-Einrichtung sind gegenseitig abgesichert.
+
+[Bluetooth-Anleitung](docs/bluetooth.md) · [Tests und Screenshots](docs/bluetooth-0.5.21/README.md)
+
 ## 0.5.20 – Live-Audio direkt am Pi
 
 CDB Voice One verwendet jetzt das eingerichtete Pi-Mikrofon und den gewählten Pi-Lautsprecher über Python. Der Browser steuert die Oberfläche, ohne zusätzliche Mikrofonfreigabe oder separate Geräteauswahl. Aufnahme und Gespräch bleiben gegenseitig gesperrt; Stummschaltung und Abbruch geben keine alten Audioblöcke weiter.
