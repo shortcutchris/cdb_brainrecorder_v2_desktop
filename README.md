@@ -477,3 +477,10 @@ nach Brain-Konto, Mandant und Server – auch nach einem Neustart des Pi.
 [Bedienung und Prüfung](docs/live-areas-0.5.29/README.md).
 Zum geplanten externen Gesprächsdisplay:
 [Mira-Codeprüfung und Übertragungskonzept](docs/mira-receiver-review.md).
+
+## Startseite und Gesprächsbildschirm · Studio 0.5.30
+
+Haus-Symbol und große Kacheln öffnen die Bereiche direkt. Unter dem neuen
+Monitor-Symbol lässt sich ein Browser im selben Netzwerk per Code koppeln.
+Er zeigt den vollständigen aktuellen Gesprächsverlauf, mit Heartbeat und
+Wiederverbindung. [Bedienung, Grenzen und Testnachweise](docs/display-0.5.30/README.md).

@@ -29,6 +29,26 @@ class StudioTests(unittest.TestCase):
             with urllib.request.urlopen(req,timeout=8) as r:return r.status,r.read(),r.headers
         except urllib.error.HTTPError as e:
             with e:return e.code,e.read(),e.headers
+    def test_display_control_is_loopback_csrf_protected_and_recording_locked(self):
+        self.app.display.address=('127.0.0.1',0)
+        self.assertEqual(self.request('/api/display/control',{'action':'enable'},{'X-CSRF-Token':'bad'})[0],403)
+        self.app.engine.recorder.active={'id':'lock'}
+        try:self.assertEqual(self.request('/api/display/control',{'action':'enable'})[0],400)
+        finally:self.app.engine.recorder.active=None
+        self.assertEqual(self.request('/api/display/control',{'action':'enable'})[0],200)
+        self.assertTrue(json.loads(self.app.display_preferences.read_text())['enabled'])
+        session={'server':'https://staging.cdbos.de','identity':{'user_id':'test','client_id':'11111111-1111-1111-1111-111111111111'}}
+        account={'binding':{'server':session['server'],**session['identity']},'generation':0}
+        with patch.object(self.app.display,'account',return_value=account), patch.object(self.app.cdb,'session',return_value=session):
+            token,pending=self.app.display.begin('Test')
+            self.assertEqual(self.request('/api/display/control',{'action':'pair','code':pending['code']})[0],200)
+            self.assertTrue(self.app.display.pulse(token)['paired'])
+        with patch.object(self.app.live,'public',return_value={'state':'speaking','busy':True}):
+            self.assertEqual(self.request('/api/display/control',{'action':'pair','code':'123456'})[0],400)
+            self.assertEqual(self.request('/api/display/revoke',{})[0],200)
+        self.assertEqual(self.request('/api/display/control',{'action':'disable'})[0],200)
+        self.assertFalse(self.app.display.status()['enabled'])
+
     def test_bluetooth_interlocks_and_csrf(self):
         with patch.object(self.app.bluetooth,'action',return_value={'ok':True}) as action:
             self.assertEqual(self.request('/api/bluetooth',{'action':'scan'},{'X-CSRF-Token':'bad'})[0],403)

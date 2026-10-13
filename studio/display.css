@@ -1,0 +1,19 @@
+#display-view.workspace-view[open]{display:flex;flex-direction:column;overflow:hidden;padding:0 0 var(--view-base);background:var(--surface)}
+#display-view .dialog-heading h2{font-size:var(--view-title);line-height:32px;letter-spacing:-.4px;margin:0;font-weight:650}#display-view .dialog-heading>span{margin-left:auto;font-size:14px;color:var(--muted)}
+#display-view .settings-content{flex:1;min-height:0;padding:24px var(--view-inset);display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:20px;overflow:hidden}
+#display-view .settings-column{display:flex;flex-direction:column;gap:12px;min-width:0;min-height:0}
+#display-view .settings-section-heading h3{font-size:22px;line-height:28px;letter-spacing:-.3px;margin:0 0 8px}
+#display-view .settings-section-heading p{font-size:15px;line-height:22px;margin:0;min-height:44px;color:var(--muted)}
+#display-view .settings-card{margin:0;padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--panel);min-width:0}
+#display-view .settings-card>strong{font-size:15px;line-height:24px}
+#display-view .settings-card p{font-size:15px;line-height:22px;margin:8px 0 0;overflow-wrap:anywhere}
+#display-view label{font-size:14px;line-height:20px;margin:0;display:block}
+#display-view .dialog-actions{display:grid;grid-template-columns:var(--view-action-width) minmax(0,1fr) repeat(2,var(--view-action-width));gap:12px;height:80px;min-height:80px;flex:0 0 80px;padding:12px var(--view-inset);border-top:1px solid var(--line);background:var(--panel)}
+#display-view .dialog-actions button{width:100%;min-width:0;height:56px;min-height:56px;margin:0;border-radius:12px;padding:0 12px;font-size:15px}#display-view .primary{background:var(--accent);color:var(--on-accent)}
+#display-enable{grid-column:1}#display-revoke{grid-column:3}#display-pair{grid-column:4}
+#display-view #display-url{font-size:21px;line-height:30px;color:var(--accent-text);overflow-wrap:anywhere}
+#display-view #display-code{display:block;width:100%;font-size:25px;letter-spacing:6px;font-variant-numeric:tabular-nums;height:64px;margin-top:12px;padding:0 16px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink)}
+#display-status::before{content:'●';margin-right:8px;color:var(--muted)}#display-status[data-connected=true]::before{color:#26a66f}
+#display-view #display-message{min-height:44px;font-size:14px;line-height:22px;margin:0;color:var(--accent-text)}
+#display-view.with-keyboard .settings-section-heading,#display-view.with-keyboard .settings-card:not(.display-address){display:none}
+@media(max-height:650px){#display-view .settings-content{padding-block:16px;gap:16px}#display-view .settings-card{padding:12px}#display-view .settings-section-heading h3{font-size:20px;line-height:24px}#display-view .settings-card p{font-size:14px;line-height:20px}#display-view .settings-card strong{line-height:20px}}

@@ -38,6 +38,26 @@ class LiveTests(unittest.TestCase):
         while not predicate() and time.monotonic()<until:time.sleep(.01)
         self.assertTrue(predicate())
     def reserve(self):return self.live.reserve([AREA])['lease']
+    def test_display_preserves_more_than_200_turns_and_long_messages_after_restart(self):
+        self.reserve()
+        for i in range(305):
+            self.live._transcript({'role':'user' if i%2 else 'assistant','delta':f'Beitrag {i}', 'item_id':str(i)})
+        self.live._transcript({'role':'assistant','delta':'x'*60001,'item_id':'long'})
+        binding=self.live.binding
+        snapshot=self.live.display_snapshot(binding)
+        self.assertEqual(len(snapshot['history']),306)
+        self.assertEqual(snapshot['history'][0]['text'],'Beitrag 0')
+        self.assertEqual(len(snapshot['history'][-1]['text']),60001)
+        self.live._finish('ended')
+        restored=LiveConversation(self.brain,self.root.name,events=lambda *args:None)
+        try:
+            restored.setup()
+            self.assertEqual(restored.display_snapshot(binding)['history'],snapshot['history'])
+            self.assertEqual(restored.display_snapshot({'user_id':'other'})['history'],[])
+            self.brain.generation+=1
+            self.assertEqual(restored.display_snapshot(binding)['history'],[])
+        finally:restored.close()
+
     def test_reservation_excludes_second_owner_and_requires_valid_areas(self):
         for value in ([],[{}],[AREA,AREA],['invalid'],[AREA]*9,None):
             with self.assertRaises(ValueError):self.live.reserve(value)

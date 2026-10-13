@@ -1,7 +1,9 @@
 # Mira: Sender und Empfänger – Codeprüfung
 
-Stand: 13.10.2026. Untersuchung und Vorschlag; im Recorder wurde noch kein
-externer Empfänger implementiert.
+Stand der ursprünglichen Untersuchung: 13.10.2026. Die Textanzeige mit Kopplung
+und Heartbeat ist inzwischen in [Studio 0.5.30](display-0.5.30/README.md) umgesetzt.
+Die folgenden Abschnitte dokumentieren den untersuchten Mira-Prototyp und die
+weiterführenden Ideen, insbesondere noch offene Bild-/Toolcall-Unterstützung.
 
 ## Gefundene Implementierung
 

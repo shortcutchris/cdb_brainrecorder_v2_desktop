@@ -34,6 +34,7 @@
   const dialog=[...document.querySelectorAll('dialog[open]')].findLast(d=>d.matches(':modal'))||document.querySelector('dialog[open]');
   if(!target||!target.isConnected||target.disabled||target.readOnly||!target.getClientRects().length||(dialog&&!dialog.contains(target)))target=[...(dialog||document).querySelectorAll('textarea:not([disabled]):not([readonly]),input:not([disabled]):not([readonly])')].find(el=>editable(el)&&el.getClientRects().length);
   if(!target)return;
+  if(target.inputMode==='numeric')numeric=true;
   (dialog||document.body).append(panel);panel.hidden=false;document.body.classList.add('keyboard-open');if(dialog)dialog.classList.add('with-keyboard');draw();target?.focus({preventScroll:true});focusSettings(target);requestAnimationFrame(()=>target?.scrollIntoView({block:'nearest'}));
  }
  document.getElementById('keyboard').onclick=toggle;

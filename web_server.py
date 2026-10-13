@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.29'
+VERSION = '0.5.30'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -77,8 +77,20 @@ class StudioApp:
 
         from services.live_conversation import LiveConversation
         self.live = LiveConversation(self.cdb, self.store.root, audio_config=self.live_audio_config)
+        from services.remote_display import DisplayHub
+        self.display = DisplayHub(self.live, self.display_account)
+        self.display_preferences = self.store.root/'display-enabled.json'
         from services.respeaker_leds import ReSpeakerLeds
         self.respeaker = ReSpeakerLeds(self.store.root, self.respeaker_state, enabled=not preview and backend is None)
+
+    def display_account(self):
+        import time
+        session = self.cdb.read('session.json', {})
+        identity = session.get('identity')
+        if not identity or session.get('expires', 0) <= time.time(): return None
+        if session.get('server') != self.cdb.config()['server']: return None
+        return {'binding': {'server': session['server'], 'user_id': identity['user_id'],
+                            'client_id': identity['client_id']}, 'generation': self.cdb.generation}
 
     def live_audio_config(self):
         device=self.store.config()['device']
@@ -196,6 +208,7 @@ class StudioApp:
         state['speaker_test'] = self.speakers.test_status()
         state['respeaker'] = self.respeaker.public()
         state['live'] = self.live.public()
+        state['display'] = self.display.status()
         state['bluetooth'] = self.bluetooth.public()
         state.update(csrf=self.csrf, version=VERSION, preview=self.preview,
             namespace=hashlib.sha256(str(self.store.root).encode()).hexdigest()[:16])
@@ -285,6 +298,24 @@ class StudioApp:
         # Lock order matches state(): controller before recorder.
         with self.control_lock, self.controller.lock, self.engine.recorder.lock:
             if self.closing:raise ValueError('Dienst wird beendet. Änderungen bitte kurz aufbewahren.')
+            if path == '/api/display/revoke':
+                return self.display.revoke()
+            if path == '/api/display/control':
+                self.require('configure')
+                action = body.get('action')
+                if action == 'enable':
+                    result = self.display.enable()
+                    atomic_write(self.display_preferences, json.dumps({'enabled': True}))
+                    return result
+                if action == 'disable':
+                    self.display.close()
+                    atomic_write(self.display_preferences, json.dumps({'enabled': False}))
+                    return self.display.status()
+                if action == 'pair':
+                    self.cdb.session()  # Validate/refresh only on the authorized local control path.
+                    self.live._restore(self.live._binding())
+                    return self.display.pair(body.get('code'))
+                raise ValueError('Unbekannte Bildschirmaktion.')
             if path=='/api/bluetooth':
                 activity=self.activity(include_bluetooth=False)
                 if activity.occupied:raise ValueError(activity.reason)
@@ -407,6 +438,7 @@ class StudioApp:
     def close(self):
         with self.control_lock:
             self.closing=True
+            self.display.close()
             self.speakers.stop_test()
             if self.engine.recorder.active:self.engine.stop()
             self.controller.sync()
@@ -544,6 +576,9 @@ def main():
     logging.basicConfig(level=logging.INFO,format='%(asctime)s %(levelname)s %(message)s')
     app=StudioApp(args.root,args.database)
     server=StudioServer(('127.0.0.1',args.port),app);server.timeout=.5
+    try:
+        if json.loads(app.display_preferences.read_text()).get('enabled'): app.display.enable()
+    except (OSError, ValueError): logging.warning('Externer Bildschirm bleibt ausgeschaltet.')
     stopping=threading.Event()
     signal.signal(signal.SIGTERM,lambda *_:stopping.set())
     signal.signal(signal.SIGINT,lambda *_:stopping.set())

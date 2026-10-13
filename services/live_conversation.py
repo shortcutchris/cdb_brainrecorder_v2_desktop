@@ -172,10 +172,10 @@ class LiveConversation:
             self.binding = dict(binding); self.account_generation = self.cdb.generation
             for path in sorted(self.root.glob('conversation-*.json'), reverse=True):
                 try:
-                    if path.stat().st_size > 2_000_000: continue
+                    if path.stat().st_size > 64_000_000: continue
                     row = json.loads(path.read_text())
                     if row.get('binding') != binding: continue
-                    self.history = row.get('history', [])[-200:]
+                    self.history = row.get('history', [])
                     self.areas = row.get('areas', [])
                     self.started_at = row.get('started_at')
                     self.state = 'ended'; break
@@ -380,17 +380,28 @@ class LiveConversation:
         self.state, self.error = state, error
         self.lease = self.answer = None
         self.generation += 1
-        # Local transcript only; no raw audio and no credential material.
+        self._persist_history()
+        self.finished.set()
+
+    def _persist_history(self):
+        # Checkpoint at most every 15s while speaking; flush all turns on finish.
         try:
             if self.history:
                 filename = self.root / ('conversation-' + str(int(self.started_at * 1000)) + '.json')
                 atomic_write(filename, json.dumps({'binding': self.binding, 'areas': self.areas,
-                    'started_at': self.started_at, 'state': state, 'history': self.history}, ensure_ascii=False))
+                    'started_at': self.started_at, 'state': self.state, 'history': self.history}, ensure_ascii=False))
                 os.chmod(filename, 0o600)
+            self.history_dirty = False
         except OSError:
-            self.error = 'Gespräch beendet. Der Verlauf konnte nicht dauerhaft gespeichert werden.'
-        finally:
-            self.finished.set()
+            self.error = 'Der Gesprächsverlauf konnte nicht dauerhaft gespeichert werden.'
+
+    def display_snapshot(self, binding):
+        with self.lock:
+            if self.binding != binding or self.cdb.generation != getattr(self, 'account_generation', None):
+                return {'session': '', 'state': 'idle', 'areas': [], 'history': []}
+            return {'session': str(getattr(self, 'started_at', '')) if self.history or self.state in ACTIVE else '',
+                    'state': self.state, 'areas': [a.get('label') or a.get('name', '') for a in self.areas],
+                    'history': [{'role': h['role'], 'text': h['text']} for h in self.history]}
 
     def _frame(self, generation, event, data):
         with self.lock:
@@ -415,7 +426,7 @@ class LiveConversation:
         same rule uses arrival time. Changing speaker alone is never a boundary:
         a delayed final syllable can arrive after the assistant already began.
         """
-        role, delta = data['role'], data['delta'][:12000]
+        role, delta = data['role'], data['delta']
         if not delta: return
         def ms(value):
             return value if isinstance(value, (int, float)) and not isinstance(value, bool) and value >= 0 else None
@@ -439,11 +450,11 @@ class LiveConversation:
             self.history.append(row)
             previous = {'row': row, 'identifier': identifier, 'offset': None, 'received': timestamp}
             self.transcript_turns[role] = previous
-        else: previous['row']['text'] = (previous['row']['text'] + delta)[-50000:]
+        else: previous['row']['text'] += delta
         previous['received'] = timestamp
         if end is not None or start is not None:
             previous['offset'] = max(previous['offset'] or 0, end if end is not None else start)
-        self.history = self.history[-200:]
+        self.history_dirty = True
 
     def _read_events(self, handle, binding, callback):
         session = self.cdb.session(binding)
@@ -493,6 +504,8 @@ class LiveConversation:
         while not self.stop.wait(1):
             with self.lock:
                 if self.state not in ACTIVE or self.state == 'closing': continue
+                if getattr(self, 'history_dirty', False) and self.clock()-getattr(self, 'last_checkpoint', 0) >= 15:
+                    self._persist_history(); self.last_checkpoint = self.clock()
                 expired = self.clock() > min(self.deadline, self.maximum) or self.cdb.generation != getattr(self, 'account_generation', None)
                 handle, binding = self.handle, self.binding
                 heartbeat = handle and self.clock() - self.last_heartbeat >= self.heartbeat_seconds
