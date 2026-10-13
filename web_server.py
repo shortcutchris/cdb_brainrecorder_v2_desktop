@@ -421,6 +421,8 @@ class StudioApp:
                 return result
             if path == '/api/wake':
                 if body.get('action') == 'off': return self.wake.configure(False,None)
+                if body.get('action') == 'test-stop':
+                    self.wake.test_until=0;self.wake.suspend('Test beendet.');return self.wake.public()
                 self.require('configure')
                 if body.get('action') == 'test': return self.wake.test()
                 if body.get('action') == 'on':

@@ -29,6 +29,12 @@ class StudioTests(unittest.TestCase):
             with urllib.request.urlopen(req,timeout=8) as r:return r.status,r.read(),r.headers
         except urllib.error.HTTPError as e:
             with e:return e.code,e.read(),e.headers
+    def test_wake_test_can_be_stopped_without_enabling(self):
+        self.app.wake.test_until=time.monotonic()+30
+        self.assertEqual(self.request('/api/wake',{'action':'test-stop'})[0],200)
+        self.assertFalse(self.app.wake.public()['testing'])
+        self.assertFalse(self.app.wake.enabled)
+
     def test_timers_survive_audio_locks_and_require_csrf(self):
         body={'action':'create','kind':'timer','label':'Test','seconds':30,'request_id':'studio-timer'}
         self.assertEqual(self.request('/api/timers',body,{'X-CSRF-Token':'bad'})[0],403)

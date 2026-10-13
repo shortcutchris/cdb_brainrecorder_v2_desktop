@@ -51,12 +51,12 @@
   }
   for(const el of document.querySelectorAll('[data-timer-id]')){const item=items.find(i=>i.id===el.dataset.timerId);if(item?.state==='scheduled'&&item.kind==='timer')el.textContent=duration(item.remaining)}
   const w=state?.wake||{};$('wake-state').textContent=w.message||'Status wird geprüft.';$('wake-state').dataset.state=w.state||'off';$('wake-count').textContent=w.testing?'Lokaler Test · '+w.detections+' Erkennungen':'Nur aktiv, wenn Aufnahme, Gespräch und Wiedergabe beendet sind.';
-  $('wake-toggle').textContent=w.enabled?'Aktivierungswort ausschalten':'Aktivierungswort einschalten';$('wake-toggle').setAttribute('aria-pressed',String(Boolean(w.enabled)));$('wake-toggle').disabled=!online||(!w.enabled&&(!w.available||locked));$('wake-test').disabled=!online||locked||!w.available;$('wake-test').textContent=w.testing?'Test läuft · 30 Sekunden':'Erkennung testen';
+  $('wake-toggle').textContent=w.enabled?'Aktivierungswort ausschalten':'Aktivierungswort einschalten';$('wake-toggle').setAttribute('aria-pressed',String(Boolean(w.enabled)));$('wake-toggle').disabled=!online||(!w.enabled&&(!w.available||locked));$('wake-test').disabled=!online||locked||!w.available;$('wake-test').textContent=w.testing?'Test beenden':'Erkennung testen';
   if(w.enabled||w.testing){$('start-background').textContent=w.state==='listening'?'Bereit für „Okay Nabu“':w.testing?'Aktivierungswort · lokaler Test':'Aktivierungswort · pausiert';$('live-open').title=w.state==='listening'?'Live-Gespräch · bereit für Okay Nabu':'Live-Gespräch · Aktivierungswort pausiert'}else $('live-open').title='Live-Gespräch';
   if(state?.live?.busy&&state.live.owner_kind==='device'&&!$('live-view').open){closeKeyboard();audio.pause();workspaceView('live-view')}
  }
  async function wake(action){await api('/api/wake',{action});await poll()}
- $('wake-toggle').onclick=run(()=>wake(state?.wake?.enabled?'off':'on'));$('wake-test').onclick=run(()=>wake('test'));$('audio-wake').onclick=()=>showSettingsDetail('wake-page');
+ $('wake-toggle').onclick=run(()=>wake(state?.wake?.enabled?'off':'on'));$('wake-test').onclick=run(()=>wake(state?.wake?.testing?'test-stop':'test'));$('audio-wake').onclick=()=>showSettingsDetail('wake-page');
  // Every browser audio path yields the local detector before it emits sound.
  const client=crypto.randomUUID();let playbackBusy=false;
  const playing=()=>[...document.querySelectorAll('audio')].some(el=>!el.paused&&!el.ended);
