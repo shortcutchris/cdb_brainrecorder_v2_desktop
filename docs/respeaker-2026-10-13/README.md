@@ -17,7 +17,7 @@ Mit ausdrücklicher Zustimmung des Benutzers wurde im Safe Mode die offizielle U
 
 ## Prüfung
 
-Die produktive App 0.5.17 hat eine echte 5-Sekunden-Testaufnahme erstellt, ohne diese an die Transkriptionsqueue oder an die Cloud zu senden. Messung: 80000 Mono-Samples, Peak 49/32768, RMS 9,17/32768. Ein schwaches Signal ist vorhanden, die App meldet zutreffend „Sehr leise Aufnahme“. Das ist **kein bestätigter Sprachqualitätstest**. Dafür soll der Benutzer beim erneuten Mikrofontest normal sprechen und die Vorschau anhören.
+Die produktive App 0.5.17 hat eine echte 5-Sekunden-Testaufnahme erstellt, ohne diese an die Transkriptionsqueue oder an die Cloud zu senden. Messung: 80000 Mono-Samples, Peak 49/32768, RMS 9,17/32768. Ein schwaches Signal ist vorhanden, die App meldet zutreffend „Sehr leise Aufnahme“. Dieser erste Test enthielt kein ausreichend lautes Sprachsignal. Der anschließende gesprochene Test ist unten dokumentiert.
 
 Die Einrichtung ist abgeschlossen und Aufnahme erlaubt. Alle 22 bestehenden Meetings erhalten; Transkriptions-/Zusammenfassungsmodelle und Brain-Konto unverändert. Der Audioausgang des Arrays wird vom Betriebssystem erkannt; angeschlossene Lautsprecher und deren Klang wurden in diesem Firmwaretest nicht geprüft.
 
@@ -37,3 +37,12 @@ Für Diagnose: `sudo /home/chris/respeaker-tools/venv/bin/python /home/chris/res
 - [USB-Firmware und Changelog](https://github.com/respeaker/reSpeaker_XVF3800_USB_4MIC_ARRAY/blob/master/xmos_firmwares/usb/readme.md)
 
 ![ReSpeaker in der App](microphone-selected.png)
+
+## Gesprochener Folgetest
+
+Nach „Bereit“ des Benutzers erneut fünf Sekunden direkt am Pi aufgenommen.
+Pegelanzeige **61/100**, Peak **17433/32768**, RMS **−26,3 dBFS**, **keine geclippten Samples**. Die App meldet „Testaufnahme bereit. Bitte anhören.“ Das Array liefert jetzt ein deutliches Sprachsignal; die zuvor sehr leise Messung war bei diesem Test nicht mehr vorhanden. Testdatei nur lokal am Pi, keine Cloudübertragung und kein neues Meeting in der Bibliothek. Audio und gesprochener Inhalt werden nicht ins Repository aufgenommen.
+
+![Sprachtest bereit](speech-test-ready.png)
+
+Lokaler Verständlichkeitstest: Whisper `ggml-medium.bin`, Deutsch, drei Threads, Exit 0, **79,99 Sekunden** für die fünf Sekunden Audio. Sprache erkannt, aber Ausgabe nicht fehlerfrei und Satzanfang abgeschnitten. Damit sind Audioaufnahme und lokale Erkennung bestätigt; eine belastbare Beurteilung der Erkennungsqualität braucht eine längere, gezielt gesprochene Probe. Es wurde kein Referenztext als Prompt mitgegeben. Nicht mit einer Echtzeit-Leistungszusage verwechseln.
