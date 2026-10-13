@@ -1,4 +1,8 @@
-# Recorder Studio 0.5.13
+# Recorder Studio 0.5.14
+
+## 0.5.14 – Einheitlicher Abschluss aller Arbeitsansichten
+
+Bibliothek, Warteschlange und Recorder verwenden eine feste 80-px-Aktionsleiste mit einem separaten 28-px-Abschluss in der Theme-Farbe. Im Aufnahmedetail stehen Seitenwahl und Aktionen gemeinsam unten; die Zusammenfassungsvorlage wird über dem Text ausgewählt. Die Speicheranzeige sitzt im unteren Abschluss. Textaktionen und Inhaltstabs sind 208 px breit, Touchflächen 56 px hoch. Der große Aufnahme-/Stoppbutton bleibt separat. [Prüfung und Screenshots](workspace-0.5.14/README.md).
 
 ## 0.5.13 – Einheitliche Buttonbreiten
 

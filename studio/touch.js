@@ -9,7 +9,7 @@
   const info=document.createElement('span'),numbers=document.createElement('div');numbers.className='direct-pages';
   bar.append(info,numbers);
   const actions=el.classList.contains('dialog-body')?el.parentElement.querySelector(':scope > .dialog-actions'):null;
-  if(el.id==='queue-panel')el.closest('#queue-region').append(bar);else if(actions){actions.prepend(bar);bar.classList.add('inline-pager')}else el.after(bar);
+  if(el.id==='editor')el.closest('.editor-wrap').querySelector('.editor-footer').prepend(bar);else if(el.id==='queue-panel')el.closest('#queue-region').append(bar);else if(actions){actions.prepend(bar);bar.classList.add('inline-pager')}else el.after(bar);
   pagers.set(el,{bar,info,numbers,name,signature:''});el.addEventListener('scroll',schedule,{passive:true});el.addEventListener('input',schedule);new ResizeObserver(schedule).observe(el);
  }
  function refresh(){

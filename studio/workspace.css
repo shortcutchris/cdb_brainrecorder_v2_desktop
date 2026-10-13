@@ -42,8 +42,8 @@ body[data-workspace="recorder"] .meeting-header h1{font-size:var(--view-title);l
 .touch-pager.inline-pager{height:56px;min-height:56px;flex:1;min-width:0;margin-right:auto;padding:0;border:0;background:transparent}
 #queue-region>.touch-pager{flex-direction:row;border-left:0;border-top:1px solid var(--line)}
 #queue-region .queue-body{padding-bottom:16px}
-#library>.touch-pager{padding-bottom:40px;height:108px;min-height:108px;flex-basis:108px}
-#queue-region>.touch-pager{padding-bottom:40px;height:108px;min-height:108px;flex-basis:108px}
+
+
 dialog:not(.workspace-view)>.dialog-heading{height:80px;min-height:80px;padding:12px 24px;align-items:center}
 dialog:not(.workspace-view)>.dialog-actions{height:80px;min-height:80px;flex:0 0 80px;padding:12px 24px;flex-wrap:nowrap}
 #touch-picker .dialog-search{padding:16px 24px}
@@ -65,3 +65,40 @@ dialog:not(.workspace-view)>.dialog-actions{height:80px;min-height:80px;flex:0 0
 #queue-region .queue-row strong{white-space:normal;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
 #queue-region>.touch-pager{justify-content:space-between}
 #queue-region>.touch-pager>span,.editor-wrap>.touch-pager>span{margin-right:auto}
+
+/* One footer treatment across list, queue, reading and capture: 80px + 28px base. */
+:root{--view-base:28px;--view-action-width:208px}
+#library.workspace-view,#queue-region.workspace-view{padding-bottom:var(--view-base);background:var(--surface)}
+#library>.touch-pager,#queue-region>.touch-pager{height:80px;min-height:80px;flex-basis:80px;padding:12px var(--view-inset)}
+#library>.touch-pager .direct-pages,#queue-region>.touch-pager .direct-pages{margin:0}
+.content{padding-inline:var(--view-inset);padding-bottom:0}
+body[data-workspace="detail"] .library-navigation{margin-inline:calc(-1 * var(--view-inset));padding-inline:var(--view-inset)}
+.library-all{width:var(--view-action-width);min-width:var(--view-action-width);height:56px;min-height:56px;font-size:15px;padding:0 12px;gap:8px}
+.tabs .tab{width:var(--view-action-width);flex:0 1 var(--view-action-width);justify-content:center;border-radius:12px 12px 0 0}
+.editor-wrap{display:flex;flex-direction:column;min-height:0;margin-inline:calc(-1 * var(--view-inset));border:0;border-radius:0;background:transparent;overflow:hidden}
+.editor-wrap>#editor{flex:1;min-height:40px;width:calc(100% - 2 * var(--view-inset));height:auto;margin:0 var(--view-inset) 16px;padding:16px;border:1px solid var(--line);border-radius:12px;line-height:24px}
+.editor-config{flex:none;padding:0 var(--view-inset) 12px}
+.editor-config>.touch-select{width:var(--view-action-width);height:56px;margin:0!important;font-size:15px}
+.editor-wrap:has(#editor-tools[hidden])>.editor-config{display:none}
+.editor-footer{display:flex;align-items:center;gap:12px;flex:0 0 80px;height:80px;min-height:80px;padding:12px var(--view-inset);border-top:1px solid var(--line);background:var(--panel)}
+.editor-footer>.touch-pager{flex:1;min-width:0;height:56px;min-height:56px;padding:0;border:0;background:transparent;gap:12px}
+.editor-footer>.touch-pager .direct-pages{margin:0;gap:8px}
+.editor-footer>#editor-tools{display:flex;flex:none;gap:12px;padding:0;border:0}
+.editor-footer>#editor-tools>button{width:var(--view-action-width);min-width:0;height:56px;padding:0 12px;font-size:15px;border-radius:12px;white-space:normal}
+.editor-wrap>.save-state{flex:0 0 var(--view-base);height:var(--view-base);min-height:var(--view-base);padding:4px var(--view-inset);line-height:20px;background:var(--surface);font-size:12px;border:0}
+.capture-footer{flex:0 0 108px;min-height:108px;width:calc(100% + 48px);margin-inline:-24px;margin-top:auto;padding:12px 24px 40px;border-top:1px solid var(--line);background:linear-gradient(var(--panel) 0 calc(100% - var(--view-base)),var(--surface) calc(100% - var(--view-base)))}
+.capture .capture-footer .mic{width:var(--view-action-width);height:56px;min-height:56px;margin:0 auto;padding:0 12px;border-radius:12px;background:var(--soft);justify-content:center;font-size:14px}
+.capture .capture-hint{margin-top:12px;margin-bottom:12px;min-height:0}
+.capture{padding-bottom:0}
+.capture .record{margin-top:28px;width:160px;height:160px;min-height:160px}
+.capture .duration{margin-top:12px}
+.capture #waveform{height:48px;margin-top:12px}
+@container(max-width:900px){.editor-footer{gap:8px}.editor-footer>.touch-pager>span{display:none}.editor-footer>#editor-tools{gap:8px}}
+body.keyboard-open .capture .record{width:112px;height:112px;min-height:112px;margin-top:16px}
+body.keyboard-open .capture-footer{display:none}
+.capture{padding-inline:24px}
+.editor-wrap>#draft-actions{order:2;flex:none;padding:8px var(--view-inset)}
+.editor-wrap>.editor-footer{order:3}
+.editor-wrap>.save-state{order:4}
+.editor-wrap>.editor-config{order:0}
+.editor-wrap>#editor{order:1}

@@ -1,0 +1,218 @@
+[
+  {
+    "name": "01-recording",
+    "bars": [
+      {
+        "bottom": 720,
+        "element": "capture-footer",
+        "height": 108,
+        "left": 88,
+        "right": 412,
+        "top": 612,
+        "width": 324,
+        "x": 88,
+        "y": 612
+      },
+      {
+        "bottom": 692,
+        "element": "editor-footer",
+        "height": 80,
+        "left": 412,
+        "right": 1280,
+        "top": 612,
+        "width": 868,
+        "x": 412,
+        "y": 612
+      },
+      {
+        "bottom": 720,
+        "element": "save-state",
+        "height": 28,
+        "left": 412,
+        "right": 1280,
+        "top": 692,
+        "width": 868,
+        "x": 412,
+        "y": 692
+      }
+    ]
+  },
+  {
+    "name": "02-keyboard",
+    "bars": [
+      {
+        "bottom": 472,
+        "element": "editor-footer",
+        "height": 80,
+        "left": 412,
+        "right": 1280,
+        "top": 392,
+        "width": 868,
+        "x": 412,
+        "y": 392
+      },
+      {
+        "bottom": 500,
+        "element": "save-state",
+        "height": 28,
+        "left": 412,
+        "right": 1280,
+        "top": 472,
+        "width": 868,
+        "x": 412,
+        "y": 472
+      }
+    ]
+  },
+  {
+    "name": "03-recorder-notes",
+    "bars": [
+      {
+        "bottom": 720,
+        "element": "capture-footer",
+        "height": 108,
+        "left": 88,
+        "right": 412,
+        "top": 612,
+        "width": 324,
+        "x": 88,
+        "y": 612
+      },
+      {
+        "bottom": 692,
+        "element": "editor-footer",
+        "height": 80,
+        "left": 412,
+        "right": 1280,
+        "top": 612,
+        "width": 868,
+        "x": 412,
+        "y": 612
+      },
+      {
+        "bottom": 720,
+        "element": "save-state",
+        "height": 28,
+        "left": 412,
+        "right": 1280,
+        "top": 692,
+        "width": 868,
+        "x": 412,
+        "y": 692
+      }
+    ]
+  },
+  {
+    "name": "04-recorder-summary",
+    "bars": [
+      {
+        "bottom": 720,
+        "element": "capture-footer",
+        "height": 108,
+        "left": 88,
+        "right": 412,
+        "top": 612,
+        "width": 324,
+        "x": 88,
+        "y": 612
+      },
+      {
+        "bottom": 692,
+        "element": "editor-footer",
+        "height": 80,
+        "left": 412,
+        "right": 1280,
+        "top": 612,
+        "width": 868,
+        "x": 412,
+        "y": 612
+      },
+      {
+        "bottom": 720,
+        "element": "save-state",
+        "height": 28,
+        "left": 412,
+        "right": 1280,
+        "top": 692,
+        "width": 868,
+        "x": 412,
+        "y": 692
+      }
+    ]
+  },
+  {
+    "name": "05-library-light",
+    "bars": [
+      {
+        "bottom": 692,
+        "element": "touch-pager",
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 612,
+        "width": 1192,
+        "x": 88,
+        "y": 612
+      }
+    ]
+  },
+  {
+    "name": "06-library-page2",
+    "bars": [
+      {
+        "bottom": 692,
+        "element": "touch-pager",
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 612,
+        "width": 1192,
+        "x": 88,
+        "y": 612
+      }
+    ]
+  },
+  {
+    "name": "07-detail-light",
+    "bars": [
+      {
+        "bottom": 692,
+        "element": "editor-footer",
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 612,
+        "width": 1192,
+        "x": 88,
+        "y": 612
+      },
+      {
+        "bottom": 720,
+        "element": "save-state",
+        "height": 28,
+        "left": 88,
+        "right": 1280,
+        "top": 692,
+        "width": 1192,
+        "x": 88,
+        "y": 692
+      }
+    ]
+  },
+  {
+    "name": "08-queue",
+    "bars": [
+      {
+        "bottom": 692,
+        "element": "touch-pager",
+        "height": 80,
+        "left": 88,
+        "right": 1280,
+        "top": 612,
+        "width": 1192,
+        "x": 88,
+        "y": 612
+      }
+    ]
+  }
+]
