@@ -1,0 +1,21 @@
+{
+  "version": "0.5.22",
+  "sessions_preserved": 22,
+  "configuration_preserved": true,
+  "account_preserved": true,
+  "services": [
+    "active",
+    "active"
+  ],
+  "sha256": {
+    "web_server.py": "bc009673819cb6929cd2d7d328f15f199654f3021ba7c1a229c1d6f950dafc8c",
+    "requirements.txt": "fd500ca1b32ff58409cc270e54b31e8e123ca01228833276dbeb5deb588d9032",
+    "services/app_activity.py": "edd5aad72885f75ad7ff4821b0b56aa7623acc9393cae837177c5b16e911a9f6",
+    "services/bluetooth_audio.py": "22d8b194860ad471e149144c8d0bf33c05144a2b87ff2a4b69c7506f92987b07",
+    "studio/index.html": "95ca022051d5f463f02f8d43d35238b7e61892acc28842786eb2d4876064e98b",
+    "studio/settings.js": "b7b7887949bf19d17eca1c07df6d8dba92756ea2ba51b30094734f422a472a47",
+    "studio/bluetooth.js": "11f33412f89e67845d33697f7af6e7c3d2e695e048f6b8081354f5efb02c270a",
+    "studio/bluetooth.css": "24bc846b93eded4ea1ccb20109af971ede76abfeb1263497efbb4367a4f5280d",
+    "studio/assets/bluetooth.svg": "913b293f38af57c0a7a372759d90d059272ec94f99e3d3e2ba95bc6c61dc23ab"
+  }
+}
