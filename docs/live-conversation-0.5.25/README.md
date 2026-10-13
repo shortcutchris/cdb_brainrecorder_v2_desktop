@@ -64,3 +64,12 @@ entsprechend von deren Latenz abhängig. Keine zusätzliche Raum-Echokompensatio
 
 Datenbank, Modellwahl, Anmeldung, Standardbereich und produktive Aufnahmen werden
 nicht durch die isolierte Testinstanz verändert.
+
+## Produktiv aufgespielt
+
+Laufzeit **0.5.25**, Commit `0065ea7`, auf dem Pi aktiviert. Backend und Kiosk
+laufen. Die sechs ausgelieferten Dateien stimmen per SHA256 mit dem Git-Commit
+überein (`deployment.json`). Alle 22 vorhandenen Aufnahmen, Gerätekonfiguration,
+Modellanbieter, Standardbereich und Anmeldung sind erhalten geblieben.
+Vorheriger Stand: `/home/chris/backups/recorder-before-0.5.25`.
+Die isolierte Testinstanz ist beendet; ihre temporäre Anmeldedatei wurde entfernt.
