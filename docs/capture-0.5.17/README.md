@@ -31,3 +31,7 @@ Seeed dokumentiert für die XIAO-ESP32S3-Variante ab Werk I²S-Firmware, die nic
 - [Offizielle USB-Firmware](https://github.com/respeaker/reSpeaker_XVF3800_USB_4MIC_ARRAY/tree/master/xmos_firmwares/usb)
 
 Offizielles Repository lokal geprüft bei Commit `4b49bfd19977c63cf6e90dfe9e5827e74e20bf6d`: aktuelles USB-Release v2.1.1, neuer als der in Teilen des Wikis genannte Stand v2.1.0.
+
+## Produktiv installiert
+
+Studio **0.5.17**, Engine **0.2.7** auf dem Pi installiert; Backend und Kiosk aktiv. Alle 22 vorhandenen Aufnahmen, Modellkonfiguration, Brain-Anmeldung und Standardbereich erhalten. Dateihashes lokal/remote identisch (siehe `deployment.json`). Rücksicherung inklusive vorheriger Engine unter `/home/chris/backups/recorder-before-0.5.17`. Separater Vorschaudienst beendet, temporäre Anmeldung entfernt. Das ReSpeaker befindet sich noch im Safe Mode; Firmwarewechsel wartet auf Zustimmung, deshalb noch kein echter Mikrofon-Audiotest.

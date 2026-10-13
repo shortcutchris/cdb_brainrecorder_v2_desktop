@@ -1,0 +1,17 @@
+{
+  "version": "0.5.17",
+  "sessions_preserved": 22,
+  "configuration_preserved": true,
+  "account_preserved": true,
+  "services": [
+    "active",
+    "active"
+  ],
+  "sha256": {
+    "web_server.py": "4e7a1b318e1962f8d17080fecda5949ac29f584760d70caab67b73eb6a734974",
+    "studio/index.html": "2d5190d719c27e3494b3945cc92d0ae278fd2f8261f38b5c2cc74eefbd70a727",
+    "studio/capture-controls.js": "13930ea80c3f4bd3a3d0a639cb8639c51b77a530c17007fa834d8cecd9dc44c7",
+    "studio/capture-controls.css": "ca24e6d7b20b2fee7420dade86712094bfc9d13a1adde7b271b0e98653d79750",
+    "requirements-engine.txt": "e479eb425f35d00eb489ba7d2507ea219bde83e02583e04221169f919f669792"
+  }
+}
