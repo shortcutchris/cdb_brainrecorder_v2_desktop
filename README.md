@@ -1,5 +1,11 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.28 – Ausgewählte Knowledge Areas prüfen
+
+„Ausgewählt (N)“ neben der Suche zeigt auf Wunsch nur gewählte Bereiche über alle
+Seiten hinweg. Antippen wechselt zurück zu allen Bereichen. Feste Abstände und
+Bedienleisten bleiben erhalten. [Nachweis](docs/live-areas-0.5.28/README.md)
+
 ## 0.5.27 – Gesprächswissen in der rechten Seitenleiste
 
 Knowledge Areas vor dem Gespräch mehrfach auswählen, suchen und mit nummerierten

@@ -148,3 +148,16 @@ Eine abgelehnte Kombination wird nicht stillschweigend reduziert, sondern mit
 Hinweis beendet; anschließend können andere Bereiche gewählt werden.
 
 [Abnahme und Screenshots](live-areas-0.5.27/README.md)
+
+## Auswahlfilter ab 0.5.28
+
+Neben der Suche steht immer „Ausgewählt (N)“. Antippen zeigt nur die ausgewählten
+Bereiche, auch wenn sie ursprünglich auf verschiedenen Seiten standen. Erneut
+antippen zeigt wieder alle. Die Akzentfarbe kennzeichnet den aktiven Filter.
+Die Anzahl zählt immer die komplette Auswahl, auch während einer Suche.
+Beim Umschalten wird der Suchtext geleert und auf Seite 1 gewechselt. Danach kann
+auch innerhalb der Auswahl gesucht werden. Bereiche lassen sich direkt abwählen;
+eine leere Auswahl zeigt einen Hinweis zum Ausschalten des Filters und sperrt den
+Start. Während des Gesprächs ist der Filter verborgen; die bestätigten Bereiche
+stehen wie bisher schreibgeschützt rechts. Neue Gespräche und Kontowechsel setzen
+den Filter zurück. Der Filter verändert weder Bereiche noch Übertragungsziele.

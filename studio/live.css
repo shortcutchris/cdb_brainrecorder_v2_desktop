@@ -110,3 +110,12 @@ body[data-workspace="live-view"] #live-view.workspace-view{grid-column:2;grid-ro
 .live-area[data-selected=true]>img{filter:var(--active-filter)}
 #live-view .live-footer #live-start{background:var(--accent);color:var(--on-accent)}
 @media(max-height:680px){#live-view.with-keyboard .live-knowledge-heading{display:none}#live-view.with-keyboard .live-knowledge{grid-template-rows:48px minmax(48px,1fr) 48px}}
+
+/* Selected-only filter shares the fixed search row; no extra panel or layout shift. */
+.live-area-tools{display:flex;gap:6px;align-items:center}
+#live-search-label{flex:1;min-width:0}
+#live-selected-filter{flex:0 0 132px;width:132px;height:48px;padding:0 8px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-size:14px;white-space:nowrap}
+#live-selected-filter[aria-pressed=true]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+#live-area-lock{flex:1}
+#live-view #live-selected-filter{min-height:48px}
+#live-area-search{margin:0}

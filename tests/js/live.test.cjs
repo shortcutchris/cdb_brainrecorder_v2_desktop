@@ -105,3 +105,19 @@ test('account changes discard pending area requests rather than showing another 
  assert.equal(h.element('live-start').disabled,true);h.c.state.cdb.identity={name:'Other'};h.c.renderState();resolve({enabled:true,max_areas:8,areas:h.areas,default_area:h.areas[0],audio:{available:true}});await loading;
  assert.equal(h.element('live-selection-count').textContent,'0 von maximal 8 ausgewählt');assert.equal(h.element('live-start').disabled,true);assert.match(h.element('live-areas').children[0].textContent,/Keine Wissensbereiche/);
 });
+
+test('selected filter collects choices from all pages and clears search without losing choices',async()=>{
+ const h=await areaHarness();h.element('live-areas').children[1].onclick();h.element('live-area-pages').children[1].onclick();h.element('live-areas').children[2].onclick();
+ h.element('live-area-search').value='nothing';h.element('live-area-search').oninput();h.element('live-selected-filter').onclick();
+ assert.equal(h.element('live-area-search').value,'');assert.equal(h.element('live-selected-filter').textContent,'Ausgewählt (3)');
+ assert.deepEqual(h.element('live-areas').children.map(r=>r['aria-label']),['Projekt Atlas 0','Teamwissen 1','Kundenservice 6']);
+ h.element('live-areas').children[1].onclick();assert.equal(h.element('live-areas').children.length,2);assert.equal(h.element('live-selected-filter').textContent,'Ausgewählt (2)');
+ h.element('live-selected-filter').onclick();assert.equal(h.element('live-areas').children.length,4);
+ await h.element('live-start').onclick();assert.deepEqual(Array.from(h.calls.find(([p])=>p.endsWith('/reserve'))[1].area_ids),['area-0','area-6']);
+});
+test('empty selected filter is recoverable and stale filter cannot change a running session',async()=>{
+ const h=await areaHarness();h.element('live-selected-filter').onclick();h.element('live-areas').children[0].onclick();
+ assert.match(h.element('live-areas').children[0].textContent,/Noch nichts ausgewählt/);assert.equal(h.element('live-selected-filter').disabled,false);assert.equal(h.element('live-start').disabled,true);
+ h.element('live-selected-filter').onclick();h.element('live-areas').children[0].onclick();await h.element('live-start').onclick();
+ assert.equal(h.element('live-selected-filter').hidden,true);h.element('live-selected-filter').onclick();assert.equal(h.element('live-areas').children[0].onclick,undefined);
+});

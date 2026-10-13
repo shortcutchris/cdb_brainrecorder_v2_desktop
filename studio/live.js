@@ -6,9 +6,10 @@
  <section class="live-content"><div class="live-feedback" id="live-feedback"><div class="live-feedback-copy"><strong id="live-feedback-title" role="status">Bereit für dein Gespräch</strong><span id="live-feedback-detail">Wähle rechts dein Gesprächswissen.</span></div><div id="live-wave" class="live-wave" role="img" aria-label="Audiopegel">${Array.from({length:16},(_,i)=>'<i id="live-bar-'+i+'"></i>').join('')}</div><button id="live-sound" aria-pressed="true">Suchton an</button></div>
  <div class="live-layout"><div class="live-main"><div id="live-setup"><div class="live-welcome"><h3>Worüber möchtest du sprechen?</h3><p>Wähle einen oder mehrere Wissensbereiche<br>und starte dein Gespräch.</p></div><div class="live-pi-audio"><div class="live-device-cards"><div><span>Mikrofon</span><strong id="live-input-name">Wird geprüft …</strong></div><div><span>Lautsprecher</span><strong id="live-output-name">Wird geprüft …</strong></div></div><p id="live-audio-status" role="status">Mikrofon und Lautsprecher werden am Pi geprüft.</p></div></div>
  <div id="live-chat" hidden><div id="live-messages" role="log" aria-live="polite"></div><div class="live-history-controls"><nav id="live-chat-pages" class="direct-pages" aria-label="Gesprächsseiten"></nav><div class="live-history-trailing"><div id="live-cue" data-mode="idle"><span class="live-cue-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span id="live-cue-label" role="status"></span></div><button id="live-follow" aria-pressed="true">Am aktuellen Gespräch</button></div></div></div></div>
- <aside class="live-knowledge" aria-labelledby="live-knowledge-heading"><div class="live-knowledge-heading"><img src="/assets/book-open.svg" alt=""><div><h3 id="live-knowledge-heading">Gesprächswissen</h3><span id="live-selection-count" role="status"></span></div></div><div class="live-area-tools"><label id="live-search-label"><img src="/assets/magnifying-glass.svg" alt=""><input id="live-area-search" type="search" aria-label="Wissensbereiche suchen" placeholder="Bereich suchen" autocomplete="off"></label><p id="live-area-lock" hidden><img src="/assets/lock-simple.svg" alt=""><span id="live-area-lock-text">Auswahl im Gespräch gesperrt</span></p></div><div id="live-areas" role="group" aria-label="Wissensbereiche"></div><div class="live-area-footer"><nav id="live-area-pages" class="direct-pages" aria-label="Bereichsseiten"></nav><span id="live-area-position"></span></div></aside></div><p id="live-notice" role="status"></p></section>
+ <aside class="live-knowledge" aria-labelledby="live-knowledge-heading"><div class="live-knowledge-heading"><img src="/assets/book-open.svg" alt=""><div><h3 id="live-knowledge-heading">Gesprächswissen</h3><span id="live-selection-count" role="status"></span></div></div><div class="live-area-tools"><label id="live-search-label"><img src="/assets/magnifying-glass.svg" alt=""><input id="live-area-search" type="search" aria-label="Wissensbereiche suchen" placeholder="Suchen …" autocomplete="off"></label><button id="live-selected-filter" aria-pressed="false">Ausgewählt (0)</button><p id="live-area-lock" hidden><img src="/assets/lock-simple.svg" alt=""><span id="live-area-lock-text">Auswahl im Gespräch gesperrt</span></p></div><div id="live-areas" role="group" aria-label="Wissensbereiche"></div><div class="live-area-footer"><nav id="live-area-pages" class="direct-pages" aria-label="Bereichsseiten"></nav><span id="live-area-position"></span></div></aside></div><p id="live-notice" role="status"></p></section>
  <footer class="live-footer"><button id="live-audio-settings">Audioeinstellungen</button><button id="live-refresh" aria-label="Bereiche und Geräte aktualisieren" title="Bereiche und Geräte aktualisieren"><img src="/assets/arrow-clockwise.svg" alt=""></button><button id="live-new" hidden>Neues Gespräch</button><button id="live-mute" hidden aria-pressed="false">Mikro stumm</button><button id="live-start" class="primary">Gespräch starten</button><button id="live-end" hidden>Gespräch beenden</button></footer>`;document.body.append(view);
  let setup=null,chosen=new Set(),areaPage=0,chatPage=null,lease=null,heartbeat=null,starting=false,ending=false,loadedOwner=null,generation=0;
+ let selectedOnly=false;
  let areaQuery='',areaPageSize=4,areaSignature='',areaNavSignature='',setupLoading=false,setupError='',selectionInitialized=false,loadSerial=0,requestedAreas=[];
  const ownerKey=()=>JSON.stringify([state?.cdb?.identity||null,state?.cdb?.config?.server||null]);
  const areaName=a=>a.label||a.name||'Unbenannter Bereich';
@@ -38,13 +39,14 @@
   const locked=areaLocked(),live=liveState(),confirmed=live.areas||[];
   const source=locked?(confirmed.length?confirmed:busy()?requestedAreas:[]):setup?.areas||[];
   const normalize=text=>text.toLocaleLowerCase('de').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  const query=locked?'':normalize(areaQuery.trim()),areas=source.filter(a=>!query||normalize(areaName(a)).includes(query));
+  const query=locked?'':normalize(areaQuery.trim()),areas=source.filter(a=>(locked||!selectedOnly||chosen.has(a.id))&&(!query||normalize(areaName(a)).includes(query)));
   const count=Math.max(1,Math.ceil(areas.length/areaPageSize));areaPage=Math.max(0,Math.min(areaPage,count-1));
   $('live-area-search').disabled=locked||setupLoading||!online||!setup;$('live-search-label').hidden=locked;$('live-area-lock').hidden=!locked;
+  $('live-selected-filter').hidden=locked;$('live-selected-filter').disabled=locked||setupLoading||!online||!setup;$('live-selected-filter').textContent='Ausgewählt ('+chosen.size+')';$('live-selected-filter').setAttribute('aria-pressed',String(selectedOnly));$('live-selected-filter').setAttribute('aria-label',selectedOnly?'Alle Wissensbereiche anzeigen':'Nur ausgewählte Wissensbereiche anzeigen ('+chosen.size+')');
   $('live-area-lock-text').textContent=busy()?'Auswahl im Gespräch gesperrt':'Für dieses Gespräch festgelegt';
   $('live-selection-count').textContent=locked?(source.length+(source.length===1?' Bereich ':' Bereiche ')+(busy()?'im Gespräch':'verwendet')):setupLoading?'Bereiche werden geladen …':chosen.size+' von maximal '+maxAreas()+' ausgewählt';
   const rows=areas.slice(areaPage*areaPageSize,(areaPage+1)*areaPageSize);
-  const signature=JSON.stringify([rows,locked,[...chosen],areaPageSize,online,setupLoading,setupError,maxAreas()]);
+  const signature=JSON.stringify([rows,locked,[...chosen],areaPageSize,online,setupLoading,setupError,maxAreas(),selectedOnly]);
   if(signature!==areaSignature){
    areaSignature=signature;const box=$('live-areas');box.style.setProperty?.('--area-rows',areaPageSize);box.replaceChildren();
    for(const area of rows){
@@ -55,12 +57,13 @@
      row.onclick=()=>{if(areaLocked()||!online||setupLoading||!setup?.areas.some(a=>a.id===area.id))return;if(chosen.has(area.id))chosen.delete(area.id);else if(chosen.size<maxAreas())chosen.add(area.id);else return;selectionInitialized=true;note('');renderLive()};
     }box.append(row);
    }
-   if(!rows.length){const empty=document.createElement('p');empty.className='live-area-empty';empty.textContent=locked?'Bereiche werden bestätigt …':setupLoading?'Bereiche werden geladen …':setupError?'Bereiche konnten nicht geladen werden. Bitte aktualisieren.':query?'Keine passenden Bereiche. Suche ändern.':'Keine Wissensbereiche verfügbar.';box.append(empty)}
+   if(!rows.length){const empty=document.createElement('p');empty.className='live-area-empty';empty.textContent=locked?'Bereiche werden bestätigt …':setupLoading?'Bereiche werden geladen …':setupError?'Bereiche konnten nicht geladen werden. Bitte aktualisieren.':query?'Keine passenden Bereiche. Suche ändern.':selectedOnly?'Noch nichts ausgewählt. Filter ausschalten, um Bereiche zu wählen.':'Keine Wissensbereiche verfügbar.';box.append(empty)}
   }
   const navKey=count+':'+areaPage;
   if(navKey!==areaNavSignature){areaNavSignature=navKey;const nav=$('live-area-pages');nav.replaceChildren();const first=Math.max(0,Math.min(areaPage-1,count-3));for(let i=first;i<Math.min(count,first+3);i++){const button=document.createElement('button');button.textContent=String(i+1);button.setAttribute('aria-label','Bereichsseite '+(i+1));button.setAttribute('aria-current',i===areaPage?'page':'false');button.onclick=()=>{areaPage=i;drawAreas()};nav.append(button)}}
   $('live-area-position').textContent=(areaPage+1)+' / '+count;
  }
+ $('live-selected-filter').onclick=()=>{if(areaLocked()||setupLoading||!online||!setup)return;selectedOnly=!selectedOnly;areaQuery='';$('live-area-search').value='';areaPage=0;drawAreas()};
  $('live-area-search').oninput=()=>{if(areaLocked())return;areaQuery=$('live-area-search').value;areaPage=0;drawAreas()};
  if(typeof ResizeObserver!=='undefined')new ResizeObserver(()=>{const size=Math.max(1,Math.min(4,Math.floor((($('live-areas').clientHeight||210)+6)/54)));if(size!==areaPageSize){const first=areaPage*areaPageSize;areaPageSize=size;areaPage=Math.floor(first/size);drawAreas()}}).observe($('live-areas'));
  // Fit real rendered text to the fixed viewport, never arbitrary character counts.
@@ -175,7 +178,7 @@
  $('live-sound').onclick=run(async()=>{if(soundSaving)return;soundSaving=true;try{const f=await post('preferences',{lease,search_sound:state?.live?.feedback?.search_sound===false});state.live.feedback=f;drawFeedback(f)}finally{soundSaving=false;drawFeedback(state?.live?.feedback)}});
  function renderLive(){
   const live=state?.live||{state:'idle',history:[]},active=busy(),history=Boolean(live.history?.length),recording=Boolean(state?.recording.id);rail.disabled=recording;
-  const owner=ownerKey();if(owner!==loadedOwner&&!active){loadedOwner=owner;setup=null;chosen.clear();requestedAreas=[];selectionInitialized=false;setupLoading=false;setupError='';loadSerial++;areaQuery='';$('live-area-search').value='';areaPage=0;}
+  const owner=ownerKey();if(owner!==loadedOwner&&!active){loadedOwner=owner;setup=null;chosen.clear();requestedAreas=[];selectedOnly=false;selectionInitialized=false;setupLoading=false;setupError='';loadSerial++;areaQuery='';$('live-area-search').value='';areaPage=0;}
   $('live-status').textContent='CDB Voice One';$('live-setup').hidden=active||history;$('live-chat').hidden=!active&&!history;
   $('live-start').hidden=active||history;$('live-end').hidden=!active;$('live-end').disabled=ending||live.state==='closing';
   $('live-mute').hidden=!active;$('live-mute').disabled=!lease||ending||live.state==='closing';$('live-mute').textContent=live.muted?'Mikro einschalten':'Mikro stumm';$('live-mute').setAttribute('aria-pressed',String(Boolean(live.muted)));
@@ -190,7 +193,7 @@
  const previousRender=renderState;renderState=function(){previousRender();renderLive()};
  $('live-refresh').onclick=run(load);
  $('live-audio-settings').onclick=run(async()=>{if(busy())return;await openSettings();showSettingsDetail('audio-home')});
- $('live-new').onclick=run(async()=>{await post('clear');chatPage=null;areaPage=0;areaQuery='';$('live-area-search').value='';requestedAreas=[];await poll();await load()});
+ $('live-new').onclick=run(async()=>{await post('clear');chatPage=null;areaPage=0;selectedOnly=false;areaQuery='';$('live-area-search').value='';requestedAreas=[];await poll();await load()});
  $('live-start').onclick=run(async()=>{
   if(starting||busy()||!online||setupLoading||!setup?.enabled||!chosen.size||chosen.size>maxAreas()||!setup?.audio?.available)return;const runId=++generation;requestedAreas=setup.areas.filter(a=>chosen.has(a.id));starting=true;areaPage=0;chatPage=null;if(document.body.classList.contains('keyboard-open'))$('keyboard').click();audio.pause();if(typeof pauseMicrophoneAudio==='function')pauseMicrophoneAudio();note('Mikrofon und Lautsprecher werden am Pi verbunden …');renderLive();
   try{
