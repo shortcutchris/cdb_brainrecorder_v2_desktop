@@ -1,0 +1,25 @@
+{
+  "version": "0.5.18",
+  "sessions_preserved": 22,
+  "configuration_preserved": true,
+  "account_preserved": true,
+  "services": [
+    "active",
+    "active"
+  ],
+  "sha256": {
+    "web_server.py": "3db94600146db20e01bbb44868eb0ade9a761830a06bd9a999d9912f700b13d7",
+    "studio/index.html": "a3054cb292b152181f8a3c73c14341c8dc06ec440d79169f817249108adcaafb",
+    "studio/capture-controls.js": "1c18ec305ac460656301dbb8d6054cb0e4eebb857385af5b3fa2dade5950800a",
+    "studio/live.js": "ab374375cae72ca3f78ba7e388bc0fccb5ea494065fdc2bb257090204964d6ee",
+    "studio/live.css": "551f270c7c7cfa34c0de2160fcce0be4590029c937e46a1ad29433b539161795",
+    "services/app_activity.py": "e61fad90cb1d1c5fefb9c4e46f1a4939930ac419bf64f835def5fb40fe6b7f2c",
+    "services/live_conversation.py": "6cd89e3b7d152ac6a5c940c9e3ae989145b088a4400ca929afde6058b656c257",
+    "services/respeaker_leds.py": "c330fec77e26f7bb5d3f8df6b0b7f4c88a2785bc5a3656e422f105235efdb162",
+    "services/cdb_integration.py": "13fd39976602862a4858f8295f849fa1f8776f1411409b5d1e28ebf6ab79afe2",
+    "requirements.txt": "eff7c0bf05577f1fdd01b39166b5e482413b6acd71dc989afc303427bc504144",
+    "scripts/install-respeaker.sh": "1757396e1bbecc30fd94f35c727788ddabcd332d7c0ce0666d6e2ef5e6a755d5",
+    "config/udev/70-cdb-respeaker.rules": "fa7d7b4d4f6e3fa9f0fd696c65d5dae4f8d719e520c67065f71390bbf50eb28c"
+  },
+  "runtime_matches_local": true
+}

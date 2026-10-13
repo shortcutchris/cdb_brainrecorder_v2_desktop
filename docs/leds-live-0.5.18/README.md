@@ -23,8 +23,8 @@ Der CDB-Test verwendet einen isolierten WebRTC-Client mit künstlicher WAV-Datei
 
 ## Screenshots
 
-[Gespräch aktiv](live-active.png) · [Synthetischer Verlauf nach Ende](live-finished.png) · [Aufnahme sperrt Live](recording-locked.png) · [Bereiche wählen](live-setup.png)
+[Gespräch aktiv](live-active.png) · [Synthetischer Verlauf nach Ende](live-finished.png) · [Aufnahme sperrt Live](recording-locked.png) · [Bereiche wählen](live-setup.png) · [Produktive Oberfläche](live-production.png)
 
 ## Installation
 
-Version 0.5.18; Engine unverändert 0.2.7. PyUSB 1.3.1 und die eng auf USB 2886:001a begrenzte Audio-Gruppenregel eingerichtet. Keine Firmwareänderung und keine Audio-/Kontokonfiguration durch dieses Update. Deployment-Nachweis folgt nach produktiver Prüfung.
+Version 0.5.18; Engine unverändert 0.2.7. PyUSB 1.3.1 und die eng auf USB 2886:001a begrenzte Audio-Gruppenregel eingerichtet. Keine Firmwareänderung und keine Audio-/Kontokonfiguration durch dieses Update. Produktiv auf dem Pi installiert und beide Dienste aktiv. Alle 22 Aufnahmen, Audio-/Modellkonfiguration, Brain-Anmeldung und Standardbereich unverändert erhalten; alle 12 ausgelieferten Laufzeitdateien stimmen per SHA256 mit dem lokalen Commit überein. ReSpeaker verbunden und im ursprünglichen Bereitschaftsmodus. [Deployment-Nachweis](deployment.json). Rückfallsicherung: `/home/chris/backups/recorder-before-0.5.18`.
