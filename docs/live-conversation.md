@@ -106,3 +106,23 @@ wieder auf die jeweils neueste Seite. Nach Gesprächsende werden die anderen
 Ansichten wieder freigegeben.
 
 [Prüfungen und Screenshots 0.5.25](live-conversation-0.5.25/README.md).
+
+## Suchanimation ab 0.5.26
+
+Unten rechts im Gespräch ist ein fester Platz für die Suchaktivität reserviert.
+Vier kleine bewegte Balken mit **Suchton läuft** erscheinen erst, wenn Python
+Audioblöcke an den Suchton-Player weitergibt. Nach Suchende bleibt **Suchton klingt
+aus** sichtbar, solange die kurze Phrase noch läuft. Das Symbol ist ein
+Aktivitätsindikator, keine zweite Waveform oder Fortschrittsanzeige.
+
+Bei laufender Suche ohne Ton erscheint ein kleiner Suchkreis mit **Suche · Ton
+pausiert** bzw. **Suche · Ton aus**. Wenn weder gesucht noch ein Suchton ausgegeben
+wird, bleibt der reservierte Platz unsichtbar. Header, Textfläche, Seitennavigation
+und Bedienleiste verschieben sich dadurch nicht. Reduzierte Bewegung stellt die
+Symbole statisch dar. Die Animation nutzt nur CSS-Transformationen und den bereits
+vorhandenen Statusabruf; keine zusätzlichen Browser-Timer oder Cloud-Anfragen.
+
+Die Rückmeldung bestätigt die Ausgabe an den Pi-Audioplayer, nicht die akustische
+Hörbarkeit im Raum. Bluetooth kann den tatsächlichen Klang geringfügig verzögern.
+Bei Gesprächsende, veralteter Audioaktivität oder Verbindungsfehler verschwindet
+die Tonanimation. [Prüfungen und Vorschauen](live-search-indicator-0.5.26/README.md).

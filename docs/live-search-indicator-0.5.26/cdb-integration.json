@@ -1,0 +1,80 @@
+{
+  "test": "Pi, synthetic German speech, CDB staging_playground, no room microphone or speaker",
+  "states": [
+    {
+      "seconds": 0.0,
+      "state": "connecting"
+    },
+    {
+      "seconds": 9.2,
+      "state": "listening"
+    },
+    {
+      "seconds": 10.9,
+      "state": "speaking"
+    },
+    {
+      "seconds": 12.0,
+      "state": "listening"
+    },
+    {
+      "seconds": 13.3,
+      "state": "speaking"
+    },
+    {
+      "seconds": 14.9,
+      "state": "thinking"
+    },
+    {
+      "seconds": 16.5,
+      "state": "thinking:web"
+    },
+    {
+      "seconds": 17.7,
+      "state": "thinking"
+    },
+    {
+      "seconds": 21.4,
+      "state": "speaking"
+    }
+  ],
+  "brain_seen": false,
+  "web_seen": true,
+  "input_peak": 1,
+  "output_peak": 1,
+  "cue_playing_seen": true,
+  "stats": {
+    "capture_backend": "explicit-device",
+    "captured_frames": 2249,
+    "sent_frames": 1789,
+    "played_frames": 1746,
+    "search_tones": 1,
+    "search_loop_blocks": 99,
+    "search_loop_pauses": 1,
+    "event_types": {
+      "session.started": 1,
+      "session.input_transcript.delta": 8,
+      "session.output_transcript.delta": 44,
+      "session.delegation.created": 1,
+      "response.event:response.created": 1,
+      "response.event:response.in_progress": 1,
+      "response.event:response.output_item.added": 4,
+      "response.event:response.output_item.done": 4,
+      "response.event:response.web_search_call.in_progress": 1,
+      "response.event:response.web_search_call.searching": 1,
+      "response.event:response.web_search_call.completed": 1,
+      "response.event:response.content_part.added": 1,
+      "response.event:response.output_text.delta": 16,
+      "response.event:response.output_text.done": 1,
+      "response.event:response.content_part.done": 1,
+      "response.event:response.completed": 1
+    },
+    "processes_alive": 2,
+    "closed": false
+  },
+  "mute_and_sound_toggle": true,
+  "interlocks": true,
+  "unlocked": true,
+  "ended_cue_hidden": true,
+  "ended_zero_wave": true
+}

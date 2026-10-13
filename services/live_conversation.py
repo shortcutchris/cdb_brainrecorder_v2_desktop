@@ -93,7 +93,8 @@ class LiveConversation:
             return {'state':self.state,'active':active,'muted':self.muted,'search':search,
                     'input':native.get('input',{'bars':[0]*16,'active':False}) if not self.muted else {'bars':[0]*16,'active':False},
                     'output':native.get('output',{'bars':[0]*16,'active':False}),
-                    'search_sound':self.search_sound,'web_events':native.get('web_events',0)}
+                    'search_sound':self.search_sound,'search_audio':native.get('search_audio',{'playing':False}),
+                    'web_events':native.get('web_events',0)}
 
     def preferences(self, enabled, lease=None):
         if type(enabled) is not bool:raise ValueError('Ungültige Suchton-Einstellung.')

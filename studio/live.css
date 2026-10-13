@@ -63,3 +63,19 @@ body[data-workspace="live-view"] #live-view.workspace-view{grid-column:2;grid-ro
 .live-feedback[data-mode=search] .live-feedback-copy strong{animation:live-search-pulse 1.6s ease-in-out infinite}
 @keyframes live-search-pulse{50%{opacity:.55}}
 @media(prefers-reduced-motion:reduce){.live-wave i{transition:none}.live-feedback[data-mode=search] .live-feedback-copy strong{animation:none}}
+
+/* Reserved footprint: cue visibility and animation never move text or controls. */
+.live-history-trailing{display:flex;align-items:center;gap:12px;flex:0 0 auto}
+#live-cue{width:184px;height:48px;display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;white-space:nowrap;visibility:visible}
+#live-cue[data-mode=idle]{visibility:hidden}
+.live-cue-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center;gap:3px;flex:0 0 24px;color:var(--accent-text)}
+.live-cue-icon i{display:block;width:3px;height:18px;border-radius:3px;background:currentColor;transform:scaleY(.25)}
+#live-cue[data-mode=playing] i{animation:live-cue-bars .9s ease-in-out infinite alternate}
+#live-cue[data-mode=playing] i:nth-child(2){animation-delay:-.45s}
+#live-cue[data-mode=playing] i:nth-child(3){animation-delay:-.2s}
+#live-cue[data-mode=playing] i:nth-child(4){animation-delay:-.65s}
+#live-cue[data-mode=searching] .live-cue-icon{border:2px solid var(--line);border-top-color:var(--accent-text);border-radius:50%;animation:live-cue-spin 1.4s linear infinite}
+#live-cue[data-mode=searching] i{visibility:hidden}
+@keyframes live-cue-bars{from{transform:scaleY(.25)}to{transform:scaleY(1)}}
+@keyframes live-cue-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){#live-cue[data-mode=playing] i,#live-cue[data-mode=searching] .live-cue-icon{animation:none}#live-cue[data-mode=playing] i:nth-child(even){transform:scaleY(.8)}}

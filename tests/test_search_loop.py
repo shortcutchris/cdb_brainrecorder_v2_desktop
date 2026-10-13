@@ -15,6 +15,7 @@ class SearchLoopTests(unittest.TestCase):
         self.audio.close()
         self.assertEqual(self.audio.stats()['processes_alive'], 0)
         self.assertFalse(self.audio.thread.is_alive())
+        self.assertFalse(self.audio.feedback()['search_audio']['playing'])
 
     def wait(self, predicate, seconds=2):
         end = time.monotonic() + seconds
@@ -22,6 +23,25 @@ class SearchLoopTests(unittest.TestCase):
             if predicate(): return
             time.sleep(.01)
         self.assertTrue(predicate())
+
+    def test_feedback_reports_written_audio_including_tail_not_just_search(self):
+        a=self.audio
+        self.assertFalse(a.feedback()['search_audio']['playing'])
+        a.set_search_sound(False)
+        a.update_search('web','visual','started')
+        time.sleep(.1)
+        self.assertFalse(a.feedback()['search_audio']['playing'])
+        a.set_search_sound(True)
+        self.wait(lambda:a.feedback()['search_audio']['playing'])
+        a.update_search('web','visual','done')
+        self.assertEqual(a.feedback()['search']['web'],0)
+        self.assertTrue(a.feedback()['search_audio']['playing'])
+        self.wait(lambda:a.stats()['processes_alive']==0,3)
+        self.assertFalse(a.feedback()['search_audio']['playing'])
+        a.update_search('web','next','started')
+        self.wait(lambda:a.feedback()['search_audio']['playing'])
+        a.set_search_sound(False)
+        self.assertFalse(a.feedback()['search_audio']['playing'])
 
     def test_continuous_loop_parallel_searches_and_terminal_events(self):
         a = self.audio
@@ -117,6 +137,7 @@ class SearchLoopTests(unittest.TestCase):
         a.update_search('web', 'b', 'started')
         self.wait(lambda: a.cue_task.done())
         self.assertFalse(a.failure_sent)
+        self.assertFalse(a.feedback()['search_audio']['playing'])
 
 
 if __name__ == '__main__':

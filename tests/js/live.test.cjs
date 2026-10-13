@@ -58,3 +58,16 @@ test('feedback uses measured audio and confirmed search, mute zeros input',()=>{
 test('opening a completed transcript does not request cloud setup again',async()=>{
  const h=harness();h.c.state.live={state:'ended',busy:false,history:[{role:'assistant',text:'Fertig.'}]};await h.element('live-open').onclick();assert.equal(h.calls.some(([p])=>p==='/api/live/setup'),false);assert.equal(h.element('live-new').hidden,false);
 });
+
+test('cue indicator follows actual playback, search pauses and terminal states',()=>{
+ const h=harness(),f={active:true,search:{web:1},search_sound:true,search_audio:{playing:false}};
+ h.c.state.live={state:'listening',busy:true,history:[],feedback:f};h.c.renderState();
+ assert.equal(h.element('live-cue').dataset.mode,'searching');assert.equal(h.element('live-cue-label').textContent,'Suche · Ton pausiert');
+ f.search_audio.playing=true;h.c.renderState();assert.equal(h.element('live-cue').dataset.mode,'playing');assert.equal(h.element('live-cue-label').textContent,'Suchton läuft');
+ f.search.web=0;h.c.renderState();assert.equal(h.element('live-cue-label').textContent,'Suchton klingt aus');
+ f.search.web=1;f.search_sound=false;h.c.renderState();assert.equal(h.element('live-cue').dataset.mode,'searching');assert.equal(h.element('live-cue-label').textContent,'Suche · Ton aus');
+ f.search.web=0;h.c.renderState();assert.equal(h.element('live-cue').dataset.mode,'idle');
+ f.search_sound=true;f.active=false;h.c.renderState();assert.equal(h.element('live-cue').dataset.mode,'idle');
+ f.active=true;f.unavailable=true;h.c.renderState();assert.equal(h.element('live-cue').dataset.mode,'idle');
+ f.unavailable=false;h.c.online=false;h.c.renderState();assert.equal(h.element('live-cue').dataset.mode,'idle');
+});

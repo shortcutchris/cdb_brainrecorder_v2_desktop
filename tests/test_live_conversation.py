@@ -186,7 +186,8 @@ class FeedbackConversationTests(unittest.TestCase):
     reserve=LiveTests.reserve
     def test_search_replay_only_plays_once_and_preferences_survive(self):
         from unittest.mock import Mock
-        lease=self.reserve();native=Mock();native.feedback.return_value={};self.live.native=native
+        lease=self.reserve();native=Mock();native.feedback.return_value={'search_audio':{'playing':True}};self.live.native=native
+        self.assertTrue(self.live.feedback()['search_audio']['playing'])
         self.live._frame(self.live.generation,'search',{'call_id':'a','status':'started'})
         self.live._frame(self.live.generation,'search',{'call_id':'a','status':'started'})
         self.assertEqual(self.live.feedback()['search']['brain'],1);self.assertEqual(native.update_search.call_count,2)
@@ -198,6 +199,7 @@ class FeedbackConversationTests(unittest.TestCase):
         self.live._frame(self.live.generation-1,'search',{'call_id':'stale','status':'started'})
         self.assertEqual(self.live.feedback()['search']['brain'],1)
         self.live.end(lease);self.wait(lambda:not self.live.busy());self.assertEqual(self.live.feedback()['search']['brain'],0)
+        self.assertFalse(self.live.feedback()['search_audio']['playing'])
         restored=LiveConversation(self.brain,self.root.name)
         try:self.assertFalse(restored.search_sound)
         finally:restored.close()

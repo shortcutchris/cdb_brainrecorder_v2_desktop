@@ -114,7 +114,7 @@ class NativeLiveAudio:
                                                      '--channels=1', '--latency-msec=80', '--device=' + config['speaker']]
         self.gate = PcmGate()
         self.input_meter=SearchInputEnvelope();self.output_meter=AudioEnvelope();self.searches=SearchActivity()
-        self.search_sound=True;self.cue_task=None;self.cue_serial=0;self.cue_requested_at=0;self.user_speech_at=0;self.search_loop_blocks=0;self.search_loop_pauses=0;self.web_event_count=0;self.event_types={};self.search_tones=0
+        self.search_sound=True;self.cue_task=None;self.cue_serial=0;self.cue_requested_at=0;self.cue_played_at=0;self.user_speech_at=0;self.search_loop_blocks=0;self.search_loop_pauses=0;self.web_event_count=0;self.event_types={};self.search_tones=0
         self.closed = threading.Event()
         self.loop = asyncio.new_event_loop()
         self.processes = []
@@ -275,7 +275,8 @@ class NativeLiveAudio:
 
     def feedback(self):
         return {'input':self.input_meter.public(),'output':self.output_meter.public(),
-                'search':self.searches.public(),'web_events':self.web_event_count}
+                'search':self.searches.public(),'web_events':self.web_event_count,
+                'search_audio':{'playing':bool(self.search_sound and not self.closed.is_set() and self.cue_played_at and time.monotonic()-self.cue_played_at<.25)}}
 
     def set_search_sound(self, enabled):
         self.search_sound=enabled
@@ -332,6 +333,7 @@ class NativeLiveAudio:
                 elif idle_since is None:idle_since=now
                 if not output_speech:waiting_output=False
                 if not self.search_sound:
+                    self.cue_played_at=0
                     if process:await self._terminate(process);process=None;self.search_loop_pauses+=1
                     handled=self.cue_serial
                     offset=total=0;deadline=0;fade=None
@@ -367,6 +369,7 @@ class NativeLiveAudio:
                 self.input_meter.cue_playing()
                 process.stdin.write(block.tobytes())
                 await asyncio.wait_for(process.stdin.drain(),.5)
+                self.cue_played_at=time.monotonic()
                 offset=(offset+960)%len(pcm);total+=1;self.search_loop_blocks+=1;gain=next_gain
                 clock=asyncio.get_running_loop().time()
                 deadline=max(deadline+.02,clock) if deadline else clock+.02
@@ -379,11 +382,13 @@ class NativeLiveAudio:
                         try:await asyncio.wait_for(process.wait(),.25)
                         except asyncio.TimeoutError:pass
                         await self._terminate(process);process=None;self.search_loop_pauses+=1
+                        self.cue_played_at=0
                         waiting_output=fade_reason=='answer'
                         offset=total=0;deadline=0;fade=None;fade_reason=None
         except (OSError,ValueError,EOFError,asyncio.TimeoutError,ConnectionError):
             pass  # An optional sound failure must not end the conversation.
         finally:
+            self.cue_played_at=0
             if process:await self._terminate(process)
 
     async def _terminate(self, process):

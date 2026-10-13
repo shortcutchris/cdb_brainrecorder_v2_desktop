@@ -1,5 +1,11 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.26 – Suchaktivität sichtbar machen
+
+Ein kleiner Indikator unten rechts zeigt laufenden Suchton, Ausklingen sowie die Suche bei pausiertem oder ausgeschaltetem Ton. Sein Platz bleibt reserviert; das Layout bewegt sich nicht. Die Tonanzeige folgt der tatsächlichen Ausgabe des Python-Players.
+
+[Prüfungen und Vorschauen](docs/live-search-indicator-0.5.26/README.md)
+
 ## 0.5.25 – Ruhiger Gesprächsverlauf und fließender Suchklang
 
 Kleine Nutzerblasen rechts, offene Antworten links und feste Bedienleisten. Lange Antworten werden anhand ihrer tatsächlichen Darstellung auf Seiten verteilt. Beim Zurückblättern bleibt der Verlauf stehen. Kurze Suchen beenden eine 1,6-Sekunden-Klangphrase mit sanfter Ausblendung; Folgeaufrufe teilen sich einen Player.
