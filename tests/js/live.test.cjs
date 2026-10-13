@@ -39,3 +39,21 @@ test('chat pages preserve long and multiline content without oversize bubbles',(
 test('recorder navigation unlocks after live ends',()=>{
  const h=harness();h.c.state.live={state:'listening',busy:true,history:[]};h.c.renderState();assert.equal(h.element('home').disabled,true);h.c.state.live={state:'ended',busy:false,history:[]};h.c.renderState();assert.equal(h.element('home').disabled,false);
 });
+test('permission request keeps setup visible and explains the pending browser prompt',async()=>{
+ const h=harness();await h.element('live-open').onclick();const pending=h.element('live-devices').onclick();await tick();
+ assert.equal(h.element('live-setup').hidden,false);assert.equal(h.element('live-chat').hidden,true);assert.equal(h.element('live-microphone').disabled,true);assert.equal(h.element('live-end').textContent,'Abbrechen');assert.match(h.element('live-notice').textContent,/Browser bestätigen/);
+ await h.element('live-end').onclick();h.resolveMedia();await pending;
+});
+test('blocked browser permission has a persistent actionable message and releases audio',async()=>{
+ const h=harness();await h.element('live-open').onclick();const pending=h.element('live-devices').onclick();await tick();const error=new Error('Permission denied');error.name='NotAllowedError';h.rejectMedia(error);await assert.rejects(pending,/Mikrofonzugriff wurde blockiert/);
+ assert.match(h.element('live-notice').textContent,/Recorder-Seite im Browser erlauben/);assert.equal(h.c.state.live.busy,false);assert.equal(h.element('home').disabled,false);
+});
+test('existing browser permission populates ReSpeaker without opening an audio track',async()=>{
+ const h=harness();await h.element('live-open').onclick();assert.equal(h.element('live-microphone').value,'respeaker');assert.equal(h.element('live-microphone').disabled,false);assert.equal(h.element('live-devices').textContent,'Geräte aktualisieren');assert.equal(h.calls.some(([p])=>p.endsWith('/reserve')),false);
+});
+test('no device labels leaves an explicitly disabled selection and a release button',async()=>{
+ const h=harness();h.c.navigator.mediaDevices.enumerateDevices=async()=>[{kind:'audioinput',deviceId:'default',label:''}];await h.element('live-open').onclick();assert.equal(h.element('live-microphone').disabled,true);assert.equal(h.element('live-devices').textContent,'Mikrofon freigeben');assert.equal(h.element('live-start').disabled,true);
+});
+test('opening microphone permission stops existing audio playback',async()=>{
+ const h=harness();let paused=0;h.c.audio.pause=()=>paused++;h.c.pauseMicrophoneAudio=()=>paused++;await h.element('live-open').onclick();paused=0;const pending=h.element('live-devices').onclick();await tick();assert.equal(paused,2);h.resolveMedia();await pending;
+});

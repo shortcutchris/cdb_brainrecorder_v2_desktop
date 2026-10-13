@@ -4,7 +4,7 @@
 
 In der linken Navigation **Live-Gespräch** öffnen. Nach der bestehenden Microsoft-/Brain-Anmeldung werden die persönlich verfügbaren Knowledge Areas geladen. Ein bis acht Bereiche auswählen; der Standardbereich ist vorausgewählt. Die Auswahl gilt nur für das Gespräch und ändert das Übertragungsziel des Recorders nicht.
 
-**Mikrofon wählen** gibt den Browserzugriff frei. Ein erkanntes ReSpeaker wird ausgewählt; bei anderen Mikrofonen ist eine ausdrückliche Auswahl nötig. **Gespräch starten** verbindet anschließend CDB Voice One. Der Verlauf zeigt die tatsächlich vom Brain empfangenen Transkriptfragmente mit „Du“ und „Voice One“. Längere Verläufe haben direkt anwählbare Seiten.
+**Mikrofon freigeben** fordert die Browserberechtigung an. Erst nach Bestätigung wird die Geräteauswahl aktiv. Bereits freigegebene Geräte werden beim Öffnen ohne erneuten Mikrofonstart geladen; **Geräte aktualisieren** liest sie erneut ein. Während einer offenen Berechtigungsabfrage bleibt die Auswahlansicht sichtbar und **Abbrechen** gibt die Reservierung frei. Fehler bleiben mit einer konkreten Anleitung im Bildschirm sichtbar. Ein erkanntes ReSpeaker wird ausgewählt; bei anderen Mikrofonen ist eine ausdrückliche Auswahl nötig. **Gespräch starten** verbindet anschließend CDB Voice One. Der Verlauf zeigt die tatsächlich vom Brain empfangenen Transkriptfragmente mit „Du“ und „Voice One“. Längere Verläufe haben direkt anwählbare Seiten.
 
 **Mikro stumm** deaktiviert den sendenden Audio-Track. **Gespräch beenden** stoppt Mikrofon und Lautsprecher sofort und schließt die Brain-Sitzung. **Neues Gespräch** beginnt einen leeren Verlauf; abgeschlossene lokale Verlaufsdateien bleiben erhalten. Nach einem Neustart wird beim Öffnen die letzte abgeschlossene Unterhaltung desselben Brain-Kontos geladen.
 
@@ -30,3 +30,9 @@ Am 13.10.2026 meldete der vorhandene Staging-Zugang: Live aktiviert, maximal ach
 ## Prüfungen
 
 Automatisierte Tests prüfen gültige Bereiche, Besitzer der Reservierung, doppelte Starts, fehlgeschlagene Verbindungen, Abbruch während eines verzögerten Starts, Ablauf der Browser-Reservierung, Kontowechsel, lokale Wiederherstellung sowie verspätete Browser-Mikrofonfreigaben. Reale Browser-, ReSpeaker- und CDB-Abnahme wird im Release-/Testprotokoll separat dokumentiert; bestandene Mock-Tests sind kein Nachweis eines echten Sprachgesprächs.
+
+## Mikrofonfreigabe 0.5.19
+
+Das Platzhalterfeld bedeutet keine Gerätebelegung. Am 13.10.2026 war das ReSpeaker auf dem Pi als PipeWire-Eingang vorhanden, beide PCM-Geräte waren frei, Recorder und Live-Service im Ruhezustand. Die konkrete Browserfreigabe am Touchdisplay war noch nicht bestätigt. Der neue Ablauf trennt fehlende Berechtigung, fehlendes Gerät und nicht lesbares/belegtes Mikrofon. Bestehende Browser-Wiedergabe und Mikrofon-Testplayer werden vor der Freigabe und dem Gesprächsstart pausiert. 60 JavaScript-Tests bestanden, inklusive Abbruch während der Freigabe, persistenter Fehlermeldung, vorhandener Berechtigung und Wiedergabestopp.
+
+Browservertrag: [MDN getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia), [MDN enumerateDevices](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/enumerateDevices). Keine automatische Änderung von Browserberechtigungen oder globalen Chromium-Sicherheitseinstellungen.
