@@ -1,0 +1,16 @@
+{
+  "version": "0.5.14",
+  "sessions_preserved": 22,
+  "configuration_preserved": true,
+  "account_preserved": true,
+  "services": [
+    "active",
+    "active"
+  ],
+  "sha256": {
+    "web_server.py": "fc99fbf0656eb06852af4564650be13bd08bbf959dc3feee2436c49a8132fe1e",
+    "studio/index.html": "f73b61a8bce78e5607a29cd1de84faba323d54f4a12c5b6ab6993c26d360e6d3",
+    "studio/workspace.css": "3b051a611d0da86f8886b248eafe6704958fd6e34bf46369d3c24d54778f16f4",
+    "studio/touch.js": "91a3d4c2305e224149f03768cde5afa6b251086f57a88d425c819a886a233d22"
+  }
+}

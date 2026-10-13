@@ -20,3 +20,9 @@ Geprüft: synthetische Aufnahme starten/stoppen (94 Sekunden), gesperrte Navigat
 - [Recorder Notizen](03-recorder-notes.png), [Recorder Zusammenfassung](04-recorder-summary.png)
 - [Bibliotheksliste hell](05-library-light.png), [Seite 2](06-library-page2.png)
 - [Aufnahmedetail hell](07-detail-light.png), [Queue](08-queue.png)
+
+## Produktiver Pi
+
+0.5.14 nach Leerprüfung und Sicherung unter `/home/chris/backups/recorder-before-0.5.14` aufgespielt. Backend und Kiosk aktiv. Vier ausgelieferte Dateien per SHA256 identisch zum Repository (`deployment.json`). Alle 22 Aufnahmen, Konfiguration, aktive Provider, Brain-Anmeldung und Standardbereich erhalten.
+
+[Recorder](09-production-recorder.png), [Bibliothek](10-production-library.png), [Aufnahmedetail](11-production-detail.png).
