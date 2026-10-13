@@ -29,6 +29,8 @@ function currentReadiness(){return recorderReadiness(state,online,readinessKey(s
 function renderRecorderReadiness(){
  if(!online){readinessSnapshot=null;readinessSnapshotKey='';readinessChecked=0}
  const view=currentReadiness(),button=$('mic-settings');
+ $('ready-heading').textContent=view.tone==='ready'?'Bereit für eine neue Aufnahme':view.label;
+ $('ready-instruction').textContent=view.target?'Tippe links auf die rote Statusanzeige, um den offenen Punkt zu prüfen.':view.tone==='ready'?'Starte links deine Aufnahme. Deine Notizen erscheinen hier.':'Sobald die Prüfung abgeschlossen ist, kannst du hier aufnehmen.';
  button.dataset.status=view.tone;button.disabled=!view.target||Boolean(recordingAction);
  button.title=view.target?'Offenen Punkt prüfen':'';$('mic-name').textContent=view.label;
  button.setAttribute('aria-label',view.label+(view.target?' · '+(view.target==='library'?'Bibliothek öffnen':'Einstellungen öffnen'):''));

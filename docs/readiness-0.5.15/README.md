@@ -12,3 +12,7 @@ Die Anzeige liest alle zehn Sekunden die vorhandene Geräteübersicht und Einric
 - [Aufnahme läuft](02-recording.png)
 - [Mikrofon fehlt](03-missing.png)
 - [Direkt zur Audio-Einstellung](04-settings.png)
+
+## Produktiver Pi
+
+0.5.15 aufgespielt, Backend und Kiosk aktiv. Die 22 Aufnahmen, Konfiguration, Anmeldung und Standardbereich unverändert erhalten; alle fünf ausgelieferten Dateien per SHA256 abgeglichen (`deployment.json`). Aktuell meldet die Hardwareinventur kein Mikrofon: rote Anzeige und direkter Audio-Einstieg auch produktiv bestätigt. Der Begrüßungsbereich zeigt denselben Status. [Produktive Ansicht](05-production.png). Temporäre Vorschau beendet und deren Sitzungskopie entfernt.

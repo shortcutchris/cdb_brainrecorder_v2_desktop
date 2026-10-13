@@ -10,14 +10,14 @@
 </aside>
 <section class="capture" aria-label="Neue Aufnahme">
  <h1>Aufnahme</h1><p class="local-note">Aufnahme lokal · Verarbeitung wählbar</p>
- <button id="record" class="record" aria-label="Aufnahme starten"><img id="record-icon" src="/assets/circle.svg" alt=""></button>
+ <button id="record" class="record" aria-label="Aufnahme starten" disabled><img id="record-icon" src="/assets/circle.svg" alt=""></button>
  <h2 id="record-label">Aufnahme starten</h2><div id="duration" class="duration">00:00</div>
  <canvas id="waveform" width="320" height="72" aria-label="Gemessener Audiopegel"></canvas>
 
  <p id="recording-lock" class="recording-lock" role="status" hidden>Aufnahme läuft · Bibliothek, Einstellungen und Warteschlange sind bis zum Stoppen gesperrt.</p>
  <p class="capture-hint" id="capture-hint">Verbindung zum Recorder wird aufgebaut …</p><div class="capture-footer"><button class="mic" id="mic-settings" data-status="waiting" disabled><span class="readiness-led" aria-hidden="true"></span><span id="mic-name" role="status" aria-live="polite">Status wird geprüft</span><span class="readiness-arrow" aria-hidden="true">›</span></button></div>
 </section>
-<section id="recorder-ready" class="recorder-ready" aria-label="Recorder bereit"><img src="/assets/waveform.svg" alt=""><h1>Bereit für eine neue Aufnahme</h1><p>Starte links deine Aufnahme. Deine Notizen erscheinen hier.</p><p id="ready-area">Den Standardbereich findest du unter Einstellungen → Brain-Konto.</p><p>Frühere Aufnahmen findest du in der Bibliothek. Die Verarbeitung läuft im Hintergrund weiter.</p></section>
+<section id="recorder-ready" class="recorder-ready" aria-label="Recorder-Status"><img src="/assets/waveform.svg" alt=""><h1 id="ready-heading">Recorder wird geprüft</h1><p id="ready-instruction">Die Verbindung wird aufgebaut.</p><p id="ready-area">Den Standardbereich findest du unter Einstellungen → Brain-Konto.</p><p>Frühere Aufnahmen findest du in der Bibliothek. Die Verarbeitung läuft im Hintergrund weiter.</p></section>
 <main class="content" hidden><nav class="library-navigation" aria-label="Bibliotheksnavigation"><button id="library-all" class="library-all"><img class="library-back-icon" src="/assets/caret-right.svg" alt="">Zur Aufnahmeliste</button><span class="library-location">Bibliothek <span aria-hidden="true">/</span> Aufnahme</span></nav>
  <section class="recent"><h2>Letzte Aufnahmen</h2><div class="recent-row" id="recent"></div></section>
  <section class="meeting-header"><div><h1 id="meeting-title">Meeting auswählen</h1><p id="meeting-date">Deine Aufnahmen bleiben auf diesem Gerät.</p></div><button id="more-open" class="icon-button" aria-label="Meetingaktionen"><img src="/assets/dots-three.svg" alt=""></button></section>

@@ -1,0 +1,17 @@
+{
+  "version": "0.5.15",
+  "sessions_preserved": 22,
+  "configuration_preserved": true,
+  "account_preserved": true,
+  "services": [
+    "active",
+    "active"
+  ],
+  "sha256": {
+    "web_server.py": "3f76a9d8cd888f13b618055db003412193891efebc2eafd16a45d3d6d6d906a1",
+    "studio/index.html": "185d47800abf19e85f03f912a4a46914d0f999dd64c69add41904cdc623b2bbf",
+    "studio/workspace.css": "16df44f114120d043e835310895ecc06a531a80a57209f7285c1d2b5d4051f20",
+    "studio/app.js": "bbea29532e728e97d35512a9789b880cd63dfdd6a557ac67c4eabdf1035c7478",
+    "studio/readiness.js": "c914d3635ec62ad54698d93f71c87ec4e71dc7e9aa6d090fd6e358f16ff12bf8"
+  }
+}
