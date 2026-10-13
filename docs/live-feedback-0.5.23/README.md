@@ -24,3 +24,11 @@ Browserdarstellung bei 1280 × 720 über den Pi-Testserver geprüft. CDB-Theme a
 ## Automatisiert
 
 147 Python-Tests auf dem Pi und 62 JavaScript-Tests bestanden. Neue Prüfungen: reale Pegel/Stille/veraltete Werte, begrenzte Historien, doppelte und verspätete Suchereignisse, echte Webtool-Erkennung statt Denkstatus, Suchton-PCM, Eigentümerprüfung und persistenter Suchton-Schalter.
+
+## Deployment
+
+Code `1c9c804` als Version **0.5.23** auf den produktiven Pi gespielt. Backend und Kiosk aktiv; SHA256 aller acht geänderten Laufzeitdateien mit dem Commit verglichen. 22 Meetings, Brain-Anmeldung und Verarbeitungseinstellungen erhalten. Neuer Activity-Endpunkt liefert im Leerlauf keine aktiven Suchvorgänge und nur Nullpegel. Temporärer Testdienst beendet und seine temporäre Kontositzung entfernt. [Deployment-Protokoll](deployment.json).
+
+Das CDB-Theme wurde in der separaten Testansicht ausgewählt. Die bestehende produktive Theme-Wahl wird nicht automatisch umgestellt.
+
+![Gespräch beendet, Navigation wieder frei](cdb-live-ended.png)

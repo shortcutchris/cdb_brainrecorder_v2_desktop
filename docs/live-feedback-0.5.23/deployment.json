@@ -1,0 +1,20 @@
+{
+  "version": "0.5.23",
+  "sessions_preserved": 22,
+  "configuration_preserved": true,
+  "account_preserved": true,
+  "services": [
+    "active",
+    "active"
+  ],
+  "sha256": {
+    "web_server.py": "9175b068e3548e4da7ec478d1edb5b333e9e51ab01af372d1cb297c40fcc9923",
+    "services/live_audio.py": "49dcc01d9cb16331de38005ac551ef3f0d0a127c89279eccc254172e3053fd83",
+    "services/live_conversation.py": "df70628a968d8f3ffad163d9d5b8dbe6252e3b93501e50123da51ffa8a58a638",
+    "services/live_feedback.py": "9bc2f66774cd0bd84ef5abbcb3cb2b1024b07e8a9f5439487bcbd03ef3e948ce",
+    "studio/live.js": "c7164a6fecc1eeeff074161c1e31f73e74f6e945d979daf512331ccbfdf38346",
+    "studio/live.css": "6cbe953ba763eb24260cfd2725fa10ed4802e0425d4a5784efe28bcdd593cc26",
+    "studio/themes.js": "d9ba5a8f2d37e3e4d397198cf1f553f34397a76d051310cede03e7c9f28894c1",
+    "studio/themes.css": "e71e06818f6d00c649456354fa75fc8297063888c7b72a1d4299a6c1d5c99431"
+  }
+}
