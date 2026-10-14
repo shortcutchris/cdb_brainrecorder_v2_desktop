@@ -21,6 +21,7 @@ def main():
     cases += [('de', text, False) for text in ('Okay Nabu', 'Gespräch beenden', 'Guten Morgen',
              'Heute machen wir ein Meeting und schreiben Notizen.', 'Ich brauche einen neuen Termin.',
              'Bitte schalte das Mikrofon aus.', 'Was gibt es heute zu essen?')]
+    cases += [('en-us','Good morning. Hey Brain',True), ('en-us','Hey Brain Hey Brain',True)]
     result=[];cpu_total=0;seconds_total=0
     for voice,text,expected in cases:
         wav=subprocess.check_output(['espeak-ng','-v',voice,'-s','145','--stdout',text])

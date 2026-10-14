@@ -5,7 +5,7 @@ class ActivityTests(unittest.TestCase):
     def test_every_exclusive_activity_blocks_other_starts_and_configuration(self):
         variants=[
             {'recording':True},{'recording':True,'paused':True},{'live':'connecting'},{'live':'active'},
-            {'live':'stopping'},{'live':'closing'},{'live':'listening'},{'live':'speaking'},{'live':'thinking'},{'live':'reconnecting'},{'live':'future-state','live_reserved':True},{'microphone_test':True},{'speaker_test':True},{'download':True},{'model_test':True},{'bluetooth':True}]
+            {'live':'stopping'},{'live':'closing'},{'live':'listening'},{'live':'speaking'},{'live':'thinking'},{'live':'reconnecting'},{'live':'future-state','live_reserved':True},{'microphone_test':True},{'speaker_test':True},{'alarm':True},{'download':True},{'model_test':True},{'bluetooth':True}]
         for fields in variants:
             with self.subTest(fields=fields):
                 a=AppActivity(**fields);c=a.capabilities(setup_complete=True,brain_signed_in=True)
@@ -24,3 +24,8 @@ class ActivityTests(unittest.TestCase):
         c=AppActivity().capabilities(setup_complete=True,brain_signed_in=False)
         self.assertTrue(c['record']['allowed']);self.assertFalse(c['live']['allowed'])
         self.assertFalse(AppActivity().capabilities(setup_complete=True,low_disk=True)['record']['allowed'])
+
+    def test_alarm_has_its_own_label(self):
+        activity=AppActivity(alarm=True,speaker_test=True)
+        self.assertEqual(activity.mode,'alarm')
+        self.assertIn('Timer-Alarm',activity.reason)

@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.36'
+VERSION = '0.5.37'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -162,6 +162,8 @@ class StudioApp:
                 with self.control_lock, self.controller.lock, self.engine.recorder.lock:
                     if self.closing: return
                     self.playback_leases = {key:value for key,value in self.playback_leases.items() if value>time.monotonic()}
+                    if self.alarm_id and not any(i['id']==self.alarm_id and i['state']=='due' for i in self.schedules.items()):
+                        self.speakers.stop_test(); self.alarm_id = None
                     if self.alarm_id and self.speakers.test_status()['state'] != 'running':
                         outcome = 'played' if self.speakers.test_status()['state']=='completed' else 'failed'
                         self.schedules.sound_result(self.alarm_id, outcome)
@@ -176,7 +178,7 @@ class StudioApp:
                                 try:
                                     if item.get('tone')=='silent':
                                         self.schedules.sound_result(item['id'],'silent'); continue
-                                    self.speakers.start_test(item.get('tone','bell'))
+                                    self.speakers.start_alarm(item.get('tone','bell'))
                                     self.alarm_id = item['id']
                                 except ValueError: self.schedules.sound_result(item['id'],'failed')
                                 break
@@ -223,7 +225,7 @@ class StudioApp:
         live = self.live.public() if hasattr(self, 'live') else {'state':'idle','busy':False}
         return AppActivity(recording=bool(state['recording']['id']), paused=state['recording'].get('paused',False),
             live=live['state'], live_reserved=live['busy'], microphone_test=state['microphone_test']['state']=='running',
-            speaker_test=self.speakers.test_status()['state']=='running',
+            speaker_test=self.speakers.test_status()['state']=='running', alarm=bool(self.alarm_id),
             bluetooth=include_bluetooth and self.bluetooth.busy(),
             download=state['installation']['state']=='running',
             model_test=self.model_checks.public()['state']=='running' or bool(self.model_test and self.store.get(self.model_test)['state'] in BUSY),
@@ -318,7 +320,7 @@ class StudioApp:
         state['live'] = self.live.public()
         state['display'] = self.display.status()
         state['wake'] = self.wake.public()
-        state['timers'] = {'items': self.schedules.items(), 'clock_ready': self.clock_ready, 'voice_available': bool(self.live.public().get('device_tools'))}
+        state['timers'] = {'items': self.schedules.items(), 'ringing_id': self.alarm_id, 'clock_ready': self.clock_ready, 'voice_available': bool(self.live.public().get('device_tools'))}
         state['bluetooth'] = self.bluetooth.public()
         state.update(csrf=self.csrf, version=VERSION, preview=self.preview,
             namespace=hashlib.sha256(str(self.store.root).encode()).hexdigest()[:16])
@@ -620,6 +622,7 @@ class StudioHandler(Handler):
             self.respond(self.server.app.live.setup());return
         if path=='/favicon.ico':
             self.send_response(204);self.headers_base('image/x-icon',0);self.end_headers();return
+        if path=='/api/wake/status':self.respond(self.server.app.wake.public());return
         if path=='/api/state':self.respond(self.server.app.state());return
         if path=='/api/bluetooth':
             self.server.app.bluetooth.start();self.respond(self.server.app.bluetooth.public());return

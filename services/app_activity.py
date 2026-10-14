@@ -14,6 +14,7 @@ class AppActivity:
     live_reserved: bool = False
     microphone_test: bool = False
     speaker_test: bool = False
+    alarm: bool = False
     bluetooth: bool = False
     download: bool = False
     model_test: bool = False
@@ -25,13 +26,14 @@ class AppActivity:
 
     @property
     def occupied(self):
-        return self.recording or self.live_busy or self.microphone_test or self.speaker_test or self.download or self.model_test or self.bluetooth
+        return self.recording or self.live_busy or self.microphone_test or self.speaker_test or self.alarm or self.download or self.model_test or self.bluetooth
 
     @property
     def mode(self):
         if self.recording:return 'paused' if self.paused else 'recording'
         if self.live_busy:return 'live-connecting' if self.live in ('connecting','reconnecting') else 'live-stopping' if self.live in ('closing','stopping') else 'live-active'
         if self.microphone_test:return 'microphone-test'
+        if self.alarm:return 'alarm'
         if self.speaker_test:return 'speaker-test'
         if self.bluetooth:return 'bluetooth'
         if self.model_test:return 'model-test'
@@ -43,7 +45,7 @@ class AppActivity:
         return {'recording':'Aufnahme läuft.', 'paused':'Aufnahme pausiert. Bitte zuerst stoppen.',
                 'live-connecting':'Live-Gespräch wird verbunden.', 'live-active':'Live-Gespräch läuft. Bitte zuerst beenden.',
                 'live-stopping':'Live-Gespräch wird beendet.', 'microphone-test':'Mikrofontest läuft.',
-                'speaker-test':'Lautsprechertest läuft.', 'model-test':'Modelltest läuft.',
+                'alarm':'Timer-Alarm läuft. Über „Alarm stoppen“ beenden.', 'speaker-test':'Lautsprechertest läuft.', 'model-test':'Modelltest läuft.',
                 'bluetooth':'Bluetooth wird eingerichtet. Bitte abschließen oder abbrechen.', 'download':'Modelldownload läuft.', 'idle':''}[self.mode]
 
     def public(self):

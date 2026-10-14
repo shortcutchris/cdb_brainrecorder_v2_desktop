@@ -28,6 +28,7 @@ class WakeWord:
         self.test_until = 0
         self.cooldown = 0
         self.count = 0
+        self.recognized_until = 0
         self.message = 'Aktivierungswort ausgeschaltet.'
         self.mode = 'off'
         self.runtime = importlib.util.find_spec('vosk') is not None and model_ready()
@@ -40,6 +41,7 @@ class WakeWord:
     def public(self):
         return {'enabled': self.enabled, 'available': self.runtime, 'word': WORD,
                 'state': self.mode, 'message': self.message, 'detections': self.count,
+                'recognized_for': max(0, round(self.recognized_until-self.clock(), 2)),
                 'testing': self.test_until > self.clock()}
 
     def save(self):
@@ -52,6 +54,7 @@ class WakeWord:
         if enabled and not account: raise ValueError('Zuerst beim Brain anmelden.')
         self.suspend()
         self.test_until = 0
+        self.recognized_until = 0
         self.enabled, self.account = enabled, account if enabled else None
         self.save()
         self.mode = 'waiting' if enabled else 'off'
@@ -117,6 +120,7 @@ class WakeWord:
             self.message = 'Sage „Hey Brain“ · Test ohne Cloud-Start.' if testing else 'Bereit für „Hey Brain“ · Erkennung bleibt lokal.'
         if line == 'detected':
             self.count += 1
+            self.recognized_until = self.clock()+8
             self.suspend('Aktivierungswort erkannt.' if testing else 'Erkannt · Gespräch wird gestartet …')
             self.cooldown = self.clock()+3
             if not testing: trigger()

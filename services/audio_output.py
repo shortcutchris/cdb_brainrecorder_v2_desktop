@@ -126,10 +126,14 @@ class AudioOutput:
             output.setparams((2, 2, rate, 0, 'NONE', 'not compressed'))
             output.writeframes(frames.tobytes())
 
-    def start_test(self, tone=None):
+    def start_alarm(self, tone):
+        return self.start_test(tone, alarm=True)
+
+    def start_test(self, tone=None, *, alarm=False):
         if tone is not None:
             from services.alarm_tones import TONES
             if tone not in TONES or tone=='silent': raise ValueError('Kein abspielbarer Alarmton.')
+        if alarm and tone is None: raise ValueError('Alarmton fehlt.')
         with self.lock:
             if self.test['state'] == 'running':
                 raise ValueError('Testton läuft bereits.')
@@ -140,24 +144,24 @@ class AudioOutput:
                 raise ValueError('Stummschaltung aufheben und Lautstärke erhöhen.')
             self.cancelled = False
             self.test = {'state': 'running', 'message': 'Alarmton am Pi.' if tone else 'Testton am Pi: erst links, dann rechts.', 'device': state['selected']}
-            self.thread = threading.Thread(target=self._play, args=(state['selected'],tone), daemon=True)
+            self.thread = threading.Thread(target=self._play, args=(state['selected'],tone,60 if alarm else 3), daemon=True)
             self.thread.start()
             return self.test_status()
 
-    def _play(self, device, tone=None):
+    def _play(self, device, tone=None, seconds=3):
         try:
             path = self.root / 'speaker-test.wav'
             if tone is None: self.write_tone(path)
             else:
                 from services.alarm_tones import write_alarm
-                write_alarm(path,tone)
+                write_alarm(path,tone,seconds)
             with self.lock:
                 if self.cancelled:
                     return
                 self.process = subprocess.Popen(['paplay', '--device=' + device, str(path)],
                                                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                 process = self.process
-            code = process.wait(timeout=8)
+            code = process.wait(timeout=seconds+5)
             with self.lock:
                 if not self.cancelled:
                     self.test = {'state': 'completed' if code == 0 else 'failed', 'device': device,

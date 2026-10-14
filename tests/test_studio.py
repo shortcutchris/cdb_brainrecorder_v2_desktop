@@ -29,6 +29,18 @@ class StudioTests(unittest.TestCase):
             with urllib.request.urlopen(req,timeout=8) as r:return r.status,r.read(),r.headers
         except urllib.error.HTTPError as e:
             with e:return e.code,e.read(),e.headers
+    def test_recognition_feedback_does_not_wait_for_controller_lock(self):
+        self.app.wake.recognized_until=time.monotonic()+8
+        locked=threading.Event();release=threading.Event()
+        def hold():
+            with self.app.controller.lock:locked.set();release.wait(4)
+        worker=threading.Thread(target=hold);worker.start();self.assertTrue(locked.wait(1))
+        try:
+            start=time.monotonic();status,data,_=self.request('/api/wake/status')
+            self.assertEqual(status,200);self.assertGreater(json.loads(data)['recognized_for'],0)
+            self.assertLess(time.monotonic()-start,1)
+        finally:release.set();worker.join(2)
+
     def test_wake_test_can_be_stopped_without_enabling(self):
         self.app.wake.test_until=time.monotonic()+30
         self.assertEqual(self.request('/api/wake',{'action':'test-stop'})[0],200)

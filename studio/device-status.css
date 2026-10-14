@@ -1,0 +1,13 @@
+/* Fixed-size feedback never changes the workspace or navigation geometry. */
+#live-open{position:relative}#wake-rail-led{position:absolute;right:9px;top:9px;width:8px;height:8px;border-radius:50%;background:var(--muted);opacity:.45;pointer-events:none}
+#wake-rail-led[data-state=off]{visibility:hidden}#wake-rail-led[data-state=listening]{background:var(--accent-text);opacity:1}#wake-rail-led[data-state=recognized]{background:var(--accent-text);opacity:1;box-shadow:0 0 0 5px var(--soft)}
+#wake-feedback{position:fixed;z-index:34;right:24px;bottom:120px;width:320px;min-height:76px;box-sizing:border-box;display:flex;align-items:center;gap:16px;padding:16px 20px;background:var(--panel);color:var(--ink);border:1px solid var(--accent);border-radius:18px;box-shadow:0 6px 24px #0002;pointer-events:none}
+#wake-feedback[hidden]{display:none}#wake-feedback strong,#wake-feedback span{display:block}#wake-feedback strong{font-size:18px;line-height:24px}#wake-feedback span{font-size:14px;line-height:20px;color:var(--muted);margin-top:4px}#wake-feedback i{width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 7px var(--soft);animation:wake-confirm 1.4s ease-in-out infinite}
+@keyframes wake-confirm{50%{opacity:.45;transform:scale(.8)}}
+#timer-countdown{position:absolute;bottom:4px;left:2px;right:2px;font-size:13px;line-height:16px;font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--accent-text);pointer-events:none}
+#timers-open[data-timer-state=running]>span,#timers-open[data-timer-state=due]>span{visibility:hidden}#timers-open[data-timer-state=running]{box-shadow:inset 0 0 0 1px var(--accent)}#timers-open[data-timer-state=due]{background:var(--soft);box-shadow:inset 0 0 0 2px var(--accent)}
+#timer-alarm{width:500px;min-height:64px;height:64px}#timer-alarm #alarm-ack{min-width:132px}
+@media(prefers-reduced-motion:reduce){#wake-feedback i{animation:none}}
+
+#timer-running{position:fixed;z-index:33;top:8px;right:16px;width:300px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 16px;border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--ink);text-align:left}
+#timer-running[hidden]{display:none}#timer-running:disabled{opacity:1;cursor:default}#running-timer-label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}#running-timer-time{flex-shrink:0;font-size:22px;font-variant-numeric:tabular-nums;color:var(--accent-text)}.has-active-timer .dialog-heading>span{visibility:hidden}

@@ -1,0 +1,20 @@
+{
+  "synthetic": true,
+  "audio_destination": "isolated null sink",
+  "stages": [
+    {
+      "name": "rings_after_six_seconds"
+    },
+    {
+      "name": "gui_ack_stops_sound"
+    },
+    {
+      "name": "voice_tool_ack_stops_sound"
+    },
+    {
+      "name": "bounded_one_minute_alarm",
+      "seconds": 60.66
+    }
+  ],
+  "passed": true
+}

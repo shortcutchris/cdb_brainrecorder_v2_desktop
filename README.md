@@ -563,3 +563,21 @@ Geräten: `scripts/install-wake.sh`; das Modell wird vom Hersteller geladen,
 mit SHA256 geprüft und nicht in Git gespeichert. Die bestehende
 Micro-Wake-Word-Installation wird nicht entfernt, aber nicht mehr benutzt.
 Details, Messwerte und Grenzen: [Prüfbericht](docs/hey-brain-0.5.36/README.md).
+
+### Studio 0.5.37 · Erkennung sichtbar, Timer überall im Blick
+
+„Hey Brain erkannt“ erscheint kurz als feste Statusmeldung, auch während der
+Verbindung zum Gespräch. Ein kleiner Punkt am Gesprächssymbol zeigt die lokale
+Bereitschaft. Die Erkennung findet die Phrase jetzt auch nach anderen Wörtern
+oder bei zwei unmittelbar wiederholten Aufrufen im selben Audioabschnitt.
+
+Ein laufender Timer zeigt oben rechts Namen und Restzeit; ein Tipp öffnet die
+Timeransicht (außer während Aufnahme/Gespräch). Auch das Timersymbol zeigt den
+Countdown. Mehrere Einträge werden mit dem nächsten Termin und „+N“ dargestellt.
+
+Fällige Timer wiederholen ihren gewählten Ton **bis zu 60 Sekunden**. Über
+**Alarm stoppen** oder **+5 Min.** lassen sie sich sofort beenden bzw. verschieben.
+Nach einer Minute verstummt der Ton, der Hinweis bleibt bis zur Bestätigung.
+Die Tonvorschau bleibt drei Sekunden lang. Während Aufnahme oder Gespräch wird
+der Ton weiterhin zurückgestellt; der fällige Timer ist trotzdem sichtbar.
+[Prüfbericht](docs/device-feedback-0.5.37/README.md).

@@ -30,6 +30,8 @@ class WakeTests(unittest.TestCase):
         with patch('services.wake_word.select.select',return_value=([process.stdout],[],[])),patch('services.wake_word.os.killpg'):
             self.tick(trigger=trigger)
         self.assertEqual(self.wake.count,1)
+        self.assertGreater(self.wake.public()['recognized_for'],0)
+        self.now+=9;self.assertEqual(self.wake.public()['recognized_for'],0)
     def test_test_mode_never_starts_cloud(self):
         self.wake.test();self.now+=2
         process=Mock();process.poll.return_value=None;process.stdout=io.BytesIO(b'detected\n');self.wake.process=process;trigger=Mock()
@@ -76,3 +78,15 @@ class WakeAccountTests(unittest.TestCase):
         app.cdb.read.return_value={};self.assertIsNone(app.wake_account())
         app.cdb.read.return_value={**saved,'server':'https://other.example.test'};self.assertIsNone(app.wake_account())
         app.cdb.read.return_value={**saved,'client_id':'other-app'};self.assertIsNone(app.wake_account())
+
+
+class ContinuousPhraseTests(unittest.TestCase):
+    def test_wake_phrase_after_background_and_repeated_call(self):
+        from services.wake_phrase import is_activation
+        hey={'word':'hey','conf':1,'start':1,'end':1.3}
+        brain={'word':'brain','conf':1,'start':1.3,'end':1.9}
+        prefix={'word':'[unk]','conf':1,'start':0,'end':.8}
+        self.assertTrue(is_activation({'text':'[unk] hey brain','result':[prefix,hey,brain]}))
+        self.assertTrue(is_activation({'text':'hey brain hey brain','result':[hey,brain,hey,brain]}))
+        self.assertFalse(is_activation({'text':'hey brian','result':[hey,{**brain,'word':'brian'}]}))
+        self.assertFalse(is_activation({'text':'hey brain','result':[hey,{**brain,'conf':.6}]}))

@@ -1,7 +1,7 @@
 """Small local Vosk grammar for Hey Brain. Never saves or uploads audio.
 
 Confusable phrases compete in the decoder rather than being coerced into the
-activation phrase. Only a completed, confident two-word utterance can wake.
+activation phrase. Only a confident adjacent word pair in a completed segment can wake.
 """
 import json
 import os
@@ -25,10 +25,16 @@ def model_ready():
 
 def is_activation(result):
     words = result.get('result', [])
-    return (result.get('text') == 'hey brain' and len(words) == 2
-            and [w.get('word') for w in words] == ['hey', 'brain']
-            and words[0].get('conf', 0) >= .8 and words[1].get('conf', 0) >= .9
-            and .25 <= words[-1].get('end', 0) - words[0].get('start', 0) <= 2.5)
+    if ' '.join(w.get('word', '') for w in words) != result.get('text'): return False
+    # Wake words occur inside a stream, including after background speech or
+    # two repeated calls. Do not require the entire acoustic segment to match.
+    for left, right in zip(words, words[1:]):
+        if (left.get('word') == 'hey' and right.get('word') == 'brain'
+                and left.get('conf', 0) >= .8 and right.get('conf', 0) >= .9
+                and .25 <= right.get('end', 0) - left.get('start', 0) <= 2.5):
+            return True
+    return False
+
 
 
 class PhraseDetector:

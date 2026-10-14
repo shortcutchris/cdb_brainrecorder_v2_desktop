@@ -78,3 +78,19 @@ class SpeakersTests(unittest.TestCase):
             with self.assertRaises(ValueError):self.output.start_test()
             self.assertEqual(self.output.stop_test()['state'],'cancelled')
             fake.terminate.assert_called_once()
+
+
+class AlarmDurationTests(unittest.TestCase):
+    def test_alarm_repeats_for_one_minute_preview_stays_short(self):
+        from services.alarm_tones import write_alarm
+        with tempfile.TemporaryDirectory() as root:
+            path=Path(root)/'alarm.wav'
+            write_alarm(path,'bell',60)
+            with wave.open(str(path)) as audio:
+                self.assertEqual(audio.getnframes()/audio.getframerate(),60)
+                first=audio.readframes(72000);self.assertTrue(any(first))
+                self.assertFalse(any(audio.readframes(24000)))
+                self.assertEqual(audio.readframes(72000),first)
+            write_alarm(path,'bell')
+            with wave.open(str(path)) as audio:self.assertEqual(audio.getnframes()/audio.getframerate(),3)
+            with self.assertRaises(ValueError):write_alarm(path,'bell',3600)
