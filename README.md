@@ -632,3 +632,16 @@ Ein nicht bestätigter Begrüßungsauftrag wird nicht erneut gesendet und blocki
 das Gespräch nicht. Der abschaltbare Suchton bleibt davon unabhängig.
 
 [Prüfung und technische Grenzen](docs/welcome-0.5.40/README.md).
+
+### Studio 0.5.41 · „Hallo“ als erster gesprochener Satz
+
+Die feste Startanweisung an Voice One verlangt jetzt ausdrücklich, sofort selbst
+zu sprechen und nicht auf eine Nutzerfrage zu warten. Erstes Wort: „Hallo“;
+kurzer Satz: „Hallo, wie kann ich dir helfen?“ Keine Vorrede, Vorstellung,
+Recherche oder erneute Begrüßung innerhalb derselben Sitzung. Die Ergänzung wird
+wie zuvor als bestätigte Session-Anweisung übergeben; der zentrale Brain-Prompt
+und seine Wissens-/Werkzeugregeln bleiben bestehen.
+
+Geprüft: 14 Audio-/Starttests bestanden. Echte CDB-Staging-Sitzung mit synthetischer
+Stille, bestätigter Startanweisung, Audioantwort und Transkript „Hallo, wie kann
+ich dir helfen?“. [Nachweis](docs/welcome-0.5.41/synthetic.json).

@@ -377,7 +377,7 @@ class NativeLiveAudio:
             self.greeting_state = 'sent'
             self.channel.send(json.dumps({'type': 'session.instructions.append',
                 'event_id': self.greeting_id, 'delegation_id': None,
-                'content': 'Begrüße den Nutzer jetzt einmal kurz mit „Hallo, wie kann ich dir helfen?“. Keine Recherche für diese Begrüßung. Danach höre zu; für alle folgenden Fragen gelten weiterhin die bestehenden Wissens-, Werkzeug- und Delegationsregeln.'}))
+                'content': 'Dies ist der Beginn eines neuen Sprachgesprächs. Beginne jetzt selbst zu sprechen, ohne auf eine Nutzereingabe zu warten. Dein erstes gesprochenes Wort muss „Hallo“ sein. Sage als einzige kurze Begrüßung genau: „Hallo, wie kann ich dir helfen?“ Keine Vorrede, keine zusätzliche Vorstellung und keine Recherche. Danach warte auf den Nutzer. Begrüße in dieser Sitzung nicht erneut. Für alle folgenden Fragen gelten weiterhin die bestehenden Wissens-, Werkzeug- und Delegationsregeln.'}))
             await asyncio.wait_for(self.greeting_ack.wait(), 10)
         except asyncio.CancelledError:
             self.greeting_state = 'cancelled'
