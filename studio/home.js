@@ -1,8 +1,8 @@
 /* Home is a destination, not an alternate recorder. Existing routes own their locks. */
 (() => {
  const rail=document.createElement('button');rail.id='start-open';rail.className='rail-button';rail.type='button';rail.title='Startseite';rail.setAttribute('aria-label','Startseite');rail.innerHTML='<img src="/assets/house.svg" alt=""><span>Startseite</span>';$('home').before(rail);
- const view=document.createElement('dialog');view.id='start-view';view.className='workspace-view';view.setAttribute('role','region');view.setAttribute('aria-labelledby','start-heading');
- view.innerHTML='<header class="dialog-heading"><h2 id="start-heading" tabindex="-1" autofocus>Dein Brain. Ein Ort für alles.</h2><span class="start-heading-label">Startseite</span></header><section class="start-content"><p class="start-intro">Was möchtest du machen?</p><div id="start-tiles" class="start-tiles"></div></section><footer class="start-footer"><div class="start-device-status"><i id="start-led" aria-hidden="true"></i><span id="start-status" role="status">Verbindung wird aufgebaut …</span></div><span id="start-background"></span></footer>';document.body.append(view);
+ const view=document.createElement('dialog');view.id='start-view';view.className='workspace-view';view.setAttribute('role','region');view.setAttribute('autofocus','');view.setAttribute('aria-labelledby','start-heading');
+ view.innerHTML='<header class="dialog-heading"><h2 id="start-heading">Dein Brain. Ein Ort für alles.</h2><span class="start-heading-label">Startseite</span></header><section class="start-content"><p class="start-intro">Was möchtest du machen?</p><div id="start-tiles" class="start-tiles"></div></section><footer class="start-footer"><div class="start-device-status"><i id="start-led" aria-hidden="true"></i><span id="start-status" role="status">Verbindung wird aufgebaut …</span></div><span id="start-background"></span></footer>';document.body.append(view);
  const destinations=[
   {id:'recorder',target:'home',icon:'waveform',title:'Aufnehmen',copy:'Gedanken und Meetings festhalten',featured:true},
   {id:'live',target:'live-open',icon:'users',title:'Live-Gespräch',copy:'Mit deinem Wissen sprechen',featured:true},
@@ -17,7 +17,7 @@
  }
  let initial=true,navigated=false;
  const previousWorkspace=workspaceView;
- workspaceView=function(id=null){previousWorkspace(id);navigated=true;if(id!=='start-view'&&view.open)view.close();const active=id==='start-view';rail.classList.toggle('active',active);rail.setAttribute('aria-current',active?'page':'false')};
+ workspaceView=function(id=null){const opening=id==='start-view'&&!view.open;previousWorkspace(id);if(opening)document.activeElement?.blur();navigated=true;if(id!=='start-view'&&view.open)view.close();const active=id==='start-view';rail.classList.toggle('active',active);rail.setAttribute('aria-current',active?'page':'false')};
  rail.onclick=run(async()=>{if(rail.disabled)return;await leaveDraft();audio.pause();workspaceView('start-view');renderHome()});
  function renderHome(){
   // Recorder's disabled state also includes Live's local connecting/closing transitions.

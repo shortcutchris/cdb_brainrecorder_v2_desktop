@@ -530,3 +530,16 @@ Tab-Fokus auf „Aufnehmen“, Bibliothekssuche inklusive Textauswahl weiterhin 
 93 JavaScript-Tests bestanden. Backendlogik unverändert.
 
 ![Startseite ohne hervorgehobene Kacheln](output/playwright/touch-start-0.5.34/01-startseite.png)
+
+### Studio 0.5.35 · Startseite ohne automatischen Inhaltsfokus
+
+Korrektur zu 0.5.34: Auch die Überschrift erhält keinen automatischen Fokus mehr.
+Beim Öffnen der Startseite wird der native Dialog-Autofokus unmittelbar freigegeben.
+Das gilt beim Start und bei der Rückkehr aus einer anderen Ansicht. Spätere
+Tastaturnavigation und deren Fokusmarkierung bleiben erhalten; der Statuspoll
+entfernt keinen bewusst gesetzten Fokus.
+
+94 JavaScript-Tests bestanden. Im Browser am Pi geprüft: `activeElement` ist
+`BODY`, innerhalb der Startseite ist kein Element fokussiert; die Überschrift
+besitzt weder `autofocus` noch `tabindex`. Start und Rückkehr aus der Bibliothek geprüft.
+[Prüfnachweis](output/playwright/start-focus-0.5.35/focus-check.json).
