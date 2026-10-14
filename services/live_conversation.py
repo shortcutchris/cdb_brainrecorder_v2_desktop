@@ -16,6 +16,7 @@ import uuid
 
 from meeting_recorder.core import atomic_write
 from services.live_feedback import SearchActivity
+from services.http_connection import HTTPSHandler
 from services.cdb_integration import CdbFailure, USER_AGENT, UUID
 
 BASE = '/api/v1/tqs/voice-live'
@@ -59,6 +60,8 @@ class LiveConversation:
         self.state = 'idle'
         self.error = ''
         self.end_reason = ''
+        self.startup_stage = ''
+        self.startup_at = 0
         self.lease = None
         self.owner_kind = 'browser'
         self.handle = None
@@ -108,6 +111,7 @@ class LiveConversation:
             search['web']+=native.get('search',{}).get('web',0)
             search['failed']=search['failed'] or native.get('search',{}).get('failed',False)
             return {'state':self.state,'active':active,'muted':self.muted,'search':search,
+                    'startup':{'stage':self.startup_stage,'seconds':max(0,int(self.clock()-self.startup_at))} if self.state=='connecting' else None,
                     'input':native.get('input',{'bars':[0]*16,'active':False}) if not self.muted else {'bars':[0]*16,'active':False},
                     'output':native.get('output',{'bars':[0]*16,'active':False}),
                     'search_sound':self.search_sound,'search_audio':native.get('search_audio',{'playing':False}),
@@ -212,6 +216,8 @@ class LiveConversation:
             self.owner_kind = owner_kind
             self.lease = secrets.token_urlsafe(32)
             self.state = 'connecting'
+            self.startup_stage = 'Pi-Audio vorbereiten'
+            self.startup_at = self.clock()
             self.error = ''
             self.end_reason = ''
             self.muted = False
@@ -272,6 +278,11 @@ class LiveConversation:
             self.error = 'Pi-Audio wurde unterbrochen. Mikrofon und Lautsprecher prüfen.'
         self.end()
 
+    def _startup(self, generation, stage):
+        with self.lock:
+            if generation == self.generation and self.state == 'connecting':
+                self.startup_stage = stage
+
     def _start_native(self, generation, native):
         try:
             with self.lock:
@@ -293,9 +304,11 @@ class LiveConversation:
             binding = self.binding
             area_ids = list(self.area_ids)
         try:
+            self._startup(generation, 'Brain-Freigabe prüfen')
             caps = self.cdb.call(BASE + '/capabilities', binding=binding)
             if caps.get('enabled') is not True:
                 raise CdbFailure('Voice One ist in dieser Brain-Umgebung nicht freigeschaltet.')
+            self._startup(generation, 'Wissensbereiche bestätigen')
             allowed = {a['id']: a for a in self.cdb.areas(binding)}
             maximum = caps.get('max_areas', 8)
             if not isinstance(maximum, int): maximum = 8
@@ -308,6 +321,7 @@ class LiveConversation:
             body = {'sdp':sdp,'area_ids':area_ids,'language':'de','client_request_id':str(uuid.uuid4())}
             device_key = secrets.token_urlsafe(32) if self.device_executor and caps.get('device_tools_v1') is True else None
             if device_key: body['device_tools']={'version':1,'key':device_key}
+            self._startup(generation, 'Gespräch beim Brain starten')
             result = self.cdb.call(BASE + '/sessions', body, binding=binding)
             handle = result.get('session_handle')
             if not isinstance(handle, str) or not HANDLE.fullmatch(handle):
@@ -326,14 +340,18 @@ class LiveConversation:
                     self.heartbeat_seconds = min(30, max(5, int(caps.get('heartbeat_seconds', 15))))
                     self.maximum = min(self.maximum, self.clock() + min(1200, max(60, int(caps.get('max_session_seconds', 1200)))))
                     self.last_heartbeat = self.clock()
-                    self.state = 'listening'
+                    self.state = 'connecting' if native and hasattr(native,'wait_connected') else 'listening'
             if stale:
                 self.cdb.call(BASE + '/sessions/' + handle + '/close', {}, binding=binding)
                 with self.lock:
                     if generation == self.generation: self._finish('ended')
                 return
             if native:
+                self._startup(generation, 'Audioverbindung herstellen')
                 native.answer(answer)
+                if hasattr(native,'wait_connected'): native.wait_connected(15)
+                with self.lock:
+                    if generation == self.generation and self.state != 'closing': self.state = 'listening'
             with self.lock:
                 if generation != self.generation or self.state == 'closing': return
             threading.Thread(target=self._events, args=(generation, handle, binding), daemon=True).start()
@@ -347,7 +365,8 @@ class LiveConversation:
                 except Exception: pass
             with self.lock:
                 if generation == self.generation:
-                    self._finish('error', 'Brain hat diese Bereichsauswahl nicht freigegeben. Andere Bereiche wählen oder Berechtigung prüfen.' if denied else 'Gespräch konnte nicht verbunden werden. Brain-Verbindung und Live-Freigabe prüfen.')
+                    cancelled = self.state == 'closing'
+                    self._finish('ended' if cancelled else 'error', '' if cancelled else 'Brain hat diese Bereichsauswahl nicht freigegeben. Andere Bereiche wählen oder Berechtigung prüfen.' if denied else 'Gespräch konnte nicht verbunden werden. Brain-Verbindung und Live-Freigabe prüfen.')
 
     def status(self, lease):
         with self.lock:
@@ -492,7 +511,7 @@ class LiveConversation:
             headers={'Authorization': 'Bearer ' + session['token'], 'Accept': 'text/event-stream', 'User-Agent': USER_AGENT})
         class NoRedirect(urllib.request.HTTPRedirectHandler):
             def redirect_request(self, *args): return None
-        opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), NoRedirect())
+        opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), NoRedirect(), HTTPSHandler())
         with opener.open(request, timeout=35) as response:
             event = ''; lines = []; size = 0
             for raw in response:

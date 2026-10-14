@@ -151,3 +151,10 @@ test('wake setup invalidates cached live area preferences without clearing the c
 test('reopening setup adopts account selection saved by another browser',async()=>{
  const h=harness();await h.element('live-open').onclick();h.c.api=async()=>({enabled:true,areas:[{id:'area',label:'Original'},{id:'other',label:'From Pi'}],remembered_area_ids:['other'],audio:{available:true}});await h.element('live-open').onclick();assert.equal(h.element('live-areas').children.find(b=>b['aria-label']==='From Pi')['aria-checked'],'true');assert.equal(h.element('live-areas').children.find(b=>b['aria-label']==='Original')['aria-checked'],'false');
 });
+
+test('startup displays the actual stage and elapsed time without claiming microphone readiness',()=>{
+ const h=harness();h.c.state.live={state:'connecting',busy:true,history:[],feedback:{state:'connecting',active:true,startup:{stage:'Gespräch beim Brain starten',seconds:8}}};h.c.renderState();
+ assert.equal(h.element('live-feedback-title').textContent,'Verbindung wird aufgebaut …');
+ assert.match(h.element('live-feedback-detail').textContent,/Gespräch beim Brain starten · 8 s/);
+ assert.match(h.element('live-feedback-detail').textContent,/auf den Ton warten/);
+});

@@ -315,6 +315,14 @@ class NativeLiveAudio:
     def answer(self, sdp):
         return self._submit(self._answer(sdp))
 
+    def wait_connected(self, timeout=15):
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline and not self.closed.is_set():
+            if self.peer and self.peer.connectionState == 'connected': return
+            if self.peer and self.peer.connectionState == 'failed': break
+            self.closed.wait(.05)
+        raise ValueError('Audioverbindung konnte nicht rechtzeitig hergestellt werden.')
+
     def mute(self, value):
         self.gate.mute(value)
         self.input_meter.clear()

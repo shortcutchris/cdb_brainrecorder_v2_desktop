@@ -237,6 +237,32 @@ class LiveTests(unittest.TestCase):
         self.live.end(lease);self.wait(lambda:not self.live.busy())
         self.assertTrue(native.closed);self.assertIsNone(self.live.native)
 
+    def test_listening_waits_for_actual_audio_connection_and_progress_is_public(self):
+        self.install_native();gate=threading.Event();entered=threading.Event()
+        def wait_connected(inner,timeout):entered.set();gate.wait(2)
+        self.live.audio_factory.wait_connected=wait_connected
+        lease=self.reserve();self.live.start_native(lease)
+        self.assertTrue(entered.wait(1))
+        feedback=self.live.feedback()
+        self.assertEqual(feedback['state'],'connecting')
+        self.assertEqual(feedback['startup']['stage'],'Audioverbindung herstellen')
+        self.assertNotIn('do-not-expose',str(feedback))
+        gate.set();self.wait(lambda:self.live.state=='listening')
+        self.assertIsNone(self.live.feedback()['startup'])
+
+    def test_cancel_while_audio_connects_releases_without_false_error(self):
+        self.install_native();entered=threading.Event()
+        def wait_connected(inner,timeout):
+            entered.set()
+            until=time.monotonic()+2
+            while not inner.closed and time.monotonic()<until:time.sleep(.01)
+            raise ValueError('connection cancelled')
+        self.live.audio_factory.wait_connected=wait_connected
+        lease=self.reserve();self.live.start_native(lease)
+        self.assertTrue(entered.wait(1));self.live.end(lease)
+        self.wait(lambda:not self.live.busy())
+        self.assertEqual(self.live.state,'ended');self.assertEqual(self.live.error,'')
+
     def test_cancel_during_native_open_stops_hardware_and_never_starts_cloud(self):
         block=threading.Event();self.install_native(block=block)
         lease=self.reserve();self.live.start_native(lease);native=self.live.native

@@ -603,3 +603,17 @@ Aufnahme, Wiedergabe oder kein Alarm mehr läuft. Die Erkennung dieser Befehle
 setzt eine vollständige Nutzertranskription voraus; der Bildschirmbutton bleibt verfügbar.
 
 Prüfnachweis: [Live-Audio 0.5.38](docs/live-audio-0.5.38/README.md).
+
+### Studio 0.5.39 · Zuverlässiger Gesprächsstart bei gestörter IPv6-Verbindung
+
+Der Brain-Verbindungsaufbau versucht nach 250 ms einen weiteren verfügbaren
+Netzwerkweg, statt auf eine nicht antwortende IPv6-Adresse zu warten. Kurzes
+Zwischenspeichern der Namensauflösung vermeidet wiederholte DNS-Wartezeiten.
+Zertifikatsprüfung, Anmeldung und Bereichsfreigaben bleiben unverändert.
+
+Beim Start zeigt die feste Statusleiste jetzt den aktuellen Schritt und die
+vergangenen Sekunden: Pi-Audio, Brain-Freigabe, Wissensbereiche, Sitzung und
+Audioverbindung. **Erst nach erfolgreicher Audioverbindung erscheint „Hört zu“.**
+Warte auf den Bereitschaftston, bevor du sprichst. Die Audio-Verhandlung benötigt
+auf diesem Pi derzeit etwa fünf Sekunden; der gesamte Start lag in drei Tests
+bei 7,4–8,0 Sekunden. [Messungen und Prüfung](docs/startup-0.5.39/README.md).

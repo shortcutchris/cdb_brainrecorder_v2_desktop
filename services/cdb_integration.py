@@ -19,6 +19,7 @@ import urllib.parse
 import urllib.request
 import uuid
 
+from services.http_connection import HTTPSConnection, HTTPSHandler
 from meeting_recorder.core import atomic_write
 from meeting_recorder.processing import LocalModels, Interrupted
 
@@ -62,7 +63,7 @@ class Transport:
         else:data=None
         class NoRedirect(urllib.request.HTTPRedirectHandler):
             def redirect_request(self,*args):return None
-        opener=urllib.request.build_opener(urllib.request.ProxyHandler({}),NoRedirect())
+        opener=urllib.request.build_opener(urllib.request.ProxyHandler({}),NoRedirect(),HTTPSHandler())
         try:
             with opener.open(urllib.request.Request(url,data=data,headers=headers),timeout=90) as r:
                 if r.status == 204:return {}  # Voice One heartbeat/close intentionally have no JSON body.
@@ -82,7 +83,7 @@ class Transport:
         head=(f'--{boundary}\r\nContent-Disposition: form-data; name="client_id"\r\n\r\n{client_id}\r\n'
               f'--{boundary}\r\nContent-Disposition: form-data; name="file"; filename="{filename}"\r\nContent-Type: audio/ogg\r\n\r\n').encode()
         tail=f'\r\n--{boundary}--\r\n'.encode()
-        connection=http.client.HTTPSConnection(urllib.parse.urlsplit(server).hostname,timeout=90)
+        connection=HTTPSConnection(urllib.parse.urlsplit(server).hostname,timeout=90)
         try:
             connection.putrequest('POST','/api/v1/tqs/audio/upload')
             for key,value in {'Authorization':'Bearer '+token,'User-Agent':USER_AGENT,'Content-Type':'multipart/form-data; boundary='+boundary,'Content-Length':str(len(head)+path.stat().st_size+len(tail))}.items():connection.putheader(key,value)

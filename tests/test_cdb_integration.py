@@ -251,6 +251,6 @@ class HttpIdentificationTests(unittest.TestCase):
         connection.getresponse.return_value.read.return_value=b'{}'
         with tempfile.TemporaryDirectory() as folder:
             path=Path(folder)/'synthetic.ogg';path.write_bytes(b'synthetic audio')
-            with patch('services.cdb_integration.http.client.HTTPSConnection',return_value=connection):
+            with patch('services.cdb_integration.HTTPSConnection',return_value=connection):
                 HttpTransport().upload(DEFAULT['server'],'synthetic',path,CLIENT,'synthetic.ogg',threading.Event())
         connection.putheader.assert_any_call('User-Agent',USER_AGENT)

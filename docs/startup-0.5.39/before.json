@@ -1,0 +1,70 @@
+[
+  {
+    "event": "http_start",
+    "elapsed": 0.001,
+    "route": "/api/v1/tqs/voice-live/capabilities"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 8.943,
+    "route": "/api/v1/tqs/voice-live/capabilities",
+    "seconds": 8.942
+  },
+  {
+    "event": "http_start",
+    "elapsed": 8.944,
+    "route": "/api/v1/tqs/knowledge-areas"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 14.846,
+    "route": "/api/v1/tqs/knowledge-areas",
+    "seconds": 5.902
+  },
+  {
+    "event": "start_requested",
+    "elapsed": 14.847,
+    "trial": 1
+  },
+  {
+    "event": "native_open",
+    "elapsed": 14.85
+  },
+  {
+    "event": "native_offer_ready",
+    "elapsed": 20.075,
+    "seconds": 5.225
+  },
+  {
+    "event": "http_start",
+    "elapsed": 20.075,
+    "route": "/api/v1/tqs/voice-live/capabilities"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 20.254,
+    "route": "/api/v1/tqs/voice-live/capabilities",
+    "seconds": 0.178
+  },
+  {
+    "event": "http_start",
+    "elapsed": 20.254,
+    "route": "/api/v1/tqs/knowledge-areas"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 28.592,
+    "route": "/api/v1/tqs/knowledge-areas",
+    "seconds": 8.338
+  },
+  {
+    "event": "http_start",
+    "elapsed": 28.593,
+    "route": "/api/v1/tqs/voice-live/sessions"
+  },
+  {
+    "event": "peer_state",
+    "elapsed": 114.86,
+    "state": "closed"
+  }
+]

@@ -1,0 +1,214 @@
+[
+  {
+    "event": "http_start",
+    "elapsed": 0.001,
+    "route": "/api/v1/tqs/voice-live/capabilities"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 0.183,
+    "route": "/api/v1/tqs/voice-live/capabilities",
+    "seconds": 0.182
+  },
+  {
+    "event": "http_start",
+    "elapsed": 0.184,
+    "route": "/api/v1/tqs/knowledge-areas"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 0.746,
+    "route": "/api/v1/tqs/knowledge-areas",
+    "seconds": 0.563
+  },
+  {
+    "event": "start_requested",
+    "elapsed": 0.748,
+    "trial": 1
+  },
+  {
+    "event": "native_open",
+    "elapsed": 0.751
+  },
+  {
+    "event": "native_offer_ready",
+    "elapsed": 5.999,
+    "seconds": 5.247
+  },
+  {
+    "event": "http_start",
+    "elapsed": 5.999,
+    "route": "/api/v1/tqs/voice-live/capabilities"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 6.458,
+    "route": "/api/v1/tqs/voice-live/capabilities",
+    "seconds": 0.459
+  },
+  {
+    "event": "http_start",
+    "elapsed": 6.458,
+    "route": "/api/v1/tqs/knowledge-areas"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 7.301,
+    "route": "/api/v1/tqs/knowledge-areas",
+    "seconds": 0.843
+  },
+  {
+    "event": "http_start",
+    "elapsed": 7.302,
+    "route": "/api/v1/tqs/voice-live/sessions"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 8.565,
+    "route": "/api/v1/tqs/voice-live/sessions",
+    "seconds": 1.264
+  },
+  {
+    "event": "answer_received",
+    "elapsed": 8.565
+  },
+  {
+    "event": "peer_state",
+    "elapsed": 8.567,
+    "state": "connecting"
+  },
+  {
+    "event": "peer_state",
+    "elapsed": 8.702,
+    "state": "connected"
+  },
+  {
+    "event": "ready",
+    "elapsed": 8.761,
+    "trial": 1,
+    "stats": {
+      "capture_backend": "explicit-device",
+      "captured_frames": 387,
+      "sent_frames": 3,
+      "played_frames": 0,
+      "search_tones": 0,
+      "search_loop_blocks": 0,
+      "search_loop_pauses": 0,
+      "event_types": {},
+      "processes_alive": 2,
+      "ready_tone": "played",
+      "closed": false
+    }
+  },
+  {
+    "event": "peer_state",
+    "elapsed": 8.764,
+    "state": "closed"
+  },
+  {
+    "event": "http_start",
+    "elapsed": 8.765,
+    "route": "/sessions/close"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 9.281,
+    "route": "/sessions/close",
+    "seconds": 0.515
+  },
+  {
+    "event": "start_requested",
+    "elapsed": 10.281,
+    "trial": 2
+  },
+  {
+    "event": "native_open",
+    "elapsed": 10.282
+  },
+  {
+    "event": "native_offer_ready",
+    "elapsed": 15.327,
+    "seconds": 5.045
+  },
+  {
+    "event": "http_start",
+    "elapsed": 15.328,
+    "route": "/api/v1/tqs/voice-live/capabilities"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 15.519,
+    "route": "/api/v1/tqs/voice-live/capabilities",
+    "seconds": 0.191
+  },
+  {
+    "event": "http_start",
+    "elapsed": 15.52,
+    "route": "/api/v1/tqs/knowledge-areas"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 15.879,
+    "route": "/api/v1/tqs/knowledge-areas",
+    "seconds": 0.36
+  },
+  {
+    "event": "http_start",
+    "elapsed": 15.88,
+    "route": "/api/v1/tqs/voice-live/sessions"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 17.445,
+    "route": "/api/v1/tqs/voice-live/sessions",
+    "seconds": 1.565
+  },
+  {
+    "event": "answer_received",
+    "elapsed": 17.445
+  },
+  {
+    "event": "peer_state",
+    "elapsed": 17.446,
+    "state": "connecting"
+  },
+  {
+    "event": "peer_state",
+    "elapsed": 17.587,
+    "state": "connected"
+  },
+  {
+    "event": "ready",
+    "elapsed": 17.695,
+    "trial": 2,
+    "stats": {
+      "capture_backend": "explicit-device",
+      "captured_frames": 367,
+      "sent_frames": 6,
+      "played_frames": 0,
+      "search_tones": 0,
+      "search_loop_blocks": 0,
+      "search_loop_pauses": 0,
+      "event_types": {},
+      "processes_alive": 2,
+      "ready_tone": "played",
+      "closed": false
+    }
+  },
+  {
+    "event": "peer_state",
+    "elapsed": 17.697,
+    "state": "closed"
+  },
+  {
+    "event": "http_start",
+    "elapsed": 17.699,
+    "route": "/sessions/close"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 17.899,
+    "route": "/sessions/close",
+    "seconds": 0.201
+  }
+]

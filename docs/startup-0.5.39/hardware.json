@@ -1,0 +1,130 @@
+[
+  {
+    "event": "production_wake_yielded",
+    "elapsed": 0.916
+  },
+  {
+    "event": "http_start",
+    "elapsed": 0.917,
+    "route": "/api/v1/tqs/voice-live/capabilities"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 6.33,
+    "route": "/api/v1/tqs/voice-live/capabilities",
+    "seconds": 5.413
+  },
+  {
+    "event": "http_start",
+    "elapsed": 6.33,
+    "route": "/api/v1/tqs/knowledge-areas"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 6.698,
+    "route": "/api/v1/tqs/knowledge-areas",
+    "seconds": 0.367
+  },
+  {
+    "event": "start_requested",
+    "elapsed": 6.7,
+    "trial": 1
+  },
+  {
+    "event": "hardware_input_muted_for_cloud",
+    "elapsed": 6.714,
+    "device": "plughw:CARD=Array,DEV=0"
+  },
+  {
+    "event": "native_open",
+    "elapsed": 6.714
+  },
+  {
+    "event": "native_offer_ready",
+    "elapsed": 12.052,
+    "seconds": 5.337
+  },
+  {
+    "event": "http_start",
+    "elapsed": 12.052,
+    "route": "/api/v1/tqs/voice-live/capabilities"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 12.224,
+    "route": "/api/v1/tqs/voice-live/capabilities",
+    "seconds": 0.172
+  },
+  {
+    "event": "http_start",
+    "elapsed": 12.225,
+    "route": "/api/v1/tqs/knowledge-areas"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 12.584,
+    "route": "/api/v1/tqs/knowledge-areas",
+    "seconds": 0.359
+  },
+  {
+    "event": "http_start",
+    "elapsed": 12.584,
+    "route": "/api/v1/tqs/voice-live/sessions"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 13.556,
+    "route": "/api/v1/tqs/voice-live/sessions",
+    "seconds": 0.972
+  },
+  {
+    "event": "answer_received",
+    "elapsed": 13.556
+  },
+  {
+    "event": "peer_state",
+    "elapsed": 13.558,
+    "state": "connecting"
+  },
+  {
+    "event": "peer_state",
+    "elapsed": 13.708,
+    "state": "connected"
+  },
+  {
+    "event": "ready",
+    "elapsed": 14.227,
+    "trial": 1,
+    "stats": {
+      "capture_backend": "pipewire",
+      "captured_frames": 360,
+      "sent_frames": 26,
+      "played_frames": 0,
+      "search_tones": 0,
+      "search_loop_blocks": 0,
+      "search_loop_pauses": 0,
+      "event_types": {
+        "session.started": 1
+      },
+      "processes_alive": 2,
+      "ready_tone": "played",
+      "closed": false
+    }
+  },
+  {
+    "event": "peer_state",
+    "elapsed": 14.234,
+    "state": "closed"
+  },
+  {
+    "event": "http_start",
+    "elapsed": 14.236,
+    "route": "/sessions/close"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 14.392,
+    "route": "/sessions/close",
+    "seconds": 0.156
+  }
+]
