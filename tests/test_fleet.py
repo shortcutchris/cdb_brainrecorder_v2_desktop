@@ -83,7 +83,7 @@ class UpdateTests(unittest.TestCase):
             with self.subTest(changes=changes),self.assertRaises(ValueError):self.updater().install(self.bundle(**changes))
         self.assertEqual(self.restarts,0)
     def test_path_traversal_and_userdata_rejected(self):
-        for path in ('../outside','/tmp/evil','data/sessions.db','models/x.bin','.env','services/../../outside'):
+        for path in ('../outside','/tmp/evil','data/sessions.db','data/account.json','models/x.bin','.env','services/../../outside'):
             with self.subTest(path=path),self.assertRaises(ValueError):self.updater().install(self.bundle({path:b'evil','web_server.py':b'new'}))
     def test_unhealthy_release_rolls_back(self):
         u=self.updater(lambda version:version=='old')

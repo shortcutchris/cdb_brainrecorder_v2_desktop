@@ -17,8 +17,8 @@ import zipfile
 from .common import read, save
 
 MAX_BYTES=32*1024*1024
-ROOT_FILES={'web_server.py','settings.py','config.py'}
-ROOT_DIRS={'studio','services','data','utils','prompts'}
+ROOT_FILES={'web_server.py','settings.py','config.py','data/__init__.py','data/repo.py'}
+ROOT_DIRS={'studio','services','utils','prompts'}
 
 
 def allowed(name):

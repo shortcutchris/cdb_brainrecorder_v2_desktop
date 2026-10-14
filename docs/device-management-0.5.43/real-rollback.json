@@ -1,0 +1,1 @@
+{"test": "real-python-start-failure-and-rollback", "platform": "Raspberry Pi 5 arm64", "passed": true, "process_starts": 3, "seconds": 1.2, "production_untouched": true}

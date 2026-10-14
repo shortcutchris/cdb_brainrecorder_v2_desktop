@@ -88,3 +88,20 @@ Bei fehlerhaftem einmaligen Bootstrap: ursprünglichen `cdb-recorder-studio.serv
 ## Testnachweis
 
 Der abschließende Stand und reale Verwaltungsaktionen stehen in [acceptance.json](acceptance.json). Automatische Tests decken HTTP-Authentifizierung/Origin, Einmalcode/Ablauf, Widerruf, Hardwarewechsel, Datenfilter, Auftragszuordnung, doppelte Zustellung, Ablauf, Wartung, Signatur/Archivhash, Pfade, Architektur/Runtime/Schema, Rollback und unterbrochene Transaktionen ab.
+
+
+### Tatsächliche Abnahme am Pi
+
+243 Python-Tests und 99 JavaScript-Tests bestanden. Anschließend echte HTTPS-Kopplung, Diagnoseauftrag, App-Neustart, signiertes App-Update und kompletter Pi-Neustart geprüft. Die Laufzeiten im Protokoll enthalten Heartbeat-Wartezeit, Netzweg und Ergebnisbestätigung; sie sind keine reinen Boot-/Installationszeiten. Aufnahmeanzahl unverändert, Aufnahme wieder freigegeben, Wartung aufgehoben, Wake-Detektor nach Reboot wieder `listening`. Kein erneuter akustischer „Hey Brain“-Erkennungstest in dieser Abnahme.
+
+Ein aktiver synthetischer Timer hat den Neustart nachweislich zurückgestellt und wurde danach wieder entfernt. Die Wartungssperren für Aufnahme, Live, Verarbeitung, Download und Bluetooth sind zusätzlich über die tatsächlichen Studio-HTTP-Endpunkte automatisiert geprüft.
+
+[Realer Rollbacktest](real-rollback.json): isolierte vollständige Python-App auf demselben Pi gestartet, absichtlich nicht startfähiges signiertes Testpaket aktiviert, Startfehler erkannt und vorherige App erfolgreich neu gestartet. Drei echte Prozessstarts, 1,2 Sekunden für den fehlgeschlagenen Update-/Rückkehrschritt; Produktionsdaten unberührt. Signierschlüssel des Tests war temporär und getrennt vom produktiven Vertrauensschlüssel.
+
+Die erste signierte Freigabe `2e987a05…744e` installiert den vollständigen Commit `f97a972` (App 0.5.43) über die bereits laufende Bootstrap-Version 0.5.43. Das prüft den gesamten signierten Austausch, ist aber **kein Versionssprung von 0.5.42**. Agent-/Portal-Nachpflege danach: prompte Ergebnisbestätigung und Ausblenden bereits installierter Freigaben; unabhängig vom App-Paket ausgerollt.
+
+Screenshots des echten Pi-Backends im Browser bei 1280 × 720:
+
+![Einstellungen](settings.png)
+![Geräteverwaltung am Pi](pi-management.png)
+![Zentrale](portal.png)

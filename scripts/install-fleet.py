@@ -28,7 +28,9 @@ unit=Path.home()/'.config/systemd/user/cdb-recorder-studio.service'
 backup=Path.home()/('backups/fleet-bootstrap-'+time.strftime('%Y%m%d-%H%M%S'));backup.mkdir(parents=True)
 shutil.copy2(unit,backup/unit.name)
 # Deployment owns the unit only after the existing app is stopped and rechecked.
-subprocess.run(['systemctl','--user','stop','cdb-recorder-kiosk-033.service'],check=True)
+units=subprocess.check_output(['systemctl','--user','list-units','--all','--plain','--no-legend','cdb-recorder-kiosk*']).decode().splitlines()
+kiosks=[line.split()[0] for line in units if line.split() and line.split()[0].startswith('cdb-recorder-kiosk') and line.split()[0].endswith('.service')]
+if kiosks:subprocess.run(['systemctl','--user','stop',*kiosks],check=True)
 latest=request('http://127.0.0.1:8088','/api/state')
 if latest['activity']['busy']:raise SystemExit('Activity changed: aborted before stopping app.')
 subprocess.run(['systemctl','--user','stop','cdb-recorder-studio.service'],check=True)

@@ -1,0 +1,8 @@
+.git
+**/__pycache__
+**/*.pyc
+deploy/fleet/admin
+deploy/fleet/data
+**/*.pem
+**/*.key
+.env*

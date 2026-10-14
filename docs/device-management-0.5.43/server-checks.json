@@ -1,0 +1,10 @@
+{
+  "health": true,
+  "unauthorized_status": 403,
+  "online": true,
+  "version": "0.5.43",
+  "release_sequence": 1,
+  "open_commands": 0,
+  "existing_route_/": 200,
+  "existing_route_/gira/": 200
+}

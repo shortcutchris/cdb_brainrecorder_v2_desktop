@@ -116,6 +116,7 @@ class Agent:
             try:self.local('/api/management/release',{'command':self.result['id']})
             except Exception:pass
         self.status=diagnostics(app)
+        if self.updater:self.status['release_sequence']=read(self.updater.ledger,{}).get('sequence',0)
         credential=read(self.root/'credential.json')
         enrollment=read(self.root/'enroll.json')
         if enrollment:
@@ -150,6 +151,7 @@ class Agent:
             except Exception:detail='Aktion fehlgeschlagen; Versions- und Verbindungsstatus prüfen.'
         self.result={'id':command['id'],'state':state,'detail':detail}
         save(self.root/'result.json',self.result);(self.root/'inflight.json').unlink(missing_ok=True)
+        return True  # acknowledge completion promptly instead of another 30-second wait
 
 
 def main():
@@ -159,9 +161,11 @@ def main():
     lock=open(Path(args.root)/'agent.lock','w');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
     agent=Agent(args.root)
     while True:
-        try:agent.tick()
+        delay=30
+        try:
+            if agent.tick():delay=1
         except Exception:
             save(agent.root/'public.json',{'state':'offline','message':'Geräteverwaltung nicht erreichbar. Lokale Funktionen bleiben verfügbar.'})
-        time.sleep(30)
+        time.sleep(delay)
 
 if __name__=='__main__':main()

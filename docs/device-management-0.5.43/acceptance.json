@@ -1,0 +1,57 @@
+{
+  "date": "2026-10-14",
+  "python_tests": 243,
+  "javascript_tests": 99,
+  "commands": [
+    {
+      "action": "restart-app",
+      "state": "deferred",
+      "seconds": 70.5,
+      "detail": "Gerät beschäftigt; später erneut beauftragen."
+    },
+    {
+      "action": "diagnose",
+      "state": "succeeded",
+      "seconds": 39.8,
+      "detail": "Diagnose aktualisiert."
+    },
+    {
+      "action": "restart-app",
+      "state": "succeeded",
+      "seconds": 50.9,
+      "detail": "App-Neustart geprüft."
+    },
+    {
+      "action": "update",
+      "state": "succeeded",
+      "seconds": 57.8,
+      "detail": "Update geprüft."
+    },
+    {
+      "action": "reboot",
+      "state": "succeeded",
+      "seconds": 104.7,
+      "detail": "Neustart bestätigt."
+    }
+  ],
+  "before": {
+    "version": "0.5.43",
+    "wake": "listening",
+    "sessions": 22
+  },
+  "after": {
+    "version": "0.5.43",
+    "wake": "listening",
+    "sessions": 22,
+    "activity": {
+      "mode": "idle",
+      "busy": false,
+      "reason": "",
+      "recording": false,
+      "live_busy": false
+    },
+    "recording_allowed": true
+  },
+  "signed_release": "2e987a050cb290bae1e3594d51a5f43eb646ccd8ff0c3d53c1d8f697260f744e",
+  "runtime_commit": "f97a972"
+}

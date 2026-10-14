@@ -18,7 +18,7 @@ import uuid
 from .common import digest
 
 ACTIONS = ('diagnose', 'restart-app', 'reboot', 'update')
-FIELDS = {'version','activity','app_reachable','free_mb','temperature_c','memory_mb','wake_state','hardware','architecture','agent_version','update','last_result'}
+FIELDS = {'release_sequence','version','activity','app_reachable','free_mb','temperature_c','memory_mb','wake_state','hardware','architecture','agent_version','update','last_result'}
 
 
 class Registry:

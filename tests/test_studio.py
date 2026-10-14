@@ -35,6 +35,11 @@ class StudioTests(unittest.TestCase):
         command='11111111-1111-1111-1111-111111111111'
         self.assertEqual(self.request('/api/management/health')[0],403)
         self.assertEqual(self.request('/api/management/prepare',{'command':command})[0],403)
+        from services.app_activity import AppActivity
+        for activity in (AppActivity(recording=True),AppActivity(live='active'),AppActivity(pending=True),AppActivity(download=True),AppActivity(bluetooth=True)):
+            with patch.object(self.app,'activity',return_value=activity):
+                self.assertEqual(self.request('/api/management/prepare',{'command':command},headers)[0],409)
+                self.assertFalse(self.app.management.busy())
         self.assertEqual(self.request('/api/management/prepare',{'command':command},headers)[0],200)
         self.assertTrue(self.app.management.busy())
         for path,body in [('/api/wake',{'action':'on'}),('/api/record/start',{}),('/api/timers',{'action':'create'}),('/api/live/reserve',{})]:
