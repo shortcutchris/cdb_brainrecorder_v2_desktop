@@ -4,6 +4,7 @@ Only the configured ALSA/Pulse input and PipeWire output are used. Audio subproc
 are parent-owned; microphone frames are continuously drained into an 80 ms queue.
 """
 import asyncio
+import math
 from array import array
 import sys
 from fractions import Fraction
@@ -101,6 +102,22 @@ class PcmGate:
             return bytes(len(block)) if self.muted or epoch != self.epoch else block
 
 
+def ready_tone_pcm():
+    """360 ms rising two-note cue, 24 kHz mono, with click-free envelopes."""
+    samples = array('h')
+    for i in range(8640):
+        t = i / 24000
+        value = 0
+        for onset, frequency in ((0, 659.255), (.16, 880)):
+            age = t - onset
+            if 0 <= age < .20:
+                envelope = min(1, age / .012, (.20 - age) / .035)
+                value += .12 * envelope * math.sin(2 * math.pi * frequency * age)
+        samples.append(round(32767 * value))
+    if sys.byteorder != 'little': samples.byteswap()
+    return samples.tobytes()
+
+
 class NativeLiveAudio:
     @staticmethod
     def available():
@@ -121,6 +138,8 @@ class NativeLiveAudio:
         self.tasks = set()
         self.peer = None
         self.opening_task = None
+        self.ready_tone_started = False
+        self.ready_tone_state = 'waiting'
         self.received_frames = 0
         self.captured_frames = 0
         self.sent_frames = 0
@@ -234,7 +253,7 @@ class NativeLiveAudio:
                 self.update_search('web',*found)
         @self.peer.on('connectionstatechange')
         def state_changed():
-            if self.peer.connectionState == 'failed': self._fail()
+            self._connection_changed()
         @self.peer.on('track')
         def track_received(track):
             if track.kind != 'audio': return
@@ -254,6 +273,33 @@ class NativeLiveAudio:
             self._task(play())
         await self.peer.setLocalDescription(await self.peer.createOffer())
         return self.peer.localDescription.sdp
+
+    def _connection_changed(self):
+        if self.closed.is_set(): return
+        if self.peer.connectionState == 'failed': self._fail()
+        elif self.peer.connectionState == 'connected' and not self.ready_tone_started:
+            # SDP installed is not enough: signal only after DTLS/ICE connects.
+            # One cue per session; connection-state repeats must never retrigger it.
+            self.ready_tone_started = True
+            self.ready_tone_state = 'playing'
+            self._task(self._ready_tone())
+
+    async def _ready_tone(self):
+        process = None
+        try:
+            process = await self._spawn(self.playback_command, stdin=asyncio.subprocess.PIPE)
+            process.stdin.write(ready_tone_pcm())
+            await asyncio.wait_for(process.stdin.drain(), 1)
+            process.stdin.close()
+            await asyncio.wait_for(process.wait(), 2)
+            self.ready_tone_state = 'played' if process.returncode == 0 else 'failed'
+        except asyncio.CancelledError:
+            self.ready_tone_state = 'cancelled'
+            raise
+        except (OSError, ValueError, EOFError, asyncio.TimeoutError, ConnectionError):
+            self.ready_tone_state = 'failed'
+        finally:
+            if process: await self._terminate(process)
 
     def open(self):
         try: return self._submit(self._open(), 15)
@@ -418,7 +464,7 @@ class NativeLiveAudio:
         return {'capture_backend': 'pipewire' if self.capture_command[0] == 'parec' else 'explicit-device',
                 'captured_frames': self.captured_frames, 'sent_frames': self.sent_frames,
                 'played_frames': self.received_frames, 'search_tones':self.search_tones, 'search_loop_blocks':self.search_loop_blocks, 'search_loop_pauses':self.search_loop_pauses, 'event_types':dict(self.event_types), 'processes_alive': sum(p.returncode is None for p in list(self.processes)),
-                'closed': self.closed.is_set()}
+                'ready_tone': self.ready_tone_state, 'closed': self.closed.is_set()}
 
     def close(self):
         with self.close_lock:

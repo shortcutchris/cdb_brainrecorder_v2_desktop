@@ -335,7 +335,10 @@ class VoiceEndTests(unittest.TestCase):
         self.reserve();self.live.state='listening';self.live.clock=lambda:100
         for text in ['Gespräch beenden?','Nicht das Gespräch beenden','Gespräch beenden bitte nicht',
                      'Wie kann ich das Gespräch beenden?','Sage Gespräch beenden','„Gespräch beenden“',
-                     'Gespräch beenden ist ein Befehl','Gespräch']:
+                     'Gespräch beenden ist ein Befehl','Gespräch','Beende das Gespräch bitte nicht',
+                     'Kannst du das Gespräch beenden?', 'Ich beende das Gespräch jetzt',
+                     'Alles klar, ich beende das Gespräch jetzt', 'Das wars noch nicht',
+                     'Am Ende reden wir weiter', 'Bitte nicht beenden']:
             self.live.transcript_turns={}
             self.live._transcript({'role':'user','delta':text})
             self.live.transcript_turns['user']['received']=98
@@ -354,3 +357,15 @@ class VoiceEndTests(unittest.TestCase):
         self.brain.generation+=1;self.assertFalse(self.live._voice_end_requested());self.brain.generation-=1
         self.live._transcript({'role':'user','delta':' bitte noch nicht'})
         now[0]+=2;self.assertFalse(self.live._voice_end_requested())
+
+    def test_natural_end_commands_are_whole_user_utterances(self):
+        self.reserve(); self.live.state='listening'; self.live.clock=lambda:100
+        for text in ['Okay, beende das Gespräch', 'Beende bitte das Gespräch',
+                     'Bitte beende das Gespräch jetzt.', 'Gespräch jetzt beenden!',
+                     'Unterhaltung beenden', 'Beende die Unterhaltung', 'Ende',
+                     'Bitte beenden', 'Das war’s', "Danke, das war's."]:
+            with self.subTest(text=text):
+                self.live.transcript_turns={}
+                self.live._transcript({'role':'user','delta':text})
+                self.live.transcript_turns['user']['received']=98
+                self.assertTrue(self.live._voice_end_requested())

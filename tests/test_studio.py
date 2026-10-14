@@ -41,6 +41,43 @@ class StudioTests(unittest.TestCase):
             self.assertLess(time.monotonic()-start,1)
         finally:release.set();worker.join(2)
 
+    def test_due_alarm_mixes_during_live_and_ack_does_not_close_conversation(self):
+        from services.app_activity import AppActivity
+        # Stop background ticks to drive real persistent timers deterministically.
+        self.app.ambient_stop.set(); self.app.ambient_thread.join(3)
+        ident=self.app.schedules.create({'kind':'timer','seconds':1,'label':'Test',
+                                        'request_id':'mix-live','tone':'bell'})['id']
+        time.sleep(1.1); self.app.schedules.tick(True)
+        # Playing media and the Live audio sink no longer defer the timer.
+        self.app.output_busy_until=time.monotonic()+60
+        self.app.playback_leases['live-test']=time.monotonic()+60
+        with patch.object(self.app,'activity',return_value=AppActivity(live='speaking')), \
+             patch.object(self.app.speakers,'start_alarm') as start, \
+             patch.object(self.app.speakers,'test_status',return_value={'state':'running'}), \
+             patch.object(self.app.speakers,'stop_test') as stop, \
+             patch.object(self.app.live,'end') as end:
+            self.app.tick_alarm();self.assertEqual(self.app.alarm_id,ident)
+            start.assert_called_once_with('bell')
+            self.app.tick_alarm();self.assertEqual(start.call_count,1)
+            item=self.app.schedules.items()[0]
+            self.app.schedules.change({'action':'ack','id':ident,'revision':item['revision']})
+            self.app.tick_alarm();stop.assert_called_once();end.assert_not_called()
+            self.assertIsNone(self.app.alarm_id)
+
+    def test_due_alarm_remains_pending_until_recording_finishes(self):
+        from services.app_activity import AppActivity
+        self.app.ambient_stop.set();self.app.ambient_thread.join(3)
+        self.app.schedules.create({'kind':'timer','seconds':1,'label':'Test',
+                                  'request_id':'record-hold','tone':'bell'})
+        time.sleep(1.1);self.app.schedules.tick(True)
+        with patch.object(self.app,'activity',return_value=AppActivity(recording=True)), \
+             patch.object(self.app.speakers,'start_alarm') as start:
+            self.app.tick_alarm();start.assert_not_called()
+            self.assertEqual(self.app.schedules.items()[0]['sound'],'pending')
+        with patch.object(self.app,'activity',return_value=AppActivity()), \
+             patch.object(self.app.speakers,'start_alarm') as start:
+            self.app.tick_alarm();start.assert_called_once_with('bell')
+
     def test_wake_test_can_be_stopped_without_enabling(self):
         self.app.wake.test_until=time.monotonic()+30
         self.assertEqual(self.request('/api/wake',{'action':'test-stop'})[0],200)

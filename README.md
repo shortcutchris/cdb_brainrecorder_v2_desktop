@@ -581,3 +581,25 @@ Nach einer Minute verstummt der Ton, der Hinweis bleibt bis zur Bestätigung.
 Die Tonvorschau bleibt drei Sekunden lang. Während Aufnahme oder Gespräch wird
 der Ton weiterhin zurückgestellt; der fällige Timer ist trotzdem sichtbar.
 [Prüfbericht](docs/device-feedback-0.5.37/README.md).
+
+
+### Studio 0.5.38 · Alarm im Gespräch und hörbare Bereitschaft
+
+Timer und Erinnerungen ertönen jetzt auch während eines laufenden Live-Gesprächs,
+parallel zur Stimme. **Alarm stoppen** und **+5 Min.** bleiben bedienbar, ohne das
+Gespräch zu beenden. Bei Aufnahmen, Geräteänderungen und Audiotests wartet der
+Alarm weiterhin. Die Begrenzung auf 60 Sekunden bleibt bestehen.
+
+Ein kurzer, steigender Doppelton bestätigt die tatsächlich aufgebaute
+Audioverbindung. Erst danach sprechen. Der Ton läuft einmal pro Sitzung über
+den gewählten Pi-Lautsprecher, unabhängig vom abschaltbaren Suchton.
+
+Zum Beenden funktionieren mehrere klare, eigenständige Sätze:
+**„Beende das Gespräch“**, **„Gespräch beenden“**, **„Unterhaltung beenden“**,
+**„Ende“** oder **„Das war’s“** – auch mit „Okay“ oder „Bitte“.
+Fragen, Verneinungen und Assistentenantworten schließen das Gespräch nicht.
+Nach dem Ende wartet das eingeschaltete Aktivierungswort wieder, sobald keine
+Aufnahme, Wiedergabe oder kein Alarm mehr läuft. Die Erkennung dieser Befehle
+setzt eine vollständige Nutzertranskription voraus; der Bildschirmbutton bleibt verfügbar.
+
+Prüfnachweis: [Live-Audio 0.5.38](docs/live-audio-0.5.38/README.md).

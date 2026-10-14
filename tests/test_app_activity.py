@@ -29,3 +29,10 @@ class ActivityTests(unittest.TestCase):
         activity=AppActivity(alarm=True,speaker_test=True)
         self.assertEqual(activity.mode,'alarm')
         self.assertIn('Timer-Alarm',activity.reason)
+
+    def test_alarm_can_mix_with_live_but_never_recording_or_device_tests(self):
+        for live in ('idle','connecting','listening','speaking','thinking','reconnecting','closing'):
+            self.assertTrue(AppActivity(live=live,live_reserved=True).alarm_allowed)
+            for field in ('recording','microphone_test','speaker_test','alarm','download','model_test','bluetooth'):
+                with self.subTest(live=live,field=field):
+                    self.assertFalse(AppActivity(live=live,**{field:True}).alarm_allowed)

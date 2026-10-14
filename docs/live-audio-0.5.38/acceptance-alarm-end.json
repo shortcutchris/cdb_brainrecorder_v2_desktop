@@ -1,0 +1,66 @@
+{
+  "synthetic": true,
+  "room_audio": false,
+  "audio_destination": "isolated null sink",
+  "stages": [
+    {
+      "name": "ready_chime_after_actual_connection",
+      "state": "connected",
+      "ready_tone": "played"
+    },
+    {
+      "name": "synthetic_utterance",
+      "text": "Bitte zähle langsam von eins bis dreißig. Sage jede Zahl einzeln."
+    },
+    {
+      "name": "simultaneous_timer_and_live",
+      "streams": 2,
+      "live_frames_before": 401,
+      "live_frames_after": 553,
+      "alarm_state": "running"
+    },
+    {
+      "name": "alarm_stop_preserves_conversation"
+    },
+    {
+      "name": "synthetic_utterance",
+      "text": "Wie kann ich das Gespräch beenden?"
+    },
+    {
+      "name": "question_does_not_close"
+    },
+    {
+      "name": "synthetic_utterance",
+      "text": "Okay, beende das Gespräch."
+    },
+    {
+      "name": "natural_voice_end_releases_audio",
+      "end_reason": "voice_command",
+      "stats": {
+        "capture_backend": "explicit-device",
+        "captured_frames": 4753,
+        "sent_frames": 3030,
+        "played_frames": 2989,
+        "search_tones": 0,
+        "search_loop_blocks": 0,
+        "search_loop_pauses": 0,
+        "event_types": {
+          "session.started": 1,
+          "session.input_transcript.delta": 20,
+          "session.output_transcript.delta": 92,
+          "session.usage.updated": 1
+        },
+        "processes_alive": 0,
+        "ready_tone": "played",
+        "closed": true
+      }
+    },
+    {
+      "name": "voice_end_preserves_alarm"
+    },
+    {
+      "name": "recording_and_settings_unlocked"
+    }
+  ],
+  "passed": true
+}

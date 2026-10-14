@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.37'
+VERSION = '0.5.38'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -137,6 +137,28 @@ class StudioApp:
             self.live.end(lease)
             raise
 
+    def tick_alarm(self):
+        """Called under the device control locks; Live does not defer an alarm."""
+        if self.alarm_id and not any(i['id']==self.alarm_id and i['state']=='due' for i in self.schedules.items()):
+            self.speakers.stop_test(); self.alarm_id = None
+        if self.alarm_id and self.speakers.test_status()['state'] != 'running':
+            outcome = 'played' if self.speakers.test_status()['state']=='completed' else 'failed'
+            self.schedules.sound_result(self.alarm_id, outcome)
+            self.alarm_id = None
+        if self.activity().alarm_allowed:
+            for item in self.schedules.items():
+                if item['state']=='due' and item['sound']=='pending':
+                    self.wake.suspend('Timer-Signal läuft.')
+                    # Claim before playback: at most one attempt after a crash.
+                    self.schedules.sound_result(item['id'],'attempted')
+                    try:
+                        if item.get('tone')=='silent':
+                            self.schedules.sound_result(item['id'],'silent'); continue
+                        self.speakers.start_alarm(item.get('tone','bell'))
+                        self.alarm_id = item['id']
+                    except ValueError: self.schedules.sound_result(item['id'],'failed')
+                    break
+
     def ambient_loop(self):
         import time
         next_clock = 0
@@ -162,26 +184,7 @@ class StudioApp:
                 with self.control_lock, self.controller.lock, self.engine.recorder.lock:
                     if self.closing: return
                     self.playback_leases = {key:value for key,value in self.playback_leases.items() if value>time.monotonic()}
-                    if self.alarm_id and not any(i['id']==self.alarm_id and i['state']=='due' for i in self.schedules.items()):
-                        self.speakers.stop_test(); self.alarm_id = None
-                    if self.alarm_id and self.speakers.test_status()['state'] != 'running':
-                        outcome = 'played' if self.speakers.test_status()['state']=='completed' else 'failed'
-                        self.schedules.sound_result(self.alarm_id, outcome)
-                        self.alarm_id = None
-                    reason = self.wake_reason()
-                    if not reason:
-                        for item in self.schedules.items():
-                            if item['state']=='due' and item['sound']=='pending':
-                                self.wake.suspend('Timer-Signal läuft.')
-                                # Claim before playback: at most one attempt after a crash.
-                                self.schedules.sound_result(item['id'],'attempted')
-                                try:
-                                    if item.get('tone')=='silent':
-                                        self.schedules.sound_result(item['id'],'silent'); continue
-                                    self.speakers.start_alarm(item.get('tone','bell'))
-                                    self.alarm_id = item['id']
-                                except ValueError: self.schedules.sound_result(item['id'],'failed')
-                                break
+                    self.tick_alarm()
                     reason = self.wake_reason()
                     self.wake.tick(account=self.wake_account(),reason=reason,
                                    config=self.store.config(),trigger=self.wake_start)

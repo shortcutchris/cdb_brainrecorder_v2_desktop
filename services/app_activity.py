@@ -25,6 +25,13 @@ class AppActivity:
         return self.live_reserved or self.live in ('connecting','active','stopping','listening','thinking','speaking','reconnecting','closing')
 
     @property
+    def alarm_allowed(self):
+        # A timer must be audible during Live, even while the assistant speaks.
+        # Recordings/tests and device changes retain exclusive audio ownership.
+        return not (self.recording or self.microphone_test or self.speaker_test or
+                    self.alarm or self.download or self.model_test or self.bluetooth)
+
+    @property
     def occupied(self):
         return self.recording or self.live_busy or self.microphone_test or self.speaker_test or self.alarm or self.download or self.model_test or self.bluetooth
 

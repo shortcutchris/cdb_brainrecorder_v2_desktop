@@ -60,4 +60,75 @@ class CaptureSourceTests(unittest.TestCase):
             rows=[{'name':name,'properties':{'alsa.card':'4','alsa.device':'0'}} for name in ['first','second']]
             with self.assertRaises(ValueError):self.resolve('plughw:4,0',rows,root)
 
+
+
+class ReadyToneTests(unittest.IsolatedAsyncioTestCase):
+    async def asyncSetUp(self):
+        import asyncio, threading, sys
+        from services.live_audio import NativeLiveAudio
+        self.audio=NativeLiveAudio.__new__(NativeLiveAudio)
+        self.audio.closed=threading.Event();self.audio.tasks=set();self.audio.processes=[]
+        self.audio.ready_tone_started=False;self.audio.ready_tone_state='waiting'
+        self.audio.peer=SimpleNamespace(connectionState='connecting')
+        self.tmp=tempfile.TemporaryDirectory();self.output=Path(self.tmp.name)/'cue.pcm'
+        self.audio.playback_command=[sys.executable,'-c',
+            'import sys;from pathlib import Path;Path(sys.argv[1]).write_bytes(sys.stdin.buffer.read())',str(self.output)]
+
+    async def asyncTearDown(self):
+        import asyncio
+        for task in list(self.audio.tasks):task.cancel()
+        if self.audio.tasks:await asyncio.gather(*self.audio.tasks,return_exceptions=True)
+        self.tmp.cleanup()
+
+    async def test_chime_only_after_connected_once_and_real_pcm_is_written(self):
+        import asyncio
+        from services.live_audio import ready_tone_pcm
+        self.audio._connection_changed()
+        self.assertFalse(self.audio.ready_tone_started)
+        self.audio.peer.connectionState='connected';self.audio._connection_changed()
+        self.audio._connection_changed()
+        self.assertEqual(len(self.audio.tasks),1)
+        await asyncio.gather(*self.audio.tasks)
+        self.assertEqual(self.audio.ready_tone_state,'played')
+        self.assertEqual(self.output.read_bytes(),ready_tone_pcm())
+        self.assertEqual(len(self.output.read_bytes()),8640*2)
+        self.assertFalse(self.audio.processes)
+        self.audio.peer.connectionState='disconnected';self.audio._connection_changed()
+        self.audio.peer.connectionState='connected';self.audio._connection_changed()
+        self.assertFalse(self.audio.tasks)
+
+    async def test_failed_connection_and_closed_session_never_signal_ready(self):
+        from unittest.mock import Mock
+        self.audio._fail=Mock();self.audio.peer.connectionState='failed'
+        self.audio._connection_changed();self.audio._fail.assert_called_once()
+        self.assertFalse(self.audio.ready_tone_started)
+        self.audio.closed.set();self.audio.peer.connectionState='connected'
+        self.audio._connection_changed();self.assertFalse(self.audio.tasks)
+
+    async def test_optional_chime_failure_does_not_end_live(self):
+        import asyncio
+        from unittest.mock import Mock
+        self.audio._fail=Mock();self.audio.playback_command=['/missing/test-cue-player']
+        self.audio.peer.connectionState='connected';self.audio._connection_changed()
+        await asyncio.gather(*self.audio.tasks)
+        self.assertEqual(self.audio.ready_tone_state,'failed')
+        self.audio._fail.assert_not_called();self.assertFalse(self.audio.closed.is_set())
+
+    async def test_close_cancels_pending_chime_and_reaps_process(self):
+        import asyncio, sys
+        self.audio.playback_command=[sys.executable,'-c','import time;time.sleep(10)']
+        self.audio.peer.connectionState='connected';self.audio._connection_changed()
+        for _ in range(100):
+            if self.audio.processes:break
+            await asyncio.sleep(.01)
+        self.assertTrue(self.audio.processes)
+        processes=list(self.audio.processes)
+        self.audio.closed.set()
+        tasks=list(self.audio.tasks)
+        for task in tasks:task.cancel()
+        await asyncio.gather(*tasks,return_exceptions=True)
+        self.assertEqual(self.audio.ready_tone_state,'cancelled')
+        self.assertTrue(all(p.returncode is not None for p in processes))
+        self.assertFalse(self.audio.processes)
+
 if __name__=='__main__':unittest.main()

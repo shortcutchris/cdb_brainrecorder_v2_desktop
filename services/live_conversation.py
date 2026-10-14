@@ -20,7 +20,16 @@ from services.cdb_integration import CdbFailure, USER_AGENT, UUID
 
 BASE = '/api/v1/tqs/voice-live'
 HANDLE = re.compile(r'^[A-Za-z0-9_-]{1,128}$')
-END_COMMAND = re.compile(r'(?:(?:okay|ok)\s+)?(?:bitte\s+)?gespräch\s+beenden(?:\s+bitte)?')
+# Whole user utterances only: recognize natural imperatives, never echoed
+# assistant promises ("ich beende ...") or a quoted/negated command.
+END_COMMAND = re.compile(
+    r'(?:(?:okay|ok|danke)\s+)?(?:bitte\s+)?(?:'
+    r'(?:das\s+)?(?:gespräch|unterhaltung)(?:\s+(?:jetzt|bitte))?\s+beenden'
+    r'|beende(?:\s+bitte)?\s+(?:das\s+gespräch|die\s+unterhaltung)(?:\s+jetzt)?'
+    r'|(?:jetzt\s+)?(?:beenden|ende)'
+    r'|das\s+war[’\']?s'
+    r')(?:\s+bitte)?'
+)
 
 ACTIVE = {'connecting', 'listening', 'thinking', 'speaking', 'reconnecting', 'closing'}
 
