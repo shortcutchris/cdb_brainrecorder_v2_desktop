@@ -19,6 +19,7 @@ import queue
 import signal
 import threading
 import time
+import uuid
 from services.live_feedback import AudioEnvelope, SearchInputEnvelope, SearchActivity, web_search_event, search_loop_pcm
 
 from meeting_recorder.audio import Recorder
@@ -118,6 +119,18 @@ def ready_tone_pcm():
     return samples.tobytes()
 
 
+def connecting_tone_pcm():
+    """Quiet 1.8 s breathing motif; deterministic PCM, no synthesis service."""
+    samples = array('h')
+    for i in range(43200):
+        t = i / 24000
+        envelope = math.sin(math.pi * min(t / .85, 1)) ** 2 if t < .85 else 0
+        value = .045 * envelope * (math.sin(2 * math.pi * 440 * t) + .35 * math.sin(2 * math.pi * 660 * t))
+        samples.append(round(32767 * value))
+    if sys.byteorder != 'little': samples.byteswap()
+    return samples.tobytes()
+
+
 class NativeLiveAudio:
     @staticmethod
     def available():
@@ -138,6 +151,16 @@ class NativeLiveAudio:
         self.tasks = set()
         self.peer = None
         self.opening_task = None
+        self.connecting_task = None
+        self.connecting_stop = asyncio.Event()
+        self.connecting_tone_state = 'waiting'
+        self.connecting_blocks = 0
+        self.startup_input_blocked = True
+        self.channel = None
+        self.session_started = asyncio.Event()
+        self.greeting_ack = asyncio.Event()
+        self.greeting_id = None
+        self.greeting_state = 'waiting'
         self.ready_tone_started = False
         self.ready_tone_state = 'waiting'
         self.received_frames = 0
@@ -216,6 +239,8 @@ class NativeLiveAudio:
         if capture.returncode is not None or playback.returncode is not None:
             raise ValueError('Mikrofon oder Lautsprecher am Pi nicht verfügbar.')
 
+        self.connecting_task = self._task(self._connecting_tone())
+
         class InputTrack(AudioStreamTrack):
             def __init__(self):
                 super().__init__(); self.samples = 0; self.origin = None
@@ -228,6 +253,7 @@ class NativeLiveAudio:
                 await asyncio.sleep(max(0, self.origin + self.samples / 16000 - now))
                 frame = av.AudioFrame(format='s16', layout='mono', samples=320)
                 block=transport.gate.take()
+                if transport.startup_input_blocked: block=bytes(len(block))
                 transport.input_meter.feed(block)
                 frame.planes[0].update(block)
                 transport.sent_frames += 1
@@ -237,7 +263,8 @@ class NativeLiveAudio:
 
         self.peer = RTCPeerConnection()
         self.peer.addTransceiver(InputTrack(), direction='sendrecv')
-        channel=self.peer.createDataChannel('oai-events')  # Read-only: never send commands.
+        channel=self.peer.createDataChannel('oai-events')
+        self.channel = channel  # Only one fixed welcome instruction is sent; no arbitrary commands.
         @channel.on('message')
         def provider_event(message):
             if not isinstance(message,str) or len(message)>1_000_000:return
@@ -247,6 +274,7 @@ class NativeLiveAudio:
                 name=event.get('type','')
                 if name=='response.event' and isinstance(event.get('event'),dict):name+=':'+str(event['event'].get('type',''))
                 if isinstance(name,str) and re.fullmatch(r'[a-zA-Z_.:]{1,100}',name) and (name in self.event_types or len(self.event_types)<64):self.event_types[name]=self.event_types.get(name,0)+1
+            self._welcome_event(event)
             found=web_search_event(event)
             if found:
                 self.web_event_count+=1
@@ -282,7 +310,84 @@ class NativeLiveAudio:
             # One cue per session; connection-state repeats must never retrigger it.
             self.ready_tone_started = True
             self.ready_tone_state = 'playing'
-            self._task(self._ready_tone())
+            self._task(self._welcome())
+
+    async def _connecting_tone(self):
+        process = None
+        self.connecting_tone_state = 'playing'
+        try:
+            pcm = connecting_tone_pcm()
+            process = await self._spawn(self.playback_command, stdin=asyncio.subprocess.PIPE)
+            offset = 0
+            while not self.closed.is_set() and not self.connecting_stop.is_set():
+                block = pcm[offset:offset + 960]  # 20 ms; never queue an entire loop.
+                process.stdin.write(block)
+                await asyncio.wait_for(process.stdin.drain(), 1)
+                self.connecting_blocks += 1
+                offset = (offset + 960) % len(pcm)
+                await asyncio.sleep(.02)
+            # Release the last waveform smoothly within 80 ms.
+            if not self.closed.is_set():
+                for step in range(4):
+                    block = array('h'); block.frombytes(pcm[offset:offset + 960])
+                    if sys.byteorder != 'little': block.byteswap()
+                    block = array('h', (round(v * (1 - (step * 480 + n) / 1920)) for n, v in enumerate(block)))
+                    if sys.byteorder != 'little': block.byteswap()
+                    process.stdin.write(block.tobytes())
+                    await asyncio.wait_for(process.stdin.drain(), 1)
+                    offset = (offset + 960) % len(pcm)
+                    await asyncio.sleep(.02)
+                process.stdin.close()
+                await asyncio.wait_for(process.wait(), 1)
+            self.connecting_tone_state = 'stopped'
+        except asyncio.CancelledError:
+            self.connecting_tone_state = 'cancelled'
+            raise
+        except (OSError, ValueError, EOFError, asyncio.TimeoutError, ConnectionError):
+            self.connecting_tone_state = 'failed'  # Optional cue must not break speech.
+        finally:
+            if process: await self._terminate(process)
+
+    def _welcome_event(self, event):
+        if not isinstance(event, dict): return
+        if event.get('type') == 'session.started': self.session_started.set()
+        error = event.get('error') if isinstance(event.get('error'), dict) else {}
+        reference = event.get('client_event_id') or error.get('client_event_id')
+        if self.greeting_id and reference == self.greeting_id:
+            if event.get('type') == 'session.instructions.appended':
+                self.greeting_state = 'accepted'; self.greeting_ack.set()
+            elif event.get('type') == 'error':
+                self.greeting_state = 'rejected'; self.greeting_ack.set()
+
+    async def _welcome(self):
+        """One welcome per session, never on reconnect; no retry after ambiguous ACK."""
+        try:
+            self.connecting_stop.set()
+            if self.connecting_task: await self.connecting_task
+            if self.closed.is_set(): return
+            await self._ready_tone()
+            # Flush local tones from capture without changing the user's mute setting.
+            with self.gate.lock:
+                self.gate.epoch += 1
+                while not self.gate.frames.empty(): self.gate.frames.get_nowait()
+            self.startup_input_blocked = False
+            await asyncio.wait_for(self.session_started.wait(), 10)
+            if self.closed.is_set() or not self.channel or self.channel.readyState != 'open': return
+            self.greeting_id = str(uuid.uuid4())
+            self.greeting_state = 'sent'
+            self.channel.send(json.dumps({'type': 'session.instructions.append',
+                'event_id': self.greeting_id, 'delegation_id': None,
+                'content': 'Begrüße den Nutzer jetzt einmal kurz mit „Hallo, wie kann ich dir helfen?“. Keine Recherche für diese Begrüßung. Danach höre zu; für alle folgenden Fragen gelten weiterhin die bestehenden Wissens-, Werkzeug- und Delegationsregeln.'}))
+            await asyncio.wait_for(self.greeting_ack.wait(), 10)
+        except asyncio.CancelledError:
+            self.greeting_state = 'cancelled'
+            raise
+        except asyncio.TimeoutError:
+            self.greeting_state = 'unconfirmed'
+        except (OSError, ValueError, ConnectionError):
+            self.greeting_state = 'failed'
+        finally:
+            self.startup_input_blocked = False
 
     async def _ready_tone(self):
         process = None
@@ -472,7 +577,8 @@ class NativeLiveAudio:
         return {'capture_backend': 'pipewire' if self.capture_command[0] == 'parec' else 'explicit-device',
                 'captured_frames': self.captured_frames, 'sent_frames': self.sent_frames,
                 'played_frames': self.received_frames, 'search_tones':self.search_tones, 'search_loop_blocks':self.search_loop_blocks, 'search_loop_pauses':self.search_loop_pauses, 'event_types':dict(self.event_types), 'processes_alive': sum(p.returncode is None for p in list(self.processes)),
-                'ready_tone': self.ready_tone_state, 'closed': self.closed.is_set()}
+                'connecting_tone': self.connecting_tone_state, 'connecting_blocks': self.connecting_blocks,
+                'greeting': self.greeting_state, 'ready_tone': self.ready_tone_state, 'closed': self.closed.is_set()}
 
     def close(self):
         with self.close_lock:

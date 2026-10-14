@@ -1,0 +1,231 @@
+[
+  {
+    "event": "production_wake_yielded",
+    "elapsed": 0.919
+  },
+  {
+    "event": "http_start",
+    "elapsed": 0.92,
+    "route": "/api/v1/tqs/voice-live/capabilities"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 6.096,
+    "route": "/api/v1/tqs/voice-live/capabilities",
+    "seconds": 5.176
+  },
+  {
+    "event": "http_start",
+    "elapsed": 6.096,
+    "route": "/api/v1/tqs/knowledge-areas"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 7.037,
+    "route": "/api/v1/tqs/knowledge-areas",
+    "seconds": 0.941
+  },
+  {
+    "event": "start_requested",
+    "elapsed": 7.039,
+    "trial": 1
+  },
+  {
+    "event": "hardware_input_muted_for_cloud",
+    "elapsed": 7.054,
+    "device": "plughw:CARD=Array,DEV=0"
+  },
+  {
+    "event": "native_open",
+    "elapsed": 7.054
+  },
+  {
+    "event": "native_offer_ready",
+    "elapsed": 12.412,
+    "seconds": 5.358
+  },
+  {
+    "event": "http_start",
+    "elapsed": 12.413,
+    "route": "/api/v1/tqs/voice-live/capabilities"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 13.334,
+    "route": "/api/v1/tqs/voice-live/capabilities",
+    "seconds": 0.921
+  },
+  {
+    "event": "http_start",
+    "elapsed": 13.334,
+    "route": "/api/v1/tqs/knowledge-areas"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 14.406,
+    "route": "/api/v1/tqs/knowledge-areas",
+    "seconds": 1.071
+  },
+  {
+    "event": "http_start",
+    "elapsed": 14.406,
+    "route": "/api/v1/tqs/voice-live/sessions"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 15.247,
+    "route": "/api/v1/tqs/voice-live/sessions",
+    "seconds": 0.841
+  },
+  {
+    "event": "answer_received",
+    "elapsed": 15.247
+  },
+  {
+    "event": "peer_state",
+    "elapsed": 15.249,
+    "state": "connecting"
+  },
+  {
+    "event": "peer_state",
+    "elapsed": 15.382,
+    "state": "connected"
+  },
+  {
+    "event": "provider",
+    "elapsed": 15.586,
+    "type": "session.started",
+    "delta": null
+  },
+  {
+    "event": "provider",
+    "elapsed": 16.026,
+    "type": "session.instructions.appended",
+    "delta": null
+  },
+  {
+    "event": "http_start",
+    "elapsed": 16.401,
+    "route": "/sessions/device-tools"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 17.154,
+    "route": "/sessions/device-tools",
+    "seconds": 0.753
+  },
+  {
+    "event": "http_start",
+    "elapsed": 18.154,
+    "route": "/sessions/device-tools"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 18.331,
+    "route": "/sessions/device-tools",
+    "seconds": 0.177
+  },
+  {
+    "event": "provider",
+    "elapsed": 18.501,
+    "type": "session.output_transcript.delta",
+    "delta": "Hallo,"
+  },
+  {
+    "event": "provider",
+    "elapsed": 18.698,
+    "type": "session.output_transcript.delta",
+    "delta": " wie kann"
+  },
+  {
+    "event": "provider",
+    "elapsed": 18.901,
+    "type": "session.output_transcript.delta",
+    "delta": " ich"
+  },
+  {
+    "event": "provider",
+    "elapsed": 19.099,
+    "type": "session.output_transcript.delta",
+    "delta": " dir helfen"
+  },
+  {
+    "event": "provider",
+    "elapsed": 19.283,
+    "type": "session.output_transcript.delta",
+    "delta": "?"
+  },
+  {
+    "event": "http_start",
+    "elapsed": 19.331,
+    "route": "/sessions/device-tools"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 20.053,
+    "route": "/sessions/device-tools",
+    "seconds": 0.722
+  },
+  {
+    "event": "http_start",
+    "elapsed": 21.053,
+    "route": "/sessions/device-tools"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 21.246,
+    "route": "/sessions/device-tools",
+    "seconds": 0.193
+  },
+  {
+    "event": "greeting_history",
+    "elapsed": 22.169,
+    "history": [
+      {
+        "role": "assistant",
+        "text": "Hallo, wie kann ich dir helfen?"
+      }
+    ]
+  },
+  {
+    "event": "ready",
+    "elapsed": 22.169,
+    "trial": 1,
+    "stats": {
+      "capture_backend": "pipewire",
+      "captured_frames": 740,
+      "sent_frames": 340,
+      "played_frames": 300,
+      "search_tones": 0,
+      "search_loop_blocks": 0,
+      "search_loop_pauses": 0,
+      "event_types": {
+        "session.started": 1,
+        "session.instructions.appended": 1,
+        "session.output_transcript.delta": 5
+      },
+      "processes_alive": 2,
+      "connecting_tone": "stopped",
+      "connecting_blocks": 390,
+      "greeting": "accepted",
+      "ready_tone": "played",
+      "closed": false
+    }
+  },
+  {
+    "event": "peer_state",
+    "elapsed": 22.173,
+    "state": "closed"
+  },
+  {
+    "event": "http_start",
+    "elapsed": 22.176,
+    "route": "/sessions/close"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 23.906,
+    "route": "/sessions/close",
+    "seconds": 1.73
+  }
+]

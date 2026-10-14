@@ -1,0 +1,253 @@
+[
+  {
+    "event": "http_start",
+    "elapsed": 0.001,
+    "route": "/api/v1/tqs/voice-live/capabilities"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 0.463,
+    "route": "/api/v1/tqs/voice-live/capabilities",
+    "seconds": 0.462
+  },
+  {
+    "event": "http_start",
+    "elapsed": 0.463,
+    "route": "/api/v1/tqs/knowledge-areas"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 1.155,
+    "route": "/api/v1/tqs/knowledge-areas",
+    "seconds": 0.692
+  },
+  {
+    "event": "start_requested",
+    "elapsed": 1.156,
+    "trial": 1
+  },
+  {
+    "event": "native_open",
+    "elapsed": 1.163
+  },
+  {
+    "event": "native_offer_ready",
+    "elapsed": 1.457,
+    "seconds": 0.294
+  },
+  {
+    "event": "http_start",
+    "elapsed": 1.457,
+    "route": "/api/v1/tqs/voice-live/capabilities"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 1.641,
+    "route": "/api/v1/tqs/voice-live/capabilities",
+    "seconds": 0.184
+  },
+  {
+    "event": "http_start",
+    "elapsed": 1.641,
+    "route": "/api/v1/tqs/knowledge-areas"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 1.98,
+    "route": "/api/v1/tqs/knowledge-areas",
+    "seconds": 0.339
+  },
+  {
+    "event": "http_start",
+    "elapsed": 1.98,
+    "route": "/api/v1/tqs/voice-live/sessions"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 2.926,
+    "route": "/api/v1/tqs/voice-live/sessions",
+    "seconds": 0.946
+  },
+  {
+    "event": "answer_received",
+    "elapsed": 2.926
+  },
+  {
+    "event": "peer_state",
+    "elapsed": 2.928,
+    "state": "connecting"
+  },
+  {
+    "event": "peer_state",
+    "elapsed": 3.092,
+    "state": "connected"
+  },
+  {
+    "event": "provider",
+    "elapsed": 3.318,
+    "type": "session.started",
+    "code": null,
+    "delta": null
+  },
+  {
+    "event": "provider",
+    "elapsed": 3.414,
+    "type": "session.instructions.appended",
+    "code": null,
+    "delta": null
+  },
+  {
+    "event": "http_start",
+    "elapsed": 4.129,
+    "route": "/sessions/device-tools"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 4.347,
+    "route": "/sessions/device-tools",
+    "seconds": 0.218
+  },
+  {
+    "event": "provider",
+    "elapsed": 5.001,
+    "type": "session.output_transcript.delta",
+    "code": null,
+    "delta": "Hallo,"
+  },
+  {
+    "event": "welcome_result",
+    "elapsed": 5.074,
+    "stats": {
+      "capture_backend": "explicit-device",
+      "captured_frames": 184,
+      "sent_frames": 100,
+      "played_frames": 60,
+      "search_tones": 0,
+      "search_loop_blocks": 0,
+      "search_loop_pauses": 0,
+      "event_types": {
+        "session.started": 1,
+        "session.instructions.appended": 1,
+        "session.output_transcript.delta": 1
+      },
+      "processes_alive": 2,
+      "connecting_tone": "stopped",
+      "connecting_blocks": 80,
+      "greeting": "accepted",
+      "ready_tone": "played",
+      "closed": false
+    }
+  },
+  {
+    "event": "provider",
+    "elapsed": 5.211,
+    "type": "session.output_transcript.delta",
+    "code": null,
+    "delta": " wie kann"
+  },
+  {
+    "event": "http_start",
+    "elapsed": 5.348,
+    "route": "/sessions/device-tools"
+  },
+  {
+    "event": "provider",
+    "elapsed": 5.408,
+    "type": "session.output_transcript.delta",
+    "code": null,
+    "delta": " ich"
+  },
+  {
+    "event": "provider",
+    "elapsed": 5.621,
+    "type": "session.output_transcript.delta",
+    "code": null,
+    "delta": " dir"
+  },
+  {
+    "event": "provider",
+    "elapsed": 5.788,
+    "type": "session.output_transcript.delta",
+    "code": null,
+    "delta": " helfen?"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 7.294,
+    "route": "/sessions/device-tools",
+    "seconds": 1.946
+  },
+  {
+    "event": "http_start",
+    "elapsed": 8.295,
+    "route": "/sessions/device-tools"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 8.526,
+    "route": "/sessions/device-tools",
+    "seconds": 0.231
+  },
+  {
+    "event": "http_start",
+    "elapsed": 9.526,
+    "route": "/sessions/device-tools"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 9.712,
+    "route": "/sessions/device-tools",
+    "seconds": 0.186
+  },
+  {
+    "event": "greeting_history",
+    "elapsed": 10.075,
+    "history": [
+      {
+        "role": "assistant",
+        "text": "Hallo, wie kann ich dir helfen?"
+      }
+    ]
+  },
+  {
+    "event": "ready",
+    "elapsed": 10.075,
+    "trial": 1,
+    "stats": {
+      "capture_backend": "explicit-device",
+      "captured_frames": 433,
+      "sent_frames": 350,
+      "played_frames": 310,
+      "search_tones": 0,
+      "search_loop_blocks": 0,
+      "search_loop_pauses": 0,
+      "event_types": {
+        "session.started": 1,
+        "session.instructions.appended": 1,
+        "session.output_transcript.delta": 5
+      },
+      "processes_alive": 2,
+      "connecting_tone": "stopped",
+      "connecting_blocks": 80,
+      "greeting": "accepted",
+      "ready_tone": "played",
+      "closed": false
+    }
+  },
+  {
+    "event": "peer_state",
+    "elapsed": 10.077,
+    "state": "closed"
+  },
+  {
+    "event": "http_start",
+    "elapsed": 10.078,
+    "route": "/sessions/close"
+  },
+  {
+    "event": "http_end",
+    "elapsed": 10.327,
+    "route": "/sessions/close",
+    "seconds": 0.249
+  }
+]

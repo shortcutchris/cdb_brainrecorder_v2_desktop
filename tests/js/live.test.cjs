@@ -156,5 +156,5 @@ test('startup displays the actual stage and elapsed time without claiming microp
  const h=harness();h.c.state.live={state:'connecting',busy:true,history:[],feedback:{state:'connecting',active:true,startup:{stage:'Gespräch beim Brain starten',seconds:8}}};h.c.renderState();
  assert.equal(h.element('live-feedback-title').textContent,'Verbindung wird aufgebaut …');
  assert.match(h.element('live-feedback-detail').textContent,/Gespräch beim Brain starten · 8 s/);
- assert.match(h.element('live-feedback-detail').textContent,/auf den Ton warten/);
+ assert.match(h.element('live-feedback-detail').textContent,/gleich bereit/);
 });

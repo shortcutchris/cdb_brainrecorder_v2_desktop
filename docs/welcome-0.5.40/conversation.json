@@ -1,0 +1,87 @@
+{
+  "synthetic": true,
+  "room_audio": false,
+  "audio_destination": "isolated null sink",
+  "stages": [
+    {
+      "name": "greeting",
+      "history": [
+        {
+          "role": "assistant",
+          "text": "Hallo, wie kann ich dir helfen?"
+        }
+      ],
+      "stats": {
+        "capture_backend": "explicit-device",
+        "captured_frames": 2281,
+        "sent_frames": 1014,
+        "played_frames": 974,
+        "search_tones": 0,
+        "search_loop_blocks": 0,
+        "search_loop_pauses": 0,
+        "event_types": {
+          "session.started": 1,
+          "session.instructions.appended": 1,
+          "session.output_transcript.delta": 4
+        },
+        "processes_alive": 2,
+        "connecting_tone": "stopped",
+        "connecting_blocks": 1260,
+        "greeting": "accepted",
+        "ready_tone": "played",
+        "closed": false
+      }
+    },
+    {
+      "name": "synthetic_utterance",
+      "text": "Bitte antworte nur mit dem Wort bereit."
+    },
+    {
+      "name": "response_after_greeting",
+      "history": [
+        {
+          "role": "assistant",
+          "text": "Hallo, wie kann ich dir helfen?"
+        },
+        {
+          "role": "user",
+          "text": "Bitte antworte nur mit dem Wort bereit"
+        },
+        {
+          "role": "assistant",
+          "text": "Bereit"
+        }
+      ]
+    },
+    {
+      "name": "synthetic_utterance",
+      "text": "Okay, beende das Gespräch."
+    },
+    {
+      "name": "voice_end_and_unlocked",
+      "end_reason": "voice_command",
+      "stats": {
+        "capture_backend": "explicit-device",
+        "captured_frames": 3124,
+        "sent_frames": 1865,
+        "played_frames": 1825,
+        "search_tones": 0,
+        "search_loop_blocks": 0,
+        "search_loop_pauses": 0,
+        "event_types": {
+          "session.started": 1,
+          "session.instructions.appended": 1,
+          "session.output_transcript.delta": 5,
+          "session.input_transcript.delta": 11
+        },
+        "processes_alive": 0,
+        "connecting_tone": "stopped",
+        "connecting_blocks": 1260,
+        "greeting": "accepted",
+        "ready_tone": "played",
+        "closed": true
+      }
+    }
+  ],
+  "passed": true
+}

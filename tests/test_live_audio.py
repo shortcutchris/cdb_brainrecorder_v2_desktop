@@ -69,6 +69,16 @@ class ReadyToneTests(unittest.IsolatedAsyncioTestCase):
         self.audio=NativeLiveAudio.__new__(NativeLiveAudio)
         self.audio.closed=threading.Event();self.audio.tasks=set();self.audio.processes=[]
         self.audio.ready_tone_started=False;self.audio.ready_tone_state='waiting'
+        self.audio.connecting_task=None;self.audio.connecting_stop=asyncio.Event()
+        self.audio.connecting_tone_state='waiting';self.audio.connecting_blocks=0
+        self.audio.startup_input_blocked=True;self.audio.gate=PcmGate()
+        self.audio.session_started=asyncio.Event();self.audio.session_started.set()
+        self.audio.greeting_ack=asyncio.Event();self.audio.greeting_id=None;self.audio.greeting_state='waiting'
+        self.commands=[]
+        def send(raw):
+            event=json.loads(raw);self.commands.append(event)
+            self.audio._welcome_event({'type':'session.instructions.appended','client_event_id':event['event_id']})
+        self.audio.channel=SimpleNamespace(readyState='open',send=send)
         self.audio.peer=SimpleNamespace(connectionState='connecting')
         self.tmp=tempfile.TemporaryDirectory();self.output=Path(self.tmp.name)/'cue.pcm'
         self.audio.playback_command=[sys.executable,'-c',
@@ -96,6 +106,8 @@ class ReadyToneTests(unittest.IsolatedAsyncioTestCase):
         self.audio.peer.connectionState='disconnected';self.audio._connection_changed()
         self.audio.peer.connectionState='connected';self.audio._connection_changed()
         self.assertFalse(self.audio.tasks)
+        self.assertEqual(len(self.commands),1)
+        self.assertEqual(self.audio.greeting_state,'accepted')
 
     async def test_failed_connection_and_closed_session_never_signal_ready(self):
         from unittest.mock import Mock
@@ -130,5 +142,60 @@ class ReadyToneTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(self.audio.ready_tone_state,'cancelled')
         self.assertTrue(all(p.returncode is not None for p in processes))
         self.assertFalse(self.audio.processes)
+
+    async def test_loop_stops_before_ready_cue_and_greeting(self):
+        import asyncio
+        self.audio.connecting_task=self.audio._task(self.audio._connecting_tone())
+        for _ in range(100):
+            if self.audio.connecting_blocks >= 3: break
+            await asyncio.sleep(.01)
+        self.assertGreater(self.audio.connecting_blocks,0)
+        self.assertTrue(self.audio.startup_input_blocked)
+        self.audio.peer.connectionState='connected';self.audio._connection_changed()
+        await asyncio.gather(*self.audio.tasks)
+        self.assertEqual(self.audio.connecting_tone_state,'stopped')
+        self.assertEqual(self.audio.greeting_state,'accepted')
+        self.assertFalse(self.audio.startup_input_blocked)
+        self.assertFalse(self.audio.processes)
+
+    async def test_cancel_during_connecting_reaps_loop_without_greeting(self):
+        import asyncio
+        task=self.audio._task(self.audio._connecting_tone())
+        for _ in range(100):
+            if self.audio.connecting_blocks:break
+            await asyncio.sleep(.01)
+        processes=list(self.audio.processes)
+        self.audio.closed.set();task.cancel()
+        await asyncio.gather(task,return_exceptions=True)
+        self.assertFalse(self.commands)
+        self.assertFalse(self.audio.processes)
+        self.assertTrue(all(p.returncode is not None for p in processes))
+
+    async def test_welcome_waits_for_provider_session_and_keeps_user_mute(self):
+        import asyncio
+        self.audio.session_started.clear();self.audio.gate.mute(True)
+        self.audio.peer.connectionState='connected';self.audio._connection_changed()
+        await asyncio.sleep(.2)
+        self.assertFalse(self.commands)
+        self.audio._welcome_event({'type':'session.started'})
+        await asyncio.gather(*self.audio.tasks)
+        self.assertEqual(len(self.commands),1)
+        self.assertTrue(self.audio.gate.muted)
+        self.assertIn('Hallo, wie kann ich dir helfen?',self.commands[0]['content'])
+
+    async def test_welcome_only_accepts_matching_ack_and_never_retries_rejection(self):
+        import asyncio
+        self.audio.channel.send=lambda raw:self.commands.append(json.loads(raw))
+        self.audio.peer.connectionState='connected';self.audio._connection_changed()
+        for _ in range(100):
+            if self.commands:break
+            await asyncio.sleep(.01)
+        self.audio._welcome_event({'type':'session.instructions.appended','client_event_id':'wrong'})
+        self.assertFalse(self.audio.greeting_ack.is_set())
+        self.audio._welcome_event({'type':'error','error':{'client_event_id':self.audio.greeting_id}})
+        await asyncio.gather(*self.audio.tasks)
+        self.assertEqual(self.audio.greeting_state,'rejected')
+        self.assertEqual(len(self.commands),1)
+        self.assertFalse(self.audio.closed.is_set())
 
 if __name__=='__main__':unittest.main()

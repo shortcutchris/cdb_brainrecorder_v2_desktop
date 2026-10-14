@@ -161,7 +161,7 @@
  function feedbackPresentation(f){
   if(f?.unavailable)return{title:'Verbindung unterbrochen',detail:'Audiozustand wird neu geprüft',bars:Array(16).fill(0),mode:'idle'};
   if(!f?.active)return{title:f?.state==='closing'?'Gespräch wird beendet …':'Gespräch beendet',detail:'Keine Audioübertragung',bars:Array(16).fill(0),mode:'idle'};
-  if(f.state==='connecting'&&f.startup)return{title:'Verbindung wird aufgebaut …',detail:f.startup.stage+' · '+Math.max(0,Math.floor(f.startup.seconds||0))+' s · Bitte auf den Ton warten',bars:Array(16).fill(0),mode:'connecting'};
+  if(f.state==='connecting'&&f.startup)return{title:'Verbindung wird aufgebaut …',detail:f.startup.stage+' · '+Math.max(0,Math.floor(f.startup.seconds||0))+' s · Bitte kurz warten – gleich bereit',bars:Array(16).fill(0),mode:'connecting'};
   const search=f.search||{},output=f.output||{},input=f.input||{};
   const title=search.web?'Sucht im Web …':search.brain?'Sucht im Brain …':output.active?'Voice One spricht':f.muted?'Mikrofon stumm':f.state==='thinking'?'Denkt nach …':f.state==='speaking'?'Antwort wird vorbereitet …':f.state==='connecting'?'Verbindet …':f.state==='reconnecting'?'Verbindung wird erneuert …':'Hört zu';
   return{title,detail:search.failed?'Suche fehlgeschlagen':f.muted?(output.active?'Mikrofon stumm · Antwort über Lautsprecher':'Dein Mikrofon ist ausgeschaltet'):output.active?'Antwort über den Pi-Lautsprecher':search.web||search.brain?'Recherche läuft · du kannst weiter zuhören':'Dein Mikrofon am Pi',bars:output.active?output.bars:!f.muted?input.bars:[],mode:search.web||search.brain?'search':output.active?'speaking':f.muted?'muted':'listening'};

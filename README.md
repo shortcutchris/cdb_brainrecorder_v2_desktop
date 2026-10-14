@@ -617,3 +617,18 @@ Audioverbindung. **Erst nach erfolgreicher Audioverbindung erscheint „Hört zu
 Warte auf den Bereitschaftston, bevor du sprichst. Die Audio-Verhandlung benötigt
 auf diesem Pi derzeit etwa fünf Sekunden; der gesamte Start lag in drei Tests
 bei 7,4–8,0 Sekunden. [Messungen und Prüfung](docs/startup-0.5.39/README.md).
+
+### Studio 0.5.40 · Verbindungston und gesprochene Begrüßung
+
+Nach „Hey Brain“ oder manuellem Gesprächsstart begleitet ein leiser, pulsierender
+Ton den Verbindungsaufbau. Sobald die Audioverbindung steht, blendet er aus;
+der kurze Bereitschaftston folgt, anschließend begrüßt CDB Voice One selbst:
+„Hallo, wie kann ich dir helfen?“ Die echte Antwort erscheint im Gesprächsverlauf.
+
+Eine Begrüßung pro Sitzung, auch bei wiederholten Verbindungsereignissen.
+Abbrechen stoppt alle Gesprächstöne. Während der lokalen Starttöne werden keine
+Mikrofondaten zum Modell geschickt. Eine bestehende Stummschaltung bleibt erhalten.
+Ein nicht bestätigter Begrüßungsauftrag wird nicht erneut gesendet und blockiert
+das Gespräch nicht. Der abschaltbare Suchton bleibt davon unabhängig.
+
+[Prüfung und technische Grenzen](docs/welcome-0.5.40/README.md).
