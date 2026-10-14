@@ -1,0 +1,55 @@
+{
+  "tested_at": "2026-10-14T15:00:16.971827+02:00",
+  "version": "0.5.41",
+  "synthetic_audio": true,
+  "room_audio": false,
+  "real_vosk": true,
+  "real_cdb": true,
+  "cycles": [
+    {
+      "cycle": 1,
+      "wake_seconds": 1.65,
+      "greeting": "Hallo, wie kann ich dir helfen?",
+      "connection_seconds": 9.73,
+      "greeting_seconds": 13.03
+    }
+  ],
+  "passed": false,
+  "error": "spoken end; live=speaking; wake=waiting",
+  "stats": {
+    "capture_backend": "explicit-device",
+    "captured_frames": 2929,
+    "sent_frames": 2561,
+    "played_frames": 2520,
+    "search_tones": 0,
+    "search_loop_blocks": 0,
+    "search_loop_pauses": 0,
+    "event_types": {
+      "session.started": 1,
+      "session.instructions.appended": 1,
+      "session.output_transcript.delta": 12,
+      "session.input_transcript.delta": 3
+    },
+    "processes_alive": 2,
+    "connecting_tone": "stopped",
+    "connecting_blocks": 376,
+    "greeting": "accepted",
+    "ready_tone": "played",
+    "closed": false
+  },
+  "history": [
+    {
+      "role": "assistant",
+      "text": "Hallo, wie kann ich dir helfen?"
+    },
+    {
+      "role": "user",
+      "text": "Gespräche beenden"
+    },
+    {
+      "role": "assistant",
+      "text": "Alles klar, ich beende das Gespräch jetzt."
+    }
+  ],
+  "all_audio_processes_released": true
+}

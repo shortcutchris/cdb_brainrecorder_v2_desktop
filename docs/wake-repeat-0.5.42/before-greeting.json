@@ -1,0 +1,38 @@
+{
+  "tested_at": "2026-10-14T15:02:23.806297+02:00",
+  "version": "0.5.42-candidate",
+  "synthetic_audio": true,
+  "room_audio": false,
+  "real_vosk": true,
+  "real_cdb": true,
+  "cycles": [
+    {
+      "cycle": 1,
+      "wake_seconds": 1.7
+    }
+  ],
+  "passed": false,
+  "error": "spoken greeting; live=listening; wake=waiting",
+  "stats": {
+    "capture_backend": "explicit-device",
+    "captured_frames": 3213,
+    "sent_frames": 3098,
+    "played_frames": 3062,
+    "search_tones": 0,
+    "search_loop_blocks": 0,
+    "search_loop_pauses": 0,
+    "event_types": {
+      "session.started": 1,
+      "session.instructions.appended": 1,
+      "session.usage.updated": 1
+    },
+    "processes_alive": 2,
+    "connecting_tone": "stopped",
+    "connecting_blocks": 133,
+    "greeting": "accepted",
+    "ready_tone": "played",
+    "closed": false
+  },
+  "history": [],
+  "all_audio_processes_released": true
+}

@@ -1,0 +1,147 @@
+{
+  "tested_at": "2026-10-14T15:03:35.520602+02:00",
+  "version": "0.5.42-candidate",
+  "synthetic_audio": true,
+  "room_audio": false,
+  "real_vosk": true,
+  "real_cdb": true,
+  "cycles": [
+    {
+      "cycle": 1,
+      "wake_seconds": 1.81,
+      "greeting": "Hallo, wie kann ich dir helfen?",
+      "connection_seconds": 9.74,
+      "greeting_seconds": 10.73,
+      "end_seconds": 4.62,
+      "end_reason": "voice_command",
+      "processes_remaining": 0,
+      "history": [
+        {
+          "role": "assistant",
+          "text": "Hallo, wie kann ich dir helfen?"
+        },
+        {
+          "role": "user",
+          "text": "Gespräche beenden"
+        },
+        {
+          "role": "assistant",
+          "text": "Alles klar, ich beende das Gespräch."
+        }
+      ],
+      "wake_resume_seconds": 0.72,
+      "wake_state": "listening",
+      "passed": true
+    },
+    {
+      "cycle": 2,
+      "wake_seconds": 1.75,
+      "greeting": "Hallo, wie kann ich dir helfen?",
+      "connection_seconds": 4.74,
+      "greeting_seconds": 5.66,
+      "end_seconds": 4.12,
+      "end_reason": "voice_command",
+      "processes_remaining": 0,
+      "history": [
+        {
+          "role": "assistant",
+          "text": "Hallo, wie kann ich dir helfen?"
+        },
+        {
+          "role": "user",
+          "text": "Gespräche beenden"
+        },
+        {
+          "role": "assistant",
+          "text": "Meinst du damit, dass du dieses Gespräch hier jetzt beenden möchtest,"
+        }
+      ],
+      "wake_resume_seconds": 0.82,
+      "wake_state": "listening",
+      "passed": true
+    },
+    {
+      "cycle": 3,
+      "wake_seconds": 1.7,
+      "greeting": "Hallo, wie kann ich dir helfen?",
+      "connection_seconds": 8.61,
+      "greeting_seconds": 9.93,
+      "end_seconds": 4.62,
+      "end_reason": "voice_command",
+      "processes_remaining": 0,
+      "history": [
+        {
+          "role": "assistant",
+          "text": "Hallo, wie kann ich dir helfen?"
+        },
+        {
+          "role": "user",
+          "text": "Gespräch beenden"
+        },
+        {
+          "role": "assistant",
+          "text": "Alles klar, ich beende das Gespräch jetzt."
+        }
+      ],
+      "wake_resume_seconds": 0.72,
+      "wake_state": "listening",
+      "passed": true
+    },
+    {
+      "cycle": 4,
+      "wake_seconds": 1.81,
+      "greeting": "Hallo, wie kann ich dir helfen?",
+      "connection_seconds": 8.66,
+      "greeting_seconds": 10.38,
+      "end_seconds": 5.03,
+      "end_reason": "voice_command",
+      "processes_remaining": 0,
+      "history": [
+        {
+          "role": "assistant",
+          "text": "Hallo, wie kann ich dir helfen?"
+        },
+        {
+          "role": "user",
+          "text": "Gespräche beenden"
+        },
+        {
+          "role": "assistant",
+          "text": "Alles klar, ich beende das Gespräch jetzt."
+        }
+      ],
+      "wake_resume_seconds": 0.72,
+      "wake_state": "listening",
+      "passed": true
+    },
+    {
+      "cycle": 5,
+      "wake_seconds": 1.75,
+      "greeting": "Hallo! Wie kann ich dir helfen?",
+      "connection_seconds": 10.12,
+      "greeting_seconds": 11.02,
+      "end_seconds": 4.62,
+      "end_reason": "voice_command",
+      "processes_remaining": 0,
+      "history": [
+        {
+          "role": "assistant",
+          "text": "Hallo! Wie kann ich dir helfen?"
+        },
+        {
+          "role": "user",
+          "text": "Das Gespräch beenden."
+        },
+        {
+          "role": "assistant",
+          "text": "Alles klar, ich beende das Gespräch jetzt."
+        }
+      ],
+      "wake_resume_seconds": 0.72,
+      "wake_state": "listening",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "all_audio_processes_released": true
+}

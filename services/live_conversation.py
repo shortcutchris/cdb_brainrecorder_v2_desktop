@@ -23,10 +23,12 @@ BASE = '/api/v1/tqs/voice-live'
 HANDLE = re.compile(r'^[A-Za-z0-9_-]{1,128}$')
 # Whole user utterances only: recognize natural imperatives, never echoed
 # assistant promises ("ich beende ...") or a quoted/negated command.
+# Accept the observed plural and one damaged umlaut only inside this exact noun;
+# never fuzzy-match arbitrary transcript text. Displayed history stays untouched.
 END_COMMAND = re.compile(
     r'(?:(?:okay|ok|danke)\s+)?(?:bitte\s+)?(?:'
-    r'(?:das\s+)?(?:gespräch|unterhaltung)(?:\s+(?:jetzt|bitte))?\s+beenden'
-    r'|beende(?:\s+bitte)?\s+(?:das\s+gespräch|die\s+unterhaltung)(?:\s+jetzt)?'
+    r'(?:(?:das|die)\s+)?(?:gespr(?:ä|ae|\ufffd)che?|unterhaltung)(?:\s+(?:jetzt|bitte))?\s+beenden'
+    r'|beende(?:\s+bitte)?\s+(?:(?:das|die)\s+gespr(?:ä|ae|\ufffd)che?|die\s+unterhaltung)(?:\s+jetzt)?'
     r'|(?:jetzt\s+)?(?:beenden|ende)'
     r'|das\s+war[’\']?s'
     r')(?:\s+bitte)?'

@@ -160,6 +160,7 @@ class NativeLiveAudio:
         self.session_started = asyncio.Event()
         self.greeting_ack = asyncio.Event()
         self.greeting_id = None
+        self.greeting_expected = None
         self.greeting_state = 'waiting'
         self.ready_tone_started = False
         self.ready_tone_state = 'waiting'
@@ -264,7 +265,7 @@ class NativeLiveAudio:
         self.peer = RTCPeerConnection()
         self.peer.addTransceiver(InputTrack(), direction='sendrecv')
         channel=self.peer.createDataChannel('oai-events')
-        self.channel = channel  # Only one fixed welcome instruction is sent; no arbitrary commands.
+        self.channel = channel  # Only the fixed welcome instruction and spoken greeting are sent.
         @channel.on('message')
         def provider_event(message):
             if not isinstance(message,str) or len(message)>1_000_000:return
@@ -354,10 +355,22 @@ class NativeLiveAudio:
         error = event.get('error') if isinstance(event.get('error'), dict) else {}
         reference = event.get('client_event_id') or error.get('client_event_id')
         if self.greeting_id and reference == self.greeting_id:
-            if event.get('type') == 'session.instructions.appended':
-                self.greeting_state = 'accepted'; self.greeting_ack.set()
+            if event.get('type') == self.greeting_expected:
+                self.greeting_state = 'accepted' if self.greeting_expected == 'session.commentary.appended' else 'prepared'
+                self.greeting_ack.set()
             elif event.get('type') == 'error':
                 self.greeting_state = 'rejected'; self.greeting_ack.set()
+
+    async def _welcome_command(self, kind, content):
+        if self.closed.is_set() or not self.channel or self.channel.readyState != 'open': return False
+        self.greeting_id = str(uuid.uuid4())
+        self.greeting_expected = kind + 'ed'
+        self.greeting_ack.clear()
+        self.greeting_state = 'sent'
+        self.channel.send(json.dumps({'type': kind, 'event_id': self.greeting_id,
+                                      'delegation_id': None, 'content': content}))
+        await asyncio.wait_for(self.greeting_ack.wait(), 10)
+        return self.greeting_state in ('prepared', 'accepted')
 
     async def _welcome(self):
         """One welcome per session, never on reconnect; no retry after ambiguous ACK."""
@@ -372,13 +385,10 @@ class NativeLiveAudio:
                 while not self.gate.frames.empty(): self.gate.frames.get_nowait()
             self.startup_input_blocked = False
             await asyncio.wait_for(self.session_started.wait(), 10)
-            if self.closed.is_set() or not self.channel or self.channel.readyState != 'open': return
-            self.greeting_id = str(uuid.uuid4())
-            self.greeting_state = 'sent'
-            self.channel.send(json.dumps({'type': 'session.instructions.append',
-                'event_id': self.greeting_id, 'delegation_id': None,
-                'content': 'Dies ist der Beginn eines neuen Sprachgesprächs. Beginne jetzt selbst zu sprechen, ohne auf eine Nutzereingabe zu warten. Dein erstes gesprochenes Wort muss „Hallo“ sein. Sage als einzige kurze Begrüßung genau: „Hallo, wie kann ich dir helfen?“ Keine Vorrede, keine zusätzliche Vorstellung und keine Recherche. Danach warte auf den Nutzer. Begrüße in dieser Sitzung nicht erneut. Für alle folgenden Fragen gelten weiterhin die bestehenden Wissens-, Werkzeug- und Delegationsregeln.'}))
-            await asyncio.wait_for(self.greeting_ack.wait(), 10)
+            prepared = await self._welcome_command('session.instructions.append',
+                'Dies ist ein neues Sprachgespräch. Die Anwendung übergibt gleich eine kurze Begrüßung mit session.commentary.append. Bis dahin schweige. Sprich dann ausschließlich diesen Begrüßungstext freundlich; das erste Wort ist Hallo. Keine Vorrede, Vorstellung, Recherche oder zweite Begrüßung. Danach höre zu. Für folgende Fragen gelten weiterhin die bestehenden Wissens-, Werkzeug- und Delegationsregeln.')
+            if prepared:
+                await self._welcome_command('session.commentary.append', 'Hallo, wie kann ich dir helfen?')
         except asyncio.CancelledError:
             self.greeting_state = 'cancelled'
             raise

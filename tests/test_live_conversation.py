@@ -362,7 +362,9 @@ class VoiceEndTests(unittest.TestCase):
         for text in ['Gespräch beenden?','Nicht das Gespräch beenden','Gespräch beenden bitte nicht',
                      'Wie kann ich das Gespräch beenden?','Sage Gespräch beenden','„Gespräch beenden“',
                      'Gespräch beenden ist ein Befehl','Gespräch','Beende das Gespräch bitte nicht',
-                     'Kannst du das Gespräch beenden?', 'Ich beende das Gespräch jetzt',
+                     'Kannst du das Gespräch beenden?', 'Gespräche beenden?',
+                     'Gespr�che beenden bitte nicht', 'Ich beende die Gespräche jetzt',
+                     'Wie kann ich Gespraeche beenden?', 'Gespr�che', 'Ich beende das Gespräch jetzt',
                      'Alles klar, ich beende das Gespräch jetzt', 'Das wars noch nicht',
                      'Am Ende reden wir weiter', 'Bitte nicht beenden']:
             self.live.transcript_turns={}
@@ -389,6 +391,8 @@ class VoiceEndTests(unittest.TestCase):
         for text in ['Okay, beende das Gespräch', 'Beende bitte das Gespräch',
                      'Bitte beende das Gespräch jetzt.', 'Gespräch jetzt beenden!',
                      'Unterhaltung beenden', 'Beende die Unterhaltung', 'Ende',
+                     'Gespräche beenden', 'Gespr�che beenden', 'Gespr�ch beenden',
+                     'Gespraech beenden', 'Die Gespräche beenden', 'Beende die Gespräche',
                      'Bitte beenden', 'Das war’s', "Danke, das war's."]:
             with self.subTest(text=text):
                 self.live.transcript_turns={}

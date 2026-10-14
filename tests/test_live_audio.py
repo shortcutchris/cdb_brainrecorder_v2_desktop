@@ -73,11 +73,11 @@ class ReadyToneTests(unittest.IsolatedAsyncioTestCase):
         self.audio.connecting_tone_state='waiting';self.audio.connecting_blocks=0
         self.audio.startup_input_blocked=True;self.audio.gate=PcmGate()
         self.audio.session_started=asyncio.Event();self.audio.session_started.set()
-        self.audio.greeting_ack=asyncio.Event();self.audio.greeting_id=None;self.audio.greeting_state='waiting'
+        self.audio.greeting_ack=asyncio.Event();self.audio.greeting_id=None;self.audio.greeting_expected=None;self.audio.greeting_state='waiting'
         self.commands=[]
         def send(raw):
             event=json.loads(raw);self.commands.append(event)
-            self.audio._welcome_event({'type':'session.instructions.appended','client_event_id':event['event_id']})
+            self.audio._welcome_event({'type':event['type']+'ed','client_event_id':event['event_id']})
         self.audio.channel=SimpleNamespace(readyState='open',send=send)
         self.audio.peer=SimpleNamespace(connectionState='connecting')
         self.tmp=tempfile.TemporaryDirectory();self.output=Path(self.tmp.name)/'cue.pcm'
@@ -106,7 +106,7 @@ class ReadyToneTests(unittest.IsolatedAsyncioTestCase):
         self.audio.peer.connectionState='disconnected';self.audio._connection_changed()
         self.audio.peer.connectionState='connected';self.audio._connection_changed()
         self.assertFalse(self.audio.tasks)
-        self.assertEqual(len(self.commands),1)
+        self.assertEqual(len(self.commands),2)
         self.assertEqual(self.audio.greeting_state,'accepted')
 
     async def test_failed_connection_and_closed_session_never_signal_ready(self):
@@ -179,9 +179,9 @@ class ReadyToneTests(unittest.IsolatedAsyncioTestCase):
         self.assertFalse(self.commands)
         self.audio._welcome_event({'type':'session.started'})
         await asyncio.gather(*self.audio.tasks)
-        self.assertEqual(len(self.commands),1)
+        self.assertEqual(len(self.commands),2)
         self.assertTrue(self.audio.gate.muted)
-        self.assertIn('Hallo, wie kann ich dir helfen?',self.commands[0]['content'])
+        self.assertIn('Hallo, wie kann ich dir helfen?',self.commands[1]['content'])
 
     async def test_welcome_only_accepts_matching_ack_and_never_retries_rejection(self):
         import asyncio
@@ -197,5 +197,31 @@ class ReadyToneTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(self.audio.greeting_state,'rejected')
         self.assertEqual(len(self.commands),1)
         self.assertFalse(self.audio.closed.is_set())
+
+    async def test_greeting_speech_waits_for_instruction_ack_and_ignores_stale_ack(self):
+        import asyncio
+        self.audio.channel.send=lambda raw:self.commands.append(json.loads(raw))
+        self.audio.peer.connectionState='connected';self.audio._connection_changed()
+        for _ in range(100):
+            if self.commands:break
+            await asyncio.sleep(.01)
+        instruction=self.commands[0]
+        self.assertEqual(instruction['type'],'session.instructions.append')
+        self.assertEqual(len(self.commands),1)
+        self.audio._welcome_event({'type':'session.instructions.appended','client_event_id':instruction['event_id']})
+        for _ in range(100):
+            if len(self.commands)==2:break
+            await asyncio.sleep(.01)
+        speech=self.commands[1]
+        self.assertEqual(speech['type'],'session.commentary.append')
+        self.assertEqual(speech['content'],'Hallo, wie kann ich dir helfen?')
+        self.assertNotEqual(instruction['event_id'],speech['event_id'])
+        self.audio._welcome_event({'type':'session.instructions.appended','client_event_id':instruction['event_id']})
+        self.assertFalse(self.audio.greeting_ack.is_set())
+        self.audio._welcome_event({'type':'session.commentary.appended','client_event_id':speech['event_id']})
+        await asyncio.gather(*self.audio.tasks)
+        self.assertEqual(self.audio.greeting_state,'accepted')
+        self.audio._connection_changed()
+        self.assertEqual(len(self.commands),2)
 
 if __name__=='__main__':unittest.main()

@@ -645,3 +645,18 @@ und seine Wissens-/Werkzeugregeln bleiben bestehen.
 Geprüft: 14 Audio-/Starttests bestanden. Echte CDB-Staging-Sitzung mit synthetischer
 Stille, bestätigter Startanweisung, Audioantwort und Transkript „Hallo, wie kann
 ich dir helfen?“. [Nachweis](docs/welcome-0.5.41/synthetic.json).
+
+### Studio 0.5.42 · Wiederholte Aktivierung und zuverlässiger Begrüßungsauftrag
+
+Der Mehrfachtest hat zwei Lücken aufgedeckt: Eine bestätigte Startanweisung führte
+gelegentlich zu keiner gesprochenen Begrüßung. Außerdem erkannte die lokale
+Ende-Steuerung die transkribierte Variante „Gespräche beenden“ nicht.
+
+Jetzt bereitet eine feste Session-Anweisung die kurze Begrüßung vor; erst nach
+Bestätigung folgt ein ausdrücklicher `session.commentary.append`-Sprechauftrag.
+Keine zweite Begrüßung oder Wiederholung bei unklarem ACK. Der Ende-Befehl akzeptiert
+auch den beobachteten Plural sowie `ae` oder ein einzelnes beschädigtes Umlautzeichen
+in diesem fest definierten Wort. Ganze Nutzeräußerungen bleiben erforderlich;
+Fragen, Negationen, Zitate und Assistentenansagen beenden weiterhin nichts.
+
+[Mehrfachtest und Messwerte](docs/wake-repeat-0.5.42/README.md).
