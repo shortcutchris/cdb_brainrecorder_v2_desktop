@@ -46,3 +46,9 @@ dialog.with-keyboard .dialog-actions{padding-block:4px}
 .queue-body>.touch-pager{flex-direction:column;justify-content:center;border-top:0;border-left:1px solid var(--line);gap:6px;padding:6px 12px}
 .queue-body>.touch-pager span{margin:0}
 @media(max-width:850px){.queue-region{left:calc(var(--rail) + 8px);right:8px}.queue-row{gap:8px}.queue-row span{font-size:12px}.queue-heading{padding-inline:12px}}
+
+/* Touch controls are not documents. Editing and deliberate login-code copying still work. */
+body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input,textarea,[contenteditable="true"],[contenteditable="true"] *{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+#cdb-code{-webkit-user-select:all;user-select:all}
+img,svg{-webkit-user-drag:none;user-select:none}

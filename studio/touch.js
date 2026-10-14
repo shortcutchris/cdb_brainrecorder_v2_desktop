@@ -1,5 +1,6 @@
 'use strict';
 (()=>{
+ document.addEventListener('dragstart',event=>{if(!event.target.closest('input,textarea,[contenteditable="true"]'))event.preventDefault()});
  const pagers=new Map();let scheduled=false;
  function isVisible(el){return Boolean(el.getClientRects().length)&&!el.closest('[hidden]')}
  function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;refresh()})}

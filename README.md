@@ -516,3 +516,17 @@ kein Cloud-Gespräch. Aufnahme, Gespräch und Wiedergabe haben weiterhin Vorrang
 Unveränderte Touch-Auswahlfelder erzeugen keine Aktualisierungsschleife mehr.
 Unsichtbare Gesprächsverläufe werden erst beim Öffnen neu vermessen.
 [Prüfprotokoll und Screenshots](docs/wake-setup-0.5.33/README.md).
+
+### Studio 0.5.34 · Ruhiger Start und sichere Touchbedienung
+
+Die Startseite öffnet ohne vorgewählte Kachel und ohne farbige Hover-Rahmen.
+Tastaturnavigation behält einen sichtbaren Fokus, sobald mit Tab navigiert wird.
+Bedientexte und Symbole lassen sich nicht versehentlich markieren oder ziehen.
+Eingabefelder bleiben bearbeitbar; der Microsoft-Anmeldecode bleibt gezielt kopierbar.
+
+Geprüft am Pi mit 1280 × 720: Startfokus auf der Überschrift, alle sechs Kacheln
+ohne Fokusrahmen/Schatten, Doppelklick auf Überschrift ohne Textmarkierung,
+Tab-Fokus auf „Aufnehmen“, Bibliothekssuche inklusive Textauswahl weiterhin nutzbar.
+93 JavaScript-Tests bestanden. Backendlogik unverändert.
+
+![Startseite ohne hervorgehobene Kacheln](output/playwright/touch-start-0.5.34/01-startseite.png)
