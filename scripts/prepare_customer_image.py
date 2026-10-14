@@ -25,10 +25,10 @@ def prepare(output, public_key, server='https://cdblab.de/devices', country='DE'
     if url.scheme != 'https' or not url.hostname or url.username or url.password or url.query or url.fragment or any(c in server for c in '\n\r'):
         raise ValueError('HTTPS management URL required')
     if not re.fullmatch('[A-Z]{2}', country): raise ValueError('Two-letter WLAN country required')
-    if subprocess.check_output(['git', 'status', '--porcelain', '--untracked-files=no'], cwd=SOURCE).strip():
-        raise ValueError('Commit tracked changes before exporting an image; source_commit must match its inputs')
     output = Path(output).resolve()
     if output.exists(): raise ValueError('Use a NEW output directory; never overlay an installation')
+    if subprocess.check_output(['git', 'status', '--porcelain', '--untracked-files=no'], cwd=SOURCE).strip():
+        raise ValueError('Commit tracked changes before exporting an image; source_commit must match its inputs')
     names = subprocess.check_output(['git', 'ls-files', '-z'], cwd=SOURCE).decode().split('\0')
     source = output / 'stage-brain/00-brain/files/source'
     factory = output / 'stage-brain/00-brain/files/factory'
@@ -55,7 +55,8 @@ def prepare(output, public_key, server='https://cdblab.de/devices', country='DE'
                 'source_files': files, 'public_key_sha256': hashlib.sha256(key).hexdigest(),
                 'status': 'prepared-not-boot-certified'}
     (output / 'manifest.json').write_text(json.dumps(metadata, indent=2)+'\n')
-    (output / 'stage-brain/00-brain/files/factory.json').write_text(json.dumps({'version':version,'server':server}))
+    (factory / 'source-manifest.json').write_text(json.dumps(metadata, indent=2)+'\n')
+    (output / 'stage-brain/00-brain/files/factory.json').write_text(json.dumps({'version':version,'server':server,'source_commit':metadata['source_commit'],'pi_gen_commit':PIN}))
     stage = output / 'stage-brain'; step = stage / '00-brain'
     (stage / 'prerun.sh').write_text('#!/bin/bash\nif [ ! -d "${ROOTFS_DIR}" ]; then copy_previous; fi\n')
     (stage / 'EXPORT_IMAGE').write_text("IMG_SUFFIX='-brain'\n")

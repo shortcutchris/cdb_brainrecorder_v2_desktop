@@ -32,6 +32,12 @@ def initialize(home, source, key, server, runtime, version):
     if not (app / 'current').exists(): (app / 'current').symlink_to(release)
     if not agent.exists(): agent.mkdir(parents=True)
     shutil.copytree(source / 'fleet', agent / 'fleet', dirs_exist_ok=True)
+    # Touch Display 2 is portrait natively; our appliance UI uses landscape.
+    # Restrict the default to DSI displays; HDMI/existing profiles stay unchanged.
+    display = home / '.config/kanshi/config'
+    if not display.exists():
+        display.parent.mkdir(parents=True, exist_ok=True)
+        display.write_text('profile {\n  output DSI-2 transform 90\n}\n\nprofile {\n  output DSI-1 transform 90\n}\n')
     management = data / 'management'; management.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(key, management / 'release-public.pem')
     for path, value in [
@@ -64,7 +70,7 @@ def main():
         for folder in ('.local', '.local/share'):
             os.chown(Path(user.pw_dir) / folder, user.pw_uid, user.pw_gid)
         # Only a new factory profile is owned here; no recursive migration of user content.
-        for folder in ('.local/share/cdb-recorder-local', '.local/share/cdb-recorder-app', '.local/share/cdb-recorder-agent'):
+        for folder in ('.local/share/cdb-recorder-local', '.local/share/cdb-recorder-app', '.local/share/cdb-recorder-agent', '.config'):
             subprocess.run(['chown', '-R', 'cdb:cdb', str(Path(user.pw_dir) / folder)], check=True)
         serial = Path('/sys/firmware/devicetree/base/serial-number').read_bytes().rstrip(b'\0')
         name = 'brain-' + hashlib.sha256(serial).hexdigest()[:8]

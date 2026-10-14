@@ -52,8 +52,12 @@ class CustomerImageTests(unittest.TestCase):
             home=root/'home';home.mkdir()
             self.assertTrue(factory.initialize(home,source,key,'https://example.com','runtime','0.5.44'))
             state=home/'.local/share/cdb-recorder-local/first-start.json'
+            display=home/'.config/kanshi/config'
+            self.assertIn('output DSI-2 transform 90',display.read_text())
+            display.write_text('customer display profile')
             self.assertTrue(read(state)['required']);save(state,{'step':'pair','required':True})
             factory.initialize(home,source,key,'https://example.com','runtime','0.5.44')
             self.assertEqual(read(state)['step'],'pair')
+            self.assertEqual(display.read_text(),'customer display profile')
             (home/'.cdb-factory-ready').touch()
             self.assertFalse(factory.initialize(home,source,key,'https://example.com','runtime','0.5.44'))

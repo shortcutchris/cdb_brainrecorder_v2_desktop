@@ -325,8 +325,8 @@
       "y": 465,
       "width": 250,
       "height": 125,
-      "text": "Geräteverwaltung\ncdblab.de/devices\nStatus · Neustart · App-Update",
-      "fontSize": 20,
+      "text": "Geräteverwaltung\ncdblab.de/devices\nDiagnose · Neustart\nApp-Updates",
+      "fontSize": 19,
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "middle",
@@ -352,27 +352,7 @@
       ],
       "endArrowhead": "arrow",
       "strokeColor": "#4b6584",
-      "roughness": 0,
-      "boundElements": [
-        {
-          "id": "heartbeat_label",
-          "type": "text"
-        }
-      ]
-    },
-    {
-      "type": "text",
-      "id": "heartbeat_label",
-      "x": 490,
-      "y": 455,
-      "width": 135,
-      "height": 35,
-      "text": "Agent: ausgehendes HTTPS",
-      "fontSize": 16,
-      "fontFamily": 2,
-      "textAlign": "center",
-      "verticalAlign": "middle",
-      "containerId": "heartbeat"
+      "roughness": 0
     },
     {
       "type": "text",
@@ -545,7 +525,7 @@
       "y": 830,
       "width": 265,
       "height": 105,
-      "text": "Git-Repository\nApp + Oberfläche + Bauanleitung\nVersionierter, getesteter Commit",
+      "text": "Git-Repository\nApp + UI + Bauanleitung\nGetesteter Quellcommit",
       "fontSize": 20,
       "fontFamily": 2,
       "textAlign": "center",
@@ -793,6 +773,16 @@
       "y": 1140,
       "text": "Stand: 14.10.2026 · Quellcode 0.5.44 · Coolify-Host: Docker Compose / Nginx; Mender ist nicht installiert.",
       "fontSize": 18,
+      "fontFamily": 2,
+      "strokeColor": "#172b4d"
+    },
+    {
+      "type": "text",
+      "id": "agent-label",
+      "x": 335,
+      "y": 450,
+      "text": "Agent:\nHTTPS",
+      "fontSize": 17,
       "fontFamily": 2,
       "strokeColor": "#172b4d"
     }

@@ -27,11 +27,11 @@
 <text x="895" y="357" font-family="Arial,sans-serif" font-size="17" fill="#172b4d">Live-Audio per WebRTC;</text>
 <text x="895" y="379.1" font-family="Arial,sans-serif" font-size="17" fill="#172b4d">TQS steuert die Sitzung.</text>
 <rect x="55" y="455" width="270" height="145" rx="18" fill="#ffec99" stroke="#34475e"/>
-<text x="111.75" y="508.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">Geräteverwaltung</text>
-<text x="110.5" y="534.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">cdblab.de/devices</text>
-<text x="53.7578125" y="560.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">Status · Neustart · App-Update</text>
+<text x="115.0" y="497.1" font-family="Arial,sans-serif" font-size="19" fill="#172b4d">Geräteverwaltung</text>
+<text x="114.25" y="521.8" font-family="Arial,sans-serif" font-size="19" fill="#172b4d">cdblab.de/devices</text>
+<text x="105.5" y="546.5" font-family="Arial,sans-serif" font-size="19" fill="#172b4d">Diagnose · Neustart</text>
+<text x="134.75" y="571.2" font-family="Arial,sans-serif" font-size="19" fill="#172b4d">App-Updates</text>
 <path d="M480 445L325 500M333.85369730164916 491.89987382254014L325 500L336.97910516304336 500.7078414319238" fill="none" stroke="#4b6584" stroke-width="2"/>
-<text x="311.75" y="424.9" font-family="Arial,sans-serif" font-size="14" fill="#172b4d">Agent: ausgehendes HTTPS</text>
 <text x="365" y="547" font-family="Arial,sans-serif" font-size="17" fill="#172b4d">Eigener Agent auf dem Pi;</text>
 <text x="365" y="569.1" font-family="Arial,sans-serif" font-size="17" fill="#172b4d">keine Chat- oder Audiodaten</text>
 <text x="365" y="591.2" font-family="Arial,sans-serif" font-size="17" fill="#172b4d">an die Geräteverwaltung.</text>
@@ -47,8 +47,8 @@
 <text x="55" y="768" font-family="Arial,sans-serif" font-size="26" fill="#172b4d">2  Neue Versionen und neue SD-Karten</text>
 <rect x="55" y="820" width="285" height="125" rx="18" fill="#a5d8ff" stroke="#34475e"/>
 <text x="134.0" y="863.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">Git-Repository</text>
-<text x="50.75" y="889.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">App + Oberfläche + Bauanleitung</text>
-<text x="54.765625" y="915.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">Versionierter, getesteter Commit</text>
+<text x="89.25" y="889.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">App + UI + Bauanleitung</text>
+<text x="93.25" y="915.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">Getesteter Quellcommit</text>
 <rect x="440" y="820" width="300" height="125" rx="18" fill="#d0bfff" stroke="#34475e"/>
 <text x="490.5078125" y="863.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">Isolierter ARM64-Build</text>
 <text x="465.5078125" y="889.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">pi-gen + OS + Python + App</text>
@@ -67,4 +67,6 @@
 <text x="55" y="999" font-family="Arial,sans-serif" font-size="21" fill="#172b4d">Bestehende Geräte: Git → signiertes App-Paket → Geräteverwaltung → Agent → Startprüfung / Rückkehr</text>
 <text x="55" y="1044" font-family="Arial,sans-serif" font-size="19" fill="#172b4d">App-Updates erhalten Kundendaten. Änderungen an OS, Treibern oder Python benötigen eine eigene Freigabe.</text>
 <text x="55" y="1158" font-family="Arial,sans-serif" font-size="18" fill="#172b4d">Stand: 14.10.2026 · Quellcode 0.5.44 · Coolify-Host: Docker Compose / Nginx; Mender ist nicht installiert.</text>
+<text x="335" y="467" font-family="Arial,sans-serif" font-size="17" fill="#172b4d">Agent:</text>
+<text x="335" y="489.1" font-family="Arial,sans-serif" font-size="17" fill="#172b4d">HTTPS</text>
 </svg>

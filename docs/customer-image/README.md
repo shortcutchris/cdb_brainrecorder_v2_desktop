@@ -66,6 +66,8 @@ Whisper wird ausdrücklich für `armv8.2-a+dotprod` gebaut (Pi 5 / Cortex-A76),
 keine Apple-spezifischen Befehlsanforderungen in die Pi-Binärdateien. Das Image
 ist für Pi 5 qualifiziert; andere Pi-Generationen brauchen eigene Prüfung.
 Audio-/Bluetooth- und Wayland-Pakete sind explizite Image-Abhängigkeiten.
+Das frische Profil dreht Touch Display 2 an DSI-1/DSI-2 um 90 Grad ins Querformat;
+HDMI und vorhandene Displayprofile werden nicht umgeschrieben.
 
 ## Was im Image steckt
 
@@ -92,7 +94,9 @@ verschiedene Zustände. Ein noch nicht gebootetes Image ist ein Testkandidat.
 
 Das Image vor Weitergabe entpacken beziehungsweise schreibgeschützt über eine
 Loop-Datei einhängen. Auf dem endgültigen Root-Dateisystem
-`scripts/audit_customer_rootfs.py ROOTFS` ausführen. Bootpartition, Pi-5-Kernel,
+`scripts/audit_customer_rootfs.py ROOTFS` ausführen. `scripts/verify_customer_image.sh DATEI.img` führt diese Offlineprüfung einschließlich
+Dateisystemkontrolle im isolierten Linux-Builder aus. Es akzeptiert nur reguläre
+Image-Dateien, keine physischen Blockgeräte. Bootpartition, Pi-5-Kernel,
 Dateisysteme, Dienste und Laufzeitprogramme zusätzlich prüfen. `xz -t` prüft
 den komprimierten Export; `shasum -a 256 DATEI.img.xz` liefert die Prüfsumme.
 

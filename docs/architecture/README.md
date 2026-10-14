@@ -6,7 +6,7 @@ vorliegenden Code. Historische Entwürfe sind nicht automatisch produktive Funkt
 ![Architekturbild](brain-architecture.png)
 
 [Bearbeitbare Grafik](brain-architecture.excalidraw) ·
-[Im Browser öffnen](https://excalidraw.com/#json=TdWKfi59WpzHERsUkkCjL,7EnLgLD-Rq9yWXGvwrcZ6Q) ·
+[Im Browser öffnen](https://excalidraw.com/#json=YcKStvkxLyIdeBRJHDnNE,T9CA0gCL1zKZcH7sfDa40g) ·
 [Image bauen und weiterentwickeln](../customer-image/README.md)
 
 ## Ein Gerät, drei unterschiedliche Verbindungen
