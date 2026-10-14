@@ -34,3 +34,56 @@ Erkennung und erstes Begrüßungswort zählen ab Beginn des eingespeisten Aktivi
 Automatische Regression: passende und veraltete ACKs, Reihenfolge des Sprechauftrags, kein zweiter Start bei Reconnect, Abbruch, Mute-Erhaltung sowie negative und beschädigte/plurale Ende-Äußerungen.
 
 **223 Python-Tests und 99 JavaScript-Tests bestanden.**
+
+## Nachprüfung am realen Gerät: Erkennung reagiert nicht
+
+Am 14. Oktober 2026 meldete Chris nach dem Deployment, dass „Hey Brain“ am
+realen Mikrofon nicht mehr reagierte. Gleichzeitig zeigte die Oberfläche
+„Einrichtung abschließen“. Die vorherigen fünf synthetischen Durchläufe ersetzen
+keinen akustischen Praxistest und schließen diesen Fehler nicht aus.
+
+### Beobachteter Zustand
+
+- Studio 0.5.42 aktiv, keine Aufnahme und kein laufendes Live-Gespräch.
+- Aktivierungswort eingeschaltet; Status `listening`, aber noch null Erkennungen.
+  Detector und dessen `parec`-Unterprozess liefen.
+- ReSpeaker XVF3800 als USB-Audiogerät vorhanden, konfigurierte Quelle aktiv.
+  Weder PipeWire noch die Hardware-Mute-Abfrage meldeten Stummschaltung.
+- Eine dreisekündige Pegelmessung bestätigte Eingangssignal: maximaler RMS 0,03486,
+  Peak 0,07916, normiert auf 1. Keine Audiodatei gespeichert oder zur Cloud übertragen.
+- `setup_complete` war `false`, obwohl alle fünf bestehenden Einrichtungsprüfungen
+  bestanden waren. Das blockierte den Recorder; die Live-Freigabe war bereits erlaubt.
+
+### Durchgeführte Maßnahmen und Ergebnis
+
+1. Den aktuellen Einrichtungsstatus über `GET /api/setup` geprüft. Erst nach
+   `ready: true` den normalen Abschluss über `POST /api/setup/complete` gespeichert.
+   Danach `setup_complete: true` und Recorder freigegeben. Keine Prüfungen umgangen.
+2. Nur den lokalen Detector mit `POST /api/wake`, Body
+   `{"action":"test-stop"}`, neu gestartet. Dieser bestehende Endpunkt beendet den
+   Detector-Unterprozess; bei weiter eingeschaltetem Aktivierungswort startet die
+   normale Hintergrundsteuerung ihn anschließend neu. Die gespeicherte Freigabe
+   und Bereichsauswahl bleiben erhalten. Aufruf nur im zuvor geprüften Leerlauf;
+   mutierende Anfragen benötigen wie üblich den aktuellen CSRF-Header.
+3. Erneut `listening` bestätigt. Chris sprach anschließend direkt am Pi „Hey Brain“
+   und bestätigte: „Ja, startet wieder“. Die App meldete eine Erkennung und wechselte
+   von `connecting` zu `speaking`, ohne Live-Fehlermeldung.
+
+**Kein Neustart des Pi, kein USB-Abziehen und kein Firmwarewechsel nötig.**
+Der fehlende Einrichtungsabschluss war ein separater gespeicherter Zustand und
+nicht die Ursache der ausgebliebenen Aktivierung.
+
+Die genaue Ursache des nicht reagierenden Detectors ist noch nicht belegt.
+Der erfolgreiche gezielte Neustart ist eine bestätigte Wiederherstellung,
+kein Nachweis einer dauerhaften Fehlerbehebung. Es wurde hierfür kein neuer
+Laufzeitcode geändert; Version 0.5.42 bleibt bestehen.
+
+### Bei erneutem Auftreten
+
+Zuerst Aufnahme/Gespräch und sonstige Audio-Belegung prüfen, dann Wake-Status,
+Erkennungszähler, USB-Gerät, gewählte Quelle und beide Mute-Zustände festhalten.
+`listening` allein beweist nicht, dass eine reale Äußerung erkannt wird.
+Erst im Leerlauf den Detector gezielt neu starten und den akustischen Test am
+Gerät wiederholen. Wenn das nicht hilft, Signalweg und Decoder gezielt untersuchen,
+bevor ein kompletter Hardware-Neustart versucht wird. Einrichtung nur abschließen,
+wenn die tatsächlichen Einrichtungsprüfungen weiterhin erfolgreich sind.

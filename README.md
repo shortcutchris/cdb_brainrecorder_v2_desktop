@@ -660,3 +660,9 @@ in diesem fest definierten Wort. Ganze Nutzeräußerungen bleiben erforderlich;
 Fragen, Negationen, Zitate und Assistentenansagen beenden weiterhin nichts.
 
 [Mehrfachtest und Messwerte](docs/wake-repeat-0.5.42/README.md).
+
+Nachprüfung am realen Gerät: Ein gezielter Neustart des lokalen Detectors stellte
+„Hey Brain“ wieder her; Chris bestätigte den Sprachstart. Ein unabhängig davon
+fehlender Einrichtungsabschluss wurde nach bestandenen Prüfungen gespeichert.
+Kein Hardware-Neustart nötig; die Ursache der vorübergehend ausbleibenden
+Erkennung bleibt offen. [Befund und Wiederherstellung](docs/wake-repeat-0.5.42/README.md#nachprüfung-am-realen-gerät-erkennung-reagiert-nicht).
