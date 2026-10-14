@@ -56,7 +56,7 @@
   if(typeof drawPageNumbers==='function')drawPageNumbers(picker.querySelector('#picker-pages'),pages,page,i=>{page=i;drawPicker()});
  }
  new ResizeObserver(()=>{if(picker.open)drawPicker()}).observe(picker.querySelector('.dialog-body'));
- function refreshSelects(){for(const [el,b] of selectButtons){b.disabled=el.disabled;const text=el.selectedOptions[0]?.textContent||'Bitte auswählen';if(b.firstChild.textContent!==text)b.firstChild.textContent=text}}
+ function refreshSelects(){for(const [el,b] of selectButtons){if(b.disabled!==el.disabled)b.disabled=el.disabled;const text=el.selectedOptions[0]?.textContent||'Bitte auswählen';if(b.firstChild.textContent!==text)b.firstChild.textContent=text}}
  document.querySelectorAll('select').forEach(el=>{
   const b=document.createElement('button');b.type='button';b.className='touch-select';b.append(document.createElement('span'));const label=el.getAttribute('aria-label')||el.closest('label')?.firstChild.textContent.trim()||'Auswahl';b.setAttribute('aria-label',label+' auswählen');el.hidden=true;el.after(b);selectButtons.set(el,b);
   b.onclick=()=>{source=el;picker.querySelector('#picker-search').value='';pageSize=window.innerHeight<=650?3:4;page=Math.floor(Math.max(0,el.selectedIndex)/pageSize);picker.querySelector('h2').textContent=label;picker.showModal();drawPicker()};

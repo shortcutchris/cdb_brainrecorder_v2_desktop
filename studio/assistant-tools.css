@@ -19,3 +19,29 @@
 .timer-tone{display:flex;align-items:center;gap:12px}.timer-tone select{flex:1;min-width:0}.timer-tone button{margin-top:8px;min-width:112px;height:54px}#timers-view .tools-column{gap:12px}#timers-view .tools-info{padding:10px;line-height:18px}#timers-view .tools-info strong{display:none}
 
 #timers-view .tools-column{gap:8px}#timers-view .tools-info p{margin:2px 0}#timers-view .timer-row span{font-size:17px}
+
+/* One stable wake setup: prerequisites, knowledge selection, fixed footer. */
+#settings #wake-page .settings-content{grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);gap:24px}
+#settings #wake-page .settings-column{min-height:0;gap:14px}
+#settings #wake-page .settings-section-heading p{margin-bottom:0}
+#settings #wake-page .settings-card{padding:14px 18px}
+#settings #wake-word{font-size:32px;line-height:38px;margin:8px 0}
+#wake-state{min-height:24px;margin:8px 0}#wake-count{font-size:13px;line-height:19px;margin:0;color:var(--muted)}
+.wake-checks{display:grid;gap:12px}.wake-checks>div{display:grid;grid-template-columns:minmax(0,1fr) 112px;gap:4px 12px}.wake-checks span{font-size:12px;color:var(--muted)}.wake-checks strong{grid-column:1;font-size:14px!important;line-height:19px;overflow-wrap:anywhere}.wake-checks button{grid-column:2;grid-row:span 2;min-height:48px;font-size:13px;align-self:center;padding:6px!important}.wake-checks>div>button{grid-row:1/3}
+#settings .wake-privacy{font-size:13px;line-height:19px;color:var(--muted);margin:0}
+.wake-area-tools{display:flex;gap:10px}.wake-area-tools input{min-width:0;flex:1;height:52px!important;margin:0!important}.wake-area-tools button{min-width:128px;font-size:13px;white-space:nowrap;padding:8px}
+#wake-areas{height:204px;flex-shrink:0;display:flex;flex-direction:column;gap:8px}
+#wake-areas .wake-area{min-height:62px;height:62px;width:100%;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:12px;text-align:left;padding:8px 16px;display:flex;align-items:center;gap:12px;font-size:16px;line-height:20px;overflow-wrap:anywhere}
+.wake-area::before{content:'+';flex:0 0 26px;height:26px;text-align:center;line-height:26px;border:1px solid var(--line);border-radius:8px}.wake-area[aria-pressed=true]::before{content:'✓';background:var(--accent);color:var(--on-accent)}#wake-areas .wake-area[aria-pressed=true]{border-color:var(--accent)}.wake-area-tools [aria-pressed=true]{background:var(--accent);color:var(--on-accent)}
+.wake-area-paging{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:48px}.wake-area-paging>span{font-size:12px;color:var(--muted)}#wake-hint{font-size:13px!important;line-height:19px!important;min-height:57px;margin:0!important;color:var(--muted)}.wake-empty{color:var(--muted);padding:16px;font-size:15px}
+#settings.with-keyboard #wake-page .settings-content{grid-template-columns:1fr}#settings.with-keyboard #wake-page .settings-column:first-child{display:none}#settings.with-keyboard #wake-page #wake-areas{height:62px;overflow:hidden}#settings.with-keyboard #wake-page .wake-area-tools{min-height:52px}
+@media(max-height:650px){#settings #wake-page .settings-column{gap:8px}#settings #wake-page .settings-card{padding:10px 14px}#settings #wake-word{font-size:28px;line-height:32px}#settings .wake-privacy{font-size:12px;line-height:17px}}
+#settings.workspace-view #wake-page .settings-column{gap:10px}
+#settings.workspace-view #wake-page .settings-section-heading p{min-height:22px;margin:0}
+#settings.workspace-view #wake-page .wake-privacy{font-size:13px;line-height:19px;margin:0}
+#settings.workspace-view #wake-page #wake-count{font-size:13px;line-height:19px;margin:0}
+#settings.workspace-view #wake-page #wake-areas{height:calc(var(--wake-rows,2)*62px + (var(--wake-rows,2) - 1)*8px)}
+#settings.workspace-view #wake-page #wake-hint{font-size:13px;line-height:19px;min-height:38px;margin:0}
+#settings.workspace-view #wake-page .wake-checks strong{font-size:14px;line-height:19px}
+#settings.workspace-view #wake-page .wake-checks button{height:48px;min-height:48px}
+#settings.workspace-view #wake-page.with-keyboard .wake-privacy{display:none}

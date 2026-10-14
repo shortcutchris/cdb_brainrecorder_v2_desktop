@@ -1,0 +1,20 @@
+{
+  "seconds": 10.0,
+  "processes": [
+    {
+      "pid": "17738",
+      "kind": "backend",
+      "cpu_percent_one_core": 6.3
+    },
+    {
+      "pid": "17860",
+      "kind": "renderer",
+      "cpu_percent_one_core": 0.0
+    },
+    {
+      "pid": "17865",
+      "kind": "renderer",
+      "cpu_percent_one_core": 4.0
+    }
+  ]
+}

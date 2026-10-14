@@ -101,7 +101,7 @@ test('connecting and running areas are read-only, stale click handlers cannot ch
  h.c.state.live={busy:false,state:'ended',areas:h.areas.slice(0,8),history:[{role:'assistant',text:'Fertig'}]};h.c.renderState();assert.equal(h.element('live-area-search').disabled,true);
 });
 test('account changes discard pending area requests rather than showing another account selection',async()=>{
- const h=await areaHarness();let resolve;h.c.api=()=>new Promise(r=>resolve=r);const loading=h.element('live-refresh').onclick();
+ const h=await areaHarness();let resolve;h.c.api=()=>new Promise(r=>resolve=r);const loading=h.element('live-refresh').onclick();await tick();
  assert.equal(h.element('live-start').disabled,true);h.c.state.cdb.identity={name:'Other'};h.c.renderState();resolve({enabled:true,max_areas:8,areas:h.areas,default_area:h.areas[0],audio:{available:true}});await loading;
  assert.equal(h.element('live-selection-count').textContent,'0 von maximal 8 ausgewählt');assert.equal(h.element('live-start').disabled,true);assert.match(h.element('live-areas').children[0].textContent,/Keine Wissensbereiche/);
 });
@@ -137,4 +137,17 @@ test('queued selection for old account is discarded and save failure is visible'
  const h=await areaHarness(),base=h.c.api;h.c.api=async(p,b)=>{const r=await base(p,b);if(p.endsWith('/setup'))r.selection_account_key='old';return r};await h.element('live-refresh').onclick();let saves=0;h.c.api=async()=>{saves++;throw new Error('Speicher nicht verfügbar')};
  h.element('live-areas').children[1].onclick();await tick();assert.match(h.element('live-notice').textContent,/nicht gemerkt/);
  h.element('live-areas').children[2].onclick();h.c.state.cdb.identity={name:'New account'};h.c.renderState();await tick();assert.equal(saves,1);
+});
+
+test('hidden chat performs no pagination measurement; becomes current when shown',()=>{
+ const h=harness(),box=h.element('live-messages');box.getClientRects=()=>[];h.c.state.live.history=[{role:'assistant',text:'Unsichtbarer Verlauf '.repeat(200)}];h.c.renderState();assert.equal(box.children.length,0);
+ box.getClientRects=()=>[{}];h.c.renderState();assert.ok(box.children.length>0);
+});
+test('wake setup invalidates cached live area preferences without clearing the conversation',async()=>{
+ const h=harness();await h.element('live-open').onclick();h.c.state.live.history=[{role:'assistant',text:'Behalten'}];h.events['brain-areas-changed']();assert.equal(h.c.state.live.history[0].text,'Behalten');
+ h.c.state.live.history=[];h.c.api=async()=>({enabled:true,areas:[{id:'new',label:'Wake selected'}],remembered_area_ids:['new'],audio:{available:true}});await h.element('live-open').onclick();assert.equal(h.element('live-selection-count').textContent.includes('1'),true);
+});
+
+test('reopening setup adopts account selection saved by another browser',async()=>{
+ const h=harness();await h.element('live-open').onclick();h.c.api=async()=>({enabled:true,areas:[{id:'area',label:'Original'},{id:'other',label:'From Pi'}],remembered_area_ids:['other'],audio:{available:true}});await h.element('live-open').onclick();assert.equal(h.element('live-areas').children.find(b=>b['aria-label']==='From Pi')['aria-checked'],'true');assert.equal(h.element('live-areas').children.find(b=>b['aria-label']==='Original')['aria-checked'],'false');
 });

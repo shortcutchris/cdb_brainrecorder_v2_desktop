@@ -11,6 +11,7 @@
  let setup=null,chosen=new Set(),areaPage=0,chatPage=null,lease=null,heartbeat=null,starting=false,ending=false,loadedOwner=null,generation=0;
  let selectedOnly=false,selectionSave=Promise.resolve();
  let areaQuery='',areaPageSize=4,areaSignature='',areaNavSignature='',setupLoading=false,setupError='',selectionInitialized=false,loadSerial=0,requestedAreas=[];
+ window.addEventListener('brain-areas-changed',()=>{selectionInitialized=false;setup=null});
  const ownerKey=()=>JSON.stringify([state?.cdb?.identity||null,state?.cdb?.config?.server||null]);
  const areaName=a=>a.label||a.name||'Unbenannter Bereich';
  const areaLocked=()=>busy()||Boolean(state?.live?.history?.length);
@@ -25,9 +26,11 @@
   if(areaLocked())return;
   const serial=++loadSerial,owner=ownerKey();setupLoading=true;setupError='';renderLive();
   try{
+   await selectionSave;if(serial!==loadSerial||owner!==ownerKey())return;
    const result=await api('/api/live/setup');if(serial!==loadSerial||owner!==ownerKey())return;
    setup=result;const available=new Set(setup.areas.map(a=>a.id));chosen=new Set([...chosen].filter(id=>available.has(id)));
-   if(!selectionInitialized){if(Array.isArray(setup.remembered_area_ids))chosen=new Set(setup.remembered_area_ids.filter(id=>available.has(id)));else if(setup.default_area&&available.has(setup.default_area.id))chosen.add(setup.default_area.id);}
+   if(Array.isArray(setup.remembered_area_ids))chosen=new Set(setup.remembered_area_ids.filter(id=>available.has(id)));
+   else if(!selectionInitialized&&setup.default_area&&available.has(setup.default_area.id))chosen.add(setup.default_area.id);
    selectionInitialized=true;areaPage=0;note(setup.enabled?'':'Voice One ist in dieser Brain-Umgebung nicht freigeschaltet.');
   }catch(e){if(serial===loadSerial){setup=null;setupError=e.message;note(e.message)}}
   finally{if(serial===loadSerial){setupLoading=false;renderLive()}}
@@ -111,7 +114,10 @@
   return measureNode.getBoundingClientRect?.().height||48+Math.ceil(text.length/70)*27;
  }
  function drawHistory(live){
-  const box=$('live-messages'),width=box.clientWidth||800,height=box.clientHeight||280;
+  const box=$('live-messages');
+  // Hidden views have no usable geometry. Defer pagination until they are visible.
+  if(box.getClientRects&&!box.getClientRects().length)return;
+  const width=box.clientWidth||800,height=box.clientHeight||280;
   const signature=JSON.stringify([live.history,width,height]);
   if(!historyCache||historyCache.signature!==signature){historyCache={signature,pages:historyPages(live.history,(text,role)=>measureMessage(text,role,width),Math.max(80,height-2))}}
   const pages=historyCache.pages,page=chatPage===null?pages.length-1:Math.min(chatPage,pages.length-1),rows=pages[page];

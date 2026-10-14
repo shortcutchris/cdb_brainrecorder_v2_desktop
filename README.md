@@ -502,3 +502,17 @@ Sprachsteuerung setzt den passenden TQS-/BFF-Rollout voraus.
 [Bedienung, Vertrag und Teststand](docs/device-tools-0.5.32/README.md).
 Der externe Mira-Receiver wurde auf dem Tailscale-Server wiedergefunden:
 [Bestand und Integrationsplan](docs/mira-receiver-review.md).
+
+### Studio 0.5.33 · Aktivierungswort einrichten und Browser entlasten
+
+Unter **Einstellungen → Audio → Aktivierungswort** stehen Brain-Konto, Geräte
+und Gesprächswissen jetzt zusammen. Bereiche suchen, über Seiten auswählen oder
+mit **Ausgewählt** filtern, dann einschalten. Die Auswahl wird beim Einschalten
+pro Brain-Konto gespeichert und auch im nächsten Live-Gespräch verwendet.
+Fehlende Voraussetzungen und Fehler werden direkt auf der Seite angezeigt.
+Zum Ändern der Bereiche zuerst ausschalten; der lokale Erkennungstest startet
+kein Cloud-Gespräch. Aufnahme, Gespräch und Wiedergabe haben weiterhin Vorrang.
+
+Unveränderte Touch-Auswahlfelder erzeugen keine Aktualisierungsschleife mehr.
+Unsichtbare Gesprächsverläufe werden erst beim Öffnen neu vermessen.
+[Prüfprotokoll und Screenshots](docs/wake-setup-0.5.33/README.md).
