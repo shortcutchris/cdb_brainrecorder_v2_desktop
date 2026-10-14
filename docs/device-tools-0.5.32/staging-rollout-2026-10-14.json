@@ -1,0 +1,27 @@
+{
+  "tqs_pr": 2000,
+  "tqs_merge": "e15980a3aa2610e465fb6081856a06d5fa402264",
+  "backend_revision": "tqs-backend-stg--0000965",
+  "webos_pr": 1337,
+  "webos_merge": "89432539d1eab4be3b21023b4ddbcb37751c2984",
+  "changelog": "1.309.2",
+  "tqs_deploy_run": 38529855446,
+  "tqs_tests_run": 38529854567,
+  "webos_deploy_run": 38530581609,
+  "webos_tests_run": 38530580701,
+  "all_runs": "success",
+  "server_close_audit": [
+    {
+      "at": "2026-10-14T07:48:13.3197715Z",
+      "duration_seconds": 57,
+      "reason": "user",
+      "run": "first-incomplete"
+    },
+    {
+      "at": "2026-10-14T07:53:00.3524025Z",
+      "duration_seconds": 150,
+      "reason": "user",
+      "run": "completed"
+    }
+  ]
+}

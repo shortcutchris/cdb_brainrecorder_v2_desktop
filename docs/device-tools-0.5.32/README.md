@@ -49,16 +49,16 @@ sitzungsübergreifendes Wiederholen versprochen.
 - 191 Python-Tests vollständig auf dem Pi bestanden, einschließlich
   Gerätequittungs-/Kontowechselprüfung.
 - 85 JavaScript-Tests bestanden.
-- TQS: 151 Tests für Geräteaufträge und bestehende Live-/Wiederverbindungs-/
+- TQS: 152 Tests für Geräteaufträge und bestehende Live-/Wiederverbindungs-/
   Gesprächsverläufe bestanden, mit simulierten Serverdiensten.
 - BFF: 73 Weiterleitungstests bestanden.
 - UI bei 1280 × 720 auf isolierter Pi-Instanz: Ton wählen, Timer speichern,
   Ton nach Neuladen in der Liste erhalten, feste Leisten, kein Inhaltsüberlauf.
 - Echter synthetischer Sprachtest über Azure/CDB nach dem Server-Rollout:
   Timer, Erinnerung (exakter Termin und Ton), Auflisten und lokale Quittierung
-  bestanden. **Vollständige Abnahme offen:** Bei mehreren Werkzeugrunden fehlt
-  die Fortsetzung der Antwort; der nächste Löschauftrag bleibt unbearbeitet.
-  Ursache reproduziert, Serverfix #2000 und Changelog #1337 vorbereitet.
+  bestanden. Der am 13.10. gefundene Hänger bei mehreren Werkzeugrunden ist
+  mit TQS #2000 korrigiert. Vollständiger Wiederholungstest am 14.10. bestanden
+  (siehe unten), einschließlich Fortsetzung, Löschen und Entsperren.
 
 Die drei synthetisierten Alarmtöne wurden auf der isolierten Pi-Instanz über
 `paplay` am ausgewählten Ausgang vollständig abgespielt (jeweils Status
@@ -99,8 +99,9 @@ Fortsetzungen nur mit `response.in_progress` und neuer ID ankündigt. Deshalb
 wird eine zweite Gerätequittung nicht weitergereicht. Fix:
 [TQS #2000](https://github.com/BIK-GmbH/cdb_tqs/pull/2000), mit negativem/positivem
 Regressionstest und 152 bestandenen Tests; Changelog
-[WebOS #1337](https://github.com/BIK-GmbH/cdb_webos/pull/1337). Mergefreigabe und
-erneuter vollständiger Sprachtest stehen aus. Pi-Laufzeit braucht dafür kein Update.
+[WebOS #1337](https://github.com/BIK-GmbH/cdb_webos/pull/1337). Beide am 14.10.
+nach Freigabe und grüner CI gemergt; erneute Abnahme unten. Pi-Laufzeit braucht
+dafür kein Update.
 
 Testgrenzen: Die synthetische Stimme wurde vereinzelt als „Test T“ statt „Test Tee“
 erkannt. Ein undeutliches Datum wurde korrekt nachgefragt. Ein Vorlauf ohne
@@ -112,3 +113,42 @@ bestandenen End-to-End-Tests. Keine Hörbestätigung oder Wake-Word-Abnahme in d
 ![Nach Gesprächsende: Navigation frei, Sprach-Timer im Verlauf](../../output/playwright/device-tools-0.5.32/09-nach-gespraech-entsperrt.png)
 
 Nach den Tests: Pi-Backend und Kiosk aktiv, 22 Aufnahmen und Konfiguration gegen die Sicherung unverändert. Temporäre Zugangskopien aller isolierten Testinstanzen entfernt; diagnostische Audio-Instrumentierung zurückgenommen.
+
+## Erneute vollständige Staging-Abnahme am 14.10.2026
+
+- TQS #2000: `e15980a3`, Backend `tqs-backend-stg--0000965`.
+- WebOS #1337: `89432539`, Changelog **1.309.2**. Den zwischenzeitlich
+  veröffentlichten Eintrag 1.309.1 erhalten. CI und beide Deployments grün.
+- [Ergebnis mit echten Gerätequittungen](staging-voice-2026-10-14-passed.json):
+  fünf gesprochene Aufträge, acht tatsächlich ausgeführte Geräteaufrufe,
+  fünf abgeschlossene Antworten, Gesprächsende nach rund **153 Sekunden**.
+- Timer 60 Sekunden / Klangspiel, Erinnerung **15.10.2026, 11:30 Europe/Berlin** /
+  Glocke, aktuelle Liste, fälligen Timer erledigen und Erinnerung löschen.
+- Quittieren nutzte **Liste → Quittierung**; Löschen sogar **Liste → Löschen →
+  Kontrollliste**. Beide mehrstufigen Runden antworten vollständig; die letzte
+  Kontrollliste ist leer. Der frühere Fortsetzungshänger ist damit live geprüft.
+- Timer im Verlauf `done`, Erinnerung `cancelled`, nach erneutem Öffnen der
+  SQLite-Datenbank identisch. Während des Gesprächs Aufnahme/Einstellungen
+  gesperrt, danach freigegeben; Timeransicht und Einstellungen im Browser geprüft.
+- [Erneuter Pi-Abgleich](deployment-after-retest.json): 22 Aufnahmen,
+  Konfiguration, vorhandene Timer, Konto und Dienste unverändert. Isolierte
+  Testinstanz beendet, temporäre Sitzungskopien entfernt.
+
+Der [erste Versuch am 14.10.](staging-voice-2026-10-14-first-attempt.json) endete
+nach Timer und Erinnerung vorzeitig und zählt ausdrücklich nicht als bestanden.
+Der Server protokollierte nach 57 Sekunden `reason=user`; die auslösende Ursache
+ist aus diesem Vorlauf nicht eindeutig rekonstruierbar. Der vollständige
+Wiederholungstest nach abgeschlossenem Rollout lief ohne vorzeitiges Ende.
+Beim beabsichtigten Ende meldete der Pi eine generische Ausnahme der Close-Anfrage;
+der Server bestätigte unabhängig `reason=user` nach 150 Sekunden, lokal waren
+alle Sperren aufgehoben. Es blieb keine offene Testsitzung.
+
+[Reproduzierbarer Testtreiber](staging-acceptance.py): läuft auf dem Pi mit
+vorhandener Staging-Anmeldung, echter CDB-/WebRTC-Verbindung und synthetischem
+20-ms-PCM. Er ersetzt nur Audioquelle/-ausgabe und die lokale Testablage. Die
+Sprachantworten wurden nicht im Raum abgespielt. Keine Hör-, Wake-Word-, Snooze-
+oder Namensgenauigkeits-Abnahme; „Test Tee“ wurde als „Test T“ verstanden.
+
+![Antwort nach mehreren Werkzeugrunden](../../output/playwright/device-tools-0.5.32/11-folgerunde-bestaetigt.png)
+
+![Nach dem Test: erledigter Timer, entfernte Erinnerung, Navigation freigegeben](../../output/playwright/device-tools-0.5.32/13-nach-test-entsperrt.png)

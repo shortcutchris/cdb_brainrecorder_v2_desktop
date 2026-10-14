@@ -1,0 +1,122 @@
+{
+  "tested_at": "2026-10-14T09:47:10.218994+02:00",
+  "tqs_merge": "e15980a3aa2610e465fb6081856a06d5fa402264",
+  "synthetic_audio": true,
+  "room_audio": false,
+  "server": "https://staging.cdbos.de",
+  "commands": [
+    {
+      "at_seconds": 20.55,
+      "name": "create_timer",
+      "arguments": {
+        "label": "Test T",
+        "seconds": 60,
+        "tone": "chime"
+      },
+      "result": {
+        "ok": true,
+        "id": "303c7cbc-db62-4234-add4-d9c9adff6485",
+        "label": "Test T",
+        "tone": "chime",
+        "message": "Auf dem Pi gespeichert."
+      }
+    },
+    {
+      "at_seconds": 49.19,
+      "name": "create_reminder",
+      "arguments": {
+        "zone": "Europe/Berlin",
+        "label": "Test Blumen",
+        "local_time": "2026-10-15T11:30:00",
+        "tone": "bell"
+      },
+      "result": {
+        "ok": true,
+        "id": "08254d13-66d4-482f-bfb3-47b5796ebdf8",
+        "label": "Test Blumen",
+        "tone": "bell",
+        "message": "Auf dem Pi gespeichert."
+      }
+    }
+  ],
+  "stages": [
+    {
+      "spoken": "Stelle bitte einen Timer mit dem Namen Test Tee und dem Ton Klangspiel auf sechzig Sekunden.",
+      "at_seconds": 11.1
+    },
+    {
+      "spoken": "Erstelle außerdem eine Erinnerung mit dem Namen Test Blumen, am 15. Oktober zweitausendsechsundzwanzig um elf Uhr dreißig, Zeitzone Europa Berlin. Als Ton bitte Glocke.",
+      "at_seconds": 31.33
+    },
+    {
+      "spoken": "Welche Timer und Erinnerungen sind gerade auf diesem Gerät vorhanden? Bitte prüfe die aktuelle Liste.",
+      "at_seconds": 65.07
+    }
+  ],
+  "blocked_during_live": true,
+  "completed_replies": [
+    {
+      "at_seconds": 31.14,
+      "after_tool": "create_timer",
+      "text": "Der Timer Test T läuft jetzt für sechzig Sekunden mit dem Ton Klang."
+    },
+    {
+      "at_seconds": 64.9,
+      "after_tool": "create_reminder",
+      "text": "Die Erinnerung Test Blumen ist für morgen, den fünfzehnten Oktober, um elf Uhr dreißig in Europa Berlin eingestellt. Der Ton ist Glocke."
+    }
+  ],
+  "passed": false,
+  "error": "Timeout: {'state': 'ended', 'history': [{'role': 'user', 'text': 'Hey Leute, einen Timer mit dem Namen Test T und dem Ton Klang Stil auf sechzig Sekunden'}, {'role': 'assistant', 'text': 'Ja, gerne, den stelle ich jetzt ein... [whistle]'}, {'role': 'assistant', 'text': 'Der Timer Test T läuft jetzt für sechzig Sekunden mit dem Ton Klang.'}, {'role': 'user', 'text': 'Erstelle außerdem eine Erinnerung mit dem Namen Test Blumen am fünfzehn. Oktober zweitausendsechsundzwanzig um elf Uhr dreißig. Zeitzone Europa Berlin Als Ton bitte Glocke'}, {'role': 'assistant', 'text': 'Alles klar, mit Ton Glocke, verstanden. Ich richte sie kurz ein...'}, {'role': 'assistant', 'text': 'Die Erinnerung Test Blumen ist für morgen, den fünfzehnten Oktober, um elf Uhr dreißig in Europa Berlin eingestellt. Der Ton ist Glocke.'}], 'items': [{'id': '303c7cbc-db62-4234-add4-d9c9adff6485', 'kind': 'timer', 'label': 'Test T', 'due': 1791964110.7608647, 'state': 'due', 'revision': 2, 'sound': 'pending', 'tone': 'chime', 'remaining': 0}, {'id': '08254d13-66d4-482f-bfb3-47b5796ebdf8', 'kind': 'reminder', 'label': 'Test Blumen', 'due': 1792056600.0, 'state': 'scheduled', 'revision': 1, 'sound': 'pending', 'tone': 'bell', 'remaining': 92405}]}",
+  "history": [
+    {
+      "role": "user",
+      "text": "Hey Leute, einen Timer mit dem Namen Test T und dem Ton Klang Stil auf sechzig Sekunden"
+    },
+    {
+      "role": "assistant",
+      "text": "Ja, gerne, den stelle ich jetzt ein... [whistle]"
+    },
+    {
+      "role": "assistant",
+      "text": "Der Timer Test T läuft jetzt für sechzig Sekunden mit dem Ton Klang."
+    },
+    {
+      "role": "user",
+      "text": "Erstelle außerdem eine Erinnerung mit dem Namen Test Blumen am fünfzehn. Oktober zweitausendsechsundzwanzig um elf Uhr dreißig. Zeitzone Europa Berlin Als Ton bitte Glocke"
+    },
+    {
+      "role": "assistant",
+      "text": "Alles klar, mit Ton Glocke, verstanden. Ich richte sie kurz ein..."
+    },
+    {
+      "role": "assistant",
+      "text": "Die Erinnerung Test Blumen ist für morgen, den fünfzehnten Oktober, um elf Uhr dreißig in Europa Berlin eingestellt. Der Ton ist Glocke."
+    }
+  ],
+  "items": [
+    {
+      "id": "303c7cbc-db62-4234-add4-d9c9adff6485",
+      "kind": "timer",
+      "label": "Test T",
+      "due": 1791964110.7608647,
+      "state": "due",
+      "revision": 2,
+      "sound": "pending",
+      "tone": "chime",
+      "remaining": 0
+    },
+    {
+      "id": "08254d13-66d4-482f-bfb3-47b5796ebdf8",
+      "kind": "reminder",
+      "label": "Test Blumen",
+      "due": 1792056600.0,
+      "state": "scheduled",
+      "revision": 1,
+      "sound": "pending",
+      "tone": "bell",
+      "remaining": 92405
+    }
+  ],
+  "seconds": 165.24
+}
