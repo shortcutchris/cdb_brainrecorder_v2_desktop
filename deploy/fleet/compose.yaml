@@ -1,0 +1,30 @@
+services:
+  devices:
+    build:
+      context: ../..
+      dockerfile: deploy/fleet/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8460:8460"
+    volumes:
+      - ./data:/data
+      - ./admin:/run/secrets/admin:ro
+    networks:
+      coolify:
+        aliases: [cdb-fleet]
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 192m
+    cpus: 0.5
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8460/health',timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+networks:
+  coolify:
+    external: true

@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.42'
+VERSION = '0.5.43'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -60,6 +60,8 @@ class StudioApp:
         if self.settings_file:self.settings_file.parent.mkdir(parents=True,exist_ok=True)
         self.settings_lock = threading.RLock()
         self.control_lock = threading.RLock()
+        from services.device_management import DeviceManagement
+        self.management = DeviceManagement(self.store.root)
         self.closing = False
         from services.audio_output import AudioOutput
         self.speakers = AudioOutput(self.store.root)
@@ -226,7 +228,7 @@ class StudioApp:
         from services.app_activity import AppActivity
         state = state or self.engine.state()
         live = self.live.public() if hasattr(self, 'live') else {'state':'idle','busy':False}
-        return AppActivity(recording=bool(state['recording']['id']), paused=state['recording'].get('paused',False),
+        return AppActivity(maintenance=self.management.busy(), recording=bool(state['recording']['id']), paused=state['recording'].get('paused',False),
             live=live['state'], live_reserved=live['busy'], microphone_test=state['microphone_test']['state']=='running',
             speaker_test=self.speakers.test_status()['state']=='running', alarm=bool(self.alarm_id),
             bluetooth=include_bluetooth and self.bluetooth.busy(),
@@ -315,6 +317,7 @@ class StudioApp:
         state['level'] = self.probe.level(raw) if raw else 0
         state['capabilities'] = self.capabilities(state)
         state['activity'] = self.activity(state).public()
+        state['management'] = self.management.public()
         state['cdb'] = self.cdb.public()
         state['model_check'] = self.model_checks.public()
         state['model_results'] = self.model_checks.results()
@@ -413,6 +416,10 @@ class StudioApp:
         # Lock order matches state(): controller before recorder.
         with self.control_lock, self.controller.lock, self.engine.recorder.lock:
             if self.closing:raise ValueError('Dienst wird beendet. Änderungen bitte kurz aufbewahren.')
+            if self.management.busy():raise ValueError('Gerät wird gewartet. Bitte kurz warten.')
+            if path == '/api/management/enroll':
+                self.require('configure')
+                return self.management.enroll(body.get('code'))
             if path == '/api/playback':
                 import time
                 key = body.get('client')
@@ -619,6 +626,11 @@ class StudioHandler(Handler):
     def get(self):
         if not self.authorized():return
         path=urlsplit(self.path).path
+        if path=='/api/management/health':
+            app=self.server.app
+            if not app.management.authorized(self.headers.get('Authorization','')):
+                self.respond({'error':'Nicht berechtigt.'},403);return
+            self.respond({'version':VERSION,'ready':not app.closing,'activity':('processing' if app.activity().pending and not app.activity().occupied else app.activity().mode),'wake_state':app.wake.public().get('state','unknown')});return
         if path=='/api/live/activity':
             self.respond(self.server.app.live.feedback());return
         if path=='/api/live/setup':
@@ -704,6 +716,19 @@ class StudioHandler(Handler):
                 self.wfile.write(block);length-=len(block)
 
     def do_POST(self):
+        if urlsplit(self.path).path in ('/api/management/prepare','/api/management/release'):
+            app=self.server.app
+            if not self.authorized() or not app.management.authorized(self.headers.get('Authorization','')):
+                self.respond({'error':'Nicht berechtigt.'},403);return
+            try:
+                size=int(self.headers.get('Content-Length','0'))
+                if not 0<size<1024:raise ValueError('Ungültige Anfrage.')
+                body=json.loads(self.rfile.read(size))
+                with app.control_lock, app.controller.lock, app.engine.recorder.lock:
+                    result=app.management.prepare(app,body.get('command'),VERSION) if self.path.endswith('/prepare') else app.management.release(body.get('command'))
+                self.respond(result)
+            except (ValueError,TypeError):self.respond({'error':'Gerät beschäftigt oder Anfrage ungültig.'},409)
+            return
         try:
             if not self.authorized():return
             origin=self.headers.get('Origin')

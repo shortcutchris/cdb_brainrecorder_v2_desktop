@@ -666,3 +666,14 @@ Nachprüfung am realen Gerät: Ein gezielter Neustart des lokalen Detectors stel
 fehlender Einrichtungsabschluss wurde nach bestandenen Prüfungen gespeichert.
 Kein Hardware-Neustart nötig; die Ursache der vorübergehend ausbleibenden
 Erkennung bleibt offen. [Befund und Wiederherstellung](docs/wake-repeat-0.5.42/README.md#nachprüfung-am-realen-gerät-erkennung-reagiert-nicht).
+
+### Studio 0.5.43 · Geräteverwaltung und signierte App-Updates
+
+Unter **Einstellungen → Gerät & Verwaltung** lässt sich der Pi per Einmalcode
+mit der [Gerätezentrale](https://cdblab.de/devices/) koppeln. Sie zeigt Status und
+Diagnosewerte und erlaubt kontrollierte App-/Geräteneustarts sowie signierte
+App-Updates mit Rückkehr zur vorherigen Version. Laufende Arbeit und aktive Timer
+sperren Wartung. Die erste Stufe verwaltet eine Organisation über einen separaten
+Verwaltungsschlüssel; Microsoft-Administrator-SSO folgt später.
+
+[Bedienung, Sicherheitsgrenzen, Mender-Entscheidung und Betrieb](docs/device-management-0.5.43/README.md).

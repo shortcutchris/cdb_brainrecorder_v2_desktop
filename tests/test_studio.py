@@ -29,6 +29,22 @@ class StudioTests(unittest.TestCase):
             with urllib.request.urlopen(req,timeout=8) as r:return r.status,r.read(),r.headers
         except urllib.error.HTTPError as e:
             with e:return e.code,e.read(),e.headers
+    def test_management_token_maintenance_and_timer_guards(self):
+        from fleet.common import read
+        headers={'Authorization':'Bearer '+read(self.app.management.auth)['token']}
+        command='11111111-1111-1111-1111-111111111111'
+        self.assertEqual(self.request('/api/management/health')[0],403)
+        self.assertEqual(self.request('/api/management/prepare',{'command':command})[0],403)
+        self.assertEqual(self.request('/api/management/prepare',{'command':command},headers)[0],200)
+        self.assertTrue(self.app.management.busy())
+        for path,body in [('/api/wake',{'action':'on'}),('/api/record/start',{}),('/api/timers',{'action':'create'}),('/api/live/reserve',{})]:
+            self.assertEqual(self.request(path,body)[0],400)
+        self.assertEqual(self.request('/api/management/release',{'command':command},headers)[0],200)
+        self.assertFalse(self.app.management.busy())
+        self.app.schedules.create({'kind':'timer','seconds':30,'label':'Keep','request_id':'management-lock'})
+        self.assertEqual(self.request('/api/management/prepare',{'command':command},headers)[0],409)
+        self.assertFalse(self.app.management.busy())
+
     def test_recognition_feedback_does_not_wait_for_controller_lock(self):
         self.app.wake.recognized_until=time.monotonic()+8
         locked=threading.Event();release=threading.Event()

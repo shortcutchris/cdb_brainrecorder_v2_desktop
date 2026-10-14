@@ -8,6 +8,7 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class AppActivity:
+    maintenance: bool = False
     recording: bool = False
     paused: bool = False
     live: str = 'idle'
@@ -28,15 +29,16 @@ class AppActivity:
     def alarm_allowed(self):
         # A timer must be audible during Live, even while the assistant speaks.
         # Recordings/tests and device changes retain exclusive audio ownership.
-        return not (self.recording or self.microphone_test or self.speaker_test or
+        return not (self.maintenance or self.recording or self.microphone_test or self.speaker_test or
                     self.alarm or self.download or self.model_test or self.bluetooth)
 
     @property
     def occupied(self):
-        return self.recording or self.live_busy or self.microphone_test or self.speaker_test or self.alarm or self.download or self.model_test or self.bluetooth
+        return self.maintenance or self.recording or self.live_busy or self.microphone_test or self.speaker_test or self.alarm or self.download or self.model_test or self.bluetooth
 
     @property
     def mode(self):
+        if self.maintenance:return 'maintenance'
         if self.recording:return 'paused' if self.paused else 'recording'
         if self.live_busy:return 'live-connecting' if self.live in ('connecting','reconnecting') else 'live-stopping' if self.live in ('closing','stopping') else 'live-active'
         if self.microphone_test:return 'microphone-test'
@@ -49,7 +51,7 @@ class AppActivity:
 
     @property
     def reason(self):
-        return {'recording':'Aufnahme läuft.', 'paused':'Aufnahme pausiert. Bitte zuerst stoppen.',
+        return {'maintenance':'Gerät wird gewartet. Bitte kurz warten.', 'recording':'Aufnahme läuft.', 'paused':'Aufnahme pausiert. Bitte zuerst stoppen.',
                 'live-connecting':'Live-Gespräch wird verbunden.', 'live-active':'Live-Gespräch läuft. Bitte zuerst beenden.',
                 'live-stopping':'Live-Gespräch wird beendet.', 'microphone-test':'Mikrofontest läuft.',
                 'alarm':'Timer-Alarm läuft. Über „Alarm stoppen“ beenden.', 'speaker-test':'Lautsprechertest läuft.', 'model-test':'Modelltest läuft.',
@@ -71,6 +73,6 @@ class AppActivity:
             'install':rule(not self.occupied and not self.pending,reason or 'Offene Verarbeitung zuerst abschließen.'),
             'model_test':rule(not self.occupied and not self.pending and not low_disk,reason or ('Zu wenig freier Speicher.' if low_disk else 'Offene Verarbeitung zuerst abschließen.')),
             'finish_setup':rule(not self.occupied,reason),
-            'process':rule(not self.recording and not self.live_busy and not self.download and not self.model_test and not self.bluetooth,reason),
+            'process':rule(not self.maintenance and not self.recording and not self.live_busy and not self.download and not self.model_test and not self.bluetooth,reason),
             'live':rule(not self.occupied and brain_signed_in,reason or 'Bitte zuerst beim Brain-Konto anmelden.'),
         }
