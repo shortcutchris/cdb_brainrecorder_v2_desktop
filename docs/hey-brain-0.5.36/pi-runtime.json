@@ -1,0 +1,22 @@
+{
+  "version": "0.5.36",
+  "wake": {
+    "enabled": true,
+    "available": true,
+    "word": "Hey Brain",
+    "state": "listening",
+    "message": "Bereit für „Hey Brain“ · Erkennung bleibt lokal.",
+    "detections": 0,
+    "testing": false
+  },
+  "activity": {
+    "mode": "idle",
+    "busy": false,
+    "reason": "",
+    "recording": false,
+    "live_busy": false
+  },
+  "sample_seconds": 15.0,
+  "one_core_percent": 3.73,
+  "resident_memory": "VmRSS:\t  166240 kB"
+}

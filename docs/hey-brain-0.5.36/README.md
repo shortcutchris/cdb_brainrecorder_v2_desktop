@@ -55,7 +55,7 @@ Korpus enthält wiederholte Modellinitialisierungen und ist kein Leerlaufwert.
 
 ## Ergebnis auf dem Raspberry Pi 5 (16 GB)
 
-- 197 Python-Tests und 94 JavaScript-Tests bestanden.
+- 198 Python-Tests und 94 JavaScript-Tests bestanden.
 - Wake-Korpus: 6/6 positive Stimmen, 20/20 Gegenbeispiele korrekt, keine
   Erkennung in 60 Sekunden Stille. 78,23 Sekunden Sprach-/Pausenmaterial,
   2,075 Sekunden Decoder-CPU (2,65 % eines Kerns); Stille 1,861 Sekunden CPU
@@ -68,3 +68,14 @@ Korpus enthält wiederholte Modellinitialisierungen und ist kein Leerlaufwert.
   [Ablaufprotokoll](live-cycle.json). Aufnahme und Wiedergabe im Test wurden
   durch synthetische PCM-Eingabe und einen stillen Testausgang ersetzt. Es wurde
   kein Raumton hochgeladen und kein Alarm auf dem Produktivgerät angelegt.
+
+Tokenablauf allein setzt die lokale Ein/Aus-Wahl nicht zurück. Das Konto bleibt
+an Server, OAuth-App und Benutzer/Mandant gebunden. Beim Start erneuert die
+vorhandene CDB-Sitzungslogik das Token und prüft die Identität vor dem Verbinden
+der Cloud-Audiospur. Logout oder Wechsel des Servers/der OAuth-App unterbricht
+weiterhin die Bereitschaft; ein gescheiterter Refresh startet kein Gespräch.
+
+Nach dem Produktiv-Update war „Hey Brain“ mit ReSpeaker und Marshall im Zustand
+`listening`. Die 15-Sekunden-Stichprobe des echten Erkennungsprozesses ergab
+3,73 % eines CPU-Kerns und 166.240 KiB residenten Speicher (~162 MiB).
+[Messung](pi-runtime.json). Die Touchansicht wurde bei 1280 × 720 geprüft.

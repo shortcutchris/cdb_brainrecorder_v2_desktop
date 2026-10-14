@@ -97,9 +97,15 @@ class StudioApp:
         self.ambient_thread.start()
 
     def wake_account(self):
-        # Refreshes are performed by the existing CDB session lifecycle, never by a detector.
-        account = self.display_account()
-        return account['binding'] if account else None
+        # Token expiry is not a logout. Keep local opt-in bound to the saved
+        # identity; reserve/start still calls Cdb.session(), refreshing and
+        # validating the account BEFORE cloud audio is connected.
+        session = self.cdb.read('session.json', {})
+        identity = session.get('identity')
+        config = self.cdb.config()
+        if not identity or session.get('server') != config['server'] or session.get('client_id') != config['client_id']:
+            return None
+        return {'server': session['server'], 'user_id': identity['user_id'], 'client_id': identity['client_id']}
 
     def wake_reason(self):
         import time

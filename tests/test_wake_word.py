@@ -62,3 +62,17 @@ class PhraseTests(unittest.TestCase):
         result['result'][1]['conf']=.89
         self.assertFalse(is_activation(result))
         self.assertFalse(is_activation({'text':'hey brain'}))
+
+
+class WakeAccountTests(unittest.TestCase):
+    def test_token_expiry_preserves_opt_in_but_logout_and_config_change_do_not(self):
+        from web_server import StudioApp
+        app=StudioApp.__new__(StudioApp);app.cdb=Mock()
+        config={'server':'https://staging.example.test','client_id':'oauth-app'}
+        saved={**config,'expires':1,'identity':{'user_id':'owner','client_id':'tenant'}}
+        app.cdb.config.return_value=config;app.cdb.read.return_value=saved
+        self.assertEqual(app.wake_account(),{'server':config['server'],'user_id':'owner','client_id':'tenant'})
+        app.cdb.session.assert_not_called()  # No network in the locked ambient loop.
+        app.cdb.read.return_value={};self.assertIsNone(app.wake_account())
+        app.cdb.read.return_value={**saved,'server':'https://other.example.test'};self.assertIsNone(app.wake_account())
+        app.cdb.read.return_value={**saved,'client_id':'other-app'};self.assertIsNone(app.wake_account())
