@@ -30,6 +30,18 @@ e2fsck -fn "${loop}p2"
 mount -o ro "${loop}p1" "$workspace/boot"
 mount -o ro,noload "${loop}p2" "$workspace/root"
 python3 "$script_dir/audit_customer_rootfs.py" "$workspace/root"
+python3 - "$workspace/root" <<'VERIFY'
+import hashlib,json,sys
+from pathlib import Path
+root=Path(sys.argv[1]);manifest=json.loads((root/'opt/cdb/factory/source-manifest.json').read_text())
+config=json.loads((root/'etc/cdb-factory-image.json').read_text())
+assert config['source_commit']==manifest['source_commit']
+for name,expected in manifest['source_files'].items():
+    path=Path(name)
+    assert not path.is_absolute() and '..' not in path.parts
+    assert hashlib.sha256((root/'opt/cdb/source'/path).read_bytes()).hexdigest()==expected, name
+print('Source files verified:',len(manifest['source_files']), 'commit:',manifest['source_commit'])
+VERIFY
 test -s "$workspace/boot/config.txt"
 test -s "$workspace/boot/cmdline.txt"
 test -s "$workspace/boot/kernel_2712.img"

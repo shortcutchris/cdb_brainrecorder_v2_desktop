@@ -1,0 +1,11 @@
+/opt/cdb/runtime/lib/python3.13/site-packages/dbus_next/service.py:87: DeprecationWarning: 'typing.no_type_check_decorator' is deprecated and slated for removal in Python 3.15
+  @no_type_check_decorator
+This plugin does not support propagateSizeHints()
+This plugin does not support propagateSizeHints()
+This plugin does not support propagateSizeHints()
+----------------------------------------------------------------------
+Ran 258 tests in 61.394s
+
+OK
+Warnung: Translation-Datei nicht gefunden: /opt/cdb/source/translations/de_DE.ts
+gc:0: ResourceWarning: gc: 1 uncollectable objects at shutdown; use gc.set_debug(gc.DEBUG_UNCOLLECTABLE) to list them

@@ -1,6 +1,10 @@
 # Erststart und Kunden-Image · 0.5.44
 
-Stand: 14. Oktober 2026. Erststart-Funktion implementiert; Kunden-Image **als Baupaket vorbereitet, noch kein gebootetes oder freigegebenes SD-Image**. Die bestehende Installation auf Chris' Pi wurde nicht aktualisiert, neu gekoppelt oder umkonfiguriert. Tests laufen in `/tmp/cdb-onboarding-044-code` mit getrennten Daten.
+Historischer Vorbereitungsstand vom 14. Oktober 2026. Der anschließende tatsächliche
+SD-Image-Build ist im [Build-Protokoll](../customer-image/build-0.5.44/README.md)
+dokumentiert.
+
+Stand dieses ersten Vorbereitungsschritts: 14. Oktober 2026. Erststart-Funktion implementiert; Kunden-Image **als Baupaket vorbereitet, noch kein gebootetes oder freigegebenes SD-Image**. Die bestehende Installation auf Chris' Pi wurde nicht aktualisiert, neu gekoppelt oder umkonfiguriert. Tests laufen in `/tmp/cdb-onboarding-044-code` mit getrennten Daten.
 
 ## Bedienung
 
@@ -66,7 +70,7 @@ Nach dem Image-Installationsschritt läuft die lesende Prüfung `scripts/audit_c
 - Browserprüfung 1280 × 720: Willkommen, WLAN-Seitenwechsel, Schlüssel-Eingabe mit Touch-Tastatur, gesperrte Aktionen während Verbindung, Testkopplung, Übergang zur Audioeinrichtung. Daten und Kopplung im UI-Test sind ausdrücklich synthetisch. Die Produktions-Gerätekopplung bleibt unangetastet.
 - Screenshots: `welcome.png`, `network.png`, `wifi-key.png`, `paired.png`, `audio.png`.
 
-Nicht durchgeführt: neues SD-Image bauen/flashen/booten, realen WLAN-Schlüssel wechseln, tatsächlichen Stromausfall auslösen, WPA3-/Enterprise-Hardwareabnahme. Für diese Abnahme eine **zweite SD-Karte** verwenden; aktuelle SD-Karte unangetastet aufbewahren. Erst nach diesen Prüfungen ist das Paket ein freigegebenes Kunden-Image.
+In diesem Vorbereitungsschritt noch nicht durchgeführt: neues SD-Image bauen/flashen/booten, realen WLAN-Schlüssel wechseln, tatsächlichen Stromausfall auslösen, WPA3-/Enterprise-Hardwareabnahme. Für diese Abnahme eine **zweite SD-Karte** verwenden; aktuelle SD-Karte unangetastet aufbewahren. Erst nach diesen Prüfungen ist das Paket ein freigegebenes Kunden-Image.
 
 ## Erstes separates Image testen
 

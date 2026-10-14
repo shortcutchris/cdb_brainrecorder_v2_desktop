@@ -4,6 +4,8 @@ Das Kunden-Image wird aus **Quellcode und Bauanleitung** erstellt. Es ist kein
 Abbild eines benutzten Pi. Der laufende Pi und seine SD-Karte werden zum Bauen
 nicht benötigt und bleiben unangetastet.
 
+**Aktueller Testkandidat:** [SD-Image 0.5.44: Build, Prüfsumme und Kartentest](build-0.5.44/README.md).
+
 [Systemübersicht und Architektur](../architecture/README.md) ·
 [Erststart-Assistent](../first-start-0.5.44/README.md)
 

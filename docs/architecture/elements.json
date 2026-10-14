@@ -561,8 +561,8 @@
   {
     "type": "text",
     "id": "agent-label",
-    "x": 335,
-    "y": 450,
+    "x": 350,
+    "y": 390,
     "text": "Agent:\nHTTPS",
     "fontSize": 17,
     "fontFamily": 2,

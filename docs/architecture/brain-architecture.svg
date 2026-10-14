@@ -67,6 +67,6 @@
 <text x="55" y="999" font-family="Arial,sans-serif" font-size="21" fill="#172b4d">Bestehende Geräte: Git → signiertes App-Paket → Geräteverwaltung → Agent → Startprüfung / Rückkehr</text>
 <text x="55" y="1044" font-family="Arial,sans-serif" font-size="19" fill="#172b4d">App-Updates erhalten Kundendaten. Änderungen an OS, Treibern oder Python benötigen eine eigene Freigabe.</text>
 <text x="55" y="1158" font-family="Arial,sans-serif" font-size="18" fill="#172b4d">Stand: 14.10.2026 · Quellcode 0.5.44 · Coolify-Host: Docker Compose / Nginx; Mender ist nicht installiert.</text>
-<text x="335" y="467" font-family="Arial,sans-serif" font-size="17" fill="#172b4d">Agent:</text>
-<text x="335" y="489.1" font-family="Arial,sans-serif" font-size="17" fill="#172b4d">HTTPS</text>
+<text x="350" y="407" font-family="Arial,sans-serif" font-size="17" fill="#172b4d">Agent:</text>
+<text x="350" y="429.1" font-family="Arial,sans-serif" font-size="17" fill="#172b4d">HTTPS</text>
 </svg>

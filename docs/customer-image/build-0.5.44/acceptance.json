@@ -1,0 +1,51 @@
+{
+  "status": "built-offline-verified-hardware-boot-pending",
+  "date": "2026-10-14",
+  "app_version": "0.5.44",
+  "source_commit": "60a041852484124ae44eaa692ff17447243b4b61",
+  "pi_gen_commit": "d346cd53562b3c6b4f94c9155175f814258c456d",
+  "builder": "isolated Docker ARM64 Linux VM on Apple Silicon; no build on the Pi",
+  "builder_image": "sha256:a7d0b0d045ba7a70ca88b3fb5a3fbfb84de045bd1664c4a575e345b61fcf5cfe",
+  "image_file": "cdb-brain-0.5.44-pi5.img.xz",
+  "compressed_bytes": 1714927908,
+  "uncompressed_bytes": 6752829440,
+  "sha256": "26da50d4f8858a3acb20ccb51d728aa1e90d24985e3f9b80ea8a919fb20b1f92",
+  "uncompressed_sha256": "1e31e3720a2367130e028c67938f37b4ae6e8feb8a7eaa4d6ec4c8c4c4ef3ce6",
+  "tests": {
+    "python": {
+      "passed": 258,
+      "seconds": 61.394,
+      "environment": "isolated ARM64 image runtime / chroot; legacy UI test sources added only to the disposable test tree"
+    },
+    "javascript": {
+      "passed": 100
+    },
+    "offline_image": {
+      "fat32_check": true,
+      "ext4_check": true,
+      "factory_privacy_audit": true,
+      "source_files_verified": 118,
+      "staged_image_inputs_verified": 132,
+      "pi5_boot_files": true,
+      "ssh_disabled": true,
+      "compressed_stream_integrity": true,
+      "decompressed_hash_matches_audited_image": true
+    },
+    "fresh_bootstrap": {
+      "synthetic_board_serial": true,
+      "kiosk_directory_writable_by_cdb": true,
+      "landscape_profile_writable_by_cdb": true,
+      "second_initialization_preserves_profile": true,
+      "welcome_state_required": true,
+      "management_unconfigured": true
+    },
+    "pip_check": true
+  },
+  "limitations": [
+    "No physical SD write or Pi boot yet.",
+    "No real WLAN, Bluetooth, touch or acoustic acceptance on this image.",
+    "No model weights or customer account sessions included.",
+    "No bit-identical rebuild guarantee; OS package repositories are not snapshot-locked."
+  ],
+  "current_pi": "No deployment, reboot or configuration change; display configuration read only."
+}

@@ -1,0 +1,13 @@
+fsck.fat 4.2 (2021-01-31)
+/dev/loop0p1: 433 files, 178519/1032408 clusters
+e2fsck 1.47.2 (1-Jan-2025)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+rootfs: 119603/379008 files (0.2% non-contiguous), 1276163/1515520 blocks
+{"clean": true, "boot_test_required": true}
+Source files verified: 118 commit: 60a041852484124ae44eaa692ff17447243b4b61
+Offline image validation passed. Hardware boot test still required.
+1e31e3720a2367130e028c67938f37b4ae6e8feb8a7eaa4d6ec4c8c4c4ef3ce6  cdb-brain-0.5.44-pi5.img
