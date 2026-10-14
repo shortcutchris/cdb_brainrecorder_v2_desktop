@@ -15,6 +15,7 @@ import sys
 import time
 from meeting_recorder.child_process import owned_command
 from meeting_recorder.core import atomic_write
+from services.wake_phrase import WORD, model_ready
 
 
 class WakeWord:
@@ -29,7 +30,7 @@ class WakeWord:
         self.count = 0
         self.message = 'Aktivierungswort ausgeschaltet.'
         self.mode = 'off'
-        self.runtime = importlib.util.find_spec('pymicro_wakeword') is not None
+        self.runtime = importlib.util.find_spec('vosk') is not None and model_ready()
         try:
             saved = json.loads(self.path.read_text())
             self.enabled = saved.get('enabled') is True
@@ -37,7 +38,7 @@ class WakeWord:
         except (ValueError, OSError): pass
 
     def public(self):
-        return {'enabled': self.enabled, 'available': self.runtime, 'word': 'Okay Nabu',
+        return {'enabled': self.enabled, 'available': self.runtime, 'word': WORD,
                 'state': self.mode, 'message': self.message, 'detections': self.count,
                 'testing': self.test_until > self.clock()}
 
@@ -47,7 +48,7 @@ class WakeWord:
 
     def configure(self, enabled, account):
         if type(enabled) is not bool: raise ValueError('Ein oder Aus wählen.')
-        if enabled and not self.runtime: raise ValueError('Lokale Wake-Word-Laufzeit fehlt.')
+        if enabled and not self.runtime: raise ValueError('Hey-Brain-Erkennung fehlt. Bitte die lokale Laufzeit und das Modell installieren.')
         if enabled and not account: raise ValueError('Zuerst beim Brain anmelden.')
         self.suspend()
         self.test_until = 0
@@ -58,7 +59,7 @@ class WakeWord:
         return self.public()
 
     def test(self):
-        if not self.runtime: raise ValueError('Lokale Wake-Word-Laufzeit fehlt.')
+        if not self.runtime: raise ValueError('Hey-Brain-Erkennung fehlt. Bitte die lokale Laufzeit und das Modell installieren.')
         self.suspend()
         self.count = 0
         self.test_until = self.clock()+30
@@ -92,6 +93,9 @@ class WakeWord:
             if self.process: self.suspend()
             self.mode = 'off'
             return
+        if not self.runtime:
+            self.mode, self.message = 'error', 'Hey-Brain-Erkennung fehlt. Bitte Laufzeit und Modell installieren.'
+            return
         if reason:
             if self.process: self.suspend(reason)
             self.mode, self.message = 'waiting', reason
@@ -110,7 +114,7 @@ class WakeWord:
         line = self.process.stdout.readline().decode().strip()
         if line == 'ready':
             self.mode = 'testing' if testing else 'listening'
-            self.message = 'Sage „Okay Nabu“ · Test ohne Cloud-Start.' if testing else 'Bereit für „Okay Nabu“ · Erkennung bleibt lokal.'
+            self.message = 'Sage „Hey Brain“ · Test ohne Cloud-Start.' if testing else 'Bereit für „Hey Brain“ · Erkennung bleibt lokal.'
         if line == 'detected':
             self.count += 1
             self.suspend('Aktivierungswort erkannt.' if testing else 'Erkannt · Gespräch wird gestartet …')
@@ -118,12 +122,11 @@ class WakeWord:
             if not testing: trigger()
 
 
-def detect():
-    from pymicro_wakeword import MicroWakeWord, MicroWakeWordFeatures, Model
+def detect(capture_command=None):
+    from services.wake_phrase import PhraseDetector
     from services.live_audio import native_capture_command
-    model = MicroWakeWord.from_builtin(Model.OKAY_NABU)
-    features = MicroWakeWordFeatures()
-    command = native_capture_command({'device': sys.argv[1]})
+    model = PhraseDetector()
+    command = capture_command or native_capture_command({'device': sys.argv[1]})
     capture = subprocess.Popen(owned_command(command), stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
     def stop(*_):
         capture.terminate()
@@ -132,12 +135,11 @@ def detect():
     try:
         ready = False
         while True:
-            audio = capture.stdout.read(320)
-            if len(audio) != 320: break
+            audio = capture.stdout.read(1600)
+            if len(audio) != 1600: break
             if not ready:
                 print('ready', flush=True); ready = True
-            for feature in features.process_streaming(audio):
-                if model.process_streaming(feature): print('detected', flush=True)
+            if model.feed(audio): print('detected', flush=True)
     finally:
         if capture.poll() is None: capture.terminate()
         try: capture.wait(timeout=1)

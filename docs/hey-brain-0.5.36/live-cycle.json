@@ -1,0 +1,119 @@
+{
+  "tested_at": "2026-10-14T13:12:13.540133+02:00",
+  "synthetic_audio": true,
+  "room_audio": false,
+  "server": "https://staging.cdbos.de",
+  "stages": [
+    {
+      "spoken": "Hallo. Antworte bitte kurz mit Hallo.",
+      "at_seconds": 16.26
+    },
+    {
+      "spoken": "Wie kann ich das Gespräch beenden?",
+      "at_seconds": 24.92
+    },
+    {
+      "spoken": "Gespräch beenden.",
+      "at_seconds": 36.55
+    }
+  ],
+  "wake_triggered_live": true,
+  "question_did_not_end": true,
+  "lifecycle": [
+    {
+      "event": "local_end",
+      "caller": "_watch",
+      "at_seconds": 40.22,
+      "deadline_remaining": 119.85,
+      "maximum_remaining": 1165.79
+    },
+    {
+      "event": "local_end",
+      "caller": "close",
+      "at_seconds": 41.17,
+      "deadline_remaining": 118.9,
+      "maximum_remaining": 1164.83
+    }
+  ],
+  "transport_errors": [
+    {
+      "route": "close",
+      "type": "CdbFailure",
+      "status": null,
+      "at_seconds": 40.41
+    }
+  ],
+  "history": [
+    {
+      "role": "user",
+      "text": "Hallo. Antworte bitte kurz mit Hallo"
+    },
+    {
+      "role": "assistant",
+      "text": "Hallo."
+    },
+    {
+      "role": "user",
+      "text": "Wie kann ich das Gespräch beenden"
+    },
+    {
+      "role": "assistant",
+      "text": "Sag einfach, dass du aufhören willst. Ich stoppe dann direkt."
+    },
+    {
+      "role": "user",
+      "text": "Gespräch beenden"
+    },
+    {
+      "role": "assistant",
+      "text": "Alles klar, ich beende das Gespräch jetzt."
+    }
+  ],
+  "end_reason": "voice_command",
+  "released": true,
+  "capabilities_after": {
+    "record": {
+      "allowed": true,
+      "reason": ""
+    },
+    "configure": {
+      "allowed": true,
+      "reason": ""
+    },
+    "probe": {
+      "allowed": true,
+      "reason": ""
+    },
+    "install": {
+      "allowed": true,
+      "reason": ""
+    },
+    "model_test": {
+      "allowed": true,
+      "reason": ""
+    },
+    "finish_setup": {
+      "allowed": true,
+      "reason": ""
+    },
+    "process": {
+      "allowed": true,
+      "reason": ""
+    },
+    "live": {
+      "allowed": true,
+      "reason": ""
+    }
+  },
+  "wake_resume_allowed": true,
+  "detector_restarted": {
+    "enabled": true,
+    "available": true,
+    "word": "Hey Brain",
+    "state": "listening",
+    "message": "Bereit für „Hey Brain“ · Erkennung bleibt lokal.",
+    "detections": 1,
+    "testing": false
+  },
+  "passed": true
+}

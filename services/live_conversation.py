@@ -20,6 +20,8 @@ from services.cdb_integration import CdbFailure, USER_AGENT, UUID
 
 BASE = '/api/v1/tqs/voice-live'
 HANDLE = re.compile(r'^[A-Za-z0-9_-]{1,128}$')
+END_COMMAND = re.compile(r'(?:(?:okay|ok)\s+)?(?:bitte\s+)?gespräch\s+beenden(?:\s+bitte)?')
+
 ACTIVE = {'connecting', 'listening', 'thinking', 'speaking', 'reconnecting', 'closing'}
 
 
@@ -47,6 +49,7 @@ class LiveConversation:
         self.stop = threading.Event()
         self.state = 'idle'
         self.error = ''
+        self.end_reason = ''
         self.lease = None
         self.owner_kind = 'browser'
         self.handle = None
@@ -81,7 +84,7 @@ class LiveConversation:
             if self.binding and self.cdb.generation != getattr(self, 'account_generation', None):
                 return {'state': 'closing' if self.state in ACTIVE else 'idle', 'busy': self.state in ACTIVE,
                         'error': '', 'muted': True, 'areas': [], 'history': [], 'model': 'CDB Voice One', 'started_at': None}
-            return {'device_tools': self.device_tools, 'state': self.state, 'busy': self.state in ACTIVE, 'error': self.error,
+            return {'end_reason': self.end_reason, 'device_tools': self.device_tools, 'state': self.state, 'busy': self.state in ACTIVE, 'error': self.error,
                     'muted': self.muted, 'areas': list(self.areas), 'history': [dict(h) for h in self.history],
                     'model': 'CDB Voice One', 'started_at': getattr(self, 'started_at', None),
                     'owner_kind': self.owner_kind, 'transport': 'pi' if self.audio_config else 'browser', 'feedback':self.feedback(),
@@ -201,6 +204,7 @@ class LiveConversation:
             self.lease = secrets.token_urlsafe(32)
             self.state = 'connecting'
             self.error = ''
+            self.end_reason = ''
             self.muted = False
             self.handle = self.answer = None
             self.history = []
@@ -517,10 +521,27 @@ class LiveConversation:
         self.end()
         with self.lock: self.error = 'Verbindung zum Gespräch unterbrochen. Bitte erneut starten.'
 
+    def _voice_end_requested(self):
+        # TQS sends incremental user transcripts, not a final-utterance event.
+        # Wait for a quiet interval so a continuation/negation can cancel the
+        # candidate. Never scan assistant speech, sources or arbitrary substrings.
+        turn = self.transcript_turns.get('user')
+        if not turn or self.muted or self.state in ('connecting', 'closing', 'reconnecting'): return False
+        if self.cdb.generation != getattr(self, 'account_generation', None): return False
+        if not 1.5 <= self.clock() - turn['received'] <= 6: return False
+        text = turn['row']['text'].strip().casefold()
+        if '?' in text or any(c in text for c in ('"', '„', '“', '«', '»')): return False
+        text = re.sub(r'[.,!;:]', ' ', text)
+        return END_COMMAND.fullmatch(' '.join(text.split())) is not None
+
     def _watch(self):
         while not self.stop.wait(1):
             with self.lock:
                 if self.state not in ACTIVE or self.state == 'closing': continue
+                if self._voice_end_requested():
+                    self.end_reason = 'voice_command'
+                    self.end()
+                    continue
                 if getattr(self, 'history_dirty', False) and self.clock()-getattr(self, 'last_checkpoint', 0) >= 15:
                     self._persist_history(); self.last_checkpoint = self.clock()
                 expired = self.clock() > min(self.deadline, self.maximum) or self.cdb.generation != getattr(self, 'account_generation', None)

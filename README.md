@@ -543,3 +543,23 @@ entfernt keinen bewusst gesetzten Fokus.
 `BODY`, innerhalb der Startseite ist kein Element fokussiert; die Überschrift
 besitzt weder `autofocus` noch `tabindex`. Start und Rückkehr aus der Bibliothek geprüft.
 [Prüfnachweis](output/playwright/start-focus-0.5.35/focus-check.json).
+
+### Studio 0.5.36 · Hey Brain und Gespräch per Sprache beenden
+
+Unter **Einstellungen → Audio → Aktivierungswort** startet jetzt **„Hey Brain“**
+das Live-Gespräch mit den gewählten Wissensbereichen. Sprich „Brain“ englisch
+(„Brejn“) und warte auf **Hört zu**. Die Erkennung bleibt lokal und speichert
+keinen Ton. Die bestehende Ein/Aus-Auswahl und Kontobindung bleiben erhalten.
+
+Sage im Gespräch **„Gespräch beenden“** oder **„Okay, Gespräch beenden“** als
+separaten Satz. Nach einer kurzen Pause beendet der Pi die Verbindung und gibt
+das Mikrofon frei. Bei eingeschaltetem Aktivierungswort wartet er automatisch
+wieder auf „Hey Brain“. Der Bildschirmbutton funktioniert weiterhin. Fragen,
+Negationen und Antworten des Assistenten sind keine Beendigungsbefehle.
+
+Die lokale Erkennung verwendet Vosk 0.3.45 mit dem kleinen englischen
+Apache-2.0-Modell 0.15 und begrenztem Wortschatz. Installation auf weiteren
+Geräten: `scripts/install-wake.sh`; das Modell wird vom Hersteller geladen,
+mit SHA256 geprüft und nicht in Git gespeichert. Die bestehende
+Micro-Wake-Word-Installation wird nicht entfernt, aber nicht mehr benutzt.
+Details, Messwerte und Grenzen: [Prüfbericht](docs/hey-brain-0.5.36/README.md).

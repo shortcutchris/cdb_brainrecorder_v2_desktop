@@ -311,3 +311,46 @@ class FeedbackConversationTests(unittest.TestCase):
         request['id']='request-device-0002';self.brain.generation+=1
         self.live._device_commands('safe-handle',self.live.binding)
         self.assertEqual(len(schedules.items()),1)
+
+class VoiceEndTests(unittest.TestCase):
+    setUp = LiveTests.setUp
+    tearDown = LiveTests.tearDown
+    wait = LiveTests.wait
+    reserve = LiveTests.reserve
+    # Isolated unit coverage uses no microphone and no network.
+    def test_explicit_command_closes_and_releases_audio(self):
+        from unittest.mock import Mock
+        lease=self.reserve();self.live.start(lease,'v=0\r\noffer')
+        self.wait(lambda:self.live.state=='listening')
+        native=Mock();self.live.native=native
+        self.live._frame(self.live.generation,'transcript',{'role':'user','delta':'Okay, Gespräch beenden.'})
+        self.assertFalse(self.live._voice_end_requested())
+        self.wait(lambda:not self.live.busy())
+        native.close.assert_called()
+        self.assertEqual(self.live.public()['end_reason'],'voice_command')
+        self.assertTrue(any(p.endswith('/close') for p,_,_ in self.brain.calls))
+        self.reserve();self.assertEqual(self.live.end_reason,'')
+
+    def test_negations_questions_quotes_assistant_and_partial_commands_do_not_close(self):
+        self.reserve();self.live.state='listening';self.live.clock=lambda:100
+        for text in ['Gespräch beenden?','Nicht das Gespräch beenden','Gespräch beenden bitte nicht',
+                     'Wie kann ich das Gespräch beenden?','Sage Gespräch beenden','„Gespräch beenden“',
+                     'Gespräch beenden ist ein Befehl','Gespräch']:
+            self.live.transcript_turns={}
+            self.live._transcript({'role':'user','delta':text})
+            self.live.transcript_turns['user']['received']=98
+            self.assertFalse(self.live._voice_end_requested(),text)
+        self.live.transcript_turns={}
+        self.live._transcript({'role':'assistant','delta':'Gespräch beenden'})
+        self.assertFalse(self.live._voice_end_requested())
+
+    def test_split_command_mute_stale_account_and_continuation(self):
+        self.reserve();self.live.state='listening';now=[100.];self.live.clock=lambda:now[0]
+        self.live._transcript({'role':'user','delta':'Gespräch '})
+        now[0]+=.3;self.live._transcript({'role':'user','delta':'beenden'})
+        self.assertFalse(self.live._voice_end_requested())
+        now[0]+=1.6;self.assertTrue(self.live._voice_end_requested())
+        self.live.muted=True;self.assertFalse(self.live._voice_end_requested());self.live.muted=False
+        self.brain.generation+=1;self.assertFalse(self.live._voice_end_requested());self.brain.generation-=1
+        self.live._transcript({'role':'user','delta':' bitte noch nicht'})
+        now[0]+=2;self.assertFalse(self.live._voice_end_requested())

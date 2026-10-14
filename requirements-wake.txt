@@ -1,3 +1,2 @@
-# ARM64 Pi runtime; small built-in Okay Nabu model, no cloud detection.
-pymicro-wakeword==2.5.0
-pymicro-features==2.0.2
+# ARM64 local phrase recognition; Apache-2.0 small English acoustic model.
+vosk==0.3.45
