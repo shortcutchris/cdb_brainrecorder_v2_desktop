@@ -24,8 +24,10 @@ install -m 644 /opt/cdb/factory/cdb-recorder-studio.service /opt/cdb/factory/cdb
 systemctl enable cdb-network.service cdb-factory-init.service
 systemctl --global enable cdb-recorder-studio.service cdb-recorder-agent.service
 systemctl disable ssh.service || true
+mkdir -p /etc/systemd/system/lightdm.service.d
+printf '[Unit]\nRequires=cdb-factory-init.service\nAfter=cdb-factory-init.service\n' > /etc/systemd/system/lightdm.service.d/10-cdb-factory.conf
 mkdir -p /etc/lightdm/lightdm.conf.d /etc/xdg/autostart
-printf '[Seat:*]\nautologin-user=cdb\nautologin-user-timeout=0\n' > /etc/lightdm/lightdm.conf.d/90-cdb.conf
+printf '[Seat:*]\nautologin-user=cdb\nautologin-user-timeout=0\nuser-session=rpd-labwc\nautologin-session=rpd-labwc\n' > /etc/lightdm/lightdm.conf.d/90-cdb.conf
 printf '[Desktop Entry]\nType=Application\nName=Brain Studio\nExec=/opt/cdb/factory/kiosk.sh\nTerminal=false\n' > /etc/xdg/autostart/cdb-recorder.desktop
 # pi-gen must not ask for a second user on top of our local setup flow.
 rm -f /etc/xdg/autostart/piwiz.desktop

@@ -1,0 +1,805 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "excalidraw-cli",
+  "elements": [
+    {
+      "type": "text",
+      "id": "title",
+      "x": 55,
+      "y": 35,
+      "text": "CDB Brain: vom SD-Image zum vernetzten Gerät",
+      "fontSize": 34,
+      "fontFamily": 2,
+      "strokeColor": "#172b4d"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "x": 55,
+      "y": 83,
+      "text": "Zwei Wege: neue Geräte einrichten und bestehende Geräte sicher weiterentwickeln.",
+      "fontSize": 21,
+      "fontFamily": 2,
+      "strokeColor": "#172b4d"
+    },
+    {
+      "type": "rectangle",
+      "id": "runtime-panel",
+      "x": 30,
+      "y": 130,
+      "width": 1540,
+      "height": 560,
+      "roughness": 1,
+      "strokeColor": "#34475e",
+      "backgroundColor": "#f5f8fc",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "runtime-panel_label",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "runtime-panel_label",
+      "x": 40,
+      "y": 140,
+      "width": 1520,
+      "height": 540,
+      "text": "",
+      "fontSize": 22,
+      "fontFamily": 2,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "runtime-panel",
+      "strokeColor": "#34475e"
+    },
+    {
+      "type": "text",
+      "id": "runtime-title",
+      "x": 55,
+      "y": 150,
+      "text": "1  Im täglichen Betrieb",
+      "fontSize": 26,
+      "fontFamily": 2,
+      "strokeColor": "#172b4d"
+    },
+    {
+      "type": "rectangle",
+      "id": "ui",
+      "x": 55,
+      "y": 220,
+      "width": 270,
+      "height": 135,
+      "roughness": 1,
+      "strokeColor": "#34475e",
+      "backgroundColor": "#a5d8ff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "ui_label",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "ui_label",
+      "x": 65,
+      "y": 230,
+      "width": 250,
+      "height": 115,
+      "text": "Touchdisplay\nHTML-Oberfläche\nlokal im Chromium",
+      "fontSize": 22,
+      "fontFamily": 2,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "ui",
+      "strokeColor": "#34475e"
+    },
+    {
+      "type": "rectangle",
+      "id": "pi",
+      "x": 480,
+      "y": 220,
+      "width": 385,
+      "height": 245,
+      "roughness": 1,
+      "strokeColor": "#34475e",
+      "backgroundColor": "#b2f2bb",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "pi_label",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "pi_label",
+      "x": 490,
+      "y": 230,
+      "width": 365,
+      "height": 225,
+      "text": "Raspberry Pi · Python\n\nRecorder + dauerhafte Queue\nLive-Gespräch · Timer · Wake Word\nMikrofon und Lautsprecher\nLokale Daten und Modelle",
+      "fontSize": 22,
+      "fontFamily": 2,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "pi",
+      "strokeColor": "#34475e"
+    },
+    {
+      "type": "arrow",
+      "id": "ui-pi",
+      "x": 325,
+      "y": 285,
+      "width": 155,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          155,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#4b6584",
+      "roughness": 0,
+      "startBinding": {
+        "elementId": "ui",
+        "fixedPoint": [
+          1,
+          0.5
+        ]
+      },
+      "endBinding": {
+        "elementId": "pi",
+        "fixedPoint": [
+          0,
+          0.5
+        ]
+      },
+      "boundElements": [
+        {
+          "id": "ui-pi_label",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "ui-pi_label",
+      "x": 335,
+      "y": 295,
+      "width": 135,
+      "height": 40,
+      "text": "lokale API",
+      "fontSize": 16,
+      "fontFamily": 2,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "ui-pi"
+    },
+    {
+      "type": "rectangle",
+      "id": "brain",
+      "x": 1120,
+      "y": 220,
+      "width": 420,
+      "height": 170,
+      "roughness": 1,
+      "strokeColor": "#34475e",
+      "backgroundColor": "#d0bfff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "brain_label",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "brain_label",
+      "x": 1130,
+      "y": 230,
+      "width": 400,
+      "height": 150,
+      "text": "CDB / TQS\nMicrosoft-Anmeldung über CDB\nWissen · Transkription · Zusammenfassung\nLive-Modell + Werkzeugaufträge",
+      "fontSize": 21,
+      "fontFamily": 2,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "brain",
+      "strokeColor": "#34475e"
+    },
+    {
+      "type": "arrow",
+      "id": "pi-brain",
+      "x": 865,
+      "y": 285,
+      "width": 255,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          255,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#4b6584",
+      "roughness": 0,
+      "startBinding": {
+        "elementId": "pi",
+        "fixedPoint": [
+          1,
+          0.5
+        ]
+      },
+      "endBinding": {
+        "elementId": "brain",
+        "fixedPoint": [
+          0,
+          0.5
+        ]
+      },
+      "boundElements": [
+        {
+          "id": "pi-brain_label",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "pi-brain_label",
+      "x": 875,
+      "y": 295,
+      "width": 235,
+      "height": 40,
+      "text": "HTTPS: Konto, KI, Wissen",
+      "fontSize": 16,
+      "fontFamily": 2,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "pi-brain"
+    },
+    {
+      "type": "text",
+      "id": "audio-note",
+      "x": 895,
+      "y": 340,
+      "text": "Live-Audio per WebRTC;\nTQS steuert die Sitzung.",
+      "fontSize": 17,
+      "fontFamily": 2,
+      "strokeColor": "#172b4d"
+    },
+    {
+      "type": "rectangle",
+      "id": "admin",
+      "x": 55,
+      "y": 455,
+      "width": 270,
+      "height": 145,
+      "roughness": 1,
+      "strokeColor": "#34475e",
+      "backgroundColor": "#ffec99",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "admin_label",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "admin_label",
+      "x": 65,
+      "y": 465,
+      "width": 250,
+      "height": 125,
+      "text": "Geräteverwaltung\ncdblab.de/devices\nStatus · Neustart · App-Update",
+      "fontSize": 20,
+      "fontFamily": 2,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "admin",
+      "strokeColor": "#34475e"
+    },
+    {
+      "type": "arrow",
+      "id": "heartbeat",
+      "x": 480,
+      "y": 445,
+      "width": 155,
+      "height": 55,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          -155,
+          55
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#4b6584",
+      "roughness": 0,
+      "boundElements": [
+        {
+          "id": "heartbeat_label",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "heartbeat_label",
+      "x": 490,
+      "y": 455,
+      "width": 135,
+      "height": 35,
+      "text": "Agent: ausgehendes HTTPS",
+      "fontSize": 16,
+      "fontFamily": 2,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "heartbeat"
+    },
+    {
+      "type": "text",
+      "id": "agent-note",
+      "x": 365,
+      "y": 530,
+      "text": "Eigener Agent auf dem Pi;\nkeine Chat- oder Audiodaten\nan die Geräteverwaltung.",
+      "fontSize": 17,
+      "fontFamily": 2,
+      "strokeColor": "#172b4d"
+    },
+    {
+      "type": "rectangle",
+      "id": "display",
+      "x": 1120,
+      "y": 460,
+      "width": 420,
+      "height": 145,
+      "roughness": 1,
+      "strokeColor": "#34475e",
+      "backgroundColor": "#a5d8ff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "display_label",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "display_label",
+      "x": 1130,
+      "y": 470,
+      "width": 400,
+      "height": 125,
+      "text": "Externer Browser · Empfänger\nCode-Kopplung + Heartbeat\nVerlauf anzeigen, keine Gerätesteuerung",
+      "fontSize": 21,
+      "fontFamily": 2,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "display",
+      "strokeColor": "#34475e"
+    },
+    {
+      "type": "arrow",
+      "id": "pi-display",
+      "x": 865,
+      "y": 425,
+      "width": 255,
+      "height": 65,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          255,
+          65
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#4b6584",
+      "roughness": 0,
+      "boundElements": [
+        {
+          "id": "pi-display_label",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "pi-display_label",
+      "x": 875,
+      "y": 435,
+      "width": 235,
+      "height": 45,
+      "text": "Text im lokalen Netz",
+      "fontSize": 16,
+      "fontFamily": 2,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "pi-display"
+    },
+    {
+      "type": "text",
+      "id": "receiver-note",
+      "x": 735,
+      "y": 620,
+      "text": "Mira-Server ist ein separater Prototyp; kein HTTPS-Relay im aktuellen Pi-Code.",
+      "fontSize": 18,
+      "fontFamily": 2,
+      "strokeColor": "#172b4d"
+    },
+    {
+      "type": "rectangle",
+      "id": "build-panel",
+      "x": 30,
+      "y": 720,
+      "width": 1540,
+      "height": 385,
+      "roughness": 1,
+      "strokeColor": "#34475e",
+      "backgroundColor": "#f5f8fc",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "build-panel_label",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "build-panel_label",
+      "x": 40,
+      "y": 730,
+      "width": 1520,
+      "height": 365,
+      "text": "",
+      "fontSize": 22,
+      "fontFamily": 2,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "build-panel",
+      "strokeColor": "#34475e"
+    },
+    {
+      "type": "text",
+      "id": "build-title",
+      "x": 55,
+      "y": 742,
+      "text": "2  Neue Versionen und neue SD-Karten",
+      "fontSize": 26,
+      "fontFamily": 2,
+      "strokeColor": "#172b4d"
+    },
+    {
+      "type": "rectangle",
+      "id": "repo",
+      "x": 55,
+      "y": 820,
+      "width": 285,
+      "height": 125,
+      "roughness": 1,
+      "strokeColor": "#34475e",
+      "backgroundColor": "#a5d8ff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "repo_label",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "repo_label",
+      "x": 65,
+      "y": 830,
+      "width": 265,
+      "height": 105,
+      "text": "Git-Repository\nApp + Oberfläche + Bauanleitung\nVersionierter, getesteter Commit",
+      "fontSize": 20,
+      "fontFamily": 2,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "repo",
+      "strokeColor": "#34475e"
+    },
+    {
+      "type": "rectangle",
+      "id": "builder",
+      "x": 440,
+      "y": 820,
+      "width": 300,
+      "height": 125,
+      "roughness": 1,
+      "strokeColor": "#34475e",
+      "backgroundColor": "#d0bfff",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "builder_label",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "builder_label",
+      "x": 450,
+      "y": 830,
+      "width": 280,
+      "height": 105,
+      "text": "Isolierter ARM64-Build\npi-gen + OS + Python + App\nPaketlisten und Prüfungen",
+      "fontSize": 20,
+      "fontFamily": 2,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "builder",
+      "strokeColor": "#34475e"
+    },
+    {
+      "type": "rectangle",
+      "id": "image",
+      "x": 840,
+      "y": 820,
+      "width": 285,
+      "height": 125,
+      "roughness": 1,
+      "strokeColor": "#34475e",
+      "backgroundColor": "#ffec99",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "image_label",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "image_label",
+      "x": 850,
+      "y": 830,
+      "width": 265,
+      "height": 105,
+      "text": "SD-Image + SHA256\nKeine Kunden-Zugangsdaten\nNeue Identität beim Erststart",
+      "fontSize": 20,
+      "fontFamily": 2,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "image",
+      "strokeColor": "#34475e"
+    },
+    {
+      "type": "rectangle",
+      "id": "newpi",
+      "x": 1225,
+      "y": 820,
+      "width": 300,
+      "height": 125,
+      "roughness": 1,
+      "strokeColor": "#34475e",
+      "backgroundColor": "#b2f2bb",
+      "fillStyle": "solid",
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [
+        {
+          "id": "newpi_label",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "newpi_label",
+      "x": 1235,
+      "y": 830,
+      "width": 280,
+      "height": 105,
+      "text": "Zweiter Pi / zweite Karte\nWLAN → Gerätekopplung\nAudio → Brain-Konto → Modelle",
+      "fontSize": 20,
+      "fontFamily": 2,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "newpi",
+      "strokeColor": "#34475e"
+    },
+    {
+      "type": "arrow",
+      "id": "source-build",
+      "x": 340,
+      "y": 885,
+      "width": 100,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          100,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#4b6584",
+      "roughness": 0,
+      "startBinding": {
+        "elementId": "repo",
+        "fixedPoint": [
+          1,
+          0.5
+        ]
+      },
+      "endBinding": {
+        "elementId": "builder",
+        "fixedPoint": [
+          0,
+          0.5
+        ]
+      }
+    },
+    {
+      "type": "arrow",
+      "id": "build-image",
+      "x": 740,
+      "y": 885,
+      "width": 100,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          100,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#4b6584",
+      "roughness": 0,
+      "startBinding": {
+        "elementId": "builder",
+        "fixedPoint": [
+          1,
+          0.5
+        ]
+      },
+      "endBinding": {
+        "elementId": "image",
+        "fixedPoint": [
+          0,
+          0.5
+        ]
+      }
+    },
+    {
+      "type": "arrow",
+      "id": "image-pi",
+      "x": 1125,
+      "y": 885,
+      "width": 100,
+      "height": 0,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          100,
+          0
+        ]
+      ],
+      "endArrowhead": "arrow",
+      "strokeColor": "#4b6584",
+      "roughness": 0,
+      "startBinding": {
+        "elementId": "image",
+        "fixedPoint": [
+          1,
+          0.5
+        ]
+      },
+      "endBinding": {
+        "elementId": "newpi",
+        "fixedPoint": [
+          0,
+          0.5
+        ]
+      }
+    },
+    {
+      "type": "text",
+      "id": "update-path",
+      "x": 55,
+      "y": 978,
+      "text": "Bestehende Geräte: Git → signiertes App-Paket → Geräteverwaltung → Agent → Startprüfung / Rückkehr",
+      "fontSize": 21,
+      "fontFamily": 2,
+      "strokeColor": "#172b4d"
+    },
+    {
+      "type": "text",
+      "id": "separation",
+      "x": 55,
+      "y": 1025,
+      "text": "App-Updates erhalten Kundendaten. Änderungen an OS, Treibern oder Python benötigen eine eigene Freigabe.",
+      "fontSize": 19,
+      "fontFamily": 2,
+      "strokeColor": "#172b4d"
+    },
+    {
+      "type": "text",
+      "id": "footer",
+      "x": 55,
+      "y": 1140,
+      "text": "Stand: 14.10.2026 · Quellcode 0.5.44 · Coolify-Host: Docker Compose / Nginx; Mender ist nicht installiert.",
+      "fontSize": 18,
+      "fontFamily": 2,
+      "strokeColor": "#172b4d"
+    }
+  ],
+  "appState": {
+    "viewBackgroundColor": "#ffffff",
+    "gridSize": null
+  },
+  "files": {}
+}

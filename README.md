@@ -681,3 +681,10 @@ Verwaltungsschlüssel; Microsoft-Administrator-SSO folgt später.
 ## Erststart und Kunden-Image (0.5.44)
 
 Lokaler Touch-Assistent für WLAN, Verwaltungscode und Übergang zur Audioeinrichtung. Bestehende Installationen werden nicht zurückgesetzt. Das saubere Kunden-Image ist als pi-gen-Baupaket vorbereitet; Boot-Abnahme auf einer separaten SD-Karte steht aus. [Bedienung, Build und Tests](docs/first-start-0.5.44/README.md).
+
+### Architektur und wiederholbarer SD-Image-Bau
+
+[Architekturbild und Systemübersicht](docs/architecture/README.md) erklären Gerät,
+CDB/TQS, Geräteverwaltung und externen Bildschirm.
+[Image-Pflege und Build-Anleitung](docs/customer-image/README.md) beschreiben,
+wie neue Funktionen in künftige SD-Images und kompatible App-Updates eingehen.

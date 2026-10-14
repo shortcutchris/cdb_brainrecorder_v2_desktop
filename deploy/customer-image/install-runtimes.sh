@@ -6,7 +6,7 @@ test -f /.cdb-image-build || exit 1
 mkdir -p /opt/meeting-recorder
 git clone https://github.com/ggml-org/whisper.cpp /opt/meeting-recorder/whisper.cpp
 git -C /opt/meeting-recorder/whisper.cpp checkout --detach 4979e04f5dcaccb36057e059bbaed8a2f5288315
-cmake -S /opt/meeting-recorder/whisper.cpp -B /opt/meeting-recorder/whisper.cpp/build -DCMAKE_BUILD_TYPE=Release
+cmake -S /opt/meeting-recorder/whisper.cpp -B /opt/meeting-recorder/whisper.cpp/build -DCMAKE_BUILD_TYPE=Release -DGGML_NATIVE=OFF -DGGML_CPU_ARM_ARCH=armv8.2-a+dotprod
 cmake --build /opt/meeting-recorder/whisper.cpp/build --target whisper-cli -j3
 ln -s /opt/meeting-recorder/whisper.cpp/build/bin/whisper-cli /usr/local/bin/whisper-cli
 curl --fail --location --proto '=https' --tlsv1.2 https://github.com/ollama/ollama/releases/download/v0.40.3/ollama-linux-arm64.tar.zst -o /tmp/cdb-ollama.tar.zst

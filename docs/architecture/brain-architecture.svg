@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200" viewBox="0 0 1600 1200"><rect width="1600" height="1200" fill="white"/>
+<text x="55" y="69" font-family="Arial,sans-serif" font-size="34" fill="#172b4d">CDB Brain: vom SD-Image zum vernetzten Gerät</text>
+<text x="55" y="104" font-family="Arial,sans-serif" font-size="21" fill="#172b4d">Zwei Wege: neue Geräte einrichten und bestehende Geräte sicher weiterentwickeln.</text>
+<rect x="30" y="130" width="1540" height="560" rx="18" fill="#f5f8fc" stroke="#34475e"/>
+<text x="800.0" y="417.7" font-family="Arial,sans-serif" font-size="22" fill="#172b4d"></text>
+<text x="55" y="176" font-family="Arial,sans-serif" font-size="26" fill="#172b4d">1  Im täglichen Betrieb</text>
+<rect x="55" y="220" width="270" height="135" rx="18" fill="#a5d8ff" stroke="#34475e"/>
+<text x="125.76953125" y="266.6" font-family="Arial,sans-serif" font-size="22" fill="#172b4d">Touchdisplay</text>
+<text x="103.0" y="295.2" font-family="Arial,sans-serif" font-size="22" fill="#172b4d">HTML-Oberfläche</text>
+<text x="99.0" y="323.8" font-family="Arial,sans-serif" font-size="22" fill="#172b4d">lokal im Chromium</text>
+<rect x="480" y="220" width="385" height="245" rx="18" fill="#b2f2bb" stroke="#34475e"/>
+<text x="565.75" y="278.7" font-family="Arial,sans-serif" font-size="22" fill="#172b4d">Raspberry Pi · Python</text>
+<text x="672.5" y="307.3" font-family="Arial,sans-serif" font-size="22" fill="#172b4d"></text>
+<text x="527.75" y="335.90000000000003" font-family="Arial,sans-serif" font-size="22" fill="#172b4d">Recorder + dauerhafte Queue</text>
+<text x="496.5234375" y="364.50000000000006" font-family="Arial,sans-serif" font-size="22" fill="#172b4d">Live-Gespräch · Timer · Wake Word</text>
+<text x="543.0" y="393.1000000000001" font-family="Arial,sans-serif" font-size="22" fill="#172b4d">Mikrofon und Lautsprecher</text>
+<text x="546.25" y="421.7000000000001" font-family="Arial,sans-serif" font-size="22" fill="#172b4d">Lokale Daten und Modelle</text>
+<path d="M325 285L480 285M468.94726807196537 289.6730201077038L480 285L468.94726807196537 280.3269798922962" fill="none" stroke="#4b6584" stroke-width="2"/>
+<text x="370.5078125" y="264.9" font-family="Arial,sans-serif" font-size="14" fill="#172b4d">lokale API</text>
+<rect x="1120" y="220" width="420" height="170" rx="18" fill="#d0bfff" stroke="#34475e"/>
+<text x="1277.25390625" y="271.4" font-family="Arial,sans-serif" font-size="21" fill="#172b4d">CDB / TQS</text>
+<text x="1182.75" y="298.7" font-family="Arial,sans-serif" font-size="21" fill="#172b4d">Microsoft-Anmeldung über CDB</text>
+<text x="1127.76171875" y="326.0" font-family="Arial,sans-serif" font-size="21" fill="#172b4d">Wissen · Transkription · Zusammenfassung</text>
+<text x="1179.50390625" y="353.3" font-family="Arial,sans-serif" font-size="21" fill="#172b4d">Live-Modell + Werkzeugaufträge</text>
+<path d="M865 285L1120 285M1108.9472680719655 289.6730201077038L1120 285L1108.9472680719655 280.3269798922962" fill="none" stroke="#4b6584" stroke-width="2"/>
+<text x="909.0" y="264.9" font-family="Arial,sans-serif" font-size="14" fill="#172b4d">HTTPS: Konto, KI, Wissen</text>
+<text x="895" y="357" font-family="Arial,sans-serif" font-size="17" fill="#172b4d">Live-Audio per WebRTC;</text>
+<text x="895" y="379.1" font-family="Arial,sans-serif" font-size="17" fill="#172b4d">TQS steuert die Sitzung.</text>
+<rect x="55" y="455" width="270" height="145" rx="18" fill="#ffec99" stroke="#34475e"/>
+<text x="111.75" y="508.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">Geräteverwaltung</text>
+<text x="110.5" y="534.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">cdblab.de/devices</text>
+<text x="53.7578125" y="560.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">Status · Neustart · App-Update</text>
+<path d="M480 445L325 500M333.85369730164916 491.89987382254014L325 500L336.97910516304336 500.7078414319238" fill="none" stroke="#4b6584" stroke-width="2"/>
+<text x="311.75" y="424.9" font-family="Arial,sans-serif" font-size="14" fill="#172b4d">Agent: ausgehendes HTTPS</text>
+<text x="365" y="547" font-family="Arial,sans-serif" font-size="17" fill="#172b4d">Eigener Agent auf dem Pi;</text>
+<text x="365" y="569.1" font-family="Arial,sans-serif" font-size="17" fill="#172b4d">keine Chat- oder Audiodaten</text>
+<text x="365" y="591.2" font-family="Arial,sans-serif" font-size="17" fill="#172b4d">an die Geräteverwaltung.</text>
+<rect x="1120" y="460" width="420" height="145" rx="18" fill="#a5d8ff" stroke="#34475e"/>
+<text x="1188.75" y="512.55" font-family="Arial,sans-serif" font-size="21" fill="#172b4d">Externer Browser · Empfänger</text>
+<text x="1200.0" y="539.85" font-family="Arial,sans-serif" font-size="21" fill="#172b4d">Code-Kopplung + Heartbeat</text>
+<text x="1140.0078125" y="567.15" font-family="Arial,sans-serif" font-size="21" fill="#172b4d">Verlauf anzeigen, keine Gerätesteuerung</text>
+<path d="M865 425L1120 490M1108.1354888261292 491.7981586707228L1120 490L1110.4439953871931 482.7417098542417" fill="none" stroke="#4b6584" stroke-width="2"/>
+<text x="928.51171875" y="404.9" font-family="Arial,sans-serif" font-size="14" fill="#172b4d">Text im lokalen Netz</text>
+<text x="735" y="638" font-family="Arial,sans-serif" font-size="18" fill="#172b4d">Mira-Server ist ein separater Prototyp; kein HTTPS-Relay im aktuellen Pi-Code.</text>
+<rect x="30" y="720" width="1540" height="385" rx="18" fill="#f5f8fc" stroke="#34475e"/>
+<text x="800.0" y="920.2" font-family="Arial,sans-serif" font-size="22" fill="#172b4d"></text>
+<text x="55" y="768" font-family="Arial,sans-serif" font-size="26" fill="#172b4d">2  Neue Versionen und neue SD-Karten</text>
+<rect x="55" y="820" width="285" height="125" rx="18" fill="#a5d8ff" stroke="#34475e"/>
+<text x="134.0" y="863.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">Git-Repository</text>
+<text x="50.75" y="889.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">App + Oberfläche + Bauanleitung</text>
+<text x="54.765625" y="915.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">Versionierter, getesteter Commit</text>
+<rect x="440" y="820" width="300" height="125" rx="18" fill="#d0bfff" stroke="#34475e"/>
+<text x="490.5078125" y="863.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">Isolierter ARM64-Build</text>
+<text x="465.5078125" y="889.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">pi-gen + OS + Python + App</text>
+<text x="473.5" y="915.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">Paketlisten und Prüfungen</text>
+<rect x="840" y="820" width="285" height="125" rx="18" fill="#ffec99" stroke="#34475e"/>
+<text x="889.25" y="863.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">SD-Image + SHA256</text>
+<text x="853.5" y="889.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">Keine Kunden-Zugangsdaten</text>
+<text x="856.75" y="915.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">Neue Identität beim Erststart</text>
+<rect x="1225" y="820" width="300" height="125" rx="18" fill="#b2f2bb" stroke="#34475e"/>
+<text x="1267.75" y="863.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">Zweiter Pi / zweite Karte</text>
+<text x="1260.0" y="889.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">WLAN → Gerätekopplung</text>
+<text x="1231.25" y="915.5" font-family="Arial,sans-serif" font-size="20" fill="#172b4d">Audio → Brain-Konto → Modelle</text>
+<path d="M340 885L440 885M428.94726807196537 889.6730201077038L440 885L428.94726807196537 880.3269798922962" fill="none" stroke="#4b6584" stroke-width="2"/>
+<path d="M740 885L840 885M828.9472680719654 889.6730201077038L840 885L828.9472680719654 880.3269798922962" fill="none" stroke="#4b6584" stroke-width="2"/>
+<path d="M1125 885L1225 885M1213.9472680719655 889.6730201077038L1225 885L1213.9472680719655 880.3269798922962" fill="none" stroke="#4b6584" stroke-width="2"/>
+<text x="55" y="999" font-family="Arial,sans-serif" font-size="21" fill="#172b4d">Bestehende Geräte: Git → signiertes App-Paket → Geräteverwaltung → Agent → Startprüfung / Rückkehr</text>
+<text x="55" y="1044" font-family="Arial,sans-serif" font-size="19" fill="#172b4d">App-Updates erhalten Kundendaten. Änderungen an OS, Treibern oder Python benötigen eine eigene Freigabe.</text>
+<text x="55" y="1158" font-family="Arial,sans-serif" font-size="18" fill="#172b4d">Stand: 14.10.2026 · Quellcode 0.5.44 · Coolify-Host: Docker Compose / Nginx; Mender ist nicht installiert.</text>
+</svg>

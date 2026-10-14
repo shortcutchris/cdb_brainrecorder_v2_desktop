@@ -59,6 +59,10 @@ def main():
     runtime = hashlib.sha256((version + freeze).encode()).hexdigest()
     created = initialize(user.pw_dir, '/opt/cdb/source', '/opt/cdb/factory/release-public.pem', config['server'], runtime, config['version'])
     if created:
+        # Parent directories were created by root during this fresh bootstrap.
+        # The desktop must be able to create its kiosk profile alongside app data.
+        for folder in ('.local', '.local/share'):
+            os.chown(Path(user.pw_dir) / folder, user.pw_uid, user.pw_gid)
         # Only a new factory profile is owned here; no recursive migration of user content.
         for folder in ('.local/share/cdb-recorder-local', '.local/share/cdb-recorder-app', '.local/share/cdb-recorder-agent'):
             subprocess.run(['chown', '-R', 'cdb:cdb', str(Path(user.pw_dir) / folder)], check=True)

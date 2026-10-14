@@ -18,13 +18,19 @@ class CustomerImageTests(unittest.TestCase):
             for name,value in entries.items():
                 path=source/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_text(value)
             key=root/'public.pem';key.write_bytes(Ed25519PrivateKey.generate().public_key().public_bytes(Encoding.PEM,PublicFormat.SubjectPublicKeyInfo))
-            def git(args,**kwargs):return ('\0'.join(entries)+'\0').encode() if 'ls-files' in args else b'abc123\n'
+            def git(args,**kwargs):
+                if 'status' in args:return b''
+                return ('\0'.join(entries)+'\0').encode() if 'ls-files' in args else b'abc123\n'
             with patch.object(builder,'SOURCE',source),patch.object(builder.subprocess,'check_output',side_effect=git):
                 result=builder.prepare(root/'kit',key)
             self.assertNotIn('data/sessions.db',result['source_files'])
             self.assertNotIn('credential.json',result['source_files'])
             self.assertNotIn('release-private.pem',result['source_files'])
             self.assertEqual(result['status'],'prepared-not-boot-certified')
+            self.assertIn('--docker', (root/'kit/build.sh').read_text())
+            with patch.object(builder.subprocess,'check_output',return_value=b' M web_server.py'):
+                with self.assertRaisesRegex(ValueError,'Commit tracked changes'):
+                    builder.prepare(root/'dirty-kit',key)
             with self.assertRaises(ValueError):builder.prepare(root/'kit',key)
             with self.assertRaises(ValueError):builder.prepare(root/'other',key,'http://example.com')
 
