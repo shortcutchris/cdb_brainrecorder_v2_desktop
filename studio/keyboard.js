@@ -4,7 +4,7 @@
  let target=null,shift=false,numeric=false;
  const panel=document.createElement('section');panel.className='touch-keyboard';panel.hidden=true;panel.setAttribute('aria-label','Bildschirmtastatur');
  function focusSettings(el){document.querySelectorAll('.keyboard-muted').forEach(x=>x.classList.remove('keyboard-muted'));const settings=el?.closest('#settings.with-keyboard');if(!settings)return;let node=el.closest('label')||el;while(node&&node.parentElement&&!node.parentElement.classList.contains('settings-page')){for(const sibling of node.parentElement.children)if(sibling!==node)sibling.classList.add('keyboard-muted');if(node.parentElement.classList.contains('settings-content'))break;node=node.parentElement}}
- const editable=el=>el instanceof HTMLTextAreaElement||el instanceof HTMLInputElement&&['text','search','url','email','tel'].includes(el.type);
+ const editable=el=>el instanceof HTMLTextAreaElement||el instanceof HTMLInputElement&&['text','password','search','url','email','tel'].includes(el.type);
  document.addEventListener('focusin',event=>{if(editable(event.target)){target=event.target;focusSettings(target);if(!panel.hidden)requestAnimationFrame(()=>target?.scrollIntoView({block:'nearest'}))}});
  function hide(){document.querySelectorAll('.keyboard-muted').forEach(x=>x.classList.remove('keyboard-muted'));panel.hidden=true;document.body.classList.remove('keyboard-open');document.querySelectorAll('dialog').forEach(d=>d.classList.remove('with-keyboard'))}
  function draw(){

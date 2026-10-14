@@ -40,6 +40,8 @@
  }
  function cancel(){if(!draft)return;draft=null;editingId=null;apply(current);$('theme-library').hidden=false;$('theme-editor').hidden=true;$('theme-editor-actions').hidden=true;$('theme-status').hidden=false;render()}
  document.addEventListener('DOMContentLoaded',()=>{
+  // The first-start page shares colors, but has no theme editor.
+  if(!$('theme-options'))return;
   render();$('theme-new').onclick=()=>{start();$('theme-name').value='Mein Theme';validate()};$('theme-copy').onclick=()=>start();$('theme-edit').onclick=()=>start(true);$('theme-name').oninput=()=>validate();$('theme-cancel').onclick=cancel;
   $('theme-save').onclick=()=>{if(!draft||!validate())return;const id=editingId||'custom-'+crypto.randomUUID();const entry={id,name:$('theme-name').value.trim(),colors:{...draft.colors}};themes=themes.filter(t=>t.id!==id);themes.push(entry);current=id;persist();cancel()};
   $('theme-delete').onclick=()=>{$('theme-delete-confirm').hidden=false};$('theme-delete-no').onclick=()=>{$('theme-delete-confirm').hidden=true};$('theme-delete-yes').onclick=()=>{themes=themes.filter(t=>t.id!==current);current='blue';apply(current);persist();render()};

@@ -29,6 +29,23 @@ class StudioTests(unittest.TestCase):
             with urllib.request.urlopen(req,timeout=8) as r:return r.status,r.read(),r.headers
         except urllib.error.HTTPError as e:
             with e:return e.code,e.read(),e.headers
+    def test_first_start_http_guards_and_progress(self):
+        from fleet.common import save
+        from services.app_activity import AppActivity
+        status,data,_=self.request('/api/onboarding')
+        self.assertEqual(status,200);self.assertFalse(json.loads(data)['required'])
+        for activity in (AppActivity(recording=True),AppActivity(live='active'),AppActivity(pending=True),AppActivity(maintenance=True)):
+            with patch.object(self.app,'activity',return_value=activity), patch.object(self.app.first_start,'run_network') as network:
+                self.assertEqual(self.request('/api/onboarding/network',{'action':'connect'})[0],400)
+                network.assert_not_called()
+        self.assertEqual(self.request('/api/onboarding/step',{'step':'pair'},headers={'X-CSRF-Token':'wrong'})[0],403)
+        self.assertEqual(self.request('/api/onboarding/step',{'step':'done'})[0],400)
+        self.assertEqual(self.request('/api/onboarding/step',{'step':'done','offline':True})[0],200)
+        self.app.first_start.busy=True
+        for path in ('/api/record/start','/api/live/reserve','/api/management/enroll'):
+            self.assertEqual(self.request(path,{})[0],400)
+        self.app.first_start.busy=False
+
     def test_management_token_maintenance_and_timer_guards(self):
         from fleet.common import read
         headers={'Authorization':'Bearer '+read(self.app.management.auth)['token']}

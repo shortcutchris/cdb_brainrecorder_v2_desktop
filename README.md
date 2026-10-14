@@ -677,3 +677,7 @@ sperren Wartung. Die erste Stufe verwaltet eine Organisation über einen separat
 Verwaltungsschlüssel; Microsoft-Administrator-SSO folgt später.
 
 [Bedienung, Sicherheitsgrenzen, Mender-Entscheidung und Betrieb](docs/device-management-0.5.43/README.md).
+
+## Erststart und Kunden-Image (0.5.44)
+
+Lokaler Touch-Assistent für WLAN, Verwaltungscode und Übergang zur Audioeinrichtung. Bestehende Installationen werden nicht zurückgesetzt. Das saubere Kunden-Image ist als pi-gen-Baupaket vorbereitet; Boot-Abnahme auf einer separaten SD-Karte steht aus. [Bedienung, Build und Tests](docs/first-start-0.5.44/README.md).

@@ -1,0 +1,13 @@
+[Unit]
+Description=Brain device management
+After=cdb-recorder-studio.service
+[Service]
+WorkingDirectory=%h/.local/share/cdb-recorder-agent
+ExecStart=/opt/cdb/runtime/bin/python -m fleet.agent --root %h/.local/share/cdb-recorder-local/management
+Environment=LANG=C.UTF-8
+Environment=PYTHONIOENCODING=utf-8
+UMask=0077
+Restart=on-failure
+RestartSec=10
+[Install]
+WantedBy=default.target

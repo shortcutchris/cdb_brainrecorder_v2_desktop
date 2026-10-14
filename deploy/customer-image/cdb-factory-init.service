@@ -1,0 +1,14 @@
+[Unit]
+Description=Initialize a fresh Brain customer device
+After=local-fs.target
+Before=systemd-user-sessions.service display-manager.service
+ConditionPathExists=/etc/cdb-factory-image.json
+ConditionPathExists=!/var/lib/cdb-factory/ready
+[Service]
+Type=oneshot
+StateDirectory=cdb-factory
+StateDirectoryMode=0700
+ExecStart=/usr/bin/python3 /opt/cdb/factory/initialize.py
+RemainAfterExit=true
+[Install]
+WantedBy=multi-user.target

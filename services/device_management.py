@@ -55,5 +55,7 @@ class DeviceManagement:
         if read(self.root/'credential.json'):raise ValueError('Gerät bereits gekoppelt.')
         code=str(code).replace('-','').replace(' ','').upper()
         if len(code)!=12 or any(c not in '0123456789ABCDEF' for c in code):raise ValueError('Zwölfstelligen Kopplungscode eingeben.')
+        if (self.root/'enroll.json').exists():raise ValueError('Kopplung wird bereits geprüft.')
         save(self.root/'enroll.json',{'code':code})
+        save(self.root/'public.json',{'state':'pairing','message':'Kopplung wird geprüft. Bitte kurz warten.'})
         return {'ok':True}

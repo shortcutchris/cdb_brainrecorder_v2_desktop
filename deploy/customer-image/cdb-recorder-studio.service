@@ -1,0 +1,13 @@
+[Unit]
+Description=Brain Studio
+[Service]
+WorkingDirectory=%h/.local/share/cdb-recorder-app/current
+ExecStart=/opt/cdb/runtime/bin/python %h/.local/share/cdb-recorder-app/current/web_server.py --database %h/.local/share/cdb-recorder-local/sessions.db
+Environment=LANG=C.UTF-8
+Environment=PYTHONIOENCODING=utf-8
+UMask=0077
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=45
+[Install]
+WantedBy=default.target
