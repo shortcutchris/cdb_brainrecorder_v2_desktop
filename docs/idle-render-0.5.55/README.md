@@ -99,3 +99,32 @@ Abschnitt. [Vergleich mit Quellprüfsummen](first-ten-minute-comparison.json).
 Die technischen Quelldateien sind zusätzlich außerhalb von Git gesichert.
 Für diesen Zwischenbericht wurde weder die Beobachtung zurückgesetzt noch
 ein weiterer Eingriff auf dem Pi vorgenommen.
+
+## Zusammenspiel von Token-Erneuerung und Gesprächsabbruch
+
+Zwei ergänzende [Integrationstests](../../tests/test_live_refresh.py) verbinden
+die tatsächlichen Dienste `CdbService` und `LiveConversation` mit abgelaufenen,
+rein synthetischen Anmeldedaten. Transport und Audio sind Testobjekte; es werden
+keine Microsoft-/CDB-Anfragen und keine Hardwarezugriffe ausgeführt.
+
+- Bei blockierter Token-Erneuerung bleiben Kontostatus und Gesprächssteuerung
+  erreichbar. Abbruch schließt das Audio-Testobjekt sofort; die Reservierung
+  bleibt bis zum Abschluss des Startarbeiters gesperrt. Die verspätete Antwort
+  erstellt keine Cloud-Sitzung und öffnet das geschlossene Audio nicht erneut.
+  Der anschließende neue Start verwendet das erneuerte Token ohne zweite
+  Erneuerung und lässt sich vollständig schließen.
+- Scheitert die Erneuerung, werden Audio und Reservierung freigegeben. Interne
+  Anbieterfehler erscheinen nicht im öffentlichen Status; die alte gespeicherte
+  Anmeldung wird nicht durch unbestätigte Daten ersetzt. Ein neuer Versuch
+  erneuert und prüft das Konto erneut und kann anschließend starten und enden.
+
+**77 gezielte Tests auf dem Mac bestanden**: die zwei neuen Fälle sowie die
+vorhandenen Gesprächs-, CDB- und Wake-Stresstests. [Protokoll](live-refresh-tests-mac.txt).
+Das ist keine Messung echter Microsoft-Latenz und kein Ersatz für Standzeit,
+akustischen Wake oder ein natives Cloud-Gespräch. Die Begrenzung tatsächlicher
+Netzwerkaufrufe wird durch diese kontrolliert freigegebenen Transportobjekte
+nicht bewiesen.
+
+Nur Tests und Nachweisdokumentation wurden ergänzt. Kein Laufzeit- oder
+Image-Einfluss, keine neue Version und keine Pi-Auslieferung; die unveränderte
+0.5.55-Beobachtung läuft weiter.
