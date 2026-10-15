@@ -75,3 +75,23 @@ class UnattachedBrowserSummaryTests(unittest.TestCase):
         self.rows[-1]['browser_rss_kib'] += 1
         with self.assertRaisesRegex(ValueError, 'RSS total'):
             self.evaluate()
+
+    def test_recorded_start_identity_is_checked(self):
+        for row in self.rows:
+            row['processes'][0]['started_at'] = 'Thu Oct 15 22:00:00 2026'
+        report = self.evaluate()
+        self.assertEqual(report['process_identity_check'], 'pid_and_os_start_time')
+        self.rows[-1]['processes'][0]['started_at'] = 'Thu Oct 15 22:01:00 2026'
+        with self.assertRaisesRegex(ValueError, 'reused PID'):
+            self.evaluate()
+
+    def test_partial_start_identity_is_rejected(self):
+        self.rows[0]['processes'][0]['started_at'] = 'Thu Oct 15 22:00:00 2026'
+        with self.assertRaisesRegex(ValueError, 'partially recorded'):
+            self.evaluate()
+
+    def test_empty_start_identity_is_rejected(self):
+        for row in self.rows:
+            row['processes'][0]['started_at'] = ''
+        with self.assertRaisesRegex(ValueError, 'Invalid process start'):
+            self.evaluate()

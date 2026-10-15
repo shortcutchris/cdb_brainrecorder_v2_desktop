@@ -37,10 +37,22 @@ def summarize(root):
             and cleanup['at_epoch'] >= complete['at_epoch'], 'Invalid completion order')
     root_pid = plan['browser_pid']
     active_sets = []
+    identity_present = ['started_at' in p for row in rows for p in row['processes']]
+    require(all(identity_present) or not any(identity_present),
+            'Process start identities are only partially recorded')
+    with_start_identity = all(identity_present)
+    observed_starts = {}
     for row in rows:
         require(row['root_pid'] == root_pid, 'Browser root changed')
         processes = row['processes']
         ids = [p['pid'] for p in processes]
+        if with_start_identity:
+            for process in processes:
+                start = process['started_at']
+                require(isinstance(start, str) and bool(start.strip()),
+                        'Invalid process start identity')
+                previous = observed_starts.setdefault(process['pid'], start)
+                require(start == previous, 'Process start identity changed for a reused PID')
         require(len(ids) == len(set(ids)) and root_pid in ids, 'Invalid process census')
         require(all(p['rss_kib'] >= 0 for p in processes), 'Negative RSS')
         require(sum(p['rss_kib'] for p in processes) == row['browser_rss_kib'],
@@ -69,6 +81,7 @@ def summarize(root):
     return {
         'scope': plan['scope'], 'overall_goal_complete': False,
         'completed_local_observation': True, 'chrome_version': plan['chrome_version'],
+        'process_identity_check': 'pid_and_os_start_time' if with_start_identity else 'pid_only',
         'preview_backend_version': plan['preview_backend_version'],
         'frontend_hashes': plan['frontend_hashes'], 'sample_count': len(rows),
         'elapsed_seconds': rows[-1]['elapsed_seconds'],
@@ -82,7 +95,8 @@ def summarize(root):
             for p in b['processes'] if p['name'] != '<defunct>'],
         'limits': plan['limitations'] + [
             'Different flags and HTTP proxy from instrumented runs: not an exact causal A/B comparison.',
-            'PID membership is checked, but process start ticks were not collected.',
+            ('PID and reported OS start time are checked; timestamp resolution limits identity precision.'
+             if with_start_identity else 'PID membership is checked, but process start times were not collected.'),
             'Successful API polling does not verify visible UI, wake recognition or cloud connection.'],
         'source_sha256': {name: hashlib.sha256(data).hexdigest() for name, data in raw.items()},
     }

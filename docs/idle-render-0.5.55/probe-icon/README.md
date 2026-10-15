@@ -47,3 +47,14 @@ neues Image oder eine neue App-Version wurde hierfür noch nicht gebaut. Die
 kontrollierte Pi-Abnahme des Kandidaten folgt nach Abschluss des aktuellen
 Beobachtungsfensters; dessen Laufzeit wird für diesen lokalen Nachweis nicht
 zurückgesetzt. Die gesamte Stabilitätsabnahme bleibt offen.
+
+Der anschließende 30-Minuten-Vergleich verwendet exportierte, unveränderliche
+Quellstände (3de5f94 und d80f558). Von 87 Frontend-Dateien unterscheidet sich nur
+`microphone.js`. Die Messung erfasst nun zusätzlich den vom Betriebssystem
+angegebenen Prozessstart. Die Auswertung verwirft wiederverwendete PIDs mit
+abweichender Startkennung und nur teilweise vorhandene Kennungen; historische
+Messungen ohne dieses Feld bleiben ausdrücklich auf PID-Prüfung beschränkt.
+Zwölf Auswertertests bestehen, einschließlich abgebrochener Messungen,
+Polling-Stillstand, wechselnder Prozesse und fehlender Bereinigung. Dies ändert
+nur die Diagnoseauswertung, nicht die App oder ein Kunden-Image. Ein Ergebnis
+des längeren Vergleichs liegt zu diesem Dokumentationsstand noch nicht vor.
