@@ -1,0 +1,175 @@
+{
+  "scope": "Local synthetic Mac preview, natural GC; no Pi, cloud or acoustic acceptance",
+  "planned_seconds": 1800,
+  "elapsed_from_ready_seconds": 1809.398,
+  "first_sample_delay_seconds": 20.375,
+  "sample_count": 31,
+  "largest_sample_gap_seconds": 61.698,
+  "observation_window_complete": true,
+  "overall_goal_complete": false,
+  "preview_backend_version": "0.5.52",
+  "frontend_hashes": {
+    "device-status.js": "599068a862cfb1d4aeb98d4bf3f4c9abce0770c2746b8b4d75287b653bf75b17",
+    "touch.js": "7014360d67cc123117131c7653a150bab87183b6471355bf3571eaf4e19d7d24",
+    "app.js": "3aa533561d2b9ef3f8a49a9cfe33719875aeafcb182f66996b5f0687b13c85a6"
+  },
+  "browser_versions": [
+    "Chrome/155.0.8059.41"
+  ],
+  "all_samples_visible_and_listening": true,
+  "heap_mib": {
+    "usedSize": {
+      "first": 3.103,
+      "last": 3.1305,
+      "minimum": 2.5364,
+      "maximum": 3.6118,
+      "first_five_median": 3.4103,
+      "last_five_median": 3.1305
+    },
+    "totalSize": {
+      "first": 4.1562,
+      "last": 4.3281,
+      "minimum": 3.5781,
+      "maximum": 5.9062,
+      "first_five_median": 4.1562,
+      "last_five_median": 4.3281
+    },
+    "embedderHeapUsedSize": {
+      "first": 6.6462,
+      "last": 12.9393,
+      "minimum": 4.9101,
+      "maximum": 12.9393,
+      "first_five_median": 7.466,
+      "last_five_median": 11.3528
+    },
+    "backingStorageSize": {
+      "first": 0.1867,
+      "last": 0.1773,
+      "minimum": 0.168,
+      "maximum": 0.1999,
+      "first_five_median": 0.1867,
+      "last_five_median": 0.1773
+    }
+  },
+  "dom": {
+    "documents": {
+      "first": 29.0,
+      "last": 29.0,
+      "minimum": 29.0,
+      "maximum": 29.0,
+      "first_five_median": 29.0,
+      "last_five_median": 29.0
+    },
+    "nodes": {
+      "first": 4302.0,
+      "last": 6678.0,
+      "minimum": 2421.0,
+      "maximum": 7074.0,
+      "first_five_median": 4698.0,
+      "last_five_median": 5688.0
+    },
+    "jsEventListeners": {
+      "first": 316.0,
+      "last": 340.0,
+      "minimum": 297.0,
+      "maximum": 344.0,
+      "first_five_median": 320.0,
+      "last_five_median": 330.0
+    }
+  },
+  "attached_elements": {
+    "first": 1123.0,
+    "last": 1123.0,
+    "minimum": 1123.0,
+    "maximum": 1123.0,
+    "first_five_median": 1123.0,
+    "last_five_median": 1123.0
+  },
+  "limitations": [
+    "Chrome on Mac differs from Chromium on Pi; synthetic fixture has three recordings.",
+    "One-minute samples cannot prove absence of shorter spikes or memory leaks.",
+    "Natural GC cycles are not equivalent to retained-heap snapshots after explicit GC.",
+    "RSS includes allocator and browser caches; it is not a count of retained JavaScript objects.",
+    "Playwright driver RSS is separate and excluded from browser RSS.",
+    "OS samples cover their stated interval only; PID reuse is not independently excluded.",
+    "Process RSS sums may count shared pages more than once."
+  ],
+  "source_sha256": {
+    "init.json": "04922bb2b9a1703bcc925b0c9154b5d63a4026d120e0ec301200ad42fb73a901",
+    "source-hashes.json": "2b935d21a33ee388ea744c49ef78c4e63b9bb1df790a278b3fbbf2e78540ec44",
+    "samples.jsonl": "da881fdb469d35da449e14a88a6a8c38ebe8c6ccc0b01c8e33e8a9c2285919af",
+    "process-memory.jsonl": "17cf95c7da91007c370ff0fa229e65e489c6c2752e80751366dddede200edf57"
+  },
+  "os_samples": {
+    "count": 8,
+    "first_elapsed_seconds": 157.348,
+    "last_elapsed_seconds": 1808.999,
+    "browser_rss_mib": {
+      "first": 1078.3906,
+      "last": 1118.4688,
+      "minimum": 1078.3906,
+      "maximum": 1118.4688,
+      "first_five_median": 1097.1406,
+      "last_five_median": 1108.25
+    },
+    "same_pid_sets": true,
+    "process_changes": [
+      {
+        "pid": 30354,
+        "name": "node",
+        "driver_excluded_from_browser_rss": true,
+        "first_rss_mib": 131.734,
+        "last_rss_mib": 310.5
+      },
+      {
+        "pid": 30355,
+        "name": "Google Chrome",
+        "driver_excluded_from_browser_rss": false,
+        "first_rss_mib": 240.047,
+        "last_rss_mib": 241.734
+      },
+      {
+        "pid": 30361,
+        "name": "Google Chrome Helper (GPU)",
+        "driver_excluded_from_browser_rss": false,
+        "first_rss_mib": 143.406,
+        "last_rss_mib": 143.641
+      },
+      {
+        "pid": 30362,
+        "name": "Google Chrome Helper",
+        "driver_excluded_from_browser_rss": false,
+        "first_rss_mib": 110.594,
+        "last_rss_mib": 111.641
+      },
+      {
+        "pid": 30363,
+        "name": "Google Chrome Helper",
+        "driver_excluded_from_browser_rss": false,
+        "first_rss_mib": 81.5,
+        "last_rss_mib": 81.5
+      },
+      {
+        "pid": 30365,
+        "name": "Google Chrome Helper (Renderer)",
+        "driver_excluded_from_browser_rss": false,
+        "first_rss_mib": 178.516,
+        "last_rss_mib": 178.578
+      },
+      {
+        "pid": 30367,
+        "name": "Google Chrome Helper (Renderer)",
+        "driver_excluded_from_browser_rss": false,
+        "first_rss_mib": 100.703,
+        "last_rss_mib": 100.703
+      },
+      {
+        "pid": 30368,
+        "name": "Google Chrome Helper (Renderer)",
+        "driver_excluded_from_browser_rss": false,
+        "first_rss_mib": 223.625,
+        "last_rss_mib": 260.672
+      }
+    ]
+  }
+}

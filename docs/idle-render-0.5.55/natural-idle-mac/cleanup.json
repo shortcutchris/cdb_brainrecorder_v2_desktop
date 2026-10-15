@@ -1,0 +1,11 @@
+{
+  "at": "2026-10-15T21:11:57.670413+00:00",
+  "cli_browser": "cdb-idle-long-055",
+  "closed": true,
+  "checked_absent_pids": [
+    30354,
+    30355,
+    30368
+  ],
+  "pi_or_existing_preview_stopped": false
+}

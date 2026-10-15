@@ -1,0 +1,10 @@
+{
+  "scope": "Local preview only; natural garbage collection; no audio",
+  "backendVersion": "0.5.52",
+  "sessions": 3,
+  "startedAt": 1792096859339,
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  }
+}

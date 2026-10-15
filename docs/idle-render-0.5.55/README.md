@@ -128,3 +128,56 @@ nicht bewiesen.
 Nur Tests und Nachweisdokumentation wurden ergänzt. Kein Laufzeit- oder
 Image-Einfluss, keine neue Version und keine Pi-Auslieferung; die unveränderte
 0.5.55-Beobachtung läuft weiter.
+
+## 30 Minuten lokaler Browser ohne erzwungene Speicherbereinigung
+
+Der zusätzliche Lauf am 15.10. von **22:40:59 bis 23:11:08 Europe/Berlin**
+verwendet Chrome 155 auf dem Mac und die synthetische Vorschau mit drei
+Aufnahmen. Die Vorschau meldet Backend 0.5.52; die untersuchten Frontend-Dateien
+entsprechen über ihre Prüfsummen dem ausgelieferten 0.5.55-Stand. Der Pi verwendet
+Chromium 142. Diese unterschiedlichen Umgebungen sind **kein kontrollierter
+Vergleich und kein Pi-Speichernachweis**.
+
+Nach der Initialisierung wurde die Seite nicht neu geladen und während der
+natürlichen Messreihe keine Speicherbereinigung erzwungen. Die 31 Stichproben
+decken 1.809,4 Sekunden ab; die erste liegt nach 20,4 Sekunden, der größte Abstand
+beträgt 61,7 Sekunden. Alle Stichproben zeigen eine sichtbare Seite mit synthetisch
+gesetztem Bereitschaftszustand. Es fand keine Sprachaktivierung statt.
+
+| Messgröße | Beobachtung |
+| --- | --- |
+| JavaScript-Speicher in Nutzung | 2,54–3,61 MiB; erste/letzte Stichprobe 3,10/3,13 MiB |
+| Angefügte HTML-Elemente | Durchgehend 1.123 |
+| Dokumente | Durchgehend 29 |
+| DOM-Objekte einschließlich noch nicht aufgeräumter Objekte | 2.421–7.074; Rückgang auf 2.421 nach rund 25 Minuten |
+| Ereignisbehandler | 297–344; Rückgang auf 297 im selben natürlichen Aufräumzyklus |
+| Browser-RSS ohne Testtreiber | 1.078,39 → 1.118,47 MiB, acht OS-Stichproben von Sekunde 157 bis 1.809 |
+| Aktiver Renderer-RSS | 223,63 → 260,67 MiB im selben OS-Intervall |
+| Separater Playwright-Treiber | 131,73 → 310,50 MiB; ausdrücklich nicht in Browser-RSS enthalten |
+
+DOM und Ereignisbehandler werden in diesem Fenster wieder freigegeben. Der
+steigende Prozess-RSS ist damit nicht vollständig erklärt. Der Treiber und die
+Abfrage-/Routing-Instrumentierung können die lokale Messung beeinflussen; aus
+dem höheren RSS allein folgt weder ein bestätigter Speicherverlust noch ein
+behobener Fehler. Auch kurze Spitzen zwischen Stichproben bleiben unsichtbar.
+RSS-Summen können gemeinsam genutzte Seiten mehrfach zählen.
+
+**Separater Schritt nach Ende der natürlichen Messreihe:** Ein expliziter
+GC-Aufruf lässt 2.421 DOM-Objekte, 297 Ereignisbehandler und rund 2,53 MiB
+JavaScript-Speicher zurück. Der aktive Renderer liegt anschließend noch bei
+256,38 MiB RSS. Die Bereinigung erklärt also nur einen Teil der Zunahme; sie
+ist kein Beleg für ein dauerhaftes Speicherplateau. Der Testbrowser samt
+Treiber wurde anschließend geschlossen und seine Prozessbeendigung geprüft.
+
+[Auswertung mit Quellprüfsummen](natural-idle-mac/summary.json),
+[natürliche Stichproben](natural-idle-mac/samples.jsonl),
+[OS-Stichproben](natural-idle-mac/process-memory.jsonl),
+[separate Bereinigung](natural-idle-mac/post-gc.json),
+[Prozessabschluss](natural-idle-mac/cleanup.json).
+Die verwendeten Browser-Snippets und das Auswertungsskript liegen im selben
+Ordner. `summarize.py <Ordner>` berechnet den Bericht aus den gespeicherten
+Messdateien neu; es startet keinen Browser und greift nicht auf den Pi zu.
+
+Keine Laufzeitänderung, keine neue Auslieferung und kein Image-Einfluss.
+Die echte Pi-Beobachtung bleibt unverändert aktiv. Ihr vollständiger
+Speicherverlauf und der reale Wake nach langer Pause sind weiterhin offen.
