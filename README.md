@@ -1,5 +1,12 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.52 – Erkennung nach leisem Grundrauschen
+
+Nach anhaltendem sehr leisem Grundrauschen erhält der Decoder beim Anstieg
+des Eingangssignals einen frischen Zustand. Audio und Konfidenzschwellen bleiben
+erhalten; digital stille und lautere Phasen werden nicht so erneuert.
+[Reproduktion, Vergleich und verbleibende Langzeitabnahme](docs/wake-stability-0.5.52/README.md).
+
 ## 0.5.51 – Wake-Diagnose ohne Raumtexte
 
 Die lokale Erkennung liefert begrenzte Pegel- und Entscheidungsdaten, um

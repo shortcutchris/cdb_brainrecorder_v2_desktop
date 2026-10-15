@@ -28,8 +28,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--clips', nargs='+', required=True, type=Path)
     parser.add_argument('--output', required=True, type=Path)
+    parser.add_argument('--quiet-seconds', type=float, default=1,
+                        help='Bounded real quiet time before each acoustic call (1–120 seconds).')
     args = parser.parse_args()
     if not 1 <= len(args.clips) <= 4: parser.error('Use 1–4 synthetic test files.')
+    if not 1 <= args.quiet_seconds <= 120: parser.error('Use 1–120 quiet seconds.')
     clips = []
     for path in args.clips:
         with wave.open(str(path)) as source:
@@ -52,7 +55,7 @@ def main():
     reserved=False
     ident=str(uuid.uuid4())
     report={'synthetic_acoustic':True,'production_live_handoff':False,
-            'version':health['version'],'started_epoch':time.time(),'cases':[]}
+            'version':health['version'],'quiet_seconds':args.quiet_seconds,'started_epoch':time.time(),'cases':[]}
     def stop(*_): raise SystemExit('Acoustic test interrupted')
     signal.signal(signal.SIGTERM,stop)
     try:
@@ -64,8 +67,8 @@ def main():
         for path,duration in clips:
             row={'clip':path.name,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'detections':0,'decisions':[]}
             start=time.monotonic();last_data=start;played=False
-            while time.monotonic()-start < duration+4:
-                if not played and time.monotonic()-start >= 1:
+            while time.monotonic()-start < args.quiet_seconds+duration+3:
+                if not played and time.monotonic()-start >= args.quiet_seconds:
                     playback=subprocess.Popen(['paplay','--device='+speaker['selected'],str(path)],
                                               stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,start_new_session=True)
                     played=True;row['play_at_seconds']=round(time.monotonic()-start,2)
@@ -77,7 +80,7 @@ def main():
                 buffer+=block;last_data=time.monotonic()
                 while len(buffer)>=1600:
                     pcm,buffer=buffer[:1600],buffer[1600:]
-                    detected=detector.feed(pcm);measure.feed(pcm,detector.last_decision)
+                    detected=detector.feed(pcm);measure.feed(pcm,detector.last_decision,detector.onset.renewals)
                     if detector.last_decision:
                         row['decisions'].append({'at_seconds':round(time.monotonic()-start,2),'category':detector.last_decision})
                         row['decisions']=row['decisions'][-16:]

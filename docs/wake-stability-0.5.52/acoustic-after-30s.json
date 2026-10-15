@@ -1,0 +1,40 @@
+{
+  "synthetic_acoustic": true,
+  "production_live_handoff": false,
+  "version": "0.5.51",
+  "quiet_seconds": 30.0,
+  "started_epoch": 1792080897.676242,
+  "cases": [
+    {
+      "clip": "wake.wav",
+      "sha256": "63b4bc94e38e652df5bdd3df13aabd460a0442a848b556a9b03a701a1dfa94cf",
+      "detections": 1,
+      "decisions": [
+        {
+          "at_seconds": 24.94,
+          "category": "partial_wake_word"
+        },
+        {
+          "at_seconds": 33.99,
+          "category": "accepted"
+        }
+      ],
+      "play_at_seconds": 30.02,
+      "playback_exit": 0,
+      "audio": {
+        "blocks": 752,
+        "speech_segments": 2,
+        "accepted": 1,
+        "candidate_rejected": 0,
+        "partial_wake_word": 1,
+        "other_speech": 0,
+        "onset_renewals": 0,
+        "decision": "accepted",
+        "peak_dbfs": -5.9,
+        "rms_dbfs": -35.7
+      }
+    }
+  ],
+  "maintenance_released": true,
+  "finished_epoch": 1792080935.4628062
+}

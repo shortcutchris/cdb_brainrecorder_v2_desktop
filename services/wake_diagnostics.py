@@ -4,7 +4,7 @@ import math
 import sys
 
 DECISIONS = ('none', 'accepted', 'candidate_rejected', 'partial_wake_word', 'other_speech')
-COUNTERS = ('blocks', 'speech_segments', 'accepted', 'candidate_rejected', 'partial_wake_word', 'other_speech')
+COUNTERS = ('blocks', 'speech_segments', 'accepted', 'candidate_rejected', 'partial_wake_word', 'other_speech', 'onset_renewals')
 
 
 class AudioDiagnostics:
@@ -13,10 +13,11 @@ class AudioDiagnostics:
         self.last_decision = 'none'
         self.peak = self.squares = self.samples = 0
 
-    def feed(self, pcm, decision):
+    def feed(self, pcm, decision, onset_renewals=0):
         values = array('h', pcm)
         if sys.byteorder != 'little': values.byteswap()
         self.counts['blocks'] += 1
+        self.counts['onset_renewals'] = onset_renewals
         self.samples += len(values)
         self.peak = max(self.peak, max((abs(v) for v in values), default=0))
         self.squares += sum(v * v for v in values)

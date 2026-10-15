@@ -1,0 +1,209 @@
+{
+  "cases": [
+    {
+      "voice": "en-us",
+      "text": "Hey Brain",
+      "expected": true,
+      "detections": 1,
+      "passed": true
+    },
+    {
+      "voice": "en-gb",
+      "text": "Hey Brain",
+      "expected": true,
+      "detections": 1,
+      "passed": true
+    },
+    {
+      "voice": "en-us+f3",
+      "text": "Hey Brain",
+      "expected": true,
+      "detections": 1,
+      "passed": true
+    },
+    {
+      "voice": "en-us+m3",
+      "text": "Hey Brain",
+      "expected": true,
+      "detections": 1,
+      "passed": true
+    },
+    {
+      "voice": "en-gb+f2",
+      "text": "Hey Brain",
+      "expected": true,
+      "detections": 1,
+      "passed": true
+    },
+    {
+      "voice": "en-us+m2",
+      "text": "Hey Brain",
+      "expected": true,
+      "detections": 1,
+      "passed": true
+    },
+    {
+      "voice": "en-us",
+      "text": "Hey Brian",
+      "expected": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "voice": "en-us",
+      "text": "Hey rain",
+      "expected": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "voice": "en-us",
+      "text": "Hey train",
+      "expected": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "voice": "en-us",
+      "text": "Hey Jane",
+      "expected": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "voice": "en-us",
+      "text": "The brain",
+      "expected": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "voice": "en-us",
+      "text": "Please bring me some tea",
+      "expected": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "voice": "en-us",
+      "text": "Good morning",
+      "expected": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "voice": "en-us",
+      "text": "Hey",
+      "expected": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "voice": "en-us",
+      "text": "Brain",
+      "expected": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "voice": "en-us",
+      "text": "Hey bring",
+      "expected": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "voice": "en-us",
+      "text": "What is the weather today?",
+      "expected": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "voice": "en-us",
+      "text": "Open the library",
+      "expected": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "voice": "en-us",
+      "text": "Set a timer for five minutes",
+      "expected": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "voice": "de",
+      "text": "Okay Nabu",
+      "expected": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "voice": "de",
+      "text": "Gespräch beenden",
+      "expected": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "voice": "de",
+      "text": "Guten Morgen",
+      "expected": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "voice": "de",
+      "text": "Heute machen wir ein Meeting und schreiben Notizen.",
+      "expected": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "voice": "de",
+      "text": "Ich brauche einen neuen Termin.",
+      "expected": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "voice": "de",
+      "text": "Bitte schalte das Mikrofon aus.",
+      "expected": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "voice": "de",
+      "text": "Was gibt es heute zu essen?",
+      "expected": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "voice": "en-us",
+      "text": "Good morning. Hey Brain",
+      "expected": true,
+      "detections": 1,
+      "passed": true
+    },
+    {
+      "voice": "en-us",
+      "text": "Hey Brain Hey Brain",
+      "expected": true,
+      "detections": 1,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "audio_seconds": 85.39,
+  "cpu_seconds": 2.502,
+  "one_core_percent": 2.93,
+  "silence_60_seconds": {
+    "detections": 0,
+    "cpu_seconds": 2.165
+  },
+  "peak_rss_mib": 305.39
+}

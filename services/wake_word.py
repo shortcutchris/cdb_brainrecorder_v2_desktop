@@ -202,7 +202,7 @@ def detect(capture_command=None):
             if not ready:
                 print('ready', flush=True); ready = True
             detected = model.feed(audio)
-            diagnostics.feed(audio, model.last_decision)
+            diagnostics.feed(audio, model.last_decision, model.onset.renewals)
             if model.last_decision or time.monotonic() - last_progress >= 2:
                 print('diagnostic ' + json.dumps(diagnostics.snapshot(), separators=(',', ':')), flush=True)
             if detected: print('detected', flush=True)

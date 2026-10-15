@@ -5,6 +5,10 @@ activation phrase. Only a confident adjacent word pair in a completed segment ca
 """
 import json
 import os
+from array import array
+from collections import deque
+import statistics
+import sys
 from pathlib import Path
 
 WORD = 'Hey Brain'
@@ -37,12 +41,45 @@ def is_activation(result):
 
 
 
+class LowNoiseOnset:
+    """Renew only on signal rise after two seconds of very low nonzero noise.
+
+    Keep 200 ms locally in RAM to avoid clipping the onset. No gate, gain or
+    confidence changes. Digital silence and louder backgrounds retain behavior.
+    Production feeds fixed 50 ms S16LE/16 kHz blocks; other sizes bypass this.
+    """
+    def __init__(self):
+        self.quiet = deque(maxlen=40)
+        self.pre = deque(maxlen=4)
+        self.renewals = 0
+
+    def feed(self, audio):
+        if len(audio) != 1600:
+            self.quiet.clear(); self.pre.clear()
+            return None
+        values = array('h', audio)
+        if sys.byteorder != 'little': values.byteswap()
+        rms = (sum(v*v for v in values)/len(values))**.5
+        peak = max(abs(v) for v in values)
+        floor = statistics.median(self.quiet) if len(self.quiet) == 40 else 0
+        replay = None
+        if 1 <= floor <= 8 and (rms > max(8, floor*2) or peak > 48):
+            replay = list(self.pre)
+            self.renewals += 1
+            self.quiet.clear()
+        if rms <= 8 and peak <= 48: self.quiet.append(rms)
+        else: self.quiet.clear()
+        self.pre.append(audio)
+        return replay
+
+
 class PhraseDetector:
     def __init__(self):
         from vosk import Model, SetLogLevel
         SetLogLevel(-1)
         self.model = Model(str(model_path()))
         self.last_decision = None
+        self.onset = LowNoiseOnset()
         self._new_segment()
 
     def _new_segment(self):
@@ -52,6 +89,11 @@ class PhraseDetector:
 
     def feed(self, audio):
         self.last_decision = None
+        replay = self.onset.feed(audio)
+        if replay is not None:
+            self._new_segment()
+            for previous in replay:
+                self.recognizer.AcceptWaveform(previous)
         if not self.recognizer.AcceptWaveform(audio): return False
         result = json.loads(self.recognizer.Result())
         accepted = is_activation(result)
