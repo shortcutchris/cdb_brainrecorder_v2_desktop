@@ -1,0 +1,109 @@
+{
+  "scope": "Fixed first hour of unchanged Pi 0.5.55; not 24-hour acceptance",
+  "deployed_source_commit": "78687160e4acec9d05d7b144bfdf22e4b04d3c1b",
+  "provenance": {
+    "captured_at_epoch": 1792099315.0827444,
+    "service": {
+      "MainPID": "1272509",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "analyzed_until_epoch": 1792099304.2767904,
+    "raw_sha256": {
+      "plan.json": "874b96d5b79352b286d607e9a31e4bdef045fe3a48bd13912b25a6248e9940fd",
+      "status.json": "e2ee8c20f3be24a47d67f0869cf75308d7cb67e40e3fe915d48b639be8b01487",
+      "metrics.jsonl": "eb774d2147bedaf58dc85c9f5550f744d92d7ca009ea38b1329e94400b4b7a4c",
+      "events.jsonl": "ef36ec81a77704e405cccb0a76b9bce64daf338535089df745519f424f14f2dd"
+    }
+  },
+  "summary": {
+    "status": "pending",
+    "overall_goal_complete": false,
+    "note": "Telemetry only. Review hourly RSS trend, actual UI/audio and the full acceptance matrix separately.",
+    "start_epoch": 1792095704.2767904,
+    "end_epoch": 1792182104.2767904,
+    "analyzed_until_epoch": 1792099304.2767904,
+    "elapsed_hours": 1.0,
+    "completed_observation": false,
+    "valid_metric_samples": 240,
+    "invalid_samples": 0,
+    "covered_seconds": 3599.642,
+    "coverage_percent": 99.9901,
+    "largest_gap_seconds": 0.006,
+    "planned_window_coverage_percent": 4.1663,
+    "last_sample_age_seconds": 14.642,
+    "versions": [
+      "0.5.55"
+    ],
+    "browser_generation_changes": 0,
+    "wake_phrases": [
+      "okay-kai"
+    ],
+    "backend_instance_changes": 0,
+    "observer_starts": 1,
+    "alerts": [],
+    "review_items": [
+      "real_wake_after_eight_hours_missing"
+    ],
+    "idle_browser_cpu_percent_of_one_core": {
+      "samples": 239,
+      "min": 24.0,
+      "median": 27.33,
+      "p95": 30.2,
+      "max": 30.8
+    },
+    "idle_health_ms": {
+      "samples": 240,
+      "min": 4.19,
+      "median": 5.82,
+      "p95": 99.49,
+      "max": 153.34
+    },
+    "browser_rss_mb": {
+      "samples": 240,
+      "min": 1162.58,
+      "median": 1195.9,
+      "p95": 1227.06,
+      "max": 1230.75
+    },
+    "hourly_browser_rss": [
+      {
+        "hour": 0,
+        "samples": 240,
+        "median_rss_mb": 1195.9
+      }
+    ],
+    "observed_wakes": [],
+    "qualified_long_idle_wakes": 0
+  },
+  "half_hours": [
+    {
+      "from_seconds": 0,
+      "to_seconds": 1800,
+      "samples": 120,
+      "cpu_median_percent_one_core": 25.86,
+      "rss_first_mib": 1162.58,
+      "rss_last_mib": 1197.44
+    },
+    {
+      "from_seconds": 1800,
+      "to_seconds": 3600,
+      "samples": 120,
+      "cpu_median_percent_one_core": 28.93,
+      "rss_first_mib": 1194.59,
+      "rss_last_mib": 1228.73
+    }
+  ],
+  "rss_endpoints": {
+    "first_mib": 1162.58,
+    "last_mib": 1228.73,
+    "delta_mib": 66.15
+  },
+  "memory_trend_unresolved": true,
+  "limits": [
+    "No natural wake in this interval.",
+    "The observer alert threshold is not the same as absence of a growing memory trend.",
+    "RSS sums shared pages; the separate PSS snapshot has its own timestamps.",
+    "Observer and browser were not restarted for this snapshot."
+  ]
+}

@@ -181,3 +181,36 @@ Messdateien neu; es startet keinen Browser und greift nicht auf den Pi zu.
 Keine Laufzeitänderung, keine neue Auslieferung und kein Image-Einfluss.
 Die echte Pi-Beobachtung bleibt unverändert aktiv. Ihr vollständiger
 Speicherverlauf und der reale Wake nach langer Pause sind weiterhin offen.
+
+## Erste volle Stunde auf dem unveränderten Pi
+
+Der feste Abschnitt **15.10., 22:21:44 bis 23:21:44 Europe/Berlin** umfasst
+240 gültige Messwerte, 99,9901 % Abdeckung und keinen Wechsel von Browser,
+Backend oder Beobachterprozess. Es gab keine Warnungen und keinen beobachteten
+Wake. [Stundenbericht mit Rohdaten-Prüfsummen](first-hour-observation.json).
+
+- Browser-CPU: Median **27,33 % eines Kerns**, p95 30,20 %, Maximum 30,80 %.
+  Der Median steigt innerhalb dieses Fensters von 25,86 % in der ersten auf
+  28,93 % in der zweiten halben Stunde. Die frühe Entlastung darf daher nicht
+  als bereits dauerhaft stabiler Verbrauch ausgegeben werden.
+- Lokale Gesundheitsabfrage: Median **5,82 ms**, p95 99,49 ms, Maximum 153,34 ms.
+- Browser-RSS: erste/letzte Stichprobe **1.162,58 → 1.228,73 MiB**, also
+  **+66,15 MiB**. Ein Speicherplateau ist weiterhin nicht belegt. Die
+  vorläufigen Warnschwellen wurden nicht erreicht; das erfüllt allein noch
+  nicht das Abnahmekriterium eines erklärten, begrenzten Speicherverlaufs.
+
+Eine ergänzende reine Leseprüfung mittels `smaps_rollup` über **7,705 Minuten**
+bestätigt bei denselben neun Prozessen und Startkennungen einen Anstieg des
+anteilig zugerechneten Speichers (PSS) von **738,91 auf 754,50 MiB**. Renderer
+806009 trägt **+15,72 MiB PSS und +15,72 MiB private veränderte Speicherseiten**
+bei; die übrigen Prozesse bleiben nahezu gleich. Die Zunahme ist in diesem
+kurzen Intervall also nicht bloß ein Effekt mehrfach gezählter gemeinsamer
+Seiten. [Detailstichproben mit Zeiten und Prozesskennungen](browser-memory-samples.json).
+Ihre Messzeiten unterscheiden sich vom festen Stundenbericht; RSS und PSS
+werden nicht als zeitgleiche identische Messungen dargestellt.
+
+Die Ursache innerhalb des Renderers ist damit noch nicht bestimmt. Ein lokaler
+Diagnoseversuch mit abgeschalteten `renderState`-Aufrufen läuft separat; diese
+eingefrorene Oberfläche ist ausdrücklich kein produktiver Lösungsvorschlag.
+Keine Pi-Laufzeitänderung, kein Neustart, keine Audioaktivierung und kein
+Image-Einfluss. Der volle Dauerlauf und die akustische Langzeitabnahme bleiben offen.
