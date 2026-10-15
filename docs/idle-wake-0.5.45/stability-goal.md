@@ -7,8 +7,8 @@ prüfen und Fehler beheben. Das Codex-Ziel bleibt bis zur Abnahme aktiv.
 ## Abnahmeplan
 
 - **24 Stunden echte Standzeit:** der produktive Pi sammelt im aktuellen Lauf ab
-  15.10.2026, 20:56:47 Europe/Berlin bis 16.10.2026, 20:56:47 technische Messwerte
-  für 0.5.54 mit Okay KAI. `plan.json` des Messdienstes bleibt maßgeblich.
+  15.10.2026, 22:21:44 Europe/Berlin bis 16.10.2026, 22:21:44 technische Messwerte
+  für 0.5.55 mit Okay KAI. `plan.json` des Messdienstes bleibt maßgeblich.
   Vorläufe 0.5.45–0.5.52 wurden nach Korrekturen, Diagnose-Erweiterung oder dem
   ausdrücklichen Auftrag für neue Rufwörter archiviert und zählen nicht als
   bestandene Dauerläufe. Erwartet
@@ -147,3 +147,12 @@ bekommt ihre eigene App-/Image-Einflussbewertung.
   von etwa 55 Minuten liegt unter `baseline-053-before-audio-release-fix`.
   Neuer Lauf ab 15.10., 20:56:47; keine Änderung am Rufwort, Modell oder den
   Erkennungsschwellen. [Nachweise und offene Punkte](../audio-release-0.5.54/README.md).
+
+- **0.5.55 installiert:** Im lokalen Browservergleich nachgewiesene redundante
+  DOM-Schreibvorgänge für Wake-Anzeigen und Pager-Beschriftungen entfernt.
+  340 Python-Tests, 110 JS-Tests und 1.400 synthetische Zustandsvergleiche auf
+  dem Mac bestanden. Signiertes Update, erhaltene Einstellungen, Quelltext-Hashes,
+  18 Startstichproben und echtes Display geprüft. Der rund 85-minütige Vorlauf
+  bleibt unter `baseline-054-before-idle-render-fix` erhalten. Neuer Lauf ab
+  15.10., 22:21:44; noch keine behauptete Pi-Speicherverbesserung oder vollständige
+  Langzeitabnahme. [Nachweise](../idle-render-0.5.55/README.md).

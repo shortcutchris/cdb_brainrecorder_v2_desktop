@@ -50,5 +50,35 @@ Die Auslieferung erfolgt ausschließlich über das signierte App-Update mit
 atomarer Wartungssperre. Aktive Aufnahmen oder Gespräche werden nicht beendet.
 Der bisherige 0.5.54-Teilzeitraum muss erhalten bleiben und darf nicht mit einer
 neuen Version als durchgehender 24-Stunden-Lauf zusammengerechnet werden.
-Installation, Gerätestichproben und neuer Messplan werden nach ihrer tatsächlichen
-Prüfung ergänzt. Bis dahin ist dieses Dokument kein Auslieferungsnachweis.
+Installation, Gerätestichproben und neuer Messplan sind nachfolgend belegt.
+Vorläufe liefern keinen Nachweis eines vollständigen 24-Stunden-Tests.
+
+## Auslieferung bestätigt
+
+[Signiertes Update, Sequenz 12](deployment.json) aus Commit
+`78687160e4acec9d05d7b144bfdf22e4b04d3c1b` ist auf dem Pi installiert.
+Die vorhandene Wartungssperre war erfolgreich; gespeicherte Einstellungen
+haben vorher und nachher dieselben Prüfsummen. Die Runtime blieb unverändert.
+[18 Startstichproben](installation-check.json) zeigen 0.5.55 in API und HTML,
+genau einen unveränderten Wake-Prozess in Bereitschaft und identische Hashes
+der drei geänderten Laufzeitdateien auf Pi und getestetem Quellstand.
+
+![Tatsächliches Touchdisplay nach der Installation](pi-home.png)
+
+Die native Displayaufnahme zeigt die Startseite und „Bereit für Okay KAI“.
+Das belegt die Anzeige, keinen akustischen Erfolg. Keine Testtöne, keine
+künstlichen Gespräche und kein Wechsel von Mikrofon, Rufwort oder Brain-Konto.
+
+Der [neue Messplan](observation-plan.json) läuft vom **15.10.2026, 22:21:44 Uhr
+bis 16.10.2026, 22:21:44 Uhr Europe/Berlin**. Der tatsächliche Beobachterprozess
+1272509 ist aktiv; ausschließlich lesend und weiterhin Evidenzrevision 2.
+Die bestehende 15-Minuten-Nachprüfung wurde auf Version, Fenster und Frist
+angepasst. Es wurde keine zweite Überwachungsautomation angelegt.
+
+Der vorherige [0.5.54-Teilbericht](previous-partial-observation.json) umfasst
+rund 85 Minuten bis zum Archivieren. Archiv auf dem Pi:
+`baseline-054-before-idle-render-fix`. Der enthaltene Versionswechsel und die
+Unterbrechung der Ruhezeitevidenz gehören zur kontrollierten Auslieferung;
+sie werden nicht als bestandener Dauerlauf gewertet oder aus den Daten entfernt.
+Die vollständige neue 24-Stunden-Messung, ein echter Ruf nach acht Stunden Ruhe
+und die Einordnung des längerfristigen Speicherverlaufs bleiben offen.

@@ -1,5 +1,10 @@
 # Audiofreigabe erst nach bestätigtem Beenden · 0.5.54
 
+**Historischer Teilstand:** Nach rund 85 Minuten wurde dieser Beobachtungslauf
+durch die geprüfte Oberflächenoptimierung 0.5.55 abgelöst. Der aktuelle Messplan
+und die neue Auslieferung stehen im [0.5.55-Bericht](../idle-render-0.5.55/README.md).
+Die hier dokumentierten Messungen bleiben als begrenzte Vorläufe erhalten.
+
 15. Oktober 2026. Im isolierten Fehleraudit von `fddfb50` wurden zwei
 Sicherheitslücken reproduziert: Nach einem abgewiesenen Prozesssignal verlor
 WakeWord die Referenz auf den noch laufenden Detektor. Nach einem Fehler beim
