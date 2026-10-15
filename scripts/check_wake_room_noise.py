@@ -13,7 +13,7 @@ from pathlib import Path
 import random
 import subprocess
 import time
-from services.wake_phrase import PhraseDetector, PHRASES, DEFAULT_PHRASE
+from services.wake_phrase import PhraseDetector, PHRASES, DEFAULT_PHRASE, model_path
 
 
 def main():
@@ -37,12 +37,15 @@ def main():
         module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
         classes.append(('baseline',module.PhraseDetector))
     classes.append(('candidate',PhraseDetector))
-    random.seed(42);rows=[]
+    random.seed(42);rows=[];missing_words=None
     for std in (0,4,16,64):
         noise=[array('h',[round(random.gauss(0,std)) for _ in range(800)]) for _ in range(40)]
         for label,cls in classes:
             for scale in (1,.03,.003):
                 detector=cls() if label=='baseline' else cls(args.phrase)
+                if label=='candidate' and missing_words is None:
+                    vocabulary={w for g in PHRASES[args.phrase]['grammar'] for w in g.split()}
+                    missing_words=sorted(w for w in vocabulary if detector.model.vosk_model_find_word(w)<0)
                 start=time.process_time();false_wakes=0;hits=[]
                 for i in range(round(args.minutes*1200)):
                     false_wakes+=bool(detector.feed(noise[i%40].tobytes()))
@@ -58,6 +61,7 @@ def main():
                 rows.append(row);print(json.dumps(row),flush=True)
     report={'synthetic_audio':True,'accelerated_not_wall_clock':True,
             'phrase':args.phrase,'fixture':filename,'vosk_version':importlib.metadata.version('vosk'),
+            'model':model_path().name,'missing_grammar_words':missing_words,
             'fixture_sha256':hashlib.sha256(fixture.read_bytes()).hexdigest(),
             'candidate_source_sha256':hashlib.sha256(Path(__import__('services.wake_phrase',fromlist=['x']).__file__).read_bytes()).hexdigest(),
             'baseline_source_sha256':hashlib.sha256(args.baseline_source.read_bytes()).hexdigest() if args.baseline_source else None,

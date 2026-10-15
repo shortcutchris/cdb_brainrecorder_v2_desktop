@@ -138,6 +138,39 @@ des Laufs gilt nicht stillschweigend als Abnahme einer einzelnen Phrase.
 
 ## Installation und aktueller Teststand
 
+### Isolierter deutscher Modellkandidat
+
+Die [offizielle Vosk-Modellliste](https://alphacephei.com/vosk/models) nennt
+`vosk-model-small-de-0.15` als kleines deutsches Raspberry-Pi-Modell unter
+Apache 2.0. Das Archiv wurde ausschließlich in eine temporäre lokale
+Laborumgebung geladen; SHA256
+`b7e53c90b1f0a38456f4cd62b366ecd58803cd97cd42b06438e2c131713d5e43`
+ist der gemessene Download-Hash, kein separat veröffentlichter Herstellerbeleg.
+Keine Installation auf dem Pi und kein Austausch des produktiven englischen Modells.
+
+[Dateivergleich auf dem Mac mit Vosk 0.3.44](german-model-files-mac.json):
+Hey Brain 36/36, Hey KAI 31/36, Okay KAI 36/36 genaue Zählerwartungen, jeweils
+einschließlich 30 Negativvarianten. Die sechs positiven Varianten bestanden für
+Hey KAI nur einmal; ein genereller Wechsel auf Deutsch wäre eine Verschlechterung.
+Für Okay KAI verbessert sich der [Stille-/Rauschvergleich](okay-kai-german-noise-mac.json)
+bei identischer Datei und unveränderten Schwellen hingegen von 2/12 auf 8/12,
+ohne Aktivierung im künstlichen Rauschvorlauf. Das Ergebnis wurde nach Ergänzung
+der Modellmetadaten im Werkzeug erneut reproduziert.
+
+**Einschränkung:** Das deutsche Vokabular enthält `kyle` nicht. Vosk verwirft
+dieses Gegenwort aus der Grammatik; die Vergleichsgrammatik ist dadurch nicht
+vollständig identisch. Die Testberichte erfassen nun Modellname und fehlende
+Grammatikwörter ausdrücklich. Der bestehende kleine Negativkorpus deckt diesen
+fehlenden Gegenspieler nicht ausreichend ab. Mehrere unabhängige Stimmen,
+deutsche ähnlich klingende Negativbeispiele, echte Raumtests sowie Vosk 0.3.45
+auf dem Pi bleiben vor einer Übernahme erforderlich. Die Verbesserung bei einer
+Stimme beweist keine allgemeine Zuverlässigkeit oder endgültige Fehlerursache.
+
+Nächster technischer Kandidat ist daher eine **pro Rufwort geprüfte Modellwahl**,
+kein pauschaler Modelltausch. Noch keine Umsetzung oder Auslieferung dieses
+Kandidaten. Testwerkzeuge und Dokumentation sind die einzigen Änderungen;
+App-Paket, SD-Image, Konfiguration und bestehender 24h-Lauf bleiben erhalten.
+
 0.5.53 aus Commit `eda03c3296990982a6a2f0166ab828bcd047ecc5` wurde als
 signiertes App-Update (Sequenz 10) auf dem Pi installiert.
 [Installationsnachweis](deployment.json): die geprüften Einstellungen blieben

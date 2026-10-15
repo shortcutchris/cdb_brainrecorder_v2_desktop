@@ -1,0 +1,167 @@
+{
+  "synthetic_audio": true,
+  "accelerated_not_wall_clock": true,
+  "phrase": "okay-kai",
+  "fixture": "okay-kai-vincent.mp3",
+  "vosk_version": "0.3.44",
+  "model": "vosk-model-small-de-0.15",
+  "missing_grammar_words": [
+    "kyle"
+  ],
+  "fixture_sha256": "60d6cd7352602cbdd1e462dcb9e986f9aeda8e515cffc4bbf3a953f9cc44be8a",
+  "candidate_source_sha256": "6b076c9e4e61524b2d66c1d015ed138ab7a28be1e83fdeb7597401f77c963ccf",
+  "baseline_source_sha256": null,
+  "cases": [
+    {
+      "source": "candidate",
+      "noise_std_pcm": 0,
+      "scale": 1,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 1,
+      "target_audio_seconds": [
+        3.55
+      ],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.59
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 0,
+      "scale": 0.03,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 1,
+      "target_audio_seconds": [
+        3.55
+      ],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.59
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 0,
+      "scale": 0.003,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 1,
+      "target_audio_seconds": [
+        3.55
+      ],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.591
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 4,
+      "scale": 1,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 1,
+      "target_audio_seconds": [
+        3.65
+      ],
+      "onset_renewals": 1,
+      "cpu_seconds": 0.607
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 4,
+      "scale": 0.03,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 1,
+      "target_audio_seconds": [
+        3.65
+      ],
+      "onset_renewals": 1,
+      "cpu_seconds": 0.605
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 4,
+      "scale": 0.003,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 0,
+      "target_audio_seconds": [],
+      "onset_renewals": 1,
+      "cpu_seconds": 0.595
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 16,
+      "scale": 1,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 1,
+      "target_audio_seconds": [
+        3.55
+      ],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.616
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 16,
+      "scale": 0.03,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 1,
+      "target_audio_seconds": [
+        3.55
+      ],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.62
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 16,
+      "scale": 0.003,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 0,
+      "target_audio_seconds": [],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.606
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 64,
+      "scale": 1,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 1,
+      "target_audio_seconds": [
+        3.55
+      ],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.618
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 64,
+      "scale": 0.03,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 0,
+      "target_audio_seconds": [],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.619
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 64,
+      "scale": 0.003,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 0,
+      "target_audio_seconds": [],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.607
+    }
+  ],
+  "execution_host": "Mac development machine; not Raspberry Pi",
+  "production_pi_unchanged": true,
+  "model_archive_sha256": "b7e53c90b1f0a38456f4cd62b366ecd58803cd97cd42b06438e2c131713d5e43"
+}
