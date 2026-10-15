@@ -1,0 +1,10 @@
+{
+  "scope": "Invalid candidate revision 2; preserve completed original and cancelled guarded run",
+  "original_snapshots": 11,
+  "guarded_snapshots": 8,
+  "guarded_last_seconds": 210.0000548362732,
+  "guarded_completed": false,
+  "candidate_matches_repository": false,
+  "both_closed": true,
+  "overall_goal_complete": false
+}

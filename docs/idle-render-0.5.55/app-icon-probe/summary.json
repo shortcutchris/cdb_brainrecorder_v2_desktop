@@ -424,6 +424,8 @@
       }
     ],
     "complete_fixture": false,
+    "candidate_matches_repository": null,
+    "valid_app_candidate_comparison": false,
     "closed": true,
     "overall_goal_complete": false
   },
@@ -852,6 +854,8 @@
       }
     ],
     "complete_fixture": false,
+    "candidate_matches_repository": false,
+    "valid_app_candidate_comparison": false,
     "closed": true,
     "overall_goal_complete": false
   }

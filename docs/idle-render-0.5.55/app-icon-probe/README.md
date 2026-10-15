@@ -1,79 +1,70 @@
-# Fünf-Minuten-App-Vergleich: Signal vorhanden, Testaufbau unvollständig
+# Ungültiger App-Kandidatenvergleich: Rohdaten zur Fehleranalyse
 
-16. Oktober 2026, etwa **01:18:08–01:28:30 Europe/Berlin**. Zwei nacheinander
-laufende, getrennte Pi-Chromium-142-Profile laden eine schreibgeschützte
-Momentaufnahme der vollständigen App. Nur die ausgelieferte Zeile für das
-Play-Symbol unterscheidet sich in der Gegenprobe: identische Quellenzuweisungen
-werden durch den vorhandenen `setIcon`-Helfer übersprungen. Dies entspricht der
-Quellkorrektur `d80f558`; produktiv bleibt Version 0.5.55 unverändert.
+16. Oktober 2026, etwa **01:18:08–01:28:30 Europe/Berlin**. Zwei getrennte
+Pi-Chromium-142-Profile liefen je fünf Minuten. **Die Gegenprobe entspricht
+nicht der committed App-Korrektur und darf deren Wirkung nicht belegen.**
+Der produktive Browser und die App blieben unverändert bei 0.5.55.
 
-**Keine vollständige App-Abnahme:** In beiden Vorschauen fehlten
-`/api/cdb/areas` und `/api/microphone/audio`. Der lokale Testserver antwortete
-404, statt die entsprechenden Antworten der App abzubilden. Die fehlende
-frühere Mikrofon-Testdatei beeinflusst auch den Player-Fehlerzustand. Alle
-Fehler bleiben in den Rohberichten erhalten; `complete_fixture` ist ausdrücklich
-`false`. Die folgenden Werte sind eine eingeschränkte Ressourcenbeobachtung.
+## Nachträglich erkannter Fehler im Testaufbau
 
-## Beobachtung bei normalem Abfragetakt
+Der Testcode übergab dem `setIcon`-Helfer `play` statt der vollständigen Adresse
+`/assets/play.svg`. Der Helfer erwartet eine Adresse. Die Gegenprobe stellte
+somit ein fehlendes Bild statt des richtigen Symbols ein. Der Testserver
+protokollierte fehlende statische Dateien bisher nicht als Fehler. Die
+Prüfsumme der tatsächlich bedienten Datei weicht von der Korrektur `d80f558` ab:
 
-Beide Läufe umfassen je 300 Sekunden mit elf Messpunkten. Die Startseite blieb
-sichtbar und online; Zustands- und Wake-Abfragen liefen durchgehend. Je Lauf
-300 zusätzliche Zustandsabfragen, 1.000 zusätzliche Wake-Abfragen. Beide
-Momentaufnahmen enthielten gleich viele Einträge: 22 Aufnahmen, sieben Aufträge,
-keine Live-Nachrichten. Keine Wiedergabe oder Aufnahme gestartet.
+- Tatsächlicher Kandidat im Repository: `9de014063923156499f4b294ad16b7402664785f24cd2d25307716ce7fc71276`.
+- Die experimentelle Quellen-Prüfsumme steht unverändert in `summary.json`.
+- `candidate_matches_repository` ist für die Gegenprobe **false**;
+  `valid_app_candidate_comparison` ist ausdrücklich **false**.
 
-| Messwert | Original | Mit Symbol-Guard |
+Zusätzlich fehlten in beiden Vorschauen `/api/cdb/areas` und
+`/api/microphone/audio`: Der Testserver antwortete 404. Diese Fehler wurden
+bereits beim ersten Bericht offengelegt; sie waren jedoch nicht die einzigen
+Probleme. Die erste Interpretation eines Kandidatenvorteils wird hiermit
+zurückgenommen. Auch die danach gestartete zweite Diagnose-Revision war vom
+falschen Symbolpfad betroffen und wird nicht als bestandener Vergleich gewertet.
+
+## Erhaltene Beobachtungen, keine Freigabe-Evidenz
+
+Die Startseite blieb sichtbar und online; Zustands- und Wake-Abfragen liefen.
+Je Lauf 300 zusätzliche Zustandsabfragen und 1.000 zusätzliche Wake-Abfragen.
+Beide Momentaufnahmen enthielten 22 Aufnahmen, sieben Aufträge und keine
+Live-Nachrichten. Keine Wiedergabe oder Aufnahme gestartet.
+
+| Messwert | Original | Fehlerhafter Testcode |
 | --- | ---: | ---: |
-| SVG-Antworten für `play.svg`, Ende | 336 | 2 |
+| Erfolgreiche Antworten für `play.svg`, Ende | 336 | 2 |
 | Interne Dokumente, Sekunde 60 → 300 | 77 → 114 | 50 → 50 |
 | RSS des aktiven Renderers, Sekunde 60 → 300 | +9,16 MiB | +1,03 MiB |
 | CPU dieses Renderers, Sekunde 60–300, ein Kern | 3,32 % | 2,39 % |
-| Blink-/Embedder-Heap am Ende | 11,09 MiB | 6,69 MiB |
 
-Die ersten 60 Sekunden werden für diese beschreibenden Differenzen getrennt,
-bleiben jedoch vollständig in den Rohdaten enthalten. Keine nachträgliche
-Änderung eines Abnahmelimits. Der Guard-Lauf zeigt zwischenzeitlich höhere
-Objektzahlen und danach eine natürliche Reduktion; er erzeugt weiterhin
-kurzlebige Objekte. Es wurde **keine** Speicherbereinigung erzwungen. Die
-Momentaufnahme am Ende ist deshalb weder ein langfristiges Plateau noch eine
-allgemeine Einsparquote. Zwei einzelne, kurze Läufe liefern keine statistische
-Streuung und keinen Beleg für zuverlässige Aktivierung nach langer Pause.
+Diese Werte erklären, weshalb der Fehler zunächst plausibel wirkte. Sie sind
+kein gültiger Vergleich der vorgesehenen Korrektur. Die vollständigen elf
+Messpunkte bleiben erhalten. Keine erzwungene Speicherbereinigung. Der
+Prozessbestand wechselt in beiden Läufen; die angegebenen Renderer behalten
+jeweils PID und OS-Startkennung. Keine pauschale Stabilitätsaussage aus RSS-Summen.
 
-Der Prozessbestand ist in beiden Läufen nicht durchgehend identisch. Die
-angegebenen Renderer haben jedoch jeweils dieselbe PID und OS-Startkennung
-über alle elf Messpunkte; ihr Typ wurde während der Laufzeit separat aus
-`/proc` ermittelt und mit der Startkennung abgeglichen. Gesamtsummen für eine
-wechselnde Prozessgruppe werden nicht als Stabilitätsabnahme ausgegeben.
+Beide Browser, Server und Wächter sind geschlossen; temporäre Profile entfernt.
+Alle Aktivitätsprüfungen meldeten Leerlauf. Die zusätzliche Diagnose-Last
+überlappt den Langzeitmonitor und ist keine unbeeinflusste Leerlauf-Baseline.
+Statusdaten blieben im RAM; Berichte enthalten technische Werte und Anzahlen,
+keine Aufnahmeinhalte, Bereichsnamen oder Kontotokens.
 
-## Schutz und Grenzen
+[Historische Auswertung](summary.json), [Auswertungsskript](summarize.py),
+[Original](original/profile.json), [fehlerhafte Gegenprobe](guarded/profile.json),
+[Prozesszuordnung](identify-processes.py). Runner und Bereinigung sind beigefügt.
+Die unabhängig durchgeführte [minimale SVG-Probe](../svg-reproduction/README.md)
+verwendet in beiden Varianten korrekt `/icon.svg`; ihr Befund bleibt bestehen.
 
-Eigene stumme Headless-Profile, CPU-Limit 50 % eines Kerns, keine GPU, keine
-Schreibweiterleitung. Statusdaten blieben im RAM des Vorschau-Servers; die
-Berichte speichern nur technische Messwerte und Anzahl der Einträge.
-Aktivitätswächter: alle Prüfungen Leerlauf; beim Beginn von Aufnahme oder
-Gespräch wäre ausschließlich der Diagnosebrowser beendet worden. Beide
-Browser, Server und Wächter sind geschlossen; temporäre Profile entfernt.
-Der native Display-Browser wurde weder ersetzt noch neu gestartet.
+## Korrigierter Prüfweg
 
-DevTools-Messung, Headless-Grafik und eingefrorene Statusdaten unterscheiden sich
-vom normalen Touchbetrieb. Die zusätzliche Last überlappt den Langzeitmonitor;
-dieses Intervall ist Diagnose und keine unbeeinflusste Leerlauf-Baseline.
+Revision 3 kopiert die **tatsächliche committed `microphone.js`** in den
+isolierten Server. Vor dem Start prüft sie den exakten Ein-Zeilen-Unterschied
+zum installierten Original und die SHA256. Jeder Messpunkt prüft zusätzlich
+`src`, erfolgreiche Bilddekodierung sowie JavaScript-/HTTP-Fehler. Die zwei
+Nebenabfragen werden ausschließlich in RAM mit echtem Antwortstatus gehalten.
+Erst ein so geprüfter Vergleich kann eine App-Freigabe unterstützen.
 
-[Auswertung](summary.json), [Auswertungsskript](summarize.py),
-[Original](original/profile.json), [Gegenprobe](guarded/profile.json),
-[Prozesszuordnung](identify-processes.py). Die Skripte und jeweiligen
-Bereinigungsnachweise sind beigefügt. Die Auswertung setzt die beschriebenen
-fünf Minuten voraus und erklärt die Gesamt-Stabilität niemals für bestanden.
-
-## Weiterer Schritt und Auslieferung
-
-Der Testserver wurde anschließend um die zwei fehlenden GET-Antworten ergänzt.
-Diese werden einmalig ausschließlich in RAM gehalten, einschließlich des
-originalen Antwortstatus; weder Aufnahmeinhalt noch Bereichsnamen werden in
-Messdateien übernommen. Ein neuer Originalvergleich ist gestartet; Ergebnisse
-werden erst nach Prüfung aller Antworten und der Bereinigung bewertet.
-
-Keine weitere App-Änderung, keine produktive Auslieferung und kein SD-Image durch
-diesen Bericht. Die vorhandene Symbol-Korrektur bleibt im Quellstand. Die
-24-Stunden-Beobachtung, der tatsächliche Wake nach mindestens acht Stunden Pause
-und die Gesamt-Ressourcenabnahme sind weiterhin offen.
+Keine produktive App-Auslieferung und kein neues SD-Image durch diese Diagnose.
+Die Langzeit- und akustische Abnahme bleiben offen.

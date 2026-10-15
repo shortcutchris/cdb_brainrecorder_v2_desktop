@@ -2,6 +2,7 @@
 from pathlib import Path
 import json
 ROOT=Path(__file__).resolve().parent
+EXPECTED_CANDIDATE_SHA256="9de014063923156499f4b294ad16b7402664785f24cd2d25307716ce7fc71276"
 
 def describe(mode):
  p=ROOT/mode
@@ -41,7 +42,7 @@ def describe(mode):
    'source_hashes':s['source_hashes'],'fixture_counts':s['fixture_counts'],'startup_flags':s['startup_flags'],
    'seconds':elapsed,'snapshots':snapshots,'continuous_processes':process_rows,
    'process_group_unchanged':all(group==sets[0] for group in sets),
-   'requests':s['requests'],'fixture_errors':s['errors'],'complete_fixture':not s['errors'],'closed':True,'overall_goal_complete':False}
+   'requests':s['requests'],'fixture_errors':s['errors'],'complete_fixture':not s['errors'],'candidate_matches_repository':s['source_hashes']['served_microphone.js']==EXPECTED_CANDIDATE_SHA256 if mode=='guarded' else None,'valid_app_candidate_comparison':False,'closed':True,'overall_goal_complete':False}
 
 if __name__=='__main__':
  rows=[describe(mode) for mode in ('original','guarded')]

@@ -1,0 +1,6 @@
+{
+  "at_epoch": 1792107451.9046645,
+  "reason": "Candidate helper was passed a name instead of a complete asset URL; invalid source comparison. Cancel only isolated diagnostic, preserve partial measurements.",
+  "expected_candidate_sha256": "9de014063923156499f4b294ad16b7402664785f24cd2d25307716ce7fc71276",
+  "actual_candidate_sha256": "699463b44aa152ab38cee2b5413aff77372601769e3ac4439090b9b7153f3605"
+}

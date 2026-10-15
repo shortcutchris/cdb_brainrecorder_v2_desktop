@@ -77,7 +77,8 @@ verglichen. Kein weiterer Laufzeitcode geändert, keine App-Auslieferung und kei
 neues SD-Image durch diese Diagnose. Die Korrektur bleibt zunächst nur im
 Quellstand; die 24-Stunden- und akustische Langzeitabnahme bleiben offen.
 
-Der erste [Fünf-Minuten-App-Vergleich](../app-icon-probe/README.md)
-zeigt auch beim normalen Polling weniger Dokumentwachstum mit dem Guard.
-Zwei fehlende Nebenabfragen machen seinen Testaufbau jedoch unvollständig;
-er wird ausdrücklich nicht als vollständige App-Abnahme gewertet.
+Der anschließende [Fünf-Minuten-App-Vergleich](../app-icon-probe/README.md)
+ist als Vergleich der App-Korrektur **ungültig**: Neben fehlenden Nebenabfragen
+verwendete sein experimenteller Guard einen falschen Symbolpfad. Die Rohwerte
+bleiben zur Fehleranalyse erhalten. Die hiervon unabhängige minimale SVG-Probe
+oben nutzt dagegen in beiden Varianten korrekt `/icon.svg`.
