@@ -113,3 +113,11 @@ Zeitraum vorwegnehmen noch `listening` als Nachweis akustischer Erkennung werten
 Die Wiedergabesicherung bleibt aktiv; eigene Pi-Lautsprechertests können daher
 keinen normalen Wake-/Live-Durchlauf nachweisen. Ein echter Nutzeraufruf nach
 mindestens acht Stunden bleibt erforderlich.
+
+### Sichtprüfung während des laufenden Tests
+
+[Direkter Bildschirmabzug des Pi](pi-home.png), 15.10.2026 gegen 18:43 Uhr:
+Startseite vollständig sichtbar, unten „Aufnahmebereit“ und „Bereit für Hey Brain“.
+Kein stehengebliebener Erkennungshinweis oder Verbindungsdialog. Der Abzug
+verändert weder Navigation noch Audiozustand. Er belegt den sichtbaren
+Bereitschaftszustand, nicht die Reaktion auf Berührung oder Sprache.
