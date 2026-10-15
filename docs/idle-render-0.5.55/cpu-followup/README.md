@@ -13,8 +13,8 @@ startet oder endet kein Thread. Der Hauptthread verwendet **2,78 CPU-Sekunden**
 
 Das lokalisiert die Rechenzeit im Renderer-Hauptthread, unterscheidet dort aber
 nicht JavaScript, Layout, Speicherbereinigung oder andere native Aufgaben.
-Es gibt keinen aufgezeichneten Pi-CPU-Stack und keine daraus abgeleitete
-Behauptung, welche Funktion die Last verursacht.
+Vom produktiven Pi-Renderer gibt es keinen aufgezeichneten CPU-Stack und keine
+daraus abgeleitete Behauptung, welche Funktion die Last verursacht.
 
 ## Synthetische Mac-Vorschau, zweimal 15 Sekunden
 
@@ -46,3 +46,43 @@ Keine neue produktive Optimierung wird allein aus diesen Werten abgeleitet.
 [Kennzahlen und Prüfsummen](summary.json). Die Zeitanteile stammen aus
 `Performance.getMetrics`; die CPU-Samples bleiben zusätzlich vollständig
 erhalten. Keine erzwungene Speicherbereinigung. Kein Laufzeit- oder Image-Einfluss.
+
+
+## Getrennte Diagnose auf dem Pi
+
+Am 16. Oktober zwischen etwa **00:25 und 00:32 Uhr Europe/Berlin** wurden sechs
+kurze, getrennte Diagnosebrowser gestartet. Fünf scheiterten beim Aufbau der
+Testumgebung, der sechste lieferte zwei 15-Sekunden-Profile. Alle sechs sind
+nachweislich beendet, ihre temporären Browserprofile entfernt. Der produktive
+Kiosk und die Aufnahme-/Wake-Dienste wurden nicht neu gestartet.
+
+Die Testinstanz nutzt dieselbe Chromium-Version **142.0.7444.59** und Frontend-
+Dateien wie der Pi, aber einen eigenen Headless-Prozess ohne GPU, einen festen
+Zustand im Arbeitsspeicher und eine CPU-Grenze von 50 % eines Kerns. Der Snapshot
+enthält 22 Aufnahme- und sieben Auftragsdatensätze, keinen Live-Verlauf. Private
+Inhalte wurden nicht ins Repository übernommen. Zwei unvollständige Fixtures
+(`/api/cdb/areas` und `/api/microphone/audio`) lieferten Fehler; es wurde kein
+Raumaudio geladen oder abgespielt. 20 begleitende Aktivitätsprüfungen meldeten
+Leerlauf. Diese Einschränkungen verhindern eine vollständige Nachbildung.
+
+| Messfenster | Hauptthread-Aufgabenzeit | JavaScript-Zeit | Layout / Stil |
+| --- | --- | --- | --- |
+| Normale Oberfläche, etwa 15 s | 0,5099 s | 0,0468 s | 0,0583 / 0,0117 s |
+| `renderState` angehalten, etwa 15 s | 0,1983 s | 0,0336 s | 0 / 0 s |
+
+Auch dieser kurze frische Prozess reproduziert die steigende Last des alten
+produktiven Renderers nicht. Er begründet weder eine Laufzeitänderung noch eine
+bestandene Stabilitätsabnahme. Die fünf Fehlversuche sind Fehler des
+Diagnoseaufbaus. Mit `--password-store=basic` startete die isolierte Navigation;
+eine solche Option wurde am produktiven Prozess bei der Nachprüfung **nicht**
+gefunden. Die zwischenzeitliche Aussage, dass der Kiosk sie bereits verwendet,
+war nicht belegt. Die genaue interne Ursache der Startblockade bleibt offen.
+
+[Messwerte, Quellenprüfsumme, Zeitpunkte und Bereinigung aller sechs Versuche](pi-isolated-summary.json).
+Das private vollständige Rohprofil liegt außerhalb Git am dort angegebenen Pfad.
+Die Tests liefen im gleichen Beobachtungszeitraum: Der Beobachter zählt nur die
+produktive Browser-Prozessgruppe, globale Temperatur und freier Arbeitsspeicher
+können trotzdem durch die Diagnose beeinflusst sein. Diese Intervalle sind daher
+**keine unbeeinflusste System-Leerlaufmessung**. Kein App- oder Image-Einfluss,
+keine neue Auslieferung. Ressourcenwachstum und echte Langzeit-Erkennung bleiben
+ungelöste Abnahmepunkte.

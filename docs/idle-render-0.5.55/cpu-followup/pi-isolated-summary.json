@@ -1,0 +1,261 @@
+{
+  "scope": "Isolated Pi Chromium with in-memory read-only app snapshot; no production browser changes or audio",
+  "source_sha256": "2a9d3e1ed1bfc151cd1df2c61df1b79a205e1bef87c932d5e6b86579c1df5c83",
+  "private_evidence_path": "/Users/chris/.local/share/cdb-stability-evidence-20261015/055-pi-ui-profile/profile.json",
+  "started_at_epoch": 1792103465.6794531,
+  "ended_at_epoch": 1792103504.351727,
+  "browser": "Chrome/142.0.7444.59",
+  "source_hashes": {
+    "app.js": "3aa533561d2b9ef3f8a49a9cfe33719875aeafcb182f66996b5f0687b13c85a6",
+    "device-status.js": "599068a862cfb1d4aeb98d4bf3f4c9abce0770c2746b8b4d75287b653bf75b17",
+    "touch.js": "7014360d67cc123117131c7653a150bab87183b6471355bf3571eaf4e19d7d24"
+  },
+  "fixture_counts": {
+    "sessions": 22,
+    "jobs": 7,
+    "live_history": 0
+  },
+  "phases": [
+    {
+      "mode": "normal",
+      "start_epoch": 1792103474.2696965,
+      "end_epoch": 1792103489.3236868,
+      "duration_seconds": 15.053990364074707,
+      "metrics_delta": {
+        "TaskDuration": 0.5098600000000001,
+        "ScriptDuration": 0.046848,
+        "LayoutDuration": 0.058253,
+        "RecalcStyleDuration": 0.011679
+      },
+      "heap": {
+        "usedSize": 1924312,
+        "totalSize": 2883584,
+        "embedderHeapUsedSize": 10490048,
+        "backingStorageSize": 374650
+      },
+      "dom": {
+        "documents": 88,
+        "nodes": 4894,
+        "jsEventListeners": 371
+      },
+      "ui": {
+        "workspace": "start-view",
+        "nodes": 1131,
+        "hidden": false,
+        "liveOpen": false,
+        "frozen": 0
+      }
+    },
+    {
+      "mode": "render-frozen",
+      "start_epoch": 1792103489.3250651,
+      "end_epoch": 1792103504.3495772,
+      "duration_seconds": 15.02451205253601,
+      "metrics_delta": {
+        "TaskDuration": 0.19828900000000005,
+        "ScriptDuration": 0.033590999999999996,
+        "LayoutDuration": 0.0,
+        "RecalcStyleDuration": 0.0
+      },
+      "heap": {
+        "usedSize": 1562748,
+        "totalSize": 2359296,
+        "embedderHeapUsedSize": 6093312,
+        "backingStorageSize": 367276
+      },
+      "dom": {
+        "documents": 64,
+        "nodes": 2553,
+        "jsEventListeners": 287
+      },
+      "ui": {
+        "workspace": "start-view",
+        "nodes": 1131,
+        "hidden": false,
+        "liveOpen": false,
+        "frozen": 15
+      }
+    }
+  ],
+  "fixture_errors": [
+    {
+      "type": "unknown_api",
+      "path": "/api/cdb/areas"
+    },
+    {
+      "type": "unknown_api",
+      "path": "/api/microphone/audio"
+    }
+  ],
+  "guard_samples": [
+    {
+      "at_epoch": 1792103465.5897098,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792103467.7416222,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792103469.7535958,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792103471.76606,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792103473.7823312,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792103475.7917295,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792103477.8014576,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792103479.8111336,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792103481.822411,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792103483.8320463,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792103485.8455267,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792103487.8732843,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792103489.8856149,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792103491.8956096,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792103493.9071617,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792103495.9171684,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792103497.926856,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792103499.9381053,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792103501.9494843,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792103503.9633036,
+      "idle": true
+    }
+  ],
+  "diagnostic_attempts": [
+    {
+      "unit": "cdb-ui-profile-1792103113",
+      "cleanup": {
+        "at_epoch": 1792103126.5611827,
+        "closed": true,
+        "remaining": [],
+        "browser_exit_code": 0,
+        "server_stopped": true,
+        "guard_stopped": true,
+        "profile_written": false
+      }
+    },
+    {
+      "unit": "cdb-ui-profile-1792103198",
+      "cleanup": {
+        "at_epoch": 1792103211.7451575,
+        "closed": true,
+        "remaining": [],
+        "browser_exit_code": 0,
+        "server_stopped": true,
+        "guard_stopped": true,
+        "profile_written": false
+      }
+    },
+    {
+      "unit": "cdb-ui-profile-1792103244",
+      "cleanup": {
+        "at_epoch": 1792103255.2331753,
+        "closed": true,
+        "remaining": [],
+        "browser_exit_code": 0,
+        "server_stopped": true,
+        "guard_stopped": true,
+        "profile_written": false
+      }
+    },
+    {
+      "unit": "cdb-ui-profile-1792103344",
+      "cleanup": {
+        "at_epoch": 1792103356.0731668,
+        "closed": true,
+        "remaining": [],
+        "browser_exit_code": 0,
+        "server_stopped": true,
+        "guard_stopped": true,
+        "profile_written": false
+      }
+    },
+    {
+      "unit": "cdb-ui-profile-1792103393",
+      "cleanup": {
+        "at_epoch": 1792103404.677155,
+        "closed": true,
+        "remaining": [],
+        "browser_exit_code": 0,
+        "server_stopped": true,
+        "guard_stopped": true,
+        "profile_written": false
+      }
+    },
+    {
+      "unit": "cdb-ui-profile-1792103464",
+      "cleanup": {
+        "at_epoch": 1792103505.4663253,
+        "closed": true,
+        "remaining": [],
+        "browser_exit_code": 0,
+        "server_stopped": true,
+        "guard_stopped": true,
+        "profile_written": true
+      }
+    }
+  ],
+  "resource_limits": {
+    "CPUQuota": "50%",
+    "MemoryMax": "1536M",
+    "RuntimeMaxSec": 100,
+    "Nice": 15
+  },
+  "limitations": [
+    "Separate headless browser, GPU disabled, fixed in-memory snapshot, short fresh process; not production Wayland kiosk.",
+    "Two API fixtures absent; no real audio or cloud requests.",
+    "Failed harness starts and profiling add bounded system load during observer window.",
+    "Production browser PID group unchanged; global temperature and available memory can be affected.",
+    "Password-store basic fixed the isolated startup; equivalent production flag was not observed.",
+    "No proven explanation or fix for production CPU/RSS growth."
+  ],
+  "goal_complete": false
+}
