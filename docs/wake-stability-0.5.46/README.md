@@ -159,6 +159,50 @@ Konfidenzschwelle behebt diesen Befund nicht. Der konkrete Zusammenhang mit der
 internen Pipeline-Bereinigung bleibt weiter zu prüfen; eine automatische
 Aktivierung auf „rain“ wird ausdrücklich nicht ergänzt.
 
+### Weitere Eingrenzung am 15. Oktober
+
+Drei zusätzliche [native Runden mit Audio-Prüfsumme](native-audio-audit.json)
+bestanden einschließlich Begrüßung und sprachlichem Beenden. Darunter eine
+Doppelnennung und eine Token-Erneuerung in der privaten Testkopie. Reservierung
+0,09–0,11 ms; Begrüßung nach 5,60–6,35 Sekunden ab künstlichem Quellenstart.
+In allen drei Fällen stimmten Reihenfolge und Prüfsumme sämtlicher nichtstummer
+PCM-Blöcke am Ein- und Ausgang des lokalen Audiopuffers überein. Das beweist
+die vollständige lokale Weitergabe dieser Testphrase; es beweist weder eine
+verlustfreie Cloud-Übertragung noch die Ursache des früheren Fehlversuchs.
+
+Der Testgenerator taktet seine künstliche Quelle nun gegen eine fortlaufende
+Uhr statt durch wiederholtes `sleep(0.02)` zusätzliche Laufzeitdrift zu sammeln.
+Eine leere Entnahme wird gezählt; die je ein bis zwei leeren Entnahmen in diesen
+Runden verloren keine nichtstummen Blöcke. Der Test liefert bei fehlgeschlagener
+Abnahme jetzt auch einen Fehler-Exitcode. Produktiver Audiocode und
+Ende-Befehlsgrammatik bleiben unverändert. Die guten Wiederholungen ersetzen
+keinen nachgewiesenen Fix des alten, nicht mit Audio-Prüfsummen instrumentierten
+Fehlversuchs.
+
+`python -m scripts.check_wake_idle` prüft dieselbe Detektorinstanz nach vorgegebenen
+Mengen synthetischer Stille bzw. mit `--background-speech` nach periodischer
+Nicht-Zielsprache. Erst nach dieser Warte-Audiomenge folgt einmal „Hey Brain“.
+Es gibt keine Mikrofon-, Lautsprecher- oder Cloudzugriffe. Minuten sind hier
+**verarbeitete Audiominuten**, keine echte Standzeit. Der echte 24-Stunden-Lauf
+bleibt unabhängig aktiv. Laborläufe mit niedriger Prozesspriorität erzeugen
+zusätzliche CPU-Last; deren Temperatur-/Gesamtlastwerte sind keine Leerlaufwerte.
+
+Ein weiterer, ausdrücklich isolierter Vergleich ist mit
+`python -m scripts.check_wake_stream --cycles 1000 --endpoint-refresh-experiment`
+reproduzierbar: Ein neuer Decoder wird nach jedem abgeschlossenen Segment
+erzeugt, während das geladene Modell weiterverwendet wird. Das ist ein
+Diagnoseexperiment und ändert die installierte Erkennung nicht. Vor einer
+möglichen Übernahme sind Positiv-, Negativ-, Langzeit- und Ressourcenvergleiche
+notwendig. Der [erste 1.000-Segment-Vergleich](endpoint-refresh-experiment.json)
+bestand vollständig: 500 positive und 500 negative Abschnitte, kein Fehlalarm,
+kein überhörter Aufruf. RSS 156,36 → 157,94 MB, 126,08 CPU-Sekunden für
+3.332,41 Audiosekunden. Der [separate 28-Fälle-Korpus](endpoint-refresh-corpus.json)
+bestand ebenfalls. Diese Werte erlauben keine Behauptung unveränderter
+Leerlaufleistung: Auch reine Stille kann leere abgeschlossene Segmente erzeugen;
+deren zusätzliche Decoder-Neuanlage wird separat untersucht. Eine sparsamere
+Variante erneuert nur nach nichtleeren Sprachsegmenten. Beide bleiben bis zum
+abgeschlossenen Vergleich Laborcode, nicht Bestandteil von 0.5.48.
+
 ## Bestehende Geräte und Kunden-Image
 
 Nur App-Code in bereits zugelassenen `services/`-Dateien und Versionsstand

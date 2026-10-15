@@ -77,6 +77,13 @@ niemals einen Pi-/Backend-Neustart während einer Aufnahme auslösen.
   Reset verbessert die Erkennung nicht und wurde nicht übernommen.
 - Langzeit- und akustische Langzeitabnahme sowie die beiden Sprachfehler:
   **offen**. [Details und Rohmesswerte](../wake-stability-0.5.46/README.md).
+- Weitere Eingrenzung: drei zusätzliche native Runden bestanden; eine
+  Audio-Prüfsumme bestätigt jeweils die vollständige lokale Weitergabe des
+  synthetischen Ende-Satzes. Der alte Fehlversuch bleibt dokumentiert.
+  Ein isolierter Decoder-Vergleich nach abgeschlossenen Segmenten bestand
+  1.000/1.000 Fälle und den separaten 28-Fälle-Korpus bei geringerem RAM-Bedarf.
+  Ressourcen bei Stille und längere Hintergrundsprache werden noch verglichen;
+  die experimentelle Variante ist nicht produktiv installiert.
 
 App und vorhandenes SD-Image werden durch diese Diagnose nicht neu gebaut.
 Jede folgende Laufzeitänderung bekommt ihre eigene App-/Image-Einflussbewertung.

@@ -5,11 +5,11 @@ microphone/speaker or modifies production configuration. Real cloud API calls.
 Pass --end-audio with a synthetic speech file and --output outside the repository.
 Up to five cycles, including duplicate wakes and one expired-token refresh.
 """
-import argparse,json,os,sys,time,tempfile,subprocess,shutil
+import argparse,hashlib,json,os,sys,time,tempfile,subprocess,shutil
 from pathlib import Path
 from services.cdb_integration import CdbService
 from services.live_conversation import LiveConversation
-from services.live_audio import NativeLiveAudio
+from services.live_audio import NativeLiveAudio, PcmGate
 from services.wake_word import WakeWord
 
 parser=argparse.ArgumentParser(description=__doc__)
@@ -18,6 +18,27 @@ parser.add_argument('--output',required=True,type=Path)
 parser.add_argument('--rounds',type=int,default=5)
 args=parser.parse_args()
 if not args.end_audio.is_file() or not 1<=args.rounds<=5:parser.error('Synthetic audio file and 1–5 rounds required')
+
+class AuditedGate(PcmGate):
+ """Synthetic-only input accounting; no recorded audio or production changes."""
+ def __init__(self):
+  super().__init__();self.nonzero_in=0;self.nonzero_out=0;self.empty_takes=0
+  self.input_digest=hashlib.sha256();self.output_digest=hashlib.sha256()
+ def put(self,block,*args):
+  self.nonzero_in+=sum(bool(b) for b in block)
+  if any(block):self.input_digest.update(block)
+  super().put(block,*args)
+ def take(self):
+  # The single consumer owns removal; this counter is diagnostic, not locking.
+  self.empty_takes+=self.frames.empty()
+  block=super().take();self.nonzero_out+=sum(bool(b) for b in block)
+  if any(block):self.output_digest.update(block)
+  return block
+ def report(self):
+  return {'nonzero_input_bytes':self.nonzero_in,'nonzero_output_bytes':self.nonzero_out,
+          'empty_takes':self.empty_takes,
+          'all_nonzero_input_forwarded':self.nonzero_in>0 and self.nonzero_in==self.nonzero_out and self.input_digest.digest()==self.output_digest.digest()}
+
 base=Path.home()/'.local/share/cdb-recorder-local' 
 result={'synthetic_audio':True,'production_configuration_changed':False,'cycles':[]}
 with tempfile.TemporaryDirectory(prefix='cdb-idle-check-') as temp:
@@ -32,15 +53,18 @@ with tempfile.TemporaryDirectory(prefix='cdb-idle-check-') as temp:
   subprocess.run(['ffmpeg','-v','error','-y','-i',(str(args.end_audio) if label=='end' else str(root/(label+'.wav'))),'-ar','16000','-ac','1','-f','s16le',str(root/(label+'.pcm'))],check=True)
  source=root/'source.py';source.write_text('''import sys,time
 from pathlib import Path
-p=Path(sys.argv[1]); gate=Path(sys.argv[2]); data=b'';sent=False
+p=Path(sys.argv[1]); gate=Path(sys.argv[2]); data=b'';sent=False;deadline=time.monotonic()
 while True:
  if not sent and gate.exists():data=p.read_bytes();sent=True
- b=data[:640];data=data[640:];sys.stdout.buffer.write(b.ljust(640,b'\\0'));sys.stdout.buffer.flush();time.sleep(.02)
+ b=data[:640];data=data[640:];sys.stdout.buffer.write(b.ljust(640,b'\\0'));sys.stdout.buffer.flush();deadline+=.02;time.sleep(max(0,deadline-time.monotonic()))
 ''')
  drain=[sys.executable,'-c','import sys;\nwhile sys.stdin.buffer.read(4096):pass']
  config={'device':'synthetic','speaker':'synthetic','volume':30}
  gate=root/'speak'
- factory=lambda conf,fail:NativeLiveAudio(conf,fail,capture_command=[sys.executable,str(source),str(root/'end.pcm'),str(gate)],playback_command=drain)
+ audio_instances=[]
+ def factory(conf,fail):
+  native=NativeLiveAudio(conf,fail,capture_command=[sys.executable,str(source),str(root/'end.pcm'),str(gate)],playback_command=drain)
+  native.gate=AuditedGate();audio_instances.append(native);return native
  live=LiveConversation(cdb,root,audio_config=lambda:config,audio_factory=factory)
  try:
   for n in range(args.rounds):
@@ -68,9 +92,11 @@ while True:
     time.sleep(.05)
    wake.suspend();row.update(greeting=greeting,input_wave=input_peak>0,output_wave=output_peak>0,recognitions=wake.count)
    row['user_transcripts']=[h['text'] for h in s['history'] if h['role']=='user']
-   row['passed']=greeting and row.get('end_reason')=='voice_command' and input_peak>0 and output_peak>0 and wake.count==1
+   row['synthetic_input']=audio_instances[-1].gate.report() if audio_instances else {}
+   row['passed']=greeting and row.get('end_reason')=='voice_command' and input_peak>0 and output_peak>0 and wake.count==1 and row['synthetic_input'].get('all_nonzero_input_forwarded',False)
    result['cycles'].append(row);print(json.dumps(row),flush=True)
    if live.busy():live.end();live.finished.wait(8)
   result['passed']=all(r['passed'] for r in result['cycles'])
  finally:live.close();cdb.close()
 args.output.write_text(json.dumps(result,indent=2))
+raise SystemExit(0 if result['passed'] else 1)

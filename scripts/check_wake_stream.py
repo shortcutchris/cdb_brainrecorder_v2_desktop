@@ -5,7 +5,19 @@ from pathlib import Path
 import resource
 import subprocess
 import time
-from services.wake_phrase import PhraseDetector
+from services.wake_phrase import PhraseDetector, GRAMMAR, is_activation
+
+
+class EndpointRefreshExperiment(PhraseDetector):
+    """Lab-only comparison. Does not change the installed app's detector."""
+    def feed(self, audio):
+        if not self.recognizer.AcceptWaveform(audio):
+            return False
+        found = is_activation(json.loads(self.recognizer.Result()))
+        from vosk import KaldiRecognizer
+        self.recognizer = KaldiRecognizer(self.model, 16000, json.dumps(GRAMMAR))
+        self.recognizer.SetWords(True)
+        return found
 
 
 def pcm(text):
@@ -24,12 +36,14 @@ def rss():
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--cycles', type=int, default=100)
+    parser.add_argument('--endpoint-refresh-experiment', action='store_true',
+                        help='Lab comparison only: replace recognizer after completed segments.')
     args = parser.parse_args()
     if not 4 <= args.cycles <= 2000:
         parser.error('Use 4–2000 bounded cycles.')
     clips = [(pcm('Hey Brain'), True), (pcm('Hey Brain Hey Brain'), True),
              (pcm('Hey Brian'), False), (pcm('Good morning'), False)]
-    detector = PhraseDetector()
+    detector = (EndpointRefreshExperiment if args.endpoint_refresh_experiment else PhraseDetector)()
     before, cpu = rss(), time.process_time()
     rows, seconds = [], 0
     for cycle in range(args.cycles):
@@ -38,7 +52,8 @@ def main():
         seconds += len(audio) / 32000
         rows.append({'cycle': cycle + 1, 'expected': expected, 'detections': hits,
                      'passed': bool(hits) == expected, 'rss_mb': rss()})
-    result = {'synthetic_audio': True, 'continuous_detector': True, 'cycles': args.cycles,
+    result = {'synthetic_audio': True, 'continuous_detector': True,
+              'endpoint_refresh_experiment': args.endpoint_refresh_experiment, 'cycles': args.cycles,
               'passed': all(r['passed'] for r in rows), 'audio_seconds': round(seconds, 2),
               'cpu_seconds': round(time.process_time() - cpu, 2), 'initial_rss_mb': before,
               'final_rss_mb': rss(), 'failed_cases': [r for r in rows if not r['passed']],
