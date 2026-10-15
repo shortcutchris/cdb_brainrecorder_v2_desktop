@@ -1,0 +1,33 @@
+{
+  "scope": "Synthetic Mac preview through read-only loopback proxy; native Chrome without remote debugging, CDP or Playwright",
+  "started_at_epoch": 1792100828.70641,
+  "expected_end_epoch": 1792102628.70641,
+  "planned_seconds": 1800,
+  "chrome_version": "155.0.8059.41",
+  "browser_pid": 44123,
+  "url": "http://127.0.0.1:51010/",
+  "preview_backend_version": "0.5.52",
+  "frontend_hashes": {
+    "app.js": "3aa533561d2b9ef3f8a49a9cfe33719875aeafcb182f66996b5f0687b13c85a6",
+    "touch.js": "7014360d67cc123117131c7653a150bab87183b6471355bf3571eaf4e19d7d24",
+    "device-status.js": "599068a862cfb1d4aeb98d4bf3f4c9abce0770c2746b8b4d75287b653bf75b17"
+  },
+  "flags": [
+    "--headless=new",
+    "--no-first-run",
+    "--no-default-browser-check",
+    "--disable-background-networking",
+    "--disable-component-update",
+    "--disable-sync",
+    "--mute-audio",
+    "--window-size=1280,720",
+    "--user-data-dir=/var/folders/jg/yxkhj0x964j1w9qhfsg9xns40000gn/T/cdb-unattached-profile-nclk1enk"
+  ],
+  "overall_goal_complete": false,
+  "readiness_evidence": "At least three state and wake-status responses; no visual or acoustic verification",
+  "limitations": [
+    "No DOM, JS-heap or visual inspection: deliberately no debugger attached.",
+    "Headless Mac Chrome and synthetic loopback proxy differ from Pi kiosk Chromium.",
+    "Process RSS may double-count shared pages; no forced GC."
+  ]
+}

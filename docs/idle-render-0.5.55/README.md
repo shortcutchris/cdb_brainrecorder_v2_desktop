@@ -240,8 +240,10 @@ beeinflussen Profiling-Overhead, nicht erfasste frühe Allokationen und verfügb
 Symbole die Interpretation. Ein solcher Trace wurde hier noch nicht erzeugt.
 
 Nur ergänzende Diagnose und Dokumentation, keine neue Pi-Auslieferung und kein
-Image-Einfluss. Der debuggerfreie lokale Vergleich läuft noch; seine vollständige
-Auswertung folgt erst nach dem geplanten Ende und bestätigter Prozessbereinigung.
+Image-Einfluss. Der debuggerfreie lokale Vergleich ist inzwischen abgeschlossen und bereinigt.
+Sein strenger Prozessgruppenvergleich scheitert an einem temporären Hilfsprozess;
+die [Rohdaten und ergänzende Beschreibung](memory-controls/README.md) behalten
+diese Einschränkung ausdrücklich bei.
 
 Eine ergänzende [CPU-Probe](cpu-followup/README.md) lokalisiert die Pi-Rechenzeit
 im Hauptthread des Renderers. Die getrennte kurze Mac-Profilierung reproduziert

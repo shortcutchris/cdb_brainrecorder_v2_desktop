@@ -53,9 +53,9 @@ Die Zeitfenster sind unterschiedlich lang und teilweise überlappend auf
 demselben Mac; absolute RSS-Werte sind kein kontrollierter Effektvergleich.
 RSS kann gemeinsam genutzte Seiten mehrfach zählen. Die Ergebnisse beweisen
 weder eine allgemeine Browser-Speicherlücke noch deren Ursache auf dem Pi.
-Als nächste Eingrenzung bietet sich ein lokaler Lauf ohne angeschlossenen
-Browser-Debugger und ohne Playwright-Routing an, bevor produktiver Code auf
-Basis dieser Instrumentierung verändert wird.
+Der unten dokumentierte spätere Lauf ohne Browser-Debugger und Playwright-Routing
+ergänzt diese Eingrenzung; er wird wegen eines transienten Hilfsprozesses nicht
+als streng gleichbleibende Prozessgruppe akzeptiert.
 
 ## Eigenverbrauch der Instrumentierung
 
@@ -86,7 +86,7 @@ natürlichen Messfenster. Alle dafür gestarteten Testbrowser sind geschlossen.
 Nur Diagnose und Dokumentation: kein Laufzeit-, Firmware-, Konto- oder
 Image-Einfluss, keine neue App-Auslieferung. Die echte 24-Stunden-Beobachtung
 und die akustische Langzeitabnahme bleiben offen.
-# Zusätzlicher Vergleich ohne Browser-Debugger: Auswertung vorbereitet
+## Zusätzlicher Vergleich ohne Browser-Debugger: abgeschlossen mit Einschränkung
 
 Ein weiterer lokaler Kontrolllauf verwendet natives Headless-Chrome ohne
 Playwright, CDP oder Remote-Debugging. Ein reiner Leseproxy vor der synthetischen
@@ -94,9 +94,9 @@ Vorschau liefert die Wake-Bereitschaft; die Messung liest ausschließlich
 Prozess-RSS von außen. API-Zähler belegen laufende Abfragen, aber weder sichtbare
 Bedienbarkeit noch Spracherkennung. Der produktive Pi bleibt unverändert.
 
-Die 30-Minuten-Beobachtung ist beim Ergänzen dieses Abschnitts **noch aktiv**;
-hier wird kein Ergebnis und kein Speicherplateau behauptet. Nach ihrem Ende
-prüft `scripts/summarize_unattached_browser.py <Messordner>` vollständige Dauer,
+Die Beobachtung ist nach **1.800,072 Sekunden** mit 31 Stichproben abgeschlossen.
+Browser und Proxy sind bestätigt beendet; keine Statusabfrage meldete einen Fehler.
+Die strenge Auswertung mit `scripts/summarize_unattached_browser.py <Messordner>` prüft vollständige Dauer,
 Messlücken, weiterlaufende Statusabfragen, konsistente RSS-Summen, gleichbleibende
 aktive Prozesse nach zwei Minuten Aufwärmzeit und bestätigten Prozessabschluss.
 Ein Null-RSS-Zombie bleibt in den Rohdaten, zählt aber nicht als aktiver Renderer.
@@ -106,8 +106,32 @@ sich von den früheren Messungen; dies ist kein exakt kontrollierter A/B-Verglei
 
 Neun gezielte Tests schützen die Auswertung unter anderem vor verkürzten Läufen,
 Messlücken, gestoppten Abfragen, fremden Prozessen, Rendererwechseln und fehlendem
-Aufräumen. Sie bestätigen die Auswertung, nicht den Ausgang des laufenden Tests.
+Aufräumen. Sie bestätigen die Auswertung, nicht die Stabilität der Applikation.
 Aufruf: `python3 -m unittest tests.test_unattached_browser_summary -v`.
+
+Die Auswertung lehnt den strengen Prozessgruppenvergleich **zu Recht ab**:
+bei Sekunde 180 erscheint einmalig Hilfsprozess 46417 mit **133,53 MiB RSS**,
+ab Sekunde 240 ist er nicht mehr vorhanden. Sein genauer Zweck wurde nicht
+ermittelt. Die ursprüngliche Zwei-Minuten-Grenze bleibt bestehen; die Ablehnung
+wird nicht durch einen nachträglich verlegten Beginn verdeckt.
+
+Die [ergänzende rein beschreibende Auswertung](unattached/description.json)
+prüft zunächst, dass genau diese Ablehnung reproduziert wird. Sie zeigt für die
+sieben durchgehend vorhandenen Prozesse zwischen Sekunde 120 und 1.800:
+Browser-RSS an den beiden Endpunkten **1.062,91 → 1.071,09 MiB**, der am stärksten
+wachsende Renderer **+5,78 MiB**. Die gesamte Prozessgruppe hat wegen des temporären
+Helfers eine Spitze von **1.197,17 MiB**. In den letzten zehn Minuten liegen die
+Stichproben zwischen **1.070,31 und 1.071,67 MiB**; das beweist kein dauerhaftes
+Plateau und erst recht keine entsprechende Verbesserung auf dem Pi.
+
+Die kleinere lokale Zunahme gegenüber den früher instrumentierten Läufen ist
+ein Hinweis, diese Messmethoden auseinanderzuhalten. Andere Chrome-Startparameter,
+der lokale Proxy und die kurz überlappende CPU-Profilierung verhindern einen
+isolierten Kausalnachweis. Kein produktiver Fix wird daraus abgeleitet.
+`python3 unattached/describe.py` reproduziert den beschreibenden Bericht samt
+Prüfsummen. Rohdaten, historischer Sampler, Abschluss und Bereinigung liegen
+im selben Unterordner. Private Chrome-Logs und das temporäre Profil sind nicht
+Teil des Repositories; das eigene Testprofil wurde nach Prozessende entfernt.
 
 Keine App-/Runtime-Änderung und kein Einfluss auf das Kunden-Image. Kein Neustart,
 keine Audioaktivierung und keine neue Pi-Auslieferung für diese Diagnose.

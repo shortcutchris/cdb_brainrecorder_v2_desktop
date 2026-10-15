@@ -1,0 +1,111 @@
+{
+  "completed_window_seconds": 1800.0723803750006,
+  "sample_count": 31,
+  "strict_comparison_passed": false,
+  "strict_comparison_rejection": "Active browser process set changed after warmup",
+  "overall_goal_complete": false,
+  "scope": "Descriptive local diagnostic; unchanged Pi acceptance remains open",
+  "max_sample_gap_seconds": 60.102439832997334,
+  "descriptive_endpoint_seconds": [
+    120.17522229099995,
+    1800.0723803750006
+  ],
+  "all_process_endpoint_rss_mib": [
+    1062.90625,
+    1071.09375
+  ],
+  "all_process_peak_rss_mib": 1197.171875,
+  "transient_processes_after_warmup": [
+    {
+      "elapsed_seconds": 180.22889350000332,
+      "process": {
+        "pid": 46417,
+        "parent": 44123,
+        "rss_kib": 136736,
+        "name": "Google Chrome Helper"
+      }
+    }
+  ],
+  "continuous_pids": [
+    44123,
+    44129,
+    44130,
+    44131,
+    44133,
+    44136,
+    44151
+  ],
+  "continuous_processes": [
+    {
+      "pid": 44123,
+      "role": "Google Chrome",
+      "first_rss_mib": 247.765625,
+      "last_rss_mib": 248.953125,
+      "delta_mib": 1.1875
+    },
+    {
+      "pid": 44129,
+      "role": "Google Chrome Helper",
+      "first_rss_mib": 143.6875,
+      "last_rss_mib": 144.0,
+      "delta_mib": 0.3125
+    },
+    {
+      "pid": 44130,
+      "role": "Google Chrome Helper",
+      "first_rss_mib": 114.640625,
+      "last_rss_mib": 115.578125,
+      "delta_mib": 0.9375
+    },
+    {
+      "pid": 44131,
+      "role": "Google Chrome Helper",
+      "first_rss_mib": 78.578125,
+      "last_rss_mib": 78.546875,
+      "delta_mib": -0.03125
+    },
+    {
+      "pid": 44133,
+      "role": "Google Chrome Helper (Renderer)",
+      "first_rss_mib": 177.671875,
+      "last_rss_mib": 177.703125,
+      "delta_mib": 0.03125
+    },
+    {
+      "pid": 44136,
+      "role": "Google Chrome Helper (Renderer)",
+      "first_rss_mib": 200.421875,
+      "last_rss_mib": 206.203125,
+      "delta_mib": 5.78125
+    },
+    {
+      "pid": 44151,
+      "role": "Google Chrome Helper (Renderer)",
+      "first_rss_mib": 100.140625,
+      "last_rss_mib": 100.109375,
+      "delta_mib": -0.03125
+    }
+  ],
+  "last_ten_minutes_rss_range_mib": [
+    1070.3125,
+    1071.671875
+  ],
+  "limits": [
+    "No DOM, JS-heap or visual inspection: deliberately no debugger attached.",
+    "Headless Mac Chrome and synthetic loopback proxy differ from Pi kiosk Chromium.",
+    "Process RSS may double-count shared pages; no forced GC.",
+    "Process start ticks were not recorded; membership is based on PID and role.",
+    "The short-lived helper identity and purpose are not established.",
+    "The local CPU-profiler experiment overlapped roughly minutes 14 to 15 on this Mac.",
+    "These flags and proxy differ from the earlier instrumented cases; no causal effect size or Pi fix is proven.",
+    "The failed strict comparison is retained, not bypassed or replaced with a later warmup cutoff."
+  ],
+  "source_sha256": {
+    "plan.json": "b39c3b67afbe79f08f660289c9855a8e46e97e4974a0facdb917894e8092122c",
+    "process-memory.jsonl": "fa404a63dbd3c07f9207474ec6eeeb9a3a365372de66a663920514d7bade7e84",
+    "sampler-complete.json": "0cb490b280475e5916f87e3416a3181005aa2bc38b8d273a494de53fdca2b446",
+    "cleanup.json": "0d3ad9dace29d20ff77b71299f8cc42c289f0c135692a2228070337b05519cd9",
+    "proxy-counters.json": "7e57cdc8b019b6245685a512313ce6197a941d4b431f8d648d8f3b7efdabac2b",
+    "sampler.py": "ed415a0eb72199868956c957b7c47c326b1e916c6b48bc5eb19b9f77256999cd"
+  }
+}
