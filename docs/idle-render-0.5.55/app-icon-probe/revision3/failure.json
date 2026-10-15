@@ -1,0 +1,113 @@
+{
+  "type": "AssertionError",
+  "message": "Unexpected HTTP response failure",
+  "at_epoch": 1792107478.0261922,
+  "requests": {
+    "/": 2,
+    "/style.css": 1,
+    "/layout.css": 1,
+    "/cdb.css": 1,
+    "/metro.css": 1,
+    "/touch.css": 1,
+    "/themes.css": 1,
+    "/speakers.css": 1,
+    "/microphone.css": 1,
+    "/models.css": 1,
+    "/workspace.css": 1,
+    "/settings.css": 1,
+    "/capture-controls.css": 1,
+    "/display.css": 1,
+    "/live.css": 1,
+    "/bluetooth.css": 1,
+    "/home.css": 1,
+    "/assistant-tools.css": 1,
+    "/device-status.css": 1,
+    "/themes.js": 1,
+    "/assets/waveform.svg": 4,
+    "/assets/folder.svg": 2,
+    "/assets/gear.svg": 3,
+    "/assets/list.svg": 2,
+    "/assets/check-circle.svg": 2,
+    "/app.js": 1,
+    "/keyboard.js": 1,
+    "/touch.js": 1,
+    "/microphone.js": 1,
+    "/readiness.js": 1,
+    "/cdb.js": 1,
+    "/metro.js": 1,
+    "/models.js": 1,
+    "/settings.js": 1,
+    "/bluetooth.js": 1,
+    "/live.js": 1,
+    "/speakers.js": 1,
+    "/home.js": 1,
+    "/capture-controls.js": 1,
+    "/display.js": 1,
+    "/assistant-tools.js": 1,
+    "/assets/keyboard.svg": 2,
+    "/wake-settings.js": 1,
+    "/device-status.js": 1,
+    "/management.js": 1,
+    "/assets/caret-up.svg": 1,
+    "/assets/circle.svg": 1,
+    "/assets/caret-right.svg": 2,
+    "/assets/dots-three.svg": 1,
+    "/assets/play.svg": 10,
+    "/assets/speaker-high.svg": 2,
+    "/assets/chat.svg": 2,
+    "/assets/file-text.svg": 2,
+    "/assets/sparkle.svg": 2,
+    "/assets/bluetooth.svg": 1,
+    "/assets/microphone.svg": 2,
+    "/assets/user.svg": 2,
+    "/assets/users.svg": 3,
+    "/assets/x.svg": 3,
+    "/api/state": 6,
+    "/assets/arrow-clockwise.svg": 1,
+    "/assets/lock-simple.svg": 1,
+    "/assets/magnifying-glass.svg": 1,
+    "/assets/book-open.svg": 1,
+    "/assets/monitor.svg": 1,
+    "/assets/house.svg": 1,
+    "/assets/timer.svg": 1,
+    "/api/setup": 1,
+    "/api/devices": 1,
+    "/assets/chart-bar.svg": 1,
+    "/api/cdb/areas": 1,
+    "/api/prompts": 1,
+    "/api/microphone/audio": 1,
+    "/api/wake/status": 18
+  },
+  "errors": [
+    {
+      "type": "missing_asset",
+      "path": "/assets/InterVariable.woff2"
+    },
+    {
+      "type": "missing_asset",
+      "path": "/favicon.ico"
+    }
+  ],
+  "guard_samples": [
+    {
+      "at_epoch": 1792107469.2079494,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792107471.8134007,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792107473.8233562,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792107475.833419,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792107477.8430257,
+      "idle": true
+    }
+  ]
+}
