@@ -1,0 +1,6 @@
+{
+  "probe_valid": true,
+  "all_production_assets_healthy": false,
+  "known_missing_asset": "/assets/InterVariable.woff2",
+  "overall_goal_complete": false
+}

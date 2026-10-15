@@ -1,5 +1,11 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.56 – Symbol im Ruhezustand nicht neu laden
+
+Der Testplayer behält sein unverändertes Play-/Pause-Symbol über Statusabfragen
+hinweg. Das verhindert wiederholte SVG-Neuladungen auch bei geschlossenen
+Audioeinstellungen. [Nachweis und Auslieferungsstatus](docs/idle-icon-0.5.56/README.md).
+
 ## 0.5.55 – Weniger Oberflächenarbeit in Bereitschaft
 
 Unveränderte Wake-Anzeigen und Seitenbeschriftungen werden nicht fortlaufend

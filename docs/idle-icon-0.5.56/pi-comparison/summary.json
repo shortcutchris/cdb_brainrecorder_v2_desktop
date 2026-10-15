@@ -1,0 +1,888 @@
+[
+  {
+    "mode": "original",
+    "browser": "Chrome/142.0.7444.59",
+    "start_epoch": 1792107582.195881,
+    "end_epoch": 1792107891.5402188,
+    "source_hashes": {
+      "app.js": "3aa533561d2b9ef3f8a49a9cfe33719875aeafcb182f66996b5f0687b13c85a6",
+      "device-status.js": "599068a862cfb1d4aeb98d4bf3f4c9abce0770c2746b8b4d75287b653bf75b17",
+      "touch.js": "7014360d67cc123117131c7653a150bab87183b6471355bf3571eaf4e19d7d24",
+      "microphone.js": "4d0ad72a0d736ea27594eee1039d0a1a46aecd5588687a4f36fc33cef77bdf1f",
+      "candidate_microphone.js": "9de014063923156499f4b294ad16b7402664785f24cd2d25307716ce7fc71276",
+      "served_microphone.js": "4d0ad72a0d736ea27594eee1039d0a1a46aecd5588687a4f36fc33cef77bdf1f"
+    },
+    "fixture_counts": {
+      "sessions": 22,
+      "jobs": 7,
+      "live_history": 0
+    },
+    "startup_flags": [
+      "--js-flags=--no-decommit-pooled-pages",
+      "--force-renderer-accessibility",
+      "--disable-gpu",
+      "--password-store=basic",
+      "--headless=new",
+      "--no-first-run",
+      "--no-default-browser-check",
+      "--disable-background-networking",
+      "--disable-component-update",
+      "--disable-sync",
+      "--mute-audio",
+      "--window-size=1280,720",
+      "--remote-debugging-port=0",
+      "--remote-debugging-address=127.0.0.1"
+    ],
+    "seconds": 300.00071144104004,
+    "snapshots": [
+      {
+        "elapsed_seconds": 0.0,
+        "dom": {
+          "documents": 63,
+          "nodes": 3245,
+          "jsEventListeners": 309
+        },
+        "heap": {
+          "usedSize": 1551112,
+          "totalSize": 2621440,
+          "embedderHeapUsedSize": 6692152,
+          "backingStorageSize": 368800
+        },
+        "rss_continuous_mib": 907.328125,
+        "polls": {
+          "/api/state": 6,
+          "/api/wake/status": 17,
+          "/assets/play.svg": 10
+        }
+      },
+      {
+        "elapsed_seconds": 30.0,
+        "dom": {
+          "documents": 51,
+          "nodes": 2766,
+          "jsEventListeners": 293
+        },
+        "heap": {
+          "usedSize": 1418288,
+          "totalSize": 2359296,
+          "embedderHeapUsedSize": 5592160,
+          "backingStorageSize": 368800
+        },
+        "rss_continuous_mib": 912.125,
+        "polls": {
+          "/api/state": 36,
+          "/api/wake/status": 117,
+          "/assets/play.svg": 43
+        }
+      },
+      {
+        "elapsed_seconds": 60.0,
+        "dom": {
+          "documents": 85,
+          "nodes": 3084,
+          "jsEventListeners": 301
+        },
+        "heap": {
+          "usedSize": 1599788,
+          "totalSize": 3145728,
+          "embedderHeapUsedSize": 7356136,
+          "backingStorageSize": 368800
+        },
+        "rss_continuous_mib": 916.3125,
+        "polls": {
+          "/api/state": 66,
+          "/api/wake/status": 217,
+          "/assets/play.svg": 75
+        }
+      },
+      {
+        "elapsed_seconds": 90.0,
+        "dom": {
+          "documents": 91,
+          "nodes": 3426,
+          "jsEventListeners": 313
+        },
+        "heap": {
+          "usedSize": 1777124,
+          "totalSize": 3407872,
+          "embedderHeapUsedSize": 8214680,
+          "backingStorageSize": 359327
+        },
+        "rss_continuous_mib": 921.171875,
+        "polls": {
+          "/api/state": 96,
+          "/api/wake/status": 317,
+          "/assets/play.svg": 108
+        }
+      },
+      {
+        "elapsed_seconds": 120.0,
+        "dom": {
+          "documents": 96,
+          "nodes": 3657,
+          "jsEventListeners": 321
+        },
+        "heap": {
+          "usedSize": 1916584,
+          "totalSize": 3670016,
+          "embedderHeapUsedSize": 8647608,
+          "backingStorageSize": 365863
+        },
+        "rss_continuous_mib": 922.59375,
+        "polls": {
+          "/api/state": 126,
+          "/api/wake/status": 417,
+          "/assets/play.svg": 141
+        }
+      },
+      {
+        "elapsed_seconds": 150.0,
+        "dom": {
+          "documents": 100,
+          "nodes": 3885,
+          "jsEventListeners": 329
+        },
+        "heap": {
+          "usedSize": 2069744,
+          "totalSize": 3670016,
+          "embedderHeapUsedSize": 9049448,
+          "backingStorageSize": 365863
+        },
+        "rss_continuous_mib": 925.65625,
+        "polls": {
+          "/api/state": 156,
+          "/api/wake/status": 517,
+          "/assets/play.svg": 174
+        }
+      },
+      {
+        "elapsed_seconds": 180.0,
+        "dom": {
+          "documents": 102,
+          "nodes": 3999,
+          "jsEventListeners": 333
+        },
+        "heap": {
+          "usedSize": 2190240,
+          "totalSize": 3670016,
+          "embedderHeapUsedSize": 9506784,
+          "backingStorageSize": 365863
+        },
+        "rss_continuous_mib": 925.984375,
+        "polls": {
+          "/api/state": 186,
+          "/api/wake/status": 617,
+          "/assets/play.svg": 206
+        }
+      },
+      {
+        "elapsed_seconds": 210.0,
+        "dom": {
+          "documents": 106,
+          "nodes": 4227,
+          "jsEventListeners": 341
+        },
+        "heap": {
+          "usedSize": 1800840,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 9928008,
+          "backingStorageSize": 365863
+        },
+        "rss_continuous_mib": 926.859375,
+        "polls": {
+          "/api/state": 216,
+          "/api/wake/status": 717,
+          "/assets/play.svg": 239
+        }
+      },
+      {
+        "elapsed_seconds": 240.0,
+        "dom": {
+          "documents": 110,
+          "nodes": 4455,
+          "jsEventListeners": 349
+        },
+        "heap": {
+          "usedSize": 1986172,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 10331752,
+          "backingStorageSize": 365863
+        },
+        "rss_continuous_mib": 926.65625,
+        "polls": {
+          "/api/state": 246,
+          "/api/wake/status": 817,
+          "/assets/play.svg": 272
+        }
+      },
+      {
+        "elapsed_seconds": 270.0,
+        "dom": {
+          "documents": 114,
+          "nodes": 4683,
+          "jsEventListeners": 357
+        },
+        "heap": {
+          "usedSize": 2115296,
+          "totalSize": 4718592,
+          "embedderHeapUsedSize": 10868448,
+          "backingStorageSize": 365863
+        },
+        "rss_continuous_mib": 927.140625,
+        "polls": {
+          "/api/state": 276,
+          "/api/wake/status": 917,
+          "/assets/play.svg": 305
+        }
+      },
+      {
+        "elapsed_seconds": 300.001,
+        "dom": {
+          "documents": 116,
+          "nodes": 4797,
+          "jsEventListeners": 361
+        },
+        "heap": {
+          "usedSize": 2169376,
+          "totalSize": 4980736,
+          "embedderHeapUsedSize": 11136096,
+          "backingStorageSize": 365863
+        },
+        "rss_continuous_mib": 928.09375,
+        "polls": {
+          "/api/state": 306,
+          "/api/wake/status": 1017,
+          "/assets/play.svg": 337
+        }
+      }
+    ],
+    "continuous_processes": [
+      {
+        "pid": 1451298,
+        "start": 12191057,
+        "type": "utility",
+        "rss_60s_mib": 71.859375,
+        "rss_300s_mib": 71.859375,
+        "rss_delta_mib": 0.0,
+        "cpu_percent_one_core_60_to_300": 0.004
+      },
+      {
+        "pid": 1451020,
+        "start": 12190695,
+        "type": "browser-or-helper",
+        "rss_60s_mib": 191.1875,
+        "rss_300s_mib": 191.078125,
+        "rss_delta_mib": -0.109375,
+        "cpu_percent_one_core_60_to_300": 0.621
+      },
+      {
+        "pid": 1451117,
+        "start": 12190788,
+        "type": "renderer",
+        "rss_60s_mib": 172.71875,
+        "rss_300s_mib": 183.015625,
+        "rss_delta_mib": 10.296875,
+        "cpu_percent_one_core_60_to_300": 3.487
+      },
+      {
+        "pid": 1451056,
+        "start": 12190719,
+        "type": "gpu-process",
+        "rss_60s_mib": 127.0,
+        "rss_300s_mib": 128.59375,
+        "rss_delta_mib": 1.59375,
+        "cpu_percent_one_core_60_to_300": 0.242
+      },
+      {
+        "pid": 1451058,
+        "start": 12190720,
+        "type": "utility",
+        "rss_60s_mib": 89.40625,
+        "rss_300s_mib": 89.40625,
+        "rss_delta_mib": 0.0,
+        "cpu_percent_one_core_60_to_300": 0.925
+      },
+      {
+        "pid": 1451028,
+        "start": 12190698,
+        "type": "zygote",
+        "rss_60s_mib": 64.578125,
+        "rss_300s_mib": 64.578125,
+        "rss_delta_mib": 0.0,
+        "cpu_percent_one_core_60_to_300": 0.0
+      },
+      {
+        "pid": 1451029,
+        "start": 12190699,
+        "type": "zygote",
+        "rss_60s_mib": 64.640625,
+        "rss_300s_mib": 64.640625,
+        "rss_delta_mib": 0.0,
+        "cpu_percent_one_core_60_to_300": 0.0
+      },
+      {
+        "pid": 1451064,
+        "start": 12190738,
+        "type": "utility",
+        "rss_60s_mib": 46.71875,
+        "rss_300s_mib": 46.71875,
+        "rss_delta_mib": 0.0,
+        "cpu_percent_one_core_60_to_300": 0.004
+      },
+      {
+        "pid": 1451033,
+        "start": 12190709,
+        "type": "zygote",
+        "rss_60s_mib": 19.90625,
+        "rss_300s_mib": 19.90625,
+        "rss_delta_mib": 0.0,
+        "cpu_percent_one_core_60_to_300": 0.0
+      },
+      {
+        "pid": 1451134,
+        "start": 12190808,
+        "type": "renderer",
+        "rss_60s_mib": 68.296875,
+        "rss_300s_mib": 68.296875,
+        "rss_delta_mib": 0.0,
+        "cpu_percent_one_core_60_to_300": 0.0
+      }
+    ],
+    "process_group_unchanged": false,
+    "requests": {
+      "/": 2,
+      "/style.css": 1,
+      "/metro.css": 1,
+      "/cdb.css": 1,
+      "/models.css": 1,
+      "/layout.css": 1,
+      "/workspace.css": 1,
+      "/themes.css": 1,
+      "/touch.css": 1,
+      "/microphone.css": 1,
+      "/settings.css": 1,
+      "/bluetooth.css": 1,
+      "/live.css": 1,
+      "/display.css": 1,
+      "/speakers.css": 1,
+      "/home.css": 1,
+      "/capture-controls.css": 1,
+      "/assistant-tools.css": 1,
+      "/device-status.css": 1,
+      "/assets/waveform.svg": 4,
+      "/themes.js": 1,
+      "/assets/folder.svg": 2,
+      "/assets/gear.svg": 3,
+      "/assets/list.svg": 2,
+      "/assets/check-circle.svg": 2,
+      "/app.js": 1,
+      "/keyboard.js": 1,
+      "/touch.js": 1,
+      "/models.js": 1,
+      "/metro.js": 1,
+      "/cdb.js": 1,
+      "/microphone.js": 1,
+      "/settings.js": 1,
+      "/readiness.js": 1,
+      "/speakers.js": 1,
+      "/display.js": 1,
+      "/home.js": 1,
+      "/capture-controls.js": 1,
+      "/live.js": 1,
+      "/bluetooth.js": 1,
+      "/wake-settings.js": 1,
+      "/device-status.js": 1,
+      "/assistant-tools.js": 1,
+      "/assets/caret-up.svg": 1,
+      "/management.js": 1,
+      "/assets/keyboard.svg": 2,
+      "/assets/circle.svg": 1,
+      "/assets/caret-right.svg": 2,
+      "/assets/dots-three.svg": 1,
+      "/assets/play.svg": 337,
+      "/assets/file-text.svg": 2,
+      "/assets/speaker-high.svg": 2,
+      "/assets/chat.svg": 2,
+      "/assets/sparkle.svg": 2,
+      "/assets/x.svg": 2,
+      "/assets/InterVariable.woff2": 1,
+      "/assets/microphone.svg": 2,
+      "/assets/bluetooth.svg": 1,
+      "/assets/users.svg": 3,
+      "/assets/user.svg": 2,
+      "/api/state": 306,
+      "/assets/book-open.svg": 1,
+      "/assets/lock-simple.svg": 1,
+      "/assets/magnifying-glass.svg": 1,
+      "/assets/monitor.svg": 1,
+      "/assets/arrow-clockwise.svg": 1,
+      "/assets/house.svg": 1,
+      "/assets/timer.svg": 1,
+      "/api/setup": 28,
+      "/api/devices": 28,
+      "/assets/chart-bar.svg": 1,
+      "/api/cdb/areas": 1,
+      "/api/prompts": 1,
+      "/api/microphone/audio": 1,
+      "/api/wake/status": 1017,
+      "/favicon.ico": 1
+    },
+    "validation": {
+      "probe_valid": true,
+      "all_production_assets_healthy": false,
+      "known_missing_asset": "/assets/InterVariable.woff2",
+      "overall_goal_complete": false
+    },
+    "auxiliary_statuses": {
+      "/api/cdb/areas": 200,
+      "/api/microphone/audio": 200,
+      "/assets/InterVariable.woff2": 404,
+      "/favicon.ico": 204
+    },
+    "closed": true,
+    "overall_goal_complete": false
+  },
+  {
+    "mode": "guarded",
+    "browser": "Chrome/142.0.7444.59",
+    "start_epoch": 1792107895.4438677,
+    "end_epoch": 1792108204.594629,
+    "source_hashes": {
+      "app.js": "3aa533561d2b9ef3f8a49a9cfe33719875aeafcb182f66996b5f0687b13c85a6",
+      "device-status.js": "599068a862cfb1d4aeb98d4bf3f4c9abce0770c2746b8b4d75287b653bf75b17",
+      "touch.js": "7014360d67cc123117131c7653a150bab87183b6471355bf3571eaf4e19d7d24",
+      "microphone.js": "4d0ad72a0d736ea27594eee1039d0a1a46aecd5588687a4f36fc33cef77bdf1f",
+      "candidate_microphone.js": "9de014063923156499f4b294ad16b7402664785f24cd2d25307716ce7fc71276",
+      "served_microphone.js": "9de014063923156499f4b294ad16b7402664785f24cd2d25307716ce7fc71276"
+    },
+    "fixture_counts": {
+      "sessions": 22,
+      "jobs": 7,
+      "live_history": 0
+    },
+    "startup_flags": [
+      "--js-flags=--no-decommit-pooled-pages",
+      "--force-renderer-accessibility",
+      "--disable-gpu",
+      "--password-store=basic",
+      "--headless=new",
+      "--no-first-run",
+      "--no-default-browser-check",
+      "--disable-background-networking",
+      "--disable-component-update",
+      "--disable-sync",
+      "--mute-audio",
+      "--window-size=1280,720",
+      "--remote-debugging-port=0",
+      "--remote-debugging-address=127.0.0.1"
+    ],
+    "seconds": 300.0005979537964,
+    "snapshots": [
+      {
+        "elapsed_seconds": 0.0,
+        "dom": {
+          "documents": 48,
+          "nodes": 3200,
+          "jsEventListeners": 309
+        },
+        "heap": {
+          "usedSize": 1549188,
+          "totalSize": 2883584,
+          "embedderHeapUsedSize": 6015960,
+          "backingStorageSize": 368816
+        },
+        "rss_continuous_mib": 904.0,
+        "polls": {
+          "/api/state": 6,
+          "/api/wake/status": 18,
+          "/assets/play.svg": 2
+        }
+      },
+      {
+        "elapsed_seconds": 30.0,
+        "dom": {
+          "documents": 48,
+          "nodes": 3291,
+          "jsEventListeners": 313
+        },
+        "heap": {
+          "usedSize": 1756148,
+          "totalSize": 3670016,
+          "embedderHeapUsedSize": 6095112,
+          "backingStorageSize": 375352
+        },
+        "rss_continuous_mib": 908.09375,
+        "polls": {
+          "/api/state": 36,
+          "/api/wake/status": 118,
+          "/assets/play.svg": 2
+        }
+      },
+      {
+        "elapsed_seconds": 60.0,
+        "dom": {
+          "documents": 48,
+          "nodes": 5645,
+          "jsEventListeners": 401
+        },
+        "heap": {
+          "usedSize": 2474896,
+          "totalSize": 3670016,
+          "embedderHeapUsedSize": 10014528,
+          "backingStorageSize": 375352
+        },
+        "rss_continuous_mib": 911.96875,
+        "polls": {
+          "/api/state": 66,
+          "/api/wake/status": 218,
+          "/assets/play.svg": 2
+        }
+      },
+      {
+        "elapsed_seconds": 90.0,
+        "dom": {
+          "documents": 48,
+          "nodes": 4896,
+          "jsEventListeners": 373
+        },
+        "heap": {
+          "usedSize": 2255796,
+          "totalSize": 4194304,
+          "embedderHeapUsedSize": 9029536,
+          "backingStorageSize": 375512
+        },
+        "rss_continuous_mib": 914.40625,
+        "polls": {
+          "/api/state": 96,
+          "/api/wake/status": 318,
+          "/assets/play.svg": 2
+        }
+      },
+      {
+        "elapsed_seconds": 120.001,
+        "dom": {
+          "documents": 48,
+          "nodes": 3826,
+          "jsEventListeners": 333
+        },
+        "heap": {
+          "usedSize": 2185268,
+          "totalSize": 3932160,
+          "embedderHeapUsedSize": 6964792,
+          "backingStorageSize": 375352
+        },
+        "rss_continuous_mib": 914.125,
+        "polls": {
+          "/api/state": 126,
+          "/api/wake/status": 418,
+          "/assets/play.svg": 2
+        }
+      },
+      {
+        "elapsed_seconds": 150.0,
+        "dom": {
+          "documents": 48,
+          "nodes": 3077,
+          "jsEventListeners": 305
+        },
+        "heap": {
+          "usedSize": 1621568,
+          "totalSize": 4194304,
+          "embedderHeapUsedSize": 6203480,
+          "backingStorageSize": 365879
+        },
+        "rss_continuous_mib": 914.625,
+        "polls": {
+          "/api/state": 156,
+          "/api/wake/status": 518,
+          "/assets/play.svg": 2
+        }
+      },
+      {
+        "elapsed_seconds": 180.0,
+        "dom": {
+          "documents": 48,
+          "nodes": 6501,
+          "jsEventListeners": 433
+        },
+        "heap": {
+          "usedSize": 2565728,
+          "totalSize": 4980736,
+          "embedderHeapUsedSize": 11699664,
+          "backingStorageSize": 365879
+        },
+        "rss_continuous_mib": 919.109375,
+        "polls": {
+          "/api/state": 186,
+          "/api/wake/status": 618,
+          "/assets/play.svg": 2
+        }
+      },
+      {
+        "elapsed_seconds": 210.0,
+        "dom": {
+          "documents": 48,
+          "nodes": 5645,
+          "jsEventListeners": 401
+        },
+        "heap": {
+          "usedSize": 2475064,
+          "totalSize": 4980736,
+          "embedderHeapUsedSize": 10066488,
+          "backingStorageSize": 365879
+        },
+        "rss_continuous_mib": 915.0,
+        "polls": {
+          "/api/state": 216,
+          "/api/wake/status": 718,
+          "/assets/play.svg": 2
+        }
+      },
+      {
+        "elapsed_seconds": 240.0,
+        "dom": {
+          "documents": 48,
+          "nodes": 4896,
+          "jsEventListeners": 373
+        },
+        "heap": {
+          "usedSize": 1990692,
+          "totalSize": 4456448,
+          "embedderHeapUsedSize": 8665496,
+          "backingStorageSize": 365879
+        },
+        "rss_continuous_mib": 916.28125,
+        "polls": {
+          "/api/state": 246,
+          "/api/wake/status": 818,
+          "/assets/play.svg": 2
+        }
+      },
+      {
+        "elapsed_seconds": 270.0,
+        "dom": {
+          "documents": 48,
+          "nodes": 4040,
+          "jsEventListeners": 341
+        },
+        "heap": {
+          "usedSize": 1822196,
+          "totalSize": 3932160,
+          "embedderHeapUsedSize": 7552432,
+          "backingStorageSize": 365879
+        },
+        "rss_continuous_mib": 914.0625,
+        "polls": {
+          "/api/state": 276,
+          "/api/wake/status": 918,
+          "/assets/play.svg": 2
+        }
+      },
+      {
+        "elapsed_seconds": 300.001,
+        "dom": {
+          "documents": 48,
+          "nodes": 2970,
+          "jsEventListeners": 301
+        },
+        "heap": {
+          "usedSize": 1698636,
+          "totalSize": 3145728,
+          "embedderHeapUsedSize": 5766032,
+          "backingStorageSize": 359343
+        },
+        "rss_continuous_mib": 915.0625,
+        "polls": {
+          "/api/state": 306,
+          "/api/wake/status": 1018,
+          "/assets/play.svg": 2
+        }
+      }
+    ],
+    "continuous_processes": [
+      {
+        "pid": 1459203,
+        "start": 12222355,
+        "type": "utility",
+        "rss_60s_mib": 71.890625,
+        "rss_300s_mib": 71.890625,
+        "rss_delta_mib": 0.0,
+        "cpu_percent_one_core_60_to_300": 0.008
+      },
+      {
+        "pid": 1459045,
+        "start": 12222135,
+        "type": "renderer",
+        "rss_60s_mib": 67.765625,
+        "rss_300s_mib": 67.765625,
+        "rss_delta_mib": 0.0,
+        "cpu_percent_one_core_60_to_300": 0.0
+      },
+      {
+        "pid": 1458924,
+        "start": 12222020,
+        "type": "browser-or-helper",
+        "rss_60s_mib": 192.140625,
+        "rss_300s_mib": 192.671875,
+        "rss_delta_mib": 0.53125,
+        "cpu_percent_one_core_60_to_300": 0.496
+      },
+      {
+        "pid": 1459023,
+        "start": 12222122,
+        "type": "renderer",
+        "rss_60s_mib": 167.78125,
+        "rss_300s_mib": 170.859375,
+        "rss_delta_mib": 3.078125,
+        "cpu_percent_one_core_60_to_300": 2.462
+      },
+      {
+        "pid": 1458968,
+        "start": 12222063,
+        "type": "utility",
+        "rss_60s_mib": 46.84375,
+        "rss_300s_mib": 46.84375,
+        "rss_delta_mib": 0.0,
+        "cpu_percent_one_core_60_to_300": 0.0
+      },
+      {
+        "pid": 1458963,
+        "start": 12222045,
+        "type": "gpu-process",
+        "rss_60s_mib": 126.875,
+        "rss_300s_mib": 126.375,
+        "rss_delta_mib": -0.5,
+        "cpu_percent_one_core_60_to_300": 0.196
+      },
+      {
+        "pid": 1458966,
+        "start": 12222053,
+        "type": "utility",
+        "rss_60s_mib": 89.59375,
+        "rss_300s_mib": 89.578125,
+        "rss_delta_mib": -0.015625,
+        "cpu_percent_one_core_60_to_300": 0.654
+      },
+      {
+        "pid": 1458935,
+        "start": 12222026,
+        "type": "zygote",
+        "rss_60s_mib": 64.59375,
+        "rss_300s_mib": 64.59375,
+        "rss_delta_mib": 0.0,
+        "cpu_percent_one_core_60_to_300": 0.0
+      },
+      {
+        "pid": 1458936,
+        "start": 12222026,
+        "type": "zygote",
+        "rss_60s_mib": 64.578125,
+        "rss_300s_mib": 64.578125,
+        "rss_delta_mib": 0.0,
+        "cpu_percent_one_core_60_to_300": 0.0
+      },
+      {
+        "pid": 1458942,
+        "start": 12222044,
+        "type": "zygote",
+        "rss_60s_mib": 19.90625,
+        "rss_300s_mib": 19.90625,
+        "rss_delta_mib": 0.0,
+        "cpu_percent_one_core_60_to_300": 0.0
+      }
+    ],
+    "process_group_unchanged": false,
+    "requests": {
+      "/": 2,
+      "/style.css": 1,
+      "/touch.css": 1,
+      "/themes.css": 1,
+      "/models.css": 1,
+      "/metro.css": 1,
+      "/cdb.css": 1,
+      "/layout.css": 1,
+      "/settings.css": 1,
+      "/live.css": 1,
+      "/microphone.css": 1,
+      "/speakers.css": 1,
+      "/workspace.css": 1,
+      "/bluetooth.css": 1,
+      "/capture-controls.css": 1,
+      "/display.css": 1,
+      "/home.css": 1,
+      "/assistant-tools.css": 1,
+      "/device-status.css": 1,
+      "/themes.js": 1,
+      "/assets/folder.svg": 2,
+      "/assets/waveform.svg": 4,
+      "/assets/gear.svg": 3,
+      "/assets/list.svg": 2,
+      "/assets/check-circle.svg": 2,
+      "/app.js": 1,
+      "/keyboard.js": 1,
+      "/metro.js": 1,
+      "/microphone.js": 1,
+      "/touch.js": 1,
+      "/settings.js": 1,
+      "/models.js": 1,
+      "/cdb.js": 1,
+      "/readiness.js": 1,
+      "/speakers.js": 1,
+      "/capture-controls.js": 1,
+      "/live.js": 1,
+      "/bluetooth.js": 1,
+      "/home.js": 1,
+      "/display.js": 1,
+      "/wake-settings.js": 1,
+      "/assistant-tools.js": 1,
+      "/device-status.js": 1,
+      "/management.js": 1,
+      "/assets/keyboard.svg": 2,
+      "/assets/caret-right.svg": 2,
+      "/assets/dots-three.svg": 1,
+      "/assets/circle.svg": 1,
+      "/assets/caret-up.svg": 1,
+      "/assets/play.svg": 2,
+      "/assets/file-text.svg": 1,
+      "/assets/speaker-high.svg": 2,
+      "/assets/x.svg": 2,
+      "/assets/chat.svg": 2,
+      "/assets/sparkle.svg": 2,
+      "/assets/bluetooth.svg": 1,
+      "/assets/microphone.svg": 2,
+      "/assets/user.svg": 2,
+      "/assets/users.svg": 3,
+      "/assets/InterVariable.woff2": 1,
+      "/api/state": 306,
+      "/assets/book-open.svg": 1,
+      "/assets/arrow-clockwise.svg": 1,
+      "/assets/monitor.svg": 1,
+      "/assets/lock-simple.svg": 1,
+      "/assets/magnifying-glass.svg": 1,
+      "/assets/house.svg": 1,
+      "/assets/timer.svg": 1,
+      "/api/setup": 28,
+      "/api/devices": 28,
+      "/assets/chart-bar.svg": 1,
+      "/api/cdb/areas": 1,
+      "/api/prompts": 1,
+      "/api/microphone/audio": 1,
+      "/api/wake/status": 1018,
+      "/favicon.ico": 1
+    },
+    "validation": {
+      "probe_valid": true,
+      "all_production_assets_healthy": false,
+      "known_missing_asset": "/assets/InterVariable.woff2",
+      "overall_goal_complete": false
+    },
+    "auxiliary_statuses": {
+      "/api/cdb/areas": 200,
+      "/api/microphone/audio": 200,
+      "/assets/InterVariable.woff2": 404,
+      "/favicon.ico": 204
+    },
+    "closed": true,
+    "overall_goal_complete": false
+  }
+]
