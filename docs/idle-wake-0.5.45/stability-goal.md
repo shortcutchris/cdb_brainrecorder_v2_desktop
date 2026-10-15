@@ -100,7 +100,7 @@ niemals einen Pi-/Backend-Neustart während einer Aufnahme auslösen.
   weitere instrumentierte native Runde mit „Gespräch beenden“ bestanden.
   Einstellungen, API-/HTML-Version, Startphase und echte Oberfläche geprüft.
   [Nachweise und offene Abnahmepunkte](../wake-stability-0.5.50/README.md).
-- Aktuelle Langzeitabnahme ab **17:24:13 am 15.10.: offen**. Sämtliche künstlichen
+- Historischer 0.5.50-Lauf ab **17:24:13 am 15.10.: inzwischen abgelöst**. Sämtliche künstlichen
   Belastungstests sind beendet. Der beschleunigte Acht-Stunden-Stille-Vorlauf
   bestand; er ersetzt keinen echten Aufruf nach acht Stunden Ruhe.
   Kein automatischer Browser-/Backend-/Pi-Neustart. Weitere Änderungen nur bei
@@ -110,3 +110,12 @@ niemals einen Pi-/Backend-Neustart während einer Aufnahme auslösen.
 0.5.44 bleibt unverändert; ein zukünftiger Image-Build übernimmt den neuen
 App-Code über die bestehende Positivliste. Jede folgende Laufzeitänderung
 bekommt ihre eigene App-/Image-Einflussbewertung.
+
+- **0.5.52 installiert:** Nach der Diagnose in 0.5.51 wurde ein reproduzierbarer
+  Erkennungsfehler bei sehr leisem Grundrauschen korrigiert. 315 Python-Tests und
+  28 Sprachfälle bestanden; Rauschvergleich 8/12 statt 6/12, vier extreme
+  Kombinationen weiterhin nicht erkannt. Die tatsächliche Ursache der früheren
+  Nutzer-Aussetzer bleibt damit nicht rückwirkend bewiesen. Aktuelle Auslieferung,
+  Grenzen und der neue unveränderliche Lauf vom 15.10. 18:21:33 bis 16.10.
+  18:21:33 sind im [0.5.52-Bericht](../wake-stability-0.5.52/README.md) dokumentiert.
+  Langzeitabnahme und echter Wake nach acht Stunden sind weiterhin offen.
