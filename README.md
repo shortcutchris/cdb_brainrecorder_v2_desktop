@@ -1,5 +1,11 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.55 – Weniger Oberflächenarbeit in Bereitschaft
+
+Unveränderte Wake-Anzeigen und Seitenbeschriftungen werden nicht fortlaufend
+neu geschrieben. Erkennungstakt und Zustandswechsel bleiben erhalten.
+[Vergleich, Tests und Auslieferungsstatus](docs/idle-render-0.5.55/README.md).
+
 ## 0.5.54 – Audioreservierung bei Freigabefehlern erhalten
 
 Wenn ein Audioprozess nicht sauber beendet werden kann, bleibt seine

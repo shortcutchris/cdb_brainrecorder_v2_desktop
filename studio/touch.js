@@ -16,7 +16,7 @@
  function refresh(){
   for(const [el,p] of pagers){
    const label=el.getAttribute('aria-label')||p.name,visible=isVisible(el);if(p.bar.hidden===visible)p.bar.hidden=!visible;
-   p.bar.setAttribute('aria-label',label+' Seiten');
+   if(p.bar.getAttribute('aria-label')!==label+' Seiten')p.bar.setAttribute('aria-label',label+' Seiten');
    if(!visible||typeof drawPageNumbers!=='function')continue;
    const list=el.id==='queue-panel'?el:el.querySelector('#library-list');
    if(list){

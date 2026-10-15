@@ -11,15 +11,15 @@
   const detection=w.detections;
   if(lastDetection!==null&&detection<lastDetection)return; // Older full-state poll after a fast detection.
   lastWake=w;
-  $('wake-feedback-title').textContent=(w.word||'Aktivierungswort')+' erkannt';
+  const title=(w.word||'Aktivierungswort')+' erkannt';if($('wake-feedback-title').textContent!==title)$('wake-feedback-title').textContent=title;
   if(detection!==lastDetection){lastDetection=detection;recognizedUntil=Date.now()+Math.min(8,Math.max(0,lastWake.recognized_for||0))*1000}
   if(!(lastWake.recognized_for>0))recognizedUntil=0;
   const recognized=Date.now()<recognizedUntil;
   const busy=Boolean(state?.recording?.id)||Boolean(state?.live?.busy);
   const connected=['listening','thinking','speaking','reconnecting','closing','ended','error'].includes(state?.live?.state);
-  led.dataset.state=recognized&&!connected?'recognized':lastWake.enabled?(busy?'waiting':lastWake.state):'off';
-  feedback.hidden=!recognized||Boolean(state?.recording?.id)||(!lastWake.testing&&connected);
-  $('wake-feedback-detail').textContent=lastWake.testing?'Lokaler Test · kein Gespräch':state?.live?.state==='error'?'Start fehlgeschlagen · bitte im Gespräch prüfen':state?.live?.busy&&['listening','thinking','speaking'].includes(state.live.state)?'Du kannst sprechen': 'Gespräch wird verbunden …';
+  const mode=recognized&&!connected?'recognized':lastWake.enabled?(busy?'waiting':lastWake.state):'off';if(led.dataset.state!==mode)led.dataset.state=mode;
+  const hidden=!recognized||Boolean(state?.recording?.id)||(!lastWake.testing&&connected);if(feedback.hidden!==hidden)feedback.hidden=hidden;
+  const detail=lastWake.testing?'Lokaler Test · kein Gespräch':state?.live?.state==='error'?'Start fehlgeschlagen · bitte im Gespräch prüfen':state?.live?.busy&&['listening','thinking','speaking'].includes(state.live.state)?'Du kannst sprechen': 'Gespräch wird verbunden …';if($('wake-feedback-detail').textContent!==detail)$('wake-feedback-detail').textContent=detail;
  }
  function renderDeviceStatus(){
   renderWake(state?.wake||lastWake);
@@ -38,7 +38,7 @@
  }
  const previous=renderState;renderState=function(){previous();renderDeviceStatus()};renderDeviceStatus();
  setInterval(async()=>{
-  if(Date.now()>=recognizedUntil)feedback.hidden=true;
+  if(Date.now()>=recognizedUntil&&!feedback.hidden)feedback.hidden=true;
   // Tiny memory-only endpoint. No file access, audio processing or model load.
   if(fetching||!online||document.hidden||!state?.wake?.enabled||state?.recording?.id)return;
   if(state?.live?.busy&&state.live.state!=='connecting')return;

@@ -6,3 +6,11 @@ test('select refresh reaches a fixed point instead of self-triggering its Mutati
  c.refreshSelects();assert.equal(writes,1);while(mutations&&writes<20){mutations=0;c.refreshSelects()}assert.equal(writes,1,'unchanged reflected attributes must not schedule another frame');
  source.disabled=false;c.refreshSelects();assert.equal(writes,2);c.refreshSelects();assert.equal(writes,2);
 });
+
+test('pager labels update only on changes and retain hidden-page semantics',()=>{
+ const s=fs.readFileSync('studio/touch.js','utf8'),fn=s.slice(s.indexOf(' function refresh(){'),s.indexOf(' const selectButtons='));let label='Audio',writes=0,stored='';
+ const bar={hidden:false,getAttribute:()=>stored,setAttribute(k,v){writes++;stored=v}},element={getAttribute:()=>label};
+ const c={pagers:new Map([[element,{bar,name:'fallback'}]]),isVisible:()=>false,refreshSelects(){}};vm.createContext(c);vm.runInContext(fn,c);
+ for(let i=0;i<100;i++)c.refresh();assert.equal(writes,1);assert.equal(stored,'Audio Seiten');assert.equal(bar.hidden,true);
+ label='Bibliothek';c.refresh();assert.equal(writes,2);assert.equal(stored,'Bibliothek Seiten');
+});

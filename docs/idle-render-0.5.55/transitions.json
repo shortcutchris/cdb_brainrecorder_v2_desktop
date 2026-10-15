@@ -1,0 +1,22 @@
+{
+  "scope": "Synthetic VM equivalence only; no Pi, real browser or acoustic acceptance",
+  "device": {
+    "rounds": 100,
+    "transition_checks": 1400,
+    "equal_presentation": true,
+    "original_writes": 13216,
+    "candidate_writes": 9513
+  },
+  "pager": [
+    {
+      "variant": "original",
+      "repeated_writes": 100,
+      "total_writes": 101
+    },
+    {
+      "variant": "candidate",
+      "repeated_writes": 1,
+      "total_writes": 2
+    }
+  ]
+}

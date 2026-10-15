@@ -31,3 +31,15 @@ test('older snapshots never replay a detection; a new backend can reset its coun
  await c.tick();now=9000;c.state.wake={...c.reply,detections:3};c.renderState();await c.tick();assert.equal(el('wake-feedback').hidden,true);
  c.reply={...c.reply,detections:1,instance:'b'};await c.tick();assert.equal(el('wake-feedback').hidden,false);
 });
+
+test('unchanged fast wake polls do not mutate feedback while real changes still render',async()=>{
+ const {c,el}=harness();let writes=0,now=1000;c.Date={now:()=>now};
+ for(const [id,key] of [['wake-feedback','hidden'],['wake-feedback-title','textContent'],['wake-feedback-detail','textContent']]){
+  const node=el(id);let value=node[key];Object.defineProperty(node,key,{get:()=>value,set:v=>{writes++;value=v}});
+ }
+ el('wake-rail-led').dataset=new Proxy(el('wake-rail-led').dataset,{set(o,k,v){writes++;o[k]=v;return true}});
+ c.reply={...c.state.wake};for(let i=0;i<100;i++)await c.tick();assert.equal(writes,0);
+ c.reply={...c.reply,state:'waiting',detections:1,recognized_for:7};await c.tick();
+ assert.ok(writes>0);assert.equal(el('wake-feedback').hidden,false);assert.equal(el('wake-rail-led').dataset.state,'recognized');
+ now+=10000;await c.tick();assert.equal(el('wake-feedback').hidden,true);
+});
