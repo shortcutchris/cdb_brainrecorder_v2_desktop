@@ -1,0 +1,98 @@
+{
+  "scope": "First fixed hour only; not a 24-hour or acoustic acceptance",
+  "version": "0.5.54",
+  "deployed_source_commit": "14f9dc571b5d7f712bd12f4ba139009f893cb8d5",
+  "observation_process": {
+    "service": "cdb-stability-observer.service",
+    "confirmed_pid": 1200644,
+    "confirmed_state": "active/running"
+  },
+  "source_snapshot_sha256": {
+    "plan.json": "ac3d3bd66e3b34d2257f5f5dd511015396a3ee43a7016e0301ab14e8e5ccfff3",
+    "events.jsonl": "fa8b9ca5f4b0fc4d82b3ee5aa899cd41106b86bfa377344ceb2664f4e0fe7e71",
+    "metrics.jsonl": "031366380fd619ac6275d14a66b5162007c1da1a6efed58ac1e65547e400c9b8",
+    "status.json": "98e4c2be60ebe6792f192fd6b29ecf1907c1569c3e10fa1aec76f7ceadfdd0b1"
+  },
+  "summary": {
+    "status": "pending",
+    "overall_goal_complete": false,
+    "note": "Telemetry only. Review hourly RSS trend, actual UI/audio and the full acceptance matrix separately.",
+    "start_epoch": 1792090607.963794,
+    "end_epoch": 1792177007.963794,
+    "analyzed_until_epoch": 1792094207.963794,
+    "elapsed_hours": 1.0,
+    "completed_observation": false,
+    "valid_metric_samples": 240,
+    "invalid_samples": 0,
+    "covered_seconds": 3599.676,
+    "coverage_percent": 99.991,
+    "largest_gap_seconds": 0.005,
+    "planned_window_coverage_percent": 4.1663,
+    "last_sample_age_seconds": 14.676,
+    "versions": [
+      "0.5.54"
+    ],
+    "browser_generation_changes": 0,
+    "wake_phrases": [
+      "okay-kai"
+    ],
+    "backend_instance_changes": 0,
+    "observer_starts": 1,
+    "alerts": [],
+    "review_items": [
+      "real_wake_after_eight_hours_missing"
+    ],
+    "idle_browser_cpu_percent_of_one_core": {
+      "samples": 239,
+      "min": 25.06,
+      "median": 29.46,
+      "p95": 31.53,
+      "max": 32.6
+    },
+    "idle_health_ms": {
+      "samples": 240,
+      "min": 4.07,
+      "median": 4.73,
+      "p95": 97.49,
+      "max": 101.98
+    },
+    "browser_rss_mb": {
+      "samples": 240,
+      "min": 1111.97,
+      "median": 1139.28,
+      "p95": 1168.56,
+      "max": 1171.08
+    },
+    "hourly_browser_rss": [
+      {
+        "hour": 0,
+        "samples": 240,
+        "median_rss_mb": 1139.28
+      }
+    ],
+    "observed_wakes": [],
+    "qualified_long_idle_wakes": 0
+  },
+  "rss_endpoints": {
+    "first": {
+      "at": "2026-10-15T18:56:47.964102+00:00",
+      "rss_mb": 1156.19
+    },
+    "last": {
+      "at": "2026-10-15T19:56:33.287638+00:00",
+      "rss_mb": 1170.98
+    },
+    "delta_mb": 14.79,
+    "minimum": {
+      "at": "2026-10-15T18:57:17.966711+00:00",
+      "rss_mb": 1111.97
+    },
+    "last_minus_minimum_mb": 59.01
+  },
+  "limits": [
+    "No wake observed; listening state does not prove acoustic responsiveness.",
+    "RSS sums include shared pages. No long-term plateau established.",
+    "Fixed cutoff is the original plan start plus 3600 seconds; plan/deadline are unchanged.",
+    "Observer only; no restart, audio playback, forced GC or configuration change."
+  ]
+}

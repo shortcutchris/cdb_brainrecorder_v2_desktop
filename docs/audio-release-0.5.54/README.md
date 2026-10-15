@@ -173,3 +173,28 @@ Aussage: weder Ausschluss jedes Speicherlecks noch Erklärung des Pi-RSS-Verlauf
 Am Pi ist keine Remote-Debugging-Schnittstelle eingeschaltet; sie wurde für diese
 Prüfung nicht aktiviert. Keine Pi-Speicherbereinigung, kein App-/Browser-Neustart,
 keine Schwellenänderung und keine weitere Auslieferung aufgrund dieser Stichprobe.
+
+### Erste volle Stunde: Zwischenstand, keine Langzeitabnahme
+
+Der unveränderte Messplan wurde für den festen Abschnitt **15.10.2026,
+20:56:47 bis 21:56:47 Europe/Berlin** ausgewertet: 240 technische Stichproben,
+99,991 % Abdeckung, kein Wechsel der Browsergeneration und keine Warnung.
+Der echte Beobachterdienst wurde zusätzlich mit PID 1200644 als laufend geprüft.
+Die lokale Gesundheitsabfrage liegt bei p95 **97,49 ms**. Die Browser-CPU hat
+einen Median von **29,46 % eines CPU-Kerns**, p95 31,53 %.
+[Maschinenlesbarer Zwischenbericht](first-hour-observation.json).
+
+Der summierte Browser-RSS fällt kurz nach Beginn von 1.156,19 auf 1.111,97 MiB
+und steigt anschließend bis zur letzten Stichprobe auf 1.170,98 MiB. Deshalb
+werden sowohl der Anfang als auch das Minimum ausgewiesen: +14,79 MiB gegenüber
+dem ersten Wert, aber **+59,01 MiB gegenüber dem frühen Minimum**. Der wachsende
+Verlauf bleibt ungeklärt; fehlende Warnungen sind kein Nachweis eines Plateaus.
+Die oben beschriebene PSS-Prüfung und der kurze lokale Browserversuch erklären
+diesen Verlauf noch nicht abschließend.
+
+In dieser Stunde wurde kein Wake-Ereignis beobachtet. `listening` belegt allein
+den gemeldeten Bereitschaftszustand, weder erfolgreiche Spracherkennung noch
+einen Aufruf nach acht Stunden Pause. Die vollständige Abnahme bleibt offen.
+Der Bericht enthält Prüfsummen der außerhalb von Git gesicherten technischen
+Quelldateien. Messplan, Frist, produktive Anwendung und Kunden-Image bleiben
+unverändert; diese Ergänzung enthält ausschließlich Dokumentation.
