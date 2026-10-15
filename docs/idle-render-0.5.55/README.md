@@ -275,3 +275,12 @@ kein Image-Einfluss und kein automatischer Reparatur-/Neustarteingriff.
 Eine [isoliert belegte wiederholte SVG-Neuladung](probe-icon/README.md) im
 Mikrofon-Testplayer ist im Quellstand korrigiert. Die beobachtete Pi-Version bleibt
 unverändert. Dies belegt keinen Fix des langfristigen Ressourcenwachstums.
+
+## Direkte native CPU-Zuordnung
+
+Eine [zehnsekündige Stichprobe des laufenden Pi-Renderers](native-perf/README.md)
+ordnet 118 von 143 CPU-Samples drei internen Chromium-Scheduler-Funktionen zu.
+Die Funktionsnamen sind über die exakt passende Build-ID verifiziert. Dies
+ersetzt die frühere rein prozessbezogene CPU-Eingrenzung, beweist aber weder den
+Auslöser noch einen Speicher-Fix. Diagnoseintervall, Instrumentierungsgrenzen
+und die unveränderte produktive Laufzeit sind im Bericht ausgewiesen.

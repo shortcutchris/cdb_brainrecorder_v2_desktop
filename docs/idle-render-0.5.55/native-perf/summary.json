@@ -1,0 +1,266 @@
+{
+  "scope": "10-second user-space CPU-clock sample of existing production renderer main thread; no restart, audio or payload capture",
+  "started_at_epoch": 1792104965.9062726,
+  "ended_at_epoch": 1792104976.150519,
+  "elapsed_seconds": 10.244246244430542,
+  "target": {
+    "pid": 806009,
+    "start_ticks": 8935764,
+    "user_ticks": 606563,
+    "system_ticks": 28677
+  },
+  "target_identity_unchanged": true,
+  "cpu_user_seconds": 3.04,
+  "cpu_system_seconds": 0.1,
+  "activity_checks": 21,
+  "all_activity_checks_idle": true,
+  "samples": 143,
+  "lost_samples": 0,
+  "parse_error": 0,
+  "symbolization": {
+    "symbol_count": 664974,
+    "build_id": "7914866d038784fc765399fac27c1c34baa6507f",
+    "samples": 143,
+    "leaf": [
+      {
+        "function": "blink::scheduler::AgentGroupSchedulerImpl::PerformMicrotaskCheckpoint()",
+        "samples": 68
+      },
+      {
+        "function": "blink::scheduler::MainThreadSchedulerImpl::UpdateCompositorTaskQueuePriority()",
+        "samples": 39
+      },
+      {
+        "function": "blink::scheduler::MainThreadSchedulerImpl::PerformMicrotaskCheckpoint()",
+        "samples": 11
+      },
+      {
+        "function": "__aarch64_swp8_acq",
+        "samples": 8
+      },
+      {
+        "function": "base::sequence_manager::internal::SequenceManagerImpl::DidRunTask(base::LazyNow&)",
+        "samples": 2
+      },
+      {
+        "function": "blink::AtomicMemzero(void*, unsigned long)",
+        "samples": 2
+      },
+      {
+        "function": "base::small_map<std::__1::map<int, std::__1::unique_ptr<page_load_metrics::PageResourceDataUse, std::__1::default_delete<page_load_metrics::PageResourceDataUse>>, std::__1::less<int>, std::__1::allocator<std::__1::pair<int const, std::__1::unique_ptr<page_load_metrics::PageResourceDataUse, std::__1::default_delete<page_load_metrics::PageResourceDataUse>>>>>, 16ul, base::internal::select_equal_key<std::__1::map<int, std::__1::unique_ptr<page_load_metrics::PageResourceDataUse, std::__1::default_delete<page_load_metrics::PageResourceDataUse>>, std::__1::less<int>, std::__1::allocator<std::__1::pair<int const, std::__1::unique_ptr<page_load_metrics::PageResourceDataUse, std::__1::default_delete<page_load_metrics::PageResourceDataUse>>>>>, false>::equal_key, base::internal::small_map_default_init<std::__1::map<int, std::__1::unique_ptr<page_load_metrics::PageResourceDataUse, std::__1::default_delete<page_load_metrics::PageResourceDataUse>>, std::__1::less<int>, std::__1::allocator<std::__1::pair<int const, std::__1::unique_ptr<page_load_metrics::PageResourceDataUse, std::__1::default_delete<page_load_metrics::PageResourceDataUse>>>>>>>::operator[](int const&) requires std::is_default_constructible_v<T::mapped_type>",
+        "samples": 1
+      },
+      {
+        "function": "blink::Element::EnsureMutableInlineStyle()",
+        "samples": 1
+      },
+      {
+        "function": "allocator_shim::internal::PartitionAllocFunctionsInternal<(partition_alloc::internal::AllocFlags)16, (partition_alloc::internal::FreeFlags)6>::Malloc(unsigned long, void*)",
+        "samples": 1
+      },
+      {
+        "function": "/usr/lib/aarch64-linux-gnu/libc.so.6",
+        "samples": 1
+      },
+      {
+        "function": "base::sequence_manager::internal::WorkQueue::RemoveCancelledTasks(base::sequence_manager::internal::WorkQueue::RemoveCancelledTasksPolicy)",
+        "samples": 1
+      },
+      {
+        "function": "v8::internal::ExternalEntityTable<v8::internal::CppHeapPointerTableEntry, 536870912ul>::AllocateEntry(v8::internal::ExternalEntityTable<v8::internal::CppHeapPointerTableEntry, 536870912ul>::Space*)",
+        "samples": 1
+      },
+      {
+        "function": "v8::internal::MaterializedObjectStore::Get(unsigned long)",
+        "samples": 1
+      },
+      {
+        "function": "blink::FetchHeaderList::Append(blink::String const&, blink::String const&)",
+        "samples": 1
+      },
+      {
+        "function": "blink::RejectedPromises::ProcessQueue()",
+        "samples": 1
+      },
+      {
+        "function": "blink::Element::InsertedInto(blink::ContainerNode&)",
+        "samples": 1
+      },
+      {
+        "function": "base::sequence_manager::internal::WorkQueue::GetFrontTaskOrder() const",
+        "samples": 1
+      },
+      {
+        "function": "base::sequence_manager::internal::WorkQueueSets::ChangeSetIndex(base::sequence_manager::internal::WorkQueue*, unsigned long)",
+        "samples": 1
+      },
+      {
+        "function": "non-virtual thunk to blink::scheduler::(anonymous namespace)::DummyWebMainThreadScheduler::MonotonicallyIncreasingVirtualTime() (.3c8bad0fc6d4aa9a4b4ada34e5e3b8e1)",
+        "samples": 1
+      }
+    ],
+    "inclusive": [
+      {
+        "function": "content::RendererMain(content::MainFunctionParams)",
+        "samples": 143
+      },
+      {
+        "function": "content::ContentMainRunnerImpl::Run()",
+        "samples": 143
+      },
+      {
+        "function": "content::ContentMain(content::ContentMainParams)",
+        "samples": 143
+      },
+      {
+        "function": "base::RunLoop::Run(base::Location const&)",
+        "samples": 143
+      },
+      {
+        "function": "base::sequence_manager::internal::ThreadControllerWithMessagePumpImpl::Run(bool, base::TimeDelta)",
+        "samples": 143
+      },
+      {
+        "function": "ChromeMain",
+        "samples": 143
+      },
+      {
+        "function": "/usr/lib/aarch64-linux-gnu/libc.so.6",
+        "samples": 143
+      },
+      {
+        "function": "_start",
+        "samples": 143
+      },
+      {
+        "function": "base::MessagePumpDefault::Run(base::MessagePump::Delegate*)",
+        "samples": 143
+      },
+      {
+        "function": "content::RunOtherNamedProcessTypeMain(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> const&, content::MainFunctionParams, content::ContentMainDelegate*)",
+        "samples": 143
+      },
+      {
+        "function": "base::sequence_manager::internal::ThreadControllerWithMessagePumpImpl::DoWork()",
+        "samples": 141
+      },
+      {
+        "function": "base::sequence_manager::internal::SequenceManagerImpl::DidRunTask(base::LazyNow&)",
+        "samples": 128
+      },
+      {
+        "function": "blink::scheduler::MainThreadSchedulerImpl::OnTaskCompleted(base::WeakPtr<blink::scheduler::MainThreadTaskQueue>, base::sequence_manager::Task const&, base::sequence_manager::TaskQueue::TaskTiming*, base::LazyNow*)",
+        "samples": 126
+      },
+      {
+        "function": "blink::scheduler::MainThreadSchedulerImpl::PerformMicrotaskCheckpoint()",
+        "samples": 84
+      },
+      {
+        "function": "blink::scheduler::AgentGroupSchedulerImpl::PerformMicrotaskCheckpoint()",
+        "samples": 71
+      },
+      {
+        "function": "blink::scheduler::MainThreadSchedulerImpl::UpdateCompositorTaskQueuePriority()",
+        "samples": 41
+      },
+      {
+        "function": "__aarch64_swp8_acq",
+        "samples": 8
+      },
+      {
+        "function": "base::sequence_manager::internal::SequenceManagerImpl::SelectNextTaskImpl(base::LazyNow&, base::sequence_manager::internal::SequencedTaskSource::SelectTaskOption)",
+        "samples": 7
+      },
+      {
+        "function": "base::TaskAnnotator::RunTaskImpl(base::PendingTask&)",
+        "samples": 5
+      },
+      {
+        "function": "v8::internal::MicrotaskQueue::PerformCheckpoint(v8::Isolate*)",
+        "samples": 3
+      },
+      {
+        "function": "[anonymous]",
+        "samples": 3
+      },
+      {
+        "function": "v8::internal::(anonymous namespace)::Invoke(v8::internal::Isolate*, v8::internal::(anonymous namespace)::InvokeParams const&) (.llvm.1294176078942991313)",
+        "samples": 3
+      },
+      {
+        "function": "v8::internal::MicrotaskQueue::RunMicrotasks(v8::internal::Isolate*)",
+        "samples": 3
+      },
+      {
+        "function": "blink::scheduler::EventLoop::PerformMicrotaskCheckpoint()",
+        "samples": 3
+      },
+      {
+        "function": "blink::BackgroundURLLoader::Context::RunTasksOnMainThread()",
+        "samples": 3
+      }
+    ],
+    "method": "Matched GNU build-id; ELF executable LOAD file offset to VMA (+0x10000); function-range lookup in SHT_SYMTAB, per-sample unique inclusive functions"
+  },
+  "symbols_source": {
+    "url": "https://archive.raspberrypi.com/debian/pool/main/c/chromium/chromium-dbgsym_142.0.7444.59-1~deb13u1+rpt1_arm64.deb",
+    "package_bytes": 38561398,
+    "package_sha256": "49c6ad8c3c3fcec3899dc465b242ce7c12bf696c2d506f996519abd480e63cfd",
+    "debug_bytes": 157229160,
+    "debug_sha256": "7e7da66a769e74ff39ac85a705436708ebc139e8cb69902c62b9005f65c6bf78",
+    "verified_build_id": "7914866d038784fc765399fac27c1c34baa6507f",
+    "installed": false
+  },
+  "elf_load_segments": [
+    {
+      "type": 1,
+      "flags": 4,
+      "file_offset": 0,
+      "vma": 0,
+      "file_size": 39231412,
+      "memory_size": 39231412
+    },
+    {
+      "type": 1,
+      "flags": 5,
+      "file_offset": 39231488,
+      "vma": 39297024,
+      "file_size": 211999584,
+      "memory_size": 211999584
+    },
+    {
+      "type": 1,
+      "flags": 6,
+      "file_offset": 251231072,
+      "vma": 251362144,
+      "file_size": 9884224,
+      "memory_size": 9884832
+    },
+    {
+      "type": 1,
+      "flags": 6,
+      "file_offset": 261160960,
+      "vma": 261357568,
+      "file_size": 1441793,
+      "memory_size": 3399468
+    }
+  ],
+  "source_sha256": {
+    "metadata.json": "54169eb85dfd73f5d7a651999594b13560a8199f03cf73980ad70a836cda78a0",
+    "sample.json": "a2f8df923cfa6b4edf02f3873f719a2c872cdb7cba0cf2aed99cc5782728d6f8",
+    "maps-before.txt": "2c6ec5ba922ec159bae1b6a2bdd30bb5e1493911603012d7083560ad6afa6d9e",
+    "maps-after.txt": "e67c8f8c2a27838b49850f1e74a997c8eebe37539a128e81ba957cf25092289e",
+    "sample.c": "81677c08690094d2e0275a76d31d4846d7b45f52dcae726d385b0ddba38828a7",
+    "elf-layout.json": "01edf128543b9c058863ebec5b42a9e6d4f47425caadd2d0b63a4f6f36b3d780"
+  },
+  "private_evidence_directory": "/Users/chris/.local/share/cdb-stability-evidence-20261015/055-native-perf",
+  "limits": [
+    "One ten-second sample of one renderer main thread; not all browser CPU or long-term allocation attribution.",
+    "Native profiling and offline symbol extraction overlap the observer window; instrumentation overhead was not measured.",
+    "Matched function symbols; addr2line confirms hottest names but reports malformed line tables, so no source-line or inline-frame precision is claimed.",
+    "No proven cause or fix for production memory growth.",
+    "No packages installed; debug data only in isolated diagnostic directories."
+  ],
+  "goal_complete": false
+}
