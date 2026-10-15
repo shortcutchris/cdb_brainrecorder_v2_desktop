@@ -1,0 +1,37 @@
+{
+  "synthetic_acoustic": true,
+  "production_live_handoff": false,
+  "phrase": "okay-kai",
+  "version": "0.5.52",
+  "quiet_seconds": 1,
+  "started_epoch": 1792085512.0166152,
+  "cases": [
+    {
+      "clip": "okay-kai.wav",
+      "sha256": "90f2112bf8797f5eacf477b13772f732ac360d77bdc881e8261abbf4ee13b200",
+      "detections": 0,
+      "decisions": [
+        {
+          "at_seconds": 4.93,
+          "category": "partial_wake_word"
+        }
+      ],
+      "play_at_seconds": 1.04,
+      "playback_exit": 0,
+      "audio": {
+        "blocks": 171,
+        "speech_segments": 1,
+        "accepted": 0,
+        "candidate_rejected": 0,
+        "partial_wake_word": 1,
+        "other_speech": 0,
+        "onset_renewals": 1,
+        "decision": "partial_wake_word",
+        "peak_dbfs": -4.6,
+        "rms_dbfs": -28.3
+      }
+    }
+  ],
+  "maintenance_released": true,
+  "finished_epoch": 1792085520.745679
+}

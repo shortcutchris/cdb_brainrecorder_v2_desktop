@@ -14,6 +14,17 @@ class StabilityTests(unittest.TestCase):
         self.events = []
         self.observer = monitor.Observer(self.events.append)
 
+    def test_phrase_change_cannot_inherit_old_idle_duration(self):
+        wake={'instance':'a','detections':0,'state':'listening','phrase':'hey-brain'}
+        live={'state':'idle','active':False}
+        self.observer.poll(wake,live,100)
+        self.observer.poll({**wake,'phrase':'okay-kai'},live,30000)
+        self.observer.poll({**wake,'phrase':'okay-kai','detections':1,'state':'waiting'},
+                           {'state':'connecting','active':True},30002)
+        event=next(e for e in self.events if e['type']=='wake_observed')
+        self.assertEqual(event['idle_seconds'],2)
+        self.assertEqual(event['phrase'],'okay-kai')
+
     def test_wake_diagnostics_are_deduplicated_bounded_and_text_free(self):
         item={'detector':1,'at_monotonic':100.,'blocks':20,'speech_segments':1,
               'accepted':0,'candidate_rejected':1,'partial_wake_word':0,'other_speech':0,

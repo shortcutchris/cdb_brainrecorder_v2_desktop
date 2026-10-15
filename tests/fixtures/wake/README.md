@@ -14,3 +14,14 @@ Die App pausiert Wake absichtlich bei eigener Wiedergabe: Für einen isolierten
 Raumtest `scripts/check_wake_acoustic.py` unter atomarer Wartung verwenden.
 Ein echter produktiver Wake-Test braucht eine davon unabhängige menschliche
 Stimme oder externe Schallquelle. Nicht unangekündigt hörbar abspielen.
+
+Weitere Vergleichsdateien (Geschwindigkeit 0,85, Stabilität 0,65):
+
+- `hey-kai-vincent.mp3`: „Hey, Kai.“
+- `okay-kai-vincent.mp3`: „Okay, Kai.“
+- `hey-guy-vincent.mp3`: „Hey, Guy.“ (Negativbeispiel)
+- `okay-karl-vincent.mp3`: „Okay, Karl.“ (Negativbeispiel)
+- `kai-later-vincent.mp3`: „Kai, komm bitte später.“ (Negativbeispiel)
+
+Eine synthetische Stimme erlaubt keinen allgemeinen Qualitätsvergleich zwischen
+Rufwörtern. Datei- und Raumtests werden getrennt protokolliert.

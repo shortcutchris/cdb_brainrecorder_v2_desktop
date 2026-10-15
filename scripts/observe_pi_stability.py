@@ -102,6 +102,7 @@ class Observer:
         self.diagnostic_keys = deque(maxlen=64)
         self.wake_state = None
         self.wake_enabled = None
+        self.wake_phrase = None
         self.wake_errors = deque()
 
     def alert(self, name, active, now, details=None):
@@ -137,6 +138,13 @@ class Observer:
 
     def poll(self, wake, live, now):
         self.failures = 0
+        phrase = wake.get('phrase', 'hey-brain')
+        if phrase not in ('hey-brain', 'hey-kai', 'okay-kai'): phrase = 'unknown'
+        if self.wake_phrase != phrase:
+            self.emit({'type': 'wake_phrase', 'phrase': phrase, 'at': utc(now)})
+            self.wake_phrase = phrase
+            self.idle_since = None
+            self.pending = None
         for item in (wake.get('diagnostics') or {}).get('recent_decisions', [])[-16:]:
             if not isinstance(item, dict): continue
             key = (wake.get('instance'), item.get('detector'), item.get('at_monotonic'))
@@ -168,6 +176,7 @@ class Observer:
         elif self.wake_key is not None and key != self.wake_key:
             self.counts['wake_observed'] += 1
             self.pending = {'detected_at': utc(now), 'detected_epoch': now,
+                            'phrase': self.wake_phrase,
                             'idle_seconds': round(now - self.idle_since, 1) if self.idle_since else None,
                             'count': key[1], 'connected_seconds': None, 'first_output_seconds': None}
             self.emit({'type': 'wake_observed', 'at': utc(now), **self.pending})
@@ -235,7 +244,7 @@ def run(folder, hours):
             current, roots = browser_processes()
             row = {'at': utc(now), 'browser': process_metrics(current, previous, tick - previous_at),
                    'browser_generation': sorted((pid, current[pid]['start']) for pid in roots),
-                   'wake_enabled': observer.wake_enabled, **resources()}
+                   'wake_enabled': observer.wake_enabled, 'wake_phrase': observer.wake_phrase, **resources()}
             previous, previous_at, next_sample = current, tick, tick + 15
             try:
                 token = json.loads(token_path.read_text())['token']

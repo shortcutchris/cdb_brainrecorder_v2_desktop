@@ -55,6 +55,17 @@ class StudioTests(unittest.TestCase):
                 self.assertNotIn(b'__STUDIO_VERSION__', data)
                 self.assertEqual(int(headers['Content-Length']), len(data))
 
+    def test_wake_phrase_selection_respects_activity_and_persists(self):
+        from services.app_activity import AppActivity
+        for activity in (AppActivity(recording=True),AppActivity(paused=True,recording=True),AppActivity(live='active'),AppActivity(maintenance=True)):
+            with patch.object(self.app,'activity',return_value=activity):
+                self.assertEqual(self.request('/api/wake',{'action':'phrase','phrase':'hey-kai'})[0],400)
+        self.assertEqual(self.app.wake.phrase,'hey-brain')
+        self.assertEqual(self.request('/api/wake',{'action':'phrase','phrase':'okay-kai'})[0],200)
+        self.assertEqual(self.app.wake.public()['word'],'Okay KAI')
+        self.assertEqual(self.request('/api/wake',{'action':'phrase','phrase':'unknown'})[0],400)
+        self.assertEqual(self.app.wake.phrase,'okay-kai')
+
     def test_management_token_maintenance_and_timer_guards(self):
         from fleet.common import read
         headers={'Authorization':'Bearer '+read(self.app.management.auth)['token']}

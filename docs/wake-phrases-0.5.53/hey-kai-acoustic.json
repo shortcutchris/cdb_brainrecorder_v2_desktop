@@ -1,0 +1,37 @@
+{
+  "synthetic_acoustic": true,
+  "production_live_handoff": false,
+  "phrase": "hey-kai",
+  "version": "0.5.52",
+  "quiet_seconds": 1,
+  "started_epoch": 1792085489.4540823,
+  "cases": [
+    {
+      "clip": "hey-kai.wav",
+      "sha256": "6ec0c64311366f5ed7dda6a26dff57510b3fff5ca0ab5b3be931c92a036e3ef7",
+      "detections": 0,
+      "decisions": [
+        {
+          "at_seconds": 4.67,
+          "category": "candidate_rejected"
+        }
+      ],
+      "play_at_seconds": 1.03,
+      "playback_exit": 0,
+      "audio": {
+        "blocks": 168,
+        "speech_segments": 1,
+        "accepted": 0,
+        "candidate_rejected": 1,
+        "partial_wake_word": 0,
+        "other_speech": 0,
+        "onset_renewals": 1,
+        "decision": "candidate_rejected",
+        "peak_dbfs": -5.1,
+        "rms_dbfs": -29.6
+      }
+    }
+  ],
+  "maintenance_released": true,
+  "finished_epoch": 1792085498.0885801
+}

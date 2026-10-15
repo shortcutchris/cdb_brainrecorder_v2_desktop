@@ -17,7 +17,7 @@ import sys
 import time
 from meeting_recorder.child_process import owned_command
 from meeting_recorder.core import atomic_write
-from services.wake_phrase import WORD, model_ready
+from services.wake_phrase import DEFAULT_PHRASE, PHRASES, phrase_spec, model_ready
 from services.wake_diagnostics import AudioDiagnostics, validate
 
 
@@ -27,6 +27,7 @@ class WakeWord:
         self.instance = secrets.token_hex(8)
         self.clock = clock
         self.enabled = False
+        self.phrase = DEFAULT_PHRASE
         self.account = None
         self.process = None
         self.read_process = None
@@ -47,10 +48,15 @@ class WakeWord:
             saved = json.loads(self.path.read_text())
             self.enabled = saved.get('enabled') is True
             self.account = saved.get('account')
+            candidate = saved.get('phrase', DEFAULT_PHRASE)
+            if isinstance(candidate, str) and candidate in PHRASES: self.phrase = candidate
+            else: self.enabled = False
         except (ValueError, OSError): pass
 
     def public(self):
-        return {'instance': self.instance, 'enabled': self.enabled, 'available': self.runtime, 'word': WORD,
+        return {'instance': self.instance, 'enabled': self.enabled, 'available': self.runtime,
+                'word': phrase_spec(self.phrase)['label'], 'phrase': self.phrase,
+                'phrases': [{'id': key, 'label': spec['label']} for key, spec in PHRASES.items()],
                 'state': self.mode, 'message': self.message, 'detections': self.count,
                 'recognized_for': max(0, round(self.recognized_until-self.clock(), 2)),
                 'testing': self.test_until > self.clock(),
@@ -60,12 +66,12 @@ class WakeWord:
                                 'latest': self.diagnostics, 'recent_decisions': list(self.diagnostic_history)}}
 
     def save(self):
-        atomic_write(self.path, json.dumps({'enabled': self.enabled, 'account': self.account}))
+        atomic_write(self.path, json.dumps({'enabled': self.enabled, 'account': self.account, 'phrase': self.phrase}))
         os.chmod(self.path, 0o600)
 
     def configure(self, enabled, account):
         if type(enabled) is not bool: raise ValueError('Ein oder Aus wählen.')
-        if enabled and not self.runtime: raise ValueError('Hey-Brain-Erkennung fehlt. Bitte die lokale Laufzeit und das Modell installieren.')
+        if enabled and not self.runtime: raise ValueError('Lokale Aktivierungswort-Erkennung fehlt. Bitte Laufzeit und Modell installieren.')
         if enabled and not account: raise ValueError('Zuerst beim Brain anmelden.')
         self.suspend()
         self.test_until = 0
@@ -76,9 +82,23 @@ class WakeWord:
         self.message = 'Bereitschaft wird geprüft.' if enabled else 'Aktivierungswort ausgeschaltet.'
         return self.public()
 
-    def test(self):
-        if not self.runtime: raise ValueError('Hey-Brain-Erkennung fehlt. Bitte die lokale Laufzeit und das Modell installieren.')
+    def select_phrase(self, phrase):
+        phrase_spec(phrase)
+        if self.enabled or self.test_until > self.clock():
+            raise ValueError('Zum Wechseln zuerst Aktivierungswort und Erkennungstest ausschalten.')
         self.suspend()
+        self.phrase = phrase
+        self.instance = secrets.token_hex(8)
+        self.count = 0
+        self.recognized_until = 0
+        self.save()
+        self.message = 'Aktivierungswort gewählt. Einschalten oder lokal testen.'
+        return self.public()
+
+    def test(self):
+        if not self.runtime: raise ValueError('Lokale Aktivierungswort-Erkennung fehlt. Bitte Laufzeit und Modell installieren.')
+        self.suspend()
+        self.instance = secrets.token_hex(8)
         self.count = 0
         self.test_until = self.clock()+30
         return self.public()
@@ -114,7 +134,7 @@ class WakeWord:
             self.mode = 'off'
             return
         if not self.runtime:
-            self.mode, self.message = 'error', 'Hey-Brain-Erkennung fehlt. Bitte Laufzeit und Modell installieren.'
+            self.mode, self.message = 'error', 'Lokale Aktivierungswort-Erkennung fehlt. Bitte Laufzeit und Modell installieren.'
             return
         if reason:
             if self.process: self.suspend(reason)
@@ -124,7 +144,7 @@ class WakeWord:
         if not self.process:
             # The service may retain its pre-update working directory. Parent and
             # detector must import the same immutable release, also on fresh images.
-            self.process = subprocess.Popen(owned_command([sys.executable, '-u', '-m', 'services.wake_word', config['device']]),
+            self.process = subprocess.Popen(owned_command([sys.executable, '-u', '-m', 'services.wake_word', config['device'], self.phrase]),
                 stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, start_new_session=True, bufsize=0,
                 cwd=str(Path(__file__).resolve().parents[1]))
             self.detector_starts += 1
@@ -166,7 +186,8 @@ class WakeWord:
                     self.progress_at = self.clock()
                 if line == b'ready':
                     self.mode = 'testing' if testing else 'listening'
-                    self.message = 'Sage „Hey Brain“ · Test ohne Cloud-Start.' if testing else 'Bereit für „Hey Brain“ · Erkennung bleibt lokal.'
+                    word = phrase_spec(self.phrase)['label']
+                    self.message = f'Sage „{word}“ · Test ohne Cloud-Start.' if testing else f'Bereit für „{word}“ · Erkennung bleibt lokal.'
                 if line == b'detected':
                     self.count += 1
                     logging.info('Wake detected count=%d testing=%s',self.count,testing)
@@ -182,10 +203,10 @@ class WakeWord:
             self.mode = 'error'
 
 
-def detect(capture_command=None):
+def detect(capture_command=None, phrase=None):
     from services.wake_phrase import PhraseDetector
     from services.live_audio import native_capture_command
-    model = PhraseDetector()
+    model = PhraseDetector(phrase or (sys.argv[2] if len(sys.argv)>2 else DEFAULT_PHRASE))
     diagnostics = AudioDiagnostics()
     command = capture_command or native_capture_command({'device': sys.argv[1]})
     capture = subprocess.Popen(owned_command(command), stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)

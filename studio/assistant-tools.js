@@ -57,7 +57,7 @@
   }
   for(const el of document.querySelectorAll('[data-timer-id]')){const item=items.find(i=>i.id===el.dataset.timerId);if(item?.state==='scheduled'&&item.kind==='timer')el.textContent=duration(item.remaining)+' · '+(toneName[item.tone]||'Glocke')}
   const w=state?.wake||{};
-  if(w.enabled||w.testing){$('start-background').textContent=w.state==='listening'?'Bereit für „Hey Brain“':w.testing?'Aktivierungswort · lokaler Test':'Aktivierungswort · pausiert';$('live-open').title=w.state==='listening'?'Live-Gespräch · bereit für Hey Brain':'Live-Gespräch · Aktivierungswort pausiert'}else $('live-open').title='Live-Gespräch';
+  if(w.enabled||w.testing){$('start-background').textContent=w.state==='listening'?'Bereit für „'+(w.word||'Hey Brain')+'“':w.testing?'Aktivierungswort · lokaler Test':'Aktivierungswort · pausiert';$('live-open').title=w.state==='listening'?'Live-Gespräch · bereit für '+(w.word||'Hey Brain'):'Live-Gespräch · Aktivierungswort pausiert'}else $('live-open').title='Live-Gespräch';
   if(state?.live?.busy&&state.live.owner_kind==='device'&&!$('live-view').open){closeKeyboard();audio.pause();workspaceView('live-view')}
  }
  // Every browser audio path yields the local detector before it emits sound.

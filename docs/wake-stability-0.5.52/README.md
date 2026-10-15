@@ -150,3 +150,14 @@ die Ereignisse beweisen daher weder die beabsichtigte Auslösung noch gehörten
 Antwortinhalt oder einen bestimmten gesprochenen Ende-Befehl. Sie belegen einen
 weiteren abgeschlossenen produktiven Zustandsablauf ohne beobachteten Startfehler.
 Der Messdienst und der Browser liefen dabei ohne Neustart weiter.
+
+### Auf Nutzerwunsch abgelöster Dauerlauf
+
+Der Nutzer beauftragte am 15.10.2026 ausdrücklich den Einbau und Test von
+„Hey KAI“ und „Okay KAI“. Der Beobachter wurde vor den neuen Pi-Tests beendet
+und sein vollständiger Lauf unverändert unter `baseline-052` archiviert.
+[Teilbeobachtung](partial-observation.json): kein bestandener 24-Stunden-Lauf,
+kein Acht-Stunden-Ruhetest. Drei produktive Aktivierungen wurden erfasst, keine
+Warnung oder Prozessgeneration gewechselt. Der ansteigende Browser-RSS ist
+nicht abschließend bewertet. Für den neuen Release und das gewählte Rufwort
+ist eine neue Langzeitmessung erforderlich.

@@ -85,6 +85,8 @@ def analyze(plan, status, metrics, events, now, parse_errors=0):
     observer_starts = sum(e.get('type') == 'observer_started' for e in selected_events)
     alerts = sorted({str(e.get('code')) for e in selected_events if e.get('type') == 'alert'})
     versions = sorted({str(r['version']) for _, r in rows})
+    phrases = sorted({str(r.get('wake_phrase', 'hey-brain')) for _, r in rows} |
+                     {str(e.get('phrase', 'unknown')) for e in selected_events if e.get('type') == 'wake_phrase'})
     wakes = {}
     for e in selected_events:
         if e.get('type') not in ('wake_observed', 'wake_connected', 'wake_first_output', 'wake_failed'):
@@ -95,7 +97,7 @@ def analyze(plan, status, metrics, events, now, parse_errors=0):
             continue
         wake = wakes.setdefault(key, {'detected_epoch': key, 'observed': False})
         if e['type'] == 'wake_observed':
-            wake.update(observed=True, idle_seconds=e.get('idle_seconds'))
+            wake.update(observed=True, idle_seconds=e.get('idle_seconds'), phrase=e.get('phrase', 'hey-brain'))
         if e['type'] == 'wake_connected': wake['connected_seconds'] = e.get('connected_seconds')
         if e['type'] == 'wake_first_output': wake['first_output_seconds'] = e.get('first_output_seconds')
         if e['type'] == 'wake_failed': wake['failed'] = True
@@ -117,6 +119,7 @@ def analyze(plan, status, metrics, events, now, parse_errors=0):
     if observer_starts == 0: problems.append('observer_start_evidence_missing')
     if observer_starts > 1: problems.append('observer_restart_requires_review')
     if len(versions) != 1: problems.append('missing_or_mixed_versions')
+    if len(phrases) != 1 or 'unknown' in phrases: problems.append('mixed_or_unknown_wake_phrases')
     if alerts: problems.append('recorded_alerts_require_review')
     if measured['coverage_percent'] < 99: problems.append('coverage_below_99_percent')
     if not long_wakes: problems.append('real_wake_after_eight_hours_missing')
@@ -130,6 +133,7 @@ def analyze(plan, status, metrics, events, now, parse_errors=0):
         'planned_window_coverage_percent': round(measured['covered_seconds'] / (end - start) * 100, 4),
         'last_sample_age_seconds': round(now - rows[-1][0], 3) if rows else None,
         'versions': versions, 'browser_generation_changes': browser_changes,
+        'wake_phrases': phrases,
         'backend_instance_changes': backend_changes, 'observer_starts': observer_starts,
         'alerts': alerts, 'review_items': problems,
         'idle_browser_cpu_percent_of_one_core': distribution(r['browser'].get('cpu_percent') for _, r in rows if r['activity'] == 'idle'),

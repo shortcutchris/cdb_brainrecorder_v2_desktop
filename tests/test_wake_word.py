@@ -53,8 +53,55 @@ class WakeTests(unittest.TestCase):
         with self.assertRaises(ValueError):self.wake.configure(True,self.account)
         self.assertFalse(self.wake.enabled)
 
+    def test_phrase_is_persisted_and_old_settings_keep_brain(self):
+        import json
+        self.wake.path.write_text(json.dumps({'enabled':True,'account':self.account}))
+        self.assertEqual(WakeWord(self.tmp.name).phrase,'hey-brain')
+        old_instance=self.wake.instance
+        self.wake.select_phrase('okay-kai')
+        self.assertNotEqual(self.wake.instance,old_instance)
+        restored=WakeWord(self.tmp.name)
+        self.assertEqual(restored.phrase,'okay-kai')
+        self.assertEqual(restored.public()['word'],'Okay KAI')
+        self.wake.configure(True,self.account)
+        self.wake.configure(False,None)
+        self.assertEqual(WakeWord(self.tmp.name).phrase,'okay-kai')
+        self.wake.path.write_text(json.dumps({'enabled':True,'phrase':['invalid']}))
+        restored=WakeWord(self.tmp.name)
+        self.assertFalse(restored.enabled)
+        self.assertEqual(restored.phrase,'hey-brain')
+
+    def test_phrase_cannot_change_during_listening_or_test(self):
+        self.wake.configure(True,self.account)
+        with self.assertRaises(ValueError):self.wake.select_phrase('hey-kai')
+        self.wake.configure(False,None);self.wake.test()
+        with self.assertRaises(ValueError):self.wake.select_phrase('okay-kai')
+        self.assertEqual(self.wake.phrase,'hey-brain')
+        for invalid in ('arbitrary word',None,[],{}):
+            with self.assertRaises(ValueError):self.wake.select_phrase(invalid)
+
+    def test_selected_phrase_reaches_owned_child_and_readiness_message(self):
+        self.wake.select_phrase('hey-kai');self.wake.configure(True,self.account)
+        process=Mock();process.poll.return_value=None;process.stdout=io.BytesIO(b'ready\n')
+        with patch('services.wake_word.subprocess.Popen',return_value=process) as spawn,patch('services.wake_word.select.select',return_value=([process.stdout],[],[])):
+            self.now+=4;self.tick()
+        self.assertIn('hey-kai',spawn.call_args.args[0])
+        self.assertIn('Hey KAI',self.wake.message)
+
 
 class PhraseTests(unittest.TestCase):
+    def test_selected_phrase_only_and_confusable_rejection(self):
+        from services.wake_phrase import is_activation
+        def result(text):
+            return {'text':text,'result':[{'word':w,'conf':1,'start':i*.3,'end':(i+1)*.3} for i,w in enumerate(text.split())]}
+        for phrase,text in [('hey-brain','hey brain'),('hey-kai','hey kai'),('okay-kai','okay kai')]:
+            self.assertTrue(is_activation(result(text),phrase))
+            self.assertTrue(is_activation(result(text+' '+text),phrase))
+            for other in ('hey brain','hey kai','okay kai','hey guy','okay kyle','okay','kai'):
+                if other!=text:self.assertFalse(is_activation(result(other),phrase))
+            weak=result(text);weak['result'][1]['conf']=.89
+            self.assertFalse(is_activation(weak,phrase))
+
     def test_only_confident_complete_phrase_wakes(self):
         from services.wake_phrase import is_activation
         result={'text':'hey brain','result':[{'word':'hey','conf':1,'start':0,'end':.3},{'word':'brain','conf':1,'start':.3,'end':.8}]}

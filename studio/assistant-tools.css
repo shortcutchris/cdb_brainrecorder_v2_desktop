@@ -45,3 +45,6 @@
 #settings.workspace-view #wake-page .wake-checks strong{font-size:14px;line-height:19px}
 #settings.workspace-view #wake-page .wake-checks button{height:48px;min-height:48px}
 #settings.workspace-view #wake-page.with-keyboard .wake-privacy{display:none}
+
+/* A fixed touch target replaces the large phrase label without shifting the footer. */
+#settings #wake-phrase{height:56px;min-height:56px;font-size:24px;line-height:30px;margin-top:6px}

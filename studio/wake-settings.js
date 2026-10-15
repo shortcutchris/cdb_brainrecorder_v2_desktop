@@ -29,9 +29,11 @@
   text('wake-account',identity?(identity.name||'Firmenkonto')+' · '+(server.includes('staging.')?'Staging':server.replace(/^https?:\/\//,'')):'Noch nicht angemeldet');
   text('wake-audio',loading?'Geräte werden geprüft …':setup?.audio?.available?(audioName(setup.audio.microphone_label)||'Mikrofon')+' → '+(audioName(setup.audio.speaker_label)||'Lautsprecher'):setup?.audio?.message||'Nach Anmeldung prüfen');
   text('wake-word',w.word||'Hey Brain');
+  if(!saving)$('wake-phrase').value=w.phrase||'hey-brain';
+  disabled('wake-phrase',frozen);
   text('wake-state',!w.enabled&&!w.testing?'Aktivierungswort ausgeschaltet.':w.message||'Bereitschaft wird geprüft.');$('wake-state').dataset.state=w.state||'off';
   text('wake-count',w.testing?'Lokaler Test · '+w.detections+' Erkennungen':'Nur aktiv, wenn Aufnahme, Gespräch und Wiedergabe beendet sind.');
-  const hint=error||(saving?'Auswahl wird gespeichert …':loading?'Wissensbereiche werden geladen …':!identity?'Melde dich zuerst bei deinem Brain-Konto an.':!w.available?'Die lokale Aktivierungswort-Erkennung ist noch nicht installiert.':busy?'Aufnahme oder Gespräch läuft. Bitte zuerst beenden.':w.enabled?'Aktiv. Zum Ändern der Wissensbereiche zuerst ausschalten.':w.testing?'Lokaler Erkennungstest läuft. Es wird kein Gespräch gestartet.':!setup?'Bitte Wissensbereiche aktualisieren.':!setup.enabled?'Voice One ist für dieses Brain-Konto nicht freigeschaltet.':!setup.audio?.available?'Bitte Mikrofon und Lautsprecher unter Audio einrichten.':!chosen.size?'Wähle mindestens einen Wissensbereich. Danach kannst du einschalten.':'Bereit. Beim Einschalten wird diese Auswahl für dein Brain-Konto gespeichert.');
+  const hint=error||(saving?'Auswahl wird gespeichert …':loading?'Wissensbereiche werden geladen …':!identity?'Melde dich zuerst bei deinem Brain-Konto an.':!w.available?'Die lokale Aktivierungswort-Erkennung ist noch nicht installiert.':busy?'Aufnahme oder Gespräch läuft. Bitte zuerst beenden.':w.enabled?'Aktiv. Zum Ändern von Rufwort oder Wissen zuerst ausschalten.':w.testing?'Lokaler Erkennungstest läuft. Es wird kein Gespräch gestartet.':!setup?'Bitte Wissensbereiche aktualisieren.':!setup.enabled?'Voice One ist für dieses Brain-Konto nicht freigeschaltet.':!setup.audio?.available?'Bitte Mikrofon und Lautsprecher unter Audio einrichten.':!chosen.size?'Wähle mindestens einen Wissensbereich. Danach kannst du einschalten.':'Bereit. Beim Einschalten wird diese Auswahl für dein Brain-Konto gespeichert.');
   text('wake-hint',hint);text('wake-toggle',w.enabled?'Aktivierungswort ausschalten':'Aktivierungswort einschalten');$('wake-toggle').setAttribute('aria-pressed',String(Boolean(w.enabled)));
   disabled('wake-toggle',!online||saving||(!w.enabled&&(loading||busy||w.testing||!identity||!w.available||!setup?.enabled||!setup?.audio?.available||!chosen.size)));
   disabled('wake-test',!online||saving||busy||!w.available);text('wake-test',w.testing?'Test beenden':'Erkennung testen');
@@ -54,7 +56,7 @@
   $('wake-areas').style?.setProperty('--wake-rows',size);
   text('wake-area-count',chosen.size+' / '+max()+' gewählt · Seite '+(page+1)+' / '+count);
  }
- async function action(kind){
+ async function action(kind,phrase){
   if(saving||!online)return;const key=ownerKey();saving=true;error='';render();
   try{
    if(kind==='on'){
@@ -64,10 +66,12 @@
     window.dispatchEvent(new Event('brain-areas-changed'));
    }
    if(key!==ownerKey())throw new Error('Brain-Konto geändert. Bitte erneut prüfen.');
-   await api('/api/wake',{action:kind});await poll();
+   if(kind==='phrase'&&(locked()||state?.wake?.enabled||state?.wake?.testing))throw new Error('Zum Wechseln zuerst ausschalten.');
+   await api('/api/wake',{action:kind,...(kind==='phrase'?{phrase}: {})});await poll();
   }catch(e){error=e.message}
   finally{saving=false;render()}
  }
+ $('wake-phrase').onchange=()=>action('phrase',$('wake-phrase').value);
  $('wake-area-search').oninput=()=>{page=0;render()};$('wake-selected').onclick=()=>{selectedOnly=!selectedOnly;page=0;render()};
  $('wake-toggle').onclick=()=>action(state?.wake?.enabled?'off':'on');$('wake-test').onclick=()=>action(state?.wake?.testing?'test-stop':'test');
  $('wake-refresh').onclick=load;$('wake-account-open').onclick=()=>showSettingsDetail('connection-page');$('wake-audio-open').onclick=()=>showSettingsDetail('audio-home');

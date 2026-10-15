@@ -56,6 +56,13 @@ class StabilitySummaryTests(unittest.TestCase):
         self.assertLess(result['planned_window_coverage_percent'], 5)
         self.assertEqual(result['qualified_long_idle_wakes'], 0)
 
+    def test_switch_between_samples_does_not_pass_as_one_phrase_run(self):
+        self.events.append(self.event('wake_phrase',100,phrase='okay-kai'))
+        result=self.report()
+        self.assertEqual(result['wake_phrases'],['hey-brain','okay-kai'])
+        self.assertIn('mixed_or_unknown_wake_phrases',result['review_items'])
+        self.assertEqual(result['status'],'needs_review')
+
     def test_duplicate_samples_cannot_fill_missing_time(self):
         self.rows = [r for i, r in enumerate(self.rows) if i % 2 == 0 for _ in range(2)]
         result = self.report()

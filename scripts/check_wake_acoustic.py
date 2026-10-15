@@ -20,7 +20,7 @@ import uuid
 import wave
 
 from services.live_audio import native_capture_command
-from services.wake_phrase import PhraseDetector
+from services.wake_phrase import PhraseDetector, PHRASES, DEFAULT_PHRASE
 from services.wake_diagnostics import AudioDiagnostics
 
 
@@ -28,6 +28,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--clips', nargs='+', required=True, type=Path)
     parser.add_argument('--output', required=True, type=Path)
+    parser.add_argument('--phrase', choices=PHRASES, default=DEFAULT_PHRASE)
     parser.add_argument('--quiet-seconds', type=float, default=1,
                         help='Bounded real quiet time before each acoustic call (1–120 seconds).')
     args = parser.parse_args()
@@ -55,6 +56,7 @@ def main():
     reserved=False
     ident=str(uuid.uuid4())
     report={'synthetic_acoustic':True,'production_live_handoff':False,
+            'phrase':args.phrase,
             'version':health['version'],'quiet_seconds':args.quiet_seconds,'started_epoch':time.time(),'cases':[]}
     def stop(*_): raise SystemExit('Acoustic test interrupted')
     signal.signal(signal.SIGTERM,stop)
@@ -63,7 +65,7 @@ def main():
         config={'device':request('/api/state')['config']['device']}
         command=native_capture_command(config)
         capture=subprocess.Popen(command,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,start_new_session=True,bufsize=0)
-        detector=PhraseDetector();measure=AudioDiagnostics();buffer=b''
+        detector=PhraseDetector(args.phrase);measure=AudioDiagnostics();buffer=b''
         for path,duration in clips:
             row={'clip':path.name,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'detections':0,'decisions':[]}
             start=time.monotonic();last_data=start;played=False

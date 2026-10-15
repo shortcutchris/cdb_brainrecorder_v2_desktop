@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.52'
+VERSION = '0.5.53'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -466,6 +466,7 @@ class StudioApp:
                 if body.get('action') == 'test-stop':
                     self.wake.test_until=0;self.wake.suspend('Test beendet.');return self.wake.public()
                 self.require('configure')
+                if body.get('action') == 'phrase': return self.wake.select_phrase(body.get('phrase'))
                 if body.get('action') == 'test': return self.wake.test()
                 if body.get('action') == 'on':
                     setup=self.live.setup()

@@ -1,0 +1,86 @@
+{
+  "status": "superseded",
+  "overall_goal_complete": false,
+  "note": "Telemetry only. Review hourly RSS trend, actual UI/audio and the full acceptance matrix separately.",
+  "start_epoch": 1792081293.5071213,
+  "end_epoch": 1792167693.5071213,
+  "analyzed_until_epoch": 1792085318.951474,
+  "elapsed_hours": 1.1182,
+  "completed_observation": false,
+  "valid_metric_samples": 269,
+  "invalid_samples": 0,
+  "covered_seconds": 4025.032,
+  "coverage_percent": 99.9898,
+  "largest_gap_seconds": 0.005,
+  "planned_window_coverage_percent": 4.6586,
+  "last_sample_age_seconds": 5.032,
+  "versions": [
+    "0.5.52"
+  ],
+  "browser_generation_changes": 0,
+  "backend_instance_changes": 0,
+  "observer_starts": 1,
+  "alerts": [],
+  "review_items": [
+    "real_wake_after_eight_hours_missing"
+  ],
+  "idle_browser_cpu_percent_of_one_core": {
+    "samples": 265,
+    "min": 14.93,
+    "median": 18.53,
+    "p95": 21.13,
+    "max": 39.2
+  },
+  "idle_health_ms": {
+    "samples": 266,
+    "min": 4.15,
+    "median": 5.615,
+    "p95": 97.42,
+    "max": 103.28
+  },
+  "browser_rss_mb": {
+    "samples": 269,
+    "min": 1011.98,
+    "median": 1044.28,
+    "p95": 1082.67,
+    "max": 1086.39
+  },
+  "hourly_browser_rss": [
+    {
+      "hour": 0,
+      "samples": 240,
+      "median_rss_mb": 1040.24
+    },
+    {
+      "hour": 1,
+      "samples": 29,
+      "median_rss_mb": 1082.55
+    }
+  ],
+  "observed_wakes": [
+    {
+      "detected_epoch": 1792083217.686244,
+      "observed": true,
+      "idle_seconds": 1924.2,
+      "connected_seconds": 2.0,
+      "first_output_seconds": 6.0
+    },
+    {
+      "detected_epoch": 1792083644.7486095,
+      "observed": true,
+      "idle_seconds": 410.1,
+      "connected_seconds": 3.0,
+      "first_output_seconds": 5.0
+    },
+    {
+      "detected_epoch": 1792083915.776895,
+      "observed": true,
+      "idle_seconds": 256.0,
+      "connected_seconds": 1.0,
+      "first_output_seconds": 3.0
+    }
+  ],
+  "qualified_long_idle_wakes": 0,
+  "reason": "User requested selectable Hey KAI and Okay KAI; preserve partial run, not a 24-hour pass.",
+  "superseded_at": "2026-10-15T17:28:38.951474+00:00"
+}

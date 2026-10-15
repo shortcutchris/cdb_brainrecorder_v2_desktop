@@ -17,6 +17,22 @@ MODEL_URL = 'https://alphacephei.com/vosk/models/' + MODEL_NAME + '.zip'
 MODEL_SHA256 = '30f26242c4eb449f948e42cb302dd7a686cb29a3423a8367f99ff41780942498'
 GRAMMAR = ['hey brain', 'hey brian', 'hey rain', 'hey train', 'hey jane',
            'hey bring', 'hey brent', 'the brain', '[unk]']
+DEFAULT_PHRASE = 'hey-brain'
+PHRASES = {
+    DEFAULT_PHRASE: {'label': WORD, 'pairs': [('hey', 'brain')], 'grammar': GRAMMAR},
+    'hey-kai': {'label': 'Hey KAI', 'pairs': [('hey', 'kai')],
+                'grammar': ['hey kai', 'hey guy', 'hey kyle', 'hey kay', 'hey sky',
+                            'hey brain', 'okay kai', 'hi kai', '[unk]']},
+    'okay-kai': {'label': 'Okay KAI', 'pairs': [('okay', 'kai')],
+                 'grammar': ['okay kai', 'okay guy', 'okay kyle', 'okay kay',
+                             'okay sky', 'hey kai', 'hey brain', '[unk]']},
+}
+
+
+def phrase_spec(phrase):
+    if not isinstance(phrase, str) or phrase not in PHRASES:
+        raise ValueError('Bitte ein verfügbares Aktivierungswort auswählen.')
+    return PHRASES[phrase]
 
 
 def model_path():
@@ -27,13 +43,14 @@ def model_ready():
     return all((model_path()/part).is_file() for part in ('am/final.mdl', 'conf/mfcc.conf', 'graph/HCLr.fst', 'graph/Gr.fst'))
 
 
-def is_activation(result):
+def is_activation(result, phrase=DEFAULT_PHRASE):
+    pairs = phrase_spec(phrase)['pairs']
     words = result.get('result', [])
     if ' '.join(w.get('word', '') for w in words) != result.get('text'): return False
     # Wake words occur inside a stream, including after background speech or
     # two repeated calls. Do not require the entire acoustic segment to match.
     for left, right in zip(words, words[1:]):
-        if (left.get('word') == 'hey' and right.get('word') == 'brain'
+        if ((left.get('word'), right.get('word')) in pairs
                 and left.get('conf', 0) >= .8 and right.get('conf', 0) >= .9
                 and .25 <= right.get('end', 0) - left.get('start', 0) <= 2.5):
             return True
@@ -74,7 +91,9 @@ class LowNoiseOnset:
 
 
 class PhraseDetector:
-    def __init__(self):
+    def __init__(self, phrase=DEFAULT_PHRASE):
+        self.phrase = phrase
+        self.spec = phrase_spec(phrase)
         from vosk import Model, SetLogLevel
         SetLogLevel(-1)
         self.model = Model(str(model_path()))
@@ -84,7 +103,7 @@ class PhraseDetector:
 
     def _new_segment(self):
         from vosk import KaldiRecognizer
-        self.recognizer = KaldiRecognizer(self.model, 16000, json.dumps(GRAMMAR))
+        self.recognizer = KaldiRecognizer(self.model, 16000, json.dumps(self.spec['grammar']))
         self.recognizer.SetWords(True)
 
     def feed(self, audio):
@@ -96,13 +115,14 @@ class PhraseDetector:
                 self.recognizer.AcceptWaveform(previous)
         if not self.recognizer.AcceptWaveform(audio): return False
         result = json.loads(self.recognizer.Result())
-        accepted = is_activation(result)
+        accepted = is_activation(result, self.phrase)
         if result.get('text'):
             # Fixed diagnostic categories only: never expose decoded room speech.
             words = [w.get('word') for w in result.get('result', [])]
-            candidate = any(a == 'hey' and b == 'brain' for a, b in zip(words, words[1:]))
+            candidate = any((a, b) in self.spec['pairs'] for a, b in zip(words, words[1:]))
+            wake_words = {word for pair in self.spec['pairs'] for word in pair}
             self.last_decision = ('accepted' if accepted else 'candidate_rejected' if candidate
-                                  else 'partial_wake_word' if 'hey' in words or 'brain' in words
+                                  else 'partial_wake_word' if wake_words.intersection(words)
                                   else 'other_speech')
         # Keep the acoustic model, but discard completed speech's decoder state.
         # A long mixed stream otherwise reproducibly lost a later Hey Brain.

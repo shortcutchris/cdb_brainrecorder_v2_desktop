@@ -1,0 +1,990 @@
+{
+  "synthetic_files_only": true,
+  "real_acoustic_path": false,
+  "voices": 1,
+  "vosk_version": "0.3.45",
+  "cpu_seconds": 73.59,
+  "fixtures": {
+    "hey-brain-vincent-slow.mp3": "fdbb4dc738e89736d254ead75ca2940a6a93dbdf8f8c8f99b82041d59e5079f7",
+    "hey-kai-vincent.mp3": "0526479eef596299c581d435a9317119c8d1f97bbefbfa505eeed93da06c9cdb",
+    "okay-kai-vincent.mp3": "60d6cd7352602cbdd1e462dcb9e986f9aeda8e515cffc4bbf3a953f9cc44be8a",
+    "hey-guy-vincent.mp3": "6c70eaca021d070d66d2328d740317fb0c697c0298af99991450e533b4d47ef4",
+    "okay-karl-vincent.mp3": "5340214e7362adbb7042edeac2e5051693f7142ad4f9a53017c3c668034da2cf",
+    "kai-later-vincent.mp3": "c0986a77f60d5d65fe9e39cc321a0c5c74a7f44502782aa04a74035ad6d915a6"
+  },
+  "cases": [
+    {
+      "clip": "hey-brain-vincent-slow.mp3",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "expected_activation": true,
+      "detections": 1,
+      "passed": true
+    },
+    {
+      "clip": "hey-brain-vincent-slow.mp3",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "expected_activation": true,
+      "detections": 2,
+      "passed": true
+    },
+    {
+      "clip": "hey-brain-vincent-slow.mp3",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-brain-vincent-slow.mp3",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-brain-vincent-slow.mp3",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-brain-vincent-slow.mp3",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-brain-vincent-slow.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.3,
+      "repeat": 1,
+      "expected_activation": true,
+      "detections": 1,
+      "passed": true
+    },
+    {
+      "clip": "hey-brain-vincent-slow.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.3,
+      "repeat": 2,
+      "expected_activation": true,
+      "detections": 2,
+      "passed": true
+    },
+    {
+      "clip": "hey-brain-vincent-slow.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.3,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-brain-vincent-slow.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.3,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-brain-vincent-slow.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.3,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-brain-vincent-slow.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.3,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-brain-vincent-slow.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "expected_activation": true,
+      "detections": 1,
+      "passed": true
+    },
+    {
+      "clip": "hey-brain-vincent-slow.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "expected_activation": true,
+      "detections": 2,
+      "passed": true
+    },
+    {
+      "clip": "hey-brain-vincent-slow.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-brain-vincent-slow.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-brain-vincent-slow.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-brain-vincent-slow.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-kai-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-kai-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-kai-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "expected_activation": true,
+      "detections": 1,
+      "passed": true
+    },
+    {
+      "clip": "hey-kai-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "expected_activation": true,
+      "detections": 2,
+      "passed": true
+    },
+    {
+      "clip": "hey-kai-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-kai-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-kai-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.3,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-kai-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.3,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-kai-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.3,
+      "repeat": 1,
+      "expected_activation": true,
+      "detections": 1,
+      "passed": true
+    },
+    {
+      "clip": "hey-kai-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.3,
+      "repeat": 2,
+      "expected_activation": true,
+      "detections": 2,
+      "passed": true
+    },
+    {
+      "clip": "hey-kai-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.3,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-kai-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.3,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-kai-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-kai-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-kai-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "expected_activation": true,
+      "detections": 0,
+      "passed": false
+    },
+    {
+      "clip": "hey-kai-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "expected_activation": true,
+      "detections": 1,
+      "passed": true
+    },
+    {
+      "clip": "hey-kai-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-kai-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-kai-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-kai-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-kai-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-kai-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-kai-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "expected_activation": true,
+      "detections": 1,
+      "passed": true
+    },
+    {
+      "clip": "okay-kai-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "expected_activation": true,
+      "detections": 2,
+      "passed": true
+    },
+    {
+      "clip": "okay-kai-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.3,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-kai-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.3,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-kai-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.3,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-kai-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.3,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-kai-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.3,
+      "repeat": 1,
+      "expected_activation": true,
+      "detections": 1,
+      "passed": true
+    },
+    {
+      "clip": "okay-kai-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.3,
+      "repeat": 2,
+      "expected_activation": true,
+      "detections": 2,
+      "passed": true
+    },
+    {
+      "clip": "okay-kai-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-kai-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-kai-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-kai-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-kai-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "expected_activation": true,
+      "detections": 1,
+      "passed": true
+    },
+    {
+      "clip": "okay-kai-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "expected_activation": true,
+      "detections": 1,
+      "passed": true
+    },
+    {
+      "clip": "hey-guy-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-guy-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-guy-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-guy-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-guy-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-guy-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-guy-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.3,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-guy-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.3,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-guy-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.3,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-guy-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.3,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-guy-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.3,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-guy-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.3,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-guy-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-guy-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-guy-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-guy-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-guy-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "hey-guy-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-karl-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-karl-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-karl-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-karl-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-karl-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-karl-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-karl-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.3,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-karl-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.3,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-karl-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.3,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-karl-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.3,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-karl-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.3,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-karl-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.3,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-karl-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-karl-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-karl-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-karl-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-karl-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "okay-karl-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "kai-later-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "kai-later-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "kai-later-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "kai-later-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "kai-later-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "kai-later-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "kai-later-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.3,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "kai-later-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.3,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "kai-later-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.3,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "kai-later-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.3,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "kai-later-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.3,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "kai-later-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.3,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "kai-later-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "kai-later-vincent.mp3",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "kai-later-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "kai-later-vincent.mp3",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "kai-later-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    },
+    {
+      "clip": "kai-later-vincent.mp3",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "expected_activation": false,
+      "detections": 0,
+      "passed": true
+    }
+  ],
+  "passed": false
+}

@@ -1,5 +1,12 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.53 – Rufwörter auswählen und testen
+
+Unter Einstellungen → Audio → Aktivierungswort sind Hey Brain, Hey KAI und
+Okay KAI auswählbar. Die KAI-Varianten sind ausdrücklich zum Testen; Auswahl
+und Status bleiben konsistent, Aufnahme und Gespräch sperren Änderungen.
+[Bedienung, Messwerte und Grenzen](docs/wake-phrases-0.5.53/README.md).
+
 ## 0.5.52 – Erkennung nach leisem Grundrauschen
 
 Nach anhaltendem sehr leisem Grundrauschen erhält der Decoder beim Anstieg

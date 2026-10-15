@@ -1,6 +1,6 @@
 /* Lightweight device feedback, independent of slow model/account setup. */
 (() => {
- const feedback=document.createElement('section');feedback.id='wake-feedback';feedback.hidden=true;feedback.setAttribute('role','status');feedback.setAttribute('aria-live','polite');feedback.innerHTML='<i aria-hidden="true"></i><div><strong>Hey Brain erkannt</strong><span id="wake-feedback-detail"></span></div>';document.body.append(feedback);
+ const feedback=document.createElement('section');feedback.id='wake-feedback';feedback.hidden=true;feedback.setAttribute('role','status');feedback.setAttribute('aria-live','polite');feedback.innerHTML='<i aria-hidden="true"></i><div><strong id="wake-feedback-title">Aktivierungswort erkannt</strong><span id="wake-feedback-detail"></span></div>';document.body.append(feedback);
  const running=document.createElement('button');running.id='timer-running';running.hidden=true;running.type='button';running.innerHTML='<span id="running-timer-label"></span><strong id="running-timer-time"></strong>';running.onclick=()=>{if(!$('timers-open').disabled)$('timers-open').click()};document.body.append(running);
  const led=document.createElement('i');led.id='wake-rail-led';led.setAttribute('aria-hidden','true');$('live-open').append(led);
  const timerLabel=document.createElement('small');timerLabel.id='timer-countdown';$('timers-open').append(timerLabel);
@@ -11,6 +11,7 @@
   const detection=w.detections;
   if(lastDetection!==null&&detection<lastDetection)return; // Older full-state poll after a fast detection.
   lastWake=w;
+  $('wake-feedback-title').textContent=(w.word||'Aktivierungswort')+' erkannt';
   if(detection!==lastDetection){lastDetection=detection;recognizedUntil=Date.now()+Math.min(8,Math.max(0,lastWake.recognized_for||0))*1000}
   if(!(lastWake.recognized_for>0))recognizedUntil=0;
   const recognized=Date.now()<recognizedUntil;

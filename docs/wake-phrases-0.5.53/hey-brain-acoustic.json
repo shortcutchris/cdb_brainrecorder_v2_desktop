@@ -1,0 +1,37 @@
+{
+  "synthetic_acoustic": true,
+  "production_live_handoff": false,
+  "phrase": "hey-brain",
+  "version": "0.5.52",
+  "quiet_seconds": 1,
+  "started_epoch": 1792085561.8479447,
+  "cases": [
+    {
+      "clip": "hey-brain.wav",
+      "sha256": "07c752fa92212355aeb3cf5ff9f4ed13bc44c0bc026e9a7935410d5864273d9a",
+      "detections": 1,
+      "decisions": [
+        {
+          "at_seconds": 4.96,
+          "category": "accepted"
+        }
+      ],
+      "play_at_seconds": 1.01,
+      "playback_exit": 0,
+      "audio": {
+        "blocks": 172,
+        "speech_segments": 1,
+        "accepted": 1,
+        "candidate_rejected": 0,
+        "partial_wake_word": 0,
+        "other_speech": 0,
+        "onset_renewals": 1,
+        "decision": "accepted",
+        "peak_dbfs": -7.9,
+        "rms_dbfs": -32.1
+      }
+    }
+  ],
+  "maintenance_released": true,
+  "finished_epoch": 1792085570.625363
+}

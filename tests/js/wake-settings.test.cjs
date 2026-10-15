@@ -28,3 +28,12 @@ test('account change during save prevents activation; a refresh error clears obs
  const h=harness();await h.load();h.el('wake-areas').children[0].onclick();let finish;h.c.api=()=>new Promise(resolve=>finish=resolve);const pending=h.el('wake-toggle').onclick();h.c.state.cdb.identity={name:'Other'};finish({});await pending;assert.equal(h.c.state.wake.enabled,false);assert.equal(h.el('wake-toggle').disabled,true);
  h.c.api=async()=>{throw Error('Nicht erreichbar')};await h.load();assert.match(h.el('wake-hint').textContent,/Nicht erreichbar/);assert.equal(h.el('wake-toggle').disabled,true);
 });
+test('phrase selector follows saved word and is locked during listening, test, recording and conversation',async()=>{
+ const h=harness();await h.load();h.c.state.wake.phrase='okay-kai';h.c.state.wake.word='Okay KAI';h.c.renderState();
+ assert.equal(h.el('wake-phrase').value,'okay-kai');assert.equal(h.el('wake-word').textContent,'Okay KAI');
+ h.el('wake-phrase').value='hey-kai';await h.el('wake-phrase').onchange();
+ assert.equal(h.calls.at(-1)[1].action,'phrase');assert.equal(h.calls.at(-1)[1].phrase,'hey-kai');
+ for(const field of ['enabled','testing']){h.c.state.wake[field]=true;h.c.renderState();assert.equal(h.el('wake-phrase').disabled,true);const count=h.calls.length;await h.el('wake-phrase').onchange();assert.equal(h.calls.length,count);h.c.state.wake[field]=false}
+ h.c.state.recording.id='active';h.c.renderState();assert.equal(h.el('wake-phrase').disabled,true);
+ h.c.state.recording.id=null;h.c.state.live.busy=true;h.c.renderState();assert.equal(h.el('wake-phrase').disabled,true);
+});
