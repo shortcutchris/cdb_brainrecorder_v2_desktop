@@ -146,6 +146,7 @@ class NativeLiveAudio:
         self.input_meter=SearchInputEnvelope();self.output_meter=AudioEnvelope();self.searches=SearchActivity()
         self.search_sound=True;self.cue_task=None;self.cue_serial=0;self.cue_requested_at=0;self.cue_played_at=0;self.user_speech_at=0;self.search_loop_blocks=0;self.search_loop_pauses=0;self.web_event_count=0;self.event_types={};self.search_tones=0
         self.closed = threading.Event()
+        self.cleanup_complete = False
         self.loop = asyncio.new_event_loop()
         self.processes = []
         self.tasks = set()
@@ -592,18 +593,34 @@ class NativeLiveAudio:
 
     def close(self):
         with self.close_lock:
-            if self.closed.is_set(): return
+            if self.cleanup_complete: return
+            if self.closed.is_set() and not self.thread.is_alive() and not any(p.returncode is None for p in self.processes):
+                self.cleanup_complete = True
+                return
             self.closed.set(); self.gate.mute(True)
-            try: asyncio.run_coroutine_threadsafe(self._shutdown(), self.loop).result(5)
-            finally:
-                # Final protection if an audio process or coroutine ignored shutdown.
-                for process in self.processes:
-                    if process.returncode is None:
-                        try: os.killpg(process.pid, signal.SIGKILL)
-                        except ProcessLookupError: pass
-                async def reap():
-                    await asyncio.gather(*(p.wait() for p in list(self.processes)), return_exceptions=True)
-                try: asyncio.run_coroutine_threadsafe(reap(), self.loop).result(2)
-                finally:
-                    self.loop.call_soon_threadsafe(self.loop.stop)
-                    self.thread.join(timeout=2)
+            cleanup = asyncio.run_coroutine_threadsafe(self._shutdown(), self.loop)
+            failure = None
+            try: cleanup.result(5)
+            except Exception as error:
+                failure = error
+                cleanup.cancel()
+            # Keep the event loop available for retry if cleanup fails. Setting
+            # `closed` stops audio immediately; it does not prove resource release.
+            for process in list(self.processes):
+                if process.returncode is None:
+                    try: os.killpg(process.pid, signal.SIGKILL)
+                    except ProcessLookupError: pass
+            async def reap():
+                await asyncio.gather(*(p.wait() for p in list(self.processes)), return_exceptions=True)
+            reaping = asyncio.run_coroutine_threadsafe(reap(), self.loop)
+            try: reaping.result(2)
+            except Exception:
+                reaping.cancel()
+                raise
+            if any(p.returncode is None for p in self.processes):
+                raise RuntimeError('Audio processes have not exited')
+            if failure is not None: raise RuntimeError('Audio cleanup failed') from failure
+            self.loop.call_soon_threadsafe(self.loop.stop)
+            self.thread.join(timeout=2)
+            if self.thread.is_alive(): raise RuntimeError('Audio event loop has not stopped')
+            self.cleanup_complete = True

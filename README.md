@@ -1,5 +1,12 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.54 – Audioreservierung bei Freigabefehlern erhalten
+
+Wenn ein Audioprozess nicht sauber beendet werden kann, bleibt seine
+Reservierung erhalten. Die App versucht die Freigabe erneut und verhindert
+zwischenzeitlich einen zweiten Mikrofonzugriff.
+[Fehlernachweis, Schutz und Testumfang](docs/audio-release-0.5.54/README.md).
+
 ## 0.5.53 – Rufwörter auswählen und testen
 
 Unter Einstellungen → Audio → Aktivierungswort sind Hey Brain, Hey KAI und

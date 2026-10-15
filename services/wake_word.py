@@ -30,6 +30,7 @@ class WakeWord:
         self.phrase = DEFAULT_PHRASE
         self.account = None
         self.process = None
+        self.stop_pending = False
         self.read_process = None
         self.read_buffer = b''
         self.progress_at = self.clock()
@@ -104,23 +105,40 @@ class WakeWord:
         return self.public()
 
     def suspend(self, reason='Kurz unterbrochen.'):
-        process, self.process = self.process, None
+        process = self.process
         self.read_process = None
         self.read_buffer = b''
         if process:
+            self.stop_pending = True
             try:
-                os.killpg(process.pid, signal.SIGTERM)
-                process.wait(timeout=1)
-            except ProcessLookupError: pass
-            except subprocess.TimeoutExpired:
-                os.killpg(process.pid, signal.SIGKILL); process.wait(timeout=2)
-            finally:
-                if process.stdout: process.stdout.close()
+                try:
+                    os.killpg(process.pid, signal.SIGTERM)
+                except ProcessLookupError: pass
+                try:
+                    process.wait(timeout=1)
+                except subprocess.TimeoutExpired:
+                    try: os.killpg(process.pid, signal.SIGKILL)
+                    except ProcessLookupError: pass
+                    process.wait(timeout=2)
+            except (OSError, subprocess.SubprocessError) as error:
+                # Retain ownership until termination is confirmed. A failed kill
+                # must never make the next tick spawn a second microphone owner.
+                self.cooldown = self.clock()+10
+                self.mode, self.message = 'error', 'Mikrofon wird noch freigegeben. Bitte kurz warten.'
+                self.recognized_until = 0
+                raise ValueError(self.message) from error
+            if process.stdout: process.stdout.close()
+            self.process = None
+        self.stop_pending = False
         self.cooldown = self.clock()+1
         self.mode = 'waiting' if self.enabled or self.test_until else 'off'
         self.message = reason
 
     def tick(self, *, account, reason, config, trigger):
+        if self.stop_pending:
+            if self.clock() < self.cooldown: return
+            try: self.suspend()
+            except ValueError: return
         testing = self.test_until > self.clock()
         if self.test_until and not testing:
             self.test_until = 0

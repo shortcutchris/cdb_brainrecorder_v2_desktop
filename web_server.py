@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.53'
+VERSION = '0.5.54'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -195,7 +195,12 @@ class StudioApp:
                     self.ambient_error = ''
             except Exception as error:
                 with self.control_lock:
-                    self.wake.suspend(str(error) if isinstance(error,ValueError) else 'Lokale Bereitschaft unterbrochen. Geräte prüfen.')
+                    try:
+                        self.wake.suspend(str(error) if isinstance(error,ValueError) else 'Lokale Bereitschaft unterbrochen. Geräte prüfen.')
+                    except ValueError:
+                        # The detector remains owned and will retry its cleanup.
+                        # A second stop failure must not kill the ambient loop.
+                        pass
                     self.wake.cooldown = time.monotonic()+10
                     self.ambient_error = 'Bereitschaft prüfen.'
 

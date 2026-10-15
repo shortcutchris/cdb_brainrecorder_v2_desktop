@@ -47,6 +47,8 @@ class LiveConversation:
         self.device_key = None
         self.device_tools = False
         self.native = None
+        self.pending_finish = None
+        self.cleanup_retry_at = 0
         self.root = Path(root) / 'live'
         self.root.mkdir(mode=0o700, parents=True, exist_ok=True)
         os.chmod(self.root, 0o700)
@@ -430,13 +432,19 @@ class LiveConversation:
         # Releasing ownership must not erase why this conversation was stopped.
         if state == 'ended' and self.error:
             state, error = 'error', self.error
-        logging.info('Live finished generation=%d state=%s reason=%s',self.generation,state,self.end_reason or 'none')
         self.device_tools = False
         self.device_key = None
         if self.native:
             try: self.native.close()
-            except Exception: pass
+            except Exception:
+                self.pending_finish = ('error', error or 'Pi-Audio musste erneut beendet werden. Bitte erneut starten.')
+                self.cleanup_retry_at = self.clock()+5
+                self.state, self.error = 'closing', 'Pi-Audio wird noch freigegeben. Bitte kurz warten.'
+                self.muted = True
+                return
             self.native = None
+        self.pending_finish = None
+        logging.info('Live finished generation=%d state=%s reason=%s',self.generation,state,self.end_reason or 'none')
         self.state, self.error = state, error
         self.lease = self.answer = None
         self.generation += 1
@@ -582,7 +590,11 @@ class LiveConversation:
     def _watch(self):
         while not self.stop.wait(1):
             with self.lock:
-                if self.state not in ACTIVE or self.state == 'closing': continue
+                if self.state == 'closing':
+                    if self.pending_finish and self.clock() >= self.cleanup_retry_at:
+                        self._finish(*self.pending_finish)
+                    continue
+                if self.state not in ACTIVE: continue
                 if self._voice_end_requested():
                     self.end_reason = 'voice_command'
                     self.end()

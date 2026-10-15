@@ -22,6 +22,23 @@ class StudioTests(unittest.TestCase):
         self.server=StudioServer(('127.0.0.1',0),self.app);self.thread=threading.Thread(target=self.server.serve_forever,daemon=True);self.thread.start()
         self.base='http://127.0.0.1:'+str(self.server.server_port)
     def tearDown(self):self.server.shutdown();self.server.server_close();self.app.close();self.tmp.cleanup()
+    def test_repeated_wake_cleanup_failure_does_not_kill_ambient_loop(self):
+        self.app.ambient_stop.set(); self.app.ambient_thread.join(3)
+        self.app.ambient_stop.clear()
+        repeated = threading.Event()
+        calls = []
+        def fail_tick(**kwargs):
+            calls.append(True)
+            if len(calls) >= 2: repeated.set()
+            raise ValueError('synthetic stop failure')
+        worker = threading.Thread(target=self.app.ambient_loop)
+        with patch.object(self.app.wake, 'tick', side_effect=fail_tick), patch.object(self.app.wake, 'suspend', side_effect=ValueError('synthetic stop failure')):
+            worker.start()
+            try:
+                self.assertTrue(repeated.wait(3), 'ambient loop stopped after cleanup failure')
+                self.assertTrue(worker.is_alive())
+            finally:
+                self.app.ambient_stop.set(); worker.join(3)
     def request(self,path,body=None,headers=None):
         req=urllib.request.Request(self.base+path,data=None if body is None else json.dumps(body).encode(),
             headers=({'Content-Type':'application/json','X-CSRF-Token':self.app.csrf} if body is not None else {})|(headers or {}))
