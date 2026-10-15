@@ -1,0 +1,76 @@
+{
+  "version": "0.5.52",
+  "source": "read-only observer, 1-second state polling",
+  "events": [
+    {
+      "type": "wake_state",
+      "state": "waiting",
+      "at": "2026-10-15T16:53:37.686244+00:00"
+    },
+    {
+      "type": "live_state",
+      "at": "2026-10-15T16:53:37.686244+00:00",
+      "state": "connecting"
+    },
+    {
+      "type": "wake_observed",
+      "at": "2026-10-15T16:53:37.686244+00:00",
+      "detected_at": "2026-10-15T16:53:37.686244+00:00",
+      "detected_epoch": 1792083217.686244,
+      "idle_seconds": 1924.2,
+      "count": 1,
+      "connected_seconds": null,
+      "first_output_seconds": null
+    },
+    {
+      "type": "live_state",
+      "at": "2026-10-15T16:53:39.686513+00:00",
+      "state": "listening"
+    },
+    {
+      "type": "wake_connected",
+      "at": "2026-10-15T16:53:39.686513+00:00",
+      "detected_at": "2026-10-15T16:53:37.686244+00:00",
+      "detected_epoch": 1792083217.686244,
+      "idle_seconds": 1924.2,
+      "count": 1,
+      "connected_seconds": 2.0,
+      "first_output_seconds": null
+    },
+    {
+      "type": "live_state",
+      "at": "2026-10-15T16:53:43.686990+00:00",
+      "state": "speaking"
+    },
+    {
+      "type": "wake_first_output",
+      "at": "2026-10-15T16:53:43.686990+00:00",
+      "detected_at": "2026-10-15T16:53:37.686244+00:00",
+      "detected_epoch": 1792083217.686244,
+      "idle_seconds": 1924.2,
+      "count": 1,
+      "connected_seconds": 2.0,
+      "first_output_seconds": 6.0
+    },
+    {
+      "type": "live_state",
+      "at": "2026-10-15T16:53:49.688097+00:00",
+      "state": "listening"
+    },
+    {
+      "type": "live_state",
+      "at": "2026-10-15T16:53:51.688259+00:00",
+      "state": "ended"
+    },
+    {
+      "type": "wake_state",
+      "state": "loading",
+      "at": "2026-10-15T16:53:53.688936+00:00"
+    },
+    {
+      "type": "wake_state",
+      "state": "listening",
+      "at": "2026-10-15T16:53:54.689017+00:00"
+    }
+  ]
+}

@@ -121,3 +121,20 @@ Startseite vollständig sichtbar, unten „Aufnahmebereit“ und „Bereit für 
 Kein stehengebliebener Erkennungshinweis oder Verbindungsdialog. Der Abzug
 verändert weder Navigation noch Audiozustand. Er belegt den sichtbaren
 Bereitschaftszustand, nicht die Reaktion auf Berührung oder Sprache.
+
+### Echter Nutzeraufruf nach 32 Minuten Ruhe
+
+Am 15.10.2026 um 18:53:37 Europe/Berlin beobachtet der unveränderte Messlauf
+nach 1.924,2 Sekunden Ruhe einen echten Wake-Aufruf. Der Nutzer bestätigt im
+Chat: „Also ich habe gerade mal per Hand, also mit Eigenstimme getestet. Da
+hat's geklappt.“ Es lief kein synthetischer Audiotest.
+
+Die [technischen Ereignisse](real-user-wake.json) zeigen Verbindung nach 2,0 s,
+erste Audioausgabe nach 6,0 s, Gesprächsende um 18:53:51 und erneute
+Wake-Bereitschaft um 18:53:54. Die Zeiten stammen aus Zustandsabfragen ungefähr
+im Sekundentakt und beginnen bei beobachteter Erkennung, nicht beim Anfang des
+gesprochenen Wortes. Die Beobachtung liest weder Gesprächsinhalte noch Audio;
+der genaue Ende-Befehl und der Inhalt der ersten Antwort werden hier nicht
+behauptet. Ein einzelner erfolgreicher Eigenstimmen-Test bestätigt den realen
+Pfad nach dieser Pause, ersetzt aber weder acht Stunden Ruhe noch 24 Stunden
+Stabilitätsmessung. Der Dauerlauf wurde dafür nicht neu gestartet.
