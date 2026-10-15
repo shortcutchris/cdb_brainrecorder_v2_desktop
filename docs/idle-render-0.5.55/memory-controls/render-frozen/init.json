@@ -1,0 +1,10 @@
+{
+  "scope": "Local synthetic diagnostic control: renderState disabled after initial load; not a usable app or proposed production fix",
+  "backendVersion": "0.5.52",
+  "sessions": 3,
+  "startedAt": 1792098798198,
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "mode": "static HTML; no app code; initial GC before observation",
+  "production_candidate": false,
+  "pi_modified": false,
+  "planned_seconds": 480,
+  "started_at_epoch": 1792099471.479,
+  "expected_end_epoch": 1792099951.479,
+  "driver_pid": 40051,
+  "source_commit": "89e5345",
+  "scripts_sha256": {
+    "cdb-static-control-init.js": "2eca8f6e729f8e2acec6012ffa476ed8e5ce93f3b6e9c89013cf06e5795a5529",
+    "cdb-idle-long-sample.js": "1205e01bbdd68086997e7765a630c9d41ab49f8a50ef4d6ded8fd112ba390edd",
+    "cdb-static-control-run.py": "41e25ed40bc5c0d9b4a3fc178b14828ededdb6e4a86dff5f78d54c9af128bc87"
+  }
+}

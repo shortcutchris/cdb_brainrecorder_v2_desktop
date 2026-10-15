@@ -209,8 +209,11 @@ Seiten. [Detailstichproben mit Zeiten und Prozesskennungen](browser-memory-sampl
 Ihre Messzeiten unterscheiden sich vom festen Stundenbericht; RSS und PSS
 werden nicht als zeitgleiche identische Messungen dargestellt.
 
-Die Ursache innerhalb des Renderers ist damit noch nicht bestimmt. Ein lokaler
-Diagnoseversuch mit abgeschalteten `renderState`-Aufrufen läuft separat; diese
-eingefrorene Oberfläche ist ausdrücklich kein produktiver Lösungsvorschlag.
+Die Ursache innerhalb des Renderers ist damit noch nicht bestimmt. Die später
+abgeschlossenen [lokalen Kontrollläufe](memory-controls/README.md) zeigen weiter
+Speicheranstieg bei angehaltenen `renderState`-Aufrufen und auch ohne
+Anfrage-Zeitlimits. Diese Eingriffe bleiben reine Diagnose, keine produktiven
+Lösungsvorschläge. Eine statische Seite zeigt einen kleineren Anstieg; die
+Auswirkung der Instrumentierung ist weiterhin gesondert zu beachten.
 Keine Pi-Laufzeitänderung, kein Neustart, keine Audioaktivierung und kein
 Image-Einfluss. Der volle Dauerlauf und die akustische Langzeitabnahme bleiben offen.

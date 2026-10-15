@@ -1,0 +1,10 @@
+{
+  "scope": "Static local page; no app scripts or polling; same one-minute CDP sampling; GC before start only",
+  "backendVersion": "0.5.52",
+  "sessions": 0,
+  "startedAt": 1792099471479,
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  }
+}

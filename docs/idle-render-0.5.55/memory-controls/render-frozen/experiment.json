@@ -1,0 +1,15 @@
+{
+  "mode": "renderState disabled after initial load; diagnostic only",
+  "production_candidate": false,
+  "pi_modified": false,
+  "planned_seconds": 1800,
+  "started_at_epoch": 1792098798.198,
+  "expected_end_epoch": 1792100598.198,
+  "driver_pid": 37462,
+  "source_commit": "89e5345",
+  "scripts_sha256": {
+    "cdb-render-freeze-init.js": "ddc8ad678a3c78623a8ebd4e17749bdd6e8d171124344689c61c0432970ed8e4",
+    "cdb-render-freeze-sample.js": "056cf4b9862b2eea27103665c471bbb426fc6b4e9567896f9f71e8484c0ba49d",
+    "cdb-render-freeze-run.py": "bce40b054ddb4603900036b1890d1f44a5a5c27b0d26ee5d27b669420c50e55c"
+  }
+}

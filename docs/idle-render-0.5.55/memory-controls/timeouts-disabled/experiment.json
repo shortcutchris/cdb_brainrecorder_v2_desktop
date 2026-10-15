@@ -1,0 +1,15 @@
+{
+  "mode": "Local synthetic diagnostic control: renderState disabled and AbortSignal.timeout disabled; diagnostic only, not a safe production app",
+  "production_candidate": false,
+  "pi_modified": false,
+  "planned_seconds": 600,
+  "started_at_epoch": 1792099995.795,
+  "expected_end_epoch": 1792100595.795,
+  "driver_pid": 41907,
+  "source_commit": "89e5345",
+  "scripts_sha256": {
+    "cdb-timeout-control-init.js": "505e7d0699d6564ef989edf6ecb863f3ab7a1373bd9910d09c06078b7caa7d02",
+    "cdb-timeout-control-sample.js": "d41abeea130b00e848407cb93a493cc61df0acb5a3cb638fab5dde4672645582",
+    "cdb-timeout-control-run.py": "7b7ed2606d40943c5922eff28caa2718787b396b9d8bc071c080ba68480dfb46"
+  }
+}

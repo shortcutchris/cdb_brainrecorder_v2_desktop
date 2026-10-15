@@ -1,0 +1,31 @@
+{
+  "scope": "Separate post-window forced-GC diagnostic; not part of natural observation",
+  "before": {
+    "at": 1792100606248,
+    "heap": {
+      "usedSize": 2205612,
+      "totalSize": 3751936,
+      "embedderHeapUsedSize": 5274640,
+      "backingStorageSize": 178033
+    },
+    "dom": {
+      "documents": 29,
+      "nodes": 2421,
+      "jsEventListeners": 297
+    }
+  },
+  "after": {
+    "at": 1792100606254,
+    "heap": {
+      "usedSize": 2055312,
+      "totalSize": 2703360,
+      "embedderHeapUsedSize": 4526960,
+      "backingStorageSize": 173468
+    },
+    "dom": {
+      "documents": 29,
+      "nodes": 2421,
+      "jsEventListeners": 297
+    }
+  }
+}

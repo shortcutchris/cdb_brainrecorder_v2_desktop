@@ -1,0 +1,484 @@
+{
+  "scope": "Local Mac Chrome diagnostic comparisons; not Pi acceptance or production changes",
+  "os_warmup_excluded_before_seconds": 120,
+  "overall_goal_complete": false,
+  "runs": [
+    {
+      "mode": "normal-ui",
+      "declared_scope": "Local preview only; natural garbage collection; no audio",
+      "planned_seconds": 1800,
+      "sampled_seconds_from_ready": 1809.398,
+      "sample_count": 31,
+      "browser_versions": [
+        "Chrome/155.0.8059.41"
+      ],
+      "js_heap_used_mib": {
+        "min": 2.536,
+        "max": 3.612,
+        "first": 3.103,
+        "last": 3.13
+      },
+      "dom_ranges": {
+        "documents": [
+          29,
+          29
+        ],
+        "nodes": [
+          2421,
+          7074
+        ],
+        "jsEventListeners": [
+          297,
+          344
+        ]
+      },
+      "attached_elements_range": [
+        1123,
+        1123
+      ],
+      "os_interval_seconds_from_ready": [
+        157.348,
+        1808.999
+      ],
+      "browser_rss_mib": [
+        1078.391,
+        1118.469
+      ],
+      "processes": [
+        {
+          "pid": 30354,
+          "role": "node",
+          "driver_excluded": true,
+          "first_rss_mib": 131.734,
+          "last_rss_mib": 310.5,
+          "delta_mib": 178.766
+        },
+        {
+          "pid": 30355,
+          "role": "Google Chrome",
+          "driver_excluded": false,
+          "first_rss_mib": 240.047,
+          "last_rss_mib": 241.734,
+          "delta_mib": 1.688
+        },
+        {
+          "pid": 30361,
+          "role": "Google Chrome Helper (GPU)",
+          "driver_excluded": false,
+          "first_rss_mib": 143.406,
+          "last_rss_mib": 143.641,
+          "delta_mib": 0.234
+        },
+        {
+          "pid": 30362,
+          "role": "Google Chrome Helper",
+          "driver_excluded": false,
+          "first_rss_mib": 110.594,
+          "last_rss_mib": 111.641,
+          "delta_mib": 1.047
+        },
+        {
+          "pid": 30363,
+          "role": "Google Chrome Helper",
+          "driver_excluded": false,
+          "first_rss_mib": 81.5,
+          "last_rss_mib": 81.5,
+          "delta_mib": 0.0
+        },
+        {
+          "pid": 30365,
+          "role": "Google Chrome Helper (Renderer)",
+          "driver_excluded": false,
+          "first_rss_mib": 178.516,
+          "last_rss_mib": 178.578,
+          "delta_mib": 0.062
+        },
+        {
+          "pid": 30367,
+          "role": "Google Chrome Helper (Renderer)",
+          "driver_excluded": false,
+          "first_rss_mib": 100.703,
+          "last_rss_mib": 100.703,
+          "delta_mib": 0.0
+        },
+        {
+          "pid": 30368,
+          "role": "Google Chrome Helper (Renderer)",
+          "driver_excluded": false,
+          "first_rss_mib": 223.625,
+          "last_rss_mib": 260.672,
+          "delta_mib": 37.047
+        }
+      ],
+      "source_sha256": {
+        "init.json": "04922bb2b9a1703bcc925b0c9154b5d63a4026d120e0ec301200ad42fb73a901",
+        "samples.jsonl": "da881fdb469d35da449e14a88a6a8c38ebe8c6ccc0b01c8e33e8a9c2285919af",
+        "process-memory.jsonl": "17cf95c7da91007c370ff0fa229e65e489c6c2752e80751366dddede200edf57",
+        "cleanup.json": "41dc1612b1cda2821aa0d01dcc07ba738644d6fee08b85181ff0a0e82add3592"
+      }
+    },
+    {
+      "mode": "render-frozen",
+      "declared_scope": "Local synthetic diagnostic control: renderState disabled after initial load; not a usable app or proposed production fix",
+      "planned_seconds": 1800,
+      "sampled_seconds_from_ready": 1800.447,
+      "sample_count": 31,
+      "browser_versions": [
+        "Chrome/155.0.8059.41"
+      ],
+      "js_heap_used_mib": {
+        "min": 2.212,
+        "max": 3.908,
+        "first": 2.806,
+        "last": 3.196
+      },
+      "dom_ranges": {
+        "documents": [
+          29,
+          29
+        ],
+        "nodes": [
+          2421,
+          2421
+        ],
+        "jsEventListeners": [
+          297,
+          297
+        ]
+      },
+      "attached_elements_range": [
+        1123,
+        1123
+      ],
+      "os_interval_seconds_from_ready": [
+        135.793,
+        1800.06
+      ],
+      "browser_rss_mib": [
+        1063.469,
+        1106.328
+      ],
+      "processes": [
+        {
+          "pid": 37462,
+          "role": "node",
+          "driver_excluded": true,
+          "first_rss_mib": 126.547,
+          "last_rss_mib": 298.281,
+          "delta_mib": 171.734
+        },
+        {
+          "pid": 37463,
+          "role": "Google Chrome",
+          "driver_excluded": false,
+          "first_rss_mib": 237.234,
+          "last_rss_mib": 241.125,
+          "delta_mib": 3.891
+        },
+        {
+          "pid": 37469,
+          "role": "Google Chrome Helper (GPU)",
+          "driver_excluded": false,
+          "first_rss_mib": 138.469,
+          "last_rss_mib": 139.844,
+          "delta_mib": 1.375
+        },
+        {
+          "pid": 37470,
+          "role": "Google Chrome Helper",
+          "driver_excluded": false,
+          "first_rss_mib": 109.875,
+          "last_rss_mib": 111.453,
+          "delta_mib": 1.578
+        },
+        {
+          "pid": 37471,
+          "role": "Google Chrome Helper",
+          "driver_excluded": false,
+          "first_rss_mib": 80.125,
+          "last_rss_mib": 81.484,
+          "delta_mib": 1.359
+        },
+        {
+          "pid": 37473,
+          "role": "Google Chrome Helper (Renderer)",
+          "driver_excluded": false,
+          "first_rss_mib": 177.953,
+          "last_rss_mib": 179.453,
+          "delta_mib": 1.5
+        },
+        {
+          "pid": 37475,
+          "role": "Google Chrome Helper (Renderer)",
+          "driver_excluded": false,
+          "first_rss_mib": 99.312,
+          "last_rss_mib": 100.734,
+          "delta_mib": 1.422
+        },
+        {
+          "pid": 37476,
+          "role": "Google Chrome Helper (Renderer)",
+          "driver_excluded": false,
+          "first_rss_mib": 220.5,
+          "last_rss_mib": 252.234,
+          "delta_mib": 31.734
+        }
+      ],
+      "source_sha256": {
+        "init.json": "4f12d7b62bf2dd0ed0a4f0035a3ecbe2e522f55c9a4fc2abed91f643ed9f5766",
+        "samples.jsonl": "96fa7b9c64ce299943c9f876a29efccfbc4adb48a43b9477b400efc3c8a31c64",
+        "process-memory.jsonl": "6c62c498ccc7f0078e752a6b23d53ba9e024a23143a085cd52eb5851593142be",
+        "cleanup.json": "dbd439227800532c717b7077c5fd761556393fae6f1091e1ce904c880184232c"
+      },
+      "frozenRenderCalls": [
+        14,
+        1801
+      ]
+    },
+    {
+      "mode": "static-page",
+      "declared_scope": "Static local page; no app scripts or polling; same one-minute CDP sampling; GC before start only",
+      "planned_seconds": 480,
+      "sampled_seconds_from_ready": 480.46,
+      "sample_count": 9,
+      "browser_versions": [
+        "Chrome/155.0.8059.41"
+      ],
+      "js_heap_used_mib": {
+        "min": 0.981,
+        "max": 1.12,
+        "first": 1.12,
+        "last": 1.078
+      },
+      "dom_ranges": {
+        "documents": [
+          1,
+          1
+        ],
+        "nodes": [
+          10,
+          10
+        ],
+        "jsEventListeners": [
+          0,
+          0
+        ]
+      },
+      "attached_elements_range": [
+        6,
+        6
+      ],
+      "os_interval_seconds_from_ready": [
+        133.561,
+        480.067
+      ],
+      "browser_rss_mib": [
+        1043.391,
+        1044.703
+      ],
+      "processes": [
+        {
+          "pid": 40051,
+          "role": "node",
+          "driver_excluded": true,
+          "first_rss_mib": 111.578,
+          "last_rss_mib": 115.125,
+          "delta_mib": 3.547
+        },
+        {
+          "pid": 40053,
+          "role": "Google Chrome",
+          "driver_excluded": false,
+          "first_rss_mib": 236.0,
+          "last_rss_mib": 237.078,
+          "delta_mib": 1.078
+        },
+        {
+          "pid": 40059,
+          "role": "Google Chrome Helper (GPU)",
+          "driver_excluded": false,
+          "first_rss_mib": 147.906,
+          "last_rss_mib": 147.875,
+          "delta_mib": -0.031
+        },
+        {
+          "pid": 40060,
+          "role": "Google Chrome Helper",
+          "driver_excluded": false,
+          "first_rss_mib": 108.484,
+          "last_rss_mib": 108.578,
+          "delta_mib": 0.094
+        },
+        {
+          "pid": 40061,
+          "role": "Google Chrome Helper",
+          "driver_excluded": false,
+          "first_rss_mib": 80.125,
+          "last_rss_mib": 80.156,
+          "delta_mib": 0.031
+        },
+        {
+          "pid": 40064,
+          "role": "Google Chrome Helper (Renderer)",
+          "driver_excluded": false,
+          "first_rss_mib": 177.688,
+          "last_rss_mib": 177.75,
+          "delta_mib": 0.062
+        },
+        {
+          "pid": 40067,
+          "role": "Google Chrome Helper (Renderer)",
+          "driver_excluded": false,
+          "first_rss_mib": 99.375,
+          "last_rss_mib": 99.375,
+          "delta_mib": 0.0
+        },
+        {
+          "pid": 40068,
+          "role": "Google Chrome Helper (Renderer)",
+          "driver_excluded": false,
+          "first_rss_mib": 193.812,
+          "last_rss_mib": 193.891,
+          "delta_mib": 0.078
+        }
+      ],
+      "source_sha256": {
+        "init.json": "07b9faeb2c037148f64d260084349b0d603f6cfeab6200ff9d58d54325d6ef78",
+        "samples.jsonl": "bf583481a6e47346b04d97f21c9f1088bc0f914e6b3ab9af74b7e644c083de2a",
+        "process-memory.jsonl": "c31e6a253bc1878c1b87953fc33e1bd14349668a65d970fbec439ba13dc19ad7",
+        "cleanup.json": "93ef53443548a1cff1c8807f37eb7570bdf265bc520eb8c1eb41157364ebc0b5"
+      }
+    },
+    {
+      "mode": "render-frozen-timeouts-disabled",
+      "declared_scope": "Local synthetic diagnostic control: renderState disabled and AbortSignal.timeout disabled; diagnostic only, not a safe production app",
+      "planned_seconds": 600,
+      "sampled_seconds_from_ready": 600.435,
+      "sample_count": 11,
+      "browser_versions": [
+        "Chrome/155.0.8059.41"
+      ],
+      "js_heap_used_mib": {
+        "min": 2.733,
+        "max": 4.88,
+        "first": 4.88,
+        "last": 3.564
+      },
+      "dom_ranges": {
+        "documents": [
+          29,
+          118
+        ],
+        "nodes": [
+          2421,
+          6007
+        ],
+        "jsEventListeners": [
+          297,
+          648
+        ]
+      },
+      "attached_elements_range": [
+        1123,
+        1123
+      ],
+      "os_interval_seconds_from_ready": [
+        135.129,
+        600.045
+      ],
+      "browser_rss_mib": [
+        1065.203,
+        1077.609
+      ],
+      "processes": [
+        {
+          "pid": 41907,
+          "role": "node",
+          "driver_excluded": true,
+          "first_rss_mib": 123.656,
+          "last_rss_mib": 175.125,
+          "delta_mib": 51.469
+        },
+        {
+          "pid": 41908,
+          "role": "Google Chrome",
+          "driver_excluded": false,
+          "first_rss_mib": 239.125,
+          "last_rss_mib": 241.016,
+          "delta_mib": 1.891
+        },
+        {
+          "pid": 41914,
+          "role": "Google Chrome Helper (GPU)",
+          "driver_excluded": false,
+          "first_rss_mib": 140.078,
+          "last_rss_mib": 140.078,
+          "delta_mib": 0.0
+        },
+        {
+          "pid": 41915,
+          "role": "Google Chrome Helper",
+          "driver_excluded": false,
+          "first_rss_mib": 109.984,
+          "last_rss_mib": 110.906,
+          "delta_mib": 0.922
+        },
+        {
+          "pid": 41916,
+          "role": "Google Chrome Helper",
+          "driver_excluded": false,
+          "first_rss_mib": 80.156,
+          "last_rss_mib": 80.156,
+          "delta_mib": 0.0
+        },
+        {
+          "pid": 41919,
+          "role": "Google Chrome Helper (Renderer)",
+          "driver_excluded": false,
+          "first_rss_mib": 177.453,
+          "last_rss_mib": 177.516,
+          "delta_mib": 0.062
+        },
+        {
+          "pid": 41921,
+          "role": "Google Chrome Helper (Renderer)",
+          "driver_excluded": false,
+          "first_rss_mib": 99.266,
+          "last_rss_mib": 99.266,
+          "delta_mib": 0.0
+        },
+        {
+          "pid": 41922,
+          "role": "Google Chrome Helper (Renderer)",
+          "driver_excluded": false,
+          "first_rss_mib": 219.141,
+          "last_rss_mib": 228.672,
+          "delta_mib": 9.531
+        }
+      ],
+      "source_sha256": {
+        "init.json": "44d94a991e86009404e74c6ce5649e0a75f97a977a9faf4553a51f0e198a502d",
+        "samples.jsonl": "b4325654ae5aecc8164a9de49788482a6c0860eada793f838b8e19eeb1841f78",
+        "process-memory.jsonl": "b08edd2af68a6494efa8b1abe2ed2257f60b04c3339577c9601acb70d43b5b2c",
+        "cleanup.json": "c05dbf31547f35d1161a4067bdce71f15ed5af490d924c1f14518456a056e37d"
+      },
+      "frozenRenderCalls": [
+        13,
+        601
+      ],
+      "disabledTimeoutCalls": [
+        57,
+        2605
+      ]
+    }
+  ],
+  "limits": [
+    "Windows have different durations and start times; do not compare absolute RSS as a controlled effect size. OS comparisons exclude the first two minutes for every run because old page objects are still present in an early sample.",
+    "The static page had explicit GC before its window; the app windows did not.",
+    "The static and timeout controls overlap part of the render-frozen window on the same Mac.",
+    "Playwright and routing can influence results; driver RSS is excluded from browser RSS.",
+    "RSS sums may count shared pages more than once; short samples cannot exclude all leaks.",
+    "No rendering and no timeouts are diagnostic controls, not usable product fixes.",
+    "Local Chrome 155 and synthetic preview are different from the Pi Chromium 142 and real profile."
+  ]
+}
