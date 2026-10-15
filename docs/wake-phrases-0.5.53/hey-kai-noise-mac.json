@@ -1,0 +1,152 @@
+{
+  "synthetic_audio": true,
+  "accelerated_not_wall_clock": true,
+  "phrase": "hey-kai",
+  "fixture": "hey-kai-vincent.mp3",
+  "vosk_version": "0.3.44",
+  "fixture_sha256": "0526479eef596299c581d435a9317119c8d1f97bbefbfa505eeed93da06c9cdb",
+  "candidate_source_sha256": "6b076c9e4e61524b2d66c1d015ed138ab7a28be1e83fdeb7597401f77c963ccf",
+  "baseline_source_sha256": null,
+  "cases": [
+    {
+      "source": "candidate",
+      "noise_std_pcm": 0,
+      "scale": 1,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 1,
+      "target_audio_seconds": [
+        3.6
+      ],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.733
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 0,
+      "scale": 0.03,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 0,
+      "target_audio_seconds": [],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.743
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 0,
+      "scale": 0.003,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 0,
+      "target_audio_seconds": [],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.735
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 4,
+      "scale": 1,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 1,
+      "target_audio_seconds": [
+        3.4
+      ],
+      "onset_renewals": 1,
+      "cpu_seconds": 0.776
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 4,
+      "scale": 0.03,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 1,
+      "target_audio_seconds": [
+        3.45
+      ],
+      "onset_renewals": 1,
+      "cpu_seconds": 0.763
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 4,
+      "scale": 0.003,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 0,
+      "target_audio_seconds": [],
+      "onset_renewals": 1,
+      "cpu_seconds": 0.745
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 16,
+      "scale": 1,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 0,
+      "target_audio_seconds": [],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.824
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 16,
+      "scale": 0.03,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 0,
+      "target_audio_seconds": [],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.831
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 16,
+      "scale": 0.003,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 0,
+      "target_audio_seconds": [],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.888
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 64,
+      "scale": 1,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 0,
+      "target_audio_seconds": [],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.784
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 64,
+      "scale": 0.03,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 0,
+      "target_audio_seconds": [],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.798
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 64,
+      "scale": 0.003,
+      "idle_audio_minutes": 2,
+      "false_wakes": 0,
+      "target_detections": 0,
+      "target_audio_seconds": [],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.806
+    }
+  ],
+  "execution_host": "Mac development machine; not Raspberry Pi",
+  "production_pi_unchanged": true
+}

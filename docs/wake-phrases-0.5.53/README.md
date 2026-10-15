@@ -98,6 +98,38 @@ Raumtest belegt keinen normalen Live-Start oder gesprochenen Ende-Befehl.
 
 ## Langzeitmessung
 
+### Zusätzliche lokale Eingrenzung ohne Pi-Last
+
+`scripts/check_wake_room_noise.py --phrase <Profil>` unterstützt nun auch die
+neuen Rufwörter. Historische Baselines sind ausdrücklich nur für Hey Brain
+zulässig. Auf dem Mac mit Vosk **0.3.44** wurden pro Rufwort zwölf Kombinationen
+aus vier Rauschstärken und drei Sprachpegeln nach jeweils zwei beschleunigt
+verarbeiteten Audio-Minuten getestet. Kein Mikrofon, Lautsprecher, Cloud-Aufruf
+oder Eingriff in den produktiven Beobachter:
+
+| Rufwort | Genau ein Zielruf erkannt | Aktivierungen im Rauschvorlauf |
+| --- | --- | --- |
+| [Hey Brain, Kontrolle](hey-brain-noise-mac.json) | 8/12 | 0 |
+| [Hey KAI](hey-kai-noise-mac.json) | 3/12 | 0 |
+| [Okay KAI](okay-kai-noise-mac.json) | 2/12 | 0 |
+
+Das ist ein strenger künstlicher Vergleich, keine Feldquote. Die Wortdateien
+verwenden dieselbe synthetische Sprecheridentität, aber unterschiedliche Takes
+und Sprechgeschwindigkeiten; sie isolieren nicht allein die Wortwahl. Die
+Pi-Runtime ist Vosk 0.3.45, deshalb ist dies ausdrücklich ein lokaler Befund.
+Die Kontrolle reproduziert hier die zuvor berichteten 8/12 für Hey Brain.
+Auch Okay KAI kann nach digitaler Stille bei reduziertem Pegel ausfallen.
+Damit ist eine Empfehlung „KAI ist besser“ derzeit nicht belegt; die beiden
+Profile bleiben Testvarianten. Die aktive Auswahl wurde nicht geändert.
+
+Die [Diagnose ausschließlich bekannter synthetischer Dateien](synthetic-confidence-trace.json)
+zeigt bei den leisen Doppelrufen korrekt dekodiertes `kai`, aber einmal nur
+0,856727 bzw. 0,868806 Wortkonfidenz. Die bestehende Mindestkonfidenz 0,9 verwirft
+diese Kandidaten. Das erklärt diese lokalen Dateifehler, nicht rückwirkend
+die realen Nutzer-Aussetzer oder Raumtests. Keine Schwelle wurde zum Bestehen
+der Tests abgesenkt. Die Diagnose enthält ausschließlich erzeugte Rufwörter,
+keine Raumaufzeichnung oder Gesprächsinhalte. App-/Image-Runtime unverändert.
+
 Der Nutzerauftrag für neue Rufwörter löste den bisherigen Lauf nach etwa
 67 Minuten ab. [Erhaltener Zwischenstand 0.5.52](../wake-stability-0.5.52/partial-observation.json).
 Kein abgeschlossener 24-Stunden- oder echter Acht-Stunden-Ruhetest. Die neue
