@@ -89,3 +89,26 @@ Der Nutzerauftrag für neue Rufwörter löste den bisherigen Lauf nach etwa
 Kein abgeschlossener 24-Stunden- oder echter Acht-Stunden-Ruhetest. Die neue
 Beobachtung muss App-Version und Rufwort berücksichtigen; ein Wechsel während
 des Laufs gilt nicht stillschweigend als Abnahme einer einzelnen Phrase.
+
+## Installation und aktueller Teststand
+
+0.5.53 aus Commit `eda03c3296990982a6a2f0166ab828bcd047ecc5` wurde als
+signiertes App-Update (Sequenz 10) auf dem Pi installiert.
+[Installationsnachweis](deployment.json): die geprüften Einstellungen blieben
+während der Installation erhalten. Anschließend wurde für den ausdrücklich
+gewünschten Rufwortvergleich bewusst **Okay KAI** ausgewählt und aktiviert.
+Audioauswahl, Kontobindung und Wissensbereiche wurden dabei nicht geändert.
+
+Die neue rein lesende Beobachtung läuft laut `plan.json` vom **15.10.2026,
+19:38:35 Uhr bis 16.10.2026, 19:38:35 Uhr (Europe/Berlin)**. Der erste Status
+meldet Version 0.5.53, Phrase `okay-kai`, Zustand `listening` und keine Warnungen.
+Das beweist noch keinen akustischen Erfolg. Ein natürlicher Ruf „Okay Kai“ und
+anschließend „Gespräch beenden“ wurde beim Nutzer angefragt; eine bestätigte
+Antwort liegt zum Dokumentationszeitpunkt noch nicht vor. Die bestehende
+15-Minuten-Nachprüfung wurde auf diesen Lauf umgestellt; sie greift nicht
+automatisch in Aufnahmen, Gespräche oder Dienste ein.
+
+Vorschauen der produktiven Pi-App im Browser:
+
+![Startseite mit aktivem Okay KAI](pi-home-browser.jpg)
+![Aktivierungswort-Einstellungen](pi-wake-settings-browser.jpg)
