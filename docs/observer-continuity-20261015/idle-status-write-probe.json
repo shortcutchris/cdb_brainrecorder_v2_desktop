@@ -1,0 +1,10 @@
+{
+  "method": "Existing VM harness; 60 identical idle replies, accelerated without real DOM or wall-clock timing",
+  "source_sha256": "554409c8581be5759f1aee433c2306a20fb4851b3b6cd6c4dff2703c9293b2de",
+  "writes": {
+    "wake-feedback-title.textContent": 60,
+    "wake-feedback-detail.textContent": 60,
+    "wake-feedback.hidden": 120
+  },
+  "pi_unchanged": true
+}

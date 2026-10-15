@@ -47,3 +47,21 @@ damit ihre ursprüngliche Startzeit den Folgecheck nicht vorzeitig abschneidet.
 Nach erfolgter Auswertung soll die Automation bereits vor diesem Limit pausieren;
 unveränderte Zwischenstände bleiben ohne Benachrichtigung. Das Ablaufdatum der
 Automation ist kein Nachweis eines bestandenen Tests.
+
+## Browser-Leerlauf: eingegrenzter Prüfpunkt
+
+Die Sichtprüfung des Codes zeigt: Die schnelle Live-Audioabfrage in
+`studio/live.js` kehrt bei geschlossenem View, verborgenem Dokument oder
+inaktivem Gespräch vor der Netzabfrage zurück. Der feste Wake-Statuspoll in
+`studio/device-status.js` schreibt hingegen auch unveränderte Titel, Hinweise
+und `hidden`-Werte. Eine isolierte Ausführung desselben Codes im bestehenden
+JavaScript-Testharness bestätigt bei 60 identischen Idle-Antworten 120 Text-
+und 120 `hidden`-Zuweisungen. [Messprotokoll](idle-status-write-probe.json).
+
+Diese beschleunigte Prüfung zählt Zuweisungen an simulierte Elemente, keine
+echten Browser-Layouts, keine CPU-Ersparnis und keinen Speicherverlust. Die
+globale Mutation-Beobachtung in `studio/touch.js` macht unnötige Aktualisierungen
+zu einem sinnvollen Kandidaten für eine spätere Browser-Profilierung. Sie
+beweist nicht die Ursache des bislang leichten RSS-Anstiegs. Keine Änderung
+am App-Code oder am Pi nur aufgrund dieser Vermutung; zunächst die längerfristige
+Speicherkurve und mögliche Warnungen des laufenden Tests abwarten.
