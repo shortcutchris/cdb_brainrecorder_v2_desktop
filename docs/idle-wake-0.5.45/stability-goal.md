@@ -7,8 +7,10 @@ prüfen und Fehler beheben. Das Codex-Ziel bleibt bis zur Abnahme aktiv.
 ## Abnahmeplan
 
 - **24 Stunden echte Standzeit:** der produktive Pi sammelt im aktuellen Lauf ab
-  15.10.2026, 18:21:33 Europe/Berlin bis 16.10.2026, 18:21:33 technische Messwerte.
-  Vorläufe 0.5.45–0.5.51 wurden nach Korrekturen bzw. Diagnose-Erweiterung archiviert und zählen nicht als
+  15.10.2026, 19:38:35 Europe/Berlin bis 16.10.2026, 19:38:35 technische Messwerte
+  für 0.5.53 mit Okay KAI. `plan.json` des Messdienstes bleibt maßgeblich.
+  Vorläufe 0.5.45–0.5.52 wurden nach Korrekturen, Diagnose-Erweiterung oder dem
+  ausdrücklichen Auftrag für neue Rufwörter archiviert und zählen nicht als
   bestandene Dauerläufe. Erwartet
   mindestens 99 % Messabdeckung, keine ungeklärten Neustarts, keine dauerhafte
   CPU-/Speicherwarnung und kein ungeklärter wachsender Speichertrend. Fehlende
@@ -119,3 +121,13 @@ bekommt ihre eigene App-/Image-Einflussbewertung.
   Grenzen und der neue unveränderliche Lauf vom 15.10. 18:21:33 bis 16.10.
   18:21:33 sind im [0.5.52-Bericht](../wake-stability-0.5.52/README.md) dokumentiert.
   Langzeitabnahme und echter Wake nach acht Stunden sind weiterhin offen.
+
+- **0.5.53 installiert:** Hey KAI und Okay KAI sind als Testvarianten auswählbar;
+  aktuell hört der Pi auf Okay KAI. [Prüfbericht](../wake-phrases-0.5.53/README.md)
+  mit 320 bestandenen Python-Tests auf dem Pi, 108 JS-Tests und den Grenzen der
+  Akustikprüfung. Der Dateikorpus erfüllt 107/108 Anwesenheitsprüfungen, aber nur
+  105/108 genaue Erkennungszählungen. Die neue Raumwiedergabe erkannte beide
+  KAI-Varianten noch nicht; ein natürlicher Nutzertest steht aus. Die neue
+  24h-Messung darf diese offenen Erkennungsprobleme nicht als gelöst darstellen.
+  Der Beobachter erfasst die Phrase und übernimmt Ruhezeiten nicht über einen
+  Rufwortwechsel hinweg. Der frühere 0.5.52-Lauf ist nach etwa 67 Minuten abgelöst.

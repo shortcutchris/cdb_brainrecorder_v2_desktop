@@ -10,6 +10,16 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from services.wake_phrase import PhraseDetector, PHRASES
 
 
+def score_case(expected_activation, repeat, found):
+    """Count each separated file utterance; cloud-session dedup is a separate test."""
+    expected = repeat if expected_activation else 0
+    return {
+        'expected_detections': expected,
+        'activation_presence_passed': bool(found) == expected_activation,
+        'passed': found == expected,
+    }
+
+
 def main():
     root=Path(__file__).resolve().parents[1]/'tests/fixtures/wake'
     cases=[('hey-brain-vincent-slow.mp3','hey-brain'),('hey-kai-vincent.mp3','hey-kai'),
@@ -27,7 +37,7 @@ def main():
                     for i in range(0,len(stream),1600):found+=int(d.feed(stream[i:i+1600]))
                     rows.append({'clip':filename,'phrase':phrase,'gain':gain,'repeat':repeat,
                                  'expected_activation':expected==phrase,'detections':found,
-                                 'passed':bool(found)==(expected==phrase)})
+                                 **score_case(expected==phrase, repeat, found)})
     report={'synthetic_files_only':True,'real_acoustic_path':False,
             'voices':1,'vosk_version':importlib.metadata.version('vosk'),
             'cpu_seconds':round(time.process_time()-start,2),

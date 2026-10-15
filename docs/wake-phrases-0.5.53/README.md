@@ -68,6 +68,20 @@ Qualitätsquote: Pegel-/Wiederholungsvarianten derselben Stimme sind keine
 unabhängigen Nutzerstimmen. Der Mac-Vorversuch mit Vosk 0.3.44 zeigte denselben
 Fehlschlag; maßgeblich ist der verlinkte Pi-Lauf.
 
+**Nachprüfung der Zählung:** Die ursprünglichen 107/108 prüfen lediglich,
+ob mindestens eine Aktivierung stattfand. Für zwei getrennte Dateirufe reicht
+das nicht als Nachweis beider Erkennungen. Die [strengere Auswertung derselben
+unveränderten Rohdaten](pi-file-count-review.json) erfüllt **105/108** genaue
+Zählerwartungen: Bei 3 % Amplitude wurden ein einzelner Hey-KAI-Ruf sowie
+je einer von zwei Hey-KAI- bzw. Okay-KAI-Rufen übersehen. Alle Negativbeispiele
+bleiben ohne Aktivierung. Das ist keine neue Aufnahme oder weitere unabhängige
+Messung. Der Testbericht enthält jetzt sowohl Anwesenheits- als auch exakte
+Zählprüfung; drei Regressionstests schützen vor übersehenen und zusätzlichen
+Erkennungen. Die gewünschte Sperre mehrfacher Cloud-Starts ist davon getrennt:
+zwei erkannte Rufe dürfen während eines Gesprächs weiterhin keinen zweiten
+Audioeigentümer erzeugen. Diese Änderung betrifft nur Testwerkzeuge und Doku;
+App-Paket, Image-Runtime und laufende Pi-Baseline bleiben unverändert.
+
 ### Lautsprecher → Raum → ReSpeaker
 
 Je ein angekündigter synthetischer Ruf unter atomarer Wartungsreservierung:
