@@ -1,0 +1,13 @@
+test_cloud_close_ack_cannot_release_failed_local_audio (test_audio_release.LiveReleaseTests.test_cloud_close_ack_cannot_release_failed_local_audio) ... ok
+test_failed_native_close_keeps_reservation_then_recovers (test_audio_release.LiveReleaseTests.test_failed_native_close_keeps_reservation_then_recovers) ... ok
+test_100_concurrent_close_retries_leave_no_audio_threads (test_audio_release.NativeReleaseTests.test_100_concurrent_close_retries_leave_no_audio_threads) ... ok
+test_failed_shutdown_is_retryable_even_after_closed_flag (test_audio_release.NativeReleaseTests.test_failed_shutdown_is_retryable_even_after_closed_flag) ... ok
+test_unreaped_process_never_counts_as_closed (test_audio_release.NativeReleaseTests.test_unreaped_process_never_counts_as_closed) ... ok
+test_failed_kill_keeps_owner_and_never_triggers_or_respawns (test_audio_release.WakeReleaseTests.test_failed_kill_keeps_owner_and_never_triggers_or_respawns) ... ok
+test_owned_child_is_reaped_on_retry_after_signal_failure (test_audio_release.WakeReleaseTests.test_owned_child_is_reaped_on_retry_after_signal_failure) ... ok
+test_timeout_after_sigkill_retains_process_until_confirmed_exit (test_audio_release.WakeReleaseTests.test_timeout_after_sigkill_retains_process_until_confirmed_exit) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 1.098s
+
+OK

@@ -1,8 +1,10 @@
 """Cleanup failure injection; no hardware, network, user profile or audio."""
 import io
+from concurrent.futures import ThreadPoolExecutor
 import subprocess
 import sys
 import tempfile
+import threading
 import unittest
 from unittest.mock import AsyncMock, Mock, patch
 
@@ -127,6 +129,40 @@ class LiveReleaseTests(unittest.TestCase):
 
 
 class NativeReleaseTests(unittest.TestCase):
+    def test_100_concurrent_close_retries_leave_no_audio_threads(self):
+        # Real event loops and simultaneous callers, but no microphone, playback
+        # process or cloud connection. Exercise the newly retryable close path.
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            for cycle in range(100):
+                with self.subTest(cycle=cycle):
+                    audio = NativeLiveAudio({}, capture_command=['unused'], playback_command=['unused'])
+                    original = audio._shutdown
+                    attempts = []
+                    async def transient_failure():
+                        attempts.append(True)
+                        if len(attempts) == 1: raise OSError('synthetic transient failure')
+                        await original()
+                    barrier = threading.Barrier(2)
+                    def close():
+                        barrier.wait(timeout=3)
+                        try:
+                            audio.close()
+                            return 'closed'
+                        except RuntimeError:
+                            return 'retry-required'
+                    try:
+                        with patch.object(audio, '_shutdown', new=transient_failure):
+                            pending = [pool.submit(close) for _ in range(2)]
+                            outcomes = [future.result(timeout=5) for future in pending]
+                        self.assertCountEqual(outcomes, ['closed', 'retry-required'])
+                        self.assertEqual(len(attempts), 2)
+                        self.assertTrue(audio.cleanup_complete)
+                        self.assertFalse(audio.thread.is_alive())
+                        self.assertTrue(audio.loop.is_closed())
+                        self.assertEqual(audio.stats()['processes_alive'], 0)
+                    finally:
+                        audio.close()
+
     def test_failed_shutdown_is_retryable_even_after_closed_flag(self):
         audio = NativeLiveAudio({}, capture_command=['unused'], playback_command=['unused'])
         try:

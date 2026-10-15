@@ -97,3 +97,21 @@ noch die 18 Startstichproben zählen als bestandener 24-Stunden-Lauf.
 Offen bleiben die vollständige neue Langzeitmessung, ein echter Wake nach
 mindestens acht Stunden Pause und die akustischen Grenzen der KAI-Varianten.
 Diese Freigabekorrektur ändert weder Modell noch Erkennungsschwellen.
+
+## Ergänzender Wiederholungstest ohne Änderung am Pi
+
+Die neue Regression `test_100_concurrent_close_retries_leave_no_audio_threads`
+führt auf dem Mac 100 Runden mit jeweils zwei gleichzeitigen Aufrufern aus.
+Jede Runde verwendet eine echte neue Python-Ereignisschleife und deren Thread.
+Der erste Aufräumversuch wird absichtlich mit einem Fehler beendet; der zweite
+muss erfolgreich schließen. Nach jeder Runde werden geschlossener Loop,
+beendeter Thread und null aktive Audioprozesse geprüft. **100/100 Runden
+bestanden**, zusammen mit den übrigen sieben gezielten Freigabetests.
+[Testprotokoll](concurrent-close-tests-mac.txt).
+
+Keine Audiohardware, keine Cloud-Verbindung und keine produktiven Daten waren
+beteiligt. Das prüft Wiederholbarkeit und Nebenläufigkeit des lokalen
+Aufräumpfads, nicht 100 echte Sprachgespräche. Ausschließlich Test und Bericht
+werden ergänzt; produktives Paket 0.5.54, Kunden-Image und laufender Messzeitraum
+bleiben unverändert. Der neue Test ist nicht Bestandteil des früheren
+338-Test-Protokolls und wird nicht nachträglich in dessen Zähler eingerechnet.
