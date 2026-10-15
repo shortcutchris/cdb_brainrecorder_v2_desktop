@@ -1,5 +1,22 @@
 # Wake-Stabilität · 0.5.46
 
+**Nachtrag 0.5.48:** Die zusätzliche Prüfung des echten Touchbildschirms zeigte
+eine Reload-Schleife nach dem Update: Das HTML enthielt weiterhin die feste
+Versionsnummer 0.5.45. Dies war beim ersten Auslieferungstest übersehen worden.
+Die API war erreichbar, während die Oberfläche fortlaufend neu lud. Ein
+HTTP-Healthcheck allein reicht daher als Abnahme ausdrücklich nicht.
+
+Das HTML erhält seine Versionsnummer jetzt direkt vom laufenden Backend.
+Zusätzlich erlaubt die Oberfläche höchstens einen automatischen Reload pro
+Zielversion und Tab, auch bei weiterhin veraltetem HTML. Vor dem Reload werden
+Entwürfe gespeichert und der Aufnahme-/Gesprächs-/Wartungszustand erneut geprüft.
+Ist der Tab-Speicher gesperrt, erfolgt kein automatischer Reload. Neue Tests
+prüfen die dynamische HTML-Version und Länge, wiederholt veraltetes HTML,
+Aufnahmestart während Entwurfsicherung und blockierten Tab-Speicher.
+107 JS-Tests bestanden; die Hardware-Abnahme und der Langzeitlauf werden erneut
+mit dem tatsächlich angezeigten Stand geprüft. Keine Änderung an Abhängigkeiten,
+Kundendaten oder Factory-Diensten; neue Images übernehmen die drei App-Dateien.
+
 **Nachtrag 0.5.47:** Beim echten signierten Update blieb das Arbeitsverzeichnis
 des Diensts im ursprünglichen Checkout. `python -m services.wake_word` startete
 daher einen alten Detektor ohne Fortschrittsmeldungen. Der neue Elternprozess

@@ -1,5 +1,11 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.48 – Versionswechsel ohne Reload-Schleife
+
+Die Oberfläche erhält die Version direkt vom Backend und lädt nach einem Update
+höchstens einmal automatisch pro Zielversion neu. Entwürfe und aktive Aufnahmen
+bleiben dabei geschützt. [Auslieferungsprüfung](docs/wake-stability-0.5.46/README.md).
+
 ## 0.5.47 – Wake-Unterprozess aus aktivem Release
 
 Nach einem App-Update verwendet auch der lokale Erkenner ausdrücklich den neuen

@@ -46,6 +46,15 @@ class StudioTests(unittest.TestCase):
             self.assertEqual(self.request(path,{})[0],400)
         self.app.first_start.busy=False
 
+    def test_index_version_is_rendered_from_running_backend(self):
+        with patch('web_server.VERSION', 'release-under-test'):
+            for path in ('/', '/index.html'):
+                status, data, headers = self.request(path)
+                self.assertEqual(status, 200)
+                self.assertIn(b'name="studio-ui-version" content="release-under-test"', data)
+                self.assertNotIn(b'__STUDIO_VERSION__', data)
+                self.assertEqual(int(headers['Content-Length']), len(data))
+
     def test_management_token_maintenance_and_timer_guards(self):
         from fleet.common import read
         headers={'Authorization':'Bearer '+read(self.app.management.auth)['token']}

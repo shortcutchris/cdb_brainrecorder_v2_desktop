@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.47'
+VERSION = '0.5.48'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -701,6 +701,12 @@ class StudioHandler(Handler):
         if path.startswith('/api/'):
             super().get();return
         relative='index.html' if path=='/' else path.lstrip('/')
+        if relative == 'index.html':
+            # One release version: a forgotten static HTML bump must never cause
+            # an automatic reload loop after an otherwise healthy app update.
+            body=(STATIC/'index.html').read_text().replace('__STUDIO_VERSION__',VERSION).encode()
+            self.send_response(200);self.headers_base('text/html; charset=utf-8',len(body))
+            self.end_headers();self.wfile.write(body);return
         file=(STATIC/relative).resolve()
         if not file.is_relative_to(STATIC.resolve()) or not file.is_file():raise KeyError('Datei fehlt.')
         self.serve_file(file,mimetypes.guess_type(file.name)[0] or 'application/octet-stream')
