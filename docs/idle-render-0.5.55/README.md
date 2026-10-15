@@ -269,3 +269,9 @@ Die Rohkopie samt Prüfsummen bleibt außerhalb Git unter
 Der Bericht verändert weder das geplante Ende der 24-Stunden-Beobachtung noch
 die Anforderungen an den echten Acht-Stunden-Wake. Keine neue App-Auslieferung,
 kein Image-Einfluss und kein automatischer Reparatur-/Neustarteingriff.
+
+## Noch nicht ausgelieferte Folgekorrektur
+
+Eine [isoliert belegte wiederholte SVG-Neuladung](probe-icon/README.md) im
+Mikrofon-Testplayer ist im Quellstand korrigiert. Die beobachtete Pi-Version bleibt
+unverändert. Dies belegt keinen Fix des langfristigen Ressourcenwachstums.

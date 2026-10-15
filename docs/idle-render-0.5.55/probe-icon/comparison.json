@@ -1,0 +1,37 @@
+{
+  "scope": "Local preview, same running browser, no audio; source interception only",
+  "runs": [
+    {
+      "mode": "original",
+      "start": 1792103736656,
+      "end": 1792103748659,
+      "requests": 0,
+      "mutations": 13,
+      "loads": 13
+    },
+    {
+      "mode": "guarded",
+      "start": 1792103750231,
+      "end": 1792103762234,
+      "requests": 0,
+      "mutations": 0,
+      "loads": 0
+    }
+  ],
+  "baseline_commit": "3de5f94",
+  "target": "#probe-play-icon",
+  "browser_session": "cdb-probe-icon-audit",
+  "closed": true,
+  "all_javascript_tests": {
+    "passed": 111,
+    "failed": 0
+  },
+  "regression_before_fix": {
+    "passed": 5,
+    "failed": 1,
+    "observed_src_assignments": 1000,
+    "expected": 1
+  },
+  "deployed": false,
+  "memory_reduction_proven": false
+}

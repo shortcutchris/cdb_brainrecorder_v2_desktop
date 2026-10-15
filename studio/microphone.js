@@ -26,7 +26,7 @@ function renderProbePlayer(view){
  view=view||microphoneView(state?.microphone_test||{},microphoneDevices.some(d=>d.id===$('mic-select').value),$('mic-select').value);
  const available=state?.microphone_test?.state==='completed'&&probeAudio.hasAttribute('src')&&online&&!state?.recording.id;
  $('probe-play').disabled=!available;$('probe-mute').disabled=!available;$('probe-seek').disabled=!available||!Number.isFinite(probeAudio.duration)||probeAudio.duration<=0;
- $('probe-play-icon').src='/assets/'+(probeAudio.paused?'play':'pause')+'.svg';$('probe-play').setAttribute('aria-label',probeAudio.paused?'Testaufnahme abspielen':'Testaufnahme pausieren');
+ setIcon($('probe-play-icon'),'/assets/'+(probeAudio.paused?'play':'pause')+'.svg');$('probe-play').setAttribute('aria-label',probeAudio.paused?'Testaufnahme abspielen':'Testaufnahme pausieren');
  $('probe-player-state').textContent=probePlaybackError?'Wiedergabe fehlgeschlagen':!probeAudio.paused?'Wird abgespielt':view.sampleLabel;
  $('probe-time').textContent=duration(probeAudio.currentTime);$('probe-total').textContent=duration(probeAudio.duration);
  const position=Number.isFinite(probeAudio.duration)&&probeAudio.duration>0?probeAudio.currentTime/probeAudio.duration*1000:0;
