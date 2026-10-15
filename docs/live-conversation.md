@@ -12,6 +12,13 @@ Unter **Audio am Raspberry Pi** stehen das eingerichtete Mikrofon und der gewäh
 
 ## Zustände und Ressourcen
 
+Ab 0.5.46 prüft die App den Fortschritt der lokalen Hey-Brain-Erkennung. Reagiert
+deren eigener Prozess nicht mehr, erscheint ein Hinweis und die Erkennung wird
+nach kurzer Pause erneut gestartet. Das geschieht ausschließlich bei freiem
+Gerät; eine laufende oder pausierte Aufnahme wird dabei nicht beendet. Langsame
+Cloud-Heartbeats blockieren die lokale Prüfung von „Gespräch beenden“ nicht mehr.
+Details und Prüfgrenzen: [Stabilität 0.5.46](wake-stability-0.5.46/README.md).
+
 - Vor dem Audiozugriff wird das Gerät für das Gespräch reserviert. Aufnahme und Live-Gespräch schließen sich aus, auch bei gleichzeitigem Zugriff aus mehreren Browsern.
 - Während des Gesprächs sind Recorder, Bibliothek, Einstellungen, Warteschlangenansicht und Gerätekonfiguration gesperrt. Bereits laufende Hintergrundverarbeitung darf weiterlaufen.
 - Abbruch während des Verbindungsaufbaus, fehlende Geräte, Verbindungsfehler, Abmeldung und Zeitlimits schließen die Sitzung und geben die Audioprozesse frei. Während der vollständigen Freigabe bleibt der Zustand „Gespräch wird beendet“ gesperrt.

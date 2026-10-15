@@ -80,6 +80,7 @@ class LiveConversation:
         self.deadline = 0
         self.maximum = 0
         self.last_heartbeat = 0
+        self.heartbeat_pending = None
         self.heartbeat_seconds = 15
         self.finished = threading.Event()
         self.finished.set()
@@ -228,6 +229,7 @@ class LiveConversation:
             self.end_reason = ''
             self.muted = False
             self.handle = self.answer = None
+            self.heartbeat_pending = None
             self.history = []
             self.transcript_turns = {}
             self.seen_transcripts = set()
@@ -282,7 +284,7 @@ class LiveConversation:
         with self.lock:
             if generation != self.generation or self.state not in ACTIVE: return
             self.error = 'Pi-Audio wurde unterbrochen. Mikrofon und Lautsprecher prüfen.'
-        self.end()
+        self.end(generation=generation)
 
     def _startup(self, generation, stage):
         with self.lock:
@@ -394,8 +396,9 @@ class LiveConversation:
             self.muted = muted
             return {'muted': muted}
 
-    def end(self, lease=None):
+    def end(self, lease=None, *, generation=None):
         with self.lock:
+            if generation is not None and generation != self.generation: return {'closed': True}
             if lease is not None: self._owner(lease)
             if self.state not in ACTIVE: return {'closed': True}
             if self.state == 'closing': return {'closing': True}
@@ -554,8 +557,10 @@ class LiveConversation:
             # reopenings consume the retry budget (same lifecycle rule as mobile).
             failures = 1 if framed[0] or self.clock() - opened >= 30 else failures + 1
             if self.stop.wait(min(8, .5 * 2 ** (failures - 1))): return
-        self.end()
-        with self.lock: self.error = 'Verbindung zum Gespräch unterbrochen. Bitte erneut starten.'
+        with self.lock:
+            if generation != self.generation: return
+            self.error = 'Verbindung zum Gespräch unterbrochen. Bitte erneut starten.'
+            self.end(generation=generation)
 
     def _voice_end_requested(self):
         # TQS sends incremental user transcripts, not a final-utterance event.
@@ -581,13 +586,24 @@ class LiveConversation:
                 if getattr(self, 'history_dirty', False) and self.clock()-getattr(self, 'last_checkpoint', 0) >= 15:
                     self._persist_history(); self.last_checkpoint = self.clock()
                 expired = self.clock() > min(self.deadline, self.maximum) or self.cdb.generation != getattr(self, 'account_generation', None)
-                handle, binding = self.handle, self.binding
-                heartbeat = handle and self.clock() - self.last_heartbeat >= self.heartbeat_seconds
-                if heartbeat: self.last_heartbeat = self.clock()
-            if expired: self.end(); continue
+                generation, handle, binding = self.generation, self.handle, self.binding
+                heartbeat = handle and self.heartbeat_pending is None and self.clock() - self.last_heartbeat >= self.heartbeat_seconds
+                if heartbeat:
+                    self.last_heartbeat = self.clock()
+                    self.heartbeat_pending = (generation, handle)
+            if expired: self.end(generation=generation); continue
             if heartbeat:
-                try: self.cdb.call(BASE + '/sessions/' + handle + '/heartbeat', {}, binding=binding)
-                except Exception: self.end()
+                # The local end-command/deadline loop must never await cloud I/O.
+                threading.Thread(target=self._heartbeat, args=(generation, handle, binding), daemon=True).start()
+
+    def _heartbeat(self, generation, handle, binding):
+        try:
+            self.cdb.call(BASE + '/sessions/' + handle + '/heartbeat', {}, binding=binding)
+        except Exception:
+            self.end(generation=generation)
+        finally:
+            with self.lock:
+                if self.heartbeat_pending == (generation, handle): self.heartbeat_pending = None
 
     def _device_loop(self, generation, handle, binding):
         while not self.stop.wait(1):

@@ -1,5 +1,12 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.46 – Wake-Störungen abfangen
+
+Hängende lokale Erkennung wird kontrolliert neu gestartet, sofern das Gerät frei
+ist. Cloud-Heartbeats blockieren den sprachlichen Ende-Befehl nicht mehr; alte
+Fehlermeldungen können kein neues Gespräch beenden.
+[Stresstests und offene Langzeitabnahme](docs/wake-stability-0.5.46/README.md).
+
 ## 0.5.45 – Aktivierung nach Standzeit und Neustarthilfe
 
 Wake-Start blockiert die Oberfläche nicht mehr während einer Anmeldungserneuerung.

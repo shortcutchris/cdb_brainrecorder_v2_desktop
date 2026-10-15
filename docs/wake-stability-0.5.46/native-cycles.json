@@ -1,0 +1,100 @@
+{
+  "synthetic_audio": true,
+  "production_configuration_changed": false,
+  "cycles": [
+    {
+      "round": 1,
+      "expired_token": true,
+      "double_wake": false,
+      "end_voice": "macOS Anna",
+      "reserve_ms": 0.09,
+      "detection_s": 2.53,
+      "greeting_s": 8.27,
+      "state": "ended",
+      "end_reason": "voice_command",
+      "greeting": true,
+      "input_wave": true,
+      "output_wave": true,
+      "recognitions": 1,
+      "user_transcripts": [
+        "Beende bitte das Gespr\u00e4ch"
+      ],
+      "passed": true
+    },
+    {
+      "round": 2,
+      "expired_token": false,
+      "double_wake": true,
+      "end_voice": "macOS Anna",
+      "reserve_ms": 0.1,
+      "detection_s": 3.23,
+      "greeting_s": 6.29,
+      "greeting": true,
+      "input_wave": true,
+      "output_wave": true,
+      "recognitions": 1,
+      "user_transcripts": [
+        "Beende bitte das"
+      ],
+      "passed": false
+    },
+    {
+      "round": 3,
+      "expired_token": false,
+      "double_wake": false,
+      "end_voice": "macOS Anna",
+      "reserve_ms": 0.08,
+      "detection_s": 2.43,
+      "greeting_s": 5.23,
+      "state": "ended",
+      "end_reason": "voice_command",
+      "greeting": true,
+      "input_wave": true,
+      "output_wave": true,
+      "recognitions": 1,
+      "user_transcripts": [
+        "Beende bitte das Gespr\u00e4ch"
+      ],
+      "passed": true
+    },
+    {
+      "round": 4,
+      "expired_token": false,
+      "double_wake": true,
+      "end_voice": "macOS Anna",
+      "reserve_ms": 0.08,
+      "detection_s": 3.12,
+      "greeting_s": 5.98,
+      "state": "ended",
+      "end_reason": "voice_command",
+      "greeting": true,
+      "input_wave": true,
+      "output_wave": true,
+      "recognitions": 1,
+      "user_transcripts": [
+        "Beende bitte das Gespr\u00e4ch"
+      ],
+      "passed": true
+    },
+    {
+      "round": 5,
+      "expired_token": false,
+      "double_wake": false,
+      "end_voice": "macOS Anna",
+      "reserve_ms": 0.08,
+      "detection_s": 2.37,
+      "greeting_s": 5.34,
+      "state": "ended",
+      "end_reason": "voice_command",
+      "greeting": true,
+      "input_wave": true,
+      "output_wave": true,
+      "recognitions": 1,
+      "user_transcripts": [
+        "Beende bitte das Gespr\u00e4ch."
+      ],
+      "passed": true
+    }
+  ],
+  "passed": false
+}

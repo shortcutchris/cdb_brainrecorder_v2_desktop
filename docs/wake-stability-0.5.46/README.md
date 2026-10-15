@@ -1,0 +1,99 @@
+# Wake-Stabilität · 0.5.46
+
+15. Oktober 2026. Folge des ausdrücklich gesetzten
+[Stabilitätsziels](../idle-wake-0.5.45/stability-goal.md). Dies ist ein geprüfter
+Zwischenstand, noch keine abgeschlossene 24-Stunden-Abnahme.
+
+## Vier reproduzierte Fehlerfälle
+
+Die neuen isolierten Fehlertests schlugen auf 0.5.45 in vier Fällen fehl:
+
+1. Ein noch lebender, aber beim Start hängender Detektor blieb unbegrenzt aktiv.
+2. Eine unvollständige Statuszeile des Kindprozesses ließ `readline()` unter
+   den App-/Aufnahmesperren warten.
+3. Ein blockierter Cloud-Heartbeat hielt die lokale Prüfung des sprachlichen
+   Ende-Befehls auf.
+4. Ein verspäteter Heartbeat-Fehler aus einer bereits beendeten Sitzung konnte
+   ein inzwischen neu gestartetes Gespräch beenden.
+
+Diese Fehler wurden durch kontrollierte Störungen reproduziert. Nicht alle
+vier sind als Ursache des ursprünglichen Nutzerberichts nachgewiesen.
+
+## Korrekturen und Schutz
+
+Der Detektor meldet alle zwei Sekunden, dass weiterhin Audioblöcke verarbeitet
+werden. Ohne Startbereitschaft innerhalb 30 Sekunden oder ohne Fortschritt
+während 15 Sekunden beendet die App ausschließlich ihren eigenen
+Wake-Detektor mitsamt dessen Aufnahme-Unterprozess. Nach zehn Sekunden folgt
+ein neuer Versuch, **nur wenn die normalen Aktivitätssperren weiterhin frei sind**.
+Eine laufende oder pausierte Aufnahme sowie ein Gespräch verhindern diesen Start.
+Das ist keine Browser-/Backend-/Pi-Neustartfunktion.
+
+Das Statusrohr wird in begrenzten verfügbaren Blöcken gelesen. Teilzeilen
+werden gepuffert, ohne auf ein Zeilenende zu warten; Puffergröße ist begrenzt.
+Nach einer Aktivierung wird der alte Prozess freigegeben und weiterer Inhalt
+verworfen. Zwei Erkennungen aus demselben Audiostream starten kein zweites Gespräch.
+
+Der Cloud-Heartbeat arbeitet nun außerhalb der lokalen Ende-/Zeitlimitprüfung.
+Pro Sitzung ist höchstens ein Heartbeat gleichzeitig unterwegs. Späte
+Fehlermeldungen dürfen nur die passende Sitzungsgeneration beenden; das gilt
+auch für native Audiofehler und erschöpfte Ereignisstrom-Wiederholungen.
+Die normalen Cloud-Timeouts bleiben bestehen. Ein langsamer Cloud-Close kann
+weiterhin die vollständige Freigabe verzögern; keine unbelegte Sofortfreigabe
+bei unbekanntem Serverzustand.
+
+## Nachweise
+
+- [282 Python-Tests](python-tests.txt) auf dem Pi, isolierte Testdaten. Darunter
+  100 Runden mit acht konkurrierenden Reservierungsversuchen (je genau ein
+  Besitzer), 100 Doppelnennungen und Fehlertests zu den vier Punkten oben.
+  Die Reservierungstests sind keine 100 echten Cloud-Gespräche.
+- [104 JavaScript-Tests](javascript-tests.txt) bestanden.
+- [Akustischer Testkorpus](acoustic-corpus.json): 28/28 synthetische Beispiele
+  über den echten Vosk-Erkenner korrekt, acht positive und zwanzig negative Fälle.
+  60 Sekunden synthetische Stille ohne Auslösung. 85,39 Sekunden Sprachkorpus
+  benötigten 2,364 Sekunden Inferenz-CPU; kein Feldtest für Fehlaktivierungen
+  durch Fernsehen, Raumhall oder fremde Stimmen.
+- Der 24-Stunden-Messdienst bleibt separat aktiv. Browserlast, Speicherwachstum
+  und echte Aufrufe nach langer Pause werden nicht aus kurzen Unit-Tests abgeleitet.
+
+Fünf isolierte [native CDB-Runden](native-cycles.json) auf dem Pi: 5/5 Aktivierungen,
+je genau eine Reservierung, 5/5 Hallo-Begrüßungen und positive Eingangs-/Ausgangspegel.
+Zwei Runden enthalten doppelt gesprochenes „Hey Brain“. Die Reservierung dauerte
+0,08–0,10 ms, die lokale Erkennung 2,37–3,23 Sekunden ab Beginn der künstlichen
+Quelle, die Begrüßung 5,23–8,27 Sekunden ab Quellenstart. Erste Runde mit bewusst
+abgelaufenem Token in der privaten Testkopie. Kein echtes Raummikrofon oder
+Lautsprecher wurde verwendet.
+
+**Sprachliches Beenden: 4/5, noch nicht vollständig bestanden.** In Runde 2
+lieferte die Cloud nur „Beende bitte das“ als Nutzertranskript. Dieser unvollständige
+Satz wird nicht als sicherer Abschaltbefehl akzeptiert. Nach dem Testzeitlimit
+wurde die Testsession kontrolliert per API geschlossen; die nächsten drei
+Runden waren erfolgreich. Das Stabilitätsziel bleibt auch wegen dieses offenen
+ASR-/Ende-Falls aktiv. Die Erkennungsgrammatik wird nicht auf beliebige Satzanfänge
+aufgeweicht, um eine bessere Erfolgsquote vorzutäuschen.
+
+Reproduktion über `scripts/check_native_wake_cycles.py --end-audio DATEI
+--output /tmp/ERGEBNIS.json`: synthetische deutsche Audiodatei mit „Beende bitte
+das Gespräch“, maximal fünf Runden; benötigt die vorhandene Staging-Anmeldung,
+native Runtime, `espeak-ng`, `ffmpeg` und das konfigurierte Wake-Modell. Bei diesem
+Lauf stammte der Ende-Satz aus der macOS-Stimme Anna. Die private Testkopie wird
+anschließend entfernt. Dieses Skript startet echte Cloud-Sitzungen und ist kein
+automatischer nächtlicher Produktions-Stresstest.
+
+Die Gesamttests geben eine bestehende Qt-GC-Ressourcenwarnung beim Prozessende
+aus; der Testlauf selbst meldet keine fehlgeschlagenen Tests. Die Änderung
+führt keine Qt- oder Abhängigkeitsaktualisierung durch.
+
+## Bestehende Geräte und Kunden-Image
+
+Nur App-Code in bereits zugelassenen `services/`-Dateien und Versionsstand
+ändern sich. Keine neuen Pakete, Modelle, Firmware, Einstellungen oder
+Datenmigrationen. Die neue Fortschrittsmeldung gehört zum internen Protokoll
+zwischen Eltern- und Kindprozess und wird gemeinsam im App-Paket ausgeliefert.
+
+Ein frisches Kunden-Image aus diesem Quellstand übernimmt den Code automatisch.
+Das bereits gebaute SD-Image 0.5.44 bleibt unverändert. Der separate temporäre
+24-Stunden-Beobachter wird weiterhin nicht automatisch in Kunden-Images oder
+App-Updates aktiviert. Kein neuer Browser-Watchdog und kein automatischer
+Pi-Neustart werden mit diesem Stand eingeschaltet.

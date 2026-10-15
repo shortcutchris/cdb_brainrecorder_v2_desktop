@@ -28,6 +28,9 @@ class WakeWord:
         self.enabled = False
         self.account = None
         self.process = None
+        self.read_process = None
+        self.read_buffer = b''
+        self.progress_at = self.clock()
         self.test_until = 0
         self.cooldown = 0
         self.count = 0
@@ -73,6 +76,8 @@ class WakeWord:
 
     def suspend(self, reason='Kurz unterbrochen.'):
         process, self.process = self.process, None
+        self.read_process = None
+        self.read_buffer = b''
         if process:
             try:
                 os.killpg(process.pid, signal.SIGTERM)
@@ -116,18 +121,40 @@ class WakeWord:
             self.cooldown = self.clock()+10
             self.mode = 'error'
             return
-        if not select.select([self.process.stdout], [], [], 0)[0]: return
-        line = self.process.stdout.readline().decode().strip()
-        if line == 'ready':
-            self.mode = 'testing' if testing else 'listening'
-            self.message = 'Sage „Hey Brain“ · Test ohne Cloud-Start.' if testing else 'Bereit für „Hey Brain“ · Erkennung bleibt lokal.'
-        if line == 'detected':
-            self.count += 1
-            logging.info('Wake detected count=%d testing=%s',self.count,testing)
-            self.recognized_until = self.clock()+8
-            self.suspend('Aktivierungswort erkannt.' if testing else 'Erkannt · Gespräch wird gestartet …')
-            self.cooldown = self.clock()+3
-            if not testing: trigger()
+        if self.read_process is not self.process:
+            self.read_process = self.process
+            self.read_buffer = b''
+            self.progress_at = self.clock()
+        if select.select([self.process.stdout], [], [], 0)[0]:
+            # stdout is unbuffered: read only available bytes, never wait for a
+            # newline while holding the app's recording/control locks.
+            chunk = self.process.stdout.read(4096)
+            self.read_buffer += chunk
+            if not chunk or len(self.read_buffer) > 8192:
+                self.suspend('Erkennung unterbrochen. Wird erneut gestartet.')
+                self.cooldown = self.clock()+10
+                self.mode = 'error'
+                return
+            while b'\n' in self.read_buffer:
+                line, self.read_buffer = self.read_buffer.split(b'\n', 1)
+                if line in (b'ready', b'detected') or (line == b'alive' and self.mode in ('listening', 'testing')):
+                    self.progress_at = self.clock()
+                if line == b'ready':
+                    self.mode = 'testing' if testing else 'listening'
+                    self.message = 'Sage „Hey Brain“ · Test ohne Cloud-Start.' if testing else 'Bereit für „Hey Brain“ · Erkennung bleibt lokal.'
+                if line == b'detected':
+                    self.count += 1
+                    logging.info('Wake detected count=%d testing=%s',self.count,testing)
+                    self.recognized_until = self.clock()+8
+                    self.suspend('Aktivierungswort erkannt.' if testing else 'Erkannt · Gespräch wird gestartet …')
+                    self.cooldown = self.clock()+3
+                    if not testing: trigger()
+                    return  # Discard duplicate detections from the released child.
+        timeout = 30 if self.mode == 'loading' else 15
+        if self.clock() - self.progress_at > timeout:
+            self.suspend('Erkennung reagiert nicht. Wird erneut gestartet.')
+            self.cooldown = self.clock()+10
+            self.mode = 'error'
 
 
 def detect(capture_command=None):
@@ -142,12 +169,16 @@ def detect(capture_command=None):
     signal.signal(signal.SIGTERM, stop)
     try:
         ready = False
+        last_progress = time.monotonic()
         while True:
             audio = capture.stdout.read(1600)
             if len(audio) != 1600: break
             if not ready:
                 print('ready', flush=True); ready = True
             if model.feed(audio): print('detected', flush=True)
+            if time.monotonic() - last_progress >= 2:
+                print('alive', flush=True)
+                last_progress = time.monotonic()
     finally:
         if capture.poll() is None: capture.terminate()
         try: capture.wait(timeout=1)
