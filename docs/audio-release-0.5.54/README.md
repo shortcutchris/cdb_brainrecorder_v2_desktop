@@ -138,3 +138,38 @@ Frontend-Modul. Kein Heap-Dump, keine erzwungene Speicherbereinigung, kein
 Neuladen und kein Eingriff in Audio oder App-Konfiguration. Der vollständige
 Verlauf bleibt abzuwarten; die Abnahmekriterien und Warnschwellen ändern sich
 nicht. Nur Messbericht und Dokumentation, kein App-/Image-Update.
+
+### Lokale Browserprüfung: temporäre DOM-Objekte
+
+Eine isolierte Playwright-CLI-Sitzung auf dem Mac verwendet die lokale Vorschau
+bei 1280 × 720. Nur die Browserantworten für den Wake-Zustand werden auf
+synthetische Bereitschaft gesetzt; kein echter Detektor oder Cloud-Start.
+Das unveränderte Frontend führt seine normalen Statusabfragen aus.
+
+Nach fünf Sekunden Anlauf folgen drei Messintervalle zu je 20 Sekunden.
+Chromes DevTools-Protokoll erfasst DOM-Zähler und Heap vor und nach expliziter
+Speicherbereinigung. Diese Methode folgt der Unterscheidung zwischen temporären
+Allokationen und verbleibenden Objekten in der
+[offiziellen Chrome-Dokumentation](https://developer.chrome.com/docs/devtools/memory-problems).
+
+| Messpunkt nach Bereinigung | DOM-Knoten | Ereignisbehandler | JavaScript-Heap |
+| --- | ---: | ---: | ---: |
+| Vor den Intervallen | 2.421 | 297 | 1,895 MiB |
+| Nach 20 Sekunden | 2.421 | 297 | 2,040 MiB |
+| Nach 40 Sekunden | 2.421 | 297 | 2,043 MiB |
+| Nach 60 Sekunden | 2.421 | 297 | 2,048 MiB |
+
+Vor der Bereinigung lagen die Knotenzähler jeweils höher (4.777, 3.810 und
+4.674); nachher kehrten sie zum Ausgangswert zurück. 66 vollständige Status-
+und 216 Wake-Abfragen einschließlich Anlauf. [Rohmesswerte und Quelltext-Hashes](local-browser-retention.json)
+sowie [reproduzierbare Playwright-CLI-Prüffunktion](local-browser-retention.js).
+Sie wird mit `run-code --filename` auf einer eigenen Sitzung der synthetischen
+Vorschau ausgeführt, nicht auf dem produktiven Pi. Die Prüfsitzung wurde beendet.
+
+Dieser kurze Lauf belegt keinen fortlaufenden Aufbau zurückgehaltener DOM-Knoten
+oder Listener in dieser Vorschau. Der Heap ist nicht exakt konstant. Erzwungene
+Bereinigung, anderer Browser/Host und kleinere synthetische Daten begrenzen die
+Aussage: weder Ausschluss jedes Speicherlecks noch Erklärung des Pi-RSS-Verlaufs.
+Am Pi ist keine Remote-Debugging-Schnittstelle eingeschaltet; sie wurde für diese
+Prüfung nicht aktiviert. Keine Pi-Speicherbereinigung, kein App-/Browser-Neustart,
+keine Schwellenänderung und keine weitere Auslieferung aufgrund dieser Stichprobe.
