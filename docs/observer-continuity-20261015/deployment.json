@@ -1,0 +1,17 @@
+{
+  "observer_source_commit": "2b24da5",
+  "observer_sha256": "a57d47d26dcce367a14697b36ec338fc20bd230489ec98c55728ce388fdf3b98",
+  "application_pid_unchanged": true,
+  "browser_generation_unchanged": true,
+  "previous_start_epoch": 1792085915.0402756,
+  "plan": {
+    "start_epoch": 1792087308.622123,
+    "end_epoch": 1792173708.622123,
+    "started_at": "2026-10-15T18:01:48.622123+00:00",
+    "ends_at": "2026-10-16T18:01:48.622123+00:00",
+    "mode": "observe_only"
+  },
+  "observer_status": "running",
+  "app_version": "0.5.53",
+  "wake_phrase": "okay-kai"
+}

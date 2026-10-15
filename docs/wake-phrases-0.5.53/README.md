@@ -233,8 +233,12 @@ während der Installation erhalten. Anschließend wurde für den ausdrücklich
 gewünschten Rufwortvergleich bewusst **Okay KAI** ausgewählt und aktiviert.
 Audioauswahl, Kontobindung und Wissensbereiche wurden dabei nicht geändert.
 
-Die neue rein lesende Beobachtung läuft laut `plan.json` vom **15.10.2026,
-19:38:35 Uhr bis 16.10.2026, 19:38:35 Uhr (Europe/Berlin)**. Der erste Status
+Die erste rein lesende Beobachtung dieser Version lief laut `plan.json` vom **15.10.2026,
+19:38:35 Uhr**, geplant bis **16.10.2026, 19:38:35 Uhr (Europe/Berlin)**. Sie
+wurde nach rund 23 Minuten durch eine notwendige Korrektur am Messwerkzeug
+abgelöst; App und Browser liefen unverändert weiter. Der aktuelle korrigierte
+Lauf beginnt **15.10.2026, 20:01:48 Uhr** und endet **16.10.2026, 20:01:48 Uhr**.
+[Begründung und Nachweis](../observer-continuity-20261015/README.md). Der erste Status
 meldet Version 0.5.53, Phrase `okay-kai`, Zustand `listening` und keine Warnungen.
 Das beweist noch keinen akustischen Erfolg. Ein natürlicher Ruf „Okay Kai“ und
 anschließend „Gespräch beenden“ wurde beim Nutzer angefragt; eine bestätigte

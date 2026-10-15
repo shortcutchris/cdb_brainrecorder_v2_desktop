@@ -7,7 +7,7 @@ prüfen und Fehler beheben. Das Codex-Ziel bleibt bis zur Abnahme aktiv.
 ## Abnahmeplan
 
 - **24 Stunden echte Standzeit:** der produktive Pi sammelt im aktuellen Lauf ab
-  15.10.2026, 19:38:35 Europe/Berlin bis 16.10.2026, 19:38:35 technische Messwerte
+  15.10.2026, 20:01:48 Europe/Berlin bis 16.10.2026, 20:01:48 technische Messwerte
   für 0.5.53 mit Okay KAI. `plan.json` des Messdienstes bleibt maßgeblich.
   Vorläufe 0.5.45–0.5.52 wurden nach Korrekturen, Diagnose-Erweiterung oder dem
   ausdrücklichen Auftrag für neue Rufwörter archiviert und zählen nicht als
@@ -131,3 +131,10 @@ bekommt ihre eigene App-/Image-Einflussbewertung.
   24h-Messung darf diese offenen Erkennungsprobleme nicht als gelöst darstellen.
   Der Beobachter erfasst die Phrase und übernimmt Ruhezeiten nicht über einen
   Rufwortwechsel hinweg. Der frühere 0.5.52-Lauf ist nach etwa 67 Minuten abgelöst.
+
+- **Beobachterkorrektur bei unveränderter App 0.5.53:** Abfragefehler,
+  unbeobachtete Lücken und Prozesswechsel unterbrechen jetzt den Nachweis
+  durchgehender Ruhe. 33 Tests lokal und auf dem Pi bestanden; App und Browser
+  wurden nicht neu gestartet. Die vorherige 23-Minuten-Beobachtung bleibt
+  erhalten, der korrigierte Lauf beginnt am 15.10. um 20:01:48.
+  [Fehlernachweis, Installation und Grenzen](../observer-continuity-20261015/README.md).

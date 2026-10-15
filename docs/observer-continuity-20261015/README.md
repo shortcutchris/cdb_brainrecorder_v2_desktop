@@ -30,4 +30,11 @@ Audioeinstellung oder App-/Browser-Neustart. Der Beobachter ist kein Bestandteil
 des Kunden-Images; für das bestehende App-Paket und neue Kunden-Images entsteht
 keine Änderung. Vorlauf erhalten und die 24h-Beobachtung mit dem korrigierten
 Werkzeug neu beginnen; diese zusätzlichen Minuten ersetzen keine echte Standzeit.
-Installationsbeleg und neue Messzeiten werden nach der Prüfung ergänzt.
+[Installationsbeleg](deployment.json): App-Prozess und Browsergeneration vor
+und nach der Umstellung identisch; produktiv weiterhin 0.5.53 mit Okay KAI.
+Der korrigierte Beobachter stammt aus `2b24da5`, Revision der Ruhezeitevidenz 2.
+Der neue Lauf reicht vom **15.10.2026, 20:01:48 Uhr bis 16.10.2026,
+20:01:48 Uhr Europe/Berlin**; `plan.json` bleibt maßgeblich. Die vorherigen
+rund 23 Minuten sind unter `baseline-053-pre-continuity` erhalten und als
+abgelöst gekennzeichnet. [Teilbericht](previous-partial-observation.json),
+kein bestandener 24h-Lauf. Keine automatische Reparaturfunktion aktiviert.

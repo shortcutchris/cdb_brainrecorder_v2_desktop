@@ -1,0 +1,61 @@
+{
+  "status": "superseded",
+  "overall_goal_complete": false,
+  "note": "Telemetry only. Review hourly RSS trend, actual UI/audio and the full acceptance matrix separately.",
+  "start_epoch": 1792085915.0402756,
+  "end_epoch": 1792172315.0402756,
+  "analyzed_until_epoch": 1792087295.343865,
+  "elapsed_hours": 0.3834,
+  "completed_observation": false,
+  "valid_metric_samples": 93,
+  "invalid_samples": 0,
+  "covered_seconds": 1380.167,
+  "coverage_percent": 99.9901,
+  "largest_gap_seconds": 0.006,
+  "planned_window_coverage_percent": 1.5974,
+  "last_sample_age_seconds": 0.167,
+  "versions": [
+    "0.5.53"
+  ],
+  "browser_generation_changes": 0,
+  "wake_phrases": [
+    "okay-kai"
+  ],
+  "backend_instance_changes": 0,
+  "observer_starts": 1,
+  "alerts": [],
+  "review_items": [
+    "real_wake_after_eight_hours_missing"
+  ],
+  "idle_browser_cpu_percent_of_one_core": {
+    "samples": 92,
+    "min": 20.33,
+    "median": 22.095,
+    "p95": 23.33,
+    "max": 23.66
+  },
+  "idle_health_ms": {
+    "samples": 93,
+    "min": 4.12,
+    "median": 5.67,
+    "p95": 98.42,
+    "max": 108.97
+  },
+  "browser_rss_mb": {
+    "samples": 93,
+    "min": 1055.69,
+    "median": 1073.08,
+    "p95": 1082.64,
+    "max": 1083.23
+  },
+  "hourly_browser_rss": [
+    {
+      "hour": 0,
+      "samples": 93,
+      "median_rss_mb": 1073.08
+    }
+  ],
+  "observed_wakes": [],
+  "qualified_long_idle_wakes": 0,
+  "reason": "Idle continuity evidence corrected after three failing regression tests; app and browser unchanged"
+}
