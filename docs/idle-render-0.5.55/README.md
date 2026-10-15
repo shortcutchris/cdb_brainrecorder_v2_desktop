@@ -217,3 +217,28 @@ Lösungsvorschläge. Eine statische Seite zeigt einen kleineren Anstieg; die
 Auswirkung der Instrumentierung ist weiterhin gesondert zu beachten.
 Keine Pi-Laufzeitänderung, kein Neustart, keine Audioaktivierung und kein
 Image-Einfluss. Der volle Dauerlauf und die akustische Langzeitabnahme bleiben offen.
+
+### Längere Prüfung des privaten Renderer-Speichers
+
+Eine weitere reine Leseprobe am **15.10.2026 um 23:56:28 Europe/Berlin**
+vergleicht dieselben neun Prozesse samt Startkennungen mit der Probe von 23:14:55.
+Nach **41,54 Minuten** zeigt Renderer 806009 **+47,90 MiB PSS**, **+47,91 MiB
+private veränderte Seiten** und **+47,91 MiB anonymen Speicher**. Browser-, GPU-
+und Hilfsprozesse ändern sich jeweils um weniger als 0,1 MiB PSS. Damit bleibt
+die Zunahme im Renderer lokalisiert; ihre Ursache ist weiterhin nicht bewiesen.
+[Stichproben, Differenzen und Rohdaten-Prüfsummen](renderer-memory-followup.json).
+
+Die offizielle [Chromium-MemoryInfra-Dokumentation](https://chromium.googlesource.com/chromium/src/+/main/docs/memory-infra/README.md)
+trennt physische Prozesswerte von Speicheranteilen für V8, Blink, PartitionAlloc
+und Caches. Unsere Prozessmessung kann diese internen Anteile nicht zuordnen.
+Ein kleiner JavaScript-Heap im **separaten Mac-Test** beweist insbesondere nicht,
+dass der Pi-Renderer denselben Heap-Verlauf hat. Falls der Anstieg anhält, ist
+eine gesonderte MemoryInfra-Aufzeichnung die nächste Eingrenzung; sie gehört
+nicht in die unveränderte 24-Stunden-Baseline. Laut
+[Heap-Profiling-Dokumentation](https://chromium.googlesource.com/chromium/src/+/main/docs/memory-infra/heap_profiler.md)
+beeinflussen Profiling-Overhead, nicht erfasste frühe Allokationen und verfügbare
+Symbole die Interpretation. Ein solcher Trace wurde hier noch nicht erzeugt.
+
+Nur ergänzende Diagnose und Dokumentation, keine neue Pi-Auslieferung und kein
+Image-Einfluss. Der debuggerfreie lokale Vergleich läuft noch; seine vollständige
+Auswertung folgt erst nach dem geplanten Ende und bestätigter Prozessbereinigung.
