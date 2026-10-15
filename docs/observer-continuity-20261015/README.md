@@ -1,5 +1,10 @@
 # Durchgehende Ruhezeit korrekt beobachten
 
+**Aktueller Lauf:** Seit der gezielten Audiofreigabekorrektur 0.5.54 gilt der
+[Messplan ab 15.10., 20:56:47 Uhr](../audio-release-0.5.54/README.md).
+Der unten beschriebene Lauf ab 20:01:48 ist als Teilbericht archiviert.
+Der Beobachter selbst und Revision 2 bleiben unverändert.
+
 15.10.2026. Drei neue Regressionen schlugen im bisherigen Beobachter fehl:
 ein einzelner Abfragefehler, ein gewechselter Backend-/Wake-Kontext und eine
 lange unbeobachtete Lücke konnten die frühere Ruhezeit bis zum nächsten Ruf

@@ -1,0 +1,66 @@
+{
+  "status": "pending",
+  "overall_goal_complete": false,
+  "note": "Telemetry only. Review hourly RSS trend, actual UI/audio and the full acceptance matrix separately.",
+  "start_epoch": 1792087308.622123,
+  "end_epoch": 1792173708.622123,
+  "analyzed_until_epoch": 1792090606.4853973,
+  "elapsed_hours": 0.9161,
+  "completed_observation": false,
+  "valid_metric_samples": 220,
+  "invalid_samples": 0,
+  "covered_seconds": 3297.56,
+  "coverage_percent": 99.9908,
+  "largest_gap_seconds": 0.005,
+  "planned_window_coverage_percent": 3.8166,
+  "last_sample_age_seconds": 12.56,
+  "versions": [
+    "0.5.53",
+    "0.5.54"
+  ],
+  "browser_generation_changes": 0,
+  "wake_phrases": [
+    "okay-kai"
+  ],
+  "backend_instance_changes": 1,
+  "observer_starts": 1,
+  "alerts": [],
+  "review_items": [
+    "runtime_restart_requires_review",
+    "missing_or_mixed_versions",
+    "observation_gaps_require_review",
+    "real_wake_after_eight_hours_missing"
+  ],
+  "idle_browser_cpu_percent_of_one_core": {
+    "samples": 219,
+    "min": 21.66,
+    "median": 24.4,
+    "p95": 26.53,
+    "max": 42.6
+  },
+  "idle_health_ms": {
+    "samples": 220,
+    "min": 4.11,
+    "median": 5.199999999999999,
+    "p95": 95.39,
+    "max": 103.7
+  },
+  "browser_rss_mb": {
+    "samples": 220,
+    "min": 1081.41,
+    "median": 1110.0,
+    "p95": 1135.78,
+    "max": 1149.08
+  },
+  "hourly_browser_rss": [
+    {
+      "hour": 0,
+      "samples": 220,
+      "median_rss_mb": 1110.0
+    }
+  ],
+  "observed_wakes": [],
+  "qualified_long_idle_wakes": 0,
+  "archived_reason": "Confirmed audio ownership cleanup failure fixed in 0.5.54; prior partial run and isolated test load retained, not a passed 24h run",
+  "test_load_note": "Isolated 338-test suite ran on the Pi before deployment; not all samples represent production-only idle load."
+}

@@ -7,8 +7,8 @@ prüfen und Fehler beheben. Das Codex-Ziel bleibt bis zur Abnahme aktiv.
 ## Abnahmeplan
 
 - **24 Stunden echte Standzeit:** der produktive Pi sammelt im aktuellen Lauf ab
-  15.10.2026, 20:01:48 Europe/Berlin bis 16.10.2026, 20:01:48 technische Messwerte
-  für 0.5.53 mit Okay KAI. `plan.json` des Messdienstes bleibt maßgeblich.
+  15.10.2026, 20:56:47 Europe/Berlin bis 16.10.2026, 20:56:47 technische Messwerte
+  für 0.5.54 mit Okay KAI. `plan.json` des Messdienstes bleibt maßgeblich.
   Vorläufe 0.5.45–0.5.52 wurden nach Korrekturen, Diagnose-Erweiterung oder dem
   ausdrücklichen Auftrag für neue Rufwörter archiviert und zählen nicht als
   bestandene Dauerläufe. Erwartet
@@ -138,3 +138,12 @@ bekommt ihre eigene App-/Image-Einflussbewertung.
   wurden nicht neu gestartet. Die vorherige 23-Minuten-Beobachtung bleibt
   erhalten, der korrigierte Lauf beginnt am 15.10. um 20:01:48.
   [Fehlernachweis, Installation und Grenzen](../observer-continuity-20261015/README.md).
+
+- **0.5.54 installiert:** Die zusätzliche Fehlerprüfung zeigte einen Verlust
+  der Audioreservierung bei fehlgeschlagenem Prozess-/Audioabschluss. Besitzer
+  bleiben jetzt bis zum bestätigten Ende erhalten; kontrollierte Wiederholungen
+  geben erst danach frei. Je 338 Tests auf Mac und Pi bestanden, signiertes
+  Update unter Wartungssperre und Quelltext-Hashes geprüft. Der frühere Lauf
+  von etwa 55 Minuten liegt unter `baseline-053-before-audio-release-fix`.
+  Neuer Lauf ab 15.10., 20:56:47; keine Änderung am Rufwort, Modell oder den
+  Erkennungsschwellen. [Nachweise und offene Punkte](../audio-release-0.5.54/README.md).

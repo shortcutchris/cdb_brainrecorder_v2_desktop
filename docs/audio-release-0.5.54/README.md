@@ -64,3 +64,36 @@ keine zusätzlichen Produktdienste.
 Die laufende Beobachtung von 0.5.53 wird nicht als Prüfung von 0.5.54 ausgegeben.
 Nach einer bestätigten Auslieferung ist für die neue Version eine eigene
 24-Stunden-Beobachtung nötig; der bisherige Teilbericht bleibt erhalten.
+
+## Ausgeliefert und am Gerät geprüft
+
+[Signiertes Update, Sequenz 11](deployment.json) aus Commit
+`14f9dc571b5d7f712bd12f4ba139009f893cb8d5`: Version 0.5.54, gespeicherte
+Einstellungen unverändert. Der vorhandene Verwaltungsagent reservierte die
+Wartung atomar und prüfte Signatur, kompatible Runtime und Startgesundheit.
+Keine laufende Aufnahme wurde beendet.
+
+[Installationsprüfung](installation-check.json): API und ausgeliefertes HTML
+melden 0.5.54; sämtliche vier geänderten Laufzeitdateien haben dieselben
+SHA256-Werte wie der getestete Quellstand. 18 Stichproben über rund 34 Sekunden
+zeigen durchgehend Bereitschaft mit genau einem unveränderten Wake-Prozess.
+Das ist eine Startprüfung, kein Sprach- oder Langzeitnachweis.
+
+![Echter Pi-Touchbildschirm nach der Installation](pi-home.png)
+
+Der [neue Messplan](observation-plan.json) reicht vom **15.10.2026, 20:56:47 Uhr
+bis 16.10.2026, 20:56:47 Uhr Europe/Berlin**. Der echte Beobachterprozess wurde
+als aktiv bestätigt; unveränderte Revision 2, weiterhin ausschließlich lesend.
+Okay KAI bleibt aktiviert. Die automatische Nachprüfung wurde auf diese Version
+und Frist aktualisiert und reicht bis 16.10., 22:00 Uhr.
+
+Der [vorherige Teilbericht](previous-partial-observation.json) umfasst etwa
+55 Minuten. Archiv auf dem Pi: `baseline-053-before-audio-release-fix`.
+Sein abschließender Backend-Wechsel und die Beobachtungslücke gehören zur
+bestätigten Installation; sie werden nicht aus den Daten entfernt. Der isolierte
+Pi-Testlauf erzeugte vor dem Update zusätzliche Testlast. Weder diese Zeitreihe
+noch die 18 Startstichproben zählen als bestandener 24-Stunden-Lauf.
+
+Offen bleiben die vollständige neue Langzeitmessung, ein echter Wake nach
+mindestens acht Stunden Pause und die akustischen Grenzen der KAI-Varianten.
+Diese Freigabekorrektur ändert weder Modell noch Erkennungsschwellen.
