@@ -7,8 +7,8 @@ prüfen und Fehler beheben. Das Codex-Ziel bleibt bis zur Abnahme aktiv.
 ## Abnahmeplan
 
 - **24 Stunden echte Standzeit:** der produktive Pi sammelt im aktuellen Lauf ab
-  15.10.2026, 22:21:44 Europe/Berlin bis 16.10.2026, 22:21:44 technische Messwerte
-  für 0.5.55 mit Okay KAI. `plan.json` des Messdienstes bleibt maßgeblich.
+  16.10.2026, 01:53:18 Europe/Berlin bis 17.10.2026, 01:53:18 technische Messwerte
+  für 0.5.56 mit Okay KAI. `plan.json` des Messdienstes bleibt maßgeblich.
   Vorläufe 0.5.45–0.5.52 wurden nach Korrekturen, Diagnose-Erweiterung oder dem
   ausdrücklichen Auftrag für neue Rufwörter archiviert und zählen nicht als
   bestandene Dauerläufe. Erwartet
@@ -156,3 +156,15 @@ bekommt ihre eigene App-/Image-Einflussbewertung.
   bleibt unter `baseline-054-before-idle-render-fix` erhalten. Neuer Lauf ab
   15.10., 22:21:44; noch keine behauptete Pi-Speicherverbesserung oder vollständige
   Langzeitabnahme. [Nachweise](../idle-render-0.5.55/README.md).
+
+- **0.5.56 installiert:** Identische SVG-Quellen des versteckten Testplayers
+  werden nicht mehr neu zugewiesen. Der quellengeprüfte Pi-Kurzvergleich zeigt
+  konstante interne Dokumentzahl und geringeren Renderer-Zuwachs; ungültige
+  Vorläufe mit fehlerhaftem Diagnosecode bleiben ausdrücklich verworfen.
+  354 Python-/111 JS-Tests, erneute 51 Studio-Tests nach Versionssprung und acht
+  neue Diagnosevalidierungen bestanden. Signiertes Paket Sequenz 13,
+  Konfigurationshashes und 18 Bereitschaftsstichproben bestätigt. Der bisherige
+  0.5.55-Lauf ist nach rund 3,53 Stunden einschließlich Updateübergang archiviert.
+  Neuer echter 24h-Lauf gestartet, kein Browser-/Pi-Neustart und kein akustischer
+  Test. Die Langzeit-/Acht-Stunden-Abnahme bleibt offen.
+  [Nachweise](../idle-icon-0.5.56/README.md).

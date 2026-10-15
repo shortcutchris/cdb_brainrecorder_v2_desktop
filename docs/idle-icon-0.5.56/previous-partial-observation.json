@@ -1,0 +1,87 @@
+{
+  "status": "pending",
+  "overall_goal_complete": false,
+  "note": "Telemetry only. Review hourly RSS trend, actual UI/audio and the full acceptance matrix separately.",
+  "start_epoch": 1792095704.2767904,
+  "end_epoch": 1792182104.2767904,
+  "analyzed_until_epoch": 1792108397.4316678,
+  "elapsed_hours": 3.5259,
+  "completed_observation": false,
+  "valid_metric_samples": 847,
+  "invalid_samples": 0,
+  "covered_seconds": 12691.791,
+  "coverage_percent": 99.9893,
+  "largest_gap_seconds": 0.093,
+  "planned_window_coverage_percent": 14.6896,
+  "last_sample_age_seconds": 1.791,
+  "versions": [
+    "0.5.55",
+    "0.5.56"
+  ],
+  "browser_generation_changes": 0,
+  "wake_phrases": [
+    "okay-kai"
+  ],
+  "backend_instance_changes": 1,
+  "observer_starts": 1,
+  "alerts": [],
+  "review_items": [
+    "runtime_restart_requires_review",
+    "missing_or_mixed_versions",
+    "observation_gaps_require_review",
+    "real_wake_after_eight_hours_missing"
+  ],
+  "idle_browser_cpu_percent_of_one_core": {
+    "samples": 846,
+    "min": 24.0,
+    "median": 32.165000000000006,
+    "p95": 37.06,
+    "max": 62.26
+  },
+  "idle_health_ms": {
+    "samples": 847,
+    "min": 4.14,
+    "median": 5.15,
+    "p95": 97.78,
+    "max": 153.34
+  },
+  "browser_rss_mb": {
+    "samples": 847,
+    "min": 1162.58,
+    "median": 1278.97,
+    "p95": 1391.09,
+    "max": 1413.31
+  },
+  "hourly_browser_rss": [
+    {
+      "hour": 0,
+      "samples": 240,
+      "median_rss_mb": 1195.9
+    },
+    {
+      "hour": 1,
+      "samples": 240,
+      "median_rss_mb": 1260.615
+    },
+    {
+      "hour": 2,
+      "samples": 240,
+      "median_rss_mb": 1330.79
+    },
+    {
+      "hour": 3,
+      "samples": 127,
+      "median_rss_mb": 1386.05
+    }
+  ],
+  "observed_wakes": [],
+  "qualified_long_idle_wakes": 0,
+  "analysis_cutoff": "recorded_supersession",
+  "superseded_at_epoch": 1792108397.4316678,
+  "raw_sha256": {
+    "plan.json": "874b96d5b79352b286d607e9a31e4bdef045fe3a48bd13912b25a6248e9940fd",
+    "status.json": "e8d49c2e6b84fe917548ef9658587155cfbc29616920a7a683947cd51a96126f",
+    "metrics.jsonl": "981d00a461d442e28a4ed5c84d2812f3471a826ea6d2ae5ff4627a710bf8e37a",
+    "events.jsonl": "3448f766f05e0d8537cb0b834fee0ca237619ac00200313c27cd1dd685ef5934"
+  }
+}

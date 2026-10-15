@@ -1,6 +1,6 @@
 # Unverändertes Testplayer-Symbol erhalten · 0.5.56
 
-Freigabekandidat vom 16. Oktober 2026. **Noch nicht installiert.**
+Am 16. Oktober 2026 als signiertes App-Update auf dem Pi installiert.
 
 Auch auf der Startseite wurde das Play-Symbol des versteckten Mikrofon-Testplayers
 bei jeder Zustandsabfrage erneut zugewiesen. Der vorhandene `setIcon`-Helfer
@@ -25,10 +25,11 @@ unveränderten Funktionsstand vor dem Versionssprung. Der Symbol-Regressionstest
 prüft 1.000 identische Darstellungen sowie Play-/Pause-Wechsel. Die bestehenden
 Tests prüfen Aufnahme-/Verbindungsverlust-Sperren und Fehlerwiederholung.
 Die Python-Suite meldet weiterhin die bekannte Qt-/GC-Aufräumwarnung; sie ist
-kein Pi-Messwert. Weitere 51 Studio-Tests bestehen nach dem Versionssprung auf 0.5.56.
+kein Pi-Messwert. Nach dem Versionssprung auf 0.5.56 bestehen die 51 Studio-Tests erneut
+(Teilmenge der Python-Suite, keine zusätzlichen 51 unabhängigen Tests).
 Weitere acht Diagnosetests verhindern die Freigabe falscher Quellstände,
 defekter Bilder und unvollständiger Messungen. Die tatsächliche Prüfung von
-API-/HTML-Version auf dem Pi steht noch aus.
+API-/HTML-Version auf dem Pi ist nachfolgend belegt.
 
 ## Bestehendes Gerät und Kunden-Image
 
@@ -45,3 +46,37 @@ Nach erfolgreicher Installation werden Konfigurationsprüfsummen, API-/HTML-
 Version und die einzelne Wake-Instanz geprüft. Der bisherige 0.5.55-Zeitraum
 bleibt als Teilmessung erhalten; er darf nicht mit einer neuen Version zu einem
 bestandenen 24-Stunden-Lauf zusammengezählt werden. Die Gesamt-Abnahme bleibt offen.
+
+## Installation und neuer Beobachtungszeitraum
+
+[Signierte Auslieferung](deployment.json), Sequenz **13**, Quellcommit
+`db932ea4bdcd9cc3a4d60d1350c5b69163e1db83`, Release
+`3c6efacbd2ecfc93d3a1d5f8ae221ddf0917be43cc3e272a0f39a7557129636c`.
+Signatur, Runtime und exakter Paketunterschied wurden vorab geprüft: nur
+`studio/microphone.js` und `web_server.py`. Die vorhandene Wartungssperre war
+erfolgreich; Konfigurationsprüfsummen vor und nach dem Austausch stimmen überein.
+
+[18 Geräte-Stichproben](installation-check.json) bestätigen API-/HTML-Version
+0.5.56 und durchgehend genau einen unveränderten Wake-Prozess in Bereitschaft.
+Installierte Dateihashes entsprechen dem getesteten Quellstand. Okay KAI bleibt
+gewählt. Das ist kein akustischer Erkennungstest. Kein Testton, keine künstliche
+Unterhaltung, kein Browser- oder Pi-Neustart und keine neue Audio-/Modellkonfiguration.
+Der kontrollierte Backend-Neustart gehört zum signierten Update.
+
+Der [neue 24-Stunden-Messplan](observation-plan.json) läuft von **16.10.2026, 01:53:18**
+bis **17.10.2026, 01:53:18 Europe/Berlin**. Beobachterprozess **1469691**
+wurde aktiv geprüft; unveränderte Evidenzrevision 2 und ausschließlich lesender
+Betrieb. Automatische Browser-/Backend-/Pi-Reparatur bleibt ausgeschaltet.
+
+Die [vorherige Teilmessung](previous-partial-observation.json) enthält rund
+**3,53 Stunden** einschließlich des kontrollierten Versionswechsels, 847 gültige
+Ressourcenstichproben und keinen qualifizierten Langzeit-Wake. Sie liegt auf dem
+Pi unter `baseline-055-before-icon-resource-fix`. Die Auswertung endet am dort
+aufgezeichneten Ablösezeitpunkt; spätere Zeit ohne laufenden alten Beobachter
+wird nicht als künstliche zusätzliche Lücke ausgegeben. Rohdatei-Prüfsummen sind
+beigefügt. Versionswechsel, Backend-Neustart und unterbrochene Ruhezeitevidenz
+bleiben ausdrücklich prüfpflichtig; **kein bestandener 24-Stunden-Test**.
+
+Der kurzfristige Ressourcenvergleich begründet diesen gezielten Fix. Ob der
+produktive Browser damit dauerhaft stabil bleibt und ein echter Ruf nach
+mindestens acht Stunden Pause zuverlässig aktiviert, ist weiterhin offen.
