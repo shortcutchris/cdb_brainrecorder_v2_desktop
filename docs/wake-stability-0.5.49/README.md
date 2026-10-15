@@ -69,8 +69,20 @@ Wartungsreservierung. Ein zukünftiges Kunden-Image übernimmt ihn automatisch
 aus der vorhandenen App-Positivliste. Das bereits gebaute Image 0.5.44 wird durch
 dieses Commit nicht verändert; Laborprogramme werden nicht mitaktiviert.
 
-Vor der produktiven Langzeitabnahme sind Paketinstallation, unveränderte
-Einstellungen, API-/HTML-Version, laufender Detektor im aktiven Release und der
-echte Touchbildschirm erneut zu prüfen. Die bisherige Beobachtung bleibt als
-Vorläufer erhalten. Kein automatischer Browser-, Backend- oder Pi-Neustart
-wird eingeschaltet.
+[Signierte Installation](deployment.json) von Commit
+`5976efc658ea7bd7e4ed8651baa2c1b65b02b929` bestätigt 0.5.49 und unveränderte
+Einstellungen. [18 Stichproben des installierten Detektors](installed-wake.json)
+über 34 Sekunden zeigen durchgehend Bereitschaft und dieselbe PID. Sein
+Quelltext-Hash stimmt mit dem geprüften Kandidaten überein; API und HTML melden
+ebenfalls 0.5.49. Der echte Touchbildschirm wurde nach der Installation geprüft.
+Keine vollständige Pi- oder manuelle Browser-Neustartaktion notwendig.
+
+![Pi nach Installation](pi-home.png)
+
+Die neue 24-Stunden-Beobachtung läuft vom **15.10.2026, 17:11:59** bis
+**16.10.2026, 17:11:59 Europe/Berlin**. Der Vorlauf 0.5.48 bleibt unter
+`baseline-048` erhalten und ist als `superseded` gekennzeichnet. Zu Beginn lief
+noch der isolierte Acht-Stunden-Silence-Audiotest mit niedriger Priorität;
+diese Last ist nicht als Leerlauf zu interpretieren. Abschluss und echter
+Wake-Aufruf nach mindestens acht Stunden Pause bleiben offen. Kein automatischer
+Browser-, Backend- oder Pi-Neustart wird eingeschaltet.

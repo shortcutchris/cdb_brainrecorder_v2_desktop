@@ -7,8 +7,8 @@ prüfen und Fehler beheben. Das Codex-Ziel bleibt bis zur Abnahme aktiv.
 ## Abnahmeplan
 
 - **24 Stunden echte Standzeit:** der produktive Pi sammelt im aktuellen Lauf ab
-  15.10.2026, 16:39:37 Europe/Berlin bis 16.10.2026, 16:39:37 technische Messwerte.
-  Vorläufe 0.5.45–0.5.47 wurden nach Korrekturen archiviert und zählen nicht als
+  15.10.2026, 17:11:59 Europe/Berlin bis 16.10.2026, 17:11:59 technische Messwerte.
+  Vorläufe 0.5.45–0.5.48 wurden nach Korrekturen archiviert und zählen nicht als
   bestandene Dauerläufe. Erwartet
   mindestens 99 % Messabdeckung, keine ungeklärten Neustarts, keine dauerhafte
   CPU-/Speicherwarnung und kein ungeklärter wachsender Speichertrend. Fehlende
@@ -75,8 +75,8 @@ niemals einen Pi-/Backend-Neustart während einer Aufnahme auslösen.
   transkribiert. Im erweiterten kontinuierlichen 1.000-Segment-Test ein
   Erkennungsfehler; Speicherplateau statt ungebremstem Wachstum. Der experimentelle
   Reset verbessert die Erkennung nicht und wurde nicht übernommen.
-- Langzeit- und akustische Langzeitabnahme sowie die beiden Sprachfehler:
-  **offen**. [Details und Rohmesswerte](../wake-stability-0.5.46/README.md).
+- Historischer Befund vor 0.5.49: Langzeit- und akustische Langzeitabnahme sowie
+  beide Sprachfehler offen. [Details und Rohmesswerte](../wake-stability-0.5.46/README.md).
 - Weitere Eingrenzung: drei zusätzliche native Runden bestanden; eine
   Audio-Prüfsumme bestätigt jeweils die vollständige lokale Weitergabe des
   synthetischen Ende-Satzes. Der alte Fehlversuch bleibt dokumentiert.
@@ -85,5 +85,21 @@ niemals einen Pi-/Backend-Neustart während einer Aufnahme auslösen.
   Ressourcen bei Stille und längere Hintergrundsprache werden noch verglichen;
   die experimentelle Variante ist nicht produktiv installiert.
 
-App und vorhandenes SD-Image werden durch diese Diagnose nicht neu gebaut.
-Jede folgende Laufzeitänderung bekommt ihre eigene App-/Image-Einflussbewertung.
+- **0.5.49 installiert:** Erneuerung nach nichtleeren abgeschlossenen
+  Sprachsegmenten, keine wiederholte Neuanlage bei Stille. 287 Python-Tests,
+  1.000/1.000 kontinuierliche Abschnitte, 28 Sprachfälle, eine Stunde synthetische
+  Hintergrundsprache und zwei weitere native CDB-Runden bestanden. Insgesamt
+  fünf instrumentierte CDB-Folgerunden erfolgreich; der alte unvollständige
+  Cloud-Satz bleibt als nicht abschließend erklärter Fehlversuch dokumentiert.
+  Der reproduzierbare Decoder-Aussetzer ist im identischen langen Korpus
+  beseitigt. Signierte Installation, erhaltene Einstellungen, API-/HTML-Version,
+  tatsächlicher Detektor-Quelltext und Touchbildschirm geprüft.
+  [Nachweise](../wake-stability-0.5.49/README.md).
+- Aktuelle Langzeitabnahme ab 17:11:59 am 15.10.: **offen**. Kein automatischer
+  Browser-/Backend-/Pi-Neustart. Ein isolierter Acht-Stunden-Silence-Audiotest
+  erzeugte zu Beginn noch Laborlast; der Echtzeitnachweis wird separat bewertet.
+
+0.5.49 wurde als signiertes App-Paket ausgeliefert. Das vorhandene SD-Image
+0.5.44 bleibt unverändert; ein zukünftiger Image-Build übernimmt den neuen
+App-Code über die bestehende Positivliste. Jede folgende Laufzeitänderung
+bekommt ihre eigene App-/Image-Einflussbewertung.
