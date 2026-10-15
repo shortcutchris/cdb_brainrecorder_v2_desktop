@@ -115,3 +115,26 @@ Aufräumpfads, nicht 100 echte Sprachgespräche. Ausschließlich Test und Berich
 werden ergänzt; produktives Paket 0.5.54, Kunden-Image und laufender Messzeitraum
 bleiben unverändert. Der neue Test ist nicht Bestandteil des früheren
 338-Test-Protokolls und wird nicht nachträglich in dessen Zähler eingerechnet.
+
+## Eingrenzung des Browser-Speicherverlaufs
+
+Zwei rein lesende `/proc`-Stichproben im Abstand von **9,36 Minuten** zeigen
+weiter dieselben neun Kiosk-Prozesse. Der anteilig zugerechnete Speicher (PSS)
+steigt von 659,54 auf 666,25 MiB. Nahezu die gesamte Zunahme entfällt auf einen
+Renderer: +6,68 MiB PSS beziehungsweise +6,67 MiB private veränderte Seiten.
+Browser-Hauptprozess, GPU-Prozess und übrige Helfer bleiben in diesem kurzen
+Vergleich nahezu konstant. [Rohwerte und Vergleich](browser-memory-samples.json).
+
+Die summierten RSS-Werte enthalten mehrfach gezählte gemeinsame Seiten und
+sind deshalb kein exklusiver RAM-Verbrauch. Diese Detailstichprobe verwendet
+`smaps_rollup`; der laufende Beobachter verwendet die leichtere `/proc/stat`-
+RSS-Abfrage. Unterschiedliche Zeitpunkte und Erfassungswege werden nicht als
+identische Messwerte behandelt. PID und Startkennung wurden abgeglichen;
+Debian Chromium schreibt seine Typangabe in einen zusammengefassten Prozesstitel.
+
+Das grenzt die nächste Profilierung auf den Renderer ein, beweist aber weder
+einen JavaScript-/DOM-Speicherverlust noch die Ursache in einem bestimmten
+Frontend-Modul. Kein Heap-Dump, keine erzwungene Speicherbereinigung, kein
+Neuladen und kein Eingriff in Audio oder App-Konfiguration. Der vollständige
+Verlauf bleibt abzuwarten; die Abnahmekriterien und Warnschwellen ändern sich
+nicht. Nur Messbericht und Dokumentation, kein App-/Image-Update.

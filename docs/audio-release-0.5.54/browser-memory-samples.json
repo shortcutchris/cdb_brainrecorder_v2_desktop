@@ -1,0 +1,306 @@
+{
+  "method": "Read-only /proc/<pid>/stat, cmdline type flag and smaps_rollup of the observer-identified kiosk process tree; root start ticks verified. No page scripts, GC, heap snapshots, audio or restart.",
+  "elapsed_minutes": 9.36,
+  "same_roots": true,
+  "totals_mib": [
+    {
+      "rss": 1148.77,
+      "pss": 659.54
+    },
+    {
+      "rss": 1155.44,
+      "pss": 666.25
+    }
+  ],
+  "comparison": [
+    {
+      "pid": 805908,
+      "role": "browser-or-helper",
+      "pss_mib": 142.87,
+      "pss_delta_mib": 0.01,
+      "private_dirty_delta_mib": -0.02
+    },
+    {
+      "pid": 805932,
+      "role": "zygote",
+      "pss_mib": 17.21,
+      "pss_delta_mib": 0.01,
+      "private_dirty_delta_mib": 0.0
+    },
+    {
+      "pid": 805933,
+      "role": "zygote",
+      "pss_mib": 12.43,
+      "pss_delta_mib": 0.01,
+      "private_dirty_delta_mib": 0.0
+    },
+    {
+      "pid": 805935,
+      "role": "zygote",
+      "pss_mib": 4.45,
+      "pss_delta_mib": 0.0,
+      "private_dirty_delta_mib": 0.0
+    },
+    {
+      "pid": 805968,
+      "role": "gpu-process",
+      "pss_mib": 78.84,
+      "pss_delta_mib": 0.01,
+      "private_dirty_delta_mib": 0.0
+    },
+    {
+      "pid": 805969,
+      "role": "utility",
+      "pss_mib": 38.2,
+      "pss_delta_mib": -0.02,
+      "private_dirty_delta_mib": -0.03
+    },
+    {
+      "pid": 805975,
+      "role": "utility",
+      "pss_mib": 11.24,
+      "pss_delta_mib": 0.0,
+      "private_dirty_delta_mib": 0.0
+    },
+    {
+      "pid": 806008,
+      "role": "renderer",
+      "pss_mib": 24.5,
+      "pss_delta_mib": 0.0,
+      "private_dirty_delta_mib": 0.0
+    },
+    {
+      "pid": 806009,
+      "role": "renderer",
+      "pss_mib": 336.51,
+      "pss_delta_mib": 6.68,
+      "private_dirty_delta_mib": 6.67
+    }
+  ],
+  "samples": [
+    {
+      "at_epoch": 1792092133.0135312,
+      "version": "0.5.54",
+      "roots": [
+        [
+          805908,
+          8935707
+        ]
+      ],
+      "units": "KiB",
+      "processes": [
+        {
+          "pid": 805908,
+          "start_ticks": 8935707,
+          "role": "browser-or-helper",
+          "Rss": 254080,
+          "Pss": 146289,
+          "Private_Clean": 52976,
+          "Private_Dirty": 57392,
+          "Anonymous": 56832,
+          "Swap": 0
+        },
+        {
+          "pid": 805932,
+          "start_ticks": 8935714,
+          "role": "zygote",
+          "Rss": 64592,
+          "Pss": 17607,
+          "Private_Clean": 48,
+          "Private_Dirty": 1712,
+          "Anonymous": 16592,
+          "Swap": 0
+        },
+        {
+          "pid": 805933,
+          "start_ticks": 8935714,
+          "role": "zygote",
+          "Rss": 64832,
+          "Pss": 12713,
+          "Private_Clean": 80,
+          "Private_Dirty": 736,
+          "Anonymous": 16736,
+          "Swap": 0
+        },
+        {
+          "pid": 805935,
+          "start_ticks": 8935719,
+          "role": "zygote",
+          "Rss": 21088,
+          "Pss": 4553,
+          "Private_Clean": 0,
+          "Private_Dirty": 544,
+          "Anonymous": 16704,
+          "Swap": 0
+        },
+        {
+          "pid": 805968,
+          "start_ticks": 8935741,
+          "role": "gpu-process",
+          "Rss": 151728,
+          "Pss": 80724,
+          "Private_Clean": 13936,
+          "Private_Dirty": 38752,
+          "Anonymous": 53536,
+          "Swap": 0
+        },
+        {
+          "pid": 805969,
+          "start_ticks": 8935741,
+          "role": "utility",
+          "Rss": 94304,
+          "Pss": 39135,
+          "Private_Clean": 3440,
+          "Private_Dirty": 20896,
+          "Anonymous": 20704,
+          "Swap": 0
+        },
+        {
+          "pid": 805975,
+          "start_ticks": 8935747,
+          "role": "utility",
+          "Rss": 49536,
+          "Pss": 11508,
+          "Private_Clean": 144,
+          "Private_Dirty": 3392,
+          "Anonymous": 18576,
+          "Swap": 0
+        },
+        {
+          "pid": 806008,
+          "start_ticks": 8935763,
+          "role": "renderer",
+          "Rss": 72944,
+          "Pss": 25091,
+          "Private_Clean": 0,
+          "Private_Dirty": 9824,
+          "Anonymous": 24832,
+          "Swap": 0
+        },
+        {
+          "pid": 806009,
+          "start_ticks": 8935764,
+          "role": "renderer",
+          "Rss": 403232,
+          "Pss": 337746,
+          "Private_Clean": 36064,
+          "Private_Dirty": 274736,
+          "Anonymous": 289264,
+          "Swap": 0
+        }
+      ]
+    },
+    {
+      "at_epoch": 1792092694.4569516,
+      "version": "0.5.54",
+      "roots": [
+        [
+          805908,
+          8935707
+        ]
+      ],
+      "units": "KiB",
+      "processes": [
+        {
+          "pid": 805908,
+          "start_ticks": 8935707,
+          "role": "browser-or-helper",
+          "Rss": 254080,
+          "Pss": 146302,
+          "Private_Clean": 52992,
+          "Private_Dirty": 57376,
+          "Anonymous": 56832,
+          "Swap": 0
+        },
+        {
+          "pid": 805932,
+          "start_ticks": 8935714,
+          "role": "zygote",
+          "Rss": 64592,
+          "Pss": 17618,
+          "Private_Clean": 48,
+          "Private_Dirty": 1712,
+          "Anonymous": 16592,
+          "Swap": 0
+        },
+        {
+          "pid": 805933,
+          "start_ticks": 8935714,
+          "role": "zygote",
+          "Rss": 64832,
+          "Pss": 12724,
+          "Private_Clean": 80,
+          "Private_Dirty": 736,
+          "Anonymous": 16736,
+          "Swap": 0
+        },
+        {
+          "pid": 805935,
+          "start_ticks": 8935719,
+          "role": "zygote",
+          "Rss": 21088,
+          "Pss": 4554,
+          "Private_Clean": 0,
+          "Private_Dirty": 544,
+          "Anonymous": 16704,
+          "Swap": 0
+        },
+        {
+          "pid": 805968,
+          "start_ticks": 8935741,
+          "role": "gpu-process",
+          "Rss": 151744,
+          "Pss": 80735,
+          "Private_Clean": 13936,
+          "Private_Dirty": 38752,
+          "Anonymous": 53536,
+          "Swap": 0
+        },
+        {
+          "pid": 805969,
+          "start_ticks": 8935741,
+          "role": "utility",
+          "Rss": 94272,
+          "Pss": 39114,
+          "Private_Clean": 3440,
+          "Private_Dirty": 20864,
+          "Anonymous": 20672,
+          "Swap": 0
+        },
+        {
+          "pid": 805975,
+          "start_ticks": 8935747,
+          "role": "utility",
+          "Rss": 49536,
+          "Pss": 11510,
+          "Private_Clean": 144,
+          "Private_Dirty": 3392,
+          "Anonymous": 18576,
+          "Swap": 0
+        },
+        {
+          "pid": 806008,
+          "start_ticks": 8935763,
+          "role": "renderer",
+          "Rss": 72944,
+          "Pss": 25093,
+          "Private_Clean": 0,
+          "Private_Dirty": 9824,
+          "Anonymous": 24832,
+          "Swap": 0
+        },
+        {
+          "pid": 806009,
+          "start_ticks": 8935764,
+          "role": "renderer",
+          "Rss": 410080,
+          "Pss": 344588,
+          "Private_Clean": 36064,
+          "Private_Dirty": 281568,
+          "Anonymous": 296096,
+          "Swap": 0
+        }
+      ]
+    }
+  ]
+}
