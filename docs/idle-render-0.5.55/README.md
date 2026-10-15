@@ -242,3 +242,7 @@ Symbole die Interpretation. Ein solcher Trace wurde hier noch nicht erzeugt.
 Nur ergänzende Diagnose und Dokumentation, keine neue Pi-Auslieferung und kein
 Image-Einfluss. Der debuggerfreie lokale Vergleich läuft noch; seine vollständige
 Auswertung folgt erst nach dem geplanten Ende und bestätigter Prozessbereinigung.
+
+Eine ergänzende [CPU-Probe](cpu-followup/README.md) lokalisiert die Pi-Rechenzeit
+im Hauptthread des Renderers. Die getrennte kurze Mac-Profilierung reproduziert
+die höhere Last nicht und wird ausdrücklich nicht als Pi-Abnahme oder Fix gewertet.

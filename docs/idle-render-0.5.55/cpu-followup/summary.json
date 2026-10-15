@@ -1,0 +1,43 @@
+{
+  "scope": "Separate Pi thread census and synthetic Mac browser profile; not comparable hardware workloads",
+  "overall_goal_complete": false,
+  "browser": "Chrome/155.0.8059.41",
+  "preview_backend_version": "0.5.52",
+  "runs": [
+    {
+      "mode": "normal",
+      "started_epoch": 1792101675.983,
+      "ended_epoch": 1792101691.021,
+      "wall_seconds": 15.038,
+      "metrics_delta": {
+        "TaskDuration": 0.185179,
+        "ScriptDuration": 0.043664,
+        "LayoutDuration": 0.002662,
+        "RecalcStyleDuration": 0.001734,
+        "LayoutCount": 16,
+        "RecalcStyleCount": 32
+      },
+      "task_duration_percent_wall": 1.2314071020082458
+    },
+    {
+      "mode": "render-frozen",
+      "started_epoch": 1792101691.022,
+      "ended_epoch": 1792101706.036,
+      "wall_seconds": 15.014,
+      "metrics_delta": {
+        "TaskDuration": 0.11558300000000002,
+        "ScriptDuration": 0.038208,
+        "LayoutDuration": 0.0,
+        "RecalcStyleDuration": 0.0,
+        "LayoutCount": 0,
+        "RecalcStyleCount": 0
+      },
+      "task_duration_percent_wall": 0.7698348208338885
+    }
+  ],
+  "sha256": {
+    "mac-profile.json": "1145dcf10bfab92d628c59e1f4835768ecea655b8f2e635be91e1569db7bbaf5",
+    "profile-local.js": "1ac20c2d7da55ef9274c56fda6b02914cc6e72d64f009371b3413d529e0adbef",
+    "pi-thread-sample.json": "afa0e32de9baa52680a69e9cdbdd002d6549305e8ad23be17a151aae89f6d19f"
+  }
+}

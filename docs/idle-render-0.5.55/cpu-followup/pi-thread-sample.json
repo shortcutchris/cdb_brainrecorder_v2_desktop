@@ -1,0 +1,94 @@
+{
+  "started_epoch": 1792101618.1466954,
+  "elapsed_seconds": 10.002117830008501,
+  "pid": 806009,
+  "start_ticks": 8935764,
+  "threads": [
+    {
+      "tid": 806009,
+      "name": "chromium",
+      "cpu_seconds": 2.78,
+      "percent_one_core": 27.79411367919905
+    },
+    {
+      "tid": 806012,
+      "name": "ThreadPoolForeg",
+      "cpu_seconds": 0.04,
+      "percent_one_core": 0.39991530473667697
+    },
+    {
+      "tid": 806020,
+      "name": "Compositor",
+      "cpu_seconds": 0.03,
+      "percent_one_core": 0.2999364785525077
+    },
+    {
+      "tid": 806013,
+      "name": "Chrome_ChildIOT",
+      "cpu_seconds": 0.01,
+      "percent_one_core": 0.09997882618416924
+    },
+    {
+      "tid": 806010,
+      "name": "PerfettoTrace",
+      "cpu_seconds": 0.0,
+      "percent_one_core": 0.0
+    },
+    {
+      "tid": 806011,
+      "name": "ThreadPoolServi",
+      "cpu_seconds": 0.0,
+      "percent_one_core": 0.0
+    },
+    {
+      "tid": 806017,
+      "name": "ThreadPoolForeg",
+      "cpu_seconds": 0.0,
+      "percent_one_core": 0.0
+    },
+    {
+      "tid": 806021,
+      "name": "ThreadPoolSingl",
+      "cpu_seconds": 0.0,
+      "percent_one_core": 0.0
+    },
+    {
+      "tid": 806022,
+      "name": "HangWatcher",
+      "cpu_seconds": 0.0,
+      "percent_one_core": 0.0
+    },
+    {
+      "tid": 806032,
+      "name": "ThreadPoolForeg",
+      "cpu_seconds": 0.0,
+      "percent_one_core": 0.0
+    },
+    {
+      "tid": 806063,
+      "name": "ThreadPoolForeg",
+      "cpu_seconds": 0.0,
+      "percent_one_core": 0.0
+    },
+    {
+      "tid": 806143,
+      "name": "Media",
+      "cpu_seconds": 0.0,
+      "percent_one_core": 0.0
+    },
+    {
+      "tid": 806144,
+      "name": "VideoFrameCompo",
+      "cpu_seconds": 0.0,
+      "percent_one_core": 0.0
+    },
+    {
+      "tid": 807583,
+      "name": "MemoryInfra",
+      "cpu_seconds": 0.0,
+      "percent_one_core": 0.0
+    }
+  ],
+  "threads_started": [],
+  "threads_ended": []
+}
