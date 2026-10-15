@@ -124,3 +124,39 @@ Weitere Vorläufe `baseline-048` und `baseline-049` wurden nach gezielten
 Decoder-/Fehlerrückmeldungs-Korrekturen ebenfalls archiviert. Aktuell läuft
 0.5.50; verbindliche Frist und [Abnahmestand](../wake-stability-0.5.50/README.md)
 bleiben vom ursprünglichen Versuchsdatum getrennt. Alle Laborlasten sind beendet.
+
+## Reproduzierbare Abschlussauswertung
+
+`python3 scripts/summarize_pi_stability.py /pfad/zur/lokalen/messkopie`
+liest ausschließlich `plan.json`, `status.json`, `metrics.jsonl` und
+`events.jsonl`. Der Aufruf gehört auf den Auswertungsrechner; weder der
+produktive Messdienst noch seine Startzeit werden verändert. Während der
+Messung ist das Ergebnis ein Zwischenstand. Nach Ende eine vollständige Kopie
+auswerten, damit gleichzeitig geschriebene Dateien nicht irrtümlich als
+Messfehler gelten.
+
+Die Abdeckung vereinigt Zeitfenster von höchstens 15 Sekunden je gültigem
+Messwert. Doppelte Zeilen füllen keine Lücken; fehlende Browser-/Health-Daten
+zählen nicht als gültige Messung. Abdeckung der bereits verstrichenen Zeit und
+Abdeckung der gesamten geplanten 24 Stunden stehen getrennt im Bericht.
+Neustarts, Versionswechsel, rückwärts laufende Zeitstempel und auch inzwischen
+behobene Warnungen bleiben prüfpflichtig. CPU und Health-Latenz werden im
+Leerlauf ausgewertet; stündliche RSS-Mediane ermöglichen eine getrennte
+Bewertung des Speicherverlaufs.
+
+Ein langer Wake-Nachweis benötigt zusammengehörige Erkennungs-, Verbindungs-
+und Audioausgabe-Ereignisse nach mindestens acht Stunden beobachteter Ruhe
+innerhalb dieses Laufs, Verbindung unter 15 Sekunden und keinen erfassten
+Fehlschlag. Bloße Stille oder ein synthetischer Audiotest ersetzt ihn nicht.
+Vor dem tatsächlichen Ende samt passendem Abschlussmarker lautet der Status
+`pending`. Danach sind Messprobleme `needs_review`; auch `ready_for_review`
+ist ausdrücklich **keine automatische Gesamtabnahme**. Speichertrend, echte
+UI-/Audiofunktion und die vollständige Abnahmematrix bleiben zu bewerten.
+
+Zwölf zusätzliche Tests prüfen vollständige und unvollständige Zeitfenster,
+Duplikate, Ausfälle, Neustarts, Warnungen, Zeitrücksprünge, fehlende bzw. falsch
+zugeordnete Wake-Ausgabe, Abschlussmarker, Leerlaufstatistik und beschädigte
+JSONL-Zeilen. Validierung mit dem echten kurzen Zwischenstand: korrekt
+`pending`, keine vorweggenommene 24-Stunden-Abnahme. Das Auswertungsskript
+ändert keine App-Dateien, benötigt keine Auslieferung und hat keinen Einfluss
+auf bestehende Geräte oder Kunden-Images.
