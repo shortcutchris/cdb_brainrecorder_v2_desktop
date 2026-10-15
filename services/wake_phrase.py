@@ -42,6 +42,7 @@ class PhraseDetector:
         from vosk import Model, SetLogLevel
         SetLogLevel(-1)
         self.model = Model(str(model_path()))
+        self.last_decision = None
         self._new_segment()
 
     def _new_segment(self):
@@ -50,11 +51,20 @@ class PhraseDetector:
         self.recognizer.SetWords(True)
 
     def feed(self, audio):
+        self.last_decision = None
         if not self.recognizer.AcceptWaveform(audio): return False
         result = json.loads(self.recognizer.Result())
+        accepted = is_activation(result)
+        if result.get('text'):
+            # Fixed diagnostic categories only: never expose decoded room speech.
+            words = [w.get('word') for w in result.get('result', [])]
+            candidate = any(a == 'hey' and b == 'brain' for a, b in zip(words, words[1:]))
+            self.last_decision = ('accepted' if accepted else 'candidate_rejected' if candidate
+                                  else 'partial_wake_word' if 'hey' in words or 'brain' in words
+                                  else 'other_speech')
         # Keep the acoustic model, but discard completed speech's decoder state.
         # A long mixed stream otherwise reproducibly lost a later Hey Brain.
         # Never reset inside an utterance, or repeatedly rebuild during silence.
         if result.get('text'):
             self._new_segment()
-        return is_activation(result)
+        return accepted

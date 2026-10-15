@@ -99,6 +99,7 @@ class Observer:
         self.counts = {'wake_observed': 0, 'wake_connected': 0, 'wake_failed': 0}
         self.last_wake = None
         self.failures = 0
+        self.diagnostic_keys = deque(maxlen=64)
         self.wake_state = None
         self.wake_enabled = None
         self.wake_errors = deque()
@@ -136,6 +137,17 @@ class Observer:
 
     def poll(self, wake, live, now):
         self.failures = 0
+        for item in (wake.get('diagnostics') or {}).get('recent_decisions', [])[-16:]:
+            if not isinstance(item, dict): continue
+            key = (wake.get('instance'), item.get('detector'), item.get('at_monotonic'))
+            if key in self.diagnostic_keys: continue
+            if item.get('decision') not in ('accepted', 'candidate_rejected', 'partial_wake_word', 'other_speech'): continue
+            fields = ('detector', 'at_monotonic', 'blocks', 'speech_segments', 'accepted',
+                      'candidate_rejected', 'partial_wake_word', 'other_speech', 'peak_dbfs', 'rms_dbfs')
+            if any(type(item.get(k)) not in (int, float) for k in fields): continue
+            self.diagnostic_keys.append(key)
+            self.emit({'type':'wake_diagnostic', 'at':utc(now), 'decision':item['decision'],
+                       **{k:item[k] for k in fields}})
         self.alert('status_unreachable', False, now)
         key = (wake.get('instance'), wake.get('detections'))
         state = live.get('state', 'unknown')

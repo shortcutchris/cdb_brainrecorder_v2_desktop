@@ -1,5 +1,12 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.51 – Wake-Diagnose ohne Raumtexte
+
+Die lokale Erkennung liefert begrenzte Pegel- und Entscheidungsdaten, um
+fehlende Aktivierungen nach Ruhe einzugrenzen. Kein Mitschnitt und keine
+gespeicherten Raumtexte; die Erkennungsschwellen bleiben unverändert.
+[Akustischer Test und offene Fehleranalyse](docs/wake-stability-0.5.51/README.md).
+
 ## 0.5.50 – Verständliche Freigabe nach Verbindungsfehlern
 
 Eine unterbrochene Verbindung gibt das Gespräch kontrolliert frei und bewahrt

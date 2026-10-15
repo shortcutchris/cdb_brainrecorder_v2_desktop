@@ -1,0 +1,58 @@
+{
+  "synthetic_acoustic": true,
+  "production_live_handoff": false,
+  "version": "0.5.50",
+  "started_epoch": 1792079824.5904047,
+  "cases": [
+    {
+      "clip": "wake.wav",
+      "sha256": "63b4bc94e38e652df5bdd3df13aabd460a0442a848b556a9b03a701a1dfa94cf",
+      "detections": 1,
+      "decisions": [
+        {
+          "at_seconds": 4.74,
+          "category": "accepted"
+        }
+      ],
+      "play_at_seconds": 1.01,
+      "playback_exit": 0,
+      "audio": {
+        "blocks": 171,
+        "speech_segments": 1,
+        "accepted": 1,
+        "candidate_rejected": 0,
+        "partial_wake_word": 0,
+        "other_speech": 0,
+        "decision": "accepted",
+        "peak_dbfs": -5.9,
+        "rms_dbfs": -28.1
+      }
+    },
+    {
+      "clip": "wake.wav",
+      "sha256": "63b4bc94e38e652df5bdd3df13aabd460a0442a848b556a9b03a701a1dfa94cf",
+      "detections": 1,
+      "decisions": [
+        {
+          "at_seconds": 5.01,
+          "category": "accepted"
+        }
+      ],
+      "play_at_seconds": 1.0,
+      "playback_exit": 0,
+      "audio": {
+        "blocks": 332,
+        "speech_segments": 2,
+        "accepted": 2,
+        "candidate_rejected": 0,
+        "partial_wake_word": 0,
+        "other_speech": 0,
+        "decision": "accepted",
+        "peak_dbfs": -6.2,
+        "rms_dbfs": -30.4
+      }
+    }
+  ],
+  "maintenance_released": true,
+  "finished_epoch": 1792079841.4392505
+}

@@ -14,6 +14,19 @@ class StabilityTests(unittest.TestCase):
         self.events = []
         self.observer = monitor.Observer(self.events.append)
 
+    def test_wake_diagnostics_are_deduplicated_bounded_and_text_free(self):
+        item={'detector':1,'at_monotonic':100.,'blocks':20,'speech_segments':1,
+              'accepted':0,'candidate_rejected':1,'partial_wake_word':0,'other_speech':0,
+              'peak_dbfs':-12.,'rms_dbfs':-25.,'decision':'candidate_rejected','text':'never persist this'}
+        wake={'instance':'a','detections':0,'state':'listening','diagnostics':{'recent_decisions':[item]}}
+        for n in range(10):self.observer.poll(wake,{'state':'idle','active':False},n+1)
+        rows=[e for e in self.events if e['type']=='wake_diagnostic']
+        self.assertEqual(len(rows),1);self.assertNotIn('text',rows[0])
+        for n in range(100):
+            item['at_monotonic']=101.+n
+            self.observer.poll(wake,{'state':'idle','active':False},20+n)
+        self.assertEqual(len(self.observer.diagnostic_keys),64)
+
     def row(self, cpu=95, memory=300, mode='idle', generation=1):
         return {'browser': {'cpu_percent': cpu, 'rss_mb': memory, 'processes': 4},
                 'activity': mode, 'browser_generation': generation, 'available_mb': 12000, 'temperature_c': 50}

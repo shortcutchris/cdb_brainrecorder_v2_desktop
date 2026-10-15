@@ -18,6 +18,7 @@ import time
 from meeting_recorder.child_process import owned_command
 from meeting_recorder.core import atomic_write
 from services.wake_phrase import WORD, model_ready
+from services.wake_diagnostics import AudioDiagnostics, validate
 
 
 class WakeWord:
@@ -31,6 +32,10 @@ class WakeWord:
         self.read_process = None
         self.read_buffer = b''
         self.progress_at = self.clock()
+        self.diagnostics = None
+        self.diagnostic_at = None
+        self.diagnostic_history = []
+        self.detector_starts = 0
         self.test_until = 0
         self.cooldown = 0
         self.count = 0
@@ -48,7 +53,11 @@ class WakeWord:
         return {'instance': self.instance, 'enabled': self.enabled, 'available': self.runtime, 'word': WORD,
                 'state': self.mode, 'message': self.message, 'detections': self.count,
                 'recognized_for': max(0, round(self.recognized_until-self.clock(), 2)),
-                'testing': self.test_until > self.clock()}
+                'testing': self.test_until > self.clock(),
+                'diagnostics': {'detector_starts': self.detector_starts,
+                                'capture_running': self.process is not None,
+                                'sample_age_seconds': round(max(0, self.clock()-self.diagnostic_at), 2) if self.diagnostic_at is not None else None,
+                                'latest': self.diagnostics, 'recent_decisions': list(self.diagnostic_history)}}
 
     def save(self):
         atomic_write(self.path, json.dumps({'enabled': self.enabled, 'account': self.account}))
@@ -118,6 +127,9 @@ class WakeWord:
             self.process = subprocess.Popen(owned_command([sys.executable, '-u', '-m', 'services.wake_word', config['device']]),
                 stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, start_new_session=True, bufsize=0,
                 cwd=str(Path(__file__).resolve().parents[1]))
+            self.detector_starts += 1
+            self.diagnostics = None
+            self.diagnostic_at = None
             self.mode, self.message = 'loading', 'Lokale Erkennung startet …'
         if self.process.poll() is not None:
             self.suspend('Erkennung unterbrochen. Mikrofon und Laufzeit prüfen.')
@@ -140,6 +152,16 @@ class WakeWord:
                 return
             while b'\n' in self.read_buffer:
                 line, self.read_buffer = self.read_buffer.split(b'\n', 1)
+                if line.startswith(b'diagnostic '):
+                    try: values = validate(json.loads(line[11:]))
+                    except (ValueError, UnicodeError): values = None
+                    if values:
+                        previous = (self.diagnostics or {}).get('speech_segments', 0)
+                        self.diagnostics, self.diagnostic_at = values, self.clock()
+                        if values['speech_segments'] > previous:
+                            self.diagnostic_history.append({'detector': self.detector_starts,
+                                'at_monotonic': round(self.clock(), 2), **values})
+                            self.diagnostic_history = self.diagnostic_history[-16:]
                 if line in (b'ready', b'detected') or (line == b'alive' and self.mode in ('listening', 'testing')):
                     self.progress_at = self.clock()
                 if line == b'ready':
@@ -164,6 +186,7 @@ def detect(capture_command=None):
     from services.wake_phrase import PhraseDetector
     from services.live_audio import native_capture_command
     model = PhraseDetector()
+    diagnostics = AudioDiagnostics()
     command = capture_command or native_capture_command({'device': sys.argv[1]})
     capture = subprocess.Popen(owned_command(command), stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
     def stop(*_):
@@ -178,7 +201,11 @@ def detect(capture_command=None):
             if len(audio) != 1600: break
             if not ready:
                 print('ready', flush=True); ready = True
-            if model.feed(audio): print('detected', flush=True)
+            detected = model.feed(audio)
+            diagnostics.feed(audio, model.last_decision)
+            if model.last_decision or time.monotonic() - last_progress >= 2:
+                print('diagnostic ' + json.dumps(diagnostics.snapshot(), separators=(',', ':')), flush=True)
+            if detected: print('detected', flush=True)
             if time.monotonic() - last_progress >= 2:
                 print('alive', flush=True)
                 last_progress = time.monotonic()
