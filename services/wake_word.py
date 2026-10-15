@@ -113,8 +113,11 @@ class WakeWord:
             return
         if self.clock() < self.cooldown: return
         if not self.process:
+            # The service may retain its pre-update working directory. Parent and
+            # detector must import the same immutable release, also on fresh images.
             self.process = subprocess.Popen(owned_command([sys.executable, '-u', '-m', 'services.wake_word', config['device']]),
-                stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, start_new_session=True, bufsize=0)
+                stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, start_new_session=True, bufsize=0,
+                cwd=str(Path(__file__).resolve().parents[1]))
             self.mode, self.message = 'loading', 'Lokale Erkennung startet …'
         if self.process.poll() is not None:
             self.suspend('Erkennung unterbrochen. Mikrofon und Laufzeit prüfen.')

@@ -2,6 +2,7 @@
 from concurrent.futures import ThreadPoolExecutor
 import io
 import os
+from pathlib import Path
 import tempfile
 import threading
 import time
@@ -105,6 +106,22 @@ class WakeFaultTests(unittest.TestCase):
             self.assertEqual(spawn.call_count, 2)
             self.assertEqual(self.wake.mode, 'listening')
             self.trigger.assert_not_called()
+
+    def test_child_imports_own_release_not_service_working_directory(self):
+        child = Mock()
+        child.poll.return_value = None
+        child.stdout = io.BytesIO(b'ready\n')
+        with tempfile.TemporaryDirectory() as unrelated:
+            previous = os.getcwd()
+            try:
+                os.chdir(unrelated)
+                with patch('services.wake_word.subprocess.Popen', return_value=child) as spawn, patch('services.wake_word.select.select', return_value=([True], [], [])):
+                    self.tick()
+                expected = str(Path(__import__('services.wake_word', fromlist=['__file__']).__file__).resolve().parents[1])
+                self.assertEqual(spawn.call_args.kwargs['cwd'], expected)
+                self.assertNotEqual(spawn.call_args.kwargs['cwd'], unrelated)
+            finally:
+                os.chdir(previous)
 
 
 class LiveStressTests(unittest.TestCase):

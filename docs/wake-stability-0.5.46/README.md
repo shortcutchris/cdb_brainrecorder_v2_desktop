@@ -1,5 +1,18 @@
 # Wake-Stabilität · 0.5.46
 
+**Nachtrag 0.5.47:** Beim echten signierten Update blieb das Arbeitsverzeichnis
+des Diensts im ursprünglichen Checkout. `python -m services.wake_word` startete
+daher einen alten Detektor ohne Fortschrittsmeldungen. Der neue Elternprozess
+erkannte den fehlenden Fortschritt korrekt, startete aber wieder denselben alten
+Code. Die Installation von 0.5.46 bestand damit die Wake-Abnahme nicht.
+
+0.5.47 startet den Unterprozess ausdrücklich im unveränderlichen Release-Ordner
+des laufenden Elternmoduls. Das behebt gleichzeitig den Fall eines frischen
+Images ohne passenden Modulpfad im Standard-Arbeitsverzeichnis. Ein zusätzlicher
+Regressionstest startet aus einem absichtlich fremden Verzeichnis. Keine
+Änderung am Systemdienst oder seinen Kundeneinstellungen notwendig. Die
+24-Stunden-Abnahme beginnt erst mit diesem korrigierten Installationsstand neu.
+
 15. Oktober 2026. Folge des ausdrücklich gesetzten
 [Stabilitätsziels](../idle-wake-0.5.45/stability-goal.md). Dies ist ein geprüfter
 Zwischenstand, noch keine abgeschlossene 24-Stunden-Abnahme.

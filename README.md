@@ -1,5 +1,11 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.47 – Wake-Unterprozess aus aktivem Release
+
+Nach einem App-Update verwendet auch der lokale Erkenner ausdrücklich den neuen
+Release-Ordner. Damit stimmen Eltern- und Kindprozess überein, unabhängig vom
+Arbeitsverzeichnis des Systemdiensts. [Installationsnachprüfung](docs/wake-stability-0.5.46/README.md).
+
 ## 0.5.46 – Wake-Störungen abfangen
 
 Hängende lokale Erkennung wird kontrolliert neu gestartet, sofern das Gerät frei
