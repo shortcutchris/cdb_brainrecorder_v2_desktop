@@ -119,3 +119,8 @@ nach dem UI-Update auf 0.5.48. Beide sind bewusst **keine** bestandenen
 24-Stunden-Läufe. Die verbindliche aktuelle Frist steht in `run/plan.json`.
 Die Oberfläche wird zusätzlich per echtem Display-Screenshot geprüft; der
 Messdienst kann weiterhin keine gerenderte Waveform bestätigen.
+
+Weitere Vorläufe `baseline-048` und `baseline-049` wurden nach gezielten
+Decoder-/Fehlerrückmeldungs-Korrekturen ebenfalls archiviert. Aktuell läuft
+0.5.50; verbindliche Frist und [Abnahmestand](../wake-stability-0.5.50/README.md)
+bleiben vom ursprünglichen Versuchsdatum getrennt. Alle Laborlasten sind beendet.

@@ -56,7 +56,46 @@ atomarer Wartungssperre. Ein zukünftiger Image-Build übernimmt die Dateien üb
 die vorhandene Positivliste; das vorhandene Image 0.5.44 wird nicht verändert.
 Die temporäre Beobachtung wird nicht automatisch Teil eines Kunden-Images.
 
-Nach erfolgreicher Installation sind API-/HTML-Version, Einstellungen,
-Touchbildschirm und Wake-Bereitschaft zu prüfen. Der 24-Stunden-Lauf wird für
-diesen abschließenden Code-Stand neu begonnen. Kein automatischer Browser-,
-Backend- oder Pi-Neustart wird aktiviert. Echte Langzeitabnahme bleibt offen.
+[Signiertes Deployment](deployment.json) von Commit
+`5d7d460f53c8b3197d613d51e8ef6a1f74936c75` bestätigt 0.5.50 und erhaltene
+Einstellungen. API und HTML melden 0.5.50. Der installierte Live-Code hat
+SHA256 `9a1d397d5961afeea006db4b7b37d17d64d0ed858957838b96832888a97995b7`,
+identisch zum getesteten Quelltext. Der echte Bildschirm zeigt Bereitschaft.
+
+Die [ursprüngliche Startsonde](installed-startup-raw.json) meldete `passed: false`,
+weil sie bereits unmittelbar nach Freigabe der Wartung ausschließlich `listening`
+erwartete. Ihre erste Stichprobe sah noch die reguläre Startpause. Nach 2,007
+Sekunden folgten 17 Stichproben bzw. 32,147 Sekunden durchgängige Bereitschaft
+mit derselben PID und dem erwarteten Detektor-Hash. Die Rohdaten bleiben
+unverändert. Die [getrennte Bewertung von Anlauf und stabiler Bereitschaft](installation-audit.json)
+prüft höchstens 30 Sekunden Anlauf und anschließend mindestens 30 Sekunden
+stabile Bereitschaft. Es wurde kein Neustart oder Code-Fix wegen dieser
+normalen Startpause durchgeführt.
+
+![Echter Pi-Bildschirm](pi-home.png)
+
+Der aktuelle 24-Stunden-Lauf beginnt am **15.10.2026, 17:24:13 Europe/Berlin**
+und endet am **16.10.2026, 17:24:13**. Die früheren Läufe einschließlich
+`baseline-049` bleiben als `superseded` erhalten. Alle künstlichen
+Belastungsprozesse sind beendet. Kein automatischer Browser-, Backend- oder
+Pi-Neustart wird aktiviert.
+
+## Abnahmeabgleich
+
+| Anforderung | Autoritativer Nachweis | Stand / Grenze |
+| --- | --- | --- |
+| 24 Stunden Stabilität und mindestens 99 % Messabdeckung | Laufender Messdienst, `run/plan.json`, `metrics.jsonl`, `events.jsonl` | Offen bis zum tatsächlichen Ende; keine Hochrechnung aus Minuten |
+| Echter Wake nach mindestens acht Stunden Ruhe | Beobachteter Wake-Zählerwechsel mit vorausgehender Bereitschaftsdauer und Verbindungszeit | Offen; kein künstlicher Lautsprecheraufruf im Raum |
+| Doppelnennungen und konkurrierende Reservierung | `test_wake_stress.py`, Bestandteil der 292 Tests: 100 doppelte Erkennungen, 100 Runden mit je acht gleichzeitigen Reservierungen | Bestanden; isolierte Zustände, keine 100 echten Cloud-Gespräche |
+| Lange Audiostreams und Negativbeispiele | 0.5.49: 1.000/1.000 Abschnitte, 28 Sprachfälle, eine Stunde Hintergrundsprache; alter Stille-Vorlauf bis acht Audiostunden | Bestanden im beschriebenen synthetischen Umfang; keine Feld-Fehlalarmrate |
+| Fehler bei Cloud, Audio und Detektor | `test_wake_stress.py`, `test_live_conversation.py`, `test_live_audio.py` | Isolierte Timeouts/Abbrüche, veraltete Rückmeldungen, stummer Detektor und erneute Reservierung geprüft |
+| Schutz laufender/pausierter Aufnahmen | `test_wake_word.py` und `test_studio.py`: Sperren, Präemption, gemeinsame Server-Sperre, Konkurrenztests | Bestanden; kein automatischer Browser-/Pi-Eingriff aktiviert |
+| Wiederholte native Gespräche, Token-Erneuerung, Begrüßung, Ende und echte Pegeldaten | Native CDB-Berichte 0.5.46/0.5.49/0.5.50 | Sechs instrumentierte Folgerunden bestanden; frühere unvollständige Cloud-Transkription bleibt dokumentiert |
+| Latenz und Ressourcen | Rohmesswerte der Sprachtests; laufende HTTP-/CPU-/RAM-Messreihe | Einzelwerte belegt; p95 und Trend der vollen Beobachtung noch offen |
+| Sichtbare Oberfläche | Echter Display-Screenshot nach Installation, dynamische Versionsauslieferung und vorhandene UI-Tests | Startansicht geprüft; reine API-Messung beweist keine animierte Waveform |
+| Sichere Auslieferung und Dokumentation | Signiertes Paket, atomare Wartung, Einstellungenvergleich, Quelltext-Hashes, Git-Commits | Installiert und dokumentiert; Kunden-Image unverändert, zukünftiger Build übernimmt App-Code |
+| Watchdog ohne Aufnahmerisiko | [Beobachter und Konzept](../idle-wake-0.5.45/watchdog.md), 13 Tests für Messung/Warnungen | Nur Beobachtung; automatischer Browser-Eingriff bleibt deaktiviert |
+
+Das Gesamtziel ist ausdrücklich noch nicht abgeschlossen. Die nächsten
+Nachweise sind Zeitablauf, vollständige Messauswertung und ein echter Aufruf
+nach langer Pause; zusätzliche kurze Testwiederholungen ersetzen diese nicht.

@@ -7,8 +7,8 @@ prüfen und Fehler beheben. Das Codex-Ziel bleibt bis zur Abnahme aktiv.
 ## Abnahmeplan
 
 - **24 Stunden echte Standzeit:** der produktive Pi sammelt im aktuellen Lauf ab
-  15.10.2026, 17:11:59 Europe/Berlin bis 16.10.2026, 17:11:59 technische Messwerte.
-  Vorläufe 0.5.45–0.5.48 wurden nach Korrekturen archiviert und zählen nicht als
+  15.10.2026, 17:24:13 Europe/Berlin bis 16.10.2026, 17:24:13 technische Messwerte.
+  Vorläufe 0.5.45–0.5.49 wurden nach Korrekturen archiviert und zählen nicht als
   bestandene Dauerläufe. Erwartet
   mindestens 99 % Messabdeckung, keine ungeklärten Neustarts, keine dauerhafte
   CPU-/Speicherwarnung und kein ungeklärter wachsender Speichertrend. Fehlende
@@ -95,11 +95,18 @@ niemals einen Pi-/Backend-Neustart während einer Aufnahme auslösen.
   beseitigt. Signierte Installation, erhaltene Einstellungen, API-/HTML-Version,
   tatsächlicher Detektor-Quelltext und Touchbildschirm geprüft.
   [Nachweise](../wake-stability-0.5.49/README.md).
-- Aktuelle Langzeitabnahme ab 17:11:59 am 15.10.: **offen**. Kein automatischer
-  Browser-/Backend-/Pi-Neustart. Ein isolierter Acht-Stunden-Silence-Audiotest
-  erzeugte zu Beginn noch Laborlast; der Echtzeitnachweis wird separat bewertet.
+- **0.5.50 installiert:** Fehler bleiben beim Freigeben sichtbar, verspätete
+  Rückmeldungen verfälschen keinen gewollten Abbruch. 292 Python-Tests und eine
+  weitere instrumentierte native Runde mit „Gespräch beenden“ bestanden.
+  Einstellungen, API-/HTML-Version, Startphase und echte Oberfläche geprüft.
+  [Nachweise und offene Abnahmepunkte](../wake-stability-0.5.50/README.md).
+- Aktuelle Langzeitabnahme ab **17:24:13 am 15.10.: offen**. Sämtliche künstlichen
+  Belastungstests sind beendet. Der beschleunigte Acht-Stunden-Stille-Vorlauf
+  bestand; er ersetzt keinen echten Aufruf nach acht Stunden Ruhe.
+  Kein automatischer Browser-/Backend-/Pi-Neustart. Weitere Änderungen nur bei
+  neuen Fehlernachweisen; der aktuelle Stand bleibt für die Beobachtung erhalten.
 
-0.5.49 wurde als signiertes App-Paket ausgeliefert. Das vorhandene SD-Image
+0.5.50 wurde als signiertes App-Paket ausgeliefert. Das vorhandene SD-Image
 0.5.44 bleibt unverändert; ein zukünftiger Image-Build übernimmt den neuen
 App-Code über die bestehende Positivliste. Jede folgende Laufzeitänderung
 bekommt ihre eigene App-/Image-Einflussbewertung.

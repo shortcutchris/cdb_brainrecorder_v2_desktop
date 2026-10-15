@@ -1,0 +1,11 @@
+{
+  "raw_probe_passed": false,
+  "raw_probe_limitation": "The original probe expected listening immediately after maintenance release and included the legitimate startup cooldown. Raw data is preserved.",
+  "api_version": "0.5.50",
+  "html_version": "0.5.50",
+  "startup_seconds": 2.007,
+  "continuous_ready_seconds": 32.147,
+  "ready_samples": 17,
+  "expected_detector_sha256": "20f8f0b005fc7a471916115e59750b52fe29957a7ab5598adc66530b6526c67f",
+  "passed": true
+}

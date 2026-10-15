@@ -87,6 +87,10 @@ diese Last ist nicht als Leerlauf zu interpretieren. Abschluss und echter
 Wake-Aufruf nach mindestens acht Stunden Pause bleiben offen. Kein automatischer
 Browser-, Backend- oder Pi-Neustart wird eingeschaltet.
 
+**Nachtrag:** Dieser Lauf wurde für die abschließende Fehlerpfad-Korrektur
+0.5.50 beendet und unter `baseline-049` archiviert. Er zählt nicht als bestandene
+24-Stunden-Abnahme. [Aktueller Lauf](../wake-stability-0.5.50/README.md).
+
 ### Abgeschlossener langer Stille-Vergleich
 
 Der zuvor gestartete [Stille-Test des Detektors vor 0.5.49](idle-silence-before.json)
