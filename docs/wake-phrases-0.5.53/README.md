@@ -203,6 +203,29 @@ und getrennt geprüfte Rufworterkennung zu untersuchen; eine niedrigere Schwelle
 oder das Zusammenlegen aller Modelltreffer wäre durch diese Befunde nicht
 gerechtfertigt. Der aktuelle Pi bleibt bei 0.5.53 mit dem bisherigen EN-Modell.
 
+### Größeres englisches Modell ebenfalls verworfen
+
+Ein weiterer isolierter Vergleich nutzt das offiziell angebotene dynamische
+`vosk-model-en-us-0.22-lgraph` (laut [Herstellerliste](https://alphacephei.com/vosk/models)
+128 MB, Apache 2.0). Gemessener Archiv-SHA256:
+`d9838b4aaa82a75c4a17f5aca300eaca129aaab2a7cbf951bafbb500eb9c4334`.
+Alle verwendeten Grammatikwörter sind darin vorhanden. Identischer
+Mehrstimmenkorpus, Vorlauf, Pegel, Zählkriterien und unveränderte Konfidenzen;
+lokale Vosk-Runtime 0.3.44.
+
+[Rohdaten](multivoice-en022-mac.json): **129/144** eindeutige Fälle bestanden,
+24 mehrdeutige Kay-Fälle separat. Positive Zählerwartungen: Hey Brain **8/8**,
+Hey KAI **0/8**, Okay KAI **1/8**. Pro Profil keine Aktivierung in den jeweils
+40 eindeutigen Gegenbeispielvarianten. Für die KAI-Ziele ist das schlechter als
+das bisherige kleine englische Modell; kein Anlass für Pi-Installation oder
+zusätzlichen Ressourcenverbrauch. Daraus folgt keine allgemeine Aussage über
+die Transkriptionsqualität des Modells. Der Test prüft ausschließlich diese
+Rufwörter und Dateistimmen. Die Stärke eines größeren Spracherkennungsmodells
+ersetzt hier keine gezielte Prüfung einer Rufworterkennung.
+
+Kein Laufzeitcode verändert; ausschließlich Laborergebnisse dokumentiert.
+Bestehendes App-Paket, Kunden-Image und 24h-Pi-Messung bleiben unverändert.
+
 0.5.53 aus Commit `eda03c3296990982a6a2f0166ab828bcd047ecc5` wurde als
 signiertes App-Update (Sequenz 10) auf dem Pi installiert.
 [Installationsnachweis](deployment.json): die geprüften Einstellungen blieben
