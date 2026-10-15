@@ -138,3 +138,15 @@ der genaue Ende-Befehl und der Inhalt der ersten Antwort werden hier nicht
 behauptet. Ein einzelner erfolgreicher Eigenstimmen-Test bestätigt den realen
 Pfad nach dieser Pause, ersetzt aber weder acht Stunden Ruhe noch 24 Stunden
 Stabilitätsmessung. Der Dauerlauf wurde dafür nicht neu gestartet.
+
+### Zweiter produktiver Durchlauf
+
+Der [Beobachter erfasste einen weiteren Wake](second-observed-wake.json) um
+19:00:44 Europe/Berlin nach 410,1 s Ruhe: verbunden nach 3 s, erste Audioausgabe
+nach 5 s, beendet um 19:00:56 und wieder in Wake-Bereitschaft um 19:00:59.
+Keine synthetische Wiedergabe oder Testsession wurde durch den Agenten gestartet.
+Für diesen zweiten Durchlauf liegt keine gesonderte menschliche Bestätigung vor;
+die Ereignisse beweisen daher weder die beabsichtigte Auslösung noch gehörten
+Antwortinhalt oder einen bestimmten gesprochenen Ende-Befehl. Sie belegen einen
+weiteren abgeschlossenen produktiven Zustandsablauf ohne beobachteten Startfehler.
+Der Messdienst und der Browser liefen dabei ohne Neustart weiter.

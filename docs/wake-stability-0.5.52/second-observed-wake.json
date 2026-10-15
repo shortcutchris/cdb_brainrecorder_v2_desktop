@@ -1,0 +1,82 @@
+{
+  "version": "0.5.52",
+  "source": "read-only observer, 1-second state polling",
+  "separate_user_confirmation": false,
+  "events": [
+    {
+      "type": "wake_state",
+      "state": "waiting",
+      "at": "2026-10-15T17:00:44.748610+00:00"
+    },
+    {
+      "type": "live_state",
+      "at": "2026-10-15T17:00:44.748610+00:00",
+      "state": "connecting"
+    },
+    {
+      "type": "wake_observed",
+      "at": "2026-10-15T17:00:44.748610+00:00",
+      "detected_at": "2026-10-15T17:00:44.748610+00:00",
+      "detected_epoch": 1792083644.7486095,
+      "idle_seconds": 410.1,
+      "count": 2,
+      "connected_seconds": null,
+      "first_output_seconds": null
+    },
+    {
+      "type": "live_state",
+      "at": "2026-10-15T17:00:47.748905+00:00",
+      "state": "listening"
+    },
+    {
+      "type": "wake_connected",
+      "at": "2026-10-15T17:00:47.748905+00:00",
+      "detected_at": "2026-10-15T17:00:44.748610+00:00",
+      "detected_epoch": 1792083644.7486095,
+      "idle_seconds": 410.1,
+      "count": 2,
+      "connected_seconds": 3.0,
+      "first_output_seconds": null
+    },
+    {
+      "type": "live_state",
+      "at": "2026-10-15T17:00:49.749501+00:00",
+      "state": "speaking"
+    },
+    {
+      "type": "wake_first_output",
+      "at": "2026-10-15T17:00:49.749501+00:00",
+      "detected_at": "2026-10-15T17:00:44.748610+00:00",
+      "detected_epoch": 1792083644.7486095,
+      "idle_seconds": 410.1,
+      "count": 2,
+      "connected_seconds": 3.0,
+      "first_output_seconds": 5.0
+    },
+    {
+      "type": "live_state",
+      "at": "2026-10-15T17:00:53.749872+00:00",
+      "state": "listening"
+    },
+    {
+      "type": "live_state",
+      "at": "2026-10-15T17:00:54.749944+00:00",
+      "state": "speaking"
+    },
+    {
+      "type": "live_state",
+      "at": "2026-10-15T17:00:56.750137+00:00",
+      "state": "ended"
+    },
+    {
+      "type": "wake_state",
+      "state": "loading",
+      "at": "2026-10-15T17:00:58.750310+00:00"
+    },
+    {
+      "type": "wake_state",
+      "state": "listening",
+      "at": "2026-10-15T17:00:59.750363+00:00"
+    }
+  ]
+}
