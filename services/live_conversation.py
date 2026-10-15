@@ -282,7 +282,7 @@ class LiveConversation:
 
     def _native_failed(self, generation):
         with self.lock:
-            if generation != self.generation or self.state not in ACTIVE: return
+            if generation != self.generation or self.state not in ACTIVE or self.state == 'closing': return
             self.error = 'Pi-Audio wurde unterbrochen. Mikrofon und Lautsprecher prüfen.'
         self.end(generation=generation)
 
@@ -426,6 +426,10 @@ class LiveConversation:
             return self.public()
 
     def _finish(self, state, error=''):
+        # A local failure can race the cloud's normal close acknowledgement.
+        # Releasing ownership must not erase why this conversation was stopped.
+        if state == 'ended' and self.error:
+            state, error = 'error', self.error
         logging.info('Live finished generation=%d state=%s reason=%s',self.generation,state,self.end_reason or 'none')
         self.device_tools = False
         self.device_key = None
@@ -558,7 +562,7 @@ class LiveConversation:
             failures = 1 if framed[0] or self.clock() - opened >= 30 else failures + 1
             if self.stop.wait(min(8, .5 * 2 ** (failures - 1))): return
         with self.lock:
-            if generation != self.generation: return
+            if generation != self.generation or self.state == 'closing': return
             self.error = 'Verbindung zum Gespräch unterbrochen. Bitte erneut starten.'
             self.end(generation=generation)
 
@@ -600,7 +604,10 @@ class LiveConversation:
         try:
             self.cdb.call(BASE + '/sessions/' + handle + '/heartbeat', {}, binding=binding)
         except Exception:
-            self.end(generation=generation)
+            with self.lock:
+                if generation == self.generation and self.state in ACTIVE and self.state != 'closing':
+                    self.error = 'Verbindung zum Brain unterbrochen. Bitte erneut starten.'
+                    self.end(generation=generation)
         finally:
             with self.lock:
                 if self.heartbeat_pending == (generation, handle): self.heartbeat_pending = None

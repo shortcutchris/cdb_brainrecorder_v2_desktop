@@ -86,3 +86,18 @@ noch der isolierte Acht-Stunden-Silence-Audiotest mit niedriger Priorität;
 diese Last ist nicht als Leerlauf zu interpretieren. Abschluss und echter
 Wake-Aufruf nach mindestens acht Stunden Pause bleiben offen. Kein automatischer
 Browser-, Backend- oder Pi-Neustart wird eingeschaltet.
+
+### Abgeschlossener langer Stille-Vergleich
+
+Der zuvor gestartete [Stille-Test des Detektors vor 0.5.49](idle-silence-before.json)
+ist beendet: alle sechs Szenarien von null bis 480 Audiominuten bestanden.
+Nach acht Stunden synthetischer Stille keine vorzeitige Aktivierung; das
+anschließende Zielwort wurde nach 1,65 Audiosekunden erkannt. RSS blieb im
+480-Minuten-Szenario bei 204,59 MB. 1.376,29 CPU-Sekunden, 1.415,65 Sekunden
+Wandzeit; beschleunigte Verarbeitung mit zeitweise paralleler Laborlast.
+Der bereits gestartete Prozess behielt seinen alten geladenen Code, obwohl
+später der Kandidat im isolierten Testverzeichnis aktualisiert wurde. Dies ist
+deshalb ein **Vorher-Nachweis**, keine direkte Acht-Stunden-Abnahme von 0.5.49
+und insbesondere keine achtstündige echte Standzeit. Alle Laborprozesse dieses
+Vergleichs sind beendet. Ein Diagnose-Anhängeversuch traf erst nach Prozessende
+ein und veränderte den Test nicht.

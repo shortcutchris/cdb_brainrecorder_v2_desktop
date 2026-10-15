@@ -1,0 +1,12 @@
+.................../home/chris/projects/cdb_brainrecorder_v2_desktop/venv-local-ai/lib/python3.13/site-packages/dbus_next/service.py:87: DeprecationWarning: 'typing.no_type_check_decorator' is deprecated and slated for removal in Python 3.15
+  @no_type_check_decorator
+...............................................................................................................................................This plugin does not support propagateSizeHints()
+This plugin does not support propagateSizeHints()
+This plugin does not support propagateSizeHints()
+..................................................................................................................................
+----------------------------------------------------------------------
+Ran 292 tests in 65.960s
+
+OK
+✓ Sprache geladen: de_DE (6 Contexts)
+gc:0: ResourceWarning: gc: 1 uncollectable objects at shutdown; use gc.set_debug(gc.DEBUG_UNCOLLECTABLE) to list them

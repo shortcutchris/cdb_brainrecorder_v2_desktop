@@ -1,5 +1,11 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.50 – Verständliche Freigabe nach Verbindungsfehlern
+
+Eine unterbrochene Verbindung gibt das Gespräch kontrolliert frei und bewahrt
+die Fehlermeldung. Verspätete Audio- oder Netzwerkfehler verfälschen keinen
+gewollten Abbruch. [Fehlerinjektion und Langzeitabnahme](docs/wake-stability-0.5.50/README.md).
+
 ## 0.5.49 – Stabile Erkennung nach Hintergrundsprache
 
 Nach abgeschlossener Sprache erhält die lokale Hey-Brain-Erkennung einen frischen

@@ -193,3 +193,68 @@ class LiveStressTests(unittest.TestCase):
                 self.assertTrue(self.live.finished.wait(1))
                 self.assertIsNone(self.live.native)
                 self.assertFalse(self.live.busy())
+
+    def test_exhausted_network_retries_release_audio_and_keep_failure_visible(self):
+        self.live.stop.set(); self.live.watch.join(2)
+        self.reserve()
+        self.live.handle = 'broken-session'
+        self.live.state = 'listening'
+        self.live.event_reader = Mock(side_effect=ConnectionResetError('synthetic network loss'))
+        with patch.object(self.live.stop, 'wait', return_value=False) as waits:
+            self.live._events(self.live.generation, self.live.handle, BINDING)
+        self.assertTrue(self.live.finished.wait(2))
+        self.assertEqual(self.live.event_reader.call_count, 9)
+        self.assertTrue(all(0 < call.args[0] <= 8 for call in waits.call_args_list))
+        status = self.live.public()
+        self.assertFalse(status['busy'])
+        self.assertEqual(status['state'], 'error')
+        self.assertIn('unterbrochen', status['error'])
+        self.assertNotIn('synthetic', status['error'])
+        self.reserve()
+        self.assertEqual(self.live.public()['error'], '')
+
+    def test_audio_callback_during_requested_close_does_not_invent_failure(self):
+        self.reserve()
+        self.live.state = 'closing'
+        with patch.object(self.live, 'end') as end:
+            self.live._native_failed(self.live.generation)
+        end.assert_not_called()
+        self.assertEqual(self.live.public()['error'], '')
+        self.live.state = 'connecting'  # Allow normal fixture cleanup.
+
+    def test_heartbeat_timeout_keeps_local_failure_visible_after_release(self):
+        self.heartbeat_pending()
+        self.release.set()
+        self.assertTrue(self.live.finished.wait(2))
+        status = self.live.public()
+        self.assertEqual(status['state'], 'error')
+        self.assertFalse(status['busy'])
+        self.assertIn('Verbindung zum Brain unterbrochen', status['error'])
+        self.assertNotIn('synthetic', status['error'])
+        self.reserve()
+
+    def test_cloud_close_ack_preserves_prior_local_audio_failure(self):
+        self.reserve()
+        self.live.error = 'Pi-Audio wurde unterbrochen.'
+        self.live.state = 'closing'
+        self.live._frame(self.live.generation, 'closed', {})
+        self.assertTrue(self.live.finished.is_set())
+        self.assertEqual(self.live.public()['state'], 'error')
+        self.assertEqual(self.live.public()['error'], 'Pi-Audio wurde unterbrochen.')
+        self.reserve()
+
+    def test_requested_close_during_last_network_backoff_is_not_a_new_failure(self):
+        self.live.stop.set(); self.live.watch.join(2)
+        self.reserve()
+        self.live.event_reader = Mock(side_effect=ConnectionResetError())
+        waits = []
+        def backoff(seconds):
+            waits.append(seconds)
+            if len(waits) == 9: self.live.state = 'closing'
+            return False
+        with patch.object(self.live.stop, 'wait', side_effect=backoff):
+            self.live._events(self.live.generation, 'synthetic', BINDING)
+        self.assertEqual(len(waits), 9)
+        self.assertEqual(self.live.public()['state'], 'closing')
+        self.assertEqual(self.live.public()['error'], '')
+        self.live.state = 'connecting'

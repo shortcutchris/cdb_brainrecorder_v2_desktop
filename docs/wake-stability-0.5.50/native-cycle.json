@@ -1,0 +1,32 @@
+{
+  "synthetic_audio": true,
+  "production_configuration_changed": false,
+  "cycles": [
+    {
+      "round": 1,
+      "expired_token": true,
+      "double_wake": false,
+      "end_voice": "supplied synthetic file",
+      "reserve_ms": 0.1,
+      "detection_s": 2.45,
+      "greeting_s": 6.18,
+      "state": "ended",
+      "end_reason": "voice_command",
+      "greeting": true,
+      "input_wave": true,
+      "output_wave": true,
+      "recognitions": 1,
+      "user_transcripts": [
+        "Gespr\u00e4ch beenden"
+      ],
+      "synthetic_input": {
+        "nonzero_input_bytes": 37901,
+        "nonzero_output_bytes": 37901,
+        "empty_takes": 0,
+        "all_nonzero_input_forwarded": true
+      },
+      "passed": true
+    }
+  ],
+  "passed": true
+}
