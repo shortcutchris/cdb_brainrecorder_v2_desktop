@@ -1,5 +1,12 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.49 – Stabile Erkennung nach Hintergrundsprache
+
+Nach abgeschlossener Sprache erhält die lokale Hey-Brain-Erkennung einen frischen
+Decoder. Das Modell bleibt geladen; während Stille wird nicht fortlaufend neu
+initialisiert. 1.000 gemischte Sprachabschnitte und der separate Sprachkorpus
+bestanden. [Vergleich, Tests und offene Langzeitabnahme](docs/wake-stability-0.5.49/README.md).
+
 ## 0.5.48 – Versionswechsel ohne Reload-Schleife
 
 Die Oberfläche erhält die Version direkt vom Backend und lädt nach einem Update

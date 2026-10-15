@@ -1,11 +1,15 @@
 """Synthetic continuous-detector stress; no microphone, speaker, or cloud calls."""
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import resource
 import subprocess
 import time
 from services.wake_phrase import PhraseDetector, GRAMMAR, is_activation
+from services import wake_phrase
+
+DETECTOR_SOURCE_SHA256 = hashlib.sha256(Path(wake_phrase.__file__).read_bytes()).hexdigest()
 
 
 class EndpointRefreshExperiment(PhraseDetector):
@@ -53,6 +57,7 @@ def main():
         rows.append({'cycle': cycle + 1, 'expected': expected, 'detections': hits,
                      'passed': bool(hits) == expected, 'rss_mb': rss()})
     result = {'synthetic_audio': True, 'continuous_detector': True,
+              'detector_source_sha256': DETECTOR_SOURCE_SHA256,
               'endpoint_refresh_experiment': args.endpoint_refresh_experiment, 'cycles': args.cycles,
               'passed': all(r['passed'] for r in rows), 'audio_seconds': round(seconds, 2),
               'cpu_seconds': round(time.process_time() - cpu, 2), 'initial_rss_mb': before,

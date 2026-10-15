@@ -39,12 +39,22 @@ def is_activation(result):
 
 class PhraseDetector:
     def __init__(self):
-        from vosk import Model, KaldiRecognizer, SetLogLevel
+        from vosk import Model, SetLogLevel
         SetLogLevel(-1)
         self.model = Model(str(model_path()))
+        self._new_segment()
+
+    def _new_segment(self):
+        from vosk import KaldiRecognizer
         self.recognizer = KaldiRecognizer(self.model, 16000, json.dumps(GRAMMAR))
         self.recognizer.SetWords(True)
 
     def feed(self, audio):
         if not self.recognizer.AcceptWaveform(audio): return False
-        return is_activation(json.loads(self.recognizer.Result()))
+        result = json.loads(self.recognizer.Result())
+        # Keep the acoustic model, but discard completed speech's decoder state.
+        # A long mixed stream otherwise reproducibly lost a later Hey Brain.
+        # Never reset inside an utterance, or repeatedly rebuild during silence.
+        if result.get('text'):
+            self._new_segment()
+        return is_activation(result)

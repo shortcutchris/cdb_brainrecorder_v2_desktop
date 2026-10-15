@@ -65,6 +65,37 @@ class PhraseTests(unittest.TestCase):
         self.assertFalse(is_activation(result))
         self.assertFalse(is_activation({'text':'hey brain'}))
 
+    def test_completed_background_does_not_leak_into_next_split_phrase(self):
+        import json
+        import sys
+        from types import SimpleNamespace
+        from services.wake_phrase import PhraseDetector
+        class Decoder:
+            def __init__(self, *args): self.words=[]
+            def SetWords(self, enabled): pass
+            def AcceptWaveform(self, block):
+                if block: self.words.append(block.decode())
+                return not block
+            def Result(self):
+                return json.dumps({'text':' '.join(self.words), 'result':[
+                    {'word':w,'conf':1,'start':i*.3,'end':(i+1)*.3}
+                    for i,w in enumerate(self.words)]})
+        model=Mock();decoder=Mock(side_effect=Decoder)
+        fake=SimpleNamespace(Model=model,KaldiRecognizer=decoder,SetLogLevel=Mock())
+        with patch.dict(sys.modules, {'vosk':fake}):
+            d=PhraseDetector()
+            self.assertFalse(d.feed(b''))  # Quiet input must not churn decoders.
+            self.assertEqual(decoder.call_count,1)
+            self.assertFalse(d.feed(b'background'))
+            self.assertFalse(d.feed(b''))
+            self.assertFalse(d.feed(b'hey'))
+            self.assertFalse(d.feed(b'brain'))
+            self.assertEqual(decoder.call_count,2)  # No reset between the words.
+            self.assertTrue(d.feed(b''))
+            self.assertFalse(d.feed(b''))
+            self.assertEqual(decoder.call_count,3)
+            model.assert_called_once()
+
 
 class WakeAccountTests(unittest.TestCase):
     def test_token_expiry_preserves_opt_in_but_logout_and_config_change_do_not(self):

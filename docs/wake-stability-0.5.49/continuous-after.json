@@ -1,0 +1,155 @@
+{
+  "synthetic_audio": true,
+  "continuous_detector": true,
+  "detector_source_sha256": "20f8f0b005fc7a471916115e59750b52fe29957a7ab5598adc66530b6526c67f",
+  "endpoint_refresh_experiment": false,
+  "cycles": 1000,
+  "passed": true,
+  "audio_seconds": 3332.41,
+  "cpu_seconds": 197.7,
+  "initial_rss_mb": 156.44,
+  "final_rss_mb": 157.97,
+  "failed_cases": [],
+  "checkpoints": [
+    {
+      "cycle": 50,
+      "expected": true,
+      "detections": 1,
+      "passed": true,
+      "rss_mb": 157.66
+    },
+    {
+      "cycle": 100,
+      "expected": false,
+      "detections": 0,
+      "passed": true,
+      "rss_mb": 157.67
+    },
+    {
+      "cycle": 150,
+      "expected": true,
+      "detections": 1,
+      "passed": true,
+      "rss_mb": 157.67
+    },
+    {
+      "cycle": 200,
+      "expected": false,
+      "detections": 0,
+      "passed": true,
+      "rss_mb": 157.72
+    },
+    {
+      "cycle": 250,
+      "expected": true,
+      "detections": 1,
+      "passed": true,
+      "rss_mb": 157.72
+    },
+    {
+      "cycle": 300,
+      "expected": false,
+      "detections": 0,
+      "passed": true,
+      "rss_mb": 157.72
+    },
+    {
+      "cycle": 350,
+      "expected": true,
+      "detections": 1,
+      "passed": true,
+      "rss_mb": 157.73
+    },
+    {
+      "cycle": 400,
+      "expected": false,
+      "detections": 0,
+      "passed": true,
+      "rss_mb": 157.73
+    },
+    {
+      "cycle": 450,
+      "expected": true,
+      "detections": 1,
+      "passed": true,
+      "rss_mb": 157.77
+    },
+    {
+      "cycle": 500,
+      "expected": false,
+      "detections": 0,
+      "passed": true,
+      "rss_mb": 157.78
+    },
+    {
+      "cycle": 550,
+      "expected": true,
+      "detections": 1,
+      "passed": true,
+      "rss_mb": 157.78
+    },
+    {
+      "cycle": 600,
+      "expected": false,
+      "detections": 0,
+      "passed": true,
+      "rss_mb": 157.83
+    },
+    {
+      "cycle": 650,
+      "expected": true,
+      "detections": 1,
+      "passed": true,
+      "rss_mb": 157.83
+    },
+    {
+      "cycle": 700,
+      "expected": false,
+      "detections": 0,
+      "passed": true,
+      "rss_mb": 157.86
+    },
+    {
+      "cycle": 750,
+      "expected": true,
+      "detections": 1,
+      "passed": true,
+      "rss_mb": 157.88
+    },
+    {
+      "cycle": 800,
+      "expected": false,
+      "detections": 0,
+      "passed": true,
+      "rss_mb": 157.91
+    },
+    {
+      "cycle": 850,
+      "expected": true,
+      "detections": 1,
+      "passed": true,
+      "rss_mb": 157.92
+    },
+    {
+      "cycle": 900,
+      "expected": false,
+      "detections": 0,
+      "passed": true,
+      "rss_mb": 157.92
+    },
+    {
+      "cycle": 950,
+      "expected": true,
+      "detections": 1,
+      "passed": true,
+      "rss_mb": 157.95
+    },
+    {
+      "cycle": 1000,
+      "expected": false,
+      "detections": 0,
+      "passed": true,
+      "rss_mb": 157.97
+    }
+  ]
+}

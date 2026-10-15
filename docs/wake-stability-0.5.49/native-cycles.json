@@ -1,0 +1,57 @@
+{
+  "synthetic_audio": true,
+  "production_configuration_changed": false,
+  "cycles": [
+    {
+      "round": 1,
+      "expired_token": true,
+      "double_wake": false,
+      "end_voice": "supplied synthetic file",
+      "reserve_ms": 0.32,
+      "detection_s": 4.67,
+      "greeting_s": 10.97,
+      "state": "ended",
+      "end_reason": "voice_command",
+      "greeting": true,
+      "input_wave": true,
+      "output_wave": true,
+      "recognitions": 1,
+      "user_transcripts": [
+        "Beende bitte das Gespr\u00e4ch"
+      ],
+      "synthetic_input": {
+        "nonzero_input_bytes": 51353,
+        "nonzero_output_bytes": 51353,
+        "empty_takes": 2,
+        "all_nonzero_input_forwarded": true
+      },
+      "passed": true
+    },
+    {
+      "round": 2,
+      "expired_token": false,
+      "double_wake": true,
+      "end_voice": "supplied synthetic file",
+      "reserve_ms": 0.34,
+      "detection_s": 5.29,
+      "greeting_s": 9.14,
+      "state": "ended",
+      "end_reason": "voice_command",
+      "greeting": true,
+      "input_wave": true,
+      "output_wave": true,
+      "recognitions": 1,
+      "user_transcripts": [
+        "Beende bitte das Gespr\u00e4ch"
+      ],
+      "synthetic_input": {
+        "nonzero_input_bytes": 51353,
+        "nonzero_output_bytes": 51353,
+        "empty_takes": 0,
+        "all_nonzero_input_forwarded": true
+      },
+      "passed": true
+    }
+  ],
+  "passed": true
+}
