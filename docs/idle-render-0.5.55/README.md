@@ -248,3 +248,24 @@ diese Einschränkung ausdrücklich bei.
 Eine ergänzende [CPU-Probe](cpu-followup/README.md) lokalisiert die Pi-Rechenzeit
 im Hauptthread des Renderers. Die getrennte kurze Mac-Profilierung reproduziert
 die höhere Last nicht und wird ausdrücklich nicht als Pi-Abnahme oder Fix gewertet.
+
+## Erste zwei vollständige Stunden auf dem Pi
+
+Festes Fenster **15.10., 22:21:44 bis 16.10., 00:21:44 Europe/Berlin**:
+480 gültige Stichproben, **99,9902 % Abdeckung**, keine ungültigen Zeilen,
+keine Browser-/Backendwechsel und ein durchgehend laufender Beobachter.
+Es wurden weiterhin kein Wake und keine Warnung beobachtet. Das ist kein
+Erkennungsnachweis. [Bericht und Herkunft der Daten](first-two-hours-observation.json).
+
+Der Browser-RSS steigt von **1.162,58 auf 1.294,44 MiB** (**+131,86 MiB**).
+Die CPU-Mediane pro halber Stunde liegen bei **25,86 / 28,93 / 30,63 / 32,50 %
+eines Kerns**. Damit ist der wachsende Verbrauch nach zwei Stunden weiterhin
+ungeklärt; die ausbleibende Warnung darf nicht als bestandene Ressourcenabnahme
+interpretiert werden. Die Statusabfrage bleibt schnell: Median **5,18 ms**,
+p95 **98,40 ms**, Maximum **153,34 ms** im betrachteten Fenster.
+
+Die Rohkopie samt Prüfsummen bleibt außerhalb Git unter
+`~/.local/share/cdb-stability-evidence-20261015/055-first-two-hours` erhalten.
+Der Bericht verändert weder das geplante Ende der 24-Stunden-Beobachtung noch
+die Anforderungen an den echten Acht-Stunden-Wake. Keine neue App-Auslieferung,
+kein Image-Einfluss und kein automatischer Reparatur-/Neustarteingriff.

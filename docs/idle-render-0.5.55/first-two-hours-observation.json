@@ -1,0 +1,130 @@
+{
+  "scope": "Fixed first two hours of unchanged Pi 0.5.55; not 24-hour acceptance",
+  "deployed_source_commit": "78687160e4acec9d05d7b144bfdf22e4b04d3c1b",
+  "provenance": {
+    "captured_at_epoch": 1792102916.1666765,
+    "service": {
+      "MainPID": "1272509",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "analyzed_until_epoch": 1792102904.2767904,
+    "raw_sha256": {
+      "plan.json": "874b96d5b79352b286d607e9a31e4bdef045fe3a48bd13912b25a6248e9940fd",
+      "status.json": "c08630dd1cd19c8e64651bde2495399c18235ac64bcc19362163acbaccfcca08",
+      "metrics.jsonl": "f612604d38b28d6e75d1c516212e24d60c1095b0caef23e97a509dbda95d1369",
+      "events.jsonl": "825f0ad4d66b91b87a5a9d2adbb3ecd207fd91b063b4fb85db614b4825269135"
+    }
+  },
+  "summary": {
+    "status": "pending",
+    "overall_goal_complete": false,
+    "note": "Telemetry only. Review hourly RSS trend, actual UI/audio and the full acceptance matrix separately.",
+    "start_epoch": 1792095704.2767904,
+    "end_epoch": 1792182104.2767904,
+    "analyzed_until_epoch": 1792102904.2767904,
+    "elapsed_hours": 2.0,
+    "completed_observation": false,
+    "valid_metric_samples": 480,
+    "invalid_samples": 0,
+    "covered_seconds": 7199.292,
+    "coverage_percent": 99.9902,
+    "largest_gap_seconds": 0.006,
+    "planned_window_coverage_percent": 8.3325,
+    "last_sample_age_seconds": 14.292,
+    "versions": [
+      "0.5.55"
+    ],
+    "browser_generation_changes": 0,
+    "wake_phrases": [
+      "okay-kai"
+    ],
+    "backend_instance_changes": 0,
+    "observer_starts": 1,
+    "alerts": [],
+    "review_items": [
+      "real_wake_after_eight_hours_missing"
+    ],
+    "idle_browser_cpu_percent_of_one_core": {
+      "samples": 479,
+      "min": 24.0,
+      "median": 29.86,
+      "p95": 33.46,
+      "max": 35.46
+    },
+    "idle_health_ms": {
+      "samples": 480,
+      "min": 4.15,
+      "median": 5.18,
+      "p95": 98.4,
+      "max": 153.34
+    },
+    "browser_rss_mb": {
+      "samples": 480,
+      "min": 1162.58,
+      "median": 1230.375,
+      "p95": 1286.67,
+      "max": 1299.41
+    },
+    "hourly_browser_rss": [
+      {
+        "hour": 0,
+        "samples": 240,
+        "median_rss_mb": 1195.9
+      },
+      {
+        "hour": 1,
+        "samples": 240,
+        "median_rss_mb": 1260.615
+      }
+    ],
+    "observed_wakes": [],
+    "qualified_long_idle_wakes": 0
+  },
+  "half_hours": [
+    {
+      "from_seconds": 0,
+      "to_seconds": 1800,
+      "samples": 120,
+      "cpu_median_percent_one_core": 25.86,
+      "rss_first_mib": 1162.58,
+      "rss_last_mib": 1197.44
+    },
+    {
+      "from_seconds": 1800,
+      "to_seconds": 3600,
+      "samples": 120,
+      "cpu_median_percent_one_core": 28.93,
+      "rss_first_mib": 1194.59,
+      "rss_last_mib": 1228.73
+    },
+    {
+      "from_seconds": 3600,
+      "to_seconds": 5400,
+      "samples": 120,
+      "cpu_median_percent_one_core": 30.630000000000003,
+      "rss_first_mib": 1229.33,
+      "rss_last_mib": 1259.36
+    },
+    {
+      "from_seconds": 5400,
+      "to_seconds": 7200,
+      "samples": 120,
+      "cpu_median_percent_one_core": 32.495000000000005,
+      "rss_first_mib": 1259.5,
+      "rss_last_mib": 1294.44
+    }
+  ],
+  "rss_endpoints": {
+    "first_mib": 1162.58,
+    "last_mib": 1294.44,
+    "delta_mib": 131.86
+  },
+  "memory_trend_unresolved": true,
+  "limits": [
+    "No natural wake in this interval.",
+    "Absence of observer alerts does not establish a bounded memory trend.",
+    "RSS sums may double-count shared pages; separate PSS samples confirm renderer private growth at their own timestamps.",
+    "No observer, kiosk or app restart for this capture."
+  ]
+}
