@@ -1,0 +1,161 @@
+{
+  "synthetic_audio": true,
+  "continuous_detector": true,
+  "cycles": 1000,
+  "passed": false,
+  "audio_seconds": 3332.41,
+  "cpu_seconds": 109.65,
+  "initial_rss_mb": 156.55,
+  "final_rss_mb": 177.52,
+  "failed_cases": [
+    {
+      "cycle": 545,
+      "expected": true,
+      "detections": 0,
+      "passed": false,
+      "rss_mb": 177.39
+    }
+  ],
+  "checkpoints": [
+    {
+      "cycle": 50,
+      "expected": true,
+      "detections": 1,
+      "passed": true,
+      "rss_mb": 168.17
+    },
+    {
+      "cycle": 100,
+      "expected": false,
+      "detections": 0,
+      "passed": true,
+      "rss_mb": 177.11
+    },
+    {
+      "cycle": 150,
+      "expected": true,
+      "detections": 1,
+      "passed": true,
+      "rss_mb": 177.12
+    },
+    {
+      "cycle": 200,
+      "expected": false,
+      "detections": 0,
+      "passed": true,
+      "rss_mb": 177.25
+    },
+    {
+      "cycle": 250,
+      "expected": true,
+      "detections": 1,
+      "passed": true,
+      "rss_mb": 177.25
+    },
+    {
+      "cycle": 300,
+      "expected": false,
+      "detections": 0,
+      "passed": true,
+      "rss_mb": 177.33
+    },
+    {
+      "cycle": 350,
+      "expected": true,
+      "detections": 1,
+      "passed": true,
+      "rss_mb": 177.34
+    },
+    {
+      "cycle": 400,
+      "expected": false,
+      "detections": 0,
+      "passed": true,
+      "rss_mb": 177.34
+    },
+    {
+      "cycle": 450,
+      "expected": true,
+      "detections": 1,
+      "passed": true,
+      "rss_mb": 177.38
+    },
+    {
+      "cycle": 500,
+      "expected": false,
+      "detections": 0,
+      "passed": true,
+      "rss_mb": 177.38
+    },
+    {
+      "cycle": 550,
+      "expected": true,
+      "detections": 1,
+      "passed": true,
+      "rss_mb": 177.39
+    },
+    {
+      "cycle": 600,
+      "expected": false,
+      "detections": 0,
+      "passed": true,
+      "rss_mb": 177.41
+    },
+    {
+      "cycle": 650,
+      "expected": true,
+      "detections": 1,
+      "passed": true,
+      "rss_mb": 177.41
+    },
+    {
+      "cycle": 700,
+      "expected": false,
+      "detections": 0,
+      "passed": true,
+      "rss_mb": 177.44
+    },
+    {
+      "cycle": 750,
+      "expected": true,
+      "detections": 1,
+      "passed": true,
+      "rss_mb": 177.44
+    },
+    {
+      "cycle": 800,
+      "expected": false,
+      "detections": 0,
+      "passed": true,
+      "rss_mb": 177.45
+    },
+    {
+      "cycle": 850,
+      "expected": true,
+      "detections": 1,
+      "passed": true,
+      "rss_mb": 177.48
+    },
+    {
+      "cycle": 900,
+      "expected": false,
+      "detections": 0,
+      "passed": true,
+      "rss_mb": 177.48
+    },
+    {
+      "cycle": 950,
+      "expected": true,
+      "detections": 1,
+      "passed": true,
+      "rss_mb": 177.52
+    },
+    {
+      "cycle": 1000,
+      "expected": false,
+      "detections": 0,
+      "passed": true,
+      "rss_mb": 177.52
+    }
+  ]
+}

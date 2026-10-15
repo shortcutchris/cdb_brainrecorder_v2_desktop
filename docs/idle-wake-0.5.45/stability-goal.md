@@ -6,8 +6,10 @@ prüfen und Fehler beheben. Das Codex-Ziel bleibt bis zur Abnahme aktiv.
 
 ## Abnahmeplan
 
-- **24 Stunden echte Standzeit:** der produktive Pi sammelt ab 15.10.2026,
-  16:14:14 Europe/Berlin bis 16.10.2026, 16:14:14 technische Messwerte. Erwartet
+- **24 Stunden echte Standzeit:** der produktive Pi sammelt im aktuellen Lauf ab
+  15.10.2026, 16:39:37 Europe/Berlin bis 16.10.2026, 16:39:37 technische Messwerte.
+  Vorläufe 0.5.45–0.5.47 wurden nach Korrekturen archiviert und zählen nicht als
+  bestandene Dauerläufe. Erwartet
   mindestens 99 % Messabdeckung, keine ungeklärten Neustarts, keine dauerhafte
   CPU-/Speicherwarnung und kein ungeklärter wachsender Speichertrend. Fehlende
   Abdeckung oder Reparaturen verlangen einen neuen Lauf mit dem korrigierten Stand.
@@ -58,13 +60,23 @@ niemals einen Pi-/Backend-Neustart während einer Aufnahme auslösen.
 
 ## Fortschritt
 
-- 0.5.45 auf dem Pi; realer Nutzer bestätigt sofortige Aktivierung. Ein reales
+- 0.5.45: realer Nutzer bestätigt sofortige Aktivierung. Ein reales
   Gespräch endete laut technischem Log per `voice_command`.
 - Standalone-Messdienst aktiv, begrenzt auf 24 Stunden und niedrige Ressourcen.
   Kurzer Pi-Test bestätigt echte Prozesszuordnung und automatische Beendigung.
-- Elf gezielte Monitoring-Tests bestanden. Frühere 264 Python-/104 JS-Tests
-  betreffen den Stand 0.5.45; sie ersetzen den neuen Stresstest nicht.
-- Langzeit-, akustische Langzeit- und neue Stressabnahme: **offen**.
+- Inzwischen 0.5.48 produktiv; fünf weitere Fehlerfälle behoben (Detektorfortschritt,
+  Teilzeile, Cloud-Heartbeat, späte Fehler, Kindprozess-Pfad), außerdem die bei
+  der Installation entdeckte UI-Reload-Schleife beseitigt und am Display geprüft.
+- 285 vollständige Python-Tests auf 0.5.47; nach der UI-Korrektur weitere 48
+  Studio-Tests und 107 JS-Tests bestanden. 13 Monitoring-Tests bestanden.
+- 100 konkurrierende Reservierungsrunden und 100 Doppelnennungen ohne doppelte
+  Audioreservierung; 28/28 synthetische Sprachfälle korrekt. In fünf nativen
+  CDB-Runden 5/5 Aktivierungen/Begrüßungen, aber nur 4/5 Ende-Befehle vollständig
+  transkribiert. Im erweiterten kontinuierlichen 1.000-Segment-Test ein
+  Erkennungsfehler; Speicherplateau statt ungebremstem Wachstum. Der experimentelle
+  Reset verbessert die Erkennung nicht und wurde nicht übernommen.
+- Langzeit- und akustische Langzeitabnahme sowie die beiden Sprachfehler:
+  **offen**. [Details und Rohmesswerte](../wake-stability-0.5.46/README.md).
 
 App und vorhandenes SD-Image werden durch diese Diagnose nicht neu gebaut.
 Jede folgende Laufzeitänderung bekommt ihre eigene App-/Image-Einflussbewertung.

@@ -53,6 +53,7 @@ Diese Werte sind Beobachtungskriterien, noch keine Neustartfreigaben:
 | System | Weniger als 512 MB verfügbarer RAM oder mindestens 80 °C über etwa fünf Minuten |
 | Lokale Status-API | Drei fehlgeschlagene Abfragen in Folge |
 | Wake-Verbindung | 15 Sekunden nach beobachteter Erkennung noch nicht verbunden |
+| Erkennung | Drei Fehlerzustandswechsel binnen fünf Minuten oder etwa zwei Minuten im Lade-/Fehlerzustand bei freiem Gerät |
 
 Während Aufnahme/Pause/Gespräch wird eine erhöhte CPU-Last nicht als
 Leerlaufproblem gewertet. Speicher-/Erreichbarkeitswarnungen bleiben sichtbar.
@@ -111,3 +112,10 @@ Profiltrennung, Statusausfälle und Wake-Messung. Aufnahme/Pause werden in diese
 Tests nur als Zustände simuliert; keine produktive Aufnahme wird für den
 Messdienst verändert. Das ist noch kein Test eines automatisch eingreifenden
 Watchdogs.
+
+Nachtrag: 13 Monitoring-Tests bestanden. Der erste Messlauf wurde für 0.5.47
+abgebrochen und unter `baseline-045-046` bewahrt; der nächste unter `baseline-047`
+nach dem UI-Update auf 0.5.48. Beide sind bewusst **keine** bestandenen
+24-Stunden-Läufe. Die verbindliche aktuelle Frist steht in `run/plan.json`.
+Die Oberfläche wird zusätzlich per echtem Display-Screenshot geprüft; der
+Messdienst kann weiterhin keine gerenderte Waveform bestätigen.

@@ -1,0 +1,29 @@
+{
+  "seconds": 44,
+  "states": [
+    "listening"
+  ],
+  "first": {
+    "state": "listening",
+    "children": [
+      {
+        "pid": 642748,
+        "release": "0f63b0206502fa7c67545b36198fe118403394f65130004ebdb24316cadcfa5e"
+      }
+    ],
+    "count": 0
+  },
+  "last": {
+    "state": "listening",
+    "children": [
+      {
+        "pid": 642748,
+        "release": "0f63b0206502fa7c67545b36198fe118403394f65130004ebdb24316cadcfa5e"
+      }
+    ],
+    "count": 0
+  },
+  "unique_children": [
+    642748
+  ]
+}

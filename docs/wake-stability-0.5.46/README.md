@@ -115,6 +115,42 @@ Die Gesamttests geben eine bestehende Qt-GC-Ressourcenwarnung beim Prozessende
 aus; der Testlauf selbst meldet keine fehlgeschlagenen Tests. Die Änderung
 führt keine Qt- oder Abhängigkeitsaktualisierung durch.
 
+### Weitere Abnahme bis 0.5.48
+
+[285 vollständige Python-Tests](python-tests-047.txt) mit den 0.5.47-Korrekturen
+bestanden. Danach 48 Studio-Tests inklusive dynamischer Versionsauslieferung
+und 107 JS-Tests für 0.5.48 bestanden. [Signiertes Deployment](deployment-048.json)
+bestätigt Version 0.5.48 und unveränderte Einstellungen. Der komplette Pi wurde
+nicht neu gestartet. Der nach der Reload-Schleife festgefahrene Browser wurde
+einmal geordnet mit demselben Profil neu gestartet, unter der bestehenden
+atomaren Wartungssperre; das Backend blieb dabei aktiv.
+
+![Echter Pi-Bildschirm nach Wiederherstellung](pi-home-048.png)
+
+Der installierte Detektor blieb in einer [44-Sekunden-Stichprobe](installed-wake-047.json)
+mit derselben PID im richtigen Release-Ordner und im Zustand `listening`.
+Das belegt die Beseitigung der 15-Sekunden-Neustartschleife, keinen Langzeitlauf.
+
+Der [lange kontinuierliche Test](continuous-before.json) verwendet einen einzigen
+Detektor für 1.000 synthetische Segmente, insgesamt 3.332,41 Sekunden Audiomaterial.
+999/1.000 Segmente korrekt, keine falsche Aktivierung unter 500 Negativbeispielen,
+eine überhörte Aktivierung unter 500 Positivbeispielen (Zyklus 725). Der Test gilt
+als **nicht vollständig bestanden**. Er läuft schneller als Echtzeit und ersetzt
+keine echte 55-Minuten-Standzeit. In der Produktion wird der Detektor nach einer
+erfolgreichen Aktivierung beendet; der Test hält ihn absichtlich auch danach offen.
+
+RSS stieg zunächst von etwa 157 MB auf 197 MB, blieb danach bis Zyklus 1.000
+nahezu konstant. Die anfängliche Hochrechnung eines unbegrenzten Wachstums hat
+sich damit nicht bestätigt. Vosk 0.3.45 bereinigt seine Feature-Pipeline periodisch
+([Originalcode, CleanUp](https://github.com/alphacep/vosk-api/blob/v0.3.45/src/recognizer.cc#L136)).
+Ob die eine verpasste Aktivierung genau an einer Bereinigungsgrenze liegt, ist
+eine Hypothese, kein nachgewiesener Fehlergrund.
+
+Ein [isolierter Vergleich mit häufigerer Neuinitialisierung](continuous-experiment-not-shipped.json)
+senkte den Speicherstand auf etwa 178 MB, hatte aber ebenfalls einen Fehlversuch
+(Zyklus 545). Diese experimentelle Änderung wird **nicht ausgeliefert**. Der
+Produktionsdetektor und seine Konfidenzschwellen bleiben unverändert.
+
 ## Bestehende Geräte und Kunden-Image
 
 Nur App-Code in bereits zugelassenen `services/`-Dateien und Versionsstand
