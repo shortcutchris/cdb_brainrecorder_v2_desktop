@@ -86,3 +86,28 @@ natürlichen Messfenster. Alle dafür gestarteten Testbrowser sind geschlossen.
 Nur Diagnose und Dokumentation: kein Laufzeit-, Firmware-, Konto- oder
 Image-Einfluss, keine neue App-Auslieferung. Die echte 24-Stunden-Beobachtung
 und die akustische Langzeitabnahme bleiben offen.
+# Zusätzlicher Vergleich ohne Browser-Debugger: Auswertung vorbereitet
+
+Ein weiterer lokaler Kontrolllauf verwendet natives Headless-Chrome ohne
+Playwright, CDP oder Remote-Debugging. Ein reiner Leseproxy vor der synthetischen
+Vorschau liefert die Wake-Bereitschaft; die Messung liest ausschließlich
+Prozess-RSS von außen. API-Zähler belegen laufende Abfragen, aber weder sichtbare
+Bedienbarkeit noch Spracherkennung. Der produktive Pi bleibt unverändert.
+
+Die 30-Minuten-Beobachtung ist beim Ergänzen dieses Abschnitts **noch aktiv**;
+hier wird kein Ergebnis und kein Speicherplateau behauptet. Nach ihrem Ende
+prüft `scripts/summarize_unattached_browser.py <Messordner>` vollständige Dauer,
+Messlücken, weiterlaufende Statusabfragen, konsistente RSS-Summen, gleichbleibende
+aktive Prozesse nach zwei Minuten Aufwärmzeit und bestätigten Prozessabschluss.
+Ein Null-RSS-Zombie bleibt in den Rohdaten, zählt aber nicht als aktiver Renderer.
+PID-Startkennungen wurden in diesem lokalen Versuch nicht erfasst; das wird als
+Grenze ausgewiesen. Die Chrome-Startparameter und der HTTP-Proxy unterscheiden
+sich von den früheren Messungen; dies ist kein exakt kontrollierter A/B-Vergleich.
+
+Neun gezielte Tests schützen die Auswertung unter anderem vor verkürzten Läufen,
+Messlücken, gestoppten Abfragen, fremden Prozessen, Rendererwechseln und fehlendem
+Aufräumen. Sie bestätigen die Auswertung, nicht den Ausgang des laufenden Tests.
+Aufruf: `python3 -m unittest tests.test_unattached_browser_summary -v`.
+
+Keine App-/Runtime-Änderung und kein Einfluss auf das Kunden-Image. Kein Neustart,
+keine Audioaktivierung und keine neue Pi-Auslieferung für diese Diagnose.
