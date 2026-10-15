@@ -56,5 +56,6 @@ abweichender Startkennung und nur teilweise vorhandene Kennungen; historische
 Messungen ohne dieses Feld bleiben ausdrücklich auf PID-Prüfung beschränkt.
 Zwölf Auswertertests bestehen, einschließlich abgebrochener Messungen,
 Polling-Stillstand, wechselnder Prozesse und fehlender Bereinigung. Dies ändert
-nur die Diagnoseauswertung, nicht die App oder ein Kunden-Image. Ein Ergebnis
-des längeren Vergleichs liegt zu diesem Dokumentationsstand noch nicht vor.
+nur die Diagnoseauswertung, nicht die App oder ein Kunden-Image. Der [abgeschlossene Vergleich](comparison/README.md) weist keinen belastbaren
+Speichervorteil nach; beide strengen Prozessgruppenprüfungen scheitern an einem
+vorübergehenden Hilfsprozess. Rohdaten und Einschränkungen bleiben erhalten.

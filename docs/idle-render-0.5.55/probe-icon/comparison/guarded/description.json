@@ -1,0 +1,114 @@
+{
+  "completed_window_seconds": 1800.0620561250034,
+  "sample_count": 31,
+  "strict_comparison_passed": false,
+  "strict_comparison_rejection": "Active browser process set changed after warmup",
+  "overall_goal_complete": false,
+  "scope": "Descriptive local diagnostic; unchanged Pi acceptance remains open",
+  "max_sample_gap_seconds": 60.0759569169968,
+  "descriptive_endpoint_seconds": [
+    120.15459937500418,
+    1800.0620561250034
+  ],
+  "all_process_endpoint_rss_mib": [
+    1067.484375,
+    1083.90625
+  ],
+  "all_process_peak_rss_mib": 1201.125,
+  "transient_processes_after_warmup": [
+    {
+      "elapsed_seconds": 180.2253325000056,
+      "process": {
+        "pid": 59522,
+        "parent": 58109,
+        "rss_kib": 136800,
+        "name": "Google Chrome Helper",
+        "started_at": "Fri Oct 16 00:43:04 2026"
+      }
+    }
+  ],
+  "continuous_pids": [
+    58109,
+    58113,
+    58114,
+    58115,
+    58117,
+    58120,
+    58144
+  ],
+  "continuous_processes": [
+    {
+      "pid": 58109,
+      "role": "Google Chrome",
+      "first_rss_mib": 251.453125,
+      "last_rss_mib": 254.578125,
+      "delta_mib": 3.125
+    },
+    {
+      "pid": 58113,
+      "role": "Google Chrome Helper",
+      "first_rss_mib": 145.71875,
+      "last_rss_mib": 147.203125,
+      "delta_mib": 1.484375
+    },
+    {
+      "pid": 58114,
+      "role": "Google Chrome Helper",
+      "first_rss_mib": 115.5,
+      "last_rss_mib": 117.390625,
+      "delta_mib": 1.890625
+    },
+    {
+      "pid": 58115,
+      "role": "Google Chrome Helper",
+      "first_rss_mib": 78.5625,
+      "last_rss_mib": 79.890625,
+      "delta_mib": 1.328125
+    },
+    {
+      "pid": 58117,
+      "role": "Google Chrome Helper (Renderer)",
+      "first_rss_mib": 176.8125,
+      "last_rss_mib": 178.40625,
+      "delta_mib": 1.59375
+    },
+    {
+      "pid": 58120,
+      "role": "Google Chrome Helper (Renderer)",
+      "first_rss_mib": 199.234375,
+      "last_rss_mib": 204.6875,
+      "delta_mib": 5.453125
+    },
+    {
+      "pid": 58144,
+      "role": "Google Chrome Helper (Renderer)",
+      "first_rss_mib": 100.203125,
+      "last_rss_mib": 101.75,
+      "delta_mib": 1.546875
+    }
+  ],
+  "last_ten_minutes_rss_range_mib": [
+    1075.109375,
+    1083.90625
+  ],
+  "limits": [
+    "No DOM, JS-heap or visual inspection: deliberately no debugger attached.",
+    "Headless Mac Chrome and synthetic loopback proxy differ from Pi kiosk Chromium.",
+    "Both modes run concurrently and share host resources; not an isolated hardware trial.",
+    "API data is synthetic but not frozen; static assets are pinned and hashed.",
+    "Process RSS may double-count shared pages; no forced GC.",
+    "PID and second-resolution OS process start times were checked by the strict validator.",
+    "The short-lived helper identity and purpose are not established.",
+    "Both modes share this Mac; offline symbol extraction and analysis also ran on it during the observation.",
+    "The two modes differ only in the pinned microphone.js asset, but one parallel trial with process churn is not a causal effect-size or Pi acceptance proof.",
+    "The failed strict comparison is retained, not bypassed or replaced with a later warmup cutoff."
+  ],
+  "source_sha256": {
+    "plan.json": "9bfe987fe0afa42d1733d43da6e8ce954c80862e425f70f856b815b92bc37fc2",
+    "process-memory.jsonl": "09e53c8507801ebf767de6c7314a6096aea0af6249c614d89a501285e12153d6",
+    "sampler-complete.json": "d095dfdeebc552462e24aa8fed2548d18e7bed9837d7e35ec06bfe35af5bec4e",
+    "cleanup.json": "8235e6d23f52d4f08a417aa8e4b741e22a688dff9368cf3caf54993498813ec3",
+    "proxy-counters.json": "05dd2e768593674fd800937ba0c73c24e18eaae17c462412b886bf87b2ff3a40",
+    "sampler.py": "710250d995b53f57083a7fb46ecf20ac27c8c3412d7c53f11085426e98ae789e"
+  }
+}

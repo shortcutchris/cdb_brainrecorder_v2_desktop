@@ -1,0 +1,16 @@
+[
+  {
+    "mode": "original",
+    "browser_pid": 58059,
+    "started_at_epoch": 1792103988.76255,
+    "expected_end_epoch": 1792105788.76255,
+    "session_id": 1808
+  },
+  {
+    "mode": "guarded",
+    "browser_pid": 58109,
+    "started_at_epoch": 1792104006.499999,
+    "expected_end_epoch": 1792105806.499999,
+    "session_id": 5978
+  }
+]

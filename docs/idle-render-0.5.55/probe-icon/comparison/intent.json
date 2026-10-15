@@ -1,0 +1,11 @@
+{
+  "created_at_epoch": 1792103983.783356,
+  "planned_seconds_per_browser": 1800,
+  "modes": [
+    "original",
+    "guarded"
+  ],
+  "root": "/tmp/cdb-icon-comparison-1792103983",
+  "production_pi_untouched": true,
+  "purpose": "Evaluate icon guard memory hypothesis; not acoustic or Pi acceptance"
+}

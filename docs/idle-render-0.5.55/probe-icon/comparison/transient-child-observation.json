@@ -1,0 +1,63 @@
+{
+  "captured_at_epoch": 1792104254.968572,
+  "completed": false,
+  "interpretation": "Temporary child process present in both 180-second samples; purpose unverified; full process-set comparison cannot pass unchanged-membership criterion. Keep entire planned run and all samples.",
+  "modes": {
+    "original": [
+      {
+        "elapsed_seconds": 120.18415187500068,
+        "at_epoch": 1792104108.9466612,
+        "browser_rss_kib": 1089312,
+        "additional_processes": []
+      },
+      {
+        "elapsed_seconds": 180.25521070799732,
+        "at_epoch": 1792104169.0177221,
+        "browser_rss_kib": 1226848,
+        "additional_processes": [
+          {
+            "pid": 59511,
+            "parent": 58059,
+            "rss_kib": 136704,
+            "name": "Google Chrome Helper",
+            "started_at": "Fri Oct 16 00:42:46 2026"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 240.3223438749992,
+        "at_epoch": 1792104229.084862,
+        "browser_rss_kib": 1093344,
+        "additional_processes": []
+      }
+    ],
+    "guarded": [
+      {
+        "elapsed_seconds": 120.15459937500418,
+        "at_epoch": 1792104126.6545541,
+        "browser_rss_kib": 1093104,
+        "additional_processes": []
+      },
+      {
+        "elapsed_seconds": 180.2253325000056,
+        "at_epoch": 1792104186.72529,
+        "browser_rss_kib": 1229952,
+        "additional_processes": [
+          {
+            "pid": 59522,
+            "parent": 58109,
+            "rss_kib": 136800,
+            "name": "Google Chrome Helper",
+            "started_at": "Fri Oct 16 00:43:04 2026"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 240.29566370800603,
+        "at_epoch": 1792104246.7956228,
+        "browser_rss_kib": 1096832,
+        "additional_processes": []
+      }
+    ]
+  }
+}

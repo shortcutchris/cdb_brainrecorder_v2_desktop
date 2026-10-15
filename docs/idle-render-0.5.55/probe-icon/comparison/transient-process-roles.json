@@ -1,0 +1,16 @@
+[
+  {
+    "mode": "guarded",
+    "sample_epoch": 1792104186.72529,
+    "observed_epoch": 1792104230.3469849,
+    "process": {
+      "pid": 59522,
+      "parent": 58109,
+      "rss_kib": 136800,
+      "name": "Google Chrome Helper",
+      "started_at": "Fri Oct 16 00:43:04 2026"
+    },
+    "same_process_still_present": false,
+    "role_flags": []
+  }
+]

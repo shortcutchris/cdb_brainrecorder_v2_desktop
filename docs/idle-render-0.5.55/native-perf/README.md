@@ -71,3 +71,11 @@ Nächster Eingrenzungsschritt: eine begrenzte isolierte Reproduktion mit derselb
 Pi-Chromium-Version, bei der wiederholte Bild-Ladevorgänge einzeln variiert werden.
 Der Produktionsbrowser bleibt dafür unverändert. Keine App-Auslieferung und kein
 Image-Einfluss durch diese Diagnose. Die Stabilitätsabnahme bleibt offen.
+
+Ein enger Quellvergleich mit Tag 155.0.8059.41 zeigt für
+`AgentGroupSchedulerImpl::PerformMicrotaskCheckpoint` denselben Funktionskörper;
+auch die schwache Agentenmenge und die Page-Scheduler-Menge sind in beiden
+Headern gleich deklariert. Daraus folgt **kein belegter Browser-Fix** zwischen
+diesen Versionen. Andere Teile, Objektlebenszeiten und Plattformbedingungen
+wurden damit nicht verglichen; ein Update wird nicht als bereits bewiesene
+Lösung dargestellt.
