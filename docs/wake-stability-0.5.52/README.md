@@ -92,3 +92,24 @@ App-Paket. Das vorhandene SD-Image wird nicht ersetzt. Produktive Auslieferung
 erfolgt nur unter atomarer Wartung bei freiem Gerät. 24 Stunden Standzeit und ein
 echter Nutzeraufruf nach mindestens acht Stunden bleiben getrennte offene
 Abnahmepunkte; sie werden durch diese kürzeren Tests nicht ersetzt.
+
+## Produktive Auslieferung und Beobachtung
+
+0.5.52 wurde am 15.10.2026 unter atomarer Wartung installiert:
+[Installationsbeleg](deployment.json), Quellcommit `b734a43`, signierte Sequenz 9.
+Die geprüften Einstellungsdateien sind unverändert. Danach stimmen die SHA256
+von `wake_phrase.py` und `wake_word.py` mit dem Repository überein; auch das
+Arbeitsverzeichnis des echten Detektorprozesses zeigt auf die neue unveränderliche
+Release. Der Status meldet `listening`, frische Audioblöcke und genau einen
+Detektorstart. Keine Testwiedergabe oder isolierte Akustikprüfung läuft weiter.
+Der produktive Zähler `onset_renewals` stieg bereits an; das belegt die Ausführung
+des neuen Pfades, noch keinen erfolgreichen natürlichen Nutzeraufruf.
+
+Der bisherige 0.5.51-Lauf liegt unverändert als `baseline-051` neben den früheren
+Vorläufen und ist als abgelöst markiert. Der neue rein lesende 24-Stunden-Lauf
+beginnt am **15.10.2026 um 18:21:33 Europe/Berlin** und endet am
+**16.10.2026 um 18:21:33**. Die automatische Auswertung darf weder diesen
+Zeitraum vorwegnehmen noch `listening` als Nachweis akustischer Erkennung werten.
+Die Wiedergabesicherung bleibt aktiv; eigene Pi-Lautsprechertests können daher
+keinen normalen Wake-/Live-Durchlauf nachweisen. Ein echter Nutzeraufruf nach
+mindestens acht Stunden bleibt erforderlich.

@@ -7,8 +7,8 @@ prüfen und Fehler beheben. Das Codex-Ziel bleibt bis zur Abnahme aktiv.
 ## Abnahmeplan
 
 - **24 Stunden echte Standzeit:** der produktive Pi sammelt im aktuellen Lauf ab
-  15.10.2026, 18:01:16 Europe/Berlin bis 16.10.2026, 18:01:16 technische Messwerte.
-  Vorläufe 0.5.45–0.5.50 wurden nach Korrekturen bzw. Diagnose-Erweiterung archiviert und zählen nicht als
+  15.10.2026, 18:21:33 Europe/Berlin bis 16.10.2026, 18:21:33 technische Messwerte.
+  Vorläufe 0.5.45–0.5.51 wurden nach Korrekturen bzw. Diagnose-Erweiterung archiviert und zählen nicht als
   bestandene Dauerläufe. Erwartet
   mindestens 99 % Messabdeckung, keine ungeklärten Neustarts, keine dauerhafte
   CPU-/Speicherwarnung und kein ungeklärter wachsender Speichertrend. Fehlende
