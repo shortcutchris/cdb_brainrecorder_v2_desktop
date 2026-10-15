@@ -151,6 +151,14 @@ senkte den Speicherstand auf etwa 178 MB, hatte aber ebenfalls einen Fehlversuch
 (Zyklus 545). Diese experimentelle Änderung wird **nicht ausgeliefert**. Der
 Produktionsdetektor und seine Konfidenzschwellen bleiben unverändert.
 
+Ein separater [730-Segment-Diagnoselauf](missed-activation-diagnosis.json)
+reproduzierte den Fehler wieder in Zyklus 725. Der Decoder lieferte dort
+`[unk] rain` statt `hey brain`. Es war somit keine hängen gebliebene App-Sperre
+oder lediglich eine zu streng gefilterte korrekte Phrase. Ein Absenken der
+Konfidenzschwelle behebt diesen Befund nicht. Der konkrete Zusammenhang mit der
+internen Pipeline-Bereinigung bleibt weiter zu prüfen; eine automatische
+Aktivierung auf „rain“ wird ausdrücklich nicht ergänzt.
+
 ## Bestehende Geräte und Kunden-Image
 
 Nur App-Code in bereits zugelassenen `services/`-Dateien und Versionsstand

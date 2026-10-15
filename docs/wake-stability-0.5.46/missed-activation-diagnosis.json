@@ -1,0 +1,40 @@
+{
+  "synthetic_audio": true,
+  "cycles": 730,
+  "failures": [
+    {
+      "cycle": 725,
+      "expected": true,
+      "segments": [
+        {
+          "result": [
+            {
+              "conf": 1.0,
+              "end": 2410.281558,
+              "start": 2409.471558,
+              "word": "[unk]"
+            }
+          ],
+          "text": "[unk]"
+        },
+        {
+          "result": [
+            {
+              "conf": 0.713165,
+              "end": 2413.021262,
+              "start": 2412.961914,
+              "word": "[unk]"
+            },
+            {
+              "conf": 0.865149,
+              "end": 2413.441914,
+              "start": 2413.021262,
+              "word": "rain"
+            }
+          ],
+          "text": "[unk] rain"
+        }
+      ]
+    }
+  ]
+}
