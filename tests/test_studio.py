@@ -199,6 +199,45 @@ class StudioTests(unittest.TestCase):
         self.assertEqual(self.request('/api/playback',{'client':'browser-test','playing':False})[0],200)
         self.assertNotEqual(self.app.wake_reason(),'Audiowiedergabe läuft.')
 
+    def test_failed_detector_release_blocks_http_capture_and_live_until_retry(self):
+        # Exercise the actual HTTP/control/WakeWord chain, not just its parts.
+        # Only the old detector process and new audio consumers are synthetic.
+        import io
+        from unittest.mock import Mock
+        self.app.ambient_stop.set(); self.app.ambient_thread.join(3)
+        self.assertFalse(self.app.ambient_thread.is_alive())
+        self.app.engine.configure({'setup_complete':True})
+        child=Mock(); child.poll.return_value=None; child.stdout=io.BytesIO()
+        self.app.wake.process=child
+        try:
+            with patch.object(self.app.engine,'start',return_value='synthetic') as capture, \
+                 patch.object(self.app.live,'reserve',return_value={'lease':'synthetic'}) as reserve, \
+                 patch.object(self.app.cdb,'read',return_value={'identity':{'user_id':'synthetic'}}), \
+                 patch('services.wake_word.os.killpg',side_effect=PermissionError('private synthetic failure')) as signal:
+                for path in ('/api/record/start','/api/live/reserve'):
+                    with self.subTest(path=path):
+                        status,body,_=self.request(path,{})
+                        self.assertEqual(status,400)
+                        self.assertIn('freigegeben',body.decode())
+                        self.assertNotIn('private synthetic failure',body.decode())
+                        self.assertIs(self.app.wake.process,child)
+                        self.assertTrue(self.app.wake.stop_pending)
+                        self.assertFalse(child.stdout.closed)
+                capture.assert_not_called(); reserve.assert_not_called()
+                # A confirmed retry permits the original requests again.
+                signal.side_effect=None
+                self.assertEqual(self.request('/api/record/start',{})[0],200)
+                self.assertIsNone(self.app.wake.process)
+                self.assertFalse(self.app.wake.stop_pending)
+                self.assertTrue(child.stdout.closed)
+                child.wait.assert_called_once()
+                self.assertEqual(self.request('/api/live/reserve',{})[0],200)
+                capture.assert_called_once(); reserve.assert_called_once()
+        finally:
+            # Never let a failed assertion send a real signal to the fake PID.
+            self.app.wake.process=None
+            child.stdout.close()
+
     def test_display_control_is_loopback_csrf_protected_and_recording_locked(self):
         self.app.display.address=('127.0.0.1',0)
         self.assertEqual(self.request('/api/display/control',{'action':'enable'},{'X-CSRF-Token':'bad'})[0],403)

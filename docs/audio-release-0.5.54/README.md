@@ -198,3 +198,24 @@ einen Aufruf nach acht Stunden Pause. Die vollständige Abnahme bleibt offen.
 Der Bericht enthält Prüfsummen der außerhalb von Git gesicherten technischen
 Quelldateien. Messplan, Frist, produktive Anwendung und Kunden-Image bleiben
 unverändert; diese Ergänzung enthält ausschließlich Dokumentation.
+
+### Freigabefehler über die echten HTTP-Endpunkte
+
+Die zusätzliche Regression
+`test_failed_detector_release_blocks_http_capture_and_live_until_retry`
+prüft den Weg HTTP → App-Steuerung → `WakeWord.suspend`, zusätzlich zu den
+oben beschriebenen Komponententests. Ein synthetischer, weiterhin laufender
+Detektor verweigert sein Beenden. `/api/record/start` und `/api/live/reserve`
+müssen daraufhin beide mit einer verständlichen Fehlermeldung abbrechen,
+ohne den Aufnahme- oder Gesprächsstart aufzurufen. Die alte Prozessreferenz
+und der offene Ausgabekanal bleiben erhalten. Nach einem bestätigten erneuten
+Beenden dürfen beide Endpunkte wieder starten; Prozess und Kanal sind freigegeben.
+
+Der Test verwendet einen echten lokalen HTTP-Server und die normale
+Anwendungssteuerung, aber künstliche Anmeldung, Prozesssignale und neue
+Audioverbraucher. Er erzeugt keine echte Aufnahme oder Cloud-Sitzung und
+beansprucht keine Pi-Hardware. Zusammen mit den acht Freigabe-Regressionen
+bestanden **9 gezielte Tests auf dem Mac**;
+[Protokoll](http-audio-release-tests-mac.txt). Dieser zusätzliche Test zählt
+nicht rückwirkend zu den früheren 338 vollständigen Tests. Nur Test und Bericht
+wurden ergänzt; keine Laufzeitänderung oder erneute Pi-/Image-Auslieferung.
