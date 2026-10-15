@@ -82,3 +82,20 @@ Unterbrechung der Ruhezeitevidenz gehören zur kontrollierten Auslieferung;
 sie werden nicht als bestandener Dauerlauf gewertet oder aus den Daten entfernt.
 Die vollständige neue 24-Stunden-Messung, ein echter Ruf nach acht Stunden Ruhe
 und die Einordnung des längerfristigen Speicherverlaufs bleiben offen.
+
+## Erste zehn Minuten auf dem Pi
+
+Der feste Abschnitt **22:21:44 bis 22:31:44 am 15.10.** hat 40 Messwerte und
+99,9923 % Abdeckung. Browser-CPU: Median **25,46 % eines Kerns**, p95 26,46 %.
+Die letzten 40 ruhenden 0.5.54-Stichproben vor dem Update lagen bei Median
+31,83 %, p95 33,06 %. Das ist eine frühe beobachtete Entlastung, kein kontrollierter
+Pi-A/B-Versuch: Backend und Oberfläche wurden beim Update neu gestartet bzw.
+geladen. Die vollständige Messung bleibt erforderlich.
+
+Lokale Gesundheitsabfrage: Median 6,67 ms, p95 96,41 ms. Der summierte RSS steigt
+von 1.162,58 auf 1.173,77 MiB; **ein behobener Speicherverlust oder ein dauerhaftes
+Plateau ist damit ausdrücklich nicht belegt**. Kein Wake-Ereignis in diesem
+Abschnitt. [Vergleich mit Quellprüfsummen](first-ten-minute-comparison.json).
+Die technischen Quelldateien sind zusätzlich außerhalb von Git gesichert.
+Für diesen Zwischenbericht wurde weder die Beobachtung zurückgesetzt noch
+ein weiterer Eingriff auf dem Pi vorgenommen.

@@ -1,0 +1,45 @@
+{
+  "scope": "Early observational comparison, not controlled Pi A/B or long-term acceptance",
+  "old_idle_sample_count": 40,
+  "old_idle_cpu_percent_one_core": {
+    "samples": 40,
+    "min": 30.53,
+    "median": 31.83,
+    "p95": 33.06,
+    "max": 33.33
+  },
+  "new_idle_cpu_percent_one_core": {
+    "samples": 39,
+    "min": 24.0,
+    "median": 25.46,
+    "p95": 26.46,
+    "max": 26.53
+  },
+  "new_health_ms": {
+    "samples": 40,
+    "min": 4.35,
+    "median": 6.67,
+    "p95": 96.41,
+    "max": 107.6
+  },
+  "new_coverage_percent": 99.9923,
+  "new_rss_first_mb": 1162.58,
+  "new_rss_last_mb": 1173.77,
+  "new_rss_range_mb": {
+    "samples": 40,
+    "min": 1162.58,
+    "median": 1170.595,
+    "p95": 1173.77,
+    "max": 1174.8
+  },
+  "new_wake_events": 0,
+  "completed_observation": false,
+  "old_last_sample_at": "2026-10-15T20:20:33.420661+00:00",
+  "new_start_epoch": 1792095704.2767904,
+  "new_cutoff_epoch": 1792096304.2767904,
+  "source_sha256": {
+    "plan.json": "874b96d5b79352b286d607e9a31e4bdef045fe3a48bd13912b25a6248e9940fd",
+    "metrics.jsonl": "1b7ba820d8c6e42ad98ed4d30a671bce9e9a8812d7d22cbbe511e7caea868b8a",
+    "previous-metrics.jsonl": "a8e4e8b990f3e769c571c2696b7c295b37f597b901c403b4eba28a2260853e7f"
+  }
+}
