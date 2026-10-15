@@ -219,3 +219,46 @@ bestanden **9 gezielte Tests auf dem Mac**;
 [Protokoll](http-audio-release-tests-mac.txt). Dieser zusätzliche Test zählt
 nicht rückwirkend zu den früheren 338 vollständigen Tests. Nur Test und Bericht
 wurden ergänzt; keine Laufzeitänderung oder erneute Pi-/Image-Auslieferung.
+
+### Nachgewiesene Leerlauf-Aktualisierungen im Frontend
+
+Ein weiterer lokaler Playwright-Vergleich verwendet die unveränderte Vorschau
+und synthetische Wake-Bereitschaft. Im Testbrowser ersetzt eine Kandidatenroute
+nur zwei Skriptantworten: `device-status.js` schreibt Titel, Detail, LED-Zustand
+und Sichtbarkeit nur bei tatsächlicher Änderung; `touch.js` setzt unveränderte
+Seitennavigations-Beschriftungen nicht erneut. Die produktiven Dateien bleiben
+unverändert. Die normalen Statusabfragen und deren Takt laufen weiter.
+
+| 30-Sekunden-Fenster | DOM-Änderungen | Beobachteraufrufe | Stil-Neuberechnungen | Task-Zeit |
+| --- | ---: | ---: | ---: | ---: |
+| Kandidat | 7.029 | 33 | 66 | 0,290 s |
+| Unveränderter Stand | 10.697 | 509 | 266 | 0,421 s |
+| Kandidat wiederholt | 7.029 | 33 | 66 | 0,311 s |
+
+Das zeigt reproduzierbar vermeidbare DOM-Arbeit im ruhenden Zustand. Alle drei
+Fenster haben 33 Layoutdurchläufe; die Kandidaten lösen insbesondere weniger
+zusätzliche Stilprüfungen durch den schnellen Wake-Status aus. Ein Großteil der
+verbleibenden Änderungen stammt aus dem vollständigen Statusrendern und ist
+damit noch nicht beseitigt. [Rohwerte und Quelltext-Hashes](idle-render-comparison.json).
+
+[Reproduzierbare Prüffunktion](idle-render-comparison.js): in einer eigenen
+Playwright-CLI-Sitzung der lokalen synthetischen Vorschau mit `run-code --filename`
+ausführen; `candidate=false` prüft den unveränderten Stand, `true` die
+Browserantwort-Ersetzungen. Drei Sekunden Anlauf, explizite Speicherbereinigung
+vor dem Messfenster, danach 30 Sekunden normale Statusabfragen. Der zusätzliche
+Mess-Beobachter erfasst ausschließlich Ziel-IDs und Zähler, keine Gesprächsinhalte.
+Die Testsitzung wurde geschlossen.
+
+Die Laufzeiten enthalten Messaufwand und stammen vom Mac. Sie sind keine
+gemessene Pi-CPU-Ersparnis und kein Nachweis für die Ursache des Pi-RSS-Anstiegs.
+Die kurze Vorprüfung ersetzt außerdem keine Prüfung der sichtbaren Wake-,
+Fehler-, Aufnahme- und Gesprächsübergänge für einen späteren produktiven Patch.
+Der Pi-Statusumfang wurde separat nur nach Größen und Anzahlen geprüft:
+22.219 Bytes, 22 Sitzungen, sieben Jobs und kein Live-Chatverlauf; Inhalte und
+Zugangsdaten wurden nicht in diesen Bericht übernommen.
+
+Dieser Commit enthält ausschließlich Versuch und Bericht. Die Kandidaten sind
+noch kein App-Fix; es gibt kein neues App-Paket oder Kunden-Image. Die aktuelle
+24-Stunden-Beobachtung läuft ohne Browser-Neuladen oder Konfigurationsänderung
+weiter. Eine spätere Übernahme benötigt Übergangsprüfungen und eine eigene
+kontrollierte Auslieferung samt erneuter Beobachtung des geänderten Standes.
