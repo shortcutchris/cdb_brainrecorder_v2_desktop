@@ -1,0 +1,540 @@
+[
+  {
+    "mode": "original",
+    "start_epoch": 1792106205.0149403,
+    "end_epoch": 1792106233.858297,
+    "source_hashes": {
+      "play.svg": "6d2a75bc5700a68dec50516ebae121c307807e4e6fcca5c863e5b4af006df880",
+      "fixture.html": "98c25623904d83067510482a73220bf1fb761c01f517a11b0146a904897d969e"
+    },
+    "stress": {
+      "mode": "original",
+      "loads": 362,
+      "iterations": 500,
+      "heartbeat": 156,
+      "done": true,
+      "started": 7506.4000000059605,
+      "ended": 15908.20000000298
+    },
+    "requests": {
+      "/": 2,
+      "/icon.svg": 417
+    },
+    "phases": [
+      {
+        "phase": "baseline",
+        "seconds": 5.012,
+        "dom_before": {
+          "documents": 4,
+          "nodes": 22,
+          "jsEventListeners": 1
+        },
+        "dom_after": {
+          "documents": 4,
+          "nodes": 22,
+          "jsEventListeners": 1
+        },
+        "heap_after": {
+          "usedSize": 600088,
+          "totalSize": 1048576,
+          "embedderHeapUsedSize": 1249240,
+          "backingStorageSize": 4107
+        },
+        "task_seconds": 0.003402,
+        "script_seconds": 0.000556,
+        "same_identity_processes": [
+          {
+            "pid": 1420576,
+            "start": 12053105,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 97.078
+          },
+          {
+            "pid": 1420449,
+            "start": 12052977,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 185.984
+          },
+          {
+            "pid": 1420483,
+            "start": 12053004,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 121.953
+          },
+          {
+            "pid": 1420547,
+            "start": 12053075,
+            "cpu_percent_one_core": 0.2,
+            "rss_mib": 109.859
+          },
+          {
+            "pid": 1420485,
+            "start": 12053006,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 88.016
+          },
+          {
+            "pid": 1420457,
+            "start": 12052985,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 62.469
+          },
+          {
+            "pid": 1420458,
+            "start": 12052985,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 62.734
+          },
+          {
+            "pid": 1420492,
+            "start": 12053025,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 45.969
+          },
+          {
+            "pid": 1420462,
+            "start": 12052996,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 19.906
+          },
+          {
+            "pid": 1420566,
+            "start": 12053095,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 67.781
+          }
+        ],
+        "process_set_unchanged": true
+      },
+      {
+        "phase": "after_stress",
+        "seconds": 5.015,
+        "dom_before": {
+          "documents": 828,
+          "nodes": 2906,
+          "jsEventListeners": 1
+        },
+        "dom_after": {
+          "documents": 828,
+          "nodes": 2906,
+          "jsEventListeners": 1
+        },
+        "heap_after": {
+          "usedSize": 615080,
+          "totalSize": 1048576,
+          "embedderHeapUsedSize": 36194384,
+          "backingStorageSize": 4107
+        },
+        "task_seconds": 0.135474,
+        "script_seconds": 0.00052,
+        "same_identity_processes": [
+          {
+            "pid": 1420449,
+            "start": 12052977,
+            "cpu_percent_one_core": 0.199,
+            "rss_mib": 187.984
+          },
+          {
+            "pid": 1420483,
+            "start": 12053004,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 121.953
+          },
+          {
+            "pid": 1420547,
+            "start": 12053075,
+            "cpu_percent_one_core": 3.39,
+            "rss_mib": 207.359
+          },
+          {
+            "pid": 1420485,
+            "start": 12053006,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 88.016
+          },
+          {
+            "pid": 1420457,
+            "start": 12052985,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 62.469
+          },
+          {
+            "pid": 1420458,
+            "start": 12052985,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 62.734
+          },
+          {
+            "pid": 1420492,
+            "start": 12053025,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 45.969
+          },
+          {
+            "pid": 1420462,
+            "start": 12052996,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 19.906
+          },
+          {
+            "pid": 1420566,
+            "start": 12053095,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 67.781
+          }
+        ],
+        "process_set_unchanged": true
+      },
+      {
+        "phase": "after_forced_gc",
+        "seconds": 5.017,
+        "dom_before": {
+          "documents": 2,
+          "nodes": 14,
+          "jsEventListeners": 1
+        },
+        "dom_after": {
+          "documents": 2,
+          "nodes": 14,
+          "jsEventListeners": 1
+        },
+        "heap_after": {
+          "usedSize": 526176,
+          "totalSize": 1310720,
+          "embedderHeapUsedSize": 456808,
+          "backingStorageSize": 4107
+        },
+        "task_seconds": 0.003233,
+        "script_seconds": 0.000498,
+        "same_identity_processes": [
+          {
+            "pid": 1420449,
+            "start": 12052977,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 187.984
+          },
+          {
+            "pid": 1420483,
+            "start": 12053004,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 121.953
+          },
+          {
+            "pid": 1420547,
+            "start": 12053075,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 155.219
+          },
+          {
+            "pid": 1420485,
+            "start": 12053006,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 88.016
+          },
+          {
+            "pid": 1420457,
+            "start": 12052985,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 62.469
+          },
+          {
+            "pid": 1420458,
+            "start": 12052985,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 62.734
+          },
+          {
+            "pid": 1420492,
+            "start": 12053025,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 45.969
+          },
+          {
+            "pid": 1420462,
+            "start": 12052996,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 19.906
+          },
+          {
+            "pid": 1420566,
+            "start": 12053095,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 67.781
+          }
+        ],
+        "process_set_unchanged": true
+      }
+    ],
+    "closed": true,
+    "overall_goal_complete": false
+  },
+  {
+    "mode": "guarded",
+    "start_epoch": 1792106241.2586322,
+    "end_epoch": 1792106264.9986439,
+    "source_hashes": {
+      "play.svg": "6d2a75bc5700a68dec50516ebae121c307807e4e6fcca5c863e5b4af006df880",
+      "fixture.html": "e19b0d51f85e9bde3358e80a04b13f884277211054109bf837416596c82b34a5"
+    },
+    "stress": {
+      "mode": "guarded",
+      "loads": 1,
+      "iterations": 500,
+      "heartbeat": 110,
+      "done": true,
+      "started": 7248.70000000298,
+      "ended": 11248.800000011921
+    },
+    "requests": {
+      "/": 2,
+      "/icon.svg": 1
+    },
+    "phases": [
+      {
+        "phase": "baseline",
+        "seconds": 5.018,
+        "dom_before": {
+          "documents": 4,
+          "nodes": 22,
+          "jsEventListeners": 1
+        },
+        "dom_after": {
+          "documents": 4,
+          "nodes": 22,
+          "jsEventListeners": 1
+        },
+        "heap_after": {
+          "usedSize": 600088,
+          "totalSize": 1048576,
+          "embedderHeapUsedSize": 1249240,
+          "backingStorageSize": 4106
+        },
+        "task_seconds": 0.003821,
+        "script_seconds": 0.000524,
+        "same_identity_processes": [
+          {
+            "pid": 1421605,
+            "start": 12056636,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 123.375
+          },
+          {
+            "pid": 1421574,
+            "start": 12056609,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 64.156
+          },
+          {
+            "pid": 1421575,
+            "start": 12056609,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 64.594
+          },
+          {
+            "pid": 1421607,
+            "start": 12056637,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 86.812
+          },
+          {
+            "pid": 1421609,
+            "start": 12056647,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 46.891
+          },
+          {
+            "pid": 1421583,
+            "start": 12056627,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 19.906
+          },
+          {
+            "pid": 1421682,
+            "start": 12056727,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 67.297
+          },
+          {
+            "pid": 1421684,
+            "start": 12056727,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 97.141
+          },
+          {
+            "pid": 1421658,
+            "start": 12056707,
+            "cpu_percent_one_core": 0.199,
+            "rss_mib": 111.578
+          },
+          {
+            "pid": 1421566,
+            "start": 12056601,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 187.188
+          }
+        ],
+        "process_set_unchanged": true
+      },
+      {
+        "phase": "after_stress",
+        "seconds": 5.013,
+        "dom_before": {
+          "documents": 4,
+          "nodes": 22,
+          "jsEventListeners": 1
+        },
+        "dom_after": {
+          "documents": 4,
+          "nodes": 22,
+          "jsEventListeners": 1
+        },
+        "heap_after": {
+          "usedSize": 608624,
+          "totalSize": 1048576,
+          "embedderHeapUsedSize": 1249240,
+          "backingStorageSize": 4118
+        },
+        "task_seconds": 0.003211,
+        "script_seconds": 0.00051,
+        "same_identity_processes": [
+          {
+            "pid": 1421605,
+            "start": 12056636,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 123.375
+          },
+          {
+            "pid": 1421574,
+            "start": 12056609,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 64.156
+          },
+          {
+            "pid": 1421575,
+            "start": 12056609,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 64.594
+          },
+          {
+            "pid": 1421607,
+            "start": 12056637,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 87.312
+          },
+          {
+            "pid": 1421609,
+            "start": 12056647,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 46.891
+          },
+          {
+            "pid": 1421583,
+            "start": 12056627,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 19.906
+          },
+          {
+            "pid": 1421682,
+            "start": 12056727,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 67.297
+          },
+          {
+            "pid": 1421658,
+            "start": 12056707,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 111.578
+          },
+          {
+            "pid": 1421566,
+            "start": 12056601,
+            "cpu_percent_one_core": 0.199,
+            "rss_mib": 187.188
+          }
+        ],
+        "process_set_unchanged": false
+      },
+      {
+        "phase": "after_forced_gc",
+        "seconds": 5.013,
+        "dom_before": {
+          "documents": 2,
+          "nodes": 14,
+          "jsEventListeners": 1
+        },
+        "dom_after": {
+          "documents": 2,
+          "nodes": 14,
+          "jsEventListeners": 1
+        },
+        "heap_after": {
+          "usedSize": 526128,
+          "totalSize": 1310720,
+          "embedderHeapUsedSize": 342760,
+          "backingStorageSize": 4109
+        },
+        "task_seconds": 0.003238,
+        "script_seconds": 0.000501,
+        "same_identity_processes": [
+          {
+            "pid": 1421605,
+            "start": 12056636,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 123.375
+          },
+          {
+            "pid": 1421574,
+            "start": 12056609,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 64.156
+          },
+          {
+            "pid": 1421575,
+            "start": 12056609,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 64.594
+          },
+          {
+            "pid": 1421607,
+            "start": 12056637,
+            "cpu_percent_one_core": 0.199,
+            "rss_mib": 87.312
+          },
+          {
+            "pid": 1421609,
+            "start": 12056647,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 46.891
+          },
+          {
+            "pid": 1421583,
+            "start": 12056627,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 19.906
+          },
+          {
+            "pid": 1421682,
+            "start": 12056727,
+            "cpu_percent_one_core": 0.0,
+            "rss_mib": 67.297
+          },
+          {
+            "pid": 1421658,
+            "start": 12056707,
+            "cpu_percent_one_core": 0.199,
+            "rss_mib": 112.594
+          },
+          {
+            "pid": 1421566,
+            "start": 12056601,
+            "cpu_percent_one_core": 0.199,
+            "rss_mib": 187.188
+          }
+        ],
+        "process_set_unchanged": true
+      }
+    ],
+    "closed": true,
+    "overall_goal_complete": false
+  }
+]

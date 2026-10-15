@@ -79,3 +79,9 @@ Headern gleich deklariert. Daraus folgt **kein belegter Browser-Fix** zwischen
 diesen Versionen. Andere Teile, Objektlebenszeiten und Plattformbedingungen
 wurden damit nicht verglichen; ein Update wird nicht als bereits bewiesene
 Lösung dargestellt.
+
+Die anschließende [minimale SVG-Reproduktion](../svg-reproduction/README.md)
+zeigt in Chromium 142 nach wiederholten Quellenzuweisungen zusätzliche interne
+Dokumentobjekte und Task-Zeit. Explizite Bereinigung im getrennten Testbrowser
+reduziert beides. Ein normal getakteter Vergleich der vollständigen App steht
+noch aus; daraus folgt noch keine produktive Langzeitbehebung.

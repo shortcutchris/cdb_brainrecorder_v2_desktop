@@ -1,0 +1,112 @@
+{
+  "type": "RuntimeError",
+  "message": "Bounded SVG stress did not complete",
+  "at_epoch": 1792106022.8915274,
+  "requests": {
+    "/": 2,
+    "/icon.svg": 1044
+  },
+  "errors": [],
+  "guard_samples": [
+    {
+      "at_epoch": 1792105973.7250555,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792105975.7359614,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792105977.7458642,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792105979.7554471,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792105981.7700715,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792105983.7947488,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792105985.8080769,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792105987.8776102,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792105989.8984234,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792105991.977471,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792105993.9985476,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792105996.0123854,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792105998.022792,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792106000.0324166,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792106002.0794878,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792106004.0929654,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792106006.1076057,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792106008.1208837,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792106010.1349788,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792106012.1900213,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792106014.209081,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792106016.220354,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792106018.2319565,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792106020.289115,
+      "idle": true
+    },
+    {
+      "at_epoch": 1792106022.3040726,
+      "idle": true
+    }
+  ]
+}
