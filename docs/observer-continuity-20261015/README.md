@@ -38,3 +38,12 @@ Der neue Lauf reicht vom **15.10.2026, 20:01:48 Uhr bis 16.10.2026,
 rund 23 Minuten sind unter `baseline-053-pre-continuity` erhalten und als
 abgelöst gekennzeichnet. [Teilbericht](previous-partial-observation.json),
 kein bestandener 24h-Lauf. Keine automatische Reparaturfunktion aktiviert.
+
+Die bestehende automatische Nachprüfung bleibt alle 15 Minuten aktiv und ist
+bis **16.10.2026, 21:00 Uhr Europe/Berlin** begrenzt. Damit liegt auch nach dem
+verschobenen Messende noch Zeit für die Abschlussauswertung. Die frühere feste
+Anzahl von 101 Wiederholungen wurde durch dieses ausdrückliche Enddatum ersetzt,
+damit ihre ursprüngliche Startzeit den Folgecheck nicht vorzeitig abschneidet.
+Nach erfolgter Auswertung soll die Automation bereits vor diesem Limit pausieren;
+unveränderte Zwischenstände bleiben ohne Benachrichtigung. Das Ablaufdatum der
+Automation ist kein Nachweis eines bestandenen Tests.
