@@ -1,0 +1,54 @@
+{
+  "synthetic_audio": true,
+  "production_configuration_changed": false,
+  "cycles": [
+    {
+      "round": 1,
+      "expired_token": true,
+      "reserve_ms": 0.1,
+      "detection_s": 2.71,
+      "greeting_s": 6.04,
+      "greeting": true,
+      "input_wave": true,
+      "output_wave": true,
+      "recognitions": 1,
+      "user_transcripts": [
+        "Ich beenden"
+      ],
+      "passed": false
+    },
+    {
+      "round": 2,
+      "expired_token": false,
+      "reserve_ms": 0.1,
+      "detection_s": 2.64,
+      "greeting_s": 15.93,
+      "state": "ended",
+      "end_reason": "voice_command",
+      "greeting": true,
+      "input_wave": true,
+      "output_wave": true,
+      "recognitions": 1,
+      "user_transcripts": [
+        "Das Gespr\u00e4ch beenden"
+      ],
+      "passed": true
+    },
+    {
+      "round": 3,
+      "expired_token": false,
+      "reserve_ms": 0.08,
+      "detection_s": 2.68,
+      "greeting_s": 5.35,
+      "greeting": true,
+      "input_wave": true,
+      "output_wave": true,
+      "recognitions": 1,
+      "user_transcripts": [
+        "Sprich mit den"
+      ],
+      "passed": false
+    }
+  ],
+  "passed": false
+}

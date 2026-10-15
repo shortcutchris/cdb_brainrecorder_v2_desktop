@@ -66,7 +66,11 @@ Testkopie. Die sofortige Reservierung dauerte 0,10–0,12 ms.
 
 Der Ende-Befehl bestand in dieser Serie nur 2/3 Mal. Eine Wiederholung mit längerem
 Abstand zur Begrüßung zeigte als konkreten ASR-Fehler „Ich beenden“. Diese Form
-wird absichtlich nicht zu einem allgemeinen Abschaltbefehl erweitert. Die Serie
+wird absichtlich nicht zu einem allgemeinen Abschaltbefehl erweitert.
+Die zweite Serie hatte erneut 3/3 Erkennungen, Begrüßungen und beide Pegel,
+aber nur 1/3 korrekte Ende-Transkriptionen. Der weitere Fehltext lautete
+„Sprich mit den“. Die Begrüßungszeiten lagen dort bei 5,35–15,93 Sekunden;
+Cloud-Latenz bleibt variabel. [Zweite Serie](repeated-synthetic-cycles.json). Die Serie
 ist deshalb kein vollständiger 3/3-Ende-Nachweis. Sie ersetzt weder einen
 akustischen Test im Raum noch einen Test nach weiteren 24 Stunden.
 
@@ -79,3 +83,23 @@ Bestehende Konfiguration und Aufnahmen bleiben erhalten. Ein neues Kunden-Image
 die bestehende enge sudo-Regel ist bereits Bestandteil der Factory-Installation.
 Das fertig gebaute SD-Image 0.5.44 bleibt unverändert und enthält diese Korrekturen
 noch nicht. Es wurde in diesem Auftrag kein neues SD-Image gebaut.
+
+## Auslieferung
+
+Signiertes App-Paket aus Commit `089ac94`, Sequenz 2, auf dem produktiven Pi
+installiert. Version 0.5.45 und unveränderte Konfigurationsdateien nachgewiesen
+([Deployment](deployment.json)). Kein Hardware-Neustart. Der alte Chromium-
+Prozess blieb auch nach dem automatischen Seitenreload auffällig; deshalb wurde
+nur der Kiosk-Browser geordnet beendet und mit demselben Profil neu gestartet.
+Die Diagnose des langfristigen Browserzustands bleibt eine offene Nachprüfung.
+
+Nach dem Browser-Neustart: 20 Sekunden Messung mit zwei Renderern, 245 MB
+Renderer-RSS und 13,7 % eines CPU-Kerns. Der anschließende echte Nutzeraufruf
+wurde als sofortig bestätigt. Die technische Stichprobe zeigte genau eine
+Erkennung, abgelaufenes Erkannt-Feedback, positive Ein-/Ausgangspegel und
+fortlaufende Audioframes. Im Log wurde das Gespräch per `voice_command` beendet.
+Dies ist weiterhin kein Langzeitnachweis.
+
+Die jetzt aktive [24-Stunden-Beobachtung und der Watchdog-Entwurf](watchdog.md)
+sowie das [verbindliche Stabilitätsziel](stability-goal.md) beschreiben die
+weitere Abnahme. Automatische Neustarts sind dabei noch nicht eingeschaltet.
