@@ -54,7 +54,9 @@ ohne Entscheidung. Der Pegel allein ist kein Sprachnachweis.
 
 Die letzten 16 Entscheidungen bleiben über einen Kindprozesswechsel erhalten;
 es gibt keine gespeicherten Wörter oder Audioblöcke. Messwerte erscheinen etwa
-alle zwei Sekunden und bei einem abgeschlossenen Sprachsegment. Die vorhandene
+alle zwei Sekunden und bei einem abgeschlossenen Sprachsegment. Peak/RMS beziehen
+sich auf das Fenster seit dem letzten Messpaket, nicht auf die ganze Äußerung;
+ein niedriger Pegel beim Endpoint beweist deshalb keine zuvor fehlende Sprache. Die vorhandene
 Ready-/Alive-Überwachung bleibt unabhängig: Diagnosepakete können einen
 hängenden Erkenner nicht künstlich als gesund erscheinen lassen. Der separate
 Beobachter übernimmt nur freigegebene numerische Felder und feste Kategorien,
@@ -87,3 +89,23 @@ die bestehende Positivliste. Keine neue Laufzeitabhängigkeit. Diagnosehelfer,
 Testaudio und temporärer Beobachtungsdienst sind nicht Teil der App-Auslieferung.
 Das vorhandene SD-Image bleibt unverändert. Die offene Langzeitabnahme und der
 Nutzerbefund dürfen nicht durch die zwei erfolgreichen Akustiktests ersetzt werden.
+
+## Installierter Stand und neuer Messlauf
+
+[Signiertes Deployment](deployment.json) bestätigt 0.5.51 aus Commit
+`a34c5d09c73dba667c53a5ca33544edcbb8df98e` und erhaltene Einstellungen.
+Der installierte Detektor und das neue Diagnosemodul stimmen mit dem getesteten
+Quelltext überein: SHA256 `b73c7b915e57245be969370fa22da951140217aea6622b3ca008a1e8bf4dbb28`
+und `d338c2e12b16d1d79266264f0d5e6287617b83243cbd779be8ad95f48421c5f8`.
+Die API zeigt frische Messpakete, wachsende Blockzähler und laufenden Capture.
+Das ist ein Funktionsnachweis der Diagnose, keine bestätigte Behebung des
+gemeldeten akustischen Aussetzers.
+
+Der vorherige Lauf ist unter `baseline-050` als `superseded` bewahrt. Er enthält
+die Nutzeraufrufe, die ungültigen direkten Wiedergabetests und den ausdrücklich
+isolierten Hardwaretest. Der neue unveränderliche Lauf beginnt am
+**15.10.2026, 18:01:16 Europe/Berlin** und endet am **16.10.2026, 18:01:16**.
+Diese Diagnose-Auslieferung wurde nach dem konkreten neuen Nutzerbefund nötig;
+ein bloß abgelaufenes Warteintervall ist kein Grund für weitere Neustarts.
+Automatische Reparaturen bleiben aus. Nutzeraufruf nach langer Pause und
+vollständige 24-Stunden-Abnahme stehen weiter aus.

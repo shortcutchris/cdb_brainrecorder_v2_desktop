@@ -1,0 +1,136 @@
+[
+  {
+    "noise_std_pcm": 0,
+    "idle_audio_seconds": 120,
+    "before": [],
+    "after": [
+      {
+        "audio_s": 3.55,
+        "category": "accepted"
+      }
+    ],
+    "hits": [
+      {
+        "phase": "target",
+        "audio_s": 3.55
+      }
+    ],
+    "cpu_seconds": 4.28
+  },
+  {
+    "noise_std_pcm": 4,
+    "idle_audio_seconds": 120,
+    "before": [
+      {
+        "audio_s": 25.400000000000002,
+        "category": "partial_wake_word"
+      },
+      {
+        "audio_s": 50.800000000000004,
+        "category": "partial_wake_word"
+      },
+      {
+        "audio_s": 76.2,
+        "category": "partial_wake_word"
+      },
+      {
+        "audio_s": 101.60000000000001,
+        "category": "partial_wake_word"
+      }
+    ],
+    "after": [
+      {
+        "audio_s": 3.6,
+        "category": "candidate_rejected"
+      }
+    ],
+    "hits": [],
+    "cpu_seconds": 5.05
+  },
+  {
+    "noise_std_pcm": 16,
+    "idle_audio_seconds": 120,
+    "before": [
+      {
+        "audio_s": 20.35,
+        "category": "partial_wake_word"
+      },
+      {
+        "audio_s": 40.7,
+        "category": "partial_wake_word"
+      },
+      {
+        "audio_s": 61.050000000000004,
+        "category": "partial_wake_word"
+      },
+      {
+        "audio_s": 81.4,
+        "category": "partial_wake_word"
+      },
+      {
+        "audio_s": 101.75,
+        "category": "partial_wake_word"
+      }
+    ],
+    "after": [
+      {
+        "audio_s": 2.1,
+        "category": "partial_wake_word"
+      },
+      {
+        "audio_s": 3.5,
+        "category": "accepted"
+      }
+    ],
+    "hits": [
+      {
+        "phase": "target",
+        "audio_s": 3.5
+      }
+    ],
+    "cpu_seconds": 5.36
+  },
+  {
+    "noise_std_pcm": 64,
+    "idle_audio_seconds": 120,
+    "before": [
+      {
+        "audio_s": 20.35,
+        "category": "partial_wake_word"
+      },
+      {
+        "audio_s": 40.7,
+        "category": "partial_wake_word"
+      },
+      {
+        "audio_s": 61.050000000000004,
+        "category": "partial_wake_word"
+      },
+      {
+        "audio_s": 81.4,
+        "category": "partial_wake_word"
+      },
+      {
+        "audio_s": 101.75,
+        "category": "partial_wake_word"
+      }
+    ],
+    "after": [
+      {
+        "audio_s": 2.1,
+        "category": "partial_wake_word"
+      },
+      {
+        "audio_s": 3.5,
+        "category": "accepted"
+      }
+    ],
+    "hits": [
+      {
+        "phase": "target",
+        "audio_s": 3.5
+      }
+    ],
+    "cpu_seconds": 5.15
+  }
+]
