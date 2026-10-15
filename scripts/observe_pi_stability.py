@@ -95,6 +95,7 @@ class Observer:
         self.wake_key = None
         self.pending = None
         self.idle_since = None
+        self.last_poll_at = None
         self.last_state = None
         self.counts = {'wake_observed': 0, 'wake_connected': 0, 'wake_failed': 0}
         self.last_wake = None
@@ -137,6 +138,9 @@ class Observer:
         self.alert('browser_memory_growth', growing, now)
 
     def poll(self, wake, live, now):
+        if self.last_poll_at is not None and not 0 <= now - self.last_poll_at <= 5:
+            self.break_continuity('poll_gap_or_clock_change', now)
+        self.last_poll_at = now
         self.failures = 0
         phrase = wake.get('phrase', 'hey-brain')
         if phrase not in ('hey-brain', 'hey-kai', 'okay-kai'): phrase = 'unknown'
@@ -172,12 +176,14 @@ class Observer:
             self.last_state = state
         if self.wake_key is not None and key[0] != self.wake_key[0]:
             self.emit({'type': 'backend_instance_changed', 'at': utc(now)})
+            self.idle_since = None
             self.pending = None
         elif self.wake_key is not None and key != self.wake_key:
             self.counts['wake_observed'] += 1
             self.pending = {'detected_at': utc(now), 'detected_epoch': now,
                             'phrase': self.wake_phrase,
-                            'idle_seconds': round(now - self.idle_since, 1) if self.idle_since else None,
+                            'idle_evidence_revision': 2,
+                            'idle_seconds': round(now - self.idle_since, 1) if self.idle_since is not None else None,
                             'count': key[1], 'connected_seconds': None, 'first_output_seconds': None}
             self.emit({'type': 'wake_observed', 'at': utc(now), **self.pending})
             self.alert('wake_connect_slow', False, now)
@@ -206,8 +212,16 @@ class Observer:
             self.idle_since = None
 
     def failed(self, now):
+        if self.failures == 0:
+            self.break_continuity('poll_failed', now)
         self.failures += 1
         self.alert('status_unreachable', self.failures >= 3, now)
+
+    def break_continuity(self, reason, now):
+        self.idle_since = None
+        if self.pending:
+            self.pending['observation_gap'] = True
+        self.emit({'type': 'observation_gap', 'at': utc(now), 'reason': reason})
 
 
 def run(folder, hours):
@@ -230,7 +244,7 @@ def run(folder, hours):
     token_path = Path.home() / '.local/share/cdb-recorder-local/management/local-auth.json'
     previous, previous_at, next_sample = {}, time.monotonic(), 0
     latest = {}
-    emit({'type': 'observer_started', 'at': utc(), 'mode': 'observe_only'})
+    emit({'type': 'observer_started', 'at': utc(), 'mode': 'observe_only', 'idle_evidence_revision': 2})
     while time.time() < plan['end_epoch']:
         tick = time.monotonic()
         now = time.time()

@@ -31,7 +31,7 @@ class StabilitySummaryTests(unittest.TestCase):
 
     def wake(self):
         for kind, offset, fields in (
-            ('wake_observed', 30000, {'idle_seconds': 29999}),
+            ('wake_observed', 30000, {'idle_seconds': 29999, 'idle_evidence_revision': 2}),
             ('wake_connected', 30002, {'connected_seconds': 2}),
             ('wake_first_output', 30004, {'first_output_seconds': 4}),
         ):
@@ -47,6 +47,17 @@ class StabilitySummaryTests(unittest.TestCase):
         self.assertEqual(result['qualified_long_idle_wakes'], 1)
         self.assertFalse(result['overall_goal_complete'])
         self.assertEqual(len(result['hourly_browser_rss']), 24)
+
+    def test_legacy_idle_counter_is_not_strong_long_idle_evidence(self):
+        self.events[-3].pop('idle_evidence_revision')
+        self.assertEqual(self.report()['qualified_long_idle_wakes'], 0)
+
+    def test_gap_during_wake_does_not_qualify_as_confirmed_long_idle_wake(self):
+        self.events[-1]['observation_gap'] = True
+        self.events.append(self.event('observation_gap', 30003, reason='poll_failed'))
+        result = self.report()
+        self.assertEqual(result['qualified_long_idle_wakes'], 0)
+        self.assertIn('observation_gaps_require_review', result['review_items'])
 
     def test_future_rows_and_completion_do_not_make_partial_run_pass(self):
         result = self.report(now=self.start + 3600)

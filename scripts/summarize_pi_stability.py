@@ -97,11 +97,14 @@ def analyze(plan, status, metrics, events, now, parse_errors=0):
             continue
         wake = wakes.setdefault(key, {'detected_epoch': key, 'observed': False})
         if e['type'] == 'wake_observed':
-            wake.update(observed=True, idle_seconds=e.get('idle_seconds'), phrase=e.get('phrase', 'hey-brain'))
+            wake.update(observed=True, idle_seconds=e.get('idle_seconds'), phrase=e.get('phrase', 'hey-brain'),
+                        idle_evidence_revision=e.get('idle_evidence_revision', 1))
+        if e.get('observation_gap'): wake['observation_gap'] = True
         if e['type'] == 'wake_connected': wake['connected_seconds'] = e.get('connected_seconds')
         if e['type'] == 'wake_first_output': wake['first_output_seconds'] = e.get('first_output_seconds')
         if e['type'] == 'wake_failed': wake['failed'] = True
-    long_wakes = [w for w in wakes.values() if w['observed'] and
+    long_wakes = [w for w in wakes.values() if w['observed'] and w.get('idle_evidence_revision') == 2 and
+                  not w.get('observation_gap') and
                   number(w.get('idle_seconds')) and 28800 <= w['idle_seconds'] <= w['detected_epoch'] - start + 2 and
                   number(w.get('connected_seconds')) and 0 <= w['connected_seconds'] < 15 and
                   number(w.get('first_output_seconds')) and w['first_output_seconds'] >= 0 and not w.get('failed')]
@@ -121,6 +124,8 @@ def analyze(plan, status, metrics, events, now, parse_errors=0):
     if len(versions) != 1: problems.append('missing_or_mixed_versions')
     if len(phrases) != 1 or 'unknown' in phrases: problems.append('mixed_or_unknown_wake_phrases')
     if alerts: problems.append('recorded_alerts_require_review')
+    if any(e.get('type') == 'observation_gap' for e in selected_events):
+        problems.append('observation_gaps_require_review')
     if measured['coverage_percent'] < 99: problems.append('coverage_below_99_percent')
     if not long_wakes: problems.append('real_wake_after_eight_hours_missing')
     return {

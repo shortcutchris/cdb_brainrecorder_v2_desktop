@@ -105,6 +105,8 @@ class StabilityTests(unittest.TestCase):
     def test_wake_latency_after_idle_and_output(self):
         wake = {'instance': 'a', 'detections': 0, 'state': 'listening'}
         self.observer.poll(wake, {'state': 'idle', 'active': False}, 1)
+        for second in range(2, 3600):
+            self.observer.poll(wake, {'state': 'idle', 'active': False}, second)
         wake = {**wake, 'detections': 1, 'state': 'suspended'}
         self.observer.poll(wake, {'state': 'connecting', 'active': True}, 3600)
         self.observer.poll(wake, {'state': 'listening', 'active': True}, 3603)
@@ -112,6 +114,30 @@ class StabilityTests(unittest.TestCase):
         self.assertEqual(self.observer.pending['idle_seconds'], 3599)
         self.assertEqual(self.observer.pending['connected_seconds'], 3)
         self.assertEqual(self.observer.pending['first_output_seconds'], 4)
+
+    def test_failed_poll_breaks_idle_evidence_even_before_alert_threshold(self):
+        wake = {'instance': 'a', 'detections': 0, 'state': 'listening'}
+        self.observer.poll(wake, {'state': 'idle', 'active': False}, 1)
+        self.observer.failed(2)
+        self.observer.poll(wake, {'state': 'idle', 'active': False}, 3)
+        self.observer.poll({**wake, 'detections': 1, 'state': 'waiting'},
+                           {'state': 'connecting', 'active': True}, 4)
+        self.assertEqual(self.observer.pending['idle_seconds'], 1)
+
+    def test_backend_instance_change_breaks_idle_evidence(self):
+        wake = {'instance': 'a', 'detections': 0, 'state': 'listening'}
+        self.observer.poll(wake, {'state': 'idle', 'active': False}, 1)
+        self.observer.poll({**wake, 'instance': 'b'}, {'state': 'idle', 'active': False}, 3)
+        self.observer.poll({**wake, 'instance': 'b', 'detections': 1, 'state': 'waiting'},
+                           {'state': 'connecting', 'active': True}, 4)
+        self.assertEqual(self.observer.pending['idle_seconds'], 1)
+
+    def test_long_unobserved_gap_is_not_continuous_idle(self):
+        wake = {'instance': 'a', 'detections': 0, 'state': 'listening'}
+        self.observer.poll(wake, {'state': 'idle', 'active': False}, 1)
+        self.observer.poll({**wake, 'detections': 1, 'state': 'waiting'},
+                           {'state': 'connecting', 'active': True}, 30000)
+        self.assertIsNone(self.observer.pending['idle_seconds'])
 
     def test_backend_restart_is_not_a_new_wake(self):
         self.observer.poll({'instance': 'a', 'detections': 4}, {'state': 'idle'}, 10)
