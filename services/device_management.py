@@ -3,6 +3,8 @@ import hmac
 import os
 from pathlib import Path
 import secrets
+import subprocess
+import uuid
 import time
 from fleet.common import read, save
 
@@ -22,7 +24,9 @@ class DeviceManagement:
         marker=read(self.marker,{})
         updates=read(self.root/'config.json',{}).get('updates_root')
         transaction=bool(updates and (Path(updates)/'transaction.json').exists())
-        return transaction or marker.get('expires',0)>time.time()
+        boot=marker.get('boot')
+        same_boot=not boot or boot==self.boot_id()
+        return transaction or (same_boot and marker.get('expires',0)>time.time())
 
     def prepare(self,app,command,version):
         # Caller holds control/controller/recorder locks. All mutating paths and
@@ -59,3 +63,28 @@ class DeviceManagement:
         save(self.root/'enroll.json',{'code':code})
         save(self.root/'public.json',{'state':'pairing','message':'Kopplung wird geprüft. Bitte kurz warten.'})
         return {'ok':True}
+
+    @staticmethod
+    def boot_id():
+        try:return Path('/proc/sys/kernel/random/boot_id').read_text().strip()
+        except OSError:return ''
+
+    def restart_device(self,app,version,runner=None):
+        runner=runner or subprocess.run
+        if getattr(app,'preview',False) or not self.boot_id():
+            raise ValueError('Neustart nur direkt am eingerichteten Pi verfügbar.')
+        # Check the existing narrow privilege; never add or expand sudo rights.
+        check=runner(['sudo','-n','-l','/usr/bin/systemctl','reboot'],capture_output=True,timeout=5)
+        if check.returncode:raise ValueError('Geräteneustart ist auf diesem Pi noch nicht eingerichtet.')
+        command=str(uuid.uuid4())
+        self.prepare(app,command,version)
+        save(self.marker,{'command':command,'expires':time.time()+60,'boot':self.boot_id()})
+        try:
+            result=runner(['systemd-run','--user','--collect','--on-active=2',
+                '--unit=cdb-recorder-reboot','/usr/bin/sudo','-n','/usr/bin/systemctl','reboot'],
+                capture_output=True,timeout=5)
+            if result.returncode:raise ValueError('Neustart konnte nicht vorbereitet werden.')
+        except Exception:
+            self.release(command)
+            raise
+        return {'scheduled':True}

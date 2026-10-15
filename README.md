@@ -1,5 +1,12 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.45 – Aktivierung nach Standzeit und Neustarthilfe
+
+Wake-Start blockiert die Oberfläche nicht mehr während einer Anmeldungserneuerung.
+Erkennungshinweise laufen zuverlässig ab; unter Gerät & Verwaltung können die
+Oberfläche neu geladen und ein geschützter Pi-Neustart angefordert werden.
+[Diagnose, Bedienung und Testgrenzen](docs/idle-wake-0.5.45/README.md).
+
 ## 0.5.28 – Ausgewählte Knowledge Areas prüfen
 
 „Ausgewählt (N)“ neben der Suche zeigt auf Wunsch nur gewählte Bereiche über alle

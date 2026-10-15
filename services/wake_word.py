@@ -6,10 +6,12 @@ No audio or pre-roll is saved or uploaded by this service.
 """
 import importlib.util
 import json
+import logging
 import os
 from pathlib import Path
 import select
 import signal
+import secrets
 import subprocess
 import sys
 import time
@@ -21,6 +23,7 @@ from services.wake_phrase import WORD, model_ready
 class WakeWord:
     def __init__(self, root, clock=time.monotonic):
         self.path = Path(root)/'wake-word.json'
+        self.instance = secrets.token_hex(8)
         self.clock = clock
         self.enabled = False
         self.account = None
@@ -39,7 +42,7 @@ class WakeWord:
         except (ValueError, OSError): pass
 
     def public(self):
-        return {'enabled': self.enabled, 'available': self.runtime, 'word': WORD,
+        return {'instance': self.instance, 'enabled': self.enabled, 'available': self.runtime, 'word': WORD,
                 'state': self.mode, 'message': self.message, 'detections': self.count,
                 'recognized_for': max(0, round(self.recognized_until-self.clock(), 2)),
                 'testing': self.test_until > self.clock()}
@@ -120,6 +123,7 @@ class WakeWord:
             self.message = 'Sage „Hey Brain“ · Test ohne Cloud-Start.' if testing else 'Bereit für „Hey Brain“ · Erkennung bleibt lokal.'
         if line == 'detected':
             self.count += 1
+            logging.info('Wake detected count=%d testing=%s',self.count,testing)
             self.recognized_until = self.clock()+8
             self.suspend('Aktivierungswort erkannt.' if testing else 'Erkannt · Gespräch wird gestartet …')
             self.cooldown = self.clock()+3

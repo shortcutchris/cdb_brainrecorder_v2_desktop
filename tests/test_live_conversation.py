@@ -38,6 +38,16 @@ class LiveTests(unittest.TestCase):
         while not predicate() and time.monotonic()<until:time.sleep(.01)
         self.assertTrue(predicate())
     def reserve(self):return self.live.reserve([AREA])['lease']
+    def test_wake_reserves_without_network_refresh_and_rejects_second_trigger(self):
+        binding={'server':'https://staging.cdbos.de','user_id':'test-user','client_id':AREA}
+        self.brain.session=lambda *args: (_ for _ in ()).throw(AssertionError('network in reservation'))
+        self.live.reserve([AREA],owner_kind='device',cached_binding=binding)
+        self.assertEqual(self.live.public()['state'],'connecting')
+        self.assertEqual(self.live.binding,binding)
+        with self.assertRaisesRegex(ValueError,'bereits'):
+            self.live.reserve([AREA],owner_kind='device',cached_binding=binding)
+        self.assertEqual(self.live.generation,1)
+
     def test_device_owner_retains_browser_timeout_and_activity_extension(self):
         now=[100.];self.live.clock=lambda:now[0]
         self.live.reserve([AREA],owner_kind='device')

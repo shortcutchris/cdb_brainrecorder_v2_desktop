@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.44'
+VERSION = '0.5.45'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -102,7 +102,7 @@ class StudioApp:
 
     def wake_account(self):
         # Token expiry is not a logout. Keep local opt-in bound to the saved
-        # identity; reserve/start still calls Cdb.session(), refreshing and
+        # identity; the background start still calls Cdb.session(), refreshing and
         # validating the account BEFORE cloud audio is connected.
         session = self.cdb.read('session.json', {})
         identity = session.get('identity')
@@ -135,7 +135,7 @@ class StudioApp:
         if remembered.get('binding') != binding or not remembered.get('area_ids'):
             raise ValueError('Im Live-Gespräch zuerst Wissensbereiche auswählen.')
         self.live_audio_config()
-        lease = self.live.reserve(remembered['area_ids'], owner_kind='device')['lease']
+        lease = self.live.reserve(remembered['area_ids'], owner_kind='device', cached_binding=binding)['lease']
         try: self.live.start_native(lease)
         except Exception:
             self.live.end(lease)
@@ -431,6 +431,9 @@ class StudioApp:
             if path == '/api/onboarding/step':
                 self.require('configure')
                 return self.first_start.advance(body.get('step'),self.management.public(),body.get('offline',False))
+            if path == '/api/device/restart':
+                if body.get('confirm') is not True:raise ValueError('Neustart bitte bestätigen.')
+                return self.management.restart_device(self,VERSION)
             if path == '/api/management/enroll':
                 self.require('configure')
                 return self.management.enroll(body.get('code'))

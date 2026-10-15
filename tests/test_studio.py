@@ -67,6 +67,17 @@ class StudioTests(unittest.TestCase):
         self.assertEqual(self.request('/api/management/prepare',{'command':command},headers)[0],409)
         self.assertFalse(self.app.management.busy())
 
+    def test_local_restart_requires_csrf_confirmation_and_activity_clearance(self):
+        from services.app_activity import AppActivity
+        from unittest.mock import Mock
+        with patch('services.device_management.subprocess.run',return_value=Mock(returncode=0)):
+            self.assertEqual(self.request('/api/device/restart',{'confirm':True},{'X-CSRF-Token':'wrong'})[0],403)
+            self.assertEqual(self.request('/api/device/restart',{})[0],400)
+        for activity in (AppActivity(recording=True),AppActivity(paused=True,recording=True),AppActivity(live='listening'),AppActivity(pending=True)):
+            with patch.object(self.app.management,'boot_id',return_value='boot'),patch.object(self.app,'activity',return_value=activity),patch('services.device_management.subprocess.run',return_value=Mock(returncode=0)) as run:
+                self.assertEqual(self.request('/api/device/restart',{'confirm':True})[0],400)
+                self.assertFalse(any('systemd-run' in c.args[0] for c in run.call_args_list))
+
     def test_recognition_feedback_does_not_wait_for_controller_lock(self):
         self.app.wake.recognized_until=time.monotonic()+8
         locked=threading.Event();release=threading.Event()

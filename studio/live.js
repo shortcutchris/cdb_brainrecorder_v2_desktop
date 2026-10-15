@@ -181,7 +181,7 @@
   $('live-wave').style.visibility=ready?'hidden':'visible';$('live-sound').style.visibility=ready?'hidden':'visible';feedbackText('live-feedback-title',p.title);feedbackText('live-feedback-detail',p.detail);$('live-feedback').dataset.mode=p.mode;
   $('live-wave').setAttribute('aria-label',p.mode==='speaking'?'Pegel der Antwort':'Mikrofonpegel');
   for(let i=0;i<16;i++){const v=Number(p.bars?.[i]);$('live-bar-'+i).style.transform='scaleY('+(.04+.96*(Number.isFinite(v)?Math.min(1,Math.max(0,v)):0))+')'}
-  feedbackText('live-sound',f?.search_sound===false?'Suchton aus':'Suchton an');$('live-sound').setAttribute('aria-pressed',String(f?.search_sound!==false));$('live-sound').disabled=!online||soundSaving||Boolean(f?.active&&!lease&&state?.live?.owner_kind!=='device');
+  feedbackText('live-sound',f?.search_sound===false?'Suchton aus':'Suchton an');$('live-sound').setAttribute('aria-pressed',String(f?.search_sound!==false));const soundDisabled=!online||soundSaving||Boolean(f?.active&&!lease&&state?.live?.owner_kind!=='device');if($('live-sound').disabled!==soundDisabled)$('live-sound').disabled=soundDisabled;
  }
  let feedbackLoading=false,soundSaving=false;
  async function refreshFeedback(){

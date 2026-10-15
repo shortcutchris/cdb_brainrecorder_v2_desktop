@@ -32,6 +32,24 @@ class CdbTests(unittest.TestCase):
         self.c.save_token({'access_token':'synthetic','refresh_token':'synthetic-refresh','expires_in':3600,'token_type':'Bearer'},DEFAULT)
         self.row={'id':1,'title':'Synthetic meeting','transcription_status':'completed','notes':'Test','transcript_text':'Hello','summary_text':'Summary'}
     def tearDown(self):self.c.close();self.tmp.cleanup()
+    def test_public_status_remains_responsive_during_expired_token_refresh(self):
+        import threading
+        entered=threading.Event();release=threading.Event();done=threading.Event()
+        original=self.transport.request
+        def request(url,*args,**kwargs):
+            if url.endswith('/token'):entered.set();release.wait(3)
+            return original(url,*args,**kwargs)
+        self.transport.request=request
+        saved=self.c.read('session.json',{});saved['expires']=0;self.c.write('session.json',saved)
+        worker=threading.Thread(target=self.c.session);worker.start()
+        self.assertTrue(entered.wait(1))
+        snapshot=[]
+        observer=threading.Thread(target=lambda:(snapshot.append(self.c.public()),done.set()));observer.start()
+        try:
+            self.assertTrue(done.wait(.5),'status must not wait for Microsoft')
+            self.assertEqual(snapshot[0]['identity']['user_id'],'user1')
+        finally:release.set();worker.join();observer.join()
+
     def test_automatic_summary_uses_meeting_rules_and_custom_task_is_preserved(self):
         from unittest.mock import Mock
         from settings import MEETING_PROMPT

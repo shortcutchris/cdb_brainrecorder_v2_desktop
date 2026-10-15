@@ -193,8 +193,10 @@ class CdbService:
                     if generation==self.generation:self.login={'state':'error','message':str(e)}
                 return
     def public(self):
-        with self.lock:
-            s=self.read('session.json',{});identity=s.get('identity');login=dict(self.login)
+        # Atomic file replacement and atomic login assignment permit a display
+        # snapshot without waiting on the token-refresh network lock. This is
+        # presentation only; authenticated actions still use session(binding).
+        s=self.read('session.json',{});identity=s.get('identity');login=dict(self.login)
         with self.db() as db:
             jobs=[{'id':r[0],'title':json.loads(r[1])['title'],'state':r[2],'error':r[3]} for r in db.execute('SELECT id,payload,state,error FROM publications ORDER BY rowid DESC LIMIT 30')]
         destination=self.read('destination.json',{})

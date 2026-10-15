@@ -4,12 +4,20 @@
  const running=document.createElement('button');running.id='timer-running';running.hidden=true;running.type='button';running.innerHTML='<span id="running-timer-label"></span><strong id="running-timer-time"></strong>';running.onclick=()=>{if(!$('timers-open').disabled)$('timers-open').click()};document.body.append(running);
  const led=document.createElement('i');led.id='wake-rail-led';led.setAttribute('aria-hidden','true');$('live-open').append(led);
  const timerLabel=document.createElement('small');timerLabel.id='timer-countdown';$('timers-open').append(timerLabel);
- let fetching=false,lastWake=null;
+ let fetching=false,lastWake=null,lastDetection=null,lastInstance=null,recognizedUntil=0;
  function renderWake(w){
-  lastWake=w||{};
+  w=w||{};
+  if(w.instance!==lastInstance){lastInstance=w.instance;lastDetection=null;recognizedUntil=0}
+  const detection=w.detections;
+  if(lastDetection!==null&&detection<lastDetection)return; // Older full-state poll after a fast detection.
+  lastWake=w;
+  if(detection!==lastDetection){lastDetection=detection;recognizedUntil=Date.now()+Math.min(8,Math.max(0,lastWake.recognized_for||0))*1000}
+  if(!(lastWake.recognized_for>0))recognizedUntil=0;
+  const recognized=Date.now()<recognizedUntil;
   const busy=Boolean(state?.recording?.id)||Boolean(state?.live?.busy);
-  led.dataset.state=lastWake.recognized_for>0?'recognized':lastWake.enabled?(busy?'waiting':lastWake.state):'off';
-  feedback.hidden=!(lastWake.recognized_for>0)||Boolean(state?.recording?.id);
+  const connected=['listening','thinking','speaking','reconnecting','closing','ended','error'].includes(state?.live?.state);
+  led.dataset.state=recognized&&!connected?'recognized':lastWake.enabled?(busy?'waiting':lastWake.state):'off';
+  feedback.hidden=!recognized||Boolean(state?.recording?.id)||(!lastWake.testing&&connected);
   $('wake-feedback-detail').textContent=lastWake.testing?'Lokaler Test · kein Gespräch':state?.live?.state==='error'?'Start fehlgeschlagen · bitte im Gespräch prüfen':state?.live?.busy&&['listening','thinking','speaking'].includes(state.live.state)?'Du kannst sprechen': 'Gespräch wird verbunden …';
  }
  function renderDeviceStatus(){
@@ -29,6 +37,7 @@
  }
  const previous=renderState;renderState=function(){previous();renderDeviceStatus()};renderDeviceStatus();
  setInterval(async()=>{
+  if(Date.now()>=recognizedUntil)feedback.hidden=true;
   // Tiny memory-only endpoint. No file access, audio processing or model load.
   if(fetching||!online||document.hidden||!state?.wake?.enabled||state?.recording?.id)return;
   if(state?.live?.busy&&state.live.state!=='connecting')return;

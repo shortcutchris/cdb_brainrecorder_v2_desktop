@@ -1,0 +1,47 @@
+{
+  "synthetic_audio": true,
+  "production_configuration_changed": false,
+  "cycles": [
+    {
+      "round": 1,
+      "expired_token": true,
+      "reserve_ms": 0.12,
+      "detection_s": 2.68,
+      "greeting_s": 6.19,
+      "greeting": true,
+      "input_wave": true,
+      "output_wave": true,
+      "recognitions": 1,
+      "passed": false
+    },
+    {
+      "round": 2,
+      "expired_token": false,
+      "reserve_ms": 0.1,
+      "detection_s": 2.69,
+      "greeting_s": 6.15,
+      "state": "ended",
+      "end_reason": "voice_command",
+      "greeting": true,
+      "input_wave": true,
+      "output_wave": true,
+      "recognitions": 1,
+      "passed": true
+    },
+    {
+      "round": 3,
+      "expired_token": false,
+      "reserve_ms": 0.12,
+      "detection_s": 2.53,
+      "greeting_s": 5.21,
+      "state": "ended",
+      "end_reason": "voice_command",
+      "greeting": true,
+      "input_wave": true,
+      "output_wave": true,
+      "recognitions": 1,
+      "passed": true
+    }
+  ],
+  "passed": false
+}

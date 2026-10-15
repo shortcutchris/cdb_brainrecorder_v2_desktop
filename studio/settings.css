@@ -134,6 +134,6 @@
 #settings.with-keyboard .prompt-field{height:100%;flex:1}
 #settings .settings-page>.dialog-actions .direct-pages{height:56px;min-height:56px;margin-block:0;align-items:center}
 /* Management uses the same fixed action widths as the other settings pages. */
-#settings.workspace-view #management-page>.dialog-actions{display:grid;grid-template-columns:var(--settings-action-width) var(--settings-action-width) minmax(0,1fr) var(--settings-action-width);gap:12px}
+#settings.workspace-view #management-page>.dialog-actions{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
 #settings.workspace-view #management-page>.dialog-actions button{width:100%;min-width:0}
 #management-page>.dialog-actions>span{font-size:13px;color:var(--muted)}

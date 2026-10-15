@@ -4,6 +4,7 @@ The browser never receives a Microsoft token or accesses audio hardware. A short
 owner-only lease reserves Pi audio; lost tabs, stale bindings and failed starts release it.
 """
 import json
+import logging
 import hashlib
 import os
 from pathlib import Path
@@ -203,7 +204,7 @@ class LiveConversation:
                     self.state = 'ended'; break
                 except (ValueError, OSError): continue
 
-    def reserve(self, area_ids, *, owner_kind="browser"):
+    def reserve(self, area_ids, *, owner_kind="browser", cached_binding=None):
         if not isinstance(area_ids, list) or not 1 <= len(area_ids) <= 8 or any(not isinstance(x, str) for x in area_ids) or len(set(area_ids)) != len(area_ids):
             raise ValueError('Bitte ein bis acht unterschiedliche Knowledge Areas wählen.')
         if any(not isinstance(x, str) or not UUID.fullmatch(x) for x in area_ids):
@@ -211,13 +212,16 @@ class LiveConversation:
         with self.lock:
             if self.state in ACTIVE:
                 raise ValueError('Ein Gespräch läuft bereits.')
-            self.binding = self._binding()
+            # Wake reserves immediately from the saved identity. The worker's first
+            # CDB call still refreshes and validates it before any cloud session.
+            self.binding = dict(cached_binding) if cached_binding is not None else self._binding()
             self.account_generation = self.cdb.generation
             self.restored_binding = dict(self.binding)
             self.generation += 1
             self.owner_kind = owner_kind
             self.lease = secrets.token_urlsafe(32)
             self.state = 'connecting'
+            logging.info('Live reserved generation=%d owner=%s',self.generation,owner_kind)
             self.startup_stage = 'Pi-Audio vorbereiten'
             self.startup_at = self.clock()
             self.error = ''
@@ -284,6 +288,7 @@ class LiveConversation:
         with self.lock:
             if generation == self.generation and self.state == 'connecting':
                 self.startup_stage = stage
+                logging.info('Live startup generation=%d stage=%s elapsed=%.2fs',generation,stage,self.clock()-self.startup_at)
 
     def _start_native(self, generation, native):
         try:
@@ -418,6 +423,7 @@ class LiveConversation:
             return self.public()
 
     def _finish(self, state, error=''):
+        logging.info('Live finished generation=%d state=%s reason=%s',self.generation,state,self.end_reason or 'none')
         self.device_tools = False
         self.device_key = None
         if self.native:

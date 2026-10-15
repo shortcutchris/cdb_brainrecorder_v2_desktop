@@ -1,0 +1,8 @@
+const test=require('node:test'),assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs');
+function harness(){
+ const nodes={},el=id=>nodes[id]??={hidden:false,dataset:{},textContent:''},calls=[];
+ const c={$:el,state:{version:'test',activity:{busy:false},management:{},recording:{},live:{},jobs:[],timers:{items:[]}},online:true,allowed:()=>true,document:{querySelector:()=>({content:'test'})},location:{reload:()=>calls.push('reload'),search:''},URLSearchParams,history:{replaceState(){}},run:f=>f,flush:async()=>calls.push('saved'),api:async(path,body)=>calls.push([path,body]),poll:async()=>{},renderState(){},showSettingsDetail(){}};
+ vm.createContext(c);vm.runInContext(fs.readFileSync('studio/management.js','utf8'),c);return {c,el,calls};
+}
+test('local restart needs a second tap and saves drafts before request',async()=>{const h=harness();await h.el('management-restart').onclick();assert.equal(h.calls.length,0);assert.match(h.el('management-restart').textContent,/Jetzt/);await h.el('management-restart').onclick();assert.equal(h.calls[0],'saved');assert.equal(h.calls[1][0],'/api/device/restart');assert.equal(h.calls[1][1].confirm,true);assert.equal(h.el('management-restart').disabled,true)});
+test('active work disables restart and cancels pending confirmation',async()=>{const h=harness();await h.el('management-restart').onclick();h.c.state.activity.busy=true;h.c.renderState();assert.equal(h.el('management-restart').disabled,true);assert.equal(h.el('management-restart').textContent,'Pi neu starten');h.c.state.activity.busy=false;h.c.state.timers.items=[{state:'scheduled'}];h.c.renderState();assert.equal(h.el('management-restart').disabled,true)});
