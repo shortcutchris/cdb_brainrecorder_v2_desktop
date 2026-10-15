@@ -25,3 +25,20 @@ Weitere Vergleichsdateien (Geschwindigkeit 0,85, Stabilität 0,65):
 
 Eine synthetische Stimme erlaubt keinen allgemeinen Qualitätsvergleich zwischen
 Rufwörtern. Datei- und Raumtests werden getrennt protokolliert.
+
+## Weitere Stimmen, 15.10.2026
+
+`multivoice/manifest.json` enthält Texte, Dateinamen und Herkunft von 14 weiteren
+synthetischen Dateien: je sieben kurze Äußerungen mit Pauli
+(`S87WJpstXs0Ge2ukRiXJ`) und Otto (`FTNCalFNG5bRnkkaP5Ug`), beide aus der bereits
+verfügbaren ElevenLabs-Bibliothek. Modell `eleven_multilingual_v2`, Sprache `de`,
+Geschwindigkeit 1, Stabilität 0,65. Keine Sprachklone erstellt und keine realen
+Aufnahmen hochgeladen. Keine Wiedergabe am Pi für diese lokale Vergleichsrunde.
+
+Die Referenztexte sind Syntheseaufträge, keine unabhängig geprüften Transkripte.
+„Okay, Kay.“ wird ausdrücklich als mehrdeutige Probe getrennt ausgewertet:
+Kay kann auf Deutsch wie Kai gesprochen werden. Pegel und Doppelnennungen
+erzeugen keine zusätzlichen unabhängigen Stimmen. `check_wake_multivoice.py`
+prüft beide Modelle mit identischen Dateien, zwei Sekunden Vorlauf, Faktoren
+1/0,03 sowie Einzel- und Doppelruf. Die Dateien dienen nur Tests und gehören
+nicht zur App-Auslieferung oder zum Kunden-Image.

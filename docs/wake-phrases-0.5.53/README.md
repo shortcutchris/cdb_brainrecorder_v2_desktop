@@ -166,10 +166,42 @@ deutsche ähnlich klingende Negativbeispiele, echte Raumtests sowie Vosk 0.3.45
 auf dem Pi bleiben vor einer Übernahme erforderlich. Die Verbesserung bei einer
 Stimme beweist keine allgemeine Zuverlässigkeit oder endgültige Fehlerursache.
 
-Nächster technischer Kandidat ist daher eine **pro Rufwort geprüfte Modellwahl**,
-kein pauschaler Modelltausch. Noch keine Umsetzung oder Auslieferung dieses
-Kandidaten. Testwerkzeuge und Dokumentation sind die einzigen Änderungen;
+Der folgende Mehrstimmenvergleich verwirft eine unmittelbare Übernahme dieses
+Modellkandidaten. Testwerkzeuge und Dokumentation sind die einzigen Änderungen;
 App-Paket, SD-Image, Konfiguration und bestehender 24h-Lauf bleiben erhalten.
+
+### Mehrstimmenvergleich: deutsches Modell nicht übernehmen
+
+Zwei weitere synthetische Sprecheridentitäten (Pauli und Otto), jeweils sieben
+Dateien, normale Geschwindigkeit. Identische Dateien je Modell, zwei Sekunden
+digitale Stille vorab, normale/3-%-Amplitude, Einzel-/Doppelruf. Lokal Vosk 0.3.44;
+keine Messlast oder Wiedergabe auf dem Pi. Reproduzierbar mit
+`scripts/check_wake_multivoice.py`, Modellwahl über `CDB_WAKE_MODEL`.
+
+| Profil | EN: positive Fälle exakt | DE: positive Fälle exakt | EN/DE: negative Fälle mit Aktivierung |
+| --- | --- | --- | --- |
+| Hey Brain | 8/8 | 8/8 | 0/40 · 0/40 |
+| Hey KAI | 4/8 | 3/8 | 0/40 · 0/40 |
+| Okay KAI | 4/8 | 4/8 | 0/40 · 4/40 |
+
+[Englische Rohdaten](multivoice-en-mac.json): 136/144 eindeutige Zählerwartungen;
+[deutsche Rohdaten](multivoice-de-mac.json): 131/144. Jeweils 24 mehrdeutige
+Kay-Fälle separat, ohne Pass/Fail. Bei Okay KAI mit deutschem Modell bestanden
+alle vier Otto-Varianten und keine der vier Pauli-Varianten. Die vier negativen
+Aktivierungen stammen sämtlich aus der Datei mit Syntheseauftrag „Okay, Kyle.“
+und Stimme Pauli. Diese vier Varianten sind kein Nachweis vier unabhängiger
+Fehlaktivierungen; Aussprache der Synthese und fehlendes `kyle` im deutschen
+Wortschatz sind noch nicht als Ursachen getrennt.
+
+Die Referenz ist der Syntheseauftrag, kein manuell bestätigtes Transkript.
+Kay kann im Deutschen homophon zu Kai sein und zählt deshalb nicht einfach
+als falsche Erkennung. Der begrenzte Korpus liefert keine Fehlalarmrate pro
+Raumstunde. Die früheren Vincent-Ergebnisse bleiben gültige Einzelmessungen,
+aber ihr Vorteil trägt nicht über diese zusätzlichen Stimmen. **Der deutsche
+Kandidat wird nicht produktiv übernommen.** Für KAI ist eine breiter trainierte
+und getrennt geprüfte Rufworterkennung zu untersuchen; eine niedrigere Schwelle
+oder das Zusammenlegen aller Modelltreffer wäre durch diese Befunde nicht
+gerechtfertigt. Der aktuelle Pi bleibt bei 0.5.53 mit dem bisherigen EN-Modell.
 
 0.5.53 aus Commit `eda03c3296990982a6a2f0166ab828bcd047ecc5` wurde als
 signiertes App-Update (Sequenz 10) auf dem Pi installiert.

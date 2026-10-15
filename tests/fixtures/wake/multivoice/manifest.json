@@ -1,0 +1,124 @@
+{
+  "generated_at": "2026-10-15",
+  "provider": "ElevenLabs",
+  "model": "eleven_multilingual_v2",
+  "language": "de",
+  "speed": 1,
+  "stability": 0.65,
+  "synthetic": true,
+  "note": "Kay can sound identical to Kai in German; ambiguous probes are reported but not scored. Labels are synthesis prompts, not independently verified transcriptions.",
+  "clips": [
+    {
+      "file": "hey-brain-pauli.mp3",
+      "voice": "pauli",
+      "voice_id": "S87WJpstXs0Ge2ukRiXJ",
+      "prompt": "Hey, Brain.",
+      "target": "hey-brain",
+      "ambiguous": false
+    },
+    {
+      "file": "hey-kai-pauli.mp3",
+      "voice": "pauli",
+      "voice_id": "S87WJpstXs0Ge2ukRiXJ",
+      "prompt": "Hey, Kai.",
+      "target": "hey-kai",
+      "ambiguous": false
+    },
+    {
+      "file": "okay-kai-pauli.mp3",
+      "voice": "pauli",
+      "voice_id": "S87WJpstXs0Ge2ukRiXJ",
+      "prompt": "Okay, Kai.",
+      "target": "okay-kai",
+      "ambiguous": false
+    },
+    {
+      "file": "okay-karl-pauli.mp3",
+      "voice": "pauli",
+      "voice_id": "S87WJpstXs0Ge2ukRiXJ",
+      "prompt": "Okay, Karl.",
+      "target": null,
+      "ambiguous": false
+    },
+    {
+      "file": "okay-kay-pauli.mp3",
+      "voice": "pauli",
+      "voice_id": "S87WJpstXs0Ge2ukRiXJ",
+      "prompt": "Okay, Kay.",
+      "target": null,
+      "ambiguous": true
+    },
+    {
+      "file": "okay-kyle-pauli.mp3",
+      "voice": "pauli",
+      "voice_id": "S87WJpstXs0Ge2ukRiXJ",
+      "prompt": "Okay, Kyle.",
+      "target": null,
+      "ambiguous": false
+    },
+    {
+      "file": "kai-later-pauli.mp3",
+      "voice": "pauli",
+      "voice_id": "S87WJpstXs0Ge2ukRiXJ",
+      "prompt": "Kai, komm bitte sp\u00e4ter.",
+      "target": null,
+      "ambiguous": false
+    },
+    {
+      "file": "hey-brain-otto.mp3",
+      "voice": "otto",
+      "voice_id": "FTNCalFNG5bRnkkaP5Ug",
+      "prompt": "Hey, Brain.",
+      "target": "hey-brain",
+      "ambiguous": false
+    },
+    {
+      "file": "hey-kai-otto.mp3",
+      "voice": "otto",
+      "voice_id": "FTNCalFNG5bRnkkaP5Ug",
+      "prompt": "Hey, Kai.",
+      "target": "hey-kai",
+      "ambiguous": false
+    },
+    {
+      "file": "okay-kai-otto.mp3",
+      "voice": "otto",
+      "voice_id": "FTNCalFNG5bRnkkaP5Ug",
+      "prompt": "Okay, Kai.",
+      "target": "okay-kai",
+      "ambiguous": false
+    },
+    {
+      "file": "okay-karl-otto.mp3",
+      "voice": "otto",
+      "voice_id": "FTNCalFNG5bRnkkaP5Ug",
+      "prompt": "Okay, Karl.",
+      "target": null,
+      "ambiguous": false
+    },
+    {
+      "file": "okay-kay-otto.mp3",
+      "voice": "otto",
+      "voice_id": "FTNCalFNG5bRnkkaP5Ug",
+      "prompt": "Okay, Kay.",
+      "target": null,
+      "ambiguous": true
+    },
+    {
+      "file": "okay-kyle-otto.mp3",
+      "voice": "otto",
+      "voice_id": "FTNCalFNG5bRnkkaP5Ug",
+      "prompt": "Okay, Kyle.",
+      "target": null,
+      "ambiguous": false
+    },
+    {
+      "file": "kai-later-otto.mp3",
+      "voice": "otto",
+      "voice_id": "FTNCalFNG5bRnkkaP5Ug",
+      "prompt": "Kai, komm bitte sp\u00e4ter.",
+      "target": null,
+      "ambiguous": false
+    }
+  ]
+}
