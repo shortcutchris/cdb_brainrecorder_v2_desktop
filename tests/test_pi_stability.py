@@ -110,6 +110,23 @@ class StabilityTests(unittest.TestCase):
         self.assertEqual(self.observer.counts['wake_failed'], 0)
         self.assertEqual(self.observer.counts['wake_connected'], 1)
 
+    def test_wake_restart_loop_is_reported_even_with_short_listening_periods(self):
+        for t in range(3):
+            self.observer.poll({'instance': 'a', 'detections': 0, 'enabled': True, 'state': 'listening'}, {'state': 'idle'}, t * 30)
+            self.observer.poll({'instance': 'a', 'detections': 0, 'enabled': True, 'state': 'error'}, {'state': 'idle'}, t * 30 + 15)
+        self.assertIn('wake_repeated_errors', self.observer.alerts)
+        self.observer.poll({'instance': 'a', 'detections': 0, 'enabled': True, 'state': 'listening'}, {'state': 'idle'}, 400)
+        self.assertNotIn('wake_repeated_errors', self.observer.alerts)
+
+    def test_wake_stuck_alert_excludes_intentional_off_and_audio_wait(self):
+        for state in ('waiting', 'off'):
+            for t in range(0, 135, 15):
+                self.observer.sample({**self.row(cpu=10), 'wake_enabled': True, 'wake_state': state}, t)
+        self.assertFalse(self.events)
+        for t in range(150, 285, 15):
+            self.observer.sample({**self.row(cpu=10), 'wake_enabled': True, 'wake_state': 'loading'}, t)
+        self.assertIn('wake_not_ready', self.observer.alerts)
+
 
 if __name__ == '__main__':
     unittest.main()

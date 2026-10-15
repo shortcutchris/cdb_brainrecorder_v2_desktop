@@ -99,6 +99,9 @@ class Observer:
         self.counts = {'wake_observed': 0, 'wake_connected': 0, 'wake_failed': 0}
         self.last_wake = None
         self.failures = 0
+        self.wake_state = None
+        self.wake_enabled = None
+        self.wake_errors = deque()
 
     def alert(self, name, active, now, details=None):
         if active and name not in self.alerts:
@@ -120,6 +123,11 @@ class Observer:
         self.alert('browser_missing', sustained and all(not r['browser']['processes'] for _, r in window), now)
         self.alert('system_memory_low', sustained and all(r.get('available_mb', 99999) < 512 for _, r in window), now)
         self.alert('device_hot', sustained and all(r.get('temperature_c', 0) >= 80 for _, r in window), now)
+        short = [(t, r) for t, r in self.samples if t >= now - 120]
+        wake_stuck = len(short) >= 8 and short[-1][0] - short[0][0] >= 105 and all(
+            r.get('activity') == 'idle' and r.get('wake_enabled') is True and
+            r.get('wake_state') in ('loading', 'error') for _, r in short)
+        self.alert('wake_not_ready', wake_stuck, now)
         # A rising half-hour trend is useful even before the absolute RAM limit.
         old = next(((t, r) for t, r in reversed(self.samples) if t <= now - 1800), None)
         growing = bool(old and old[1].get('browser_generation') == row.get('browser_generation') and
@@ -131,6 +139,14 @@ class Observer:
         self.alert('status_unreachable', False, now)
         key = (wake.get('instance'), wake.get('detections'))
         state = live.get('state', 'unknown')
+        self.wake_enabled = wake.get('enabled')
+        if self.wake_state != wake.get('state'):
+            self.wake_state = wake.get('state')
+            self.emit({'type': 'wake_state', 'state': self.wake_state, 'at': utc(now)})
+            if self.wake_state == 'error': self.wake_errors.append(now)
+        while self.wake_errors and self.wake_errors[0] < now - 300:
+            self.wake_errors.popleft()
+        self.alert('wake_repeated_errors', len(self.wake_errors) >= 3, now)
         if self.last_state != state:
             self.emit({'type': 'live_state', 'at': utc(now), 'state': state})
             self.last_state = state
@@ -206,7 +222,8 @@ def run(folder, hours):
         if tick >= next_sample:
             current, roots = browser_processes()
             row = {'at': utc(now), 'browser': process_metrics(current, previous, tick - previous_at),
-                   'browser_generation': sorted((pid, current[pid]['start']) for pid in roots), **resources()}
+                   'browser_generation': sorted((pid, current[pid]['start']) for pid in roots),
+                   'wake_enabled': observer.wake_enabled, **resources()}
             previous, previous_at, next_sample = current, tick, tick + 15
             try:
                 token = json.loads(token_path.read_text())['token']
