@@ -1,0 +1,39 @@
+{
+  "fixture_directory": "/Users/chris/.local/share/cdb-wake-fixtures/independent-20261016",
+  "files": [
+    {
+      "name": "charlie-positive.wav",
+      "sha256": "69a4de7344f9b2a5c1e10aa35b0850c316e4323e6d86d9bab9205fb3e14a4ac9",
+      "duration_seconds": 1.068125,
+      "rate": 16000,
+      "channels": 1,
+      "sample_width": 2
+    },
+    {
+      "name": "charlie-negative.wav",
+      "sha256": "3497a90aacfe783a04c00e451c6fa3f2b7f198195c619430040df2180538facc",
+      "duration_seconds": 3.018625,
+      "rate": 16000,
+      "channels": 1,
+      "sample_width": 2
+    },
+    {
+      "name": "hl-positive.wav",
+      "sha256": "d0772f19f9781eef86438488ffa4cacc87660fd1c26dc43dd8e18b37da4bfdc9",
+      "duration_seconds": 0.97525,
+      "rate": 16000,
+      "channels": 1,
+      "sample_width": 2
+    },
+    {
+      "name": "hl-negative.wav",
+      "sha256": "d329fe8d8d436c1834bd136951461fb1ff89c47994ee3bb6caf9827d74e0950a",
+      "duration_seconds": 3.761625,
+      "rate": 16000,
+      "channels": 1,
+      "sample_width": 2
+    }
+  ],
+  "human_listening_acceptance": false,
+  "tts_label_is_not_natural_voice_acceptance": true
+}

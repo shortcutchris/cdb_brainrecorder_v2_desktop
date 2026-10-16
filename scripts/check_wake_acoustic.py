@@ -6,6 +6,7 @@ real acoustic path, not production Live handoff (own output deliberately inhibit
 production wake). Does not change audio settings, firmware or installed code.
 """
 import argparse
+from collections import deque
 import hashlib
 import json
 import os
@@ -77,7 +78,13 @@ def main():
                         help='Existing lab-only Tiny model; requires --whisper-binary. No room text saved.')
     parser.add_argument('--streaming-whisper', action='store_true',
                         help='Experimental asynchronous candidate path; no Live start or production change.')
+    parser.add_argument('--joined-spelling', action='store_true',
+                        help='Opt-in exact joined spelling, streaming lab only; no fuzzy matching.')
+    parser.add_argument('--compare-whisper-model', type=Path,
+                        help='Second existing model: paired .8/1.6s candidate windows, transient PCM only.')
     args = parser.parse_args()
+    if args.joined_spelling and not args.streaming_whisper:
+        parser.error('Joined spelling requires the streaming lab.')
     if not 1 <= len(args.clips) <= 4: parser.error('Use 1–4 synthetic test files.')
     if not 1 <= args.quiet_seconds <= 120: parser.error('Use 1–120 quiet seconds.')
     if args.compare_stereo and args.phrase!='okay-nabu': parser.error('Stereo comparison requires Nabu.')
@@ -87,6 +94,10 @@ def main():
         parser.error('Whisper binary and model must already exist.')
     if args.streaming_whisper and (not args.whisper_binary or args.phrase != 'okay-nabu' or args.compare_stereo):
         parser.error('Streaming lab requires Nabu and Whisper paths; use mono capture.')
+    if args.compare_whisper_model and (not args.whisper_binary or args.phrase != 'okay-nabu' or
+                                      args.streaming_whisper or args.compare_stereo or
+                                      not args.compare_whisper_model.is_file()):
+        parser.error('Paired comparison requires two existing models, Nabu and non-streaming mono capture.')
     clips = []
     for path in args.clips:
         with wave.open(str(path)) as source:
@@ -133,6 +144,10 @@ def main():
                                 'audio_context': 256, 'initial_prompt': 'Nabu.',
                                 'production_integration': False, 'room_text_saved': False}
         report['whisper_lab']['streaming'] = args.streaming_whisper
+        report['whisper_lab']['matcher'] = 'exact_joined_v2' if args.joined_spelling else 'two_words_v1'
+        if args.compare_whisper_model:
+            report['whisper_lab']['paired_model_sha256'] = hashlib.sha256(args.compare_whisper_model.read_bytes()).hexdigest()
+            report['whisper_lab']['paired_post_capture'] = True
         if args.streaming_whisper:
             report['whisper_lab'].update(candidate_threshold=.15, tail_seconds=.8,
                                          lookback_seconds=2, native_timeout_seconds=3)
@@ -149,7 +164,9 @@ def main():
         detector=create_detector(args.phrase);measure=AudioDiagnostics();buffer=b''
         if args.streaming_whisper:
             from wake_streaming_probe import StreamingCandidate, AsyncVerifier
-            detector=StreamingCandidate(detector, AsyncVerifier(args.whisper_binary, args.whisper_model))
+            from wake_whisper_probe import matches_nabu, matches_nabu_joined
+            matcher = matches_nabu_joined if args.joined_spelling else matches_nabu
+            detector=StreamingCandidate(detector, AsyncVerifier(args.whisper_binary, args.whisper_model, matcher=matcher))
         channels=[create_detector(args.phrase) for _ in range(2)] if args.compare_stereo else []
         probabilities=[]
         if args.signal_diagnostics and args.phrase=='okay-nabu':
@@ -160,8 +177,10 @@ def main():
                 return result
             detector.model.process_streaming_prob=measured
         for path,duration in clips:
-            row={'clip':path.name,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'detections':0,'decisions':[]}
+            row={'clip':path.name,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'detections':0,'decisions':[],
+                 'pre_play_detections':0,'primary_above_cutoff_frames_after_play':0}
             captured=bytearray();probabilities.clear();measure=AudioDiagnostics()
+            pre_roll=deque(maxlen=40);candidate_frame=None
             if args.streaming_whisper:
                 before_submitted, before_rejected = detector.submitted, detector.rejected
                 row['streaming_transitions'] = []
@@ -205,9 +224,18 @@ def main():
                         for extra,summary,audio in zip(channels,channel_rows,(left,right)):
                             summary['detections']+=int(extra.feed(audio))
                     if (args.signal_diagnostics or verifier is not None or args.whisper_binary) and played:
+                        if args.compare_whisper_model and not captured:
+                            captured.extend(b''.join(pre_roll))
                         captured.extend(pcm)
+                    elif args.compare_whisper_model:
+                        pre_roll.append(bytes(pcm))
                     before_state=detector.state if args.streaming_whisper else None
                     detected=detector.feed(pcm);measure.feed(pcm,detector.last_decision,detector.onset.renewals)
+                    if not played: row['pre_play_detections'] += int(detected)
+                    if played and args.phrase == 'okay-nabu' and before_state != 'accepted':
+                        row['primary_above_cutoff_frames_after_play'] += int((detector.last_probability or 0) > detector.model.probability_cutoff)
+                    if args.compare_whisper_model and played and candidate_frame is None and (detector.last_probability or 0) >= .15:
+                        candidate_frame=len(captured)//1600
                     if args.streaming_whisper and detector.state != before_state:
                         row['streaming_transitions'].append({'at_seconds':round(time.monotonic()-start,2),
                                                             'state':detector.state})
@@ -228,8 +256,14 @@ def main():
                 row['vosk_lab'] = probe_vosk_pcm(verifier, verifier_spec['grammar'],
                                                  verifier_spec['accepted'], captured)
             if args.whisper_binary and not args.streaming_whisper:
-                from wake_whisper_probe import probe_whisper_pcm
-                row['whisper_lab'] = probe_whisper_pcm(captured, args.whisper_binary, args.whisper_model)
+                if args.compare_whisper_model:
+                    from wake_candidate_comparison import compare_windows
+                    row['paired_windows'] = compare_windows(captured, candidate_frame, args.whisper_binary,
+                                                           {'primary': args.whisper_model, 'comparison': args.compare_whisper_model})
+                    row['capture_pre_roll_seconds'] = len(pre_roll)*.05
+                else:
+                    from wake_whisper_probe import probe_whisper_pcm
+                    row['whisper_lab'] = probe_whisper_pcm(captured, args.whisper_binary, args.whisper_model)
             if args.signal_diagnostics:
                 from wake_acoustic_metrics import alignment
                 with wave.open(str(path)) as source:
@@ -247,7 +281,7 @@ def main():
                     # Match production lifecycle: only a fresh detector may accept again.
                     detector.close();detector.model.close()
                     detector=StreamingCandidate(create_detector(args.phrase),
-                                                 AsyncVerifier(args.whisper_binary,args.whisper_model))
+                                                 AsyncVerifier(args.whisper_binary,args.whisper_model, matcher=matcher))
                     if args.signal_diagnostics:
                         original=detector.model.process_streaming_prob
                         def measured(features):

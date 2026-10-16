@@ -1,0 +1,383 @@
+{
+  "microphone": false,
+  "speaker": false,
+  "cloud": false,
+  "production_integration": false,
+  "matcher": "exact_joined_v2",
+  "started_epoch": 1792159243.4089391,
+  "finished_epoch": 1792159411.4082916,
+  "real_time_file_stream": true,
+  "model_sha256": "60ed5bc3dd14eea856493d334349b405782ddcaf0028d4b5df4088345fba2efe",
+  "binary_sha256": "edc5829b59668a3697392c8c4425db27de39e02fee9dcf35549961a5f3d4ecaa",
+  "candidate_threshold": 0.15,
+  "tail_seconds": 0.8,
+  "lookback_seconds": 2,
+  "passed": 12,
+  "cases": [
+    {
+      "voice": "charlie",
+      "kind": "single",
+      "source_sha256": "69a4de7344f9b2a5c1e10aa35b0850c316e4323e6d86d9bab9205fb3e14a4ac9",
+      "audio_seconds": 11.1,
+      "second_call_starts_at": null,
+      "first_call_deadline": 7.068125,
+      "detections": [
+        4.15
+      ],
+      "decisions": [
+        {
+          "audio_seconds": 4.15,
+          "decision": "accepted",
+          "report": {
+            "detected": true,
+            "returncode": 0,
+            "error": null,
+            "wall_seconds": 0.6503
+          }
+        }
+      ],
+      "feed_max_seconds": 0.001550098997540772,
+      "primary_max": 0.99609375,
+      "submitted": 1,
+      "rejected": 0,
+      "state": "accepted",
+      "wall_seconds": 11.100074558984488,
+      "pending_at_end": false,
+      "passed": true,
+      "verifier_released": true
+    },
+    {
+      "voice": "charlie",
+      "kind": "double",
+      "source_sha256": "69a4de7344f9b2a5c1e10aa35b0850c316e4323e6d86d9bab9205fb3e14a4ac9",
+      "audio_seconds": 17.15,
+      "second_call_starts_at": 8.068125,
+      "first_call_deadline": 7.068125,
+      "detections": [
+        4.15
+      ],
+      "decisions": [
+        {
+          "audio_seconds": 4.15,
+          "decision": "accepted",
+          "report": {
+            "detected": true,
+            "returncode": 0,
+            "error": null,
+            "wall_seconds": 0.6494
+          }
+        }
+      ],
+      "feed_max_seconds": 0.001282379002077505,
+      "primary_max": 0.99609375,
+      "submitted": 1,
+      "rejected": 0,
+      "state": "accepted",
+      "wall_seconds": 17.1502822820039,
+      "pending_at_end": false,
+      "passed": true,
+      "verifier_released": true
+    },
+    {
+      "voice": "charlie",
+      "kind": "negative",
+      "source_sha256": "3497a90aacfe783a04c00e451c6fa3f2b7f198195c619430040df2180538facc",
+      "audio_seconds": 13.05,
+      "second_call_starts_at": null,
+      "first_call_deadline": 9.018625,
+      "detections": [],
+      "decisions": [
+        {
+          "audio_seconds": 4.7,
+          "decision": "candidate_rejected",
+          "report": {
+            "detected": false,
+            "returncode": 0,
+            "error": null,
+            "wall_seconds": 0.7489
+          }
+        }
+      ],
+      "feed_max_seconds": 0.005256570992060006,
+      "primary_max": 0.421875,
+      "submitted": 1,
+      "rejected": 1,
+      "state": "ready",
+      "wall_seconds": 13.050067598000169,
+      "pending_at_end": false,
+      "passed": true,
+      "verifier_released": true
+    },
+    {
+      "voice": "hl",
+      "kind": "single",
+      "source_sha256": "d0772f19f9781eef86438488ffa4cacc87660fd1c26dc43dd8e18b37da4bfdc9",
+      "audio_seconds": 11.0,
+      "second_call_starts_at": null,
+      "first_call_deadline": 6.97525,
+      "detections": [
+        4.2
+      ],
+      "decisions": [
+        {
+          "audio_seconds": 4.2,
+          "decision": "accepted",
+          "report": {
+            "detected": true,
+            "returncode": 0,
+            "error": null,
+            "wall_seconds": 0.699
+          }
+        }
+      ],
+      "feed_max_seconds": 0.0018299669900443405,
+      "primary_max": 0.975,
+      "submitted": 1,
+      "rejected": 0,
+      "state": "accepted",
+      "wall_seconds": 11.000080096011516,
+      "pending_at_end": false,
+      "passed": true,
+      "verifier_released": true
+    },
+    {
+      "voice": "hl",
+      "kind": "double",
+      "source_sha256": "d0772f19f9781eef86438488ffa4cacc87660fd1c26dc43dd8e18b37da4bfdc9",
+      "audio_seconds": 17.0,
+      "second_call_starts_at": 7.97525,
+      "first_call_deadline": 6.97525,
+      "detections": [
+        4.2
+      ],
+      "decisions": [
+        {
+          "audio_seconds": 4.2,
+          "decision": "accepted",
+          "report": {
+            "detected": true,
+            "returncode": 0,
+            "error": null,
+            "wall_seconds": 0.6998
+          }
+        }
+      ],
+      "feed_max_seconds": 0.0013695450033992529,
+      "primary_max": 0.975,
+      "submitted": 1,
+      "rejected": 0,
+      "state": "accepted",
+      "wall_seconds": 17.000067868008045,
+      "pending_at_end": false,
+      "passed": true,
+      "verifier_released": true
+    },
+    {
+      "voice": "hl",
+      "kind": "negative",
+      "source_sha256": "d329fe8d8d436c1834bd136951461fb1ff89c47994ee3bb6caf9827d74e0950a",
+      "audio_seconds": 13.8,
+      "second_call_starts_at": null,
+      "first_call_deadline": 9.761625,
+      "detections": [],
+      "decisions": [
+        {
+          "audio_seconds": 4.2,
+          "decision": "candidate_rejected",
+          "report": {
+            "detected": false,
+            "returncode": 0,
+            "error": null,
+            "wall_seconds": 0.6499
+          }
+        }
+      ],
+      "feed_max_seconds": 0.0037478969898074865,
+      "primary_max": 0.7109375,
+      "submitted": 1,
+      "rejected": 1,
+      "state": "ready",
+      "wall_seconds": 13.80006864000461,
+      "pending_at_end": false,
+      "passed": true,
+      "verifier_released": true
+    },
+    {
+      "voice": "will",
+      "kind": "single",
+      "source_sha256": "ca1cd669324192348c145f40607f40ab2e1c80ba6f85f5f6096ad47ce07ac452",
+      "audio_seconds": 11.05,
+      "second_call_starts_at": null,
+      "first_call_deadline": 7.0216875000000005,
+      "detections": [
+        4.15
+      ],
+      "decisions": [
+        {
+          "audio_seconds": 4.15,
+          "decision": "accepted",
+          "report": {
+            "detected": true,
+            "returncode": 0,
+            "error": null,
+            "wall_seconds": 0.6494
+          }
+        }
+      ],
+      "feed_max_seconds": 0.004513686988502741,
+      "primary_max": 0.99609375,
+      "submitted": 1,
+      "rejected": 0,
+      "state": "accepted",
+      "wall_seconds": 11.050067044008756,
+      "pending_at_end": false,
+      "passed": true,
+      "verifier_released": true
+    },
+    {
+      "voice": "will",
+      "kind": "double",
+      "source_sha256": "ca1cd669324192348c145f40607f40ab2e1c80ba6f85f5f6096ad47ce07ac452",
+      "audio_seconds": 17.05,
+      "second_call_starts_at": 8.0216875,
+      "first_call_deadline": 7.0216875000000005,
+      "detections": [
+        4.15
+      ],
+      "decisions": [
+        {
+          "audio_seconds": 4.15,
+          "decision": "accepted",
+          "report": {
+            "detected": true,
+            "returncode": 0,
+            "error": null,
+            "wall_seconds": 0.6497
+          }
+        }
+      ],
+      "feed_max_seconds": 0.0017900779785122722,
+      "primary_max": 0.99609375,
+      "submitted": 1,
+      "rejected": 0,
+      "state": "accepted",
+      "wall_seconds": 17.05006646498805,
+      "pending_at_end": false,
+      "passed": true,
+      "verifier_released": true
+    },
+    {
+      "voice": "will",
+      "kind": "negative",
+      "source_sha256": "71f210a6de2ffbec9fe0088fe1ff303aa29ea86cc1abcca478bd9f95b0b7eecb",
+      "audio_seconds": 15.1,
+      "second_call_starts_at": null,
+      "first_call_deadline": 11.061937499999999,
+      "detections": [],
+      "decisions": [
+        {
+          "audio_seconds": 4.15,
+          "decision": "candidate_rejected",
+          "report": {
+            "detected": false,
+            "returncode": 0,
+            "error": null,
+            "wall_seconds": 0.6496
+          }
+        }
+      ],
+      "feed_max_seconds": 0.003160881984513253,
+      "primary_max": 0.99609375,
+      "submitted": 1,
+      "rejected": 1,
+      "state": "ready",
+      "wall_seconds": 15.100065681006527,
+      "pending_at_end": false,
+      "passed": true,
+      "verifier_released": true
+    },
+    {
+      "voice": "sarah",
+      "kind": "single",
+      "source_sha256": "268d125bb3b722e572c716fdb5b45c7f735e460a479c1b984e2c767f557e1a85",
+      "audio_seconds": 11.0,
+      "second_call_starts_at": null,
+      "first_call_deadline": 6.97525,
+      "detections": [
+        4.3
+      ],
+      "decisions": [
+        {
+          "audio_seconds": 4.3,
+          "decision": "accepted",
+          "report": {
+            "detected": true,
+            "returncode": 0,
+            "error": null,
+            "wall_seconds": 0.6993
+          }
+        }
+      ],
+      "feed_max_seconds": 0.0027467939944472164,
+      "primary_max": 0.9859375,
+      "submitted": 1,
+      "rejected": 0,
+      "state": "accepted",
+      "wall_seconds": 11.000071532995207,
+      "pending_at_end": false,
+      "passed": true,
+      "verifier_released": true
+    },
+    {
+      "voice": "sarah",
+      "kind": "double",
+      "source_sha256": "268d125bb3b722e572c716fdb5b45c7f735e460a479c1b984e2c767f557e1a85",
+      "audio_seconds": 17.0,
+      "second_call_starts_at": 7.97525,
+      "first_call_deadline": 6.97525,
+      "detections": [
+        4.3
+      ],
+      "decisions": [
+        {
+          "audio_seconds": 4.3,
+          "decision": "accepted",
+          "report": {
+            "detected": true,
+            "returncode": 0,
+            "error": null,
+            "wall_seconds": 0.6994
+          }
+        }
+      ],
+      "feed_max_seconds": 0.0011919729877263308,
+      "primary_max": 0.9859375,
+      "submitted": 1,
+      "rejected": 0,
+      "state": "accepted",
+      "wall_seconds": 17.000073098024586,
+      "pending_at_end": false,
+      "passed": true,
+      "verifier_released": true
+    },
+    {
+      "voice": "sarah",
+      "kind": "negative",
+      "source_sha256": "5c9dda8afa982800c15aaea16fa0e050a1a4f92cbbdfcd639ab1675c71847ea2",
+      "audio_seconds": 13.6,
+      "second_call_starts_at": null,
+      "first_call_deadline": 9.575875,
+      "detections": [],
+      "decisions": [],
+      "feed_max_seconds": 0.0009677330090198666,
+      "primary_max": 0.07578125,
+      "submitted": 0,
+      "rejected": 0,
+      "state": "ready",
+      "wall_seconds": 13.600064182013739,
+      "pending_at_end": false,
+      "passed": true,
+      "verifier_released": true
+    }
+  ]
+}

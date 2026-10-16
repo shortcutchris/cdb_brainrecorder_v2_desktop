@@ -8,6 +8,7 @@ import unittest
 from unittest.mock import patch, Mock
 
 from scripts.wake_streaming_probe import StreamingCandidate, AsyncVerifier
+from scripts.wake_whisper_probe import matches_nabu, matches_nabu_joined
 
 
 class Detector:
@@ -87,14 +88,14 @@ class StreamingCandidateTests(unittest.TestCase):
 
 
 class AsyncVerifierTests(unittest.TestCase):
-    def exercise(self, body, check):
+    def exercise(self, body, check, matcher=matches_nabu):
         # Real isolated child process; fake memfd contains only synthetic zeros.
         with tempfile.TemporaryDirectory() as directory, tempfile.TemporaryFile() as pcm:
             binary = Path(directory)/'fake-whisper'
             binary.write_text(f'#!{sys.executable}\nimport sys,time\n'+body)
             binary.chmod(0o700)
             descriptor = os.dup(pcm.fileno())
-            verifier = AsyncVerifier(binary, '/unused-synthetic-model')
+            verifier = AsyncVerifier(binary, '/unused-synthetic-model', matcher=matcher)
             with patch('os.memfd_create', return_value=descriptor, create=True), \
                     patch('os.MFD_CLOEXEC', 1, create=True):
                 try:
@@ -144,6 +145,17 @@ class AsyncVerifierTests(unittest.TestCase):
             self.assertIsNone(verifier.process)
             self.assertIsNone(verifier.descriptor)
         self.exercise("print('Okay Nabu.')\n", check)
+
+    def test_joined_rule_is_opt_in_and_native_failure_still_rejects(self):
+        for matcher, code, expected in [(matches_nabu, 0, False),
+                                         (matches_nabu_joined, 0, True),
+                                         (matches_nabu_joined, 2, False)]:
+            def check(verifier):
+                report = self.result(verifier)
+                self.assertEqual(report['detected'], expected)
+                self.assertIsNone(verifier.process)
+                self.assertIsNone(verifier.descriptor)
+            self.exercise(f"print('Oknabu.');sys.exit({code})\n", check, matcher)
 
     def test_failed_termination_keeps_ownership_and_prevents_second_child(self):
         verifier = AsyncVerifier('/unused', '/unused')

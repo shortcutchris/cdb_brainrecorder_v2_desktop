@@ -266,3 +266,30 @@ Versionswechsel; Rohdaten/Plan bleiben erhalten, nicht als saubere Standzeit zä
   Laborablauf sauber vor dem nächsten Clip abschließen; alte Rohdaten behalten.
   Wartung14:14–14:17 und14:28–14:31 sowie CPU-Labortests nicht als ungestörte
   Bereitschaft zählen. [Details](../wake-word-research/2026-10-16/README.md).
+
+- **16.10., gepaarte Raumfenster:** Beide Prüfer erhalten identische flüchtige
+  Ausschnitte. Base kurz 2/2 positive erste Kandidaten, lang 1/2; Tiny beide
+  0/2. Je 0/2 negative erste Kandidaten angenommen. Bekannte Stimmen, spätere
+  Kandidaten und natürliche Rufe nicht abgenommen; keine Integration. Drei
+  neue und zwölf vorhandene Labortests bestanden. Wartung freigegeben, Pi
+  wieder `listening`, Plan unverändert. [Messwerte und Grenzen](../wake-word-research/2026-10-16/README.md#gepaarter-vergleich-auf-identischen-raum-ausschnitten).
+
+- **16.10., weiterer Nabu-Kandidatenvergleich:** Exakte zusammengezogene
+  Whisper-Schreibweise behebt den bekannten synthetischen Erst-Ruf-Fehler;
+  sechs Regressionen und sechs Szenarien mit zwei neuen TTS-Stimmen bestehen.
+  Im anschließenden echten Raumweg scheitern jedoch beide positiven Rufe:
+  ein nativer Drei-Sekunden-Timeout, ein fehlender Primärkandidat. Zwei negative
+  Dateien lösen nicht aus. Keine Produktionsintegration. App 0.5.61 mit der
+  separat ausgelieferten Mobile-Fernbedienung bleibt auf unverändertem Nabu;
+  Wartung freigegeben und laufender Observer bestätigt. Natürliche und lange
+  akustische Bereitschaft bleiben offen. Details im Forschungsbericht und
+  `joined-room-result.json`; technische Exit-0-Ergebnisse nicht als Freigabe lesen.
+
+
+- **16.10., isolierte Laufzeit-/Vorlaufdiagnose:** Zwölf synthetische Base-Aufrufe
+  benötigen 0,595–0,637 s; der frühere Raum-Timeout ist nicht reproduziert oder
+  erklärt. Vier bekannte Nabu-Dateien bestehen jeweils vier beschleunigte
+  Vorlaufvarianten beim ersten und zweiten Ruf, ohne Vorlauf-Fehlaktivierung.
+  Keine reale Standzeitprüfung, kein Hardware-/Raumweg, keine neue Freigabe.
+  Messdaten und Grenzen im Forschungsbericht; produktive 0.5.61 unverändert,
+  Pi frei für den separat koordinierten Fernbedienungs-E2E. Ziel weiterhin offen.
