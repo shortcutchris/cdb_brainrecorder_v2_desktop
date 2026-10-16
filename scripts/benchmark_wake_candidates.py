@@ -59,6 +59,7 @@ for path,expected in files:
    if a.engine=='micro-v2':
     from pymicro_wakeword import MicroWakeWord
     d.model.close();d.model=MicroWakeWord.from_config(a.micro_config)
+    d.probability_cutoff=d.model.probability_cutoff
    old=d.model.process_streaming_prob
    def measured(features):
     v=old(features)

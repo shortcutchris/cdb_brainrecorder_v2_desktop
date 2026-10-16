@@ -1,0 +1,210 @@
+{
+  "engine": "vosk-model-small-de-0.15",
+  "runtime_version": "0.3.45",
+  "host": "aarch64",
+  "exploratory": true,
+  "microphone": false,
+  "speaker": false,
+  "synthetic_files_only": true,
+  "grammar": [
+    "okay naboo",
+    "ok naboo",
+    "okay na gut",
+    "okay dann bis morgen",
+    "na du",
+    "[unk]"
+  ],
+  "accepted": [
+    "okay naboo",
+    "ok naboo"
+  ],
+  "manifest_sha256": "f27115eb36ba1205b11f3321a783e0474fc181c0ae0a910e1fefd27e459d054c",
+  "grammar_sha256": "91416d3fe3524d4eeeca81d3d47e8fbacf0748bef890f8b19504a71525332e33",
+  "load_seconds": 0.6677032500156201,
+  "cpu_timing": "recognizer creation and inference; model load excluded",
+  "cases": [
+    {
+      "file": "otto-pos/positive.wav",
+      "expected": true,
+      "gain": 1.0,
+      "noise_std": 0.0,
+      "sha256": "9eb38195aed9c9e974c8e274dcd4c3234993f42d49da5240985e1efbff57a121",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "okay naboo",
+        ""
+      ],
+      "cpu_seconds": 0.12190477600000005,
+      "audio_seconds": 4.068125
+    },
+    {
+      "file": "otto-pos/positive.wav",
+      "expected": true,
+      "gain": 0.25,
+      "noise_std": 0.0,
+      "sha256": "9eb38195aed9c9e974c8e274dcd4c3234993f42d49da5240985e1efbff57a121",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "okay naboo",
+        ""
+      ],
+      "cpu_seconds": 0.11964770199999997,
+      "audio_seconds": 4.068125
+    },
+    {
+      "file": "otto-pos/positive.wav",
+      "expected": true,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "sha256": "9eb38195aed9c9e974c8e274dcd4c3234993f42d49da5240985e1efbff57a121",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "okay naboo",
+        ""
+      ],
+      "cpu_seconds": 0.12054733100000004,
+      "audio_seconds": 4.068125
+    },
+    {
+      "file": "ben-pos/positive.wav",
+      "expected": true,
+      "gain": 1.0,
+      "noise_std": 0.0,
+      "sha256": "835859c93959a3189d74c0226eccf048d1d09b3f7825af905dfcb1b9787b94f1",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "okay naboo",
+        ""
+      ],
+      "cpu_seconds": 0.116634444,
+      "audio_seconds": 3.882375
+    },
+    {
+      "file": "ben-pos/positive.wav",
+      "expected": true,
+      "gain": 0.25,
+      "noise_std": 0.0,
+      "sha256": "835859c93959a3189d74c0226eccf048d1d09b3f7825af905dfcb1b9787b94f1",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "okay naboo",
+        ""
+      ],
+      "cpu_seconds": 0.12710066399999986,
+      "audio_seconds": 3.882375
+    },
+    {
+      "file": "ben-pos/positive.wav",
+      "expected": true,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "sha256": "835859c93959a3189d74c0226eccf048d1d09b3f7825af905dfcb1b9787b94f1",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "okay naboo",
+        ""
+      ],
+      "cpu_seconds": 0.12145746300000004,
+      "audio_seconds": 3.882375
+    },
+    {
+      "file": "otto-neg/negative.wav",
+      "expected": false,
+      "gain": 1.0,
+      "noise_std": 0.0,
+      "sha256": "9bb202ac48a8b369f402f0de0d85bf3e87a106c21bb574be77ceaa5f7a467b05",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        "okay naboo okay na gut naboo naboo dann na du naboo",
+        "na du",
+        "bis dann",
+        ""
+      ],
+      "cpu_seconds": 0.36835699899999996,
+      "audio_seconds": 11.5449375
+    },
+    {
+      "file": "otto-neg/negative.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.0,
+      "sha256": "9bb202ac48a8b369f402f0de0d85bf3e87a106c21bb574be77ceaa5f7a467b05",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        "okay naboo okay na gut naboo naboo dann na du naboo",
+        "na du",
+        "bis dann",
+        ""
+      ],
+      "cpu_seconds": 0.3558700909999999,
+      "audio_seconds": 11.5449375
+    },
+    {
+      "file": "otto-neg/negative.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "sha256": "9bb202ac48a8b369f402f0de0d85bf3e87a106c21bb574be77ceaa5f7a467b05",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "ok naboo",
+        "okay na gut",
+        "naboo naboo",
+        "na du naboo",
+        "na du",
+        "bis dann",
+        ""
+      ],
+      "cpu_seconds": 0.35898470400000004,
+      "audio_seconds": 11.5449375
+    },
+    {
+      "file": "ben-neg/negative.wav",
+      "expected": false,
+      "gain": 1.0,
+      "noise_std": 0.0,
+      "sha256": "1116aab0dc48a63b9f3740d299f2980b09bc6ae77fc9ab7797c54fc6ae2b486a",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        "okay na okay okay na na na naboo okay na du na du dann naboo",
+        ""
+      ],
+      "cpu_seconds": 0.2833898119999998,
+      "audio_seconds": 8.897875
+    },
+    {
+      "file": "ben-neg/negative.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.0,
+      "sha256": "1116aab0dc48a63b9f3740d299f2980b09bc6ae77fc9ab7797c54fc6ae2b486a",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        "okay na okay okay na na na naboo okay na okay na du dann naboo",
+        ""
+      ],
+      "cpu_seconds": 0.2864751639999996,
+      "audio_seconds": 8.897875
+    },
+    {
+      "file": "ben-neg/negative.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "sha256": "1116aab0dc48a63b9f3740d299f2980b09bc6ae77fc9ab7797c54fc6ae2b486a",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        "okay na okay okay na na naboo okay na okay naboo",
+        "du du naboo",
+        ""
+      ],
+      "cpu_seconds": 0.2870597990000001,
+      "audio_seconds": 8.897875
+    }
+  ],
+  "positive_detected": 6,
+  "positive_total": 6,
+  "false_positives": 1,
+  "negative_total": 6,
+  "cpu_seconds": 2.6674289489999996
+}

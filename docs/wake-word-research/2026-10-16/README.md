@@ -51,8 +51,10 @@ Prüfpunkte; eine TTS-Sollbeschriftung ist keine menschliche Hörabnahme.
 Alle Kandidaten laufen getrennt von der produktiven App. Auf dem Pi werden nur
 bekannte Testdateien verarbeitet, mit niedriger Prozesspriorität. Keine
 Raumaufnahme, keine Cloud-Sitzung, keine produktive Runtime-Installation.
-Die gemessene CPU-Zeit umfasst Modellneuanlage und aufgefüllte Stille;
-es ist kein gemessener Dauerverbrauch. Trefferframes sind keine Anzahl
+Die gemessene CPU-Zeit umfasst aufgefüllte Stille. Bei micro/open wird das
+Modell je Fall innerhalb der Messung neu angelegt; bei sherpa liegt die
+einmalige Modellanlage außerhalb. Die CPU-Werte sind deshalb **kein fairer
+reiner Inferenzvergleich** und kein gemessener Dauerverbrauch. Trefferframes sind keine Anzahl
 unabhängiger Aktivierungen. Produktiv wird der Detektor nach dem ersten Treffer
 freigegeben und der Übergang genau einmal reserviert.
 
@@ -114,7 +116,8 @@ Boot-/Audiotest für neue Images. App-Code allein installiert keine neue Runtime
 ## Gemessene Ergebnisse auf dem Pi 5
 
 Alle Fälle desselben Korpus, ohne Raumweg. Laufzeiten sind CPU-Sekunden für
-280,013 Sekunden Testaudio einschließlich Vor-/Nachstille und frischer Modelle.
+280,013 Sekunden Testaudio einschließlich Vor-/Nachstille. Modellanlage bei
+micro/open enthalten, bei sherpa ausgeschlossen; siehe Methodik.
 Schwellen gehören zu verschiedenen Modellen und sind nicht direkt vergleichbar.
 
 | Kandidat | Positive Varianten | Negative Varianten mit Treffer | CPU-Zeit |
@@ -222,3 +225,102 @@ dem signierten Manifest. Keine alternative Engine auf dem Produktivpfad.
 Laufzeitdateien exakt enthalten. Nur Baupaket, kein neues bootgeprüftes SD-Image.
 Der Beobachter läuft weiter mit Originalplan und markiert Versionswechsel;
 kein Zurücksetzen oder Zusammenzählen früherer Zeitfenster.
+
+
+## Deutscher Vosk-Gegencheck und unabhängige neue Beispiele
+
+Das offizielle [kleine deutsche Modell 0.15](https://alphacephei.com/vosk/models)
+(45 MB, Apache-2.0 laut Modellliste) wurde ausschließlich unter `/tmp` auf dem Pi
+entpackt. [Herkunft und Archivhash](vosk-provenance.json). Kein Paket, kein
+Audio-Gerät und keine produktive Einstellung wurden dafür geändert.
+
+Der [Wortschatztest](vosk-vocabulary-probe.json) zeigt: **„nabu“ fehlt**, „naboo“
+ist enthalten. Freie Erkennung deutet die zwei positiven deutschen TTS-Dateien
+als „okay abo“ / „kein abo“. Den problematischen Negativclip erkennt sie dagegen
+als „okay na gut …“. Das ist ein unabhängiges Indiz für die Fehlaktivierung,
+keine menschliche Hörabnahme. Ein vorheriger Whisper-medium-Gegencheck blieb
+nach 120 Sekunden ohne Ausgabe und wurde vom gesetzten Timeout beendet;
+dieser Versuch gilt ausdrücklich nicht als erfolgreiche Transkription.
+
+Eine explorative Grammatik verwendet „naboo“ als phonetischen Stellvertreter,
+mit `[unk]` und einigen Gegenphrasen. Das fügt **kein echtes Nabu-Lexikon** hinzu.
+Die Gegenphrasen wurden anhand bereits bekannter Beispiele gewählt, weshalb
+alle Ergebnisse auf diesem Basissatz nur Entwicklungsevidenz sind.
+
+| Unveränderte Versuchskonfiguration | Positive Varianten | Negative Varianten mit Treffer |
+| --- | ---: | ---: |
+| [Deutsche Grammatik, bisheriger Basissatz](vosk-de-baseline-pi.json) | 15/15 | 0/30 |
+| [Deutsche Grammatik, neue Otto-/Ben-Stimmen](vosk-de-holdout-pi.json) | 6/6 | **1/6** |
+| [Produktives microWakeWord auf denselben neuen Dateien](micro-holdout-pi.json) | 6/6 | **3/6** |
+
+Der neue Satz besteht aus nur zwei positiven und zwei negativen Ausgangsdateien,
+jeweils mit drei Signalvarianten, **nicht zwölf unabhängigen Sprechern**.
+Neue Negativformulierungen enthalten unter anderem „Okay, na bitte“, „Okay, na
+und“, „Abo“, „Angebot“, „Nanu“, „nach Hause“ und „Nachbar“. Grammatik und
+Entscheidungsregel wurden vor ihrer Generierung festgeschrieben und danach
+nicht angepasst. Vosk verwechselt den Otto-Negativtext bei 0,25 Pegel plus
+Rauschen mit „ok naboo“. Diese Datei darf bei künftigem Tuning nicht mehr als
+unberührter Abnahmesatz ausgegeben werden.
+
+**Entscheidung:** Deutsches Vosk bleibt ein Forschungskandidat für eine zweite
+Kontrolle. Die neuen Daten rechtfertigen keine Produktionsumstellung. Weder
+„15/15“ noch eine bessere Fehlerzahl im winzigen Vergleich beweisen eine
+stabile Erkennung. Eine Grammatik mit immer mehr bekannten Fehlersätzen würde
+das eigentliche Generalisierungsproblem verschleiern.
+
+### Reproduzierbarkeit und Werkzeugkorrektur
+
+`scripts/benchmark_vosk_wake.py` benötigt explizite synthetische Dateimanifeste,
+ein vorhandenes Modell und eine Grammatik. Es prüft 16-kHz-Mono-PCM, maximal
+64 Dateien mit je 60 Sekunden sowie sämtliche Wörter gegen das Modelllexikon.
+Fehlende Wörter werden abgewiesen statt unbemerkt aus der Grammatik gestrichen.
+[Basissatz](vosk-baseline.json), [neuer Satz](vosk-holdout.json) und
+[Grammatik](vosk-grammar.json) halten Eingaben fest; die WAVs liegen nur im Labor.
+
+Auf dem Pi, mit vorhandener Vosk-/NumPy-Laborruntime, beispielsweise:
+
+```sh
+nice -n 15 timeout 90 python scripts/benchmark_vosk_wake.py \
+  --model /tmp/cdb-vosk-de-lab/vosk-model-small-de-0.15 \
+  --manifest docs/wake-word-research/2026-10-16/vosk-holdout.json \
+  --grammar docs/wake-word-research/2026-10-16/vosk-grammar.json \
+  --output /tmp/vosk-holdout.json
+```
+
+Die Vosk-CPU-Messung umfasst Recognizer-Neuanlage und Inferenz; Modellladen
+wird separat als Wandzeit ausgewiesen. Sie ist keine gemessene Wake-Latenz.
+20 lokale gezielte Tests bestanden, darunter OOV-Abweisung und Eingabegrenzen.
+Beide Vosk-Matrizen wurden mit dem gespeicherten Werkzeug auf dem Pi wiederholt.
+
+Zusätzlich korrigiert der allgemeine Benchmark beim Austausch des micro-v2-
+Modells jetzt dessen seit 0.5.60 gecachten Schwellwert. Der
+[erneute v2-Lauf](micro-v2-060-pi.json) stimmt in allen 45 Fällen einschließlich
+Trefferframes, Zeit und Modellmaxima mit dem alten, vor dem Cache aufgenommenen
+Lauf überein. Die alten Messwerte waren gültig; die Korrektur verhindert falsche
+künftige Vergleiche mit der Schwelle des zuvor erzeugten Modells.
+
+### Nächste belastbare Entwicklungsstufe
+
+Ein eigenes Nabu-Modell bzw. eine zweite lokale Prüfung braucht getrennte
+Trainings-, Validierungs- und Abnahmedaten mit mehreren deutschen Stimmen,
+Raum-/Entfernungsvariation und längeren negativen Umgebungen. Die bislang
+gefundenen Verwechslungen gehören zu Entwicklungsdaten. Neue Sprecher und
+neue Negativformulierungen bleiben bis zur Abnahme unangetastet.
+
+[microWakeWord](https://github.com/OHF-Voice/micro-wake-word) unterstützt dieses
+Vorgehen mit synthetischen Daten, Augmentierung und getrennten negativen
+Umgebungssets; das Projekt warnt selbst vor der Schwierigkeit guten Trainings.
+[openWakeWords Sprecher-Verifier](https://github.com/dscripka/openWakeWord/blob/main/docs/custom_verifier_models.md)
+kann Fehlaktivierungen reduzieren, benötigt aber Beispiele der Zielsprecher
+und ähnlicher Räume. Ein ausschließlich auf Chris trainierter Filter wäre
+kein allgemeiner Ersatz für ein Kundengerät. Für Vosk sind
+[Lexikon-/Graphanpassung und Akustik-Finetuning](https://alphacephei.com/vosk/adaptation)
+getrennte Schritte; eine eingeschränkte Grammatik allein erweitert den
+Wortschatz nicht.
+
+Der Benutzer ist aktuell nicht am Pi. Der natürliche Erst-Ruf-Test bleibt
+offen; die Frage wird bis zu seiner Rückkehr nicht wiederholt. Produktiv bleibt
+0.5.60 mit derselben Engine, Schwelle und Audioführung. Diese Ergänzung betrifft
+nur Laborwerkzeuge/Dokumentation und hat keinen App-Update- oder SD-Image-Inhalt.
+Der laufende Beobachtungsplan bleibt erhalten; zusätzliche CPU-Testlast ist
+keine ungestörte Ruhezeit. Das Gesamtziel bleibt aktiv und nicht abgenommen.

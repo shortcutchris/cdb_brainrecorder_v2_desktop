@@ -1,0 +1,130 @@
+{
+  "synthetic_files_only": true,
+  "room_audio": false,
+  "model": "vosk-model-small-de-0.15",
+  "results": [
+    {
+      "load_seconds": 0.6320744770055171,
+      "vocabulary": {
+        "nabu": -1,
+        "okay": 46925,
+        "ok": 47079,
+        "na": 51910,
+        "gut": 130911,
+        "nanu": 54946,
+        "naboo": 55174,
+        "hallo": 99218
+      }
+    },
+    {
+      "file": "vincent/positive.wav",
+      "seconds": 0.5630734709848184,
+      "result": {
+        "result": [
+          {
+            "conf": 1.0,
+            "end": 1.423527,
+            "start": 1.14,
+            "word": "okay"
+          },
+          {
+            "conf": 0.71123,
+            "end": 1.77,
+            "start": 1.47,
+            "word": "abo"
+          }
+        ],
+        "text": "okay abo"
+      }
+    },
+    {
+      "file": "pauli/positive.wav",
+      "seconds": 0.5809231029998045,
+      "result": {
+        "result": [
+          {
+            "conf": 1.0,
+            "end": 1.35,
+            "start": 1.14,
+            "word": "kein"
+          },
+          {
+            "conf": 1.0,
+            "end": 1.62,
+            "start": 1.35,
+            "word": "abo"
+          }
+        ],
+        "text": "kein abo"
+      }
+    },
+    {
+      "file": "cdb-nabu-german/confuser.wav",
+      "seconds": 0.760715798009187,
+      "result": {
+        "result": [
+          {
+            "conf": 1.0,
+            "end": 1.47,
+            "start": 0.99,
+            "word": "okay"
+          },
+          {
+            "conf": 1.0,
+            "end": 1.59,
+            "start": 1.47,
+            "word": "na"
+          },
+          {
+            "conf": 1.0,
+            "end": 1.98,
+            "start": 1.59,
+            "word": "gut"
+          },
+          {
+            "conf": 1.0,
+            "end": 2.85,
+            "start": 2.43,
+            "word": "okay"
+          },
+          {
+            "conf": 1.0,
+            "end": 3.09,
+            "start": 2.85,
+            "word": "dann"
+          },
+          {
+            "conf": 1.0,
+            "end": 3.24,
+            "start": 3.09,
+            "word": "bis"
+          },
+          {
+            "conf": 1.0,
+            "end": 3.75,
+            "start": 3.24,
+            "word": "morgen"
+          },
+          {
+            "conf": 1.0,
+            "end": 4.32,
+            "start": 3.96,
+            "word": "na"
+          },
+          {
+            "conf": 1.0,
+            "end": 4.65,
+            "start": 4.32,
+            "word": "du"
+          }
+        ],
+        "text": "okay na gut okay dann bis morgen na du"
+      }
+    }
+  ],
+  "whisper_probe": {
+    "result": "timeout",
+    "timeout_seconds": 120,
+    "transcript_produced": false
+  }
+}

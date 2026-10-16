@@ -1,0 +1,661 @@
+{
+  "engine": "vosk-model-small-de-0.15",
+  "runtime_version": "0.3.45",
+  "host": "aarch64",
+  "exploratory": true,
+  "microphone": false,
+  "speaker": false,
+  "synthetic_files_only": true,
+  "grammar": [
+    "okay naboo",
+    "ok naboo",
+    "okay na gut",
+    "okay dann bis morgen",
+    "na du",
+    "[unk]"
+  ],
+  "accepted": [
+    "okay naboo",
+    "ok naboo"
+  ],
+  "manifest_sha256": "670c89b9f7ad47d3dc66c8142e4639dca408d2d62b0f0c9013afb1b96ce412fa",
+  "grammar_sha256": "91416d3fe3524d4eeeca81d3d47e8fbacf0748bef890f8b19504a71525332e33",
+  "load_seconds": 0.7201779710012488,
+  "cpu_timing": "recognizer creation and inference; model load excluded",
+  "cases": [
+    {
+      "file": "okay_nabu/1.wav",
+      "expected": true,
+      "gain": 1.0,
+      "noise_std": 0.0,
+      "sha256": "02229f3e04e14d33081ef3a276c3e7e5971d5a4c3f68145daf86a721f9835e67",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "okay naboo",
+        ""
+      ],
+      "cpu_seconds": 0.23416885099999996,
+      "audio_seconds": 6.72
+    },
+    {
+      "file": "okay_nabu/1.wav",
+      "expected": true,
+      "gain": 0.25,
+      "noise_std": 0.0,
+      "sha256": "02229f3e04e14d33081ef3a276c3e7e5971d5a4c3f68145daf86a721f9835e67",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "okay naboo",
+        ""
+      ],
+      "cpu_seconds": 0.227801409,
+      "audio_seconds": 6.72
+    },
+    {
+      "file": "okay_nabu/1.wav",
+      "expected": true,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "sha256": "02229f3e04e14d33081ef3a276c3e7e5971d5a4c3f68145daf86a721f9835e67",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "okay naboo",
+        ""
+      ],
+      "cpu_seconds": 0.2319409429999999,
+      "audio_seconds": 6.72
+    },
+    {
+      "file": "okay_nabu/2.wav",
+      "expected": true,
+      "gain": 1.0,
+      "noise_std": 0.0,
+      "sha256": "4724d4d35b2621aaada2ce1841c550eda86dddcf4437012ec55283514af32125",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "okay naboo",
+        ""
+      ],
+      "cpu_seconds": 0.15650220299999984,
+      "audio_seconds": 5.0
+    },
+    {
+      "file": "okay_nabu/2.wav",
+      "expected": true,
+      "gain": 0.25,
+      "noise_std": 0.0,
+      "sha256": "4724d4d35b2621aaada2ce1841c550eda86dddcf4437012ec55283514af32125",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "okay naboo",
+        ""
+      ],
+      "cpu_seconds": 0.16238844399999985,
+      "audio_seconds": 5.0
+    },
+    {
+      "file": "okay_nabu/2.wav",
+      "expected": true,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "sha256": "4724d4d35b2621aaada2ce1841c550eda86dddcf4437012ec55283514af32125",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "okay naboo",
+        ""
+      ],
+      "cpu_seconds": 0.16600486799999992,
+      "audio_seconds": 5.0
+    },
+    {
+      "file": "okay_nabu/3.wav",
+      "expected": true,
+      "gain": 1.0,
+      "noise_std": 0.0,
+      "sha256": "95214da00a437123c5c1e0a3afcac8636e3e55ce22f4973d9b25c403a0031f80",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "okay naboo",
+        "okay naboo",
+        ""
+      ],
+      "cpu_seconds": 0.34110149599999984,
+      "audio_seconds": 10.2213125
+    },
+    {
+      "file": "okay_nabu/3.wav",
+      "expected": true,
+      "gain": 0.25,
+      "noise_std": 0.0,
+      "sha256": "95214da00a437123c5c1e0a3afcac8636e3e55ce22f4973d9b25c403a0031f80",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "okay naboo",
+        "okay naboo",
+        ""
+      ],
+      "cpu_seconds": 0.3381688540000001,
+      "audio_seconds": 10.2213125
+    },
+    {
+      "file": "okay_nabu/3.wav",
+      "expected": true,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "sha256": "95214da00a437123c5c1e0a3afcac8636e3e55ce22f4973d9b25c403a0031f80",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "okay naboo",
+        "okay naboo",
+        ""
+      ],
+      "cpu_seconds": 0.346587628,
+      "audio_seconds": 10.2213125
+    },
+    {
+      "file": "alexa/1.wav",
+      "expected": false,
+      "gain": 1.0,
+      "noise_std": 0.0,
+      "sha256": "39df1987680ff276832360d50df437e16b10844b796ed87b67787f0fb8aab6b0",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        ""
+      ],
+      "cpu_seconds": 0.167767875,
+      "audio_seconds": 5.0
+    },
+    {
+      "file": "alexa/1.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.0,
+      "sha256": "39df1987680ff276832360d50df437e16b10844b796ed87b67787f0fb8aab6b0",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        ""
+      ],
+      "cpu_seconds": 0.17007748099999986,
+      "audio_seconds": 5.0
+    },
+    {
+      "file": "alexa/1.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "sha256": "39df1987680ff276832360d50df437e16b10844b796ed87b67787f0fb8aab6b0",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        ""
+      ],
+      "cpu_seconds": 0.16354601600000018,
+      "audio_seconds": 5.0
+    },
+    {
+      "file": "alexa/2.wav",
+      "expected": false,
+      "gain": 1.0,
+      "noise_std": 0.0,
+      "sha256": "7d07399d5e2514d1bb68ea694630f5eb154cf987caef101948f166dff48a14c3",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        ""
+      ],
+      "cpu_seconds": 0.17189179600000015,
+      "audio_seconds": 5.0
+    },
+    {
+      "file": "alexa/2.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.0,
+      "sha256": "7d07399d5e2514d1bb68ea694630f5eb154cf987caef101948f166dff48a14c3",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        ""
+      ],
+      "cpu_seconds": 0.17683164800000029,
+      "audio_seconds": 5.0
+    },
+    {
+      "file": "alexa/2.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "sha256": "7d07399d5e2514d1bb68ea694630f5eb154cf987caef101948f166dff48a14c3",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        ""
+      ],
+      "cpu_seconds": 0.17276837199999928,
+      "audio_seconds": 5.0
+    },
+    {
+      "file": "alexa/3.wav",
+      "expected": false,
+      "gain": 1.0,
+      "noise_std": 0.0,
+      "sha256": "3122108fbc8a30fdf2b517ad0ef3b4a32450581280460b07955668f965789fbb",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        ""
+      ],
+      "cpu_seconds": 0.17373055599999976,
+      "audio_seconds": 5.0
+    },
+    {
+      "file": "alexa/3.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.0,
+      "sha256": "3122108fbc8a30fdf2b517ad0ef3b4a32450581280460b07955668f965789fbb",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        ""
+      ],
+      "cpu_seconds": 0.1679580550000006,
+      "audio_seconds": 5.0
+    },
+    {
+      "file": "alexa/3.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "sha256": "3122108fbc8a30fdf2b517ad0ef3b4a32450581280460b07955668f965789fbb",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        ""
+      ],
+      "cpu_seconds": 0.1668265369999995,
+      "audio_seconds": 5.0
+    },
+    {
+      "file": "hey_jarvis/1.wav",
+      "expected": false,
+      "gain": 1.0,
+      "noise_std": 0.0,
+      "sha256": "64049ba085b8ab1335a8ae06060ba2447c91abfeaa5040aa5095d0029f3b5cfd",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        ""
+      ],
+      "cpu_seconds": 0.16668679599999958,
+      "audio_seconds": 5.0
+    },
+    {
+      "file": "hey_jarvis/1.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.0,
+      "sha256": "64049ba085b8ab1335a8ae06060ba2447c91abfeaa5040aa5095d0029f3b5cfd",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        ""
+      ],
+      "cpu_seconds": 0.18207342499999957,
+      "audio_seconds": 5.0
+    },
+    {
+      "file": "hey_jarvis/1.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "sha256": "64049ba085b8ab1335a8ae06060ba2447c91abfeaa5040aa5095d0029f3b5cfd",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        ""
+      ],
+      "cpu_seconds": 0.1684388529999996,
+      "audio_seconds": 5.0
+    },
+    {
+      "file": "hey_jarvis/2.wav",
+      "expected": false,
+      "gain": 1.0,
+      "noise_std": 0.0,
+      "sha256": "ce5931037e156360664ff895b7a773b0fad652296ff11080f76dd7abf725a157",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        ""
+      ],
+      "cpu_seconds": 0.16745238699999998,
+      "audio_seconds": 5.0
+    },
+    {
+      "file": "hey_jarvis/2.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.0,
+      "sha256": "ce5931037e156360664ff895b7a773b0fad652296ff11080f76dd7abf725a157",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        ""
+      ],
+      "cpu_seconds": 0.16801431399999966,
+      "audio_seconds": 5.0
+    },
+    {
+      "file": "hey_jarvis/2.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "sha256": "ce5931037e156360664ff895b7a773b0fad652296ff11080f76dd7abf725a157",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        ""
+      ],
+      "cpu_seconds": 0.17886049899999978,
+      "audio_seconds": 5.0
+    },
+    {
+      "file": "hey_jarvis/3.wav",
+      "expected": false,
+      "gain": 1.0,
+      "noise_std": 0.0,
+      "sha256": "77a882bef585e40ef426c15f359be6e6e5cadc9bda734ee50a3e31394e489cc0",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        "okay dann bis",
+        ""
+      ],
+      "cpu_seconds": 0.12884762799999994,
+      "audio_seconds": 3.935
+    },
+    {
+      "file": "hey_jarvis/3.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.0,
+      "sha256": "77a882bef585e40ef426c15f359be6e6e5cadc9bda734ee50a3e31394e489cc0",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        "okay dann bis",
+        ""
+      ],
+      "cpu_seconds": 0.1329898500000004,
+      "audio_seconds": 3.935
+    },
+    {
+      "file": "hey_jarvis/3.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "sha256": "77a882bef585e40ef426c15f359be6e6e5cadc9bda734ee50a3e31394e489cc0",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        "okay dann bis",
+        ""
+      ],
+      "cpu_seconds": 0.13859049100000043,
+      "audio_seconds": 3.935
+    },
+    {
+      "file": "hey_mycroft/1.wav",
+      "expected": false,
+      "gain": 1.0,
+      "noise_std": 0.0,
+      "sha256": "e5695b671df5d31ff8c6c850dedd8cd36ad1cff084524547b924d4fe9b8f5272",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        ""
+      ],
+      "cpu_seconds": 0.1749250360000003,
+      "audio_seconds": 5.0
+    },
+    {
+      "file": "hey_mycroft/1.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.0,
+      "sha256": "e5695b671df5d31ff8c6c850dedd8cd36ad1cff084524547b924d4fe9b8f5272",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        ""
+      ],
+      "cpu_seconds": 0.1709436679999996,
+      "audio_seconds": 5.0
+    },
+    {
+      "file": "hey_mycroft/1.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "sha256": "e5695b671df5d31ff8c6c850dedd8cd36ad1cff084524547b924d4fe9b8f5272",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        ""
+      ],
+      "cpu_seconds": 0.16387335099999945,
+      "audio_seconds": 5.0
+    },
+    {
+      "file": "hey_mycroft/2.wav",
+      "expected": false,
+      "gain": 1.0,
+      "noise_std": 0.0,
+      "sha256": "13172e145d3e9290771af9c73bd8e1e276134ac7fb08a1ae0f9b5d8210687e48",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        "okay",
+        ""
+      ],
+      "cpu_seconds": 0.17606294400000078,
+      "audio_seconds": 5.5
+    },
+    {
+      "file": "hey_mycroft/2.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.0,
+      "sha256": "13172e145d3e9290771af9c73bd8e1e276134ac7fb08a1ae0f9b5d8210687e48",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        "okay",
+        ""
+      ],
+      "cpu_seconds": 0.18136329600000067,
+      "audio_seconds": 5.5
+    },
+    {
+      "file": "hey_mycroft/2.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "sha256": "13172e145d3e9290771af9c73bd8e1e276134ac7fb08a1ae0f9b5d8210687e48",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        "okay na du",
+        ""
+      ],
+      "cpu_seconds": 0.18161485099999997,
+      "audio_seconds": 5.5
+    },
+    {
+      "file": "hey_mycroft/3.wav",
+      "expected": false,
+      "gain": 1.0,
+      "noise_std": 0.0,
+      "sha256": "c41aedd6e92a9a50c520d9a28eac389fbd15cb78d1562ef6a22540f22b928d6b",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        "okay morgen",
+        ""
+      ],
+      "cpu_seconds": 0.17715092899999973,
+      "audio_seconds": 5.5
+    },
+    {
+      "file": "hey_mycroft/3.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.0,
+      "sha256": "c41aedd6e92a9a50c520d9a28eac389fbd15cb78d1562ef6a22540f22b928d6b",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        "okay morgen",
+        ""
+      ],
+      "cpu_seconds": 0.17835042599999973,
+      "audio_seconds": 5.5
+    },
+    {
+      "file": "hey_mycroft/3.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "sha256": "c41aedd6e92a9a50c520d9a28eac389fbd15cb78d1562ef6a22540f22b928d6b",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        "okay na",
+        ""
+      ],
+      "cpu_seconds": 0.1849035170000004,
+      "audio_seconds": 5.5
+    },
+    {
+      "file": "vincent/positive.wav",
+      "expected": true,
+      "gain": 1.0,
+      "noise_std": 0.0,
+      "sha256": "4b5d2c139e6452680bcef66e9df0eab8ca4c6d0332c7ae72687541033fdce6fb",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "okay naboo",
+        ""
+      ],
+      "cpu_seconds": 0.12484448100000023,
+      "audio_seconds": 4.068125
+    },
+    {
+      "file": "vincent/positive.wav",
+      "expected": true,
+      "gain": 0.25,
+      "noise_std": 0.0,
+      "sha256": "4b5d2c139e6452680bcef66e9df0eab8ca4c6d0332c7ae72687541033fdce6fb",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "okay naboo",
+        ""
+      ],
+      "cpu_seconds": 0.1327272949999987,
+      "audio_seconds": 4.068125
+    },
+    {
+      "file": "vincent/positive.wav",
+      "expected": true,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "sha256": "4b5d2c139e6452680bcef66e9df0eab8ca4c6d0332c7ae72687541033fdce6fb",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "okay naboo",
+        ""
+      ],
+      "cpu_seconds": 0.13505135199999962,
+      "audio_seconds": 4.068125
+    },
+    {
+      "file": "pauli/positive.wav",
+      "expected": true,
+      "gain": 1.0,
+      "noise_std": 0.0,
+      "sha256": "4bbcb850e869bdeaf7761cccbf42266cc6750c45e09681b0a8571a58c4e62092",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "okay naboo",
+        ""
+      ],
+      "cpu_seconds": 0.1294972199999993,
+      "audio_seconds": 3.882375
+    },
+    {
+      "file": "pauli/positive.wav",
+      "expected": true,
+      "gain": 0.25,
+      "noise_std": 0.0,
+      "sha256": "4bbcb850e869bdeaf7761cccbf42266cc6750c45e09681b0a8571a58c4e62092",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "okay naboo",
+        ""
+      ],
+      "cpu_seconds": 0.1255737220000004,
+      "audio_seconds": 3.882375
+    },
+    {
+      "file": "pauli/positive.wav",
+      "expected": true,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "sha256": "4bbcb850e869bdeaf7761cccbf42266cc6750c45e09681b0a8571a58c4e62092",
+      "detected": true,
+      "synthetic_decoded_texts": [
+        "okay naboo",
+        ""
+      ],
+      "cpu_seconds": 0.1272887590000007,
+      "audio_seconds": 3.882375
+    },
+    {
+      "file": "vincent/negative.wav",
+      "expected": false,
+      "gain": 1.0,
+      "noise_std": 0.0,
+      "sha256": "f58bd85a050048d6224ad196b7460e04ede5aed7d8548ecb387f5f9da66e6bf3",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        "okay na gut okay dann bis morgen na du",
+        "okay na du [unk]",
+        "du dann naboo",
+        "naboo na morgen dann bis dann gut naboo",
+        "okay na du morgen",
+        "du",
+        ""
+      ],
+      "cpu_seconds": 0.6127382960000016,
+      "audio_seconds": 18.5109375
+    },
+    {
+      "file": "vincent/negative.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.0,
+      "sha256": "f58bd85a050048d6224ad196b7460e04ede5aed7d8548ecb387f5f9da66e6bf3",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        "okay na gut okay dann bis morgen na du",
+        "okay na du [unk]",
+        "dann du dann naboo",
+        "naboo na morgen dann bis dann gut naboo",
+        "okay na du morgen",
+        "du",
+        ""
+      ],
+      "cpu_seconds": 0.611619074,
+      "audio_seconds": 18.5109375
+    },
+    {
+      "file": "vincent/negative.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "sha256": "f58bd85a050048d6224ad196b7460e04ede5aed7d8548ecb387f5f9da66e6bf3",
+      "detected": false,
+      "synthetic_decoded_texts": [
+        "okay na gut okay dann bis morgen na du",
+        "okay na du [unk]",
+        "dann du dann naboo",
+        "naboo na okay na morgen dann bis dann gut na naboo",
+        "okay na du na du",
+        ""
+      ],
+      "cpu_seconds": 0.6537623159999999,
+      "audio_seconds": 18.5109375
+    }
+  ],
+  "positive_detected": 15,
+  "positive_total": 15,
+  "false_positives": 0,
+  "negative_total": 30,
+  "cpu_seconds": 9.410307807999999
+}

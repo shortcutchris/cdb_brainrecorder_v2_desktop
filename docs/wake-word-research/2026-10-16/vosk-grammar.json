@@ -1,0 +1,14 @@
+{
+  "grammar": [
+    "okay naboo",
+    "ok naboo",
+    "okay na gut",
+    "okay dann bis morgen",
+    "na du",
+    "[unk]"
+  ],
+  "accepted": [
+    "okay naboo",
+    "ok naboo"
+  ]
+}

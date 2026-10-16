@@ -1,0 +1,25 @@
+{
+  "synthetic_files_only": true,
+  "cases": [
+    {
+      "file": "/tmp/cdb-nabu-holdout/otto-pos/positive.wav",
+      "label": "otto-pos/positive.wav",
+      "expected": true
+    },
+    {
+      "file": "/tmp/cdb-nabu-holdout/ben-pos/positive.wav",
+      "label": "ben-pos/positive.wav",
+      "expected": true
+    },
+    {
+      "file": "/tmp/cdb-nabu-holdout/otto-neg/negative.wav",
+      "label": "otto-neg/negative.wav",
+      "expected": false
+    },
+    {
+      "file": "/tmp/cdb-nabu-holdout/ben-neg/negative.wav",
+      "label": "ben-neg/negative.wav",
+      "expected": false
+    }
+  ]
+}

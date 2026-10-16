@@ -1,0 +1,27 @@
+{
+  "source": "https://alphacephei.com/vosk/models/vosk-model-small-de-0.15.zip",
+  "archive_sha256": "b7e53c90b1f0a38456f4cd62b366ecd58803cd97cd42b06438e2c131713d5e43",
+  "model_license": "Apache-2.0 per official model list",
+  "installed_in_product": false,
+  "runtime": "existing Vosk 0.3.45 used for isolated lab; no runtime changes",
+  "holdout_voices": [
+    {
+      "name": "Otto",
+      "id": "FTNCalFNG5bRnkkaP5Ug"
+    },
+    {
+      "name": "Ben",
+      "id": "aTTiK3YzK3dXETpuDE2h"
+    }
+  ],
+  "tts_model": "eleven_multilingual_v2",
+  "language": "de",
+  "speed": 1,
+  "voice_cloning": false,
+  "negative_prompts": {
+    "Otto": "Okay, na bitte. Okay, na und? Ich habe ein Abo. Das war nur ein Angebot. Nanu, was ist das denn?",
+    "Ben": "Okay, nach Hause. Okay, na klar. Noch ein Abo brauche ich nicht. Hallo Nachbar! Kannst du das nachbauen?"
+  },
+  "test_status": "20 local targeted tests passed; full native corpus runs on Pi; no room test or natural user acceptance in this follow-up",
+  "known_limit": "User away from Pi; no repeat natural-test request until return"
+}

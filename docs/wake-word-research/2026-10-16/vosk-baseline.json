@@ -1,0 +1,80 @@
+{
+  "synthetic_files_only": true,
+  "cases": [
+    {
+      "file": "/tmp/cdb-nabu-reference-059/tests/okay_nabu/1.wav",
+      "label": "okay_nabu/1.wav",
+      "expected": true
+    },
+    {
+      "file": "/tmp/cdb-nabu-reference-059/tests/okay_nabu/2.wav",
+      "label": "okay_nabu/2.wav",
+      "expected": true
+    },
+    {
+      "file": "/tmp/cdb-nabu-reference-059/tests/okay_nabu/3.wav",
+      "label": "okay_nabu/3.wav",
+      "expected": true
+    },
+    {
+      "file": "/tmp/cdb-nabu-reference-059/tests/alexa/1.wav",
+      "label": "alexa/1.wav",
+      "expected": false
+    },
+    {
+      "file": "/tmp/cdb-nabu-reference-059/tests/alexa/2.wav",
+      "label": "alexa/2.wav",
+      "expected": false
+    },
+    {
+      "file": "/tmp/cdb-nabu-reference-059/tests/alexa/3.wav",
+      "label": "alexa/3.wav",
+      "expected": false
+    },
+    {
+      "file": "/tmp/cdb-nabu-reference-059/tests/hey_jarvis/1.wav",
+      "label": "hey_jarvis/1.wav",
+      "expected": false
+    },
+    {
+      "file": "/tmp/cdb-nabu-reference-059/tests/hey_jarvis/2.wav",
+      "label": "hey_jarvis/2.wav",
+      "expected": false
+    },
+    {
+      "file": "/tmp/cdb-nabu-reference-059/tests/hey_jarvis/3.wav",
+      "label": "hey_jarvis/3.wav",
+      "expected": false
+    },
+    {
+      "file": "/tmp/cdb-nabu-reference-059/tests/hey_mycroft/1.wav",
+      "label": "hey_mycroft/1.wav",
+      "expected": false
+    },
+    {
+      "file": "/tmp/cdb-nabu-reference-059/tests/hey_mycroft/2.wav",
+      "label": "hey_mycroft/2.wav",
+      "expected": false
+    },
+    {
+      "file": "/tmp/cdb-nabu-reference-059/tests/hey_mycroft/3.wav",
+      "label": "hey_mycroft/3.wav",
+      "expected": false
+    },
+    {
+      "file": "/tmp/cdb-nabu-german/vincent/positive.wav",
+      "label": "vincent/positive.wav",
+      "expected": true
+    },
+    {
+      "file": "/tmp/cdb-nabu-german/pauli/positive.wav",
+      "label": "pauli/positive.wav",
+      "expected": true
+    },
+    {
+      "file": "/tmp/cdb-nabu-german/vincent/negative.wav",
+      "label": "vincent/negative.wav",
+      "expected": false
+    }
+  ]
+}
