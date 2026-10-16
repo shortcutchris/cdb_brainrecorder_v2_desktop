@@ -5,7 +5,7 @@ test -f /.cdb-image-build || { echo 'Refusing: not a fresh pi-gen image root'; e
 test "$(dpkg --print-architecture)" = arm64
 cd /opt/cdb/source
 python3 -m venv /opt/cdb/runtime
-/opt/cdb/runtime/bin/pip install --only-binary=:all: -r requirements.txt cryptography==50.0.2 vosk==0.3.45
+/opt/cdb/runtime/bin/pip install --only-binary=:all: -r requirements.txt cryptography==50.0.2 -r requirements-wake.txt
 bash /opt/cdb/factory/install-runtimes.sh
 install -m 644 /opt/cdb/factory/70-cdb-respeaker.rules /etc/udev/rules.d/70-cdb-respeaker.rules
 /opt/cdb/runtime/bin/pip freeze > /opt/cdb/factory/python-packages.txt

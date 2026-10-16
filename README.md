@@ -1,5 +1,15 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.59 – Zurück zu „Okay Nabu“
+
+Unter **Einstellungen → Audio → Aktivierungswort** steht wieder **Okay Nabu**
+mit dem dedizierten lokalen microWakeWord-Modell zur Auswahl. Bitte beide Wörter
+sprechen. Zum Wechseln zunächst ausschalten, Rufwort wählen, dann einschalten.
+Die Auswahl bleibt gespeichert; Aufnahme, Pause, Gespräch und Wiedergabe haben
+weiterhin Vorrang. Nach „Gespräch beenden“ kehrt das Gerät zur gewählten
+Bereitschaft zurück. Bestehende Profile werden beim Update nicht umgestellt.
+[Prüfung, Auslieferung und Image-Auswirkung](docs/wake-nabu-0.5.59/README.md).
+
 ## 0.5.58 – Hey KAI anhand natürlicher Rufe kalibrieren
 
 Die Testvariante „Hey KAI“ berücksichtigt niedrigere Wortkonfidenzen, die am

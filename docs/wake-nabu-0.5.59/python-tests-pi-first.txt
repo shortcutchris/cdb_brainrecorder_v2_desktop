@@ -1,0 +1,38 @@
+Detected locale "de_DE" with character encoding "ISO-8859-1", which is not UTF-8.
+Qt depends on a UTF-8 locale, and has switched to "de_DE.UTF-8" instead.
+If this causes problems, reconfigure your locale. See the locale(1) manual
+for more information.
+.........................../home/chris/projects/cdb_brainrecorder_v2_desktop/venv-local-ai/lib/python3.13/site-packages/dbus_next/service.py:87: DeprecationWarning: 'typing.no_type_check_decorator' is deprecated and slated for removal in Python 3.15
+  @no_type_check_decorator
+.................................................................................................................................................................EE....E.........................................................................................................................................{"event": "maintenance_released"}
+..{"event": "maintenance_released"}
+..{"event": "maintenance_released"}
+..................................................
+======================================================================
+ERROR: test_activity_animation_fifo_and_elapsed_are_honest (test_native.NativeTests.test_activity_animation_fifo_and_elapsed_are_honest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cdb-nabu-test-059/source/tests/test_native.py", line 152, in test_activity_animation_fifo_and_elapsed_are_honest
+    from ui.queue_status import describe_queue
+ModuleNotFoundError: No module named 'ui'
+
+======================================================================
+ERROR: test_content_saves_to_origin_on_tab_and_meeting_switch_and_protects_drafts (test_native.NativeTests.test_content_saves_to_origin_on_tab_and_meeting_switch_and_protects_drafts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cdb-nabu-test-059/source/tests/test_native.py", line 94, in test_content_saves_to_origin_on_tab_and_meeting_switch_and_protects_drafts
+    from ui.meeting_content import MeetingContent
+ModuleNotFoundError: No module named 'ui'
+
+======================================================================
+ERROR: test_original_ui_and_local_settings_at_two_display_sizes (test_native.NativeTests.test_original_ui_and_local_settings_at_two_display_sizes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cdb-nabu-test-059/source/tests/test_native.py", line 164, in test_original_ui_and_local_settings_at_two_display_sizes
+    from ui.main_window import MainWindow
+ModuleNotFoundError: No module named 'ui'
+
+----------------------------------------------------------------------
+Ran 386 tests in 71.545s
+
+FAILED (errors=3)

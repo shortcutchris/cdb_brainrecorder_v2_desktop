@@ -1,2 +1,6 @@
 # ARM64 local phrase recognition; Apache-2.0 small English acoustic model.
 vosk==0.3.45
+
+# Dedicated built-in Okay Nabu model and frontend (ARM64).
+pymicro-wakeword==2.5.0
+pymicro-features==2.0.2

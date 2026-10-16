@@ -17,7 +17,7 @@ import sys
 import time
 from meeting_recorder.child_process import owned_command
 from meeting_recorder.core import atomic_write
-from services.wake_phrase import DEFAULT_PHRASE, PHRASES, phrase_spec, model_ready
+from services.wake_detectors import DEFAULT_PHRASE, PHRASES, phrase_spec, runtime_ready
 from services.wake_diagnostics import AudioDiagnostics, validate
 
 
@@ -44,7 +44,6 @@ class WakeWord:
         self.recognized_until = 0
         self.message = 'Aktivierungswort ausgeschaltet.'
         self.mode = 'off'
-        self.runtime = importlib.util.find_spec('vosk') is not None and model_ready()
         try:
             saved = json.loads(self.path.read_text())
             self.enabled = saved.get('enabled') is True
@@ -53,6 +52,7 @@ class WakeWord:
             if isinstance(candidate, str) and candidate in PHRASES: self.phrase = candidate
             else: self.enabled = False
         except (ValueError, OSError): pass
+        self.runtime = runtime_ready(self.phrase)
 
     def public(self):
         return {'instance': self.instance, 'enabled': self.enabled, 'available': self.runtime,
@@ -89,6 +89,7 @@ class WakeWord:
             raise ValueError('Zum Wechseln zuerst Aktivierungswort und Erkennungstest ausschalten.')
         self.suspend()
         self.phrase = phrase
+        self.runtime = runtime_ready(phrase)
         self.instance = secrets.token_hex(8)
         self.count = 0
         self.recognized_until = 0
@@ -222,9 +223,9 @@ class WakeWord:
 
 
 def detect(capture_command=None, phrase=None):
-    from services.wake_phrase import PhraseDetector
+    from services.wake_detectors import create_detector
     from services.live_audio import native_capture_command
-    model = PhraseDetector(phrase or (sys.argv[2] if len(sys.argv)>2 else DEFAULT_PHRASE))
+    model = create_detector(phrase or (sys.argv[2] if len(sys.argv)>2 else DEFAULT_PHRASE))
     diagnostics = AudioDiagnostics()
     command = capture_command or native_capture_command({'device': sys.argv[1]})
     capture = subprocess.Popen(owned_command(command), stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)

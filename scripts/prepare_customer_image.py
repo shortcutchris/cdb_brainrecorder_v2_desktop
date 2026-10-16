@@ -35,7 +35,7 @@ def prepare(output, public_key, server='https://cdblab.de/devices', country='DE'
     source.mkdir(parents=True); factory.mkdir()
     files = {}
     for name in filter(None, names):
-        selected = allowed(name) or name.startswith('fleet/') and name.endswith('.py') or name in ('requirements.txt','requirements-engine.txt','vendor/raspberry_pi_meeting_recorder-0.2.7-py3-none-any.whl')
+        selected = allowed(name) or name.startswith('fleet/') and name.endswith('.py') or name in ('requirements.txt','requirements-engine.txt','requirements-wake.txt','vendor/raspberry_pi_meeting_recorder-0.2.7-py3-none-any.whl')
         if not selected: continue
         src = SOURCE / name
         if src.is_symlink(): raise ValueError('No source symlinks allowed')

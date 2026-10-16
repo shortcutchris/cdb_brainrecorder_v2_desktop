@@ -14,7 +14,7 @@ class CustomerImageTests(unittest.TestCase):
         from cryptography.hazmat.primitives.serialization import Encoding,PublicFormat
         with tempfile.TemporaryDirectory() as folder:
             root=Path(folder);source=root/'source';source.mkdir()
-            entries={'web_server.py':"VERSION = '0.5.44'",'data/sessions.db':'PRIVATE','studio/welcome.html':'Hello','fleet/__init__.py':'','deploy/customer-image/network_service.py':'# network','deploy/customer-image/01-run-chroot.sh':'#!/bin/bash\n','kiosk.sh':'#!/bin/bash\n','scripts/audit_customer_rootfs.py':'# audit','credential.json':'PRIVATE','release-private.pem':'PRIVATE'}
+            entries={'requirements-wake.txt':'pymicro-wakeword==2.5.0', 'services/wake_detectors.py':'# engines', 'web_server.py':"VERSION = '0.5.44'",'data/sessions.db':'PRIVATE','studio/welcome.html':'Hello','fleet/__init__.py':'','deploy/customer-image/network_service.py':'# network','deploy/customer-image/01-run-chroot.sh':'#!/bin/bash\n','kiosk.sh':'#!/bin/bash\n','scripts/audit_customer_rootfs.py':'# audit','credential.json':'PRIVATE','release-private.pem':'PRIVATE'}
             for name,value in entries.items():
                 path=source/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_text(value)
             key=root/'public.pem';key.write_bytes(Ed25519PrivateKey.generate().public_key().public_bytes(Encoding.PEM,PublicFormat.SubjectPublicKeyInfo))
@@ -23,6 +23,8 @@ class CustomerImageTests(unittest.TestCase):
                 return ('\0'.join(entries)+'\0').encode() if 'ls-files' in args else b'abc123\n'
             with patch.object(builder,'SOURCE',source),patch.object(builder.subprocess,'check_output',side_effect=git):
                 result=builder.prepare(root/'kit',key)
+            self.assertIn('requirements-wake.txt',result['source_files'])
+            self.assertIn('services/wake_detectors.py',result['source_files'])
             self.assertNotIn('data/sessions.db',result['source_files'])
             self.assertNotIn('credential.json',result['source_files'])
             self.assertNotIn('release-private.pem',result['source_files'])
