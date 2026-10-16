@@ -80,3 +80,9 @@ bleiben ausdrücklich prüfpflichtig; **kein bestandener 24-Stunden-Test**.
 Der kurzfristige Ressourcenvergleich begründet diesen gezielten Fix. Ob der
 produktive Browser damit dauerhaft stabil bleibt und ein echter Ruf nach
 mindestens acht Stunden Pause zuverlässig aktiviert, ist weiterhin offen.
+
+Die [anschließende Prüfung des echten Displays](display-check/README.md)
+fand einen nativen Schlüsselbund-Dialog über der ansonsten bereiten App.
+Er wurde ohne Neustart geschlossen. Dieser manuelle Eingriff und die noch
+ungeklärte Herkunft müssen in die Langzeitbewertung eingehen; reine API-Werte
+belegen keinen störungsfreien UI-Betrieb.
