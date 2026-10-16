@@ -1,0 +1,21 @@
+{
+  "runtime_deployed": false,
+  "production_version": "0.5.56",
+  "python_tests": 371,
+  "python_exit_code": 0,
+  "live_tests": 60,
+  "wake_stress_tests": 13,
+  "new_event_scope_tests": 9,
+  "synthetic_reader_cycles": 100,
+  "real_cloud_calls": 0,
+  "real_microphone_access": false,
+  "overall_goal_complete": false,
+  "source_sha256": "3b8da0e17485d1e97ebd996afd7f5e57eff03cd9baf5feb86152b6bb067313cf",
+  "test_sha256": "2b070ab5593082415e4fb5e44ef49919ed190a820bca01a2284e2aba3af0d397",
+  "log_sha256": {
+    "reproduction-before.txt": "b956ad80461115fe3b6d3aa0cd3bd2b97009111c935e1c75d57c2b797aa914a6",
+    "live-tests.txt": "cb4fa995eb094f973c8cd0fc7ca598a632f19e7b5a786733ee5463ac484c18ee",
+    "wake-stress-tests.txt": "c7820a873567658005323df75b60bea2db61bb11bfa8b334aec030d6033d4a75",
+    "python-tests.txt": "0e805c9adc0c27018a241fb72c29125a88274d4dbaf78fd979e6fee34115d66a"
+  }
+}

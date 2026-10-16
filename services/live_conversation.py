@@ -60,7 +60,7 @@ class LiveConversation:
             if type(pref.get('search_sound')) is bool:self.search_sound=pref['search_sound']
         except (OSError,ValueError):pass
         self.clock = clock
-        self.event_reader = events or self._read_events
+        self.event_reader = events
         self.stop = threading.Event()
         self.state = 'idle'
         self.error = ''
@@ -528,17 +528,30 @@ class LiveConversation:
             previous['offset'] = max(previous['offset'] or 0, end if end is not None else start)
         self.history_dirty = True
 
-    def _read_events(self, handle, binding, callback):
+    def _read_events(self, handle, binding, callback, *, generation):
+        def current():
+            with self.lock:
+                return (not self.stop.is_set() and generation == self.generation and
+                        self.handle == handle and self.binding == binding and
+                        self.state in ACTIVE and
+                        self.cdb.generation == self.account_generation)
+
+        if not current(): return
         session = self.cdb.session(binding)
+        # Token renewal can finish after cancellation or a new conversation.
+        if not current(): return
         request = urllib.request.Request(session['server'] + BASE + '/sessions/' + handle + '/events',
             headers={'Authorization': 'Bearer ' + session['token'], 'Accept': 'text/event-stream', 'User-Agent': USER_AGENT})
         class NoRedirect(urllib.request.HTTPRedirectHandler):
             def redirect_request(self, *args): return None
         opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), NoRedirect(), HTTPSHandler())
         with opener.open(request, timeout=35) as response:
+            if not current(): return
             event = ''; lines = []; size = 0
             for raw in response:
-                if self.stop.is_set() or not self.busy(): return
+                # A new conversation being busy must not keep an old stream alive,
+                # including when it sends only keepalives and no callbacks.
+                if not current(): return
                 size += len(raw)
                 if size > 1_000_000: raise ValueError('Live event too large')
                 line = raw.decode('utf-8').rstrip('\r\n')
@@ -560,7 +573,11 @@ class LiveConversation:
             def receive(name, data):
                 if name != 'error': framed[0] = True
                 self._frame(generation, name, data)
-            try: self.event_reader(handle, binding, receive)
+            try:
+                if self.event_reader is not None:
+                    self.event_reader(handle, binding, receive)
+                else:
+                    self._read_events(handle, binding, receive, generation=generation)
             except Exception: pass
             with self.lock:
                 if generation != self.generation or self.state == 'closing': return

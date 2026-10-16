@@ -1,0 +1,15 @@
+test_old_keepalive_stream_closes_when_next_conversation_starts (test_live_event_scope.LiveEventScopeTests.test_old_keepalive_stream_closes_when_next_conversation_starts) ... FAIL
+
+======================================================================
+FAIL: test_old_keepalive_stream_closes_when_next_conversation_starts (test_live_event_scope.LiveEventScopeTests.test_old_keepalive_stream_closes_when_next_conversation_starts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/chris/Dropbox/git_reps_v3/cdb_brainrecorder_v2_desktop/tests/test_live_event_scope.py", line 69, in test_old_keepalive_stream_closes_when_next_conversation_starts
+    self.assertEqual(response.consumed, 2, 'obsolete reader consumed the next session lifetime')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 5 != 2 : obsolete reader consumed the next session lifetime
+
+----------------------------------------------------------------------
+Ran 1 test in 0.006s
+
+FAILED (failures=1)

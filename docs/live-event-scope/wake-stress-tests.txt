@@ -1,0 +1,18 @@
+test_100_concurrent_reservation_rounds_have_exactly_one_owner (test_wake_stress.LiveStressTests.test_100_concurrent_reservation_rounds_have_exactly_one_owner) ... ok
+test_audio_callback_during_requested_close_does_not_invent_failure (test_wake_stress.LiveStressTests.test_audio_callback_during_requested_close_does_not_invent_failure) ... ok
+test_cloud_close_ack_preserves_prior_local_audio_failure (test_wake_stress.LiveStressTests.test_cloud_close_ack_preserves_prior_local_audio_failure) ... ok
+test_exhausted_network_retries_release_audio_and_keep_failure_visible (test_wake_stress.LiveStressTests.test_exhausted_network_retries_release_audio_and_keep_failure_visible) ... ok
+test_heartbeat_timeout_keeps_local_failure_visible_after_release (test_wake_stress.LiveStressTests.test_heartbeat_timeout_keeps_local_failure_visible_after_release) ... ok
+test_late_heartbeat_failure_cannot_end_new_conversation (test_wake_stress.LiveStressTests.test_late_heartbeat_failure_cannot_end_new_conversation) ... ok
+test_requested_close_during_last_network_backoff_is_not_a_new_failure (test_wake_stress.LiveStressTests.test_requested_close_during_last_network_backoff_is_not_a_new_failure) ... ok
+test_slow_heartbeat_does_not_block_voice_end (test_wake_stress.LiveStressTests.test_slow_heartbeat_does_not_block_voice_end) ... ok
+test_100_double_mentions_transfer_capture_only_once_per_cycle (test_wake_stress.WakeFaultTests.test_100_double_mentions_transfer_capture_only_once_per_cycle) ... ok
+test_child_imports_own_release_not_service_working_directory (test_wake_stress.WakeFaultTests.test_child_imports_own_release_not_service_working_directory) ... ok
+test_partial_child_output_never_blocks_recording_control_lock (test_wake_stress.WakeFaultTests.test_partial_child_output_never_blocks_recording_control_lock) ... ok
+test_progress_recovers_stalled_listening_and_respects_recording (test_wake_stress.WakeFaultTests.test_progress_recovers_stalled_listening_and_respects_recording) ... ok
+test_stalled_child_is_released_after_start_timeout (test_wake_stress.WakeFaultTests.test_stalled_child_is_released_after_start_timeout) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 5.310s
+
+OK
