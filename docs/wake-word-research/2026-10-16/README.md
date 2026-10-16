@@ -207,3 +207,18 @@ TFLite-Bibliothek optional über eigene Pfade. Maximal 64 bekannte Dateien bis
 je 60 Sekunden; keine Audio-Geräte, kein automatischer Download. Für lange
 native Vergleiche zusätzlich einen Prozess-Timeout setzen. Der Korpus bleibt
 außerhalb des Kundenpakets; JSON-Berichte enthalten Hashes und technische Werte.
+
+## Auslieferung bestätigt
+
+App **0.5.60**, signierte Sequenz **17**, Quellcommit
+`2ad59b3c4d5eb513ccf1d4cfae44564a23e1245b`. [Installation](deployment.json)
+bestätigt erhaltene Einstellungen und unveränderte produktive Runtime.
+[Sechs Nachprüfungen](installation-check.json): API und HTML 0.5.60,
+Nabu aktiv/listening, genau ein stabiler Wake-Prozess, neue numerische Diagnose
+mit unveränderter Schwelle 0,85. Alle vier installierten Datei-Hashes entsprechen
+dem signierten Manifest. Keine alternative Engine auf dem Produktivpfad.
+
+[Image-Export](image-export-check.json): 121 zugelassene Dateien, geänderte
+Laufzeitdateien exakt enthalten. Nur Baupaket, kein neues bootgeprüftes SD-Image.
+Der Beobachter läuft weiter mit Originalplan und markiert Versionswechsel;
+kein Zurücksetzen oder Zusammenzählen früherer Zeitfenster.

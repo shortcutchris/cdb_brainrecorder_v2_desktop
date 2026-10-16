@@ -1,0 +1,12 @@
+{
+  "version": "0.5.60",
+  "source_commit": "2ad59b3c4d5eb513ccf1d4cfae44564a23e1245b",
+  "matched_files": [
+    "services/wake_detectors.py",
+    "services/wake_diagnostics.py",
+    "services/wake_word.py",
+    "web_server.py"
+  ],
+  "total_exported_files": 121,
+  "boot_certified": false
+}

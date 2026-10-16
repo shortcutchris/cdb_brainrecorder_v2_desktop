@@ -1,0 +1,163 @@
+{
+  "version": "0.5.60",
+  "html_version": "0.5.60",
+  "rows": [
+    {
+      "at": 1792150324.3999758,
+      "state": "listening",
+      "diagnostic": {
+        "blocks": 159,
+        "speech_segments": 0,
+        "accepted": 0,
+        "candidate_rejected": 0,
+        "partial_wake_word": 0,
+        "other_speech": 0,
+        "onset_renewals": 0,
+        "decision": "none",
+        "peak_dbfs": -44.7,
+        "rms_dbfs": -59.2,
+        "model_peak": 0.01406,
+        "model_cutoff": 0.85
+      },
+      "children": [
+        {
+          "pid": 1913933,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/c93af8c02b3347fbc75a0d0555dece124c4350f3db48b31a4d7d25a501588baa",
+          "source_sha256": "d2b21606101ba1ac9bddc59f52555668a89d8d99ac11678e819c8be414efb33d"
+        }
+      ]
+    },
+    {
+      "at": 1792150326.4072642,
+      "state": "listening",
+      "diagnostic": {
+        "blocks": 200,
+        "speech_segments": 0,
+        "accepted": 0,
+        "candidate_rejected": 0,
+        "partial_wake_word": 0,
+        "other_speech": 0,
+        "onset_renewals": 0,
+        "decision": "none",
+        "peak_dbfs": -46.2,
+        "rms_dbfs": -60.6,
+        "model_peak": 0.00937,
+        "model_cutoff": 0.85
+      },
+      "children": [
+        {
+          "pid": 1913933,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/c93af8c02b3347fbc75a0d0555dece124c4350f3db48b31a4d7d25a501588baa",
+          "source_sha256": "d2b21606101ba1ac9bddc59f52555668a89d8d99ac11678e819c8be414efb33d"
+        }
+      ]
+    },
+    {
+      "at": 1792150328.4149222,
+      "state": "listening",
+      "diagnostic": {
+        "blocks": 240,
+        "speech_segments": 0,
+        "accepted": 0,
+        "candidate_rejected": 0,
+        "partial_wake_word": 0,
+        "other_speech": 0,
+        "onset_renewals": 0,
+        "decision": "none",
+        "peak_dbfs": -45.3,
+        "rms_dbfs": -59.9,
+        "model_peak": 0.0,
+        "model_cutoff": 0.85
+      },
+      "children": [
+        {
+          "pid": 1913933,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/c93af8c02b3347fbc75a0d0555dece124c4350f3db48b31a4d7d25a501588baa",
+          "source_sha256": "d2b21606101ba1ac9bddc59f52555668a89d8d99ac11678e819c8be414efb33d"
+        }
+      ]
+    },
+    {
+      "at": 1792150330.4223611,
+      "state": "listening",
+      "diagnostic": {
+        "blocks": 280,
+        "speech_segments": 0,
+        "accepted": 0,
+        "candidate_rejected": 0,
+        "partial_wake_word": 0,
+        "other_speech": 0,
+        "onset_renewals": 0,
+        "decision": "none",
+        "peak_dbfs": -47.7,
+        "rms_dbfs": -60.7,
+        "model_peak": 0.00391,
+        "model_cutoff": 0.85
+      },
+      "children": [
+        {
+          "pid": 1913933,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/c93af8c02b3347fbc75a0d0555dece124c4350f3db48b31a4d7d25a501588baa",
+          "source_sha256": "d2b21606101ba1ac9bddc59f52555668a89d8d99ac11678e819c8be414efb33d"
+        }
+      ]
+    },
+    {
+      "at": 1792150332.431973,
+      "state": "listening",
+      "diagnostic": {
+        "blocks": 320,
+        "speech_segments": 0,
+        "accepted": 0,
+        "candidate_rejected": 0,
+        "partial_wake_word": 0,
+        "other_speech": 0,
+        "onset_renewals": 0,
+        "decision": "none",
+        "peak_dbfs": -47.8,
+        "rms_dbfs": -61.1,
+        "model_peak": 0.00391,
+        "model_cutoff": 0.85
+      },
+      "children": [
+        {
+          "pid": 1913933,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/c93af8c02b3347fbc75a0d0555dece124c4350f3db48b31a4d7d25a501588baa",
+          "source_sha256": "d2b21606101ba1ac9bddc59f52555668a89d8d99ac11678e819c8be414efb33d"
+        }
+      ]
+    },
+    {
+      "at": 1792150334.438885,
+      "state": "listening",
+      "diagnostic": {
+        "blocks": 361,
+        "speech_segments": 0,
+        "accepted": 0,
+        "candidate_rejected": 0,
+        "partial_wake_word": 0,
+        "other_speech": 0,
+        "onset_renewals": 0,
+        "decision": "none",
+        "peak_dbfs": -46.3,
+        "rms_dbfs": -59.7,
+        "model_peak": 0.0,
+        "model_cutoff": 0.85
+      },
+      "children": [
+        {
+          "pid": 1913933,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/c93af8c02b3347fbc75a0d0555dece124c4350f3db48b31a4d7d25a501588baa",
+          "source_sha256": "d2b21606101ba1ac9bddc59f52555668a89d8d99ac11678e819c8be414efb33d"
+        }
+      ]
+    }
+  ],
+  "installed_files": {
+    "services/wake_detectors.py": "03952b4637dbf47772c0215bce47a4042504def102214744fa66ba2676b387ce",
+    "services/wake_word.py": "5612e2b893ab34aa1b99dd536f96a8daf55c432b8d935c00ac8737ae89eea762",
+    "services/wake_diagnostics.py": "a638baa0fb4fd87a37f2bdd4ea3607cc982db2314d049b2f8812bec04868bb07",
+    "web_server.py": "46cf60521d2adcd2a3cb311d25f7ed27afc253da1d71ecf7bcb634aa2ede9c28"
+  },
+  "passed": true
+}
