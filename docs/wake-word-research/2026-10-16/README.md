@@ -665,3 +665,40 @@ identifizierten synthetischen Dateien. Ein externer Controller spielt jede
 Datei erst nach `play_clip` mit Originalrate ab und protokolliert ihren Exit.
 Ohne externe Wiedergabe gelten diese Messwerte nicht als reproduziert. Der
 Bericht enthält die Modell-/Binary-Hashes und die tatsächlichen Wiedergaben.
+
+## Unabhängiger Streaming-Dateitest: erster Ruf bleibt kritisch
+
+Vor Erzeugung der neuen Charlie-/HL-Dateien wurden Parameter und Abnahme in
+[independent-stream-plan.json](independent-stream-plan.json) eingefroren. Der
+native Base-Prüfer verarbeitete sechs vollständige Echtzeit-Dateiströme auf dem
+Pi (16.10., 15:43:14–15:44:38). Kein Mikrofon, Lautsprecher oder Cloud-Gespräch;
+der ursprüngliche Beobachterplan blieb unverändert. Die CPU-Testlast zählt
+nicht als unbeeinflusste Ruhezeit.
+
+**4/6 Szenarien bestanden:** HL wurde einzeln und vor der Wiederholung erkannt,
+beide Negativdateien lösten nicht aus. Charlie scheiterte einzeln und in der
+Doppelnennung am ersten Ruf; erst die identische Wiederholung wurde angenommen.
+Der primäre Nabu-Wert erreichte dabei 0,996. Alle Prüfer wurden geschlossen,
+kein offenes Ergebnis blieb übrig. [Vollständiger Bericht](independent-stream-result.json)
+und [Dateihashes](independent-fixtures.json). Keine Ersetzung fehlgeschlagener
+Dateien und keine nachträgliche Lockerung dieses Prüfstands.
+
+Eine getrennte Diagnose ausschließlich der bekannten synthetischen Charlie-Datei
+zeigt die Ursache **dieses Laborfalls**: Base liefert beim ersten Kandidaten
+`Oknabu.`, beim zweiten `Ok Nabu.`. Die bisherige Prüfung verlangt zwei Wörter
+und verwirft daher die erste Schreibweise. Beide nativen Aufrufe brauchten rund
+0,65 Sekunden. [Diagnose mit Fensterhashes](independent-synthetic-diagnosis.json).
+Dies erklärt nicht automatisch die zuvor vom Benutzer erlebten Produktionsfehler;
+produktiv arbeitet weiterhin das direkte microWakeWord-Modell, ohne Base-Prüfer.
+
+Eine eng begrenzte Behandlung zusammengezogener Schreibweisen ist eine nächste
+Laborhypothese. Die sechs Fälle sind nach dieser Diagnose bekannte Regressionen,
+keine unabhängige Abnahme einer darauf angepassten Variante. Neue Teststimmen und
+Negativbeispiele müssen getrennt ausgewertet werden. Bis dahin keine Integration.
+
+Image-/Update-Einfluss: ausschließlich nicht ausgelieferte Laborskripte,
+synthetische Metadaten und Dokumentation; keine Runtime- oder Profiländerung.
+Der separat autorisierte Mobile-Fernbedienungstest hat inzwischen App 0.5.61
+installiert, mit unveränderter produktiver Nabu-Konfiguration. Der Beobachter
+PID1894368 wurde am 16.10. um 15:57 erneut als tatsächlicher Prozess bestätigt;
+keine Warnung, Browser 27,66 % eines Kerns und RSS 1320,17 MB. Kein Langzeitabschluss.
