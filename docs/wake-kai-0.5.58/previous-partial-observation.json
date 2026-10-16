@@ -1,0 +1,103 @@
+{
+  "status": "pending",
+  "overall_goal_complete": false,
+  "note": "Telemetry only. Review hourly RSS trend, actual UI/audio and the full acceptance matrix separately.",
+  "start_epoch": 1792109715.2602382,
+  "end_epoch": 1792196115.2602382,
+  "analyzed_until_epoch": 1792132459.19031,
+  "elapsed_hours": 6.3178,
+  "completed_observation": false,
+  "valid_metric_samples": 1517,
+  "invalid_samples": 0,
+  "covered_seconds": 22741.753,
+  "coverage_percent": 99.9904,
+  "largest_gap_seconds": 0.008,
+  "planned_window_coverage_percent": 26.3215,
+  "last_sample_age_seconds": 1.753,
+  "versions": [
+    "0.5.57",
+    "0.5.58"
+  ],
+  "browser_generation_changes": 0,
+  "wake_phrases": [
+    "hey-kai",
+    "okay-kai"
+  ],
+  "backend_instance_changes": 2,
+  "observer_starts": 1,
+  "alerts": [],
+  "review_items": [
+    "runtime_restart_requires_review",
+    "missing_or_mixed_versions",
+    "mixed_or_unknown_wake_phrases",
+    "observation_gaps_require_review",
+    "real_wake_after_eight_hours_missing"
+  ],
+  "idle_browser_cpu_percent_of_one_core": {
+    "samples": 1506,
+    "min": 27.33,
+    "median": 29.8,
+    "p95": 32.13,
+    "max": 51.86
+  },
+  "idle_health_ms": {
+    "samples": 1507,
+    "min": 4.04,
+    "median": 4.69,
+    "p95": 95.36,
+    "max": 106.52
+  },
+  "browser_rss_mb": {
+    "samples": 1517,
+    "min": 1296.53,
+    "median": 1306.11,
+    "p95": 1308.89,
+    "max": 1319.48
+  },
+  "hourly_browser_rss": [
+    {
+      "hour": 0,
+      "samples": 240,
+      "median_rss_mb": 1304.585
+    },
+    {
+      "hour": 1,
+      "samples": 240,
+      "median_rss_mb": 1305.24
+    },
+    {
+      "hour": 2,
+      "samples": 240,
+      "median_rss_mb": 1306.26
+    },
+    {
+      "hour": 3,
+      "samples": 240,
+      "median_rss_mb": 1306.45
+    },
+    {
+      "hour": 4,
+      "samples": 240,
+      "median_rss_mb": 1306.0549999999998
+    },
+    {
+      "hour": 5,
+      "samples": 240,
+      "median_rss_mb": 1306.9
+    },
+    {
+      "hour": 6,
+      "samples": 77,
+      "median_rss_mb": 1307.11
+    }
+  ],
+  "observed_wakes": [],
+  "qualified_long_idle_wakes": 0,
+  "operator_interventions": [
+    "Three announced human microphone diagnostics; wake suspended under atomic maintenance and restored",
+    "Isolated Pi test CPU load; no hardware capture from tests",
+    "Controlled signed update 0.5.57 to 0.5.58",
+    "Deliberate selected phrase change okay-kai to hey-kai"
+  ],
+  "superseded_reason": "Natural Okay KAI and Hey KAI failures diagnosed; Hey KAI calibrated in 0.5.58 and selected deliberately. Prior 0.5.57 window is partial, includes three announced microphone diagnostics, isolated test CPU load and a controlled update; not a passed 24h run"
+}

@@ -1,0 +1,30 @@
+{
+  "installation": {
+    "version": "0.5.58",
+    "settings_preserved": true,
+    "release": "45435e88753fcc4a3f08499267e660a1117efd327ccb7c5f0a541ccbe3ac8dae",
+    "source_commit": "9c77e4962f4aa4966927e341ba0c45c88a41b5eb"
+  },
+  "manifest": {
+    "format": 1,
+    "commit": "9c77e4962f4aa4966927e341ba0c45c88a41b5eb",
+    "version": "0.5.58",
+    "from_versions": [
+      "0.5.57"
+    ],
+    "sequence": 15,
+    "architecture": "aarch64",
+    "runtime": "03a347a169837496b102ef7f81c4fedec4ff2d74170c704f448699d8f5633f38",
+    "schema": "unchanged",
+    "expires": 1794724286.082703,
+    "sha256": "1d290e4bbca6a99fd327f2b33efb41e26dc7dab30fe4223a9b0562cf666c8cc0",
+    "changed_files": [
+      "services/wake_phrase.py",
+      "web_server.py"
+    ],
+    "file_count": 113
+  },
+  "signature_verified": true,
+  "runtime_verified": true,
+  "atomic_maintenance": true
+}

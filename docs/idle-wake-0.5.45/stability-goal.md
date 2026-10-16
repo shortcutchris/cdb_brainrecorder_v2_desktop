@@ -7,8 +7,8 @@ prüfen und Fehler beheben. Das Codex-Ziel bleibt bis zur Abnahme aktiv.
 ## Abnahmeplan
 
 - **24 Stunden echte Standzeit:** der produktive Pi sammelt im aktuellen Lauf ab
-  16.10.2026, 02:15:15 Europe/Berlin bis 17.10.2026, 02:15:15 technische Messwerte
-  für 0.5.57 mit Okay KAI. `plan.json` des Messdienstes bleibt maßgeblich.
+  16.10.2026, 08:34:20 Europe/Berlin bis 17.10.2026, 08:34:20 technische Messwerte
+  für 0.5.58 mit Hey KAI. `plan.json` des Messdienstes bleibt maßgeblich.
   Vorläufe 0.5.45–0.5.52 wurden nach Korrekturen, Diagnose-Erweiterung oder dem
   ausdrücklichen Auftrag für neue Rufwörter archiviert und zählen nicht als
   bestandene Dauerläufe. Erwartet
@@ -61,6 +61,18 @@ Entwurfsicherung, UI-Heartbeat und bestätigte Schutztests. Hohe Last allein dar
 niemals einen Pi-/Backend-Neustart während einer Aufnahme auslösen.
 
 ## Fortschritt
+
+- **0.5.58 installiert, Hey KAI bewusst ausgewählt:** Niedrige Konfidenz für
+  „Kai“ am realen ReSpeaker nachgewiesen; nur Hey KAI auf 0,80/0,50 kalibriert.
+  Zwei isolierte natürliche Rufe angenommen, 12/12 synthetische positive Fälle
+  und 0/68 negative Fälle; drei Stimmen sind keine allgemeine Zuverlässigkeits-
+  oder Langzeitabnahme. 379 Pi-Tests und 51 Studio-Tests bestehen; der Mac-
+  Gesamtlauf behält einen dokumentierten Suchton-Cleanup-Fehler. Signiertes
+  Update, erhaltene Einstellungen, bewusste Auswahl über App-API, 18 stabile
+  Nachproben und echtes Display geprüft. Neuer Beobachterprozess 1767736 aktiv.
+  Der alte 6,32-Stunden-Lauf bleibt mit Eingriffen erhalten. Produktiver Ruf,
+  Begrüßung/Ende und echter Wake nach acht Stunden bleiben zu bestätigen.
+  [Nachweise und Grenzen](../wake-kai-0.5.58/README.md).
 
 - **Natürlicher Okay-KAI-Ruf am 16.10. fehlgeschlagen:** Der Benutzer meldete
   „Keine Reaktion“. Zwei Kandidaten wurden vom lokalen Detektor verworfen;

@@ -1,6 +1,6 @@
 # Hey KAI: natürliche Ablehnungen messen und gezielt kalibrieren
 
-16. Oktober 2026. Kandidat 0.5.58; Auslieferungsnachweis folgt nach Prüfung.
+16. Oktober 2026. 0.5.58 ist signiert auf dem Pi installiert; Hey KAI ist für den Praxistest aktiviert.
 
 ## Fehler und Änderung
 
@@ -117,3 +117,54 @@ Ein zukünftiger Image-Build übernimmt den versionierten Code; das bereits geba
 Image 0.5.44 bleibt unverändert. Diagnosewerkzeug, Vergleichsskripte und synthetische
 Fixtures werden nicht als Kundeninhalt in das App-Paket eingebaut. Signatur,
 kompatible Runtime, atomare Wartungsprüfung und Rückkehr bleiben erforderlich.
+
+
+## Bestätigte Auslieferung und neue Langzeitmessung
+
+[Installation](deployment.json): Quellcommit
+`9c77e4962f4aa4966927e341ba0c45c88a41b5eb`, signierte Sequenz 15,
+Release `45435e88753fcc4a3f08499267e660a1117efd327ccb7c5f0a541ccbe3ac8dae`.
+Signatur, Runtime, Dateihashes und exakte Paketdifferenz sind geprüft: nur
+`services/wake_phrase.py` und `web_server.py` ändern sich im App-Paket.
+Die atomare Wartungssperre war erfolgreich, und die erfassten Einstellungen
+waren nach Installation unverändert. Kein Browser-/Pi-Neustart; der Backend-
+Neustart ist Bestandteil der App-Aktivierung.
+
+Anschließend wurde **Hey KAI bewusst über die App-API aktiviert**.
+[Separater Auswahlnachweis](phrase-activation.json): Audio-, Zielbereichs- und
+Wissensauswahlprüfsummen bleiben gleich. Neue Kundenprofile werden davon nicht
+berührt. Nach dem Umschalten war die erste Probe noch im regulären Wartezustand,
+17 folgende Proben bereits hörbereit. Der anfängliche strenge Prüfversuch ist
+als [Startübergang](installation-startup.json) erhalten und nicht als bestanden
+umetikettiert. Eine erneute, unveränderte Prüfung besteht mit
+[18 aufeinanderfolgenden Proben](installation-check.json): ein stabiler
+Wake-Kindprozess, aktiver Release-Pfad, passender Quellhash und API/HTML 0.5.58.
+
+Das [echte Touchdisplay](display-after.png) zeigt die unverdeckte Startseite und
+„Bereit für Hey KAI“. Das ist eine Sichtprüfung, kein akustischer Erfolg und
+kein Nachweis der intern ausgeführten JavaScript-Version. Der Benutzer wurde
+anschließend um einen produktiven Ruf mit Begrüßung und „Gespräch beenden“
+gebeten; die Bestätigung steht zu diesem Dokumentationsstand noch aus.
+
+[Frischer Image-Export](image-export-check.json): 119 erlaubte Quelldateien,
+passende Hashes der beiden geänderten App-Dateien, keine Teststimmen oder
+Diagnoseskripte im Kundeninhalt. Das Exportpaket liegt außerhalb Git unter
+`/tmp/cdb-058-image-kit`. Es ist ein geprüftes Baupaket, **kein neu gebautes oder
+gebootetes SD-Image**. Das vorhandene Image 0.5.44 bleibt unverändert.
+
+Der [neue 24h-Messplan](observation-plan.json) läuft vom **16.10.2026, 08:34:20**
+bis **17.10.2026, 08:34:20 Europe/Berlin**. Beobachterprozess **1767736** wurde
+als aktiv geprüft. Die bestehende 15-Minuten-Nachprüfung ist auf diesen Lauf
+umgestellt und bleibt bei unverändertem Stand still; automatische Reparaturen
+sind weiterhin aus. Ein echter Wake nach mindestens acht Stunden bleibt offen.
+
+Die [vorige Teilmessung](previous-partial-observation.json) umfasst rund
+6,32 Stunden und 1.517 gültige Ressourcenproben mit 99,9904 % Abdeckung, ohne
+Ressourcenwarnung oder Browsergenerationwechsel. Sie enthält jedoch die
+angekündigten Tests und den Update-/Rufwortwechsel und ist **kein bestandener
+24h-Lauf**. Zwei als `backend_instance_changed` bezeichnete Ereignisse liegen
+beim Update um 06:31:43 UTC und beim Rufwortwechsel um 06:32:09 UTC. Der zweite
+entsteht durch die absichtliche Erneuerung der Wake-Instanz beim Phrase-Wechsel,
+nicht durch einen zweiten behaupteten Backend-Neustart. Der vollständige
+Vorversuch bleibt unter `baseline-057-before-hey-kai-calibration` erhalten.
+Alte und neue Messzeiten werden nicht zusammengezählt.

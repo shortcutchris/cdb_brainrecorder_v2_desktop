@@ -1,0 +1,12 @@
+{
+  "version": "0.5.58",
+  "source_commit": "9c77e4962f4aa4966927e341ba0c45c88a41b5eb",
+  "status": "prepared-not-boot-certified",
+  "public_key_sha256": "8ea3e5260389013e2f21973c3a029ba82842e03e720aa9398daa66e27dbe4590",
+  "changed_source_hashes": {
+    "services/wake_phrase.py": "d2b21606101ba1ac9bddc59f52555668a89d8d99ac11678e819c8be414efb33d",
+    "web_server.py": "c32ca5dd0081bf6b636751a85d11ce36de53dd1242ab2c11c954fd2ec7703e37"
+  },
+  "source_files": 119,
+  "fixtures_excluded": true
+}
