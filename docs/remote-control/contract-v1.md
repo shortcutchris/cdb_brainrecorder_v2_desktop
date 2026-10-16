@@ -174,7 +174,8 @@ Sekunden) und pausiert diese Abfragen im Hintergrund.
 `state`: `idle | connecting | active | closing | error`.
 `busy` zeigt eine belegte Ressource, die Remote-Start verbietet, insbesondere
 Aufnahme **und Pause**, Wartung, Wiedergabe oder unvollständiges Audio-Cleanup.
-`areas` sind IDs und sichtbare Namen der tatsächlich am Pi bestätigten Bereiche
+`areas` enthalten UUID-IDs und sichtbare Namen mit 1 bis 160 Zeichen.
+Die Namen sind reine Anzeige und erteilen keine Zugriffsrechte. `areas` sind IDs und sichtbare Namen der tatsächlich am Pi bestätigten Bereiche
 der aktiven Sitzung, sonst die gespeicherte kontogebundene Pi-Auswahl. M1 zeigt
 diese Auswahl auf dem Handy nur lesend an; Start verwendet genau diese Auswahl.
 `allowed_actions` ist ein Hinweis für die UI, keine Autorisierung.

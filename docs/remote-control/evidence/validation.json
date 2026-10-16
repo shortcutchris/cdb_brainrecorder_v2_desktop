@@ -4,13 +4,14 @@
   "python": "3.14 on macOS",
   "remote_tests": {
     "command": "python -m unittest discover -s tests -p test_remote*py -q",
-    "passed": 47
+    "passed": 48
   },
   "full_suite": {
     "total": 454,
     "passed": 453,
     "errors": 1,
-    "error": "Existing macOS test_search_loop.test_followup_tool_inside_grace_keeps_one_player cleanup: PermissionError from os.killpg"
+    "error": "Existing macOS test_search_loop.test_followup_tool_inside_grace_keeps_one_player cleanup: PermissionError from os.killpg",
+    "scope": "e906960 before bounded area-name follow-up; follow-up checked by 48 remote tests"
   },
   "search_loop_isolated": {
     "passed": 8,

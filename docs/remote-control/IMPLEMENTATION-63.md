@@ -120,7 +120,13 @@ Das Image-Rezept ist damit vorbereitet, aber kein neues Image gebaut oder geboot
 4. Native Mobile-/Pi-Abnahme mit denselben Szenarien, anschließend eigene
    Release-/OTA-/Pi-Freigabe. Die Issue-Freigabe allein ist kein Production-Deploy.
 
-Konkreter letzter Stand: **47 Remote-Tests bestanden**; vollständiger macOS-Lauf
+Konkreter letzter Stand: **48 Remote-Tests bestanden**; vollständiger macOS-Lauf
 **453 bestanden, ein bestehender Suchton-Cleanup-Fehler bei 454 Tests**.
 Die acht Suchton-Tests bestanden separat, was den Fehler im Gesamtlauf nicht
 aufhebt. [Maschinenlesbarer Prüfstand](evidence/validation.json).
+
+Nachtrag: Bereichsnamen sind im Steuervertrag auf 160 Unicode-Zeichen begrenzt.
+Der Pi kürzt nur die Anzeige; die Bereichs-ID bleibt unverändert. Der Grenztest
+verhindert abgelehnte Statusmeldungen bei längeren Bestandsnamen. Der oben
+genannte Gesamtlauf stammt vor dieser kleinen Änderung; danach bestanden die
+48 gezielten Remote-Tests.

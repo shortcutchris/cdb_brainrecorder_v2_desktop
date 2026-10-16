@@ -130,7 +130,7 @@ class RemoteControl:
         except (OSError, ValueError, AttributeError): pass
         names.update({area['id']: area.get('label') or area.get('name', area['id'])
                       for area in live.areas if same_account and isinstance(area, dict) and 'id' in area})
-        areas = [{'id': area, 'name': names.get(area, area)} for area in ids]
+        areas = [{'id': area, 'name': (names.get(area) or area)[:160]} for area in ids]
         state = ('active' if live.state in ('listening', 'thinking', 'speaking', 'reconnecting') else
                  live.state if live.state in ('connecting', 'closing', 'error') else 'idle')
         allowed = []

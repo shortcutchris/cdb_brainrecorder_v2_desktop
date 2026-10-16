@@ -173,7 +173,7 @@ class LiveConversation:
             if catalog_generation != self.cdb.generation: raise ValueError('Brain-Konto hat sich geändert.')
             catalog = self.root / ('area-names-' + self._selection_key(binding) + '.json')
             atomic_write(catalog, json.dumps({'binding': binding, 'areas': [
-                {'id': a['id'], 'name': (a.get('label') or a['name'])[:200]} for a in areas]}))
+                {'id': a['id'], 'name': (a.get('label') or a['name'])[:160]} for a in areas]}))
             os.chmod(catalog, 0o600)
         self._restore(binding)
         maximum = caps.get('max_areas', 8)

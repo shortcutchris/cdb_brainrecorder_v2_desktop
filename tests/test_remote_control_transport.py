@@ -118,6 +118,14 @@ class ChannelTests(fixtures.RemoteTests):
         path.write_text(json.dumps({'binding': {}, 'areas': [{'id': AREA, 'name': 'Wrong account'}]}))
         self.assertEqual(self.app.remote_control.status(grant)['areas'][0]['name'], AREA)
 
+    def test_channel_area_name_fits_server_wire_limit(self):
+        self.pair()
+        path = self.app.live.root / ('area-names-' + self.app.live._selection_key(self.app.wake_account()) + '.json')
+        path.write_text(json.dumps({'binding': self.app.wake_account(), 'areas': [{'id': AREA, 'name': 'x' * 250}]}))
+        grant = self.channel.lookup(GRANT, CONTROLLER)
+        self.assertEqual(len(self.app.remote_control.status(grant)['areas'][0]['name']), 160)
+        self.assertEqual(self.app.remote_control.status(grant)['areas'][0]['id'], AREA)
+
     def test_channel_fresh_profile_is_opt_in(self):
         self.channel.step()
         self.assertEqual(self.broker.calls, [])
