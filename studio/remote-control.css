@@ -1,0 +1,14 @@
+/* The same fixed content and action slots as every settings detail. */
+#settings .remote-entry{display:flex;flex-direction:column;text-align:left;gap:6px;min-height:80px;color:var(--ink);width:100%}
+.remote-entry span{font-size:14px;color:var(--muted)}
+.remote-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+#settings #remote-page>.dialog-actions{display:grid;grid-template-columns:var(--settings-action-width) minmax(var(--settings-action-width),1fr) repeat(2,var(--settings-action-width));gap:12px}
+#settings #remote-page>.dialog-actions button{width:100%;min-width:0;grid-row:1}
+#remote-check{grid-column:1}#remote-revoke{grid-column:2;max-width:var(--settings-action-width);justify-self:end}#remote-reject{grid-column:3}#remote-primary{grid-column:4}
+#remote-page .remote-pair-card{height:200px;display:flex;flex-direction:column;justify-content:center;text-align:center;gap:8px}
+#settings #remote-code{font-size:34px;line-height:44px;letter-spacing:5px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+#remote-page #remote-message{min-height:66px}
+#remote-page #remote-controller{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+#remote-page .remote-note{font-size:14px;line-height:22px;color:var(--muted);margin:0}
+#remote-led[data-online=true]{background:var(--accent);box-shadow:0 0 0 4px var(--soft)}
+#remote-page [data-inactive=true]{visibility:hidden;pointer-events:none}

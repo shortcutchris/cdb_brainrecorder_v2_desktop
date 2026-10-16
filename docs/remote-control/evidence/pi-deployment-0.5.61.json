@@ -1,0 +1,94 @@
+{
+  "installed": {
+    "version": "0.5.61",
+    "settings_preserved": true,
+    "release": "bd2e82fdf8bb5a729180d31f49a9d3b404f989406c248cbb77fa09dd1f6a406a",
+    "source_commit": "e14b4ad2142ec30cc9c2e71b8b9671b95e96fb69",
+    "started_epoch": 1792158871.319504,
+    "finished_epoch": 1792158873.1411822,
+    "sequence": 18
+  },
+  "verification": {
+    "checked_epoch": 1792158909.0374959,
+    "version": "0.5.61",
+    "commit": "e14b4ad2142ec30cc9c2e71b8b9671b95e96fb69",
+    "sequence": 18,
+    "server": "https://staging.cdbos.de",
+    "files_verified": true,
+    "file_count": 118,
+    "ui_has_remote_page": true,
+    "ui_version": "0.5.61",
+    "check": {
+      "requested": true,
+      "http_status": 200
+    },
+    "remote": {
+      "state": "error",
+      "error": "not_supported",
+      "supported": false,
+      "busy": false,
+      "paired": false,
+      "online": false,
+      "account_ready": true
+    },
+    "samples": [
+      {
+        "at": 1792158903.996147,
+        "activity": "idle",
+        "wake_state": "listening",
+        "wake_phrase": "okay-nabu",
+        "maintenance": false
+      },
+      {
+        "at": 1792158905.0058262,
+        "activity": "idle",
+        "wake_state": "listening",
+        "wake_phrase": "okay-nabu",
+        "maintenance": false
+      },
+      {
+        "at": 1792158906.0157197,
+        "activity": "idle",
+        "wake_state": "listening",
+        "wake_phrase": "okay-nabu",
+        "maintenance": false
+      },
+      {
+        "at": 1792158907.0266058,
+        "activity": "idle",
+        "wake_state": "listening",
+        "wake_phrase": "okay-nabu",
+        "maintenance": false
+      },
+      {
+        "at": 1792158908.037409,
+        "activity": "idle",
+        "wake_state": "listening",
+        "wake_phrase": "okay-nabu",
+        "maintenance": false
+      }
+    ],
+    "backend_pid": "1987932",
+    "observer_pid": "1894368",
+    "installation_passed": true
+  },
+  "tests": {
+    "platform": "Raspberry Pi 5 / Python 3.13",
+    "total": 455,
+    "passed": 455,
+    "seconds": 74.28,
+    "exit_code": 0,
+    "warnings": [
+      "Legacy Qt translator caught ISO-8859-1 output encoding exception",
+      "One uncollectable object ResourceWarning at test process shutdown"
+    ]
+  },
+  "image": {
+    "export_files": 125,
+    "required_remote_files_present": true,
+    "private_remote_profile_excluded": true,
+    "built": false,
+    "boot_certified": false
+  },
+  "scope": "Pi PR #10 staging installation only; no server/mobile merge; no paired end-to-end test"
+}

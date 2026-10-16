@@ -177,3 +177,12 @@ Einstellungen → KI & Modelle zeigt die **aktiven** Modelle für Transkription 
 Direkte Tests werden unter `model-checks/` dauerhaft gespeichert; ein bei Neustart unterbrochener Test wird als fehlgeschlagen angezeigt und muss wiederholt werden. Lokale Freigaben sind an den Modell-Fingerprint gebunden. Brain-Aktivierung benötigt einen bestandenen Test desselben Verarbeitungsschritts und desselben Firmenkontos/Servers. Die letzte Online-Prüfung wird durch einen neuen Test ersetzt. Brain verwaltet das konkrete Online-Modell zentral; der Zugang bietet keine freie GPT-Modellliste.
 
 Gerät & Diagnose enthält die erweiterten Programmpfade. Aufnahmemodelle werden dort nicht mehr getestet oder ausgewählt.
+
+## Handy-Fernbedienung (Feature-Branch, noch nicht ausgeliefert)
+
+Unter **Einstellungen → Gerät & Verwaltung → Handy-Fernbedienung** kann der Pi
+nach serverseitiger Freischaltung mit cdbMOBILE gekoppelt werden. Beide verwenden
+dasselbe Brain-Konto. Code am Pi erzeugen, in der App eingeben und die Anfrage
+am Pi bestätigen. Das Handy steuert Start, Ende und Stummschaltung; Audio bleibt
+am Pi. Ohne Server-Capability bleibt der Bereich gesperrt. Aufnahme und Pause
+verhindern einen Gesprächsstart. [Bedienung, Sicherheitsregeln und Prüfumfang](remote-control/IMPLEMENTATION-63.md).
