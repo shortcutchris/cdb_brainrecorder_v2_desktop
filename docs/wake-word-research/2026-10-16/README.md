@@ -702,3 +702,43 @@ Der separat autorisierte Mobile-Fernbedienungstest hat inzwischen App 0.5.61
 installiert, mit unveränderter produktiver Nabu-Konfiguration. Der Beobachter
 PID1894368 wurde am 16.10. um 15:57 erneut als tatsächlicher Prozess bestätigt;
 keine Warnung, Browser 27,66 % eines Kerns und RSS 1320,17 MB. Kein Langzeitabschluss.
+
+## Eng begrenzte Schreibweisenkorrektur, getrennt geprüft
+
+Der Laborprüfer kann optional exakt `Oknabu` oder `Okaynabu` am Textanfang
+akzeptieren. Keine phonetische Erweiterung auf Naboo, Nabum oder ähnliche Wörter;
+keine Suche nach Teilzeichenfolgen. Die ursprüngliche Zweiwortregel bleibt der
+Standard, damit bisherige Messungen reproduzierbar bleiben. Produktiv wird kein
+Whisper-Wake-Prüfer aufgerufen. Der neue Modus ist ausdrücklich `--joined-spelling`.
+
+Parameter und zwei neue Stimmen wurden in
+[joined-spelling-plan.json](joined-spelling-plan.json) vor Erzeugung eingefroren
+(Commit `6f4bfda`). Vier kurze Dateien mit den vorhandenen, nicht geklonten
+Premade-Stimmen Will und Sarah, deutschem Text, Originalgeschwindigkeit und
+multilingual_v2; keine Regeneration. Ein natürlicher deutscher Akzent wurde
+nicht menschlich qualifiziert. [Quellhashes](joined-fixtures.json).
+
+Der isolierte Echtzeitlauf direkt auf dem Pi besteht **12/12 Szenarien**:
+
+- Sechs bekannte Charlie-/HL-Regressionen einschließlich der früheren Erst-Ruf-
+  Fehler bestehen jetzt. Diese sechs sind keine unabhängige Generalisierung.
+- Sechs neue Will-/Sarah-Szenarien bestehen: beide Stimmen beim ersten Einzelruf,
+  beide Doppelnennungen genau einmal vor dem zweiten Ruf, beide kompletten
+  Negativdateien ohne Aktivierung. Vier verschiedene positive Eingabedateien
+  insgesamt, jeweils wiederholt; keine zwölf unabhängigen Sprecher.
+- Wills Negativdatei erreicht primär 0,996, wird von Base aber verworfen. Sarahs
+  Negativdatei erzeugt keinen Kandidaten; sie prüft daher nicht den Base-Prüfer.
+- Alle nativen Verifier geschlossen, keine offenen Ergebnisse am Dateiende.
+  [Vollständiger Bericht mit Latenzen](joined-stream-result.json).
+
+14 lokale Probe-/Prozesstests bestanden einschließlich explizit opt-in
+zusammengezogener Schreibweise, negativem Prozess-Exit und Ressourcenfreigabe.
+Der Satz `Oknabu.` wird im unveränderten Standardmodus weiterhin verworfen.
+Kein vollständiger App-Gesamttest für diese reine Laboränderung behauptet.
+
+Diese Dateiprüfung rechtfertigt als nächsten Schritt einen kontrollierten
+Raumvergleich mit dem ReSpeaker, noch keine produktive Integration. Natürliche
+Erstrufe, längere negative Umgebung und reale Bereitschaft nach acht Stunden
+bleiben offen. Der neue Prüfstand korrigiert die älteren Fehlberichte nicht
+rückwirkend. Update-/Image-Einfluss weiterhin keiner; die Laboränderungen werden
+separat in PR #12 geprüft.

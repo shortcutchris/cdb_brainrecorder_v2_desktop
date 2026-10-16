@@ -1,0 +1,26 @@
+{
+  "directory": "/Users/chris/.local/share/cdb-wake-fixtures/joined-20261016",
+  "files": [
+    {
+      "file": "sarah-negative.wav",
+      "sha256": "5c9dda8afa982800c15aaea16fa0e050a1a4f92cbbdfcd639ab1675c71847ea2",
+      "seconds": 3.575875
+    },
+    {
+      "file": "sarah-positive.wav",
+      "sha256": "268d125bb3b722e572c716fdb5b45c7f735e460a479c1b984e2c767f557e1a85",
+      "seconds": 0.97525
+    },
+    {
+      "file": "will-negative.wav",
+      "sha256": "71f210a6de2ffbec9fe0088fe1ff303aa29ea86cc1abcca478bd9f95b0b7eecb",
+      "seconds": 5.0619375
+    },
+    {
+      "file": "will-positive.wav",
+      "sha256": "ca1cd669324192348c145f40607f40ab2e1c80ba6f85f5f6096ad47ce07ac452",
+      "seconds": 1.0216875
+    }
+  ],
+  "human_listening_acceptance": false
+}
