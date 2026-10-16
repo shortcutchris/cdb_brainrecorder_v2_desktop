@@ -1,0 +1,17 @@
+{
+  "local_targeted_tests": 34,
+  "pi_python_tests": 397,
+  "pi_python_test_seconds": 72.824,
+  "pi_python_passed": true,
+  "pi_log_notes": [
+    "Non-failing legacy translation UnicodeEncodeError in latin-1 console",
+    "ResourceWarning: one uncollectable object at interpreter shutdown"
+  ],
+  "comparison_cases_unchanged": 45,
+  "same_detection_frames_and_model_maxima": true,
+  "room_test_latest_positive": 0,
+  "room_test_latest_positive_total": 3,
+  "room_test_latest_negative_triggered": 1,
+  "room_test_latest_negative_total": 1,
+  "goal_accepted": false
+}

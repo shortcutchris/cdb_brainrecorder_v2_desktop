@@ -234,3 +234,11 @@ bekommt ihre eigene App-/Image-Einflussbewertung.
   Fehler bleibt offen. Keine Änderung an Modell/Firmware oder App; nach Test
   wieder normale Bereitschaft. Gesamtziel weiterhin pausiert, keine Abnahme.
   [Nachweise](../observer-nabu-20261016/README.md).
+
+## Wiederaufnahme am 16. Oktober: Nabu und vertiefter Modellvergleich
+
+Der Benutzer hat das Optimierungsziel erneut aktiviert. Aktuelle Phrase:
+**Okay Nabu**. [Recherche, Vergleich, reproduzierbare Fehler und nächste Abnahme](../wake-word-research/2026-10-16/README.md).
+Weder Dateitreffer noch passive Ressourcenwerte ersetzen die reale Erst-Ruf-
+Abnahme. Der laufende 24h-Datensatz enthält angekündigte Labortests, Wartung und
+Versionswechsel; Rohdaten/Plan bleiben erhalten, nicht als saubere Standzeit zählen.

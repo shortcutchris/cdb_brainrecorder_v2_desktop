@@ -31,11 +31,16 @@ def main():
     parser.add_argument('--phrase', choices=PHRASES, default=DEFAULT_PHRASE)
     parser.add_argument('--external-playback', action='store_true',
                         help='Emit playback cues for an external room speaker; no Pi playback.')
+    parser.add_argument('--signal-diagnostics', action='store_true',
+                        help='Compare known WAV to transient microphone PCM; save only scores.')
+    parser.add_argument('--compare-stereo', action='store_true',
+                        help='ReSpeaker/Nabu only: compare both processed channels to their mean.')
     parser.add_argument('--quiet-seconds', type=float, default=1,
                         help='Bounded real quiet time before each acoustic call (1–120 seconds).')
     args = parser.parse_args()
     if not 1 <= len(args.clips) <= 4: parser.error('Use 1–4 synthetic test files.')
     if not 1 <= args.quiet_seconds <= 120: parser.error('Use 1–120 quiet seconds.')
+    if args.compare_stereo and args.phrase!='okay-nabu': parser.error('Stereo comparison requires Nabu.')
     clips = []
     for path in args.clips:
         with wave.open(str(path)) as source:
@@ -61,6 +66,7 @@ def main():
     ident=str(uuid.uuid4())
     report={'synthetic_acoustic':True,'production_live_handoff':False,
             'phrase':args.phrase, 'external_playback':args.external_playback,
+            'compare_stereo':args.compare_stereo,'signal_diagnostics':args.signal_diagnostics,
             'version':health['version'],'quiet_seconds':args.quiet_seconds,'started_epoch':time.time(),'cases':[]}
     def stop(*_): raise SystemExit('Acoustic test interrupted')
     signal.signal(signal.SIGTERM,stop)
@@ -68,10 +74,34 @@ def main():
         request('/api/management/prepare',{'command':ident});reserved=True
         config={'device':request('/api/state')['config']['device']}
         command=native_capture_command(config)
+        if args.compare_stereo:
+            assert command[0]=='parec' and any('respeaker_xvf3800' in x.lower() for x in command), 'Expected explicit ReSpeaker source'
+            command=[x.replace('--channels=1','--channels=2') for x in command]
         capture=subprocess.Popen(command,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,start_new_session=True,bufsize=0)
         detector=create_detector(args.phrase);measure=AudioDiagnostics();buffer=b''
+        channels=[create_detector(args.phrase) for _ in range(2)] if args.compare_stereo else []
+        probabilities=[]
+        if args.signal_diagnostics and args.phrase=='okay-nabu':
+            original=detector.model.process_streaming_prob
+            def measured(features):
+                result=original(features)
+                if result is not None: probabilities.append(float(result))
+                return result
+            detector.model.process_streaming_prob=measured
         for path,duration in clips:
             row={'clip':path.name,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'detections':0,'decisions':[]}
+            captured=bytearray();probabilities.clear();measure=AudioDiagnostics()
+            channel_rows=[{'channel':i,'detections':0,'max_model_probability':0.} for i in range(len(channels))]
+            for extra,summary in zip(channels,channel_rows):
+                if hasattr(extra.model,'_diagnostic_original'): original_extra=extra.model._diagnostic_original
+                else:
+                    original_extra=extra.model.process_streaming_prob
+                    extra.model._diagnostic_original=original_extra
+                def measure_extra(features,original=original_extra,summary=summary):
+                    value=original(features)
+                    if value is not None: summary['max_model_probability']=max(summary['max_model_probability'],float(value))
+                    return value
+                extra.model.process_streaming_prob=measure_extra
             start=time.monotonic();last_data=start;played=False
             while time.monotonic()-start < args.quiet_seconds+duration+3:
                 if not played and time.monotonic()-start >= args.quiet_seconds:
@@ -84,11 +114,18 @@ def main():
                 if not select.select([capture.stdout],[],[],.2)[0]:
                     if time.monotonic()-last_data > 3: raise RuntimeError('No microphone frames')
                     continue
-                block=capture.stdout.read(1600)
+                frame_bytes=3200 if args.compare_stereo else 1600
+                block=capture.stdout.read(frame_bytes)
                 if not block: raise RuntimeError('Microphone capture ended')
                 buffer+=block;last_data=time.monotonic()
-                while len(buffer)>=1600:
-                    pcm,buffer=buffer[:1600],buffer[1600:]
+                while len(buffer)>=frame_bytes:
+                    pcm,buffer=buffer[:frame_bytes],buffer[frame_bytes:]
+                    if args.compare_stereo:
+                        from wake_acoustic_metrics import split_stereo
+                        pcm,left,right=split_stereo(pcm)
+                        for extra,summary,audio in zip(channels,channel_rows,(left,right)):
+                            summary['detections']+=int(extra.feed(audio))
+                    if args.signal_diagnostics and played: captured.extend(pcm)
                     detected=detector.feed(pcm);measure.feed(pcm,detector.last_decision,detector.onset.renewals)
                     if detector.last_decision:
                         row['decisions'].append({'at_seconds':round(time.monotonic()-start,2),'category':detector.last_decision})
@@ -99,6 +136,16 @@ def main():
             else:
                 row['playback_exit']=None  # External controller must supply playback evidence.
             row['audio']=measure.snapshot();report['cases'].append(row)
+            if args.compare_stereo: row['channel_comparison']=channel_rows
+            if args.signal_diagnostics:
+                from wake_acoustic_metrics import alignment
+                with wave.open(str(path)) as source:
+                    if (source.getframerate(),source.getsampwidth(),source.getnchannels())==(16000,2,1):
+                        row['signal_alignment']=alignment(source.readframes(source.getnframes()),captured)
+                if probabilities:
+                    row['max_model_probability']=round(max(probabilities),5)
+                    row['unchanged_probability_cutoff']=detector.model.probability_cutoff
+                captured.clear()
     finally:
         for proc in (playback,capture):
             if proc is not None:

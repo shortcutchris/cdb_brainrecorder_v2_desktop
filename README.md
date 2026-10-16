@@ -1,5 +1,13 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.60 – Nabu-Erkennung nachvollziehbar prüfen
+
+Die lokale Diagnose hält jetzt auch Modellwerte unterhalb der Erkennungsschwelle
+fest. So lassen sich verpasste Rufe von fehlendem Audio unterscheiden, ohne
+Raumton oder Gesprächsinhalte zu speichern. Schwelle und Modell bleiben
+unverändert; dies ist noch keine abgeschlossene Erkennungsoptimierung.
+[Modellvergleich, Raumtests und Grenzen](docs/wake-word-research/2026-10-16/README.md).
+
 ## 0.5.59 – Zurück zu „Okay Nabu“
 
 Unter **Einstellungen → Audio → Aktivierungswort** steht wieder **Okay Nabu**

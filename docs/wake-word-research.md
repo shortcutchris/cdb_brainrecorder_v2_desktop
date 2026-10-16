@@ -1,3 +1,7 @@
+# Aktualisierung 16.10.2026
+
+[Vertiefte Recherche mit aktuellen Modellkarten und Pi-Vergleich](wake-word-research/2026-10-16/README.md). Die folgenden Abschnitte sind der ältere Recherchestand; insbesondere sind ESPHome-v2-Nabu und das installierte mehrsprachige Nabu unterschiedliche Gewichte.
+
 # Lokales Aktivierungswort für CDB Voice One
 
 Stand: 13. Oktober 2026. Entscheidungsvorlage aus Primärquellen und Prüfung des vorhandenen Codes; noch keine Implementierung und kein Mikrofon- oder Leistungstest auf dem Pi.

@@ -62,6 +62,38 @@ class DiagnosticsTests(unittest.TestCase):
             self.assertEqual(wake.mode,'error')
             self.assertIsNone(wake.process)
 
+    def test_model_peak_is_bounded_windowed_and_does_not_imply_detection(self):
+        d=AudioDiagnostics()
+        d.feed(bytes(1600),None,probability=.6,cutoff=.85)
+        d.feed(bytes(1600),None,probability=.2,cutoff=.85)
+        value=d.snapshot()
+        self.assertEqual(value['model_peak'],.6)
+        self.assertEqual(value['model_cutoff'],.85)
+        self.assertEqual(value['accepted'],0)
+        self.assertEqual(validate(value),value)
+        self.assertNotIn('model_peak',d.snapshot())
+        for change in [{'model_peak':True},{'model_peak':float('nan')},
+                       {'model_cutoff':-1},{'model_cutoff':None}]:
+            self.assertIsNone(validate({**value,**change}))
+        for invalid in [True,float('inf'),-.1,1.1]:
+            with self.assertRaises(ValueError):d.feed(bytes(1600),None,probability=invalid,cutoff=.85)
+
+    def test_missed_nabu_scores_retained_without_cloud_or_heartbeat_side_effects(self):
+        with tempfile.TemporaryDirectory() as root,patch('services.wake_word.runtime_ready',return_value=True):
+            wake=WakeWord(root,lambda:100);wake.enabled=True;wake.mode='listening'
+            child=Mock();child.poll.return_value=None;wake.process=child
+            d=AudioDiagnostics();trigger=Mock()
+            with patch('services.wake_word.select.select',return_value=([True],[],[])):
+                for _ in range(20):
+                    d.feed(bytes(1600),None,probability=.4,cutoff=.85)
+                    child.stdout=io.BytesIO(('diagnostic '+json.dumps(d.snapshot())+'\n').encode())
+                    wake.tick(account=None,reason='',config={'device':'test'},trigger=trigger)
+            recent=wake.public()['diagnostics']['recent_decisions']
+            self.assertEqual(len(recent),16)
+            self.assertEqual(recent[-1]['model_peak'],.4)
+            self.assertEqual(wake.count,0);trigger.assert_not_called()
+            wake.process=None
+
     def test_categories_do_not_change_rejection_thresholds(self):
         import sys
         from types import SimpleNamespace

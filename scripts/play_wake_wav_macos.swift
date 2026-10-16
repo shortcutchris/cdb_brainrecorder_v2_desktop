@@ -17,13 +17,23 @@ var devices = [AudioObjectID](repeating: 0, count: Int(size)/MemoryLayout<AudioO
 AudioObjectGetPropertyData(AudioObjectID(kAudioObjectSystemObject), &address, 0, nil, &size, &devices)
 guard let device = devices.first(where: { property($0, kAudioObjectPropertyName).contains("Mac Studio") }) else { fatalError("Built-in Mac Studio speaker missing") }
 let uid = property(device, kAudioDevicePropertyDeviceUID)
+for element: UInt32 in [0, 1, 2] {
+    var volumeAddress = AudioObjectPropertyAddress(mSelector: kAudioDevicePropertyVolumeScalar, mScope: kAudioDevicePropertyScopeOutput, mElement: element)
+    var volume: Float32 = 0
+    var volumeSize = UInt32(MemoryLayout<Float32>.size)
+    if AudioObjectGetPropertyData(device, &volumeAddress, 0, nil, &volumeSize, &volume) == noErr {
+        print("Device volume channel \(element): \(volume)")
+    }
+}
 if CommandLine.arguments.count == 1 { print("Selected: \(property(device, kAudioObjectPropertyName)); UID: \(uid)"); exit(0) }
 let player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: CommandLine.arguments[1]))
 player.currentDevice = uid
-player.volume = 0.65
+let volume = CommandLine.arguments.count > 2 ? Float(CommandLine.arguments[2]) : 0.65
+guard let volume, volume.isFinite, (0...1).contains(volume) else { fatalError("Use player volume 0–1") }
+player.volume = volume
 player.enableRate = false
 guard player.prepareToPlay(), player.play() else { fatalError("Playback failed") }
-print("Playing on \(property(device, kAudioObjectPropertyName)), duration \(player.duration), native rate")
+print("Playing on \(property(device, kAudioObjectPropertyName)), UID \(player.currentDevice ?? "unknown"), duration \(player.duration), player volume \(volume), native rate")
 let deadline = Date().addingTimeInterval(player.duration + 3)
 while player.isPlaying && Date() < deadline { RunLoop.current.run(until: Date().addingTimeInterval(0.02)) }
 if player.isPlaying { player.stop(); exit(2) }

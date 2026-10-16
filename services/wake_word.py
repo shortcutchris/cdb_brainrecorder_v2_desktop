@@ -197,7 +197,7 @@ class WakeWord:
                     if values:
                         previous = (self.diagnostics or {}).get('speech_segments', 0)
                         self.diagnostics, self.diagnostic_at = values, self.clock()
-                        if values['speech_segments'] > previous:
+                        if values['speech_segments'] > previous or values.get('model_peak', 0) >= 0.1:
                             self.diagnostic_history.append({'detector': self.detector_starts,
                                 'at_monotonic': round(self.clock(), 2), **values})
                             self.diagnostic_history = self.diagnostic_history[-16:]
@@ -242,7 +242,9 @@ def detect(capture_command=None, phrase=None):
             if not ready:
                 print('ready', flush=True); ready = True
             detected = model.feed(audio)
-            diagnostics.feed(audio, model.last_decision, model.onset.renewals)
+            diagnostics.feed(audio, model.last_decision, model.onset.renewals,
+                             probability=getattr(model, 'last_probability', None),
+                             cutoff=getattr(model, 'probability_cutoff', None))
             if model.last_decision or time.monotonic() - last_progress >= 2:
                 print('diagnostic ' + json.dumps(diagnostics.snapshot(), separators=(',', ':')), flush=True)
             if detected: print('detected', flush=True)

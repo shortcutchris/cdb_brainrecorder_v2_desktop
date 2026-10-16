@@ -6,6 +6,8 @@ from services.wake_word import WakeWord
 
 class WakeTests(unittest.TestCase):
     def setUp(self):
+        runtime=patch('services.wake_word.runtime_ready',return_value=True)
+        runtime.start();self.addCleanup(runtime.stop)
         self.tmp=tempfile.TemporaryDirectory();self.now=100
         self.wake=WakeWord(self.tmp.name,lambda:self.now);self.wake.runtime=True
         self.account={'user_id':'a','client_id':'b','server':'https://example.test'}

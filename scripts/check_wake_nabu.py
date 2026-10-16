@@ -17,6 +17,7 @@ def frames(path):
  return [data[i:i+1600] for i in range(0,len(data),1600)]
 for kind in ['okay_nabu','alexa','hey_jarvis','hey_mycroft']:
  for path in sorted((base/kind).glob('*.wav')):
+  if path.name.startswith('._'):continue  # macOS archive metadata is not audio.
   d=create_detector('okay-nabu');found=False;start=time.process_time()
   for frame in frames(path):found=d.feed(frame) or found
   rows.append({'file':kind+'/'+path.name,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'expected':kind=='okay_nabu','detected':found,'cpu_seconds':round(time.process_time()-start,4)})

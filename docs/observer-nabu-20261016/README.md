@@ -94,3 +94,36 @@ kein App-Release oder Image-Neubau erforderlich. Nur der eigenständige Messdien
 wurde ausgetauscht. Die Beobachtungsautomation kennt jetzt die Korrektur,
 Unterbrechung und den fehlgeschlagenen Raumtest. Sie bleibt rein lesend und
 darf diese bekannten Ergebnisse nicht wiederholt als neue Störung melden.
+
+## Weitere Eingrenzung am 16.10. und erneuter Optimierungsauftrag
+
+Der Benutzer hat anschließend die umfassende Optimierung und vertiefte
+Open-Source-Recherche wieder beauftragt. Das Gesamtziel ist damit wieder aktiv;
+der obige Pausenhinweis beschreibt den früheren begrenzten Auftrag.
+
+| Raumtest | Positive Dateien erkannt | Negativdateien ausgelöst | Befund |
+| --- | ---: | ---: | --- |
+| [Pegel/Korrelation, Player 0,65](acoustic-studio-diagnostics.json) | 0/3 | 0/1 | Nabu-Spitzen 0,39–0,59 bei Schwelle 0,85 |
+| [Player 1,0, Gerätepegel unverändert](acoustic-studio-louder.json) | 1/3 | 0/1 | Nur eine Datei erreicht knapp 0,85 |
+| [Stereo gleichzeitig](acoustic-studio-stereo.json) | 1/3 je Pfad | 0/1 je Pfad | Beide Kanäle und Mittel ähnlich; kein konsistenter Gewinner |
+| [Deutsch und 30 Sekunden Ruhe je Ruf](acoustic-studio-german.json) | 0/3 je Pfad | 1/1 je Pfad | Zwei neue deutsche Stimmen + Referenz verpasst; ähnlicher Satz löst aus |
+
+Der letzte Negativclip enthält den Beginn des synthetischen Texts „Okay, na gut.
+Okay, dann bis morgen“. Das Modell erreicht im Raum etwa 0,99. Seine 12/13
+akzeptierten Frames sind **ein** falsch akzeptierter Clip, keine zwölf
+unabhängigen Gespräche. Die isolierte Wartung startet keine Cloud-Gespräche.
+Der Befund verbietet die Behauptung, eine niedrigere Schwelle allein behebe das
+Problem. Generierte Aussprache bleibt zusätzlich menschlich zu überprüfen.
+
+Jeder Test wurde beendet und seine Wartung freigegeben. Produktion danach wieder
+`listening`, Live nicht aktiv. Keine Firmware-, Kanal-, AGC- oder Systemlautstärke-
+Änderung. Ausgelesen: AGC an, Zeitkonstante 0,9 s, ASR-Gain 1,0, zusätzliche
+Non-Speech-AGC-Absenkung aus. Diese Werte sind kein kausaler Standby-Nachweis.
+
+Die älteren Berichte enthalten kumulative Diagnosezähler pro Detektor; Pegel und
+Modell-Maxima gelten pro Auswertungsfenster. Das Werkzeug setzt inzwischen die
+Fallzähler zurück, damit ein Treffer im vorigen Fall nicht missverstanden wird.
+Vorübergehende Raum-PCM-Daten werden ausschließlich im RAM mit der bekannten
+Datei verglichen und anschließend verworfen.
+
+[Vollständige Projektrecherche und unabhängiger Modellvergleich](../wake-word-research/2026-10-16/README.md).
