@@ -1,0 +1,14 @@
+test_100_successive_conversations_leave_no_obsolete_reader_threads (test_live_event_scope.LiveEventScopeTests.test_100_successive_conversations_leave_no_obsolete_reader_threads) ... ok
+test_account_change_closes_old_keepalive_stream (test_live_event_scope.LiveEventScopeTests.test_account_change_closes_old_keepalive_stream) ... ok
+test_already_obsolete_reader_does_not_refresh_token_or_open_network (test_live_event_scope.LiveEventScopeTests.test_already_obsolete_reader_does_not_refresh_token_or_open_network) ... ok
+test_closing_current_conversation_preserves_final_transcript (test_live_event_scope.LiveEventScopeTests.test_closing_current_conversation_preserves_final_transcript) ... ok
+test_current_stream_keeps_delivering_transcript_and_closes_on_eof (test_live_event_scope.LiveEventScopeTests.test_current_stream_keeps_delivering_transcript_and_closes_on_eof) ... ok
+test_default_event_loop_passes_its_generation_to_reader (test_live_event_scope.LiveEventScopeTests.test_default_event_loop_passes_its_generation_to_reader) ... ok
+test_old_keepalive_stream_closes_when_next_conversation_starts (test_live_event_scope.LiveEventScopeTests.test_old_keepalive_stream_closes_when_next_conversation_starts) ... ok
+test_open_finishing_after_replacement_closes_without_reading (test_live_event_scope.LiveEventScopeTests.test_open_finishing_after_replacement_closes_without_reading) ... ok
+test_token_refresh_finishing_after_replacement_does_not_open_stream (test_live_event_scope.LiveEventScopeTests.test_token_refresh_finishing_after_replacement_does_not_open_stream) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 1.227s
+
+OK

@@ -1,6 +1,6 @@
 # Corporate Digital Brain Desktop Recorder
 
-## Vorbereitet – Ereignisströme nach Gesprächswechsel schließen
+## 0.5.57 – Ereignisströme nach Gesprächswechsel schließen
 
 Ein alter Live-Ereignisstrom bleibt an seine ursprüngliche Gesprächs- und
 Kontogeneration gebunden. Ein neues Gespräch hält ihn nicht mehr offen.

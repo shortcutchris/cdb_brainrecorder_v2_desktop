@@ -1,5 +1,7 @@
 # Ereignisströme an genau ein Live-Gespräch binden
 
+Release-Kandidat: **0.5.57**, signierte Sequenz **14**, auf Basis von 0.5.56.
+
 Stand 16. Oktober 2026: **lokal korrigiert, noch nicht auf dem Pi ausgeliefert**.
 Der Pi läuft weiterhin mit 0.5.56; seine laufende Beobachtung wurde für diese
 Codeprüfung nicht unterbrochen. Die Korrektur ist ein Kandidat für das nächste
@@ -62,10 +64,19 @@ Tests. Der bekannte Qt-/GC-Hinweis über ein beim Prozessende nicht bereinigtes
 Objekt erscheint weiterhin; er ist kein Pi-Ressourcenmesswert.
 [Prüfsummen und Prüfstatus](validation.json).
 
+Alle [neun neuen Tests auf dem Pi](pi-tests.txt) bestehen auch mit Python
+3.13.5, einschließlich der 100 Reader-Wechsel. Sie liefen in einem getrennten
+temporären Quellordner mit künstlichem Transport, ohne App-Neustart oder Zugriff
+auf produktive Aufnahmen/Konten. [Quell- und Testprüfsummen](pi-provenance.json)
+entsprechen dem lokal geprüften Code. Nach dem Versionssprung bestehen die
+[51 Studio-Tests](studio-0.5.57-tests.txt) erneut auf dem Mac; sie sind eine
+Teilmenge der vollständigen Suite.
+
 ## Auslieferung und Image
 
-Die einzige geänderte Laufzeitdatei ist `services/live_conversation.py`, bereits
-in der bestehenden App-Positivliste enthalten. Keine neue Abhängigkeit, kein
+Die geänderten Laufzeitdateien sind `services/live_conversation.py` und der
+Versionswert in `web_server.py`, beide bereits in der App-Positivliste.
+Keine neue Abhängigkeit, kein
 geändertes Datenformat, keine Mikrofon-/Modellkonfiguration. Ein signiertes
 App-Paket kann die Korrektur auf kompatible bestehende Geräte übertragen; ein
 neuer Kunden-Image-Build übernimmt den freigegebenen Quellstand automatisch.
