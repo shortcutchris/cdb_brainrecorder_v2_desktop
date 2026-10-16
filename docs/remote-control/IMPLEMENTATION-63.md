@@ -1,8 +1,8 @@
 # Mobile Fernbedienung: Umsetzung zu Issue 63
 
-Stand 16.10.2026. Feature-Branch: **0.5.61 für den angeforderten Staging-Gerätetest vorbereitet**.
-Der Pi-Test setzt keinen Merge oder eine Serverfreischaltung voraus. Der tatsächliche
-Installationsnachweis wird nach dem signierten Update unten ergänzt.
+Stand 16.10.2026. **0.5.61 ist auf Chris’ Pi für den Staging-Test installiert.**
+PR #10 bleibt ungemergt; Server und Mobile werden separat freigegeben.
+Die Kopplung ist serverseitig derzeit noch nicht verfügbar.
 [Freigegebenes Issue](https://github.com/BIK-GmbH/cdb-knowledge-mobile/issues/63) ·
 [Gemeinsamer Vertrag](contract-v1.md).
 
@@ -148,3 +148,27 @@ Sequenz 18. Runtime und Bestandsdatenformat bleiben gleich. Die bestehende
 Pi-Anmeldung verwendet bereits `https://staging.cdbos.de`; kein Kontowechsel
 ist erforderlich. TQS #2098, WebOS #1409 und Mobile #64 werden hier weder
 gemergt noch ausgerollt. Die Freigabe des Gesamtsystems bleibt separat.
+
+## Tatsächliche Installation am 16.10.2026
+
+- Quellcommit `e14b4ad2142ec30cc9c2e71b8b9671b95e96fb69`, signierte Sequenz **18**,
+  Release `bd2e82fdf8bb5a729180d31f49a9d3b404f989406c248cbb77fa09dd1f6a406a`.
+- Update von 0.5.60 unter der atomaren Wartungssperre; Bereitschaftsprüfung und
+  anschließend alle **118 Dateihashes** erfolgreich. Die geprüften Konfigurations-,
+  Audio-, Wake- und Bereichsauswahl-Dateien sind unverändert. Keine Datenmigration.
+- Backend und ausgelieferte Oberfläche melden **0.5.61**. Pi online über Mac Studio,
+  Aktivität `idle`, Wartung freigegeben; fünf Folgemessungen mit `okay-nabu/listening`.
+  Dies belegt Bereitschaft, keine neue akustische Erkennungsabnahme.
+- Vorhandenes Brain-Konto bereits auf `https://staging.cdbos.de`; Account-Bindung
+  gültig. Die echte authentifizierte Verfügbarkeitsprüfung meldet `not_supported`.
+  Keine Kopplung erzeugt, kein Steuerrecht ausgestellt, kein Remote-Gespräch gestartet.
+- TQS #2098, WebOS #1409 und Mobile #64 bleiben durch diese Auslieferung unberührt.
+  Nach deren Staging-Freigabe am Pi **Verfügbarkeit prüfen → Code erzeugen**,
+  in cdbMOBILE eingeben und am Pi **Handy freigeben** wählen. Der Code gilt fünf
+  Minuten; dieselbe Konto-/Mandanten-/Umgebungsbindung ist erforderlich.
+
+[Maschinenlesbarer Installationsnachweis](evidence/pi-deployment-0.5.61.json).
+Der Beobachterprozess (PID 1894368) und sein ursprünglicher Messplan laufen weiter.
+Testlast und dieser angekündigte App-Neustart sind Eingriffe und keine ungestörte
+Ruhezeit. Ein neues Image-Baupaket mit 125 Quelldateien wurde exportiert und auf
+Fernbedienungsdateien/Profilausschluss geprüft; kein SD-Image gebaut oder gebootet.
