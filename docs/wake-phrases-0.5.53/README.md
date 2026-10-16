@@ -250,3 +250,62 @@ Vorschauen der produktiven Pi-App im Browser:
 
 ![Startseite mit aktivem Okay KAI](pi-home-browser.jpg)
 ![Aktivierungswort-Einstellungen](pi-wake-settings-browser.jpg)
+
+
+## Natürlicher KAI-Test fehlgeschlagen – 16. Oktober 2026
+
+Der Benutzer meldete nach dem angefragten Ruf **„Keine Reaktion“**. Auf dem Pi
+lief inzwischen Version 0.5.57 mit `okay-kai`. Der lokale Listener meldete
+weiterhin `listening`, einen laufenden Mikrofonprozess und aktuelle Audioblöcke.
+Es gab keine Aktivierung und keinen Übergang in ein Live-Gespräch.
+
+Die begrenzte Diagnosehistorie enthält zwei `candidate_rejected` und ein
+`partial_wake_word` zwischen den monotonen Pi-Zeitpunkten 145392.62 und 145407.92.
+Das bedeutet: Der Decoder lieferte zweimal das ausgewählte Wortpaar, die
+Aktivierungsprüfung verwarf es. Die bisherige Diagnose unterscheidet dabei
+noch nicht Wortkonfidenz, Zeitdauer und Textkonsistenz. Eine Zuordnung jedes
+Segments zu einem konkreten Ruf oder Sprecher ist damit nicht bewiesen.
+Die Kategorien belegen weder einen Mikrofon-Standby noch einen Cloudfehler.
+
+**Okay KAI ist damit nicht als zuverlässig abgenommen.** Gute passive Browser-
+Messwerte dürfen nicht als bestandener Rufworttest gewertet werden. Die laufende
+24h-Beobachtung bleibt erhalten; ein späterer isolierter Mikrofontest muss als
+bewusster Eingriff markiert werden und ist kein ununterbrochener Langzeit-
+Rufwortnachweis. Der vollständige private Status-Snapshot liegt außerhalb Git
+unter `~/.local/share/cdb-stability-evidence-20261015/057-kai-human-failure/`.
+
+### Gezielte, lokale Ablehnungsdiagnose
+
+`scripts/diagnose_wake_candidate.py` ist ein Bedienerwerkzeug für einen
+angekündigten Test mit anwesendem Sprecher. Es reserviert das Gerät über die
+bestehende atomare Wartungssperre, prüft das Ende des produktiven Mikrofon-
+prozesses und liest höchstens 60 Sekunden Audio. Es nutzt unverändert das
+installierte Modell, die Grammatik und die Aktivierungsschwellen. Es meldet nur
+feste Kategorien sowie Konfidenzen und Dauer für Kandidaten des ausgewählten
+Rufworts; keine Raumtranskripte und keine Audiodateien werden gespeichert.
+Ein Live-Gespräch wird nicht gestartet. Im Fehlerfall werden Mikrofonprozess
+und Wartungssperre aufgeräumt; anschließend kann der produktive Listener wieder
+übernehmen. Nach jedem Lauf sind Freigabe und Listenerstatus zu kontrollieren.
+
+Auf dem Pi ausführen, erst wenn der Sprecher bereit ist:
+
+```sh
+PYTHONPATH="$HOME/.local/share/cdb-recorder-app/current"   "$HOME/projects/cdb_brainrecorder_v2_desktop/venv-local-ai/bin/python"   /tmp/cdb-diagnose-wake-candidate.py --phrase okay-kai --seconds 45
+```
+
+Erst nach der Ausgabe `ready` sprechen. `candidate` nennt ausschließlich die
+Prüfgründe `first_word_confidence`, `second_word_confidence`, `duration` oder
+`text_mismatch`; leere Gründe bedeuten einen akzeptablen Kandidaten. Ein
+synthetischer oder isolierter Treffer ersetzt anschließend nicht den Test der
+produktiven Gesprächsübergabe.
+
+Stand dieser Ergänzung: 23 gezielte lokale Tests bestanden, einschließlich
+Grenzwerten, Datenschutz-Ausgabe, Besetzt-Sperre und Fehlerbereinigung. Auf dem
+Pi ist der Skriptstart mit `--help` geprüft; der natürliche Diagnoselauf wartet
+auf den anwesenden Sprecher. Keine Schwellenänderung, kein App-/Browserneustart,
+keine Änderung an Geräte-, Audio- oder Kontoeinstellungen.
+
+**Image/Update:** ausschließlich Bedienerskript, Tests und Dokumentation.
+Keine Laufzeitänderung und kein neues App-Paket erforderlich. Das Skript wird
+nicht in Kunden-Images automatisch ausgeführt; bestehendes SD-Image und
+produktive Version 0.5.57 bleiben unverändert.
