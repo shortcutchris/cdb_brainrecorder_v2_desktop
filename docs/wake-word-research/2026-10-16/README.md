@@ -742,3 +742,45 @@ Erstrufe, längere negative Umgebung und reale Bereitschaft nach acht Stunden
 bleiben offen. Der neue Prüfstand korrigiert die älteren Fehlberichte nicht
 rückwirkend. Update-/Image-Einfluss weiterhin keiner; die Laboränderungen werden
 separat in PR #12 geprüft.
+
+## Raumprüfung der Schreibweisenkorrektur: nicht freigabefähig
+
+Die eingefrorene [Raumplanung](joined-room-plan.json), Quellstand `cdcef69`,
+wurde anschließend über Mac Studio → ReSpeaker ausgeführt. Alle vier externen
+Wiedergaben endeten korrekt, Originalrate, Player-Gain 1,0, unveränderte
+Gerätelautstärke rund 0,5. Vor jedem Clip 30 Sekunden reale Ruhe. Die App wurde
+atomar reserviert; keine produktive Live-Aktivierung, kein gespeicherter Raumton
+oder Raumtext. [Ergebnis und anschließende Zustandsprüfung](joined-room-result.json).
+
+| Raumdatei | Ergebnis | Eingrenzung |
+| --- | --- | --- |
+| Charlie, positiver Ruf | Verpasst | Primärmaximum 0,737; Kandidat erzeugt, Base nach 3,031 s abgebrochen |
+| Sarah, positiver Ruf | Verpasst | Primärmaximum 0,051; bereits unter Kandidatenschwelle 0,15, Base nicht gestartet |
+| Will, Gegenbeispiele | Keine Aktivierung | Primärmaximum 0,836; Base verwirft nach 0,640 s |
+| Charlie, Gegenbeispiele | Keine Aktivierung | Primärmaximum 0,063; kein Kandidat |
+
+**0/2 positive und 0/2 negative aktiviert.** Keine Aktivierung vor Wiedergabe,
+keine offenen Prüfer beim Wechsel. Der Gesamtprozess beendet sich technisch
+korrekt mit Exit 0, aber `quality_passed` ist ausdrücklich **false**. Technischer
+Testabschluss ist keine Qualitätsfreigabe.
+
+Die Dateierfolge übertragen sich damit nicht auf diesen Raumweg. Der erste
+Base-Timeout ist belegt; eine Ursache wie Kaltstart, Decoderlaufzeit oder
+Scheduling ist noch nicht getrennt nachgewiesen. Das Zeitlimit wird nicht bloß
+verlängert. Sarahs Fehler entsteht dagegen bereits vor der Zusatzprüfung.
+Mikrofonpeaks um −10 dBFS zeigen vorhandenes Signal, beweisen aber keine
+Verständlichkeit; die niedrige Korrelation darf nicht als genaue Sprachzeitmarke
+genutzt werden. Es gab keinen menschlichen Hörvergleich vor Ort.
+
+Folgeentscheidung: **keine Produktionsintegration** dieser Variante. Vor einem
+weiteren Modellentscheid müssen Audioübertragung und Kandidatenqualität am realen
+ReSpeaker von der begrenzten Laufzeit des Zusatzprüfers getrennt werden. Das
+Bibliotheks-Audit bestätigt, dass unser primärer Vergleich dieselbe gemittelte
+Wahrscheinlichkeit und strikte Schwelle wie `pymicro_wakeword.process_streaming`
+verwendet; keine ausgelassene zusätzliche Bibliotheksprüfung gefunden.
+
+Wartung freigegeben, kein Laborprozess übrig, fünf tatsächliche Nachmessungen
+zeigen App 0.5.61, `idle`, `okay-nabu/listening`. Der Beobachter PID1894368 läuft
+weiter; ursprünglicher Plan bleibt erhalten, dieses Laborintervall unterbricht
+die Ruhezeitevidenz. 14 Probe-/Prozesstests bestanden vor dem Raumtest. Alle
+Änderungen bleiben außerhalb von App-/Image-Auslieferung, keine Runtimeänderung.

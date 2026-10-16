@@ -273,3 +273,14 @@ Versionswechsel; Rohdaten/Plan bleiben erhalten, nicht als saubere Standzeit zä
   Kandidaten und natürliche Rufe nicht abgenommen; keine Integration. Drei
   neue und zwölf vorhandene Labortests bestanden. Wartung freigegeben, Pi
   wieder `listening`, Plan unverändert. [Messwerte und Grenzen](../wake-word-research/2026-10-16/README.md#gepaarter-vergleich-auf-identischen-raum-ausschnitten).
+
+- **16.10., weiterer Nabu-Kandidatenvergleich:** Exakte zusammengezogene
+  Whisper-Schreibweise behebt den bekannten synthetischen Erst-Ruf-Fehler;
+  sechs Regressionen und sechs Szenarien mit zwei neuen TTS-Stimmen bestehen.
+  Im anschließenden echten Raumweg scheitern jedoch beide positiven Rufe:
+  ein nativer Drei-Sekunden-Timeout, ein fehlender Primärkandidat. Zwei negative
+  Dateien lösen nicht aus. Keine Produktionsintegration. App 0.5.61 mit der
+  separat ausgelieferten Mobile-Fernbedienung bleibt auf unverändertem Nabu;
+  Wartung freigegeben und laufender Observer bestätigt. Natürliche und lange
+  akustische Bereitschaft bleiben offen. Details im Forschungsbericht und
+  `joined-room-result.json`; technische Exit-0-Ergebnisse nicht als Freigabe lesen.
