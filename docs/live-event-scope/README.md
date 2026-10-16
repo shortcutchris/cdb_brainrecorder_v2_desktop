@@ -1,11 +1,11 @@
 # Ereignisströme an genau ein Live-Gespräch binden
 
-Release-Kandidat: **0.5.57**, signierte Sequenz **14**, auf Basis von 0.5.56.
+Installiertes Release: **0.5.57**, signierte Sequenz **14**, auf Basis von 0.5.56.
 
-Stand 16. Oktober 2026: **lokal korrigiert, noch nicht auf dem Pi ausgeliefert**.
-Der Pi läuft weiterhin mit 0.5.56; seine laufende Beobachtung wurde für diese
-Codeprüfung nicht unterbrochen. Die Korrektur ist ein Kandidat für das nächste
-signierte App-Update, keine behauptete Langzeitabnahme.
+Stand 16. Oktober 2026: **geprüft und auf dem Pi installiert**. Die vorherige
+0.5.56-Beobachtung blieb während der lokalen Codeprüfung unberührt und wurde
+erst nach dem kontrollierten Update archiviert. Seit 02:15:15 Uhr läuft eine
+neue versionsreine Beobachtung. Keine behauptete Langzeitabnahme.
 
 ## Reproduzierter Fehler
 
@@ -88,3 +88,40 @@ Wartungssperre muss erfolgreich sein; keine aktive Aufnahme oder Unterhaltung
 abbrechen. Danach Einstellungen und Runtime nachprüfen und den versionsreinen
 Beobachtungszeitraum gesondert dokumentieren. Ein Quellcommit allein ist keine
 Auslieferung. Das übergeordnete Stabilitätsziel bleibt offen.
+
+## Bestätigte Installation und neuer Dauerlauf
+
+[Signierte Auslieferung](deployment.json), Quellcommit
+`37e2a6c184ece4b5211563321fbef624d2cce8f0`, Release-ID
+`09a3a71bf99603cc4b43664c4f20148eb86a1aa81217ce2d7bef4060f657137e`.
+Signatur, unveränderte Runtime und exakte Paketdifferenz geprüft: nur
+`services/live_conversation.py` und `web_server.py`. Die atomare Wartungssperre
+war erfolgreich. Die zuvor erfassten Konfigurationsprüfsummen stimmen nach dem
+Update überein; Okay KAI bleibt ausgewählt. Kein Browser-/Pi-Neustart, keine
+neue Modell-, Audio- oder Firmwarekonfiguration. Der Backend-Neustart gehört
+zum App-Update.
+
+[18 Stichproben](installation-check.json) über etwa 36 Sekunden bestätigen
+API-/ausgelieferte HTML-Version 0.5.57, genau einen unveränderten hörbereiten
+Wake-Kindprozess und passende installierte Quellprüfsummen. Das
+[echte Display](display-after.png) zeigt die freie Startseite und Bereitschaft
+für Okay KAI. Es belegt keine erfolgreiche Erkennung oder intern ausgeführte
+JavaScript-Version; kein akustischer Test wurde gestartet.
+
+Der [neue Messplan](observation-plan.json) reicht von **16.10.2026, 02:15:15**
+bis **17.10.2026, 02:15:15 Europe/Berlin**. Beobachter **1488318** wurde als
+aktiver Prozess geprüft. Der Beobachtercode und seine Ruhezeitevidenz Revision 2
+bleiben unverändert; keine automatische Reparatur. Die bestehende Nachprüfung
+läuft alle 15 Minuten, höchstens bis 17.10.2026, 03:45:15 Uhr; unveränderte
+Zwischenstände bleiben ohne Benachrichtigung. Bei belegter Acht-Stunden-Ruhe
+soll tagsüber einmal um einen natürlichen Ruf gebeten werden, sofern er fehlt.
+
+Die [0.5.56-Teilmessung](previous-partial-observation.json) umfasst rund
+22 Minuten und 88 Ressourcenstichproben einschließlich des kontrollierten
+Versionswechsels. Sie liegt auf dem Pi unter
+`baseline-056-before-live-event-scope-fix`. Der Schlüsselbund-Eingriff und die
+zusätzlichen Diagnoseintervalle bleiben markiert. Kein Langzeit-Wake, kein
+24-Stunden-Erfolg; alte und neue Zeitfenster werden nicht zusammengezählt.
+Die Auswertung endet am aufgezeichneten Ablösezeitpunkt, nicht an späterer
+Wanduhrzeit. Die verbleibende Chromium-Last und die akustische Langzeitabnahme
+sind weiterhin offen.

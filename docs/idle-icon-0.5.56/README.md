@@ -2,6 +2,10 @@
 
 Am 16. Oktober 2026 als signiertes App-Update auf dem Pi installiert.
 
+Seit dem Folgeupdate [0.5.57](../live-event-scope/README.md) ist die unten
+beschriebene Beobachtung als unvollständige Teilmessung archiviert. Für den
+aktuellen Lauf gilt der dort verlinkte neue Messplan.
+
 Auch auf der Startseite wurde das Play-Symbol des versteckten Mikrofon-Testplayers
 bei jeder Zustandsabfrage erneut zugewiesen. Der vorhandene `setIcon`-Helfer
 überspringt jetzt identische Quellen. Wechsel zwischen Play und Pause bleiben

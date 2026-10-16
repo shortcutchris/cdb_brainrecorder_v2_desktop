@@ -1,0 +1,212 @@
+{
+  "version": "0.5.57",
+  "html_version": "0.5.57",
+  "rows": [
+    {
+      "at": 1792109662.3692544,
+      "state": "listening",
+      "children": [
+        {
+          "pid": 1486753,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/09a3a71bf99603cc4b43664c4f20148eb86a1aa81217ce2d7bef4060f657137e",
+          "source_sha256": "6b076c9e4e61524b2d66c1d015ed138ab7a28be1e83fdeb7597401f77c963ccf"
+        }
+      ]
+    },
+    {
+      "at": 1792109664.376291,
+      "state": "listening",
+      "children": [
+        {
+          "pid": 1486753,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/09a3a71bf99603cc4b43664c4f20148eb86a1aa81217ce2d7bef4060f657137e",
+          "source_sha256": "6b076c9e4e61524b2d66c1d015ed138ab7a28be1e83fdeb7597401f77c963ccf"
+        }
+      ]
+    },
+    {
+      "at": 1792109666.383503,
+      "state": "listening",
+      "children": [
+        {
+          "pid": 1486753,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/09a3a71bf99603cc4b43664c4f20148eb86a1aa81217ce2d7bef4060f657137e",
+          "source_sha256": "6b076c9e4e61524b2d66c1d015ed138ab7a28be1e83fdeb7597401f77c963ccf"
+        }
+      ]
+    },
+    {
+      "at": 1792109668.3909824,
+      "state": "listening",
+      "children": [
+        {
+          "pid": 1486753,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/09a3a71bf99603cc4b43664c4f20148eb86a1aa81217ce2d7bef4060f657137e",
+          "source_sha256": "6b076c9e4e61524b2d66c1d015ed138ab7a28be1e83fdeb7597401f77c963ccf"
+        }
+      ]
+    },
+    {
+      "at": 1792109670.4005637,
+      "state": "listening",
+      "children": [
+        {
+          "pid": 1486753,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/09a3a71bf99603cc4b43664c4f20148eb86a1aa81217ce2d7bef4060f657137e",
+          "source_sha256": "6b076c9e4e61524b2d66c1d015ed138ab7a28be1e83fdeb7597401f77c963ccf"
+        }
+      ]
+    },
+    {
+      "at": 1792109672.4078233,
+      "state": "listening",
+      "children": [
+        {
+          "pid": 1486753,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/09a3a71bf99603cc4b43664c4f20148eb86a1aa81217ce2d7bef4060f657137e",
+          "source_sha256": "6b076c9e4e61524b2d66c1d015ed138ab7a28be1e83fdeb7597401f77c963ccf"
+        }
+      ]
+    },
+    {
+      "at": 1792109674.4156232,
+      "state": "listening",
+      "children": [
+        {
+          "pid": 1486753,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/09a3a71bf99603cc4b43664c4f20148eb86a1aa81217ce2d7bef4060f657137e",
+          "source_sha256": "6b076c9e4e61524b2d66c1d015ed138ab7a28be1e83fdeb7597401f77c963ccf"
+        }
+      ]
+    },
+    {
+      "at": 1792109676.4245327,
+      "state": "listening",
+      "children": [
+        {
+          "pid": 1486753,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/09a3a71bf99603cc4b43664c4f20148eb86a1aa81217ce2d7bef4060f657137e",
+          "source_sha256": "6b076c9e4e61524b2d66c1d015ed138ab7a28be1e83fdeb7597401f77c963ccf"
+        }
+      ]
+    },
+    {
+      "at": 1792109678.4315128,
+      "state": "listening",
+      "children": [
+        {
+          "pid": 1486753,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/09a3a71bf99603cc4b43664c4f20148eb86a1aa81217ce2d7bef4060f657137e",
+          "source_sha256": "6b076c9e4e61524b2d66c1d015ed138ab7a28be1e83fdeb7597401f77c963ccf"
+        }
+      ]
+    },
+    {
+      "at": 1792109680.4384587,
+      "state": "listening",
+      "children": [
+        {
+          "pid": 1486753,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/09a3a71bf99603cc4b43664c4f20148eb86a1aa81217ce2d7bef4060f657137e",
+          "source_sha256": "6b076c9e4e61524b2d66c1d015ed138ab7a28be1e83fdeb7597401f77c963ccf"
+        }
+      ]
+    },
+    {
+      "at": 1792109682.4454315,
+      "state": "listening",
+      "children": [
+        {
+          "pid": 1486753,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/09a3a71bf99603cc4b43664c4f20148eb86a1aa81217ce2d7bef4060f657137e",
+          "source_sha256": "6b076c9e4e61524b2d66c1d015ed138ab7a28be1e83fdeb7597401f77c963ccf"
+        }
+      ]
+    },
+    {
+      "at": 1792109684.4531024,
+      "state": "listening",
+      "children": [
+        {
+          "pid": 1486753,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/09a3a71bf99603cc4b43664c4f20148eb86a1aa81217ce2d7bef4060f657137e",
+          "source_sha256": "6b076c9e4e61524b2d66c1d015ed138ab7a28be1e83fdeb7597401f77c963ccf"
+        }
+      ]
+    },
+    {
+      "at": 1792109686.460316,
+      "state": "listening",
+      "children": [
+        {
+          "pid": 1486753,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/09a3a71bf99603cc4b43664c4f20148eb86a1aa81217ce2d7bef4060f657137e",
+          "source_sha256": "6b076c9e4e61524b2d66c1d015ed138ab7a28be1e83fdeb7597401f77c963ccf"
+        }
+      ]
+    },
+    {
+      "at": 1792109688.469206,
+      "state": "listening",
+      "children": [
+        {
+          "pid": 1486753,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/09a3a71bf99603cc4b43664c4f20148eb86a1aa81217ce2d7bef4060f657137e",
+          "source_sha256": "6b076c9e4e61524b2d66c1d015ed138ab7a28be1e83fdeb7597401f77c963ccf"
+        }
+      ]
+    },
+    {
+      "at": 1792109690.4784124,
+      "state": "listening",
+      "children": [
+        {
+          "pid": 1486753,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/09a3a71bf99603cc4b43664c4f20148eb86a1aa81217ce2d7bef4060f657137e",
+          "source_sha256": "6b076c9e4e61524b2d66c1d015ed138ab7a28be1e83fdeb7597401f77c963ccf"
+        }
+      ]
+    },
+    {
+      "at": 1792109692.4861395,
+      "state": "listening",
+      "children": [
+        {
+          "pid": 1486753,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/09a3a71bf99603cc4b43664c4f20148eb86a1aa81217ce2d7bef4060f657137e",
+          "source_sha256": "6b076c9e4e61524b2d66c1d015ed138ab7a28be1e83fdeb7597401f77c963ccf"
+        }
+      ]
+    },
+    {
+      "at": 1792109694.494138,
+      "state": "listening",
+      "children": [
+        {
+          "pid": 1486753,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/09a3a71bf99603cc4b43664c4f20148eb86a1aa81217ce2d7bef4060f657137e",
+          "source_sha256": "6b076c9e4e61524b2d66c1d015ed138ab7a28be1e83fdeb7597401f77c963ccf"
+        }
+      ]
+    },
+    {
+      "at": 1792109696.5037055,
+      "state": "listening",
+      "children": [
+        {
+          "pid": 1486753,
+          "cwd": "/home/chris/.local/share/cdb-recorder-app/releases/09a3a71bf99603cc4b43664c4f20148eb86a1aa81217ce2d7bef4060f657137e",
+          "source_sha256": "6b076c9e4e61524b2d66c1d015ed138ab7a28be1e83fdeb7597401f77c963ccf"
+        }
+      ]
+    }
+  ],
+  "installed_files": {
+    "services/live_conversation.py": "3b8da0e17485d1e97ebd996afd7f5e57eff03cd9baf5feb86152b6bb067313cf",
+    "studio/microphone.js": "9de014063923156499f4b294ad16b7402664785f24cd2d25307716ce7fc71276",
+    "studio/device-status.js": "599068a862cfb1d4aeb98d4bf3f4c9abce0770c2746b8b4d75287b653bf75b17",
+    "studio/touch.js": "7014360d67cc123117131c7653a150bab87183b6471355bf3571eaf4e19d7d24",
+    "web_server.py": "3170edd15c302ebc51dfc06c0bfe6a7fab663fc1130c955d4808d35d844cd90a"
+  },
+  "passed": true
+}

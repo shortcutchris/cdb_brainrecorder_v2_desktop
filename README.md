@@ -4,8 +4,8 @@
 
 Ein alter Live-Ereignisstrom bleibt an seine ursprüngliche Gesprächs- und
 Kontogeneration gebunden. Ein neues Gespräch hält ihn nicht mehr offen.
-Noch nicht auf dem Pi ausgeliefert:
-[Fehlernachweis, Tests und Update-Plan](docs/live-event-scope/README.md).
+Auf dem Pi installiert:
+[Fehlernachweis, Tests und Auslieferung](docs/live-event-scope/README.md).
 
 ## 0.5.56 – Symbol im Ruhezustand nicht neu laden
 

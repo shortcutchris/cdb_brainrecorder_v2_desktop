@@ -1,0 +1,76 @@
+{
+  "status": "pending",
+  "overall_goal_complete": false,
+  "note": "Telemetry only. Review hourly RSS trend, actual UI/audio and the full acceptance matrix separately.",
+  "start_epoch": 1792108398.7737296,
+  "end_epoch": 1792194798.7737296,
+  "analyzed_until_epoch": 1792109713.7676828,
+  "elapsed_hours": 0.3653,
+  "completed_observation": false,
+  "valid_metric_samples": 88,
+  "invalid_samples": 0,
+  "covered_seconds": 1314.861,
+  "coverage_percent": 99.9899,
+  "largest_gap_seconds": 0.005,
+  "planned_window_coverage_percent": 1.5218,
+  "last_sample_age_seconds": 9.861,
+  "versions": [
+    "0.5.56",
+    "0.5.57"
+  ],
+  "browser_generation_changes": 0,
+  "wake_phrases": [
+    "okay-kai"
+  ],
+  "backend_instance_changes": 1,
+  "observer_starts": 1,
+  "alerts": [],
+  "review_items": [
+    "runtime_restart_requires_review",
+    "missing_or_mixed_versions",
+    "observation_gaps_require_review",
+    "real_wake_after_eight_hours_missing"
+  ],
+  "idle_browser_cpu_percent_of_one_core": {
+    "samples": 87,
+    "min": 29.2,
+    "median": 31.6,
+    "p95": 33.0,
+    "max": 58.33
+  },
+  "idle_health_ms": {
+    "samples": 88,
+    "min": 4.09,
+    "median": 4.6,
+    "p95": 94.5,
+    "max": 98.73
+  },
+  "browser_rss_mb": {
+    "samples": 88,
+    "min": 1299.27,
+    "median": 1306.52,
+    "p95": 1310.28,
+    "max": 1319.22
+  },
+  "hourly_browser_rss": [
+    {
+      "hour": 0,
+      "samples": 88,
+      "median_rss_mb": 1306.52
+    }
+  ],
+  "observed_wakes": [],
+  "qualified_long_idle_wakes": 0,
+  "raw_files_sha256": {
+    "plan.json": "a4fdc4d2e15de800e2d8c8bc86a695f413cf0710ebe087d825189f3d82ed0628",
+    "events.jsonl": "8fa1650ed917cfea6605a61afbcc1bc020baf970cdc10a6c68211d6894df2019",
+    "metrics.jsonl": "8a9536d7e894cc699f99c7d2e8a2a20a0207957eb25ce61a80c7a256a4fc5e35",
+    "status.json": "8c1d959e6ff919a5374c62512aca4a32e7fe43f1bdfaad0c1e9fb5c72fca912b"
+  },
+  "manual_review_notes": [
+    "Native keyring dialog dismissed at about 02:00\u201302:01 Europe/Berlin; see idle-icon-0.5.56/display-check",
+    "Bounded passive network count 02:02:40\u201302:03:25 and isolated SVG test 02:04:33\u201302:05:41; see idle-icon-0.5.56/navigation-lifecycle",
+    "Isolated candidate reader tests took 1.227 seconds on Pi before deployment; no hardware or cloud activity",
+    "Controlled backend update to 0.5.57 at end; no completed 24-hour or long-idle acoustic acceptance"
+  ]
+}

@@ -7,8 +7,8 @@ prüfen und Fehler beheben. Das Codex-Ziel bleibt bis zur Abnahme aktiv.
 ## Abnahmeplan
 
 - **24 Stunden echte Standzeit:** der produktive Pi sammelt im aktuellen Lauf ab
-  16.10.2026, 01:53:18 Europe/Berlin bis 17.10.2026, 01:53:18 technische Messwerte
-  für 0.5.56 mit Okay KAI. `plan.json` des Messdienstes bleibt maßgeblich.
+  16.10.2026, 02:15:15 Europe/Berlin bis 17.10.2026, 02:15:15 technische Messwerte
+  für 0.5.57 mit Okay KAI. `plan.json` des Messdienstes bleibt maßgeblich.
   Vorläufe 0.5.45–0.5.52 wurden nach Korrekturen, Diagnose-Erweiterung oder dem
   ausdrücklichen Auftrag für neue Rufwörter archiviert und zählen nicht als
   bestandene Dauerläufe. Erwartet
@@ -61,6 +61,17 @@ Entwurfsicherung, UI-Heartbeat und bestätigte Schutztests. Hohe Last allein dar
 niemals einen Pi-/Backend-Neustart während einer Aufnahme auslösen.
 
 ## Fortschritt
+
+- **0.5.57 installiert:** alte Live-Ereignisleser bleiben an ihre Gesprächs- und
+  Kontogeneration gebunden. Der Keepalive-Fehler ist isoliert reproduziert;
+  371 lokale Python-Tests, neun gezielte Pi-Tests mit 100 Reader-Wechseln und
+  51 Studio-Tests nach Versionssprung bestanden. Signierte Sequenz 14, erhaltene
+  Konfigurationsprüfsummen und 18 Startup-Stichproben geprüft. Die vorherige
+  0.5.56-Teilmessung umfasst etwa 22 Minuten, keinen Langzeitnachweis und bleibt
+  mit UI-Eingriff/Diagnoseintervallen archiviert. [Belege](../live-event-scope/README.md).
+  Neuer Beobachterprozess 1488318 aktiv. Kein Browser-Neustart und keine
+  automatische Reparatur; verbleibende Browserlast und natürlicher KAI-Wake
+  nach mindestens acht Stunden bleiben offen.
 
 - 0.5.45: realer Nutzer bestätigt sofortige Aktivierung. Ein reales
   Gespräch endete laut technischem Log per `voice_command`.

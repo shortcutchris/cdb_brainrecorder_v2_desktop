@@ -1,0 +1,14 @@
+{
+  "version": "0.5.57",
+  "sequence": 14,
+  "release": "09a3a71bf99603cc4b43664c4f20148eb86a1aa81217ce2d7bef4060f657137e",
+  "source_commit": "37e2a6c184ece4b5211563321fbef624d2cce8f0",
+  "runtime": "03a347a169837496b102ef7f81c4fedec4ff2d74170c704f448699d8f5633f38",
+  "changed_files": [
+    "services/live_conversation.py",
+    "web_server.py"
+  ],
+  "public_key_sha256": "8ea3e5260389013e2f21973c3a029ba82842e03e720aa9398daa66e27dbe4590",
+  "verified": true,
+  "settings_preserved": true
+}
