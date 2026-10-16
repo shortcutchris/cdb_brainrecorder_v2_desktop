@@ -63,6 +63,11 @@ Der Mira-Prototyp verwendet dagegen einen eigenen Server, andere Kopplungsrichtu
 und WebSockets. Diese beiden Protokolle dürfen nicht gleichgesetzt werden.
 Siehe [Codeprüfung und belegter Serverbestand](../mira-receiver-review.md).
 
+**Geplante Erweiterung, noch nicht implementiert:** Eine Bluetooth-Tastenfernbedienung
+und die CDB-Mobile-App sollen dieselben gesicherten Gesprächsaktionen bedienen.
+Persönliche Steuerrechte bleiben von Geräteadministration und lesender
+Bildschirmkopplung getrennt. [Entwurf und geprüfte Integrationspunkte](../remote-control/README.md).
+
 ## Wo die Server laufen
 
 Die Gerätezentrale läuft auf dem Infrastrukturhost mit dem Namen
