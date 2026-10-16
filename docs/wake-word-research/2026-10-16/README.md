@@ -456,3 +456,73 @@ Elf gezielte Labor-/Datenschutz-/Eingabe-/Timeouttests bestanden. Nach dem
 Raumtest: Wartung freigegeben, `listening`, frische Audioblöcke, ein Wake-Kind und
 ein Capture-Prozess, keine laufende Whisper-Testinstanz. Beobachtungsplan und
 alte Befunde bleiben erhalten. Der natürliche Nutzer-Test ist weiterhin offen.
+
+
+## Streaming-Prototyp: Schutzmechanik geprüft, Raumqualität noch nicht bestanden
+
+`scripts/wake_streaming_probe.py` ist **unveröffentlichter Laborcode**, außerhalb
+der App-/Image-Positivliste. Der produktive Pi bleibt auf 0.5.60. Er verwendet
+nur vom Aufrufer gelieferte 50-ms-Blöcke, maximal 4,8 Sekunden RAM-Ring, einen
+asynchron abgefragten nativen Verifier und keine Threads oder zweite Aufnahme.
+Die vor dem Raumtest festgelegte Kandidatenschwelle 0,15 startet ausschließlich
+Prüfungen, niemals Live. Zwei Sekunden Rückblick plus 0,8 Sekunden Nachlauf
+bilden den 2,8-Sekunden-Prüfausschnitt. Nach Ablehnung erfordern erneute Prüfungen
+mindestens zwei Sekunden Abstand und 300 ms niedrigen Primärscore. Annahme wird
+bis zur Freigabe des Detektors einmalig verriegelt.
+
+Der Verifier nutzt denselben anonymen RAM-Deskriptor wie die Vorprüfung, begrenzt
+Ausgabe auf 8192 Bytes und Laufzeit auf drei Sekunden. Abfragen sind nichtblockierend.
+Eine fehlgeschlagene Beendigung behält die Prozesszuordnung; darüber kann kein
+zweiter Prozess gestartet werden. Fehler/Timeout führen niemals zur Aktivierung.
+Native Inferenz läuft als Child mit Parent-Death-Signal, nicht im App-Control-Lock.
+
+**12 isolierte Tests auf dem Pi** bestanden (neun Streaming-/Prozesstests plus
+drei Verifier-Tests), lokal zusätzlich zwei akustische Helfertests, insgesamt
+14. Darunter echte Teilantwort-/Fehler-/Ausgabelimit-Kindprozesse, 100 isolierte
+Annahme-/Schließzyklen und Ablehnung bei nicht bestätigter Freigabe. Der separate
+[Linux-Absturztest](streaming-owner-death.json) beendet einen eigens gestarteten
+Laborbesitzer per SIGKILL: Sein nativer Testprozess war nach rund 1,2 ms nicht
+mehr vorhanden. Keine produktiven Prozesse wurden dafür beendet.
+
+[Dateistrom im echten Audiotakt](streaming-file-probe.json): vier positive und
+zwei negative Fälle korrekt, ohne Mikrofon/Lautsprecher. Zwei verrauschte
+positive Dateien mit Primärmaxima 0,678 und 0,804 wurden nun bestätigt, obwohl
+sie die bisherige 0,85-Schwelle nicht erreichen. Kein Audioschritt dauerte in
+diesem Lauf länger als ca.6 ms; die Prüfungen liefen parallel zum weiteren
+Einlesen. [Exakte Labor-Reproduktion](reproduce_streaming_matrix.py).
+Dies ist ein konkreter Dateifortschritt, noch keine akustische Abnahme.
+
+### Der anschließende Raumtest widerspricht einer Freigabe
+
+[Unveränderte Rohmessung](acoustic-streaming-probe.json), **16.10.2026,
+14:14:35–14:17:01 Europe/Berlin**: Beide positiven synthetischen Rufe wurden
+letztlich verworfen, und „Okay, na gut“ wurde diesmal fälschlich bestätigt.
+Der zweite Negativclip blieb ohne Aktivierung. **0/2 positive, 1/2 negative
+Dateien ausgelöst**; kein Gespräch gestartet, da der Versuch unter Wartung lief.
+Die erfolgreiche nachträgliche Whisper-Prüfung auf längerem PCM beweist damit
+nicht die Zuverlässigkeit des kürzeren dynamischen Kandidatenfensters.
+
+Zusätzlich sichtbar: Die zweite Prüfung war am Ende ihres Erfassungsabschnitts
+noch offen und wurde erst in der Ruhephase der dritten Zeile abgelehnt. Die
+zweite Zeile enthält deshalb einen alten last_report; die erste Ablehnung der
+dritten Zeile gehört zur zweiten Rufdatei. Rohdaten bleiben unverändert. Der
+Laborablauf wurde korrigiert: Ein offener Kandidat wird vor dem nächsten Clip
+höchstens vier Sekunden weiter bedient; wenn er dann noch offen ist, wird der
+Versuch abgebrochen. Alte Ergebnisse werden nicht in eine neue leere Zeile
+übernommen. Dieser Messfehler erklärt **nicht** den tatsächlichen Fehlstart
+bei „na gut“ und macht aus dem Raumtest keinen Erfolg.
+
+**Keine produktive Auslieferung dieses Kandidaten.** Nächste Untersuchung:
+kurze isolierte Verwechslungsphrasen, Zuschnitt-/Kontextrobustheit und stärkerer
+lokaler Verifier. Der Schreibhinweis „Nabu“ darf nicht über eine fälschliche
+Bestätigung hinwegtäuschen. Neue Entscheidungskriterien benötigen wieder
+getrennte Dateien und Raumprüfung; nicht bloß die bekannten Fälle passend tunen.
+Natürlicher Nutzertest und Langzeitabnahme bleiben offen.
+
+Nach dem Raumtest: Wartung erfolgreich freigegeben, ein neuer Wake-/Capture-
+Besitzer, frische Audioblöcke und listening. Der echte Beobachter PID 1894368
+läuft weiter; um 14:20 Uhr keine aktiven Warnungen, Browser ca.28 % eines Kerns,
+RSS ca.1308 MB, Temperatur51,8 °C. Diese Stichprobe beweist weder dauerhafte
+Ressourcenstabilität noch Erkennungsqualität. Ursprünglicher 24h-Plan erhalten;
+der angekündigte Raumtest unterbricht die Ruhezeitevidenz. Alle neuen Dateien
+sind Laborwerkzeuge, Tests und Doku; kein Kundenpaket und kein SD-Image geändert.

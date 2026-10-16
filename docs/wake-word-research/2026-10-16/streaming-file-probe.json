@@ -1,0 +1,271 @@
+{
+  "microphone": false,
+  "speaker": false,
+  "real_time_file_stream": true,
+  "production_integration": false,
+  "candidate_threshold": 0.15,
+  "tail_seconds": 0.8,
+  "lookback_seconds": 2,
+  "positive_passed": 4,
+  "negative_passed": 2,
+  "cases": [
+    {
+      "file": "otto-pos/positive.wav",
+      "expected": true,
+      "gain": 1,
+      "noise_std": 0,
+      "source_pcm_sha256": "9eb38195aed9c9e974c8e274dcd4c3234993f42d49da5240985e1efbff57a121",
+      "audio_seconds": 9.1,
+      "events": [
+        {
+          "audio_seconds": 2.75,
+          "wall_seconds": 2.7007208010181785,
+          "state": "tail"
+        },
+        {
+          "audio_seconds": 3.55,
+          "wall_seconds": 3.5013085270184092,
+          "state": "verifying"
+        },
+        {
+          "audio_seconds": 4.2,
+          "wall_seconds": 4.150841851020232,
+          "state": "accepted"
+        }
+      ],
+      "detections": 1,
+      "primary_max": 0.99296875,
+      "feed_max_seconds": 0.002279222011566162,
+      "submitted": 1,
+      "rejected": 0,
+      "last_report": {
+        "detected": true,
+        "returncode": 0,
+        "error": null,
+        "wall_seconds": 0.6495
+      },
+      "wall_seconds": 9.100072129018372,
+      "passed": true
+    },
+    {
+      "file": "ben-pos/positive.wav",
+      "expected": true,
+      "gain": 1,
+      "noise_std": 0,
+      "source_pcm_sha256": "835859c93959a3189d74c0226eccf048d1d09b3f7825af905dfcb1b9787b94f1",
+      "audio_seconds": 8.9,
+      "events": [
+        {
+          "audio_seconds": 2.6,
+          "wall_seconds": 2.550564948003739,
+          "state": "tail"
+        },
+        {
+          "audio_seconds": 3.4,
+          "wall_seconds": 3.3509176810039207,
+          "state": "verifying"
+        },
+        {
+          "audio_seconds": 3.75,
+          "wall_seconds": 3.70081218201085,
+          "state": "accepted"
+        }
+      ],
+      "detections": 1,
+      "primary_max": 0.98984375,
+      "feed_max_seconds": 0.0012843229924328625,
+      "submitted": 1,
+      "rejected": 0,
+      "last_report": {
+        "detected": true,
+        "returncode": 0,
+        "error": null,
+        "wall_seconds": 0.3498
+      },
+      "wall_seconds": 8.900075553014176,
+      "passed": true
+    },
+    {
+      "file": "vincent/positive.wav",
+      "expected": true,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "source_pcm_sha256": "4b5d2c139e6452680bcef66e9df0eab8ca4c6d0332c7ae72687541033fdce6fb",
+      "audio_seconds": 9.1,
+      "events": [
+        {
+          "audio_seconds": 2.8,
+          "wall_seconds": 2.7504774240078405,
+          "state": "tail"
+        },
+        {
+          "audio_seconds": 3.6,
+          "wall_seconds": 3.550955311016878,
+          "state": "verifying"
+        },
+        {
+          "audio_seconds": 3.95,
+          "wall_seconds": 3.9007109070080332,
+          "state": "accepted"
+        }
+      ],
+      "detections": 1,
+      "primary_max": 0.678125,
+      "feed_max_seconds": 0.0017955779912881553,
+      "submitted": 1,
+      "rejected": 0,
+      "last_report": {
+        "detected": true,
+        "returncode": 0,
+        "error": null,
+        "wall_seconds": 0.3497
+      },
+      "wall_seconds": 9.100078963005217,
+      "passed": true
+    },
+    {
+      "file": "pauli/positive.wav",
+      "expected": true,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "source_pcm_sha256": "4bbcb850e869bdeaf7761cccbf42266cc6750c45e09681b0a8571a58c4e62092",
+      "audio_seconds": 8.9,
+      "events": [
+        {
+          "audio_seconds": 2.7,
+          "wall_seconds": 2.65202522900654,
+          "state": "tail"
+        },
+        {
+          "audio_seconds": 3.5,
+          "wall_seconds": 3.451137149997521,
+          "state": "verifying"
+        },
+        {
+          "audio_seconds": 4.35,
+          "wall_seconds": 4.3007615949900355,
+          "state": "accepted"
+        }
+      ],
+      "detections": 1,
+      "primary_max": 0.80390625,
+      "feed_max_seconds": 0.0019433909910731018,
+      "submitted": 1,
+      "rejected": 0,
+      "last_report": {
+        "detected": true,
+        "returncode": 0,
+        "error": null,
+        "wall_seconds": 0.8496
+      },
+      "wall_seconds": 8.900075454002945,
+      "passed": true
+    },
+    {
+      "file": "cdb-nabu-german/confuser.wav",
+      "expected": false,
+      "gain": 1,
+      "noise_std": 0,
+      "source_pcm_sha256": "a624e561602b44e6634559388ae463601fb0d98478ab0872347c437bbd4ba625",
+      "audio_seconds": 12.0,
+      "events": [
+        {
+          "audio_seconds": 2.85,
+          "wall_seconds": 2.8004900079977233,
+          "state": "tail"
+        },
+        {
+          "audio_seconds": 3.65,
+          "wall_seconds": 3.600962183001684,
+          "state": "verifying"
+        },
+        {
+          "audio_seconds": 4.0,
+          "wall_seconds": 3.950678450986743,
+          "state": "cooldown"
+        },
+        {
+          "audio_seconds": 5.65,
+          "wall_seconds": 5.600507599010598,
+          "state": "ready"
+        }
+      ],
+      "detections": 0,
+      "primary_max": 0.99296875,
+      "feed_max_seconds": 0.0017288009985350072,
+      "submitted": 1,
+      "rejected": 1,
+      "last_report": {
+        "detected": false,
+        "returncode": 0,
+        "error": null,
+        "wall_seconds": 0.3497
+      },
+      "wall_seconds": 12.000071173009928,
+      "passed": true
+    },
+    {
+      "file": "otto-neg/negative.wav",
+      "expected": false,
+      "gain": 0.25,
+      "noise_std": 0.002,
+      "source_pcm_sha256": "c6a03b5560f63bed3da02a914194f54945ccf732f4ab892cc303374e327eac5d",
+      "audio_seconds": 12.8,
+      "events": [
+        {
+          "audio_seconds": 3.15,
+          "wall_seconds": 3.100575884018326,
+          "state": "tail"
+        },
+        {
+          "audio_seconds": 3.95,
+          "wall_seconds": 3.9010016600077506,
+          "state": "verifying"
+        },
+        {
+          "audio_seconds": 5.9,
+          "wall_seconds": 5.8507127500197385,
+          "state": "cooldown"
+        },
+        {
+          "audio_seconds": 5.95,
+          "wall_seconds": 5.900472114008153,
+          "state": "ready"
+        },
+        {
+          "audio_seconds": 6.2,
+          "wall_seconds": 6.150502494012471,
+          "state": "tail"
+        },
+        {
+          "audio_seconds": 7.0,
+          "wall_seconds": 6.951671543007251,
+          "state": "verifying"
+        },
+        {
+          "audio_seconds": 7.45,
+          "wall_seconds": 7.400526619021548,
+          "state": "cooldown"
+        },
+        {
+          "audio_seconds": 9.0,
+          "wall_seconds": 8.950834967021365,
+          "state": "ready"
+        }
+      ],
+      "detections": 0,
+      "primary_max": 0.97578125,
+      "feed_max_seconds": 0.005995693005388603,
+      "submitted": 2,
+      "rejected": 2,
+      "last_report": {
+        "detected": false,
+        "returncode": 0,
+        "error": null,
+        "wall_seconds": 0.4488
+      },
+      "wall_seconds": 12.800064767012373,
+      "passed": true
+    }
+  ]
+}

@@ -75,6 +75,8 @@ def main():
                         help='Existing Linux whisper-cli for a bounded anonymous-RAM lab probe.')
     parser.add_argument('--whisper-model', type=Path,
                         help='Existing lab-only Tiny model; requires --whisper-binary. No room text saved.')
+    parser.add_argument('--streaming-whisper', action='store_true',
+                        help='Experimental asynchronous candidate path; no Live start or production change.')
     args = parser.parse_args()
     if not 1 <= len(args.clips) <= 4: parser.error('Use 1–4 synthetic test files.')
     if not 1 <= args.quiet_seconds <= 120: parser.error('Use 1–120 quiet seconds.')
@@ -83,6 +85,8 @@ def main():
     if bool(args.whisper_binary) != bool(args.whisper_model): parser.error('Specify both Whisper lab arguments.')
     if args.whisper_binary and (not args.whisper_binary.is_file() or not args.whisper_model.is_file()):
         parser.error('Whisper binary and model must already exist.')
+    if args.streaming_whisper and (not args.whisper_binary or args.phrase != 'okay-nabu' or args.compare_stereo):
+        parser.error('Streaming lab requires Nabu and Whisper paths; use mono capture.')
     clips = []
     for path in args.clips:
         with wave.open(str(path)) as source:
@@ -112,7 +116,7 @@ def main():
     if not args.external_playback:
         speaker=request('/api/speakers')
         assert speaker['available'] and not speaker['muted'] and speaker['volume']>0, 'Speaker unavailable'
-    capture=playback=None
+    capture=playback=detector=None
     reserved=False
     ident=str(uuid.uuid4())
     report={'synthetic_acoustic':True,'production_live_handoff':False,
@@ -128,6 +132,10 @@ def main():
                                 'binary_sha256': hashlib.sha256(args.whisper_binary.read_bytes()).hexdigest(),
                                 'audio_context': 256, 'initial_prompt': 'Nabu.',
                                 'production_integration': False, 'room_text_saved': False}
+        report['whisper_lab']['streaming'] = args.streaming_whisper
+        if args.streaming_whisper:
+            report['whisper_lab'].update(candidate_threshold=.15, tail_seconds=.8,
+                                         lookback_seconds=2, native_timeout_seconds=3)
     def stop(*_): raise SystemExit('Acoustic test interrupted')
     signal.signal(signal.SIGTERM,stop)
     try:
@@ -139,6 +147,9 @@ def main():
             command=[x.replace('--channels=1','--channels=2') for x in command]
         capture=subprocess.Popen(command,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,start_new_session=True,bufsize=0)
         detector=create_detector(args.phrase);measure=AudioDiagnostics();buffer=b''
+        if args.streaming_whisper:
+            from wake_streaming_probe import StreamingCandidate, AsyncVerifier
+            detector=StreamingCandidate(detector, AsyncVerifier(args.whisper_binary, args.whisper_model))
         channels=[create_detector(args.phrase) for _ in range(2)] if args.compare_stereo else []
         probabilities=[]
         if args.signal_diagnostics and args.phrase=='okay-nabu':
@@ -151,6 +162,9 @@ def main():
         for path,duration in clips:
             row={'clip':path.name,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'detections':0,'decisions':[]}
             captured=bytearray();probabilities.clear();measure=AudioDiagnostics()
+            if args.streaming_whisper:
+                before_submitted, before_rejected = detector.submitted, detector.rejected
+                row['streaming_transitions'] = []
             channel_rows=[{'channel':i,'detections':0,'max_model_probability':0.} for i in range(len(channels))]
             for extra,summary in zip(channels,channel_rows):
                 if hasattr(extra.model,'_diagnostic_original'): original_extra=extra.model._diagnostic_original
@@ -163,7 +177,12 @@ def main():
                     return value
                 extra.model.process_streaming_prob=measure_extra
             start=time.monotonic();last_data=start;played=False
-            while time.monotonic()-start < args.quiet_seconds+duration+3:
+            capture_end=args.quiet_seconds+duration+3
+            # Finish an already submitted candidate before attributing the next clip.
+            # Bounded by the verifier's timeout; never carry a late result across rows.
+            while (time.monotonic()-start < capture_end or
+                   (args.streaming_whisper and detector.state in ('tail','verifying') and
+                    time.monotonic()-start < capture_end+4)):
                 if not played and time.monotonic()-start >= args.quiet_seconds:
                     if args.external_playback:
                         print(json.dumps({'event':'play_clip','clip':path.name}),flush=True)
@@ -187,7 +206,12 @@ def main():
                             summary['detections']+=int(extra.feed(audio))
                     if (args.signal_diagnostics or verifier is not None or args.whisper_binary) and played:
                         captured.extend(pcm)
+                    before_state=detector.state if args.streaming_whisper else None
                     detected=detector.feed(pcm);measure.feed(pcm,detector.last_decision,detector.onset.renewals)
+                    if args.streaming_whisper and detector.state != before_state:
+                        row['streaming_transitions'].append({'at_seconds':round(time.monotonic()-start,2),
+                                                            'state':detector.state})
+                        row['streaming_transitions']=row['streaming_transitions'][-32:]
                     if detector.last_decision:
                         row['decisions'].append({'at_seconds':round(time.monotonic()-start,2),'category':detector.last_decision})
                         row['decisions']=row['decisions'][-16:]
@@ -196,12 +220,14 @@ def main():
                 playback.wait(timeout=2);row['playback_exit']=playback.returncode;playback=None
             else:
                 row['playback_exit']=None  # External controller must supply playback evidence.
+            if args.streaming_whisper and detector.state in ('tail','verifying'):
+                raise RuntimeError('Pending candidate exceeded bounded case drain; no next clip started')
             row['audio']=measure.snapshot();report['cases'].append(row)
             if args.compare_stereo: row['channel_comparison']=channel_rows
             if verifier is not None:
                 row['vosk_lab'] = probe_vosk_pcm(verifier, verifier_spec['grammar'],
                                                  verifier_spec['accepted'], captured)
-            if args.whisper_binary:
+            if args.whisper_binary and not args.streaming_whisper:
                 from wake_whisper_probe import probe_whisper_pcm
                 row['whisper_lab'] = probe_whisper_pcm(captured, args.whisper_binary, args.whisper_model)
             if args.signal_diagnostics:
@@ -213,6 +239,22 @@ def main():
                     row['max_model_probability']=round(max(probabilities),5)
                     row['unchanged_probability_cutoff']=detector.model.probability_cutoff
             captured.clear()
+            if args.streaming_whisper:
+                row['streaming_verifier'] = {'submitted':detector.submitted-before_submitted,
+                                             'rejected':detector.rejected-before_rejected,
+                                             'last_report':detector.last_report if detector.submitted>before_submitted else None}
+                if detector.state == 'accepted':
+                    # Match production lifecycle: only a fresh detector may accept again.
+                    detector.close();detector.model.close()
+                    detector=StreamingCandidate(create_detector(args.phrase),
+                                                 AsyncVerifier(args.whisper_binary,args.whisper_model))
+                    if args.signal_diagnostics:
+                        original=detector.model.process_streaming_prob
+                        def measured(features):
+                            result=original(features)
+                            if result is not None: probabilities.append(float(result))
+                            return result
+                        detector.model.process_streaming_prob=measured
     finally:
         for proc in (playback,capture):
             if proc is not None:
@@ -221,6 +263,9 @@ def main():
                     try:proc.wait(timeout=2)
                     except subprocess.TimeoutExpired:os.killpg(proc.pid,signal.SIGKILL);proc.wait(timeout=2)
                 if proc.stdout:proc.stdout.close()
+        if args.streaming_whisper and detector is not None:
+            detector.close()
+            detector.model.close()
         if reserved:
             request('/api/management/release',{'command':ident})
             report['maintenance_released']=True

@@ -1,0 +1,9 @@
+{
+  "isolated_fake_child": true,
+  "microphone": false,
+  "speaker": false,
+  "parent_injected_sigkill": true,
+  "child_state": "gone",
+  "child_not_running": true,
+  "elapsed_seconds": 0.0012351759942248464
+}
