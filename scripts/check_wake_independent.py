@@ -2,12 +2,14 @@
 import argparse
 import hashlib
 import json
+import re
 from pathlib import Path
 import time
 import wave
 
 from services.wake_detectors import create_detector
 from wake_streaming_probe import AsyncVerifier, StreamingCandidate
+from wake_whisper_probe import matches_nabu, matches_nabu_joined
 
 
 def main():
@@ -16,10 +18,13 @@ def main():
     parser.add_argument('--binary',type=Path,required=True)
     parser.add_argument('--model',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--voices', nargs='+', default=['charlie','hl'])
+    parser.add_argument('--joined-spelling',action='store_true',help='Experimental exact joined spelling; prior reports keep original rule')
     args=parser.parse_args()
+    if not all(re.fullmatch(r'[a-z][a-z0-9_-]{0,31}',v) for v in args.voices): parser.error('Invalid fixture label')
     assert hashlib.sha256(args.model.read_bytes()).hexdigest()=='60ed5bc3dd14eea856493d334349b405782ddcaf0028d4b5df4088345fba2efe'
     rows=[];started_epoch=time.time()
-    for voice in ('charlie','hl'):
+    for voice in args.voices:
         for kind in ('single','double','negative'):
             path=args.fixtures/(voice+('-negative.wav' if kind=='negative' else '-positive.wav'))
             with wave.open(str(path)) as source:
@@ -33,7 +38,7 @@ def main():
             pcm=bytes(64000)+raw+(bytes(160000)+raw if kind=='double' else b'')+bytes(256000)
             pcm+=bytes((-len(pcm))%1600)
             detector=create_detector('okay-nabu')
-            verifier=AsyncVerifier(args.binary,args.model)
+            verifier=AsyncVerifier(args.binary,args.model,matcher=matches_nabu_joined if args.joined_spelling else matches_nabu)
             stream=StreamingCandidate(detector,verifier)
             row={'voice':voice,'kind':kind,'source_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
                  'audio_seconds':len(pcm)/32000,'second_call_starts_at':second_start,
@@ -62,6 +67,7 @@ def main():
             row['passed']=row['passed'] and row['verifier_released']
             rows.append(row);print(json.dumps(row),flush=True)
     report={'microphone':False,'speaker':False,'cloud':False,'production_integration':False,
+            'matcher':'exact_joined_v2' if args.joined_spelling else 'two_words_v1',
             'started_epoch':started_epoch,'finished_epoch':time.time(),
             'real_time_file_stream':True,'model_sha256':hashlib.sha256(args.model.read_bytes()).hexdigest(),
             'binary_sha256':hashlib.sha256(args.binary.read_bytes()).hexdigest(),
