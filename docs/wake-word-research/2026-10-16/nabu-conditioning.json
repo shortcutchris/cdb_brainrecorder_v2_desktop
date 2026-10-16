@@ -1,0 +1,379 @@
+{
+  "started_epoch": 1792160204.8101563,
+  "synthetic_only": true,
+  "real_time": false,
+  "production_integration": false,
+  "engine_version": "2.5.0",
+  "seed": 20261016,
+  "cases": [
+    {
+      "voice": "charlie",
+      "sha256": "69a4de7344f9b2a5c1e10aa35b0850c316e4323e6d86d9bab9205fb3e14a4ac9",
+      "prelude_seconds": 2,
+      "noise_rms_dbfs": null,
+      "cutoff": 0.85,
+      "primary_max": [
+        0.0,
+        0.99609375,
+        0.99609375
+      ],
+      "hit_frames": [
+        0,
+        13,
+        13
+      ],
+      "first_hit": [
+        null,
+        0.8,
+        0.8319
+      ],
+      "wall_seconds": 0.05192973799421452
+    },
+    {
+      "voice": "charlie",
+      "sha256": "69a4de7344f9b2a5c1e10aa35b0850c316e4323e6d86d9bab9205fb3e14a4ac9",
+      "prelude_seconds": 32,
+      "noise_rms_dbfs": null,
+      "cutoff": 0.85,
+      "primary_max": [
+        0.0,
+        0.99609375,
+        0.99609375
+      ],
+      "hit_frames": [
+        0,
+        13,
+        13
+      ],
+      "first_hit": [
+        null,
+        0.8,
+        0.8319
+      ],
+      "wall_seconds": 0.19100878297467716
+    },
+    {
+      "voice": "charlie",
+      "sha256": "69a4de7344f9b2a5c1e10aa35b0850c316e4323e6d86d9bab9205fb3e14a4ac9",
+      "prelude_seconds": 32,
+      "noise_rms_dbfs": -60,
+      "cutoff": 0.85,
+      "primary_max": [
+        0.01171875,
+        0.99609375,
+        0.99609375
+      ],
+      "hit_frames": [
+        0,
+        13,
+        13
+      ],
+      "first_hit": [
+        null,
+        0.8,
+        0.8319
+      ],
+      "wall_seconds": 0.18628742400323972
+    },
+    {
+      "voice": "charlie",
+      "sha256": "69a4de7344f9b2a5c1e10aa35b0850c316e4323e6d86d9bab9205fb3e14a4ac9",
+      "prelude_seconds": 32,
+      "noise_rms_dbfs": -40,
+      "cutoff": 0.85,
+      "primary_max": [
+        0.00859375,
+        0.99609375,
+        0.99609375
+      ],
+      "hit_frames": [
+        0,
+        13,
+        13
+      ],
+      "first_hit": [
+        null,
+        0.8,
+        0.8319
+      ],
+      "wall_seconds": 0.1864662199805025
+    },
+    {
+      "voice": "hl",
+      "sha256": "d0772f19f9781eef86438488ffa4cacc87660fd1c26dc43dd8e18b37da4bfdc9",
+      "prelude_seconds": 2,
+      "noise_rms_dbfs": null,
+      "cutoff": 0.85,
+      "primary_max": [
+        0.0,
+        0.975,
+        0.978125
+      ],
+      "hit_frames": [
+        0,
+        11,
+        10
+      ],
+      "first_hit": [
+        null,
+        0.75,
+        0.7748
+      ],
+      "wall_seconds": 0.050463378021959215
+    },
+    {
+      "voice": "hl",
+      "sha256": "d0772f19f9781eef86438488ffa4cacc87660fd1c26dc43dd8e18b37da4bfdc9",
+      "prelude_seconds": 32,
+      "noise_rms_dbfs": null,
+      "cutoff": 0.85,
+      "primary_max": [
+        0.0,
+        0.975,
+        0.978125
+      ],
+      "hit_frames": [
+        0,
+        11,
+        10
+      ],
+      "first_hit": [
+        null,
+        0.75,
+        0.7747
+      ],
+      "wall_seconds": 0.18085338501259685
+    },
+    {
+      "voice": "hl",
+      "sha256": "d0772f19f9781eef86438488ffa4cacc87660fd1c26dc43dd8e18b37da4bfdc9",
+      "prelude_seconds": 32,
+      "noise_rms_dbfs": -60,
+      "cutoff": 0.85,
+      "primary_max": [
+        0.01171875,
+        0.99140625,
+        0.978125
+      ],
+      "hit_frames": [
+        0,
+        12,
+        10
+      ],
+      "first_hit": [
+        null,
+        0.75,
+        0.7747
+      ],
+      "wall_seconds": 0.2151261270046234
+    },
+    {
+      "voice": "hl",
+      "sha256": "d0772f19f9781eef86438488ffa4cacc87660fd1c26dc43dd8e18b37da4bfdc9",
+      "prelude_seconds": 32,
+      "noise_rms_dbfs": -40,
+      "cutoff": 0.85,
+      "primary_max": [
+        0.00859375,
+        0.984375,
+        0.978125
+      ],
+      "hit_frames": [
+        0,
+        11,
+        10
+      ],
+      "first_hit": [
+        null,
+        0.75,
+        0.7747
+      ],
+      "wall_seconds": 0.187343232013518
+    },
+    {
+      "voice": "will",
+      "sha256": "ca1cd669324192348c145f40607f40ab2e1c80ba6f85f5f6096ad47ce07ac452",
+      "prelude_seconds": 2,
+      "noise_rms_dbfs": null,
+      "cutoff": 0.85,
+      "primary_max": [
+        0.0,
+        0.99609375,
+        0.99609375
+      ],
+      "hit_frames": [
+        0,
+        12,
+        14
+      ],
+      "first_hit": [
+        null,
+        0.8,
+        0.7783
+      ],
+      "wall_seconds": 0.05065950599964708
+    },
+    {
+      "voice": "will",
+      "sha256": "ca1cd669324192348c145f40607f40ab2e1c80ba6f85f5f6096ad47ce07ac452",
+      "prelude_seconds": 32,
+      "noise_rms_dbfs": null,
+      "cutoff": 0.85,
+      "primary_max": [
+        0.0,
+        0.99609375,
+        0.99609375
+      ],
+      "hit_frames": [
+        0,
+        12,
+        14
+      ],
+      "first_hit": [
+        null,
+        0.8,
+        0.7783
+      ],
+      "wall_seconds": 0.17979248400661163
+    },
+    {
+      "voice": "will",
+      "sha256": "ca1cd669324192348c145f40607f40ab2e1c80ba6f85f5f6096ad47ce07ac452",
+      "prelude_seconds": 32,
+      "noise_rms_dbfs": -60,
+      "cutoff": 0.85,
+      "primary_max": [
+        0.01171875,
+        0.99609375,
+        0.99609375
+      ],
+      "hit_frames": [
+        0,
+        14,
+        14
+      ],
+      "first_hit": [
+        null,
+        0.75,
+        0.7783
+      ],
+      "wall_seconds": 0.18724313998245634
+    },
+    {
+      "voice": "will",
+      "sha256": "ca1cd669324192348c145f40607f40ab2e1c80ba6f85f5f6096ad47ce07ac452",
+      "prelude_seconds": 32,
+      "noise_rms_dbfs": -40,
+      "cutoff": 0.85,
+      "primary_max": [
+        0.00859375,
+        0.99609375,
+        0.99609375
+      ],
+      "hit_frames": [
+        0,
+        13,
+        14
+      ],
+      "first_hit": [
+        null,
+        0.75,
+        0.7783
+      ],
+      "wall_seconds": 0.19368291398859583
+    },
+    {
+      "voice": "sarah",
+      "sha256": "268d125bb3b722e572c716fdb5b45c7f735e460a479c1b984e2c767f557e1a85",
+      "prelude_seconds": 2,
+      "noise_rms_dbfs": null,
+      "cutoff": 0.85,
+      "primary_max": [
+        0.0,
+        0.9859375,
+        0.990625
+      ],
+      "hit_frames": [
+        0,
+        13,
+        12
+      ],
+      "first_hit": [
+        null,
+        0.9,
+        0.9248
+      ],
+      "wall_seconds": 0.05337926498032175
+    },
+    {
+      "voice": "sarah",
+      "sha256": "268d125bb3b722e572c716fdb5b45c7f735e460a479c1b984e2c767f557e1a85",
+      "prelude_seconds": 32,
+      "noise_rms_dbfs": null,
+      "cutoff": 0.85,
+      "primary_max": [
+        0.0,
+        0.9859375,
+        0.990625
+      ],
+      "hit_frames": [
+        0,
+        13,
+        12
+      ],
+      "first_hit": [
+        null,
+        0.9,
+        0.9247
+      ],
+      "wall_seconds": 0.1780817180115264
+    },
+    {
+      "voice": "sarah",
+      "sha256": "268d125bb3b722e572c716fdb5b45c7f735e460a479c1b984e2c767f557e1a85",
+      "prelude_seconds": 32,
+      "noise_rms_dbfs": -60,
+      "cutoff": 0.85,
+      "primary_max": [
+        0.01171875,
+        0.9953125,
+        0.990625
+      ],
+      "hit_frames": [
+        0,
+        13,
+        12
+      ],
+      "first_hit": [
+        null,
+        0.9,
+        0.9247
+      ],
+      "wall_seconds": 0.19206670101266354
+    },
+    {
+      "voice": "sarah",
+      "sha256": "268d125bb3b722e572c716fdb5b45c7f735e460a479c1b984e2c767f557e1a85",
+      "prelude_seconds": 32,
+      "noise_rms_dbfs": -40,
+      "cutoff": 0.85,
+      "primary_max": [
+        0.00859375,
+        0.984375,
+        0.990625
+      ],
+      "hit_frames": [
+        0,
+        12,
+        12
+      ],
+      "first_hit": [
+        null,
+        0.9,
+        0.9247
+      ],
+      "wall_seconds": 0.1838991059921682
+    }
+  ],
+  "finished_epoch": 1792160207.4382777
+}

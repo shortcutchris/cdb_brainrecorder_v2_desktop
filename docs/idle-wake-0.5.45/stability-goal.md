@@ -284,3 +284,12 @@ Versionswechsel; Rohdaten/Plan bleiben erhalten, nicht als saubere Standzeit zä
   Wartung freigegeben und laufender Observer bestätigt. Natürliche und lange
   akustische Bereitschaft bleiben offen. Details im Forschungsbericht und
   `joined-room-result.json`; technische Exit-0-Ergebnisse nicht als Freigabe lesen.
+
+
+- **16.10., isolierte Laufzeit-/Vorlaufdiagnose:** Zwölf synthetische Base-Aufrufe
+  benötigen 0,595–0,637 s; der frühere Raum-Timeout ist nicht reproduziert oder
+  erklärt. Vier bekannte Nabu-Dateien bestehen jeweils vier beschleunigte
+  Vorlaufvarianten beim ersten und zweiten Ruf, ohne Vorlauf-Fehlaktivierung.
+  Keine reale Standzeitprüfung, kein Hardware-/Raumweg, keine neue Freigabe.
+  Messdaten und Grenzen im Forschungsbericht; produktive 0.5.61 unverändert,
+  Pi frei für den separat koordinierten Fernbedienungs-E2E. Ziel weiterhin offen.

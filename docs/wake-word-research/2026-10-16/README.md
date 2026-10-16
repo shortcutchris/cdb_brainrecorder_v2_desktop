@@ -784,3 +784,59 @@ zeigen App 0.5.61, `idle`, `okay-nabu/listening`. Der Beobachter PID1894368 läu
 weiter; ursprünglicher Plan bleibt erhalten, dieses Laborintervall unterbricht
 die Ruhezeitevidenz. 14 Probe-/Prozesstests bestanden vor dem Raumtest. Alle
 Änderungen bleiben außerhalb von App-/Image-Auslieferung, keine Runtimeänderung.
+
+
+## Getrennte Laufzeit- und Vorlaufdiagnose, 16. Oktober
+
+Zwei weitere Dateiversuche auf dem echten Pi grenzen Vermutungen ein, ohne
+Mikrofon, Lautsprecher, Cloud-Gespräch oder Wartungssperre zu benutzen. Keine
+Änderung an App 0.5.61, Fernbedienung oder produktiven Wake-Parametern.
+
+**Laufzeit:** `scripts/profile_wake_whisper.py` verarbeitet ausschließlich die
+hashgebundene bekannte Charlie-TTS-Datei. Zwölf native Base-Aufrufe: saubere
+Sprache, künstliches Echo, Rauschen mit 10/0 dB SNR, reines Rauschen und digitale
+Stille, jeweils zweimal. Alle Aufrufe enden in **0,595–0,637 Sekunden**; Modellladen
+84,20–99,25 ms, keine Major Page Faults. Acht Sprachvarianten werden erkannt,
+vier Rausch-/Stillevarianten verworfen. [Messdaten](whisper-stage-timings.json).
+Kein ausgegebener Text gespeichert. Seed, PCM-Hashes, Modell- und Binary-Hash
+sind festgehalten; das Echo ist eine synthetische Verzögerung, kein gemessener Raum.
+
+Die acht Sekunden sind ausschließlich eine Diagnoseobergrenze. Das Drei-Sekunden-
+Limit des bisherigen Kandidatenlabors bleibt unverändert. Die Originalmessdatei
+nennt diese Felder noch `production_deadline_seconds` und
+`would_exceed_production_deadline`; diese Bezeichnung ist irreführend:
+**Produktiv läuft kein Whisper-Wake-Prüfer.** Das Skript verwendet für künftige
+Messungen `candidate_deadline_seconds` und `would_exceed_candidate_deadline`.
+Die archivierten Messwerte bleiben unverändert. OS-Caches wurden nicht geleert;
+das ist kein kontrollierter Kaltstarttest. Der Timeout im Raum ist damit weder
+reproduziert noch erklärt. Daraus folgt keine Freigabe oder Fristverlängerung.
+
+**Vorlauf:** `scripts/check_nabu_conditioning.py` prüft vier bereits bekannte
+positive Quelldateien mit jeweils vier Vorläufen: zwei oder 32 Sekunden digitale
+Stille sowie 32 Sekunden künstliches Rauschen bei −60/−40 dBFS. Unverändertes
+microWakeWord 2.5.0, Schwelle 0,85. Zwei identische Rufe je Fall, fünf Sekunden
+Stille dazwischen, ohne Detektor-Neustart. In **16/16 Fällen** übersteigen erster
+und zweiter Ruf die Schwelle; kein Treffer im Vorlauf. Erster Treffer 0,75–0,90
+Sekunden ab Beginn der jeweiligen Datei im Audiostrom. Die reine Stille von
+32 statt zwei Sekunden verändert bei keiner Stimme das Primärmaximum. Sarahs
+Ruf erreicht hier etwa 0,986, im Raum zuvor lediglich 0,051.
+[Alle Fälle](nabu-conditioning.json).
+
+Das sind vier Quelldateien, keine 32 unabhängigen Stimmen. Die Vorläufe werden
+beschleunigt in insgesamt 2,63 Sekunden Rechenzeit verarbeitet: kein Beleg für
+reale Standzeit, USB-Bereitschaft, acht Stunden Ruhe oder Gesprächsstartlatenz.
+Die Hypothese einer grundsätzlich nötigen zweiten Nennung nach digitaler Stille
+wird durch diese Fälle nicht gestützt. Die Abweichung im Lautsprecher-/Raum-/
+Mikrofonweg bleibt separat zu untersuchen; Hardware-Standby ist nicht bewiesen.
+
+Nächste unterscheidende Prüfung nach dem Fernbedienungs-E2E: Beim reservierten
+Raumtest dieselben flüchtigen Kandidatenfenster mit numerischen Stufenlaufzeiten
+prüfen, gleichzeitig Eingangstiming, Samplezahl, Überläufe und Kandidatengrenzen
+festhalten. Raumton und Gesprächsinhalte weiterhin nicht speichern. Erst nach
+vergleichbarer akustischer Evidenz über Modell oder Kandidatenschwelle entscheiden.
+Natürliche Erst-Rufe und die vollständige Langzeit-/Fehler-Abnahmematrix bleiben
+unerfüllt; die früheren Raumfehler werden durch Dateierfolge nicht aufgehoben.
+
+Update-/Image-Einfluss: ausschließlich Laborskripte, technische Messdaten und
+Dokumentation außerhalb der App-Allowlist. Kein App-Update und kein neues Image.
+Die CPU-Testfenster werden privat für die laufende Stabilitätsauswertung markiert.
