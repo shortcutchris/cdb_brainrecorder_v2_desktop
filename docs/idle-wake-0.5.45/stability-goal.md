@@ -266,3 +266,10 @@ Versionswechsel; Rohdaten/Plan bleiben erhalten, nicht als saubere Standzeit zä
   Laborablauf sauber vor dem nächsten Clip abschließen; alte Rohdaten behalten.
   Wartung14:14–14:17 und14:28–14:31 sowie CPU-Labortests nicht als ungestörte
   Bereitschaft zählen. [Details](../wake-word-research/2026-10-16/README.md).
+
+- **16.10., gepaarte Raumfenster:** Beide Prüfer erhalten identische flüchtige
+  Ausschnitte. Base kurz 2/2 positive erste Kandidaten, lang 1/2; Tiny beide
+  0/2. Je 0/2 negative erste Kandidaten angenommen. Bekannte Stimmen, spätere
+  Kandidaten und natürliche Rufe nicht abgenommen; keine Integration. Drei
+  neue und zwölf vorhandene Labortests bestanden. Wartung freigegeben, Pi
+  wieder `listening`, Plan unverändert. [Messwerte und Grenzen](../wake-word-research/2026-10-16/README.md#gepaarter-vergleich-auf-identischen-raum-ausschnitten).

@@ -592,3 +592,76 @@ Kerns, RSS1308,2 MB, 51,25 °C, keine aktiven Warnungen. Original-Beobachtungspl
 unverändert; dieser Raumtest unterbricht erneut den Ruhezeitnachweis. Keine
 Raumaudiodateien oder Raumtranskripte gespeichert. App-Version, Rufwort,
 Lautstärke, Mikrofon-/DSP-Konfiguration und Kunden-Image unverändert.
+
+## Gepaarter Vergleich auf identischen Raum-Ausschnitten
+
+**16.10.2026, 15:32:27–15:35:08 Europe/Berlin.**
+[Messwerte](acoustic-paired-windows.json),
+[Werkzeug](../../../scripts/wake_candidate_comparison.py),
+[gezielte Tests](paired-window-tests.txt).
+
+Einmalige Wiedergabe derselben vier bekannten Dateien über den eingebauten
+Mac-Studio-Lautsprecher, unveränderte Systemlautstärke und ursprüngliche Rate.
+Die App reserviert Wartung atomar; der Test besitzt genau einen Mikrofoneingang.
+Zwei Sekunden echter Vorlauf werden nur im RAM gehalten. Der erste Nabu-Score
+von mindestens 0,15 nach dem Wiedergabesignal definiert den Kandidaten. Für
+beide Modelle werden daraus exakt dieselben Bytes mit zwei Sekunden Rückblick
+und entweder 0,8 oder 1,6 Sekunden Nachlauf ausgeschnitten. Fehlender Kontext
+wird als fehlend markiert, weder aufgefüllt noch still gekürzt. Alle 16 nativen
+Prüfungen waren vollständig, ohne Timeout oder Prozessfehler.
+
+| Prüfer | Nachlauf | Positive erste Kandidaten | Negative erste Kandidaten angenommen |
+| --- | --- | --- | --- |
+| Tiny | 0,8 s | 0/2 | 0/2 |
+| Tiny | 1,6 s | 0/2 | 0/2 |
+| Base | 0,8 s | 2/2 | 0/2 |
+| Base | 1,6 s | 1/2 | 0/2 |
+
+Die bestehende Nabu-Schwelle 0,85 wurde in beiden positiven Raumdateien nicht
+überschritten (Maxima 0,633 und 0,584), aber im ersten Negativtext erreicht
+(0,931). Sieben positive Modellframes in diesem Text sind **ein** fehlerhafter
+Dateifall, nicht sieben unabhängige Live-Starts. Die App startete kein Gespräch.
+Die Signal-Korrelationen von 0,111–0,184 bestätigen keine Verständlichkeit;
+ihre geschätzte Position ist keine verlässliche Sprachbeginn-Zeitmarke.
+
+Base mit kurzem Nachlauf benötigt hier 0,603–0,653 Sekunden je Prüfung,
+Tiny je nach Fall 0,336–1,852 Sekunden. Gemessen sind native Prozess-/Modellstarts
+nach Aufnahme, nicht die Verbindung oder Begrüßung eines Live-Gesprächs.
+Die Modelle wurden sequenziell geprüft, nicht parallel. Der größere Nachlauf
+verbessert die Erkennung nicht monoton: Bei identischem Anfang wird Ottos Ruf
+in Base damit verworfen. Dieses Ergebnis stützt **keine** pauschale Verlängerung
+und keine nachträglich geänderte Akzeptanzregel. Alle Prüfer benutzen weiterhin
+den Namenshinweis `Nabu.` und dieselbe strikte Wortprüfung.
+
+**Grenzen und nächste Entscheidung:** Dies sind bekannte TTS-Stimmen und nur
+der erste Kandidat je Datei. Spätere Kandidaten desselben Negativtexts, neue
+Sprecher, natürliche Erst-Rufe und acht Stunden negative Umgebung sind damit
+nicht geprüft. Base hatte im vorherigen Streaming-Raumtest zudem einen
+positiven Ruf verworfen. Deshalb weiterhin keine Produktionsintegration.
+Vor einem Kandidatenentscheid sind unabhängige Stimmen und die vollständige
+laufende Kandidatenfolge mit eingefrorenen Parametern zu prüfen. Bestehende
+Fehlversuche bleiben Teil der Auswertung; ein guter kleiner Ausschnitt ersetzt
+sie nicht.
+
+Validierung: drei neue Auswahl-/Grenztests und zwölf vorhandene Verifier-/Prozess-
+Tests bestanden. Die neue Auswahlprüfung bestätigt identische Bytes für beide
+Modelle und verweigert fehlenden Kontext. Kein vollständiger App-Gesamtlauf
+für diese isolierte Laborerweiterung behauptet. Testdateien sind bekannte
+synthetische Eingaben; Raum-PCM und Raumtranskripte wurden nicht gespeichert.
+
+Wartung bestätigt freigegeben. Beobachter PID1894368 läuft weiter; Stichprobe
+15:36:06: App 0.5.60, `idle`, `listening`, Browser 28,26 % eines Kerns,
+RSS 1310,41 MB, 52,9 °C, keine aktiven Warnungen. Dieser angekündigte Raumtest
+unterbricht erneut den Ruhezeitnachweis; ursprünglicher Plan bleibt erhalten.
+Alle Änderungen liegen unter Labor-Skripten, Tests und Dokumentation, außerhalb
+der App-/Image-Positivliste. Keine neue Abhängigkeit, keine produktive Änderung,
+kein neues Image. Die Dateien werden separat zur Prüfung gepusht.
+
+Reproduktion unter bestehender Testfreigabe: `check_wake_acoustic.py` mit
+`--phrase okay-nabu --external-playback --signal-diagnostics --quiet-seconds 30`,
+vorhandenem `--whisper-binary`, Tiny als `--whisper-model` und Base als
+`--compare-whisper-model`; `--clips` enthält die vier anhand der Bericht-Hashes
+identifizierten synthetischen Dateien. Ein externer Controller spielt jede
+Datei erst nach `play_clip` mit Originalrate ab und protokolliert ihren Exit.
+Ohne externe Wiedergabe gelten diese Messwerte nicht als reproduziert. Der
+Bericht enthält die Modell-/Binary-Hashes und die tatsächlichen Wiedergaben.
