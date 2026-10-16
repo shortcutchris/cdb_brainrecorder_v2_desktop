@@ -219,3 +219,52 @@ auseinanderhalten. Das Gesamtziel bleibt offen.
 Diese Ergänzung betrifft nur Laborwerkzeug, Messwerte und Dokumentation.
 Kein weiteres App-Paket nötig; das Kunden-Image enthält weder Laborstimmen noch
 Tests. Der produktive 24h-Lauf wird hierfür nicht zurückgesetzt.
+
+
+## Übergabe vor Rechnerabschaltung – 16.10.2026
+
+Der Benutzer bestätigt den produktiven Sprachtest mit **„ja beim 2ten“**.
+Der erste Ruf ist damit weiterhin ausgefallen; keine bestandene Erst-Ruf-Abnahme.
+Die anschließende API-Prüfung bestätigt eine Aktivierung, anschließend wieder
+`listening` mit Hey KAI, laufende Mikrofonerfassung und Live-Zustand `ended`.
+[Datensparsame Statusaufnahme](production-second-call.json).
+Vor der Aktivierung enthält die Diagnose wiederholt `partial_wake_word`,
+keine vollständigen abgewiesenen Kandidaten. Die genaue Zuordnung eines
+Diagnoseereignisses zum ersten Ruf ist ohne synchronisierte Einzelmessung offen.
+Keine Aussage, dass Mikrofon-Standby die Ursache sei.
+
+Der zusätzliche **rein synthetische** Rauschtest protokolliert jetzt die
+Decoderergebnisse: [Einzelentscheidungen](noise-decisions-mac.json).
+Bei Rauschpegel 16 und voller/0,03 Sprachlautstärke bleibt beim Ziel nur `kai`
+übrig; bei Pegel 64 und voller Lautstärke `[unk] kai`. In den leisen Fehlfällen
+entsteht gar kein vollständiges Zielpaar. Die Kandidatenschwelle allein erklärt
+also diese Ausfälle nicht. Schon synthetische Stille/Rauschen erzeugt gelegentlich
+lange einzelne `hey`-Segmente; diese werden korrekt nicht aktiviert. Die Daten
+stammen ausschließlich aus bekannten synthetischen Dateien, nicht aus Raumton.
+
+**Nächster Ansatz:** Verlust des Wortanfangs, Segmentgrenzen und Onset-Erneuerung
+mit denselben Dateien kontrolliert vergleichen. Keine bloße Freigabe von `kai`
+allein und keine pauschale weitere Schwellenabsenkung. Ein möglicher Fix muss
+negative Beispiele und wiederholte Rufe bestehen, bevor er auf den Pi kommt.
+Der produktive Code bleibt während dieser Übergabe unverändert auf 0.5.58.
+
+Die Arbeit am Ziel wird auf Benutzerwunsch bis zur Fortsetzung pausiert.
+Der Pi-Beobachter wurde unmittelbar davor als `active/running`, PID 1767736,
+geprüft und bleibt lokal aktiv. Sein aktuelles 24h-Fenster endet am
+17.10.2026 um 08:34:20 Europe/Berlin. Die Rechnerabschaltung verhindert unsere
+laufende Fernprüfung; sie beendet nicht von sich aus die Messung auf dem Pi.
+Nach Rückkehr zuerst Beobachterprozess, Messlücken, aktive App-Version und
+Rufwort kontrollieren; bestehende Messdaten nicht zurücksetzen. Es gibt weiterhin
+keine abgeschlossene 24h-/8h-Abnahme und keinen automatischen Reparatur-Watchdog.
+
+### Wiederaufnahme
+
+- Repository: `cdb_brainrecorder_v2_desktop`, Branch `main`; installiert 0.5.58.
+- Pi: `chris@raspberrypi5.local`, Backend Port 8088; private Daten nicht ausgeben.
+- Messdaten: `~/.local/share/cdb-stability-20261015/run/` auf dem Pi.
+- Aktueller Gesamtplan: `docs/idle-wake-0.5.45/stability-goal.md`.
+- Erst-Ruf-Verlässlichkeit, echter Wake nach mindestens acht Stunden und die
+  vollständige 24h-Auswertung bleiben offen. Die guten Labortests ersetzen sie nicht.
+- Keine weiteren Testtöne oder isolierten Mikrofontests laufen aus dieser Sitzung.
+- Diese Übergabe ändert nur Dokumentation/Messnachweise; kein neues App-Paket
+  oder SD-Image nötig. Konfiguration und Aufnahmen auf dem Pi bleiben erhalten.

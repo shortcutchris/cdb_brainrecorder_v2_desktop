@@ -208,3 +208,11 @@ bekommt ihre eigene App-/Image-Einflussbewertung.
   Neuer echter 24h-Lauf gestartet, kein Browser-/Pi-Neustart und kein akustischer
   Test. Die Langzeit-/Acht-Stunden-Abnahme bleibt offen.
   [Nachweise](../idle-icon-0.5.56/README.md).
+
+
+- **16.10.2026, Übergabe vor Rechnerabschaltung:** Produktives Hey KAI startet
+  laut Benutzer erst beim zweiten Ruf. Rückkehr in `listening`, Live `ended`
+  technisch bestätigt. Erst-Ruf-Abnahme bleibt offen. Synthetischer Rauschtest
+  zeigt fehlendes erstes Wort, nicht nur zu niedrige Kandidatenkonfidenz.
+  [Aktueller Stand und Wiederaufnahme](../wake-kai-0.5.58/README.md).
+  Arbeit auf Benutzerwunsch pausiert; Pi-Beobachter läuft weiter, kein Reset.

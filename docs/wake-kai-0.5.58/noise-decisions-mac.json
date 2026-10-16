@@ -1,0 +1,1126 @@
+{
+  "synthetic_audio": true,
+  "accelerated_not_wall_clock": true,
+  "phrase": "hey-kai",
+  "fixture": "hey-kai-vincent.mp3",
+  "vosk_version": "0.3.44",
+  "model": "vosk-model-small-en-us-0.15",
+  "missing_grammar_words": [],
+  "fixture_sha256": "0526479eef596299c581d435a9317119c8d1f97bbefbfa505eeed93da06c9cdb",
+  "candidate_source_sha256": "d2b21606101ba1ac9bddc59f52555668a89d8d99ac11678e819c8be414efb33d",
+  "baseline_source_sha256": null,
+  "cases": [
+    {
+      "source": "candidate",
+      "noise_std_pcm": 0,
+      "scale": 1,
+      "idle_audio_minutes": 2.0,
+      "false_wakes": 0,
+      "target_detections": 1,
+      "target_audio_seconds": [
+        3.6
+      ],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.775,
+      "synthetic_decoded_segments": [
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.84021,
+                "end": 40.32,
+                "start": 20.16,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.845113,
+                "end": 35.28,
+                "start": 15.12,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.835282,
+                "end": 35.28,
+                "start": 15.12,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 1.0,
+                "end": 10.86,
+                "start": 10.62,
+                "word": "hey"
+              },
+              {
+                "conf": 1.0,
+                "end": 11.31,
+                "start": 10.86,
+                "word": "kai"
+              }
+            ],
+            "text": "hey kai"
+          },
+          "accepted": true
+        }
+      ]
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 0,
+      "scale": 0.03,
+      "idle_audio_minutes": 2.0,
+      "false_wakes": 0,
+      "target_detections": 1,
+      "target_audio_seconds": [
+        3.55
+      ],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.789,
+      "synthetic_decoded_segments": [
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.834424,
+                "end": 35.28,
+                "start": 15.12,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.846641,
+                "end": 35.28,
+                "start": 15.12,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.845289,
+                "end": 35.28,
+                "start": 15.12,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 1.0,
+                "end": 15.925578,
+                "start": 15.69,
+                "word": "hey"
+              },
+              {
+                "conf": 0.852585,
+                "end": 16.35,
+                "start": 15.93,
+                "word": "kai"
+              }
+            ],
+            "text": "hey kai"
+          },
+          "accepted": true
+        }
+      ]
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 0,
+      "scale": 0.003,
+      "idle_audio_minutes": 2.0,
+      "false_wakes": 0,
+      "target_detections": 1,
+      "target_audio_seconds": [
+        3.55
+      ],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.779,
+      "synthetic_decoded_segments": [
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.844345,
+                "end": 35.28,
+                "start": 15.12,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.839076,
+                "end": 35.28,
+                "start": 15.12,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.843911,
+                "end": 35.28,
+                "start": 15.12,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 1.0,
+                "end": 15.9,
+                "start": 15.12,
+                "word": "hey"
+              },
+              {
+                "conf": 0.589007,
+                "end": 16.32,
+                "start": 15.9,
+                "word": "kai"
+              }
+            ],
+            "text": "hey kai"
+          },
+          "accepted": true
+        }
+      ]
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 4,
+      "scale": 1,
+      "idle_audio_minutes": 2.0,
+      "false_wakes": 0,
+      "target_detections": 1,
+      "target_audio_seconds": [
+        3.4
+      ],
+      "onset_renewals": 1,
+      "cpu_seconds": 0.803,
+      "synthetic_decoded_segments": [
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.837421,
+                "end": 25.2,
+                "start": 5.04,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.827672,
+                "end": 25.2,
+                "start": 5.04,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.837071,
+                "end": 25.2,
+                "start": 5.04,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.840144,
+                "end": 25.2,
+                "start": 5.04,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 1.0,
+                "end": 0.48,
+                "start": 0.24,
+                "word": "hey"
+              },
+              {
+                "conf": 1.0,
+                "end": 0.9,
+                "start": 0.48,
+                "word": "kai"
+              }
+            ],
+            "text": "hey kai"
+          },
+          "accepted": true
+        }
+      ]
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 4,
+      "scale": 0.03,
+      "idle_audio_minutes": 2.0,
+      "false_wakes": 0,
+      "target_detections": 1,
+      "target_audio_seconds": [
+        3.45
+      ],
+      "onset_renewals": 1,
+      "cpu_seconds": 0.794,
+      "synthetic_decoded_segments": [
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.838134,
+                "end": 25.2,
+                "start": 5.04,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.835618,
+                "end": 25.2,
+                "start": 5.04,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.837919,
+                "end": 25.2,
+                "start": 5.04,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.835852,
+                "end": 25.2,
+                "start": 5.04,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 1.0,
+                "end": 0.42,
+                "start": 0.21,
+                "word": "hey"
+              },
+              {
+                "conf": 1.0,
+                "end": 0.81,
+                "start": 0.42,
+                "word": "kai"
+              }
+            ],
+            "text": "hey kai"
+          },
+          "accepted": true
+        }
+      ]
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 4,
+      "scale": 0.003,
+      "idle_audio_minutes": 2.0,
+      "false_wakes": 0,
+      "target_detections": 0,
+      "target_audio_seconds": [],
+      "onset_renewals": 1,
+      "cpu_seconds": 0.775,
+      "synthetic_decoded_segments": [
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.826729,
+                "end": 25.2,
+                "start": 5.04,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.834255,
+                "end": 25.2,
+                "start": 5.04,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.844697,
+                "end": 30.24,
+                "start": 10.08,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.842588,
+                "end": 25.2,
+                "start": 5.04,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 16,
+      "scale": 1,
+      "idle_audio_minutes": 2.0,
+      "false_wakes": 0,
+      "target_detections": 0,
+      "target_audio_seconds": [],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.87,
+      "synthetic_decoded_segments": [
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.83466,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.830732,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.835702,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.82455,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.835282,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.8339,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 1.0,
+                "end": 0.6,
+                "start": 0.162812,
+                "word": "kai"
+              }
+            ],
+            "text": "kai"
+          },
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 16,
+      "scale": 0.03,
+      "idle_audio_minutes": 2.0,
+      "false_wakes": 0,
+      "target_detections": 0,
+      "target_audio_seconds": [],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.854,
+      "synthetic_decoded_segments": [
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.836187,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.830732,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.834508,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.823151,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.834559,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.834255,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.81638,
+                "end": 0.54,
+                "start": 0.22301,
+                "word": "kai"
+              }
+            ],
+            "text": "kai"
+          },
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 16,
+      "scale": 0.003,
+      "idle_audio_minutes": 2.0,
+      "false_wakes": 0,
+      "target_detections": 0,
+      "target_audio_seconds": [],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.869,
+      "synthetic_decoded_segments": [
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.834137,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.831314,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.833002,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.820326,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.833172,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.83193,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 64,
+      "scale": 1,
+      "idle_audio_minutes": 2.0,
+      "false_wakes": 0,
+      "target_detections": 0,
+      "target_audio_seconds": [],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.752,
+      "synthetic_decoded_segments": [
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.833342,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.838861,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.835601,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.840979,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.830543,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.828592,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.491556,
+                "end": 0.15,
+                "start": 0.0,
+                "word": "[unk]"
+              },
+              {
+                "conf": 1.0,
+                "end": 0.57,
+                "start": 0.164747,
+                "word": "kai"
+              }
+            ],
+            "text": "[unk] kai"
+          },
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 64,
+      "scale": 0.03,
+      "idle_audio_minutes": 2.0,
+      "false_wakes": 0,
+      "target_detections": 0,
+      "target_audio_seconds": [],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.784,
+      "synthetic_decoded_segments": [
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.833765,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.838977,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.835349,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.840062,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.830817,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.828141,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        }
+      ]
+    },
+    {
+      "source": "candidate",
+      "noise_std_pcm": 64,
+      "scale": 0.003,
+      "idle_audio_minutes": 2.0,
+      "false_wakes": 0,
+      "target_detections": 0,
+      "target_audio_seconds": [],
+      "onset_renewals": 0,
+      "cpu_seconds": 0.764,
+      "synthetic_decoded_segments": [
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.832815,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.839076,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.83471,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.840488,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.830766,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        },
+        {
+          "result": {
+            "result": [
+              {
+                "conf": 0.828263,
+                "end": 20.16,
+                "start": 0.0,
+                "word": "hey"
+              }
+            ],
+            "text": "hey"
+          },
+          "accepted": false
+        }
+      ]
+    }
+  ]
+}
