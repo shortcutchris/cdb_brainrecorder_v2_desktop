@@ -1,0 +1,6 @@
+............
+----------------------------------------------------------------------
+Ran 12 tests in 27.973s
+
+OK
+{"runs": 12, "errors": 0, "failures": 0, "signal_errors": [{"signal": 15, "getpgid_errno": 3}, {"signal": 15, "getpgid_errno": 3}], "unhandled_async_errors": []}

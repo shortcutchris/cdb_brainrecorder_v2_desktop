@@ -1,0 +1,15 @@
+test_cloud_close_ack_cannot_release_failed_local_audio (reap_tests.LiveReleaseTests.test_cloud_close_ack_cannot_release_failed_local_audio) ... ok
+test_failed_native_close_keeps_reservation_then_recovers (reap_tests.LiveReleaseTests.test_failed_native_close_keeps_reservation_then_recovers) ... ok
+test_100_concurrent_close_retries_leave_no_audio_threads (reap_tests.NativeReleaseTests.test_100_concurrent_close_retries_leave_no_audio_threads) ... ok
+test_failed_shutdown_is_retryable_even_after_closed_flag (reap_tests.NativeReleaseTests.test_failed_shutdown_is_retryable_even_after_closed_flag) ... ok
+test_signal_denied_after_exit_is_confirmed_before_release (reap_tests.NativeReleaseTests.test_signal_denied_after_exit_is_confirmed_before_release) ... ok
+test_signal_denied_for_live_child_preserves_owner_until_retry (reap_tests.NativeReleaseTests.test_signal_denied_for_live_child_preserves_owner_until_retry) ... ok
+test_unreaped_process_never_counts_as_closed (reap_tests.NativeReleaseTests.test_unreaped_process_never_counts_as_closed) ... ok
+test_failed_kill_keeps_owner_and_never_triggers_or_respawns (reap_tests.WakeReleaseTests.test_failed_kill_keeps_owner_and_never_triggers_or_respawns) ... ok
+test_owned_child_is_reaped_on_retry_after_signal_failure (reap_tests.WakeReleaseTests.test_owned_child_is_reaped_on_retry_after_signal_failure) ... ok
+test_timeout_after_sigkill_retains_process_until_confirmed_exit (reap_tests.WakeReleaseTests.test_timeout_after_sigkill_retains_process_until_confirmed_exit) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 2.214s
+
+OK
