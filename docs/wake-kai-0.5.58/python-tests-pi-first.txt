@@ -1,0 +1,43 @@
+.........................../home/chris/projects/cdb_brainrecorder_v2_desktop/venv-local-ai/lib/python3.13/site-packages/dbus_next/service.py:87: DeprecationWarning: 'typing.no_type_check_decorator' is deprecated and slated for removal in Python 3.15
+  @no_type_check_decorator
+..................................E..............................................................................................................................E......................................................................................................................................{"event": "maintenance_released"}
+..{"event": "maintenance_released"}
+..{"event": "maintenance_released"}
+...........................................
+======================================================================
+ERROR: test_standard_cdb_summary_uses_grounded_extraction_in_real_job_folder (test_cdb_integration.CdbTests.test_standard_cdb_summary_uses_grounded_extraction_in_real_job_folder)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cdb-058-test-source/tests/test_cdb_integration.py", line 153, in test_standard_cdb_summary_uses_grounded_extraction_in_real_job_folder
+    summary=b.generate(source,config)
+  File "/tmp/cdb-058-test-source/services/cdb_integration.py", line 355, in generate
+    return EvidenceSummary(folder,(folder/'transcript.txt').read_text(encoding='utf-8'),c,extract).generate(text,merge)
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/pathlib/_local.py", line 548, in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/pathlib/_abc.py", line 633, in read_text
+    return f.read()
+           ~~~~~~^^
+  File "<frozen codecs>", line 325, in decode
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xfc in position 18: invalid start byte
+
+======================================================================
+ERROR: test_native (unittest.loader._FailedTest.test_native)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_native
+Traceback (most recent call last):
+  File "/usr/lib/python3.13/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+  File "/usr/lib/python3.13/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+    ~~~~~~~~~~^^^^^^
+  File "/tmp/cdb-058-test-source/tests/test_native.py", line 15, in <module>
+    from player import AudioPlayer
+ModuleNotFoundError: No module named 'player'
+
+
+----------------------------------------------------------------------
+Ran 370 tests in 67.758s
+
+FAILED (errors=2)

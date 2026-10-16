@@ -1,0 +1,5469 @@
+{
+  "synthetic_files_only": true,
+  "real_microphone": false,
+  "production_changed": false,
+  "model": "vosk-model-small-en-us-0.15",
+  "seconds": 38.58,
+  "fixtures": {
+    "hey-brain-pauli.mp3": "c8b44d194a5280c96de00406292312f8983230a2d4305d3066d583a09530cf6c",
+    "hey-kai-pauli.mp3": "c95c112de788c30ee824cc51c527197c29ad5c55c80bff739437980fde7ad090",
+    "okay-kai-pauli.mp3": "95c76deedb2feb2c0355d296e474d5fd7ed231afd98b2fc931ef04011ac2ed7c",
+    "okay-karl-pauli.mp3": "5de45382fd144d7861aa97e1e74ad9f7f192fc7ead0ea5e122abb759513836d3",
+    "okay-kay-pauli.mp3": "0c4e2fa42ba1b5616fdd32297d4e1fa627154479bcacac1819d47c2f16d2ba77",
+    "okay-kyle-pauli.mp3": "742687fb7146860bd3d12ad0e51943a373420d6bdd2041f4e555bc6e9baa5ba4",
+    "kai-later-pauli.mp3": "bc1bddb89bdfc2dbb4da0e7756e82447563b51656d6dcb9e2f7002df2ecdc2de",
+    "hey-brain-otto.mp3": "6581bbb94c8bf4922d11057e1b74624e0d15680a5c7ade90537db39b2dbccd8e",
+    "hey-kai-otto.mp3": "9bed69049a76ceaee94366309de98192729887d72e137396ce6b79722faf07b1",
+    "okay-kai-otto.mp3": "9bf35777136ca0d88b2575b51958236402f56857b3f234ce45e6320303cd8bbf",
+    "okay-karl-otto.mp3": "6d872b5dcb38f32e465eb7ca64f2250be9552ab7b27d2e49fc4bdaa9bf02cb5c",
+    "okay-kay-otto.mp3": "ee7af579d62ca7cb3318292498fe55a903be62a26a956da0b061223c60b5ba67",
+    "okay-kyle-otto.mp3": "6ee5c66281f943705cf751bd4811344c4661248b77bae182e89d27de7dfaa0a4",
+    "kai-later-otto.mp3": "7066225bcd8d78c4eaf9f31ecf13bea39e81a7b466bd2d7cf6556da037000005",
+    "hey-brain-vincent-slow.mp3": "fdbb4dc738e89736d254ead75ca2940a6a93dbdf8f8c8f99b82041d59e5079f7",
+    "hey-kai-vincent.mp3": "0526479eef596299c581d435a9317119c8d1f97bbefbfa505eeed93da06c9cdb",
+    "okay-kai-vincent.mp3": "60d6cd7352602cbdd1e462dcb9e986f9aeda8e515cffc4bbf3a953f9cc44be8a",
+    "hey-guy-vincent.mp3": "6c70eaca021d070d66d2328d740317fb0c697c0298af99991450e533b4d47ef4",
+    "okay-karl-vincent.mp3": "5340214e7362adbb7042edeac2e5051693f7142ad4f9a53017c3c668034da2cf",
+    "kai-later-vincent.mp3": "c0986a77f60d5d65fe9e39cc321a0c5c74a7f44502782aa04a74035ad6d915a6"
+  },
+  "policies": [
+    [
+      0.8,
+      0.9
+    ],
+    [
+      0.8,
+      0.8
+    ],
+    [
+      0.8,
+      0.7
+    ],
+    [
+      0.8,
+      0.5
+    ],
+    [
+      0.7,
+      0.7
+    ],
+    [
+      0.5,
+      0.5
+    ]
+  ],
+  "cases": [
+    {
+      "file": "hey-brain-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 1,
+      "actual": 1,
+      "threshold_counts": {
+        "0.8/0.9": 1,
+        "0.8/0.8": 1,
+        "0.8/0.7": 1,
+        "0.8/0.5": 1,
+        "0.7/0.7": 1,
+        "0.5/0.5": 1
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.48,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-brain-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 2,
+      "actual": 2,
+      "threshold_counts": {
+        "0.8/0.9": 2,
+        "0.8/0.8": 2,
+        "0.8/0.7": 2,
+        "0.8/0.5": 2,
+        "0.7/0.7": 2,
+        "0.5/0.5": 2
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.48,
+          "reasons": []
+        },
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.48,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-brain-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-brain-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-brain-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-brain-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-brain-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 1,
+      "actual": 1,
+      "threshold_counts": {
+        "0.8/0.9": 1,
+        "0.8/0.8": 1,
+        "0.8/0.7": 1,
+        "0.8/0.5": 1,
+        "0.7/0.7": 1,
+        "0.5/0.5": 1
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.45,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-brain-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 2,
+      "actual": 2,
+      "threshold_counts": {
+        "0.8/0.9": 2,
+        "0.8/0.8": 2,
+        "0.8/0.7": 2,
+        "0.8/0.5": 2,
+        "0.7/0.7": 2,
+        "0.5/0.5": 2
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.45,
+          "reasons": []
+        },
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.45,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-brain-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-brain-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-brain-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-brain-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 1,
+      "actual": 1,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 1,
+        "0.8/0.7": 1,
+        "0.8/0.5": 1,
+        "0.7/0.7": 1,
+        "0.5/0.5": 1
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 0.842271,
+          "duration_seconds": 0.45,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 2,
+      "actual": 2,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 1,
+        "0.8/0.7": 2,
+        "0.8/0.5": 2,
+        "0.7/0.7": 2,
+        "0.5/0.5": 2
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 0.844485,
+          "duration_seconds": 0.45,
+          "reasons": []
+        },
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 0.787652,
+          "duration_seconds": 0.42,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 1,
+      "actual": 1,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 1,
+        "0.7/0.7": 0,
+        "0.5/0.5": 1
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 0.655245,
+          "duration_seconds": 0.36,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 2,
+      "actual": 2,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 2,
+        "0.7/0.7": 0,
+        "0.5/0.5": 2
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 0.678275,
+          "duration_seconds": 0.36,
+          "reasons": []
+        },
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 0.602643,
+          "duration_seconds": 0.39,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 1,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 1,
+        "0.8/0.7": 1,
+        "0.8/0.5": 1,
+        "0.7/0.7": 1,
+        "0.5/0.5": 1
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 0.818302,
+          "duration_seconds": 0.51,
+          "reasons": [
+            "second_word_confidence"
+          ]
+        }
+      ],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 2,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 1,
+        "0.8/0.7": 2,
+        "0.8/0.5": 2,
+        "0.7/0.7": 2,
+        "0.5/0.5": 2
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 0.818646,
+          "duration_seconds": 0.51,
+          "reasons": [
+            "second_word_confidence"
+          ]
+        },
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 0.7166,
+          "duration_seconds": 0.51,
+          "reasons": [
+            "second_word_confidence"
+          ]
+        }
+      ],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 1,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 1,
+        "0.7/0.7": 0,
+        "0.5/0.5": 1
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 0.594194,
+          "duration_seconds": 0.51,
+          "reasons": [
+            "second_word_confidence"
+          ]
+        }
+      ],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kai-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 2,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 2,
+        "0.7/0.7": 0,
+        "0.5/0.5": 2
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 0.611137,
+          "duration_seconds": 0.51,
+          "reasons": [
+            "second_word_confidence"
+          ]
+        },
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 0.608781,
+          "duration_seconds": 0.51,
+          "reasons": [
+            "second_word_confidence"
+          ]
+        }
+      ],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-karl-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-karl-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-karl-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-karl-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kay-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kay-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kay-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kay-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kay-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kay-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kay-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kay-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kay-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kay-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kay-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kay-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kyle-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kyle-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kyle-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kyle-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kyle-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kyle-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kyle-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kyle-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kyle-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kyle-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kyle-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kyle-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "kai-later-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "kai-later-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "kai-later-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "kai-later-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-pauli.mp3",
+      "voice": "pauli",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-brain-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 1,
+      "actual": 1,
+      "threshold_counts": {
+        "0.8/0.9": 1,
+        "0.8/0.8": 1,
+        "0.8/0.7": 1,
+        "0.8/0.5": 1,
+        "0.7/0.7": 1,
+        "0.5/0.5": 1
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.72,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-brain-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 2,
+      "actual": 2,
+      "threshold_counts": {
+        "0.8/0.9": 2,
+        "0.8/0.8": 2,
+        "0.8/0.7": 2,
+        "0.8/0.5": 2,
+        "0.7/0.7": 2,
+        "0.5/0.5": 2
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.75,
+          "reasons": []
+        },
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.72,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-brain-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-brain-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-brain-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-brain-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-brain-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 1,
+      "actual": 1,
+      "threshold_counts": {
+        "0.8/0.9": 1,
+        "0.8/0.8": 1,
+        "0.8/0.7": 1,
+        "0.8/0.5": 1,
+        "0.7/0.7": 1,
+        "0.5/0.5": 1
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.69,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-brain-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 2,
+      "actual": 2,
+      "threshold_counts": {
+        "0.8/0.9": 2,
+        "0.8/0.8": 2,
+        "0.8/0.7": 2,
+        "0.8/0.5": 2,
+        "0.7/0.7": 2,
+        "0.5/0.5": 2
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.69,
+          "reasons": []
+        },
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.72,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-brain-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-brain-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-brain-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-brain-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 1,
+      "actual": 1,
+      "threshold_counts": {
+        "0.8/0.9": 1,
+        "0.8/0.8": 1,
+        "0.8/0.7": 1,
+        "0.8/0.5": 1,
+        "0.7/0.7": 1,
+        "0.5/0.5": 1
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.63,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 2,
+      "actual": 2,
+      "threshold_counts": {
+        "0.8/0.9": 2,
+        "0.8/0.8": 2,
+        "0.8/0.7": 2,
+        "0.8/0.5": 2,
+        "0.7/0.7": 2,
+        "0.5/0.5": 2
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.63,
+          "reasons": []
+        },
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.66,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 1,
+      "actual": 1,
+      "threshold_counts": {
+        "0.8/0.9": 1,
+        "0.8/0.8": 1,
+        "0.8/0.7": 1,
+        "0.8/0.5": 1,
+        "0.7/0.7": 1,
+        "0.5/0.5": 1
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.6,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 2,
+      "actual": 2,
+      "threshold_counts": {
+        "0.8/0.9": 2,
+        "0.8/0.8": 2,
+        "0.8/0.7": 2,
+        "0.8/0.5": 2,
+        "0.7/0.7": 2,
+        "0.5/0.5": 2
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.6,
+          "reasons": []
+        },
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.63,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 1,
+      "actual": 1,
+      "threshold_counts": {
+        "0.8/0.9": 1,
+        "0.8/0.8": 1,
+        "0.8/0.7": 1,
+        "0.8/0.5": 1,
+        "0.7/0.7": 1,
+        "0.5/0.5": 1
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.78,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 2,
+      "actual": 2,
+      "threshold_counts": {
+        "0.8/0.9": 2,
+        "0.8/0.8": 2,
+        "0.8/0.7": 2,
+        "0.8/0.5": 2,
+        "0.7/0.7": 2,
+        "0.5/0.5": 2
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.78,
+          "reasons": []
+        },
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.81,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 1,
+      "actual": 1,
+      "threshold_counts": {
+        "0.8/0.9": 1,
+        "0.8/0.8": 1,
+        "0.8/0.7": 1,
+        "0.8/0.5": 1,
+        "0.7/0.7": 1,
+        "0.5/0.5": 1
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.78,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kai-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 2,
+      "actual": 2,
+      "threshold_counts": {
+        "0.8/0.9": 2,
+        "0.8/0.8": 2,
+        "0.8/0.7": 2,
+        "0.8/0.5": 2,
+        "0.7/0.7": 2,
+        "0.5/0.5": 2
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.78,
+          "reasons": []
+        },
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.78,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-karl-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-karl-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-karl-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-karl-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kay-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kay-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kay-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kay-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kay-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kay-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kay-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kay-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kay-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kay-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kay-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kay-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": true,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kyle-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kyle-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kyle-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kyle-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kyle-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kyle-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kyle-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kyle-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kyle-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kyle-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kyle-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kyle-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "kai-later-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "kai-later-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "kai-later-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-otto.mp3",
+      "voice": "otto",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "kai-later-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-otto.mp3",
+      "voice": "otto",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-brain-vincent-slow.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 1,
+      "actual": 1,
+      "threshold_counts": {
+        "0.8/0.9": 1,
+        "0.8/0.8": 1,
+        "0.8/0.7": 1,
+        "0.8/0.5": 1,
+        "0.7/0.7": 1,
+        "0.5/0.5": 1
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.75,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-brain-vincent-slow.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 2,
+      "actual": 2,
+      "threshold_counts": {
+        "0.8/0.9": 2,
+        "0.8/0.8": 2,
+        "0.8/0.7": 2,
+        "0.8/0.5": 2,
+        "0.7/0.7": 2,
+        "0.5/0.5": 2
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.75,
+          "reasons": []
+        },
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.75,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-brain-vincent-slow.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-brain-vincent-slow.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-brain-vincent-slow.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-brain-vincent-slow.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-brain-vincent-slow.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 1,
+      "actual": 1,
+      "threshold_counts": {
+        "0.8/0.9": 1,
+        "0.8/0.8": 1,
+        "0.8/0.7": 1,
+        "0.8/0.5": 1,
+        "0.7/0.7": 1,
+        "0.5/0.5": 1
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.69,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-brain-vincent-slow.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 2,
+      "actual": 2,
+      "threshold_counts": {
+        "0.8/0.9": 2,
+        "0.8/0.8": 2,
+        "0.8/0.7": 2,
+        "0.8/0.5": 2,
+        "0.7/0.7": 2,
+        "0.5/0.5": 2
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.69,
+          "reasons": []
+        },
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.72,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-brain-vincent-slow.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-brain-vincent-slow.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-brain-vincent-slow.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-brain-vincent-slow.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "hey-brain",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 1,
+      "actual": 1,
+      "threshold_counts": {
+        "0.8/0.9": 1,
+        "0.8/0.8": 1,
+        "0.8/0.7": 1,
+        "0.8/0.5": 1,
+        "0.7/0.7": 1,
+        "0.5/0.5": 1
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.66,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 2,
+      "actual": 2,
+      "threshold_counts": {
+        "0.8/0.9": 2,
+        "0.8/0.8": 2,
+        "0.8/0.7": 2,
+        "0.8/0.5": 2,
+        "0.7/0.7": 2,
+        "0.5/0.5": 2
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.66,
+          "reasons": []
+        },
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.69,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 1,
+      "actual": 1,
+      "threshold_counts": {
+        "0.8/0.9": 1,
+        "0.8/0.8": 1,
+        "0.8/0.7": 1,
+        "0.8/0.5": 1,
+        "0.7/0.7": 1,
+        "0.5/0.5": 1
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.63,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 2,
+      "actual": 2,
+      "threshold_counts": {
+        "0.8/0.9": 2,
+        "0.8/0.8": 2,
+        "0.8/0.7": 2,
+        "0.8/0.5": 2,
+        "0.7/0.7": 2,
+        "0.5/0.5": 2
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.63,
+          "reasons": []
+        },
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.63,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "hey-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 1,
+      "actual": 1,
+      "threshold_counts": {
+        "0.8/0.9": 1,
+        "0.8/0.8": 1,
+        "0.8/0.7": 1,
+        "0.8/0.5": 1,
+        "0.7/0.7": 1,
+        "0.5/0.5": 1
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.78,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 2,
+      "actual": 2,
+      "threshold_counts": {
+        "0.8/0.9": 2,
+        "0.8/0.8": 2,
+        "0.8/0.7": 2,
+        "0.8/0.5": 2,
+        "0.7/0.7": 2,
+        "0.5/0.5": 2
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.78,
+          "reasons": []
+        },
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.78,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 1,
+      "actual": 1,
+      "threshold_counts": {
+        "0.8/0.9": 1,
+        "0.8/0.8": 1,
+        "0.8/0.7": 1,
+        "0.8/0.5": 1,
+        "0.7/0.7": 1,
+        "0.5/0.5": 1
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.75,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-kai-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": "okay-kai",
+      "ambiguous": false,
+      "expected": 2,
+      "actual": 2,
+      "threshold_counts": {
+        "0.8/0.9": 2,
+        "0.8/0.8": 2,
+        "0.8/0.7": 2,
+        "0.8/0.5": 2,
+        "0.7/0.7": 2,
+        "0.5/0.5": 2
+      },
+      "candidates": [
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.75,
+          "reasons": []
+        },
+        {
+          "first_confidence": 1.0,
+          "second_confidence": 1.0,
+          "duration_seconds": 0.75,
+          "reasons": []
+        }
+      ],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-guy-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-guy-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-guy-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-guy-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-guy-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-guy-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-guy-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-guy-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-guy-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-guy-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "hey-guy-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "hey-guy-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-karl-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-karl-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-karl-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "okay-karl-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "okay-karl-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "kai-later-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "kai-later-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "kai-later-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 1,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "kai-later-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-brain",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "kai-later-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "hey-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    },
+    {
+      "file": "kai-later-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 1,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 1
+    },
+    {
+      "file": "kai-later-vincent.mp3",
+      "voice": "vincent",
+      "phrase": "okay-kai",
+      "gain": 0.03,
+      "repeat": 2,
+      "target": null,
+      "ambiguous": false,
+      "expected": 0,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.7/0.7": 0,
+        "0.5/0.5": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 2
+    }
+  ]
+}

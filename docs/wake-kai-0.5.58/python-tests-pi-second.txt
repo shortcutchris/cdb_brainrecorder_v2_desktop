@@ -1,0 +1,29 @@
+Detected locale "de_DE" with character encoding "ISO-8859-1", which is not UTF-8.
+Qt depends on a UTF-8 locale, and has switched to "de_DE.UTF-8" instead.
+If this causes problems, reconfigure your locale. See the locale(1) manual
+for more information.
+.........................../home/chris/projects/cdb_brainrecorder_v2_desktop/venv-local-ai/lib/python3.13/site-packages/dbus_next/service.py:87: DeprecationWarning: 'typing.no_type_check_decorator' is deprecated and slated for removal in Python 3.15
+  @no_type_check_decorator
+..................................................................................................................................................................This plugin does not support propagateSizeHints()
+This plugin does not support propagateSizeHints()
+This plugin does not support propagateSizeHints()
+.....E.........................................................................................................................................{"event": "maintenance_released"}
+..{"event": "maintenance_released"}
+..{"event": "maintenance_released"}
+...........................................
+======================================================================
+ERROR: test_original_ui_and_local_settings_at_two_display_sizes (test_native.NativeTests.test_original_ui_and_local_settings_at_two_display_sizes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cdb-058-test-source/tests/test_native.py", line 164, in test_original_ui_and_local_settings_at_two_display_sizes
+    from ui.main_window import MainWindow
+  File "/tmp/cdb-058-test-source/ui/main_window.py", line 22, in <module>
+    from ui.table_widget import SessionTableWidget
+  File "/tmp/cdb-058-test-source/ui/table_widget.py", line 15, in <module>
+    from translatable_widget import TranslatableWidget
+ModuleNotFoundError: No module named 'translatable_widget'
+
+----------------------------------------------------------------------
+Ran 379 tests in 71.818s
+
+FAILED (errors=1)

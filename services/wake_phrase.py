@@ -20,7 +20,10 @@ GRAMMAR = ['hey brain', 'hey brian', 'hey rain', 'hey train', 'hey jane',
 DEFAULT_PHRASE = 'hey-brain'
 PHRASES = {
     DEFAULT_PHRASE: {'label': WORD, 'pairs': [('hey', 'brain')], 'grammar': GRAMMAR},
-    'hey-kai': {'label': 'Hey KAI', 'pairs': [('hey', 'kai')],
+    # Experimental KAI phrase: natural Pi calls scored .526/.657 for "kai".
+    # Keep exact words, first-word confidence and duration guards; do not
+    # broaden the grammar or change the established Brain/Okay KAI behavior.
+    'hey-kai': {'label': 'Hey KAI', 'pairs': [('hey', 'kai')], 'second_confidence': .5,
                 'grammar': ['hey kai', 'hey guy', 'hey kyle', 'hey kay', 'hey sky',
                             'hey brain', 'okay kai', 'hi kai', '[unk]']},
     'okay-kai': {'label': 'Okay KAI', 'pairs': [('okay', 'kai')],
@@ -35,6 +38,10 @@ def phrase_spec(phrase):
     return PHRASES[phrase]
 
 
+def confidence_thresholds(phrase):
+    return .8, phrase_spec(phrase).get('second_confidence', .9)
+
+
 def model_path():
     return Path(os.environ.get('CDB_WAKE_MODEL', str(Path(__file__).resolve().parents[1] / 'models' / MODEL_NAME)))
 
@@ -45,13 +52,14 @@ def model_ready():
 
 def is_activation(result, phrase=DEFAULT_PHRASE):
     pairs = phrase_spec(phrase)['pairs']
+    first_min, second_min = confidence_thresholds(phrase)
     words = result.get('result', [])
     if ' '.join(w.get('word', '') for w in words) != result.get('text'): return False
     # Wake words occur inside a stream, including after background speech or
     # two repeated calls. Do not require the entire acoustic segment to match.
     for left, right in zip(words, words[1:]):
         if ((left.get('word'), right.get('word')) in pairs
-                and left.get('conf', 0) >= .8 and right.get('conf', 0) >= .9
+                and left.get('conf', 0) >= first_min and right.get('conf', 0) >= second_min
                 and .25 <= right.get('end', 0) - left.get('start', 0) <= 2.5):
             return True
     return False

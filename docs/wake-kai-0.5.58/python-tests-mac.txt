@@ -1,0 +1,30 @@
+.........................../private/tmp/cdb-kai-lab/lib/python3.14/site-packages/dbus_next/service.py:87: DeprecationWarning: 'typing.no_type_check_decorator' is deprecated and slated for removal in Python 3.15
+  @no_type_check_decorator
+......................................................................../opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tempfile.py:484: ResourceWarning: Implicitly cleaning up <HTTPError 403: 'Forbidden'>
+  _warnings.warn(self.warn_message, ResourceWarning)
+..........................................................................................qt.qpa.fonts: Populating font family aliases took 39 ms. Replace uses of missing font family "Sans Serif" with one that exists to avoid this cost. 
+This plugin does not support propagateSizeHints()
+This plugin does not support propagateSizeHints()
+This plugin does not support propagateSizeHints()
+.............................................................E.................................................................................✓ Sprache geladen: de_DE (6 Contexts)
+{"event": "maintenance_released"}
+..{"event": "maintenance_released"}
+..{"event": "maintenance_released"}
+...........................................
+======================================================================
+ERROR: test_followup_tool_inside_grace_keeps_one_player (test_search_loop.SearchLoopTests.test_followup_tool_inside_grace_keeps_one_player)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/chris/Dropbox/git_reps_v3/cdb_brainrecorder_v2_desktop/tests/test_search_loop.py", line 15, in tearDown
+    self.audio.close()
+    ~~~~~~~~~~~~~~~~^^
+  File "/Users/chris/Dropbox/git_reps_v3/cdb_brainrecorder_v2_desktop/services/live_audio.py", line 611, in close
+    try: os.killpg(process.pid, signal.SIGKILL)
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 1] Operation not permitted
+
+----------------------------------------------------------------------
+Ran 379 tests in 69.934s
+
+FAILED (errors=1)
+gc:0: ResourceWarning: gc: 1 uncollectable objects at shutdown; use gc.set_debug(gc.DEBUG_UNCOLLECTABLE) to list them

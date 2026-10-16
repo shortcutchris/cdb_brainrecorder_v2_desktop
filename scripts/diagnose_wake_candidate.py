@@ -24,6 +24,7 @@ from services.wake_diagnostics import AudioDiagnostics
 def candidate_metrics(result, phrase):
     """Only the selected fixed phrase's scores, never arbitrary recognized words."""
     words = result.get('result', [])
+    first_min, second_min = wake_phrase.confidence_thresholds(phrase)
     consistent = ' '.join(w.get('word', '') for w in words) == result.get('text')
     rows = []
     for left, right in zip(words, words[1:]):
@@ -37,8 +38,8 @@ def candidate_metrics(result, phrase):
             continue
         reasons = []
         if not consistent: reasons.append('text_mismatch')
-        if first < .8: reasons.append('first_word_confidence')
-        if second < .9: reasons.append('second_word_confidence')
+        if first < first_min: reasons.append('first_word_confidence')
+        if second < second_min: reasons.append('second_word_confidence')
         if not .25 <= duration <= 2.5: reasons.append('duration')
         rows.append({'first_confidence': round(first, 6),
                      'second_confidence': round(second, 6),

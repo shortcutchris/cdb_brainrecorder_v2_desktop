@@ -99,8 +99,23 @@ class PhraseTests(unittest.TestCase):
             self.assertTrue(is_activation(result(text+' '+text),phrase))
             for other in ('hey brain','hey kai','okay kai','hey guy','okay kyle','okay','kai'):
                 if other!=text:self.assertFalse(is_activation(result(other),phrase))
-            weak=result(text);weak['result'][1]['conf']=.89
+            weak=result(text);weak['result'][1]['conf']=.49 if phrase=='hey-kai' else .89
             self.assertFalse(is_activation(weak,phrase))
+
+    def test_hey_kai_calibration_preserves_other_phrase_and_boundary_guards(self):
+        from services.wake_phrase import is_activation
+        def result(left='hey', right='kai', first=1, second=.525806, duration=.72):
+            return {'text':left+' '+right, 'result':[
+                {'word':left, 'conf':first, 'start':0, 'end':.3},
+                {'word':right, 'conf':second, 'start':.3, 'end':duration}]}
+        for score in (.525806, .657463, .5):
+            self.assertTrue(is_activation(result(second=score), 'hey-kai'))
+        for sample in (result(second=.4999), result(first=.7999), result(duration=.249),
+                       result(duration=2.501), result(right='guy'), result(right='kyle'),
+                       result(right='kay'), result(left='okay'), result(left='hi')):
+            self.assertFalse(is_activation(sample, 'hey-kai'))
+        self.assertFalse(is_activation(result(right='brain',second=.89), 'hey-brain'))
+        self.assertFalse(is_activation(result(left='okay',second=.89), 'okay-kai'))
 
     def test_only_confident_complete_phrase_wakes(self):
         from services.wake_phrase import is_activation

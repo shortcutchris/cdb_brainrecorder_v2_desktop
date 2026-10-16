@@ -1,5 +1,13 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.58 – Hey KAI anhand natürlicher Rufe kalibrieren
+
+Die Testvariante „Hey KAI“ berücksichtigt niedrigere Wortkonfidenzen, die am
+ReSpeaker gemessen wurden. Andere Rufwörter und die Audio-Sperren bleiben
+unverändert. Zwei isolierte natürliche Rufe wurden damit erkannt; dies ist
+noch keine allgemeine oder Langzeitabnahme.
+[Messwerte, Grenzen und Auslieferung](docs/wake-kai-0.5.58/README.md).
+
 ## 0.5.57 – Ereignisströme nach Gesprächswechsel schließen
 
 Ein alter Live-Ereignisstrom bleibt an seine ursprüngliche Gesprächs- und

@@ -145,7 +145,7 @@ class CdbTests(unittest.TestCase):
         from unittest.mock import patch
         from settings import TASK_PROMPT
         b=self.summary_backend();folder=self.root/'meeting';folder.mkdir()
-        source='AA erstellt die Prüfliste bis Mittwoch.';(folder/'transcript.txt').write_text(source)
+        source='AA erstellt die Prüfliste bis Mittwoch.';(folder/'transcript.txt').write_text(source,encoding='utf-8')
         b.store.folder.return_value=folder
         result={'tasks':[{'quote':source,'action':'erstellt die Prüfliste','owner':'AA','due':'Mittwoch'}],'events':[],'decisions':[],'open_points':[]}
         config={'chunk_chars':6000,'prompt':TASK_PROMPT}

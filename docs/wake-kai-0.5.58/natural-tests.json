@@ -1,0 +1,123 @@
+{
+  "date": "2026-10-16",
+  "device": "Raspberry Pi 5 / ReSpeaker XVF3800",
+  "user_present": true,
+  "no_room_audio_saved": true,
+  "no_cloud_conversation_started": true,
+  "baseline_version": "0.5.57",
+  "baseline_okay_kai": {
+    "seconds": 60,
+    "blocks": 1200,
+    "accepted": 0,
+    "candidate_rejected": 1,
+    "partial_wake_word": 2,
+    "candidates": [
+      {
+        "first_confidence": 1,
+        "second_confidence": 0.471757,
+        "duration_seconds": 0.84,
+        "reasons": [
+          "second_word_confidence"
+        ]
+      }
+    ]
+  },
+  "baseline_hey_kai": {
+    "seconds": 45,
+    "blocks": 900,
+    "accepted": 0,
+    "candidate_rejected": 2,
+    "partial_wake_word": 0,
+    "candidates": [
+      {
+        "first_confidence": 1,
+        "second_confidence": 0.525806,
+        "duration_seconds": 0.72
+      },
+      {
+        "first_confidence": 1,
+        "second_confidence": 0.657463,
+        "duration_seconds": 0.78
+      }
+    ]
+  },
+  "calibrated_hey_kai": {
+    "first_minimum": 0.8,
+    "second_minimum": 0.5,
+    "source": "isolated candidate source, not production deployment",
+    "events": [
+      {
+        "event": "candidate",
+        "candidates": [
+          {
+            "first_confidence": 1,
+            "second_confidence": 0.505113,
+            "duration_seconds": 0.72,
+            "reasons": []
+          }
+        ]
+      },
+      {
+        "event": "decision",
+        "blocks": 229,
+        "speech_segments": 1,
+        "accepted": 1,
+        "candidate_rejected": 0,
+        "partial_wake_word": 0,
+        "other_speech": 0,
+        "onset_renewals": 0,
+        "decision": "accepted",
+        "peak_dbfs": -6.6,
+        "rms_dbfs": -33.7
+      },
+      {
+        "event": "candidate",
+        "candidates": [
+          {
+            "first_confidence": 1,
+            "second_confidence": 1,
+            "duration_seconds": 0.72,
+            "reasons": []
+          }
+        ]
+      },
+      {
+        "event": "decision",
+        "blocks": 336,
+        "speech_segments": 2,
+        "accepted": 2,
+        "candidate_rejected": 0,
+        "partial_wake_word": 0,
+        "other_speech": 0,
+        "onset_renewals": 1,
+        "decision": "accepted",
+        "peak_dbfs": -8.7,
+        "rms_dbfs": -34.4
+      },
+      {
+        "event": "finished",
+        "blocks": 900,
+        "speech_segments": 2,
+        "accepted": 2,
+        "candidate_rejected": 0,
+        "partial_wake_word": 0,
+        "other_speech": 0,
+        "onset_renewals": 3,
+        "decision": "accepted",
+        "peak_dbfs": -40.2,
+        "rms_dbfs": -66.1
+      },
+      {
+        "event": "maintenance_released"
+      }
+    ]
+  },
+  "baseline_output_source": "Sanitized numeric fields copied from observed operator command output; utterance-to-segment identity was not independently transcribed.",
+  "maintenance_released_after_each": true,
+  "limits": [
+    "Two accepted natural segments are not a long-term or general recognition guarantee.",
+    "No end-to-end Live greeting/end-command verified by these local tests.",
+    "User voice/location and microphone unchanged; tests were sequential, not identical recorded input."
+  ],
+  "isolated_candidate_sha256": "d2b21606101ba1ac9bddc59f52555668a89d8d99ac11678e819c8be414efb33d"
+}

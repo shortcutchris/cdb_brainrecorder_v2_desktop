@@ -42,3 +42,12 @@ erzeugen keine zusätzlichen unabhängigen Stimmen. `check_wake_multivoice.py`
 prüft beide Modelle mit identischen Dateien, zwei Sekunden Vorlauf, Faktoren
 1/0,03 sowie Einzel- und Doppelruf. Die Dateien dienen nur Tests und gehören
 nicht zur App-Auslieferung oder zum Kunden-Image.
+
+## Gezielte Verwechslungsskripte, 16.10.2026
+
+`confusers/manifest.json` dokumentiert zwei zusätzliche kontinuierliche negative
+Skripte mit Pauli/Otto: ähnlich klingende Anreden und normale Hintergrundsätze.
+Sie wurden nur für lokale Dateitests verwendet, nicht am Pi abgespielt.
+`check_wake_confidence.py` prüft sie zusammen mit den vorherigen Dateien und
+weist genaue Erkennungszahlen, Teilkandidaten und alternative Schwellen aus.
+Auswertung und Grenzen: [Hey-KAI-Kalibrierung](../../../docs/wake-kai-0.5.58/README.md).

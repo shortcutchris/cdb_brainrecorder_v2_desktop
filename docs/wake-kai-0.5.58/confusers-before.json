@@ -1,0 +1,299 @@
+{
+  "synthetic_files_only": true,
+  "model": "vosk-model-small-en-us-0.15",
+  "seconds": 4.290794999993523,
+  "fixtures": {
+    "tts_Hey,__20261016_082130.mp3": "df7328817e01f7b070b73b78b8e189d76f02c0bed789d9c95194a91d2733bee2",
+    "tts_Hey,__20261016_082134.mp3": "0aadde0626bd4e249f309ccca09b69af8350ee7cca9623222185a5bc54b63ad5"
+  },
+  "cases": [
+    {
+      "file": "tts_Hey,__20261016_082130.mp3",
+      "gain": 1,
+      "phrase": "hey-brain",
+      "duration_seconds": 12.678125,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.8/0.4": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 3
+    },
+    {
+      "file": "tts_Hey,__20261016_082130.mp3",
+      "gain": 1,
+      "phrase": "hey-kai",
+      "duration_seconds": 12.678125,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.8/0.4": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 3
+    },
+    {
+      "file": "tts_Hey,__20261016_082130.mp3",
+      "gain": 1,
+      "phrase": "okay-kai",
+      "duration_seconds": 12.678125,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.8/0.4": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 3
+    },
+    {
+      "file": "tts_Hey,__20261016_082130.mp3",
+      "gain": 0.3,
+      "phrase": "hey-brain",
+      "duration_seconds": 12.678125,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.8/0.4": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 4
+    },
+    {
+      "file": "tts_Hey,__20261016_082130.mp3",
+      "gain": 0.3,
+      "phrase": "hey-kai",
+      "duration_seconds": 12.678125,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.8/0.4": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 3
+    },
+    {
+      "file": "tts_Hey,__20261016_082130.mp3",
+      "gain": 0.3,
+      "phrase": "okay-kai",
+      "duration_seconds": 12.678125,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.8/0.4": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 3
+    },
+    {
+      "file": "tts_Hey,__20261016_082130.mp3",
+      "gain": 0.03,
+      "phrase": "hey-brain",
+      "duration_seconds": 12.678125,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.8/0.4": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 4
+    },
+    {
+      "file": "tts_Hey,__20261016_082130.mp3",
+      "gain": 0.03,
+      "phrase": "hey-kai",
+      "duration_seconds": 12.678125,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.8/0.4": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 3
+    },
+    {
+      "file": "tts_Hey,__20261016_082130.mp3",
+      "gain": 0.03,
+      "phrase": "okay-kai",
+      "duration_seconds": 12.678125,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.8/0.4": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 3
+    },
+    {
+      "file": "tts_Hey,__20261016_082134.mp3",
+      "gain": 1,
+      "phrase": "hey-brain",
+      "duration_seconds": 18.9475,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.8/0.4": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 7
+    },
+    {
+      "file": "tts_Hey,__20261016_082134.mp3",
+      "gain": 1,
+      "phrase": "hey-kai",
+      "duration_seconds": 18.9475,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.8/0.4": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 3
+    },
+    {
+      "file": "tts_Hey,__20261016_082134.mp3",
+      "gain": 1,
+      "phrase": "okay-kai",
+      "duration_seconds": 18.9475,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.8/0.4": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 3
+    },
+    {
+      "file": "tts_Hey,__20261016_082134.mp3",
+      "gain": 0.3,
+      "phrase": "hey-brain",
+      "duration_seconds": 18.9475,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.8/0.4": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 7
+    },
+    {
+      "file": "tts_Hey,__20261016_082134.mp3",
+      "gain": 0.3,
+      "phrase": "hey-kai",
+      "duration_seconds": 18.9475,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.8/0.4": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 3
+    },
+    {
+      "file": "tts_Hey,__20261016_082134.mp3",
+      "gain": 0.3,
+      "phrase": "okay-kai",
+      "duration_seconds": 18.9475,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.8/0.4": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 3
+    },
+    {
+      "file": "tts_Hey,__20261016_082134.mp3",
+      "gain": 0.03,
+      "phrase": "hey-brain",
+      "duration_seconds": 18.9475,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.8/0.4": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 7
+    },
+    {
+      "file": "tts_Hey,__20261016_082134.mp3",
+      "gain": 0.03,
+      "phrase": "hey-kai",
+      "duration_seconds": 18.9475,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.8/0.4": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 3
+    },
+    {
+      "file": "tts_Hey,__20261016_082134.mp3",
+      "gain": 0.03,
+      "phrase": "okay-kai",
+      "duration_seconds": 18.9475,
+      "actual": 0,
+      "threshold_counts": {
+        "0.8/0.9": 0,
+        "0.8/0.8": 0,
+        "0.8/0.7": 0,
+        "0.8/0.5": 0,
+        "0.8/0.4": 0
+      },
+      "candidates": [],
+      "nonempty_segments": 3
+    }
+  ]
+}

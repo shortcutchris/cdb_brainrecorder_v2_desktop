@@ -35,6 +35,13 @@ class CandidateDiagnosticTests(unittest.TestCase):
         result = self.result(second=float('nan'))
         self.assertEqual(candidate_metrics(result, 'okay-kai')[0]['reasons'], ['invalid_numeric_result'])
 
+    def test_diagnostic_uses_selected_phrase_threshold(self):
+        result = self.result(second=.525806)
+        result['text'] = 'hey kai'; result['result'][0]['word'] = 'hey'
+        self.assertEqual(candidate_metrics(result, 'hey-kai')[0]['reasons'], [])
+        result['result'][1]['conf'] = .4999
+        self.assertEqual(candidate_metrics(result, 'hey-kai')[0]['reasons'], ['second_word_confidence'])
+
     def test_capture_failure_releases_lease_and_restores_detector(self):
         response = Mock()
         response.__enter__ = Mock(return_value=response)

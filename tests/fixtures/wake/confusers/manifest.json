@@ -1,0 +1,28 @@
+{
+  "generated_at": "2026-10-16",
+  "provider": "ElevenLabs",
+  "model": "eleven_multilingual_v2",
+  "language": "de",
+  "speed": 1,
+  "stability": 0.65,
+  "synthetic": true,
+  "note": "Continuous negative scripts; reference labels are synthesis prompts, not independently transcribed speech. No room recording or Pi playback.",
+  "clips": [
+    {
+      "file": "kai-confusers-pauli.mp3",
+      "voice": "pauli",
+      "voice_id": "S87WJpstXs0Ge2ukRiXJ",
+      "prompt": "Hey, Karl. Hey, Kyle. Hey, Guy. Hey, Sky. Hey, Brian. Hey, Rain. Hey, Jana. Okay, Karl. Okay, Kyle. Okay, Guy. Okay, Sky. Kai, kannst du bitte sp\u00e4ter kommen? Ich habe keine Zeit. Das Wetter ist heute sch\u00f6n.",
+      "target": null,
+      "ambiguous": false
+    },
+    {
+      "file": "kai-confusers-otto.mp3",
+      "voice": "otto",
+      "voice_id": "FTNCalFNG5bRnkkaP5Ug",
+      "prompt": "Hey, Karl. Hey, Kyle. Hey, Guy. Hey, Sky. Hey, Brian. Hey, Rain. Hey, Jana. Okay, Karl. Okay, Kyle. Okay, Guy. Okay, Sky. Kai, kannst du bitte sp\u00e4ter kommen? Ich habe keine Zeit. Das Wetter ist heute sch\u00f6n.",
+      "target": null,
+      "ambiguous": false
+    }
+  ]
+}
