@@ -168,3 +168,54 @@ entsteht durch die absichtliche Erneuerung der Wake-Instanz beim Phrase-Wechsel,
 nicht durch einen zweiten behaupteten Backend-Neustart. Der vollständige
 Vorversuch bleibt unter `baseline-057-before-hey-kai-calibration` erhalten.
 Alte und neue Messzeiten werden nicht zusammengezählt.
+
+
+## Kontinuierlicher KAI-Nachtest bei unverändertem produktivem Stand
+
+Der neue `scripts/check_wake_kai_stability.py` lief ausschließlich auf dem Mac
+mit dem aktuellen Erkenner-Quellhash, Vosk 0.3.44 und vorhandenen synthetischen
+Dateien. Kein Pi-Mikrofon, keine Wiedergabe, keine Cloud-Sitzung, keine Änderung
+am laufenden 0.5.58 oder an dessen Messfenster. Ein einziger Detektor wurde über
+die ganze Folge beibehalten; seine produktive interne Segmenterneuerung blieb
+aktiv. Alle Frames sind wie beim Pi 50 ms lang.
+
+[Messwerte](continuous-stress-mac.json): zunächst **3.600 Sekunden synthetische
+Hintergrundsprache ohne Aktivierung**, danach **300 gemischte Zyklen mit genau
+450 erwarteten und erkannten Rufen**, ohne zusätzliche Aktivierung. Die Folge
+wechselt drei Stimmen, Einzel-/Doppelrufe und die beiden Verwechslungsskripte.
+Alle Zyklen bestanden. Insgesamt 10.260 Sekunden simulierte Audiodauer wurden
+in 48,10 Sekunden Wandzeit verarbeitet. Das ist **kein realer Standby-Test**.
+Die positive Erkennung erfolgte 1,25–1,60 Sekunden nach jeweiligem Dateianfang
+(einschließlich Dateivorlauf und Segmentabschluss), nicht gemessen ab menschlichem
+Sprechbeginn und nicht als Cloud-Verbindungszeit.
+
+Der gemessene RSS des lokalen Testprozesses lag anfangs bei 161,17 MiB,
+zwischenzeitlich bei etwa 166,52 MiB und zuletzt bei 160,06 MiB. Daraus wird
+weder eine Pi-Speicherverbesserung noch eine 24h-Speichergarantie abgeleitet.
+Wiederholungen derselben Dateien sind keine 450 unabhängigen Sprecherproben.
+
+**Offene Rauschgrenze:** Der unveränderte deterministische Vergleich mit zwei
+synthetischen Audiominuten Vorlauf pro Fall, vier Grundrauschpegeln und drei
+Sprachpegeln ergibt für Hey KAI jetzt **5/12** bestandene Kombinationen statt
+**3/12** vor der Kalibrierung. Keine Rausch-Aktivierung in den zwölf Fällen.
+[Neue Einzelmesswerte](noise-mac.json),
+[alter Vergleich](../wake-phrases-0.5.53/hey-kai-noise-mac.json).
+
+| Rauschen, Standardabweichung PCM | Sprachfaktor 1 | 0,03 | 0,003 |
+| --- | --- | --- | --- |
+| 0 | erkannt | erkannt | erkannt |
+| 4 | erkannt | erkannt | nicht erkannt |
+| 16 | nicht erkannt | nicht erkannt | nicht erkannt |
+| 64 | nicht erkannt | nicht erkannt | nicht erkannt |
+
+Damit ist die Rauschtoleranz weiterhin eingeschränkt, auch bei nominell vollem
+Dateipegel. Diese Fehlfälle dürfen nicht durch die erfolgreiche kontinuierliche
+Serie verdeckt werden. Die Daten sind keine Messung des tatsächlichen akustischen
+Signal-Rausch-Verhältnisses beim Benutzer; es wurde kein Raumton gespeichert.
+Die neue Schwelle allein löst diese Grenze nicht. Weitere Eingrenzung muss
+Decoderentscheidung, vollständige Wortpaare und tatsächliche Mikrofonbedingungen
+auseinanderhalten. Das Gesamtziel bleibt offen.
+
+Diese Ergänzung betrifft nur Laborwerkzeug, Messwerte und Dokumentation.
+Kein weiteres App-Paket nötig; das Kunden-Image enthält weder Laborstimmen noch
+Tests. Der produktive 24h-Lauf wird hierfür nicht zurückgesetzt.

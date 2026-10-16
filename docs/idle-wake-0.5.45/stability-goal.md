@@ -62,6 +62,14 @@ niemals einen Pi-/Backend-Neustart während einer Aufnahme auslösen.
 
 ## Fortschritt
 
+- **Nachtest 0.5.58 ohne Eingriff in den Pi:** Ein kontinuierlicher lokaler
+  Detektor bestand eine simulierte Stunde Negativsprache und 300 gemischte
+  Zyklen mit 450/450 erwarteten Rufen ohne Fehlstart. Zugleich besteht der
+  deterministische Rauschvergleich nur 5/12 Kombinationen (vorher 3/12),
+  einschließlich Aussetzern bei vollem Dateipegel und stärkerem Grundrauschen.
+  Diese Grenze bleibt offen; kein Ersatz für natürliche oder 24h-Abnahme.
+  [Messwerte und genaue Grenzen](../wake-kai-0.5.58/README.md#kontinuierlicher-kai-nachtest-bei-unverändertem-produktivem-stand).
+
 - **0.5.58 installiert, Hey KAI bewusst ausgewählt:** Niedrige Konfidenz für
   „Kai“ am realen ReSpeaker nachgewiesen; nur Hey KAI auf 0,80/0,50 kalibriert.
   Zwei isolierte natürliche Rufe angenommen, 12/12 synthetische positive Fälle

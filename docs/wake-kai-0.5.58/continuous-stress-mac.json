@@ -1,0 +1,3606 @@
+{
+  "synthetic_only": true,
+  "accelerated_not_wall_clock": true,
+  "continuous_detector": true,
+  "phrase": "hey-kai",
+  "thresholds": [
+    0.8,
+    0.5
+  ],
+  "source_sha256": "d2b21606101ba1ac9bddc59f52555668a89d8d99ac11678e819c8be414efb33d",
+  "vosk_version": "0.3.44",
+  "model": "vosk-model-small-en-us-0.15",
+  "fixtures": {
+    "kai-confusers-pauli.mp3": "df7328817e01f7b070b73b78b8e189d76f02c0bed789d9c95194a91d2733bee2",
+    "kai-confusers-otto.mp3": "0aadde0626bd4e249f309ccca09b69af8350ee7cca9623222185a5bc54b63ad5",
+    "hey-kai-vincent.mp3": "0526479eef596299c581d435a9317119c8d1f97bbefbfa505eeed93da06c9cdb",
+    "hey-kai-pauli.mp3": "c95c112de788c30ee824cc51c527197c29ad5c55c80bff739437980fde7ad090",
+    "hey-kai-otto.mp3": "9bed69049a76ceaee94366309de98192729887d72e137396ce6b79722faf07b1"
+  },
+  "negative_phase": {
+    "audio_seconds": 3600.0,
+    "unexpected": 0,
+    "segments": 202,
+    "rss_mb": 166.47
+  },
+  "cycles": [
+    {
+      "cycle": 1,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 2,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 3,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 4,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 5,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 6,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 7,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 8,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 9,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 10,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 11,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 12,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 13,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 14,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 15,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 16,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 17,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 18,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 19,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 20,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 21,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 22,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 23,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 24,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 25,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 26,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 27,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 28,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 29,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 30,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 31,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 32,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 33,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 34,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 35,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 36,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 37,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 38,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 39,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 40,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 41,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 42,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 43,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 44,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 45,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 46,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 47,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 48,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 49,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 50,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 51,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 52,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 53,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 54,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 55,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 56,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 57,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 58,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 59,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 60,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 61,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 62,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 63,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 64,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 65,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 66,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 67,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 68,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 69,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 70,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 71,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 72,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 73,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 74,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 75,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 76,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 77,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 78,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 79,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 80,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 81,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 82,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 83,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 84,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 85,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 86,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 87,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 88,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 89,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 90,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 91,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 92,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 93,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 94,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 95,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 96,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 97,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 98,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 99,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 100,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 101,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 102,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 103,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 104,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 105,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 106,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 107,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 108,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 109,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 110,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 111,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 112,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 113,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 114,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 115,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 116,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 117,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 118,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 119,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 120,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 121,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 122,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 123,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 124,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 125,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 126,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 127,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 128,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 129,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 130,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 131,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 132,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 133,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 134,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 135,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 136,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 137,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 138,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 139,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 140,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 141,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 142,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 143,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 144,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 145,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 146,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 147,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 148,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 149,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 150,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 151,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 152,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 153,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 154,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 155,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 156,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 157,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 158,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 159,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 160,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 161,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 162,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 163,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 164,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 165,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 166,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 167,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 168,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 169,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 170,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 171,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 172,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 173,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 174,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 175,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 176,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 177,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 178,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 179,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 180,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 181,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 182,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 183,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 184,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 185,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 186,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 187,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 188,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 189,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 190,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 191,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 192,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 193,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 194,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 195,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 196,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 197,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 198,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 199,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 200,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 201,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 202,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 203,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 204,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 205,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 206,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 207,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 208,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 209,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 210,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 211,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 212,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 213,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 214,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 215,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 216,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 217,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 218,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 219,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 220,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 221,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 222,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 223,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 224,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 225,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 226,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 227,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 228,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 229,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 230,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 231,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 232,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 233,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 234,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 235,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 236,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 237,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 238,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 239,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 240,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 241,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 242,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 243,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 244,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 245,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 246,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 247,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 248,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 249,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 250,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 251,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 252,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 253,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 254,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 255,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 256,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 257,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 258,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 259,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 260,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 261,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 262,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 263,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 264,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 265,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 266,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 267,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 268,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 269,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 270,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 271,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 272,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 273,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 274,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 275,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 276,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 277,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 278,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 279,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 280,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 281,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 282,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 283,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 284,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 285,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 286,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 287,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 288,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 289,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 290,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 291,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 292,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 293,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 294,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 295,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.5
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 296,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.35,
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 297,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 298,
+      "fixture": "hey-kai-vincent.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.55,
+        1.4
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 299,
+      "fixture": "hey-kai-pauli.mp3",
+      "expected": 1,
+      "detections": 1,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.25
+      ],
+      "passed": true
+    },
+    {
+      "cycle": 300,
+      "fixture": "hey-kai-otto.mp3",
+      "expected": 2,
+      "detections": 2,
+      "unexpected": 0,
+      "target_audio_latency_seconds": [
+        1.6,
+        1.55
+      ],
+      "passed": true
+    }
+  ],
+  "checkpoints": [
+    {
+      "phase": "negative",
+      "audio_seconds": 534.75,
+      "unexpected": 0,
+      "rss_mb": 166.31
+    },
+    {
+      "phase": "negative",
+      "audio_seconds": 1069.5,
+      "unexpected": 0,
+      "rss_mb": 166.36
+    },
+    {
+      "phase": "negative",
+      "audio_seconds": 1604.25,
+      "unexpected": 0,
+      "rss_mb": 166.47
+    },
+    {
+      "phase": "negative",
+      "audio_seconds": 2139.0,
+      "unexpected": 0,
+      "rss_mb": 166.47
+    },
+    {
+      "phase": "negative",
+      "audio_seconds": 2673.75,
+      "unexpected": 0,
+      "rss_mb": 166.47
+    },
+    {
+      "phase": "negative",
+      "audio_seconds": 3208.5,
+      "unexpected": 0,
+      "rss_mb": 166.47
+    },
+    {
+      "phase": "mixed",
+      "cycle": 25,
+      "audio_seconds": 4150.45,
+      "failed_cases": 0,
+      "rss_mb": 166.5
+    },
+    {
+      "phase": "mixed",
+      "cycle": 50,
+      "audio_seconds": 4709.6,
+      "failed_cases": 0,
+      "rss_mb": 166.5
+    },
+    {
+      "phase": "mixed",
+      "cycle": 75,
+      "audio_seconds": 5260.2,
+      "failed_cases": 0,
+      "rss_mb": 166.5
+    },
+    {
+      "phase": "mixed",
+      "cycle": 100,
+      "audio_seconds": 5819.85,
+      "failed_cases": 0,
+      "rss_mb": 166.52
+    },
+    {
+      "phase": "mixed",
+      "cycle": 125,
+      "audio_seconds": 6370.05,
+      "failed_cases": 0,
+      "rss_mb": 166.52
+    },
+    {
+      "phase": "mixed",
+      "cycle": 150,
+      "audio_seconds": 6930.0,
+      "failed_cases": 0,
+      "rss_mb": 166.52
+    },
+    {
+      "phase": "mixed",
+      "cycle": 175,
+      "audio_seconds": 7480.45,
+      "failed_cases": 0,
+      "rss_mb": 166.52
+    },
+    {
+      "phase": "mixed",
+      "cycle": 200,
+      "audio_seconds": 8039.6,
+      "failed_cases": 0,
+      "rss_mb": 166.52
+    },
+    {
+      "phase": "mixed",
+      "cycle": 225,
+      "audio_seconds": 8590.2,
+      "failed_cases": 0,
+      "rss_mb": 160.05
+    },
+    {
+      "phase": "mixed",
+      "cycle": 250,
+      "audio_seconds": 9149.85,
+      "failed_cases": 0,
+      "rss_mb": 160.05
+    },
+    {
+      "phase": "mixed",
+      "cycle": 275,
+      "audio_seconds": 9700.05,
+      "failed_cases": 0,
+      "rss_mb": 160.06
+    },
+    {
+      "phase": "mixed",
+      "cycle": 300,
+      "audio_seconds": 10260.0,
+      "failed_cases": 0,
+      "rss_mb": 160.06
+    }
+  ],
+  "audio_seconds": 10260.0,
+  "wall_seconds": 48.1,
+  "cpu_seconds": 48.02,
+  "initial_rss_mb": 161.17,
+  "final_rss_mb": 160.06,
+  "passed": true
+}
