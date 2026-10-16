@@ -526,3 +526,69 @@ RSS ca.1308 MB, Temperatur51,8 °C. Diese Stichprobe beweist weder dauerhafte
 Ressourcenstabilität noch Erkennungsqualität. Ursprünglicher 24h-Plan erhalten;
 der angekündigte Raumtest unterbricht die Ruhezeitevidenz. Alle neuen Dateien
 sind Laborwerkzeuge, Tests und Doku; kein Kundenpaket und kein SD-Image geändert.
+
+## Kurze Ausschnitte: Tiny gegen Base, mit und ohne Namenshinweis
+
+[64 reproduzierbare Dateiprüfungen](whisper-short-window-comparison.json),
+[Laborrezept](reproduce_window_comparison.py): dieselben vier synthetischen
+positiven Stimmen, die ersten zwei Sekunden dreier ähnlicher Negativtexte sowie
+exakte digitale Stille. Je ohne Vorlauf und mit 1,6 Sekunden digitaler Stille,
+je Tiny/Base sowie ohne/mit `Nabu.` als Schreibhinweis. Das sind wiederholte
+Varianten bekannter Dateien, keine neuen unabhängigen Sprecher und keine
+Raum-Abnahme. Die abgeschnittenen Negativtexte sind ausdrücklich nur Präfixe.
+Entscheidungsregel unverändert: erste zwei normalisierte Wörter `okay`/`ok` und
+exakt `nabu`; acht Sekunden Testtimeout, zwei CPU-Threads, Kontext 256.
+
+| Modell / Hinweis | Positive | Negative ausgelöst | Median / Maximum |
+| --- | --- | --- | --- |
+| Tiny ohne Hinweis | 0/8 | 0/8 | 0,340 / 1,788 s |
+| Tiny mit Nabu | 8/8 | 0/8 | 0,343 / 1,814 s |
+| Base ohne Hinweis | 0/8 | 0/8 | 0,614 / 3,147 s |
+| Base mit Nabu | 8/8 | 0/8 | 0,624 / 0,719 s |
+
+Ohne Hinweis erscheinen bei den positiven Dateien Schreibweisen wie „Naboo“,
+„na bo“, „Nabel“ oder „Nabum“. Das beweist keine Unhörbarkeit: Die strikte
+Namensprüfung verwirft diese Ausgaben bewusst. Eine nachträglich erweiterte
+Akzeptanzliste wäre eine andere Entscheidung und müsste getrennt gegen neue
+Verwechslungsfälle geprüft werden. Digitale Stille erzeugt teils Musikmarker,
+aber keine Aktivierung. Das Ergebnis erklärt den früheren Raumfehlstart noch
+nicht. Base hat in dieser Dateiprüfung keinen Qualitätsvorsprung gegenüber Tiny.
+
+Base wurde ausschließlich in den temporären Pi-Laborordner geladen. Die
+147.951.465 Bytes stimmen mit dem offiziellen Git-LFS-Zeiger überein:
+SHA256 `60ed5bc3dd14eea856493d334349b405782ddcaf0028d4b5df4088345fba2efe`.
+[Gewichte und Herkunft](https://huggingface.co/ggerganov/whisper.cpp/blob/main/ggml-base.bin).
+Dateimessung mit niedriger Prozesspriorität, kein Mikrofon, keine Wiedergabe,
+keine Änderung der App oder ihrer Modelle. Laufzeiten enthalten Prozessstart
+und Modellladen; kein isolierter Dauer-Inferenzbenchmark. Base bleibt außerhalb
+von Kundenpaket und Image. Für eine spätere Aufnahme wären gepinnter Download,
+Runtime-/Factory-Pfad und Upgrade-Abnahme weiterhin erforderlich.
+
+### Base im laufenden Raumfenster: weiterhin keine Freigabe
+
+[Raumbericht](acoustic-streaming-base-probe.json), **16.10.2026,
+14:28:52–14:31:18 Europe/Berlin**. Gleicher Mac-Studio-Ausgang und dieselben vier
+Dateien wie im vorherigen Tiny-Versuch, korrigierter Abschluss offener Prüfungen,
+unverändertes Kandidatenfenster und dieselbe strikte Entscheidungsregel:
+**1/2 positive Rufe erkannt, 0/2 negative Dateien aktiviert**. Otto bestätigt,
+Ben abgelehnt; beide Verwechslungstexte abgelehnt. Fünf native Prüfungen dauerten
+0,640–0,768 Sekunden. Beim angenommenen Ruf beträgt der Abstand vom geschätzten
+akustischen Beginn bis zur Annahme rund 2,1 Sekunden; das ist kein Live-
+Verbindungs- oder Begrüßungswert, weil kein Gespräch gestartet wurde.
+
+Die Vergleichsaufnahmen sind nicht identisch: Schon der primäre Otto-Score
+schwankt zwischen den beiden Raumversuchen von 0,594 auf 0,996. Deshalb ist dies
+kein kontrollierter Nachweis, dass Base grundsätzlich besser als Tiny wäre.
+Der weiterhin verpasste Ben-Ruf erreicht im Primärmodell 0,965; hier verwirft
+also die neue Prüfung einen vom bestehenden Modell erkannten Ruf. Eine
+produktive Zuschaltung würde damit eine Regression riskieren. **Nicht ausgeliefert.**
+Für einen fairen nächsten Vergleich müssten mehrere Prüfer exakt denselben
+flüchtigen Kandidatenblock erhalten; die gemessene Rechenlast wäre dann aber
+Laborlast, nicht die Latenz eines einzelnen produktiven Prüfers.
+
+Wartung freigegeben, produktives `listening`, frische Audioblöcke (0,37 Sekunden),
+Beobachter PID1894368 weiterhin aktiv. Stichprobe 14:31:36: Browser28,13 % eines
+Kerns, RSS1308,2 MB, 51,25 °C, keine aktiven Warnungen. Original-Beobachtungsplan
+unverändert; dieser Raumtest unterbricht erneut den Ruhezeitnachweis. Keine
+Raumaudiodateien oder Raumtranskripte gespeichert. App-Version, Rufwort,
+Lautstärke, Mikrofon-/DSP-Konfiguration und Kunden-Image unverändert.

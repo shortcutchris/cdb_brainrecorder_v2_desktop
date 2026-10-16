@@ -255,3 +255,14 @@ Versionswechsel; Rohdaten/Plan bleiben erhalten, nicht als saubere Standzeit zä
   erneute Nachfrage bis Rückkehr. Produktionsengine unverändert. Zwei bekannte
   Wartungstests 13:49–13:51 und 13:59–14:02 unterbrechen die Ruhezeit; Original-
   Beobachtungsplan bleibt erhalten. [Detaillierte Evidenz und nächste Schritte](../wake-word-research/2026-10-16/README.md).
+
+- **16.10., Streaming-/Kurzfensterprüfung:** RAM-begrenzter Prototyp mit genau
+  einem abbrechbaren Verifier und 100 isolierten Freigabezyklen implementiert,
+  zwölf isolierte Pi-Tests bestanden. Tiny: Dateistrom4/4 positive und0/2 negative,
+  im Raum jedoch0/2 positive und1/2 negative. Base:64 Dateivergleiche zeigen
+  Namensschreibweisen als wichtigen Einfluss, Raumtest nur1/2 positive und0/2
+  negative. Ein vom Primärmodell erkannter Ruf wird zusätzlich verworfen.
+  **Keine Produktionsintegration**, Ziel weiter offen. Späte Prüfergebnisse im
+  Laborablauf sauber vor dem nächsten Clip abschließen; alte Rohdaten behalten.
+  Wartung14:14–14:17 und14:28–14:31 sowie CPU-Labortests nicht als ungestörte
+  Bereitschaft zählen. [Details](../wake-word-research/2026-10-16/README.md).
