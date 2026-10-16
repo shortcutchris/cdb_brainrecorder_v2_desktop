@@ -169,6 +169,8 @@ Aktives Modell und Teststatus bleiben klar getrennt. Ergebnisse bleiben pro Mode
 
 Eine Desktop-Anwendung zum Aufzeichnen, Verwalten und Wiedergeben von Audio-Sessions mit Raspberry Pi Touch-Optimierung.
 
+> In Entwicklung: [cdbMOBILE als Pi-Fernbedienung, Kopplung und Abnahme](docs/remote-control/IMPLEMENTATION-63.md). Noch nicht produktiv freigeschaltet.
+
 ## Raspberry-Pi-Grundfunktionen
 
 Der Pi verwendet die HTML-Studio-Oberfläche mit dem vorhandenen Python-Backend, der bisherigen Meeting-Datenbank und lokalen Whisper-/Ollama-Modellen. Installation, Autostart, isolierte Funktionsvorschau und Rückkehr zur bisherigen Oberfläche: [docs/STUDIO.md](docs/STUDIO.md). Gestaltung und Prüfungsumfang: [design-qa.md](design-qa.md). Die gemeinsame Python-Engine ist auf Version 0.2.6 gepinnt. Zustandsregeln und Entwurfswiederherstellung: [docs/STUDIO.md](docs/STUDIO.md).

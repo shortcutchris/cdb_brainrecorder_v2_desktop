@@ -81,6 +81,8 @@ class StudioApp:
 
         from services.live_conversation import LiveConversation
         self.live = LiveConversation(self.cdb, self.store.root, audio_config=self.live_audio_config)
+        from services.remote_control import RemoteControl
+        self.remote_control = RemoteControl(self)
         from services.remote_display import DisplayHub
         self.display = DisplayHub(self.live, self.display_account)
         self.display_preferences = self.store.root/'display-enabled.json'
@@ -97,6 +99,8 @@ class StudioApp:
         self.clock_ready = False
         self.ambient_error = ''
         self.output_busy_until = 0
+        from services.remote_control_transport import create_channel
+        self.remote_channel = create_channel(self, start=not preview and backend is None)
         self.ambient_thread = threading.Thread(target=self.ambient_loop, daemon=True)
         self.ambient_thread.start()
 
@@ -127,8 +131,11 @@ class StudioApp:
         if reason: raise ValueError(reason)
         if not self.wake.enabled or self.wake.account != self.wake_account():
             raise ValueError('Brain-Anmeldung oder Freigabe hat sich geändert.')
+        return self._start_device_live_locked(self.wake.account)
+
+    def _start_device_live_locked(self, binding):
+        """Caller owns the control/controller/recorder locks and input consent."""
         self.require('live')
-        binding = self.wake.account
         path = self.live.root/('areas-'+self.live._selection_key(binding)+'.json')
         try: remembered = json.loads(path.read_text())
         except (OSError, ValueError): raise ValueError('Im Live-Gespräch zuerst Wissensbereiche auswählen.') from None
@@ -140,6 +147,9 @@ class StudioApp:
         except Exception:
             self.live.end(lease)
             raise
+
+    def remote_live_command(self, envelope, verified_grant):
+        return self.remote_control.command(envelope, verified_grant)
 
     def tick_alarm(self):
         """Called under the device control locks; Live does not defer an alarm."""
@@ -324,6 +334,7 @@ class StudioApp:
         state['level'] = self.probe.level(raw) if raw else 0
         state['capabilities'] = self.capabilities(state)
         state['activity'] = self.activity(state).public()
+        state['remote_control'] = self.remote_channel.public()
         state['management'] = self.management.public()
         state['first_start'] = self.first_start.public(state['management'])
         state['cdb'] = self.cdb.public()
@@ -439,6 +450,9 @@ class StudioApp:
             if path == '/api/device/restart':
                 if body.get('confirm') is not True:raise ValueError('Neustart bitte bestätigen.')
                 return self.management.restart_device(self,VERSION)
+            if path.startswith('/api/remote-control/'):
+                if path != '/api/remote-control/revoke': self.require('configure')
+                return self.remote_channel.enqueue(path.removeprefix('/api/remote-control/'), body)
             if path == '/api/management/enroll':
                 self.require('configure')
                 return self.management.enroll(body.get('code'))
@@ -628,6 +642,7 @@ class StudioApp:
     def close(self):
         with self.control_lock:
             self.closing=True
+            if hasattr(self, 'remote_channel'): self.remote_channel.close()
             self.ambient_stop.set()
             self.wake.test_until=0
             self.wake.suspend()

@@ -63,10 +63,11 @@ Der Mira-Prototyp verwendet dagegen einen eigenen Server, andere Kopplungsrichtu
 und WebSockets. Diese beiden Protokolle dürfen nicht gleichgesetzt werden.
 Siehe [Codeprüfung und belegter Serverbestand](../mira-receiver-review.md).
 
-**Geplante Erweiterung, noch nicht implementiert:** Eine Bluetooth-Tastenfernbedienung
-und die CDB-Mobile-App sollen dieselben gesicherten Gesprächsaktionen bedienen.
+**Erweiterung im Feature-Branch, noch nicht ausgeliefert:** Die CDB-Mobile-App
+steuert denselben Pi-Gesprächsdienst über einen eigenen CDB-Control-Kanal.
+Bluetooth-Tastenfernbedienungen sind zunächst zurückgestellt.
 Persönliche Steuerrechte bleiben von Geräteadministration und lesender
-Bildschirmkopplung getrennt. [Entwurf und geprüfte Integrationspunkte](../remote-control/README.md).
+Bildschirmkopplung getrennt. [Umsetzung, Vertrag und Abnahmegrenzen](../remote-control/IMPLEMENTATION-63.md).
 
 ## Wo die Server laufen
 

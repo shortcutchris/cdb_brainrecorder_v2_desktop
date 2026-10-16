@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-16",
+  "scope": "feature branch; synthetic identities/audio ports; no production deployment",
+  "python": "3.14 on macOS",
+  "remote_tests": {
+    "command": "python -m unittest discover -s tests -p test_remote*py -q",
+    "passed": 47
+  },
+  "full_suite": {
+    "total": 454,
+    "passed": 453,
+    "errors": 1,
+    "error": "Existing macOS test_search_loop.test_followup_tool_inside_grace_keeps_one_player cleanup: PermissionError from os.killpg"
+  },
+  "search_loop_isolated": {
+    "passed": 8,
+    "note": "Isolated success does not clear the full-suite cleanup failure"
+  },
+  "browser": {
+    "viewport": [
+      1280,
+      720
+    ],
+    "states": [
+      "unpaired",
+      "pending local confirmation (synthetic)"
+    ],
+    "document_overflow": false,
+    "footer_button_px": [
+      208,
+      56
+    ],
+    "footer_button_top_px": 624,
+    "section_heading_top_px": [
+      104,
+      104
+    ]
+  },
+  "pending": [
+    "native mobile acceptance",
+    "staging combined system",
+    "physical Pi pairing/control",
+    "production release approval"
+  ],
+  "studio_regression": {
+    "passed": 52
+  }
+}
