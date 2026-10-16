@@ -143,7 +143,7 @@ class Observer:
         self.last_poll_at = now
         self.failures = 0
         phrase = wake.get('phrase', 'hey-brain')
-        if phrase not in ('hey-brain', 'hey-kai', 'okay-kai'): phrase = 'unknown'
+        if phrase not in ('hey-brain', 'hey-kai', 'okay-kai', 'okay-nabu'): phrase = 'unknown'
         if self.wake_phrase != phrase:
             self.emit({'type': 'wake_phrase', 'phrase': phrase, 'at': utc(now)})
             self.wake_phrase = phrase

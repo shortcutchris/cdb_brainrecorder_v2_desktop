@@ -160,3 +160,11 @@ JSONL-Zeilen. Validierung mit dem echten kurzen Zwischenstand: korrekt
 `pending`, keine vorweggenommene 24-Stunden-Abnahme. Das Auswertungsskript
 ändert keine App-Dateien, benötigt keine Auslieferung und hat keinen Einfluss
 auf bestehende Geräte oder Kunden-Images.
+
+## Nabu-Zuordnung am 16. Oktober
+
+Der separate Beobachter kennt jetzt `okay-nabu`; ein Registry-Vergleichstest
+verhindert erneutes Auseinanderlaufen mit der App. Nur Messdienst um 12:55:35
+Europe/Berlin neu gestartet. Plan und historische unknown-Daten bleiben erhalten.
+Die anschließenden autorisierten WAV-/Raumtests sind keine passive Ruhezeit.
+[Messkorrektur, Ergebnisse und Grenzen](../observer-nabu-20261016/README.md).

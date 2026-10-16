@@ -74,6 +74,16 @@ class StabilitySummaryTests(unittest.TestCase):
         self.assertIn('mixed_or_unknown_wake_phrases',result['review_items'])
         self.assertEqual(result['status'],'needs_review')
 
+    def test_nabu_fix_does_not_relabel_old_unknown_samples_or_hide_restart(self):
+        for row in self.rows: row['wake_phrase']='okay-nabu'
+        self.rows[0]['wake_phrase']='unknown'
+        self.events.append(self.event('observer_started',15))
+        result=self.report()
+        self.assertEqual(result['wake_phrases'],['okay-nabu','unknown'])
+        self.assertIn('mixed_or_unknown_wake_phrases',result['review_items'])
+        self.assertIn('observer_restart_requires_review',result['review_items'])
+        self.assertEqual(result['status'],'needs_review')
+
     def test_duplicate_samples_cannot_fill_missing_time(self):
         self.rows = [r for i, r in enumerate(self.rows) if i % 2 == 0 for _ in range(2)]
         result = self.report()

@@ -14,6 +14,32 @@ class StabilityTests(unittest.TestCase):
         self.events = []
         self.observer = monitor.Observer(self.events.append)
 
+    def test_all_application_phrases_survive_standalone_observer(self):
+        # The deployed observer has no app imports; catch registry drift here.
+        from services.wake_detectors import PHRASES
+        for phrase in PHRASES:
+            with self.subTest(phrase=phrase):
+                self.observer.poll({'phrase':phrase, 'instance':'a', 'detections':0,
+                                    'state':'listening'}, {'state':'ended','active':False}, 100)
+                self.assertEqual(self.observer.wake_phrase, phrase)
+
+    def test_nabu_wake_keeps_phrase_and_measured_idle_evidence(self):
+        wake={'phrase':'okay-nabu','instance':'a','detections':0,'state':'listening'}
+        live={'state':'ended','active':False}
+        for second in range(100, 110): self.observer.poll(wake, live, second)
+        self.observer.poll({**wake,'detections':1,'state':'waiting'},
+                           {'state':'connecting','active':True},110)
+        event=next(e for e in self.events if e['type']=='wake_observed')
+        self.assertEqual(event['phrase'],'okay-nabu')
+        self.assertEqual(event['idle_seconds'],10)
+        self.assertEqual(event['idle_evidence_revision'],2)
+
+    def test_unknown_phrase_remains_unknown_without_leaking_text(self):
+        self.observer.poll({'phrase':'untrusted room text','instance':'a','detections':0},
+                           {'state':'ended','active':False},100)
+        self.assertEqual(self.observer.wake_phrase,'unknown')
+        self.assertNotIn('untrusted room text',str(self.events))
+
     def test_phrase_change_cannot_inherit_old_idle_duration(self):
         wake={'instance':'a','detections':0,'state':'listening','phrase':'hey-brain'}
         live={'state':'idle','active':False}

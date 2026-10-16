@@ -20,7 +20,7 @@ import uuid
 import wave
 
 from services.live_audio import native_capture_command
-from services.wake_phrase import PhraseDetector, PHRASES, DEFAULT_PHRASE
+from services.wake_detectors import create_detector, PHRASES, DEFAULT_PHRASE
 from services.wake_diagnostics import AudioDiagnostics
 
 
@@ -29,6 +29,8 @@ def main():
     parser.add_argument('--clips', nargs='+', required=True, type=Path)
     parser.add_argument('--output', required=True, type=Path)
     parser.add_argument('--phrase', choices=PHRASES, default=DEFAULT_PHRASE)
+    parser.add_argument('--external-playback', action='store_true',
+                        help='Emit playback cues for an external room speaker; no Pi playback.')
     parser.add_argument('--quiet-seconds', type=float, default=1,
                         help='Bounded real quiet time before each acoustic call (1–120 seconds).')
     args = parser.parse_args()
@@ -50,13 +52,15 @@ def main():
         with urllib.request.urlopen(req,timeout=5) as response: return json.load(response)
     health=request('/api/management/health')
     assert health['activity']=='idle', 'Device is occupied; no test started'
-    speaker=request('/api/speakers')
-    assert speaker['available'] and not speaker['muted'] and speaker['volume']>0, 'Speaker unavailable'
+    speaker=None
+    if not args.external_playback:
+        speaker=request('/api/speakers')
+        assert speaker['available'] and not speaker['muted'] and speaker['volume']>0, 'Speaker unavailable'
     capture=playback=None
     reserved=False
     ident=str(uuid.uuid4())
     report={'synthetic_acoustic':True,'production_live_handoff':False,
-            'phrase':args.phrase,
+            'phrase':args.phrase, 'external_playback':args.external_playback,
             'version':health['version'],'quiet_seconds':args.quiet_seconds,'started_epoch':time.time(),'cases':[]}
     def stop(*_): raise SystemExit('Acoustic test interrupted')
     signal.signal(signal.SIGTERM,stop)
@@ -65,14 +69,17 @@ def main():
         config={'device':request('/api/state')['config']['device']}
         command=native_capture_command(config)
         capture=subprocess.Popen(command,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,start_new_session=True,bufsize=0)
-        detector=PhraseDetector(args.phrase);measure=AudioDiagnostics();buffer=b''
+        detector=create_detector(args.phrase);measure=AudioDiagnostics();buffer=b''
         for path,duration in clips:
             row={'clip':path.name,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'detections':0,'decisions':[]}
             start=time.monotonic();last_data=start;played=False
             while time.monotonic()-start < args.quiet_seconds+duration+3:
                 if not played and time.monotonic()-start >= args.quiet_seconds:
-                    playback=subprocess.Popen(['paplay','--device='+speaker['selected'],str(path)],
-                                              stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,start_new_session=True)
+                    if args.external_playback:
+                        print(json.dumps({'event':'play_clip','clip':path.name}),flush=True)
+                    else:
+                        playback=subprocess.Popen(['paplay','--device='+speaker['selected'],str(path)],
+                                                  stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,start_new_session=True)
                     played=True;row['play_at_seconds']=round(time.monotonic()-start,2)
                 if not select.select([capture.stdout],[],[],.2)[0]:
                     if time.monotonic()-last_data > 3: raise RuntimeError('No microphone frames')
@@ -87,7 +94,10 @@ def main():
                         row['decisions'].append({'at_seconds':round(time.monotonic()-start,2),'category':detector.last_decision})
                         row['decisions']=row['decisions'][-16:]
                     row['detections']+=int(detected)
-            playback.wait(timeout=2);row['playback_exit']=playback.returncode;playback=None
+            if playback is not None:
+                playback.wait(timeout=2);row['playback_exit']=playback.returncode;playback=None
+            else:
+                row['playback_exit']=None  # External controller must supply playback evidence.
             row['audio']=measure.snapshot();report['cases'].append(row)
     finally:
         for proc in (playback,capture):

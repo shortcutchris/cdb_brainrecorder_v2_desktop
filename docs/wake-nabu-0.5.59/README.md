@@ -104,3 +104,11 @@ kontrollierten Wechsel; [Teilauswertung](previous-partial-observation.json)
 ist keine bestandene 24h- oder Acht-Stunden-Abnahme. Die bestehende Automation
 ist auf Nabu, neue Frist und den geprüften SSH-Weg über den Mac Studio angepasst.
 Das übergeordnete Arbeitsziel bleibt pausiert; Beobachtung läuft ohne Reparaturen.
+
+## Nachtrag: Messdienst korrigiert, Raumtest fehlgeschlagen
+
+Am 16.10. wurde die fehlende Nabu-Zuordnung ausschließlich im Messdienst ergänzt.
+Plan/Rohdaten bleiben erhalten, der Neustart bleibt sichtbar. Der erneut gute
+Dateitest (3/3, 0/9, 100/100) steht einem fehlgeschlagenen echten Raumtest vom
+Mac-Studio-Lautsprecher zum ReSpeaker gegenüber: **0/3 positive Rufe erkannt**.
+[Details, Tests und offene Grenzen](../observer-nabu-20261016/README.md).

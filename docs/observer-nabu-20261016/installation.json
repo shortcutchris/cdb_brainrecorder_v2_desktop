@@ -1,0 +1,11 @@
+{
+  "observer_pid": 1894368,
+  "backend_pid": 1882091,
+  "backend_pid_unchanged": true,
+  "observer_sha256": "8039f2ea2cf2ceca134de3a7094a349b95406fca5df9446ec596e8496ffbb0c0",
+  "plan_unchanged": true,
+  "latest_phrase": "okay-nabu",
+  "old_raw_files_preserved": true,
+  "observer_restarted_at": "2026-10-16T10:55:35.557461+00:00",
+  "verification_note": "First check at two seconds read old status and failed; later fresh status verified, no second restart."
+}

@@ -225,3 +225,12 @@ bekommt ihre eigene App-/Image-Einflussbewertung.
   Kein menschlicher Erst-Ruf-Test nach Update behauptet. KAI-Fail bleibt bestehen.
   Neuer Beobachter aktiv ab 16.10. 12:31:15; alter Lauf getrennt archiviert.
   [Nachweise](../wake-nabu-0.5.59/README.md). Gesamtziel bleibt pausiert/offen.
+
+- **16.10., begrenzte Messkorrektur und WAV-Test auf Nutzerauftrag:** Nabu in
+  Beobachter-Positivliste ergänzt, 44 lokale/37 Pi-Tests bestanden. Nur Messdienst
+  um 12:55:35 Europe/Berlin neu gestartet, Originalplan/Rohdaten erhalten.
+  Erneute Dateiregression 3/3, 0/9, 100/100; echter Raumtest über Mac-Studio-
+  Lautsprecher dagegen **0/3 positive Rufe**, 0/1 negativer Fehlstart. Akustischer
+  Fehler bleibt offen. Keine Änderung an Modell/Firmware oder App; nach Test
+  wieder normale Bereitschaft. Gesamtziel weiterhin pausiert, keine Abnahme.
+  [Nachweise](../observer-nabu-20261016/README.md).

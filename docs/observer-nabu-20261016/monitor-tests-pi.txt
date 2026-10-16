@@ -1,0 +1,6 @@
+Host: Raspberry Pi, isolated /tmp/cdb-observer-fix-tests
+Command: PYTHONPATH=/home/chris/.local/share/cdb-recorder-app/current /home/chris/projects/cdb_brainrecorder_v2_desktop/venv-local-ai/bin/python -m unittest discover -s tests -q
+Observed stderr result:
+Ran 37 tests in 1.827s
+OK
+The transfer emitted harmless macOS extended-attribute tar warnings.

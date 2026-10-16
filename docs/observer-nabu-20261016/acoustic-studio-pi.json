@@ -1,0 +1,138 @@
+{
+  "playback_host": "Mac Studio",
+  "playback_device": "BuiltInSpeakerDevice",
+  "system_default_audio_changed": false,
+  "playbacks": [
+    {
+      "index": 0,
+      "expected": true,
+      "start_epoch": 1792148193.556119,
+      "end_epoch": 1792148198.3178592,
+      "returncode": 0,
+      "output": "Playing on Mac Studio-Lautsprecher, duration 3.72, native rate",
+      "error": ""
+    },
+    {
+      "index": 1,
+      "expected": true,
+      "start_epoch": 1792148203.244166,
+      "end_epoch": 1792148206.13534,
+      "returncode": 0,
+      "output": "Playing on Mac Studio-Lautsprecher, duration 2.0, native rate",
+      "error": ""
+    },
+    {
+      "index": 2,
+      "expected": true,
+      "start_epoch": 1792148211.3804889,
+      "end_epoch": 1792148219.590494,
+      "returncode": 0,
+      "output": "Playing on Mac Studio-Lautsprecher, duration 7.2213125, native rate",
+      "error": ""
+    },
+    {
+      "index": 3,
+      "expected": false,
+      "start_epoch": 1792148224.6123729,
+      "end_epoch": 1792148227.4615948,
+      "returncode": 0,
+      "output": "Playing on Mac Studio-Lautsprecher, duration 2.0, native rate",
+      "error": ""
+    }
+  ],
+  "capture_returncode": 0,
+  "capture_error": "",
+  "capture": {
+    "synthetic_acoustic": true,
+    "production_live_handoff": false,
+    "phrase": "okay-nabu",
+    "external_playback": true,
+    "version": "0.5.59",
+    "quiet_seconds": 3.0,
+    "started_epoch": 1792148190.2795868,
+    "cases": [
+      {
+        "clip": "1.wav",
+        "sha256": "e7a77a44f4544442d7cece5a8cfcd8c60d4cd0d2d272af20dba03cbe741eb86b",
+        "detections": 0,
+        "decisions": [],
+        "play_at_seconds": 3.03,
+        "playback_exit": null,
+        "audio": {
+          "blocks": 196,
+          "speech_segments": 0,
+          "accepted": 0,
+          "candidate_rejected": 0,
+          "partial_wake_word": 0,
+          "other_speech": 0,
+          "onset_renewals": 0,
+          "decision": "none",
+          "peak_dbfs": -9.8,
+          "rms_dbfs": -37.0
+        }
+      },
+      {
+        "clip": "2.wav",
+        "sha256": "d26a300a7f76fd84cf9ce76d22c61d1a8253837be4dc65f8a5f13ab28d37f176",
+        "detections": 0,
+        "decisions": [],
+        "play_at_seconds": 3.01,
+        "playback_exit": null,
+        "audio": {
+          "blocks": 356,
+          "speech_segments": 0,
+          "accepted": 0,
+          "candidate_rejected": 0,
+          "partial_wake_word": 0,
+          "other_speech": 0,
+          "onset_renewals": 0,
+          "decision": "none",
+          "peak_dbfs": -14.3,
+          "rms_dbfs": -39.0
+        }
+      },
+      {
+        "clip": "3.wav",
+        "sha256": "9047338e844aed7b23ce5601baebab3af9853ef49b4a2dc9a11f50565c8cec42",
+        "detections": 0,
+        "decisions": [],
+        "play_at_seconds": 3.01,
+        "playback_exit": null,
+        "audio": {
+          "blocks": 620,
+          "speech_segments": 0,
+          "accepted": 0,
+          "candidate_rejected": 0,
+          "partial_wake_word": 0,
+          "other_speech": 0,
+          "onset_renewals": 0,
+          "decision": "none",
+          "peak_dbfs": -25.2,
+          "rms_dbfs": -48.3
+        }
+      },
+      {
+        "clip": "1.wav",
+        "sha256": "ef63936b116a808d1023d57c41d19846c798e81ab1fc3c3daffcfa442afdb28f",
+        "detections": 0,
+        "decisions": [],
+        "play_at_seconds": 3.03,
+        "playback_exit": null,
+        "audio": {
+          "blocks": 780,
+          "speech_segments": 0,
+          "accepted": 0,
+          "candidate_rejected": 0,
+          "partial_wake_word": 0,
+          "other_speech": 0,
+          "onset_renewals": 0,
+          "decision": "none",
+          "peak_dbfs": -16.5,
+          "rms_dbfs": -45.8
+        }
+      }
+    ],
+    "maintenance_released": true,
+    "finished_epoch": 1792148229.4666693
+  }
+}
