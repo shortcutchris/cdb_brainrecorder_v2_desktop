@@ -1,5 +1,14 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.61 – Handy-Fernbedienung für den Staging-Test
+
+Unter **Einstellungen → Gerät & Verwaltung → Handy-Fernbedienung** lässt sich
+cdbMOBILE per Einmalcode und ausdrücklicher Bestätigung am Pi koppeln. Start,
+Ende und Stummschaltung verwenden denselben geschützten Gesprächsdienst.
+Der Server muss die Funktion freischalten; bis dahin bleibt sie nicht verfügbar.
+Bestehende Brain-, Audio- und Wake-Einstellungen bleiben erhalten.
+[Bedienung, Prüfungen und Auslieferungsstand](docs/remote-control/IMPLEMENTATION-63.md).
+
 ## 0.5.60 – Nabu-Erkennung nachvollziehbar prüfen
 
 Die lokale Diagnose hält jetzt auch Modellwerte unterhalb der Erkennungsschwelle

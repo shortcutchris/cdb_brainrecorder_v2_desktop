@@ -1,6 +1,8 @@
 # Mobile Fernbedienung: Umsetzung zu Issue 63
 
-Stand 16.10.2026. Feature-Branch, **nicht produktiv installiert**.
+Stand 16.10.2026. Feature-Branch: **0.5.61 für den angeforderten Staging-Gerätetest vorbereitet**.
+Der Pi-Test setzt keinen Merge oder eine Serverfreischaltung voraus. Der tatsächliche
+Installationsnachweis wird nach dem signierten Update unten ergänzt.
 [Freigegebenes Issue](https://github.com/BIK-GmbH/cdb-knowledge-mobile/issues/63) ·
 [Gemeinsamer Vertrag](contract-v1.md).
 
@@ -130,3 +132,19 @@ Der Pi kürzt nur die Anzeige; die Bereichs-ID bleibt unverändert. Der Grenztes
 verhindert abgelehnte Statusmeldungen bei längeren Bestandsnamen. Der oben
 genannte Gesamtlauf stammt vor dieser kleinen Änderung; danach bestanden die
 48 gezielten Remote-Tests.
+
+## Pi-Kandidat 0.5.61
+
+Am 16.10.2026 bestanden **455 Tests in 74,280 Sekunden** mit der vorhandenen
+Python-3.13-Runtime direkt auf dem Pi, in einem separaten temporären Quell- und
+Testverzeichnis. Die Ports für Remote-Kommandos und Audio sind dabei injiziert;
+dies ist noch kein gekoppelter Smartphone-Test. Im alten Qt-Übersetzer erschien
+eine abgefangene Ausgabe-Encoding-Ausnahme (SSH-Locale ISO-8859-1), außerdem eine
+ResourceWarning beim Prozessende; der Testlauf endete mit `OK` und Exit 0. Der
+bekannte macOS-Cleanup-Fehler ist damit nicht allgemein behoben.
+
+Das nächste signierte App-Paket trägt Version 0.5.61, Ausgangsversion 0.5.60 und
+Sequenz 18. Runtime und Bestandsdatenformat bleiben gleich. Die bestehende
+Pi-Anmeldung verwendet bereits `https://staging.cdbos.de`; kein Kontowechsel
+ist erforderlich. TQS #2098, WebOS #1409 und Mobile #64 werden hier weder
+gemergt noch ausgerollt. Die Freigabe des Gesamtsystems bleibt separat.
