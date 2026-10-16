@@ -73,3 +73,34 @@ Der vorherige KAI-Lauf darf nach dem Engine-/Versionswechsel nicht als
 abgeschlossener 24h-Nabu-Nachweis gelten. Er wird als Teilmessung erhalten.
 Automatische Reparaturen bleiben ausgeschaltet; das langfristige Stabilitätsziel
 wird durch diesen Wortwechsel nicht als abgeschlossen markiert.
+
+
+## Bestätigte Auslieferung
+
+Signierte Sequenz **16**, App **0.5.59**, Quellcommit
+`104a315f9c699d273fd609aaf01c9e8c866ea7c0`.
+Release `3c71dc9b0f8c1fe561b15dbd86d303cdb0c157108eacb239389dbec41ef6bffd`.
+Vier Laufzeitdateien geändert: Engine-Adapter, Wake-Kindprozess, HTML-Auswahl,
+Versionsquelle. [Installation](deployment.json): Runtime-Fingerprint identisch,
+Wartung atomar reserviert, Einstellungen während Update erhalten. Danach
+[bewusste Auswahl](phrase-activation.json) über die App: Hey KAI → Okay Nabu,
+andere Audio-/Konto-/Wissens-/Zieleinstellungen unverändert.
+
+[Sechs Bereitschaftsprüfungen](installation-check.json) bestanden: API/HTML 0.5.59,
+ein stabiler eigener Wake-Kindprozess, Nabu eingeschaltet und `listening`.
+Die installierten vier Datei-Hashes stimmen mit dem signierten Manifest überein.
+[Echtes Touchdisplay](display-after.png) zeigt „Bereit für Okay Nabu“.
+Noch kein natürlicher akustischer Erfolg nach dem Update behauptet.
+
+[Image-Export](image-export-check.json): 121 erlaubte Quelldateien einschließlich
+Engine und gepinnter Wake-Anforderungen. Baupaket `/tmp/cdb-059-image-kit`, kein
+gebautes oder boot-geprüftes SD-Image.
+
+Neue reine Beobachtung: **16.10.2026, 12:31:15 bis 17.10.2026, 12:31:15**
+Europe/Berlin, [Plan](observation-plan.json), echter Prozess **1882621** aktiv.
+Der vorige KAI-Lauf von rund **3.96 Stunden** bleibt unter
+`baseline-058-before-nabu-return` erhalten. Er enthält Dateitest-CPU-Last und den
+kontrollierten Wechsel; [Teilauswertung](previous-partial-observation.json)
+ist keine bestandene 24h- oder Acht-Stunden-Abnahme. Die bestehende Automation
+ist auf Nabu, neue Frist und den geprüften SSH-Weg über den Mac Studio angepasst.
+Das übergeordnete Arbeitsziel bleibt pausiert; Beobachtung läuft ohne Reparaturen.

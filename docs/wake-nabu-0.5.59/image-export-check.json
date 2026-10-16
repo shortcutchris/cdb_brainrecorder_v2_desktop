@@ -1,0 +1,7 @@
+{
+  "version": "0.5.59",
+  "source_commit": "104a315f9c699d273fd609aaf01c9e8c866ea7c0",
+  "file_count": 121,
+  "status": "prepared-not-boot-certified",
+  "includes_nabu_engine_and_pinned_requirements": true
+}

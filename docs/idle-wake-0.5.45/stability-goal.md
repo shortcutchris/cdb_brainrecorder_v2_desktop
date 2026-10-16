@@ -7,8 +7,8 @@ prüfen und Fehler beheben. Das Codex-Ziel bleibt bis zur Abnahme aktiv.
 ## Abnahmeplan
 
 - **24 Stunden echte Standzeit:** der produktive Pi sammelt im aktuellen Lauf ab
-  16.10.2026, 08:34:20 Europe/Berlin bis 17.10.2026, 08:34:20 technische Messwerte
-  für 0.5.58 mit Hey KAI. `plan.json` des Messdienstes bleibt maßgeblich.
+  16.10.2026, 12:31:15 Europe/Berlin bis 17.10.2026, 12:31:15 technische Messwerte
+  für 0.5.59 mit Okay Nabu. `plan.json` des Messdienstes bleibt maßgeblich.
   Vorläufe 0.5.45–0.5.52 wurden nach Korrekturen, Diagnose-Erweiterung oder dem
   ausdrücklichen Auftrag für neue Rufwörter archiviert und zählen nicht als
   bestandene Dauerläufe. Erwartet
@@ -216,3 +216,12 @@ bekommt ihre eigene App-/Image-Einflussbewertung.
   zeigt fehlendes erstes Wort, nicht nur zu niedrige Kandidatenkonfidenz.
   [Aktueller Stand und Wiederaufnahme](../wake-kai-0.5.58/README.md).
   Arbeit auf Benutzerwunsch pausiert; Pi-Beobachter läuft weiter, kein Reset.
+
+
+- **0.5.59 auf Nutzerwunsch zurück zu Okay Nabu:** Dedizierte lokale
+  microWakeWord-Engine wieder angeboten, signiert installiert, Auswahl bewusst
+  umgestellt. 386 verschiedene Python-Tests mit dokumentiertem Paket-Nachtest,
+  111 JS-Tests, 3/3 Referenzrufe, 0/9 negative Referenzen und 100/100 Zyklen geprüft.
+  Kein menschlicher Erst-Ruf-Test nach Update behauptet. KAI-Fail bleibt bestehen.
+  Neuer Beobachter aktiv ab 16.10. 12:31:15; alter Lauf getrennt archiviert.
+  [Nachweise](../wake-nabu-0.5.59/README.md). Gesamtziel bleibt pausiert/offen.

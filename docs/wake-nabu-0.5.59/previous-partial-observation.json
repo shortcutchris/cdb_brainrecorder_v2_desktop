@@ -1,0 +1,91 @@
+{
+  "status": "pending",
+  "overall_goal_complete": false,
+  "note": "Telemetry only. Review hourly RSS trend, actual UI/audio and the full acceptance matrix separately.",
+  "start_epoch": 1792132460.6390362,
+  "end_epoch": 1792218860.6390362,
+  "analyzed_until_epoch": 1792146702.488961,
+  "elapsed_hours": 3.9561,
+  "completed_observation": false,
+  "valid_metric_samples": 948,
+  "invalid_samples": 0,
+  "covered_seconds": 14220.0,
+  "coverage_percent": 99.8466,
+  "largest_gap_seconds": 20.461,
+  "planned_window_coverage_percent": 16.4583,
+  "last_sample_age_seconds": 35.461,
+  "versions": [
+    "0.5.58",
+    "0.5.59"
+  ],
+  "browser_generation_changes": 0,
+  "wake_phrases": [
+    "hey-kai",
+    "unknown"
+  ],
+  "backend_instance_changes": 1,
+  "observer_starts": 1,
+  "alerts": [],
+  "review_items": [
+    "runtime_restart_requires_review",
+    "missing_or_mixed_versions",
+    "mixed_or_unknown_wake_phrases",
+    "observation_gaps_require_review",
+    "real_wake_after_eight_hours_missing"
+  ],
+  "idle_browser_cpu_percent_of_one_core": {
+    "samples": 946,
+    "min": 27.6,
+    "median": 29.6,
+    "p95": 30.86,
+    "max": 92.32
+  },
+  "idle_health_ms": {
+    "samples": 947,
+    "min": 4.14,
+    "median": 4.99,
+    "p95": 98.51,
+    "max": 104.6
+  },
+  "browser_rss_mb": {
+    "samples": 948,
+    "min": 1299.22,
+    "median": 1320.81,
+    "p95": 1323.62,
+    "max": 1329.39
+  },
+  "hourly_browser_rss": [
+    {
+      "hour": 0,
+      "samples": 240,
+      "median_rss_mb": 1320.68
+    },
+    {
+      "hour": 1,
+      "samples": 240,
+      "median_rss_mb": 1320.28
+    },
+    {
+      "hour": 2,
+      "samples": 240,
+      "median_rss_mb": 1320.9
+    },
+    {
+      "hour": 3,
+      "samples": 228,
+      "median_rss_mb": 1321.565
+    }
+  ],
+  "observed_wakes": [
+    {
+      "detected_epoch": 1792132966.6862562,
+      "observed": true,
+      "idle_seconds": 506.0,
+      "phrase": "hey-kai",
+      "idle_evidence_revision": 2,
+      "connected_seconds": 4.0,
+      "first_output_seconds": 5.0
+    }
+  ],
+  "qualified_long_idle_wakes": 0
+}
