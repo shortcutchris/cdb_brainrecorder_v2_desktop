@@ -1,0 +1,40 @@
+{
+  "start_epoch": 1792108398.7737296,
+  "end_epoch": 1792194798.7737296,
+  "started_at": "2026-10-15T23:53:18.773730+00:00",
+  "ends_at": "2026-10-16T23:53:18.773730+00:00",
+  "mode": "observe_only",
+  "status": "running",
+  "updated_at": "2026-10-16T00:06:04.078398+00:00",
+  "latest": {
+    "at": "2026-10-16T00:06:03.850549+00:00",
+    "browser": {
+      "processes": 9,
+      "renderers": 2,
+      "rss_mb": 1306.61,
+      "renderer_rss_mb": 627.2,
+      "cpu_percent": 32.26
+    },
+    "browser_generation": [
+      [
+        805908,
+        8935707
+      ]
+    ],
+    "wake_enabled": true,
+    "wake_phrase": "okay-kai",
+    "available_mb": 13567.8,
+    "temperature_c": 54.55,
+    "activity": "idle",
+    "version": "0.5.56",
+    "wake_state": "listening",
+    "health_ms": 5.6
+  },
+  "alerts": [],
+  "counts_since_process_start": {
+    "wake_observed": 0,
+    "wake_connected": 0,
+    "wake_failed": 0
+  },
+  "last_wake": null
+}

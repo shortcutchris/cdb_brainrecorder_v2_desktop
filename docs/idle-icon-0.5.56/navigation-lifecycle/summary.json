@@ -1,0 +1,64 @@
+{
+  "overall_goal_complete": false,
+  "browser": "Chrome/142.0.7444.59",
+  "started_at_epoch": 1792109073.087753,
+  "ended_at_epoch": 1792109141.0673902,
+  "guards": 34,
+  "all_idle": true,
+  "forced_gc": false,
+  "closed": true,
+  "phases": [
+    {
+      "name": "baseline",
+      "mode": "original",
+      "documents_before": 8,
+      "documents_after": 8,
+      "wall_seconds": 5.0283122062683105,
+      "task_seconds": 0.005834,
+      "embedder_bytes_after": 1358984
+    },
+    {
+      "name": "after_stress",
+      "mode": "original",
+      "documents_before": 862,
+      "documents_after": 862,
+      "wall_seconds": 5.01307487487793,
+      "task_seconds": 0.12279499999999999,
+      "embedder_bytes_after": 37464480
+    },
+    {
+      "name": "after_navigation",
+      "mode": "guarded",
+      "documents_before": 866,
+      "documents_after": 431,
+      "wall_seconds": 5.086731195449829,
+      "task_seconds": 0.46944699999999995,
+      "embedder_bytes_after": 23572720
+    },
+    {
+      "name": "guarded_iterations",
+      "mode": "guarded",
+      "documents_before": 2,
+      "documents_after": 2,
+      "wall_seconds": 5.014268636703491,
+      "task_seconds": 0.005283000000000038,
+      "embedder_bytes_after": 684328
+    },
+    {
+      "name": "guarded_later",
+      "mode": "guarded",
+      "documents_before": 2,
+      "documents_after": 2,
+      "wall_seconds": 5.014319181442261,
+      "task_seconds": 0.005253000000000063,
+      "embedder_bytes_after": 598984
+    }
+  ],
+  "sha256": {
+    "runner.py": "9be4c2efe8723a038231a90b392fe56696cd3b0c2ad205eb33ae1dee97eb25df",
+    "passive-counts.json": "d525ba1fa47e1337fca240a79599b06decad524d816ab8f1a0593b727275dc1f",
+    "cleanup.json": "dd3c46f44276ed8f616b49ae33fcde491ff6dfb00f99c7fca248fedef53c978f",
+    "passive-counter.py": "17ba6c3a513100be81017f0ceb08d087ad566e56035284754873296fba9ff255",
+    "profile.json": "e9ed3757206bef82524792098191b2c73cc1f8d25779abd9a33eb02e587ca978"
+  }
+}

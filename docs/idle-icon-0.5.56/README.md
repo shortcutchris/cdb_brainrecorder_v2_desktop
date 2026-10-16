@@ -86,3 +86,10 @@ fand einen nativen Schlüsselbund-Dialog über der ansonsten bereiten App.
 Er wurde ohne Neustart geschlossen. Dieser manuelle Eingriff und die noch
 ungeklärte Herkunft müssen in die Langzeitbewertung eingehen; reine API-Werte
 belegen keinen störungsfreien UI-Betrieb.
+
+Die [passive Netzwerkmessung und isolierte Navigationsprobe](navigation-lifecycle/README.md)
+finden keine wiederholten Play-Symbol-Anfragen im kurzen Produktionsfenster.
+In der minimalen Testseite räumen sich alte SVG-Dokumente nach Navigation auch
+ohne erzwungene Speicherbereinigung auf. Die produktive Restlast bleibt damit
+ungeklärt; ein Browser-Neustart wurde daraus nicht abgeleitet. Das zusätzliche
+Diagnoseintervall ist für die laufende Messung ausdrücklich dokumentiert.
