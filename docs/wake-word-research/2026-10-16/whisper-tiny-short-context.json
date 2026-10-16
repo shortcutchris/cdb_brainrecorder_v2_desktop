@@ -1,0 +1,44 @@
+{
+  "model": "whisper-tiny-multilingual",
+  "model_sha256": "be07e048e1e599ad46341c8d2a135645097a538221678b7acdd1b1919c6e1b21",
+  "binary_sha256": "edc5829b59668a3697392c8c4425db27de39e02fee9dcf35549961a5f3d4ecaa",
+  "audio_context": 256,
+  "greedy": true,
+  "no_prompt": true,
+  "threads": 2,
+  "synthetic_files_only": true,
+  "microphone": false,
+  "speaker": false,
+  "cases": [
+    {
+      "file": "otto-pos/positive.wav",
+      "expected": true,
+      "sha256": "8e3e02991ae170f52ca909bf8b27732c6a07e5e00b885d5dad18ca2ead10ad4e",
+      "audio_seconds": 1.068125,
+      "wall_seconds": 0.29196599099668674,
+      "returncode": 0,
+      "synthetic_transcript": "Ok, nable",
+      "error": ""
+    },
+    {
+      "file": "ben-pos/positive.wav",
+      "expected": true,
+      "sha256": "d4435cb0e11eefc342443a6464abcd18d5df687ac43646e52d7f0abc955967ad",
+      "audio_seconds": 0.882375,
+      "wall_seconds": 0.32540317298844457,
+      "returncode": 0,
+      "synthetic_transcript": "Ok, Nabum.",
+      "error": ""
+    },
+    {
+      "file": "cdb-nabu-german/confuser.wav",
+      "expected": false,
+      "sha256": "2c984111dbd599ab36cf29200b09638d23612ab0b45d7fb35833a01b8f29b450",
+      "audio_seconds": 4.0,
+      "wall_seconds": 0.37985548601136543,
+      "returncode": 0,
+      "synthetic_transcript": "Ok, n'a gut. Ok, dann bis morgen. Na du?",
+      "error": ""
+    }
+  ]
+}

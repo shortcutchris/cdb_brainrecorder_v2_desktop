@@ -324,3 +324,135 @@ offen; die Frage wird bis zu seiner Rückkehr nicht wiederholt. Produktiv bleibt
 nur Laborwerkzeuge/Dokumentation und hat keinen App-Update- oder SD-Image-Inhalt.
 Der laufende Beobachtungsplan bleibt erhalten; zusätzliche CPU-Testlast ist
 keine ungestörte Ruhezeit. Das Gesamtziel bleibt aktiv und nicht abgenommen.
+
+
+## ReSpeaker-Raumvergleich der deutschen Zusatzprüfung
+
+Am 16.10.2026 von **13:49:04 bis 13:51:31 Europe/Berlin** wurden vier bekannte
+synthetische Dateien über den Mac-Studio-Lautsprecher abgespielt, jeweils nach
+30 Sekunden echter Ruhe. Derselbe 16-kHz-Mono-Eingang ging an microWakeWord und
+nach dem begrenzten Mitschnitt im RAM an den unveränderten deutschen Vosk-
+Versuch. [Vollständige technische Messwerte](acoustic-vosk-comparison.json).
+
+| Gespielte Datei | microWakeWord | Deutscher Versuch |
+| --- | --- | --- |
+| Otto: Okay Nabu | erkannt, Maximum 0,91719 | verpasst |
+| Ben: Okay Nabu | erkannt, Maximum 0,97734 | verpasst |
+| Bekannter Gegenclip: Okay, na gut … | **Fehlaktivierung**, Maximum 0,99141 | abgelehnt |
+| Otto-Negativtext, erste 7,8 Sekunden | abgelehnt, Maximum 0,66250 | abgelehnt |
+
+Damit **2/2 positive und 1/2 negative Dateien ausgelöst** bei microWakeWord,
+**0/2 positive und 0/2 negative** bei der deutschen Zusatzprüfung. Die besseren
+Datei-Ergebnisse von Vosk übertragen sich hier nicht auf den Raum. Ein AND-
+Filter mit dieser Prüfung würde beide funktionierenden Rufe blockieren; ein
+solcher Produktivumbau wird verworfen. Die hohe Modellwahrscheinlichkeit des
+Gegenclips zeigt auch, weshalb eine bloße Schwellenänderung nicht ausreicht.
+
+Der Gegenclip mit 7,8 Sekunden ist ein explizit gekürzter synthetischer
+Laborclip, keine neu behauptete unabhängige Stimme. Trefferframes (z.B. neun
+Frames im ersten Ruf) sind keine neun Gespräche. Vosk-Zeiten von 0,115–0,344
+CPU-Sekunden betreffen Auswertung nach der Aufnahme, **keine gemessene Live-
+Antwortzeit**. Es wurden weder Raum-PCM noch erkannte Raumtexte gespeichert.
+Die optionale Zweitprüfung des Laborwerkzeugs gibt nur feste Trefferzahlen aus.
+Acht gezielte Tests, einschließlich Schutz vor Ausgabe von erkanntem Raumtext,
+bestanden. Originalrate und expliziter Mac-Studio-Lautsprecher wurden bestätigt,
+Player-Lautstärke 1,0 bei unveränderter Hardwarelautstärke ca.0,5.
+
+Die atomare Wartungssperre wurde erfolgreich freigegeben; danach listening,
+frische Audioblöcke und genau ein Wake-Kind mit einem Capture-Prozess geprüft.
+Keine Aufnahme oder Cloud-Unterhaltung gestartet. Dieser angekündigte Test
+unterbricht die Ruhezeitevidenz; der ursprüngliche Beobachtungsplan wird nicht
+zurückgesetzt. Werkzeug und Bericht betreffen weiterhin keine Kunden-Runtime,
+kein App-Paket und kein SD-Image.
+
+
+## Whisper Tiny als begrenzte zweite Wortprüfung
+
+[Whisper](https://github.com/openai/whisper) mit
+[whisper.cpp](https://github.com/ggml-org/whisper.cpp) ist hier ein separater
+ASR-Gegencheck nach einem möglichen Ruf, kein neuer Dauermikrofonprozess.
+Das mehrsprachige Tiny-Modell wurde nur unter `/tmp/cdb-whisper-verifier`
+heruntergeladen; weder die App-Modellauswahl noch das Kunden-Image geändert.
+Gewichtsquelle: `https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-tiny.bin`.
+SHA256 `be07e048e1e599ad46341c8d2a135645097a538221678b7acdd1b1919c6e1b21`.
+
+Drei vorab begrenzte Varianten wurden auf denselben bekannten Dateien geprüft:
+
+- [Standardkontext, kein Schreibhinweis](whisper-tiny-file-probe.json): 2,22–2,42
+  Sekunden inklusive Prozess-/Modellstart; positive Namen als „na, bo“/„Nabum“.
+- [Audiokontext 256, kein Hinweis](whisper-tiny-short-context.json): 0,29–0,38
+  Sekunden, aber weiterhin Namensfehler („nable“/„Nabum“).
+- [Audiokontext 256, Hinweis `Nabu.`](whisper-tiny-prompt-probe.json): 0,31–0,40
+  Sekunden, beide positiven Dateien korrekt und „na gut“ weiterhin unterschieden.
+
+Keine unscharfe Namenssuche, keine Akzeptanz von „Nabum“/„nable“. Die eingefrorene
+Regel verlangt als erste zwei normalisierte Wörter exakt `okay`/`ok` und `nabu`.
+Der Namenshinweis kann Halluzinationen begünstigen; deswegen genügt ein positiver
+Einzeltest nicht. [Erweiterter Dateivergleich](whisper-tiny-matrix.json):
+**21/21 positive Varianten, 0/36 negative Varianten**, keine Timeouts.
+Das sind sieben positive und zwölf negative Ausgangsdateien, je drei korrelierte
+Pegel-/Rauschvarianten. Mehrere Stimmen und Formulierungen waren aus vorigen
+Experimenten bereits bekannt. Keine unabhängige statistische Zuverlässigkeits-
+oder natürliche Sprachabnahme. Zwei längere Negativtexte und die längere offizielle Nabu-Datei `3.wav` wurden
+ausdrücklich auf die ersten 4,8 Sekunden begrenzt; spätere Abschnitte sind nicht
+geprüft. Über alle 57 Varianten liegt die Wandzeit bei 0,295–1,850 Sekunden,
+Median 0,323 Sekunden. Die kurzen Vorproben von 0,3–0,4 Sekunden sind deshalb
+keine allgemeine Latenzgarantie.
+
+Die [exakte Matrix-Reproduktion](reproduce_whisper_matrix.py) ist Laborcode mit
+bekannten `/tmp`-Pfaden, ohne Mikrofon/Netzwerk. Der Aufruf verlangt die vorhandene
+Pi-NumPy-Runtime und sollte durch `nice -n 15 timeout 180 python ...` begrenzt
+werden. Modelle, Originaldateien und Roh-Audio werden nicht ins Repository kopiert.
+
+Für den Raumversuch verwendet `scripts/wake_whisper_probe.py` Linux `memfd`:
+WAV-Header und höchstens 4,8 Sekunden PCM liegen nur in einem anonymen RAM-
+Deskriptor, der an den begrenzten Kindprozess vererbt und danach geschlossen
+wird. Keine temporäre Raum-Audiodatei, kein gespeicherter erkannter Raumtext.
+Berichte enthalten nur Entscheidung, begrenzte Laufzeit und Rückgabecode.
+Fehlgeschlagener Prozess oder Timeout dürfen nicht als erkannter Ruf gelten.
+Diese Prüfung läuft nach der Erfassung auf identischem PCM unter der bestehenden
+Wartungssperre; sie ist weiterhin keine produktive Streaming-Integration.
+
+
+### Whisper: erstes positives Raumergebnis, Integration noch offen
+
+[Raumvergleich](acoustic-whisper-comparison.json) am 16.10.2026 von **13:59:43
+bis 14:02:16 Europe/Berlin**, gleiche Lautsprecher-/Mikrofonführung und je
+30 Sekunden Ruhe. Otto und Ben korrekt bestätigt, beide Negativclips abgelehnt:
+**2/2 positive, 0/2 negative Dateien ausgelöst**. Gleichzeitig löst die
+unveränderte microWakeWord-Baseline bei „Okay, na gut“ wieder aus.
+
+Die Whisper-Prüfung benötigte hier **1,773–1,836 Sekunden** nach der Erfassung.
+Ein schneller Dateitest ist somit kein Nachweis dieser Geschwindigkeit im Raum.
+Nur jeweils die ersten maximal 4,8 Sekunden ab Abspielhinweis wurden in den
+Verifier gegeben; das enthält auch die Anlaufzeit der entfernten Wiedergabe.
+Der längere Negativtext ist dadurch nur teilweise überprüft. Der Bericht hält
+Kürzung, WAV-Hash, Signaltransport und tatsächliche Wiedergabe getrennt fest.
+
+**Dies ist ein belegter Kandidat, noch keine produktive Verbesserung:** Die
+Prüfung wurde erst nach der Erfassung ausgeführt. Ein laufender Ringpuffer,
+geeignetes Kandidatenfenster, Rate-Limit für Fehlkandidaten, Audio-Rückstau,
+begrenzter Abbruch und Rückkehr zur Bereitschaft sind damit noch nicht geprüft.
+Die geprüften synthetischen Stimmen ersetzen außerdem den ausstehenden
+natürlichen Erst-Ruf-Test nicht. Aktuell gibt es keine geänderte produktive
+Erkennungsregel, keine zusätzliche Runtime und keinen neuen Download im Image.
+
+Vor einer Auslieferung:
+
+1. Lokalen Kandidatenpfad innerhalb desselben Wake-Kindprozesses entwickeln;
+   genau ein Audioeingang, begrenzter RAM-Ring, keine PCM-Dateien/Transkripte.
+2. Niedrigere Kandidatenschwelle nur für die Prüfung, niemals direkte Aktivierung.
+   Kandidatenende und Zeitfenster anhand von getrennten Entwicklungsdaten prüfen;
+   volle Wortprüfung entscheidet erst nach vollständiger Phrase.
+3. Begrenzte Verifier-Prozesse, Rate-Limit, Timeout, kein Kindprozess nach Abbruch.
+   Aufnahme-/Live-/Wartungsreservierungen behalten Vorrang; nicht nebenbei im
+   Backend-Control-Lock rechnen. Hardware-/Netzfehler dürfen kein Erfolg sein.
+4. Konkurrierende Zustände, lange negative Umgebung, 100 Zyklen und neue
+   akustische Rufe mit unveränderten Entscheidungskriterien prüfen. Erst dann
+   signierte App-/Runtime-Auslieferung mit gepinntem Modellhash und Factory-
+   Installation vorbereiten; vorhandene Konfiguration weiterhin erhalten.
+
+Elf gezielte Labor-/Datenschutz-/Eingabe-/Timeouttests bestanden. Nach dem
+Raumtest: Wartung freigegeben, `listening`, frische Audioblöcke, ein Wake-Kind und
+ein Capture-Prozess, keine laufende Whisper-Testinstanz. Beobachtungsplan und
+alte Befunde bleiben erhalten. Der natürliche Nutzer-Test ist weiterhin offen.

@@ -24,6 +24,36 @@ from services.wake_detectors import create_detector, PHRASES, DEFAULT_PHRASE
 from services.wake_diagnostics import AudioDiagnostics
 
 
+def probe_vosk_pcm(model, grammar, accepted, pcm, recognizer_factory=None):
+    """File-equivalent second opinion on transient PCM; never returns decoded text.
+
+    Timing here is decoder CPU cost after capture, not measured Live wake latency.
+    The same captured mono samples are used as for the primary detector.
+    """
+    if recognizer_factory is None:
+        from vosk import KaldiRecognizer
+        recognizer_factory = KaldiRecognizer
+    started = time.process_time()
+    recognizer = recognizer_factory(model, 16000, json.dumps(grammar))
+    hits = 0
+    segments = 0
+    def consume(payload):
+        nonlocal hits, segments
+        result = json.loads(payload)
+        text = result.get('text', '')
+        if text:
+            segments += 1
+            hits += int(text in accepted)
+    # No stored transcript, timestamps or word hypotheses leave this function.
+    for index in range(0, len(pcm), 1600):
+        if recognizer.AcceptWaveform(bytes(pcm[index:index+1600])):
+            consume(recognizer.Result())
+    consume(recognizer.FinalResult())
+    return {'detected': hits > 0, 'accepted_segments': hits,
+            'nonempty_segments': segments, 'cpu_seconds': round(time.process_time()-started, 4),
+            'mode': 'post_capture_same_pcm', 'transcript_saved': False}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--clips', nargs='+', required=True, type=Path)
@@ -37,16 +67,37 @@ def main():
                         help='ReSpeaker/Nabu only: compare both processed channels to their mean.')
     parser.add_argument('--quiet-seconds', type=float, default=1,
                         help='Bounded real quiet time before each acoustic call (1–120 seconds).')
+    parser.add_argument('--vosk-model', type=Path,
+                        help='Existing lab-only Vosk model for a second opinion on the same PCM.')
+    parser.add_argument('--vosk-grammar', type=Path,
+                        help='Explicit grammar/accepted JSON; requires --vosk-model. No room text saved.')
+    parser.add_argument('--whisper-binary', type=Path,
+                        help='Existing Linux whisper-cli for a bounded anonymous-RAM lab probe.')
+    parser.add_argument('--whisper-model', type=Path,
+                        help='Existing lab-only Tiny model; requires --whisper-binary. No room text saved.')
     args = parser.parse_args()
     if not 1 <= len(args.clips) <= 4: parser.error('Use 1–4 synthetic test files.')
     if not 1 <= args.quiet_seconds <= 120: parser.error('Use 1–120 quiet seconds.')
     if args.compare_stereo and args.phrase!='okay-nabu': parser.error('Stereo comparison requires Nabu.')
+    if bool(args.vosk_model) != bool(args.vosk_grammar): parser.error('Specify both Vosk lab arguments.')
+    if bool(args.whisper_binary) != bool(args.whisper_model): parser.error('Specify both Whisper lab arguments.')
+    if args.whisper_binary and (not args.whisper_binary.is_file() or not args.whisper_model.is_file()):
+        parser.error('Whisper binary and model must already exist.')
     clips = []
     for path in args.clips:
         with wave.open(str(path)) as source:
             duration = source.getnframes() / source.getframerate()
             if not 0 < duration <= 8: parser.error('Test files must be at most eight seconds.')
         clips.append((path, duration))
+    verifier = None
+    verifier_spec = None
+    if args.vosk_model:
+        from vosk import Model, SetLogLevel
+        from benchmark_vosk_wake import validate_grammar
+        SetLogLevel(-1)
+        verifier_spec = json.loads(args.vosk_grammar.read_text())
+        verifier = Model(str(args.vosk_model))
+        validate_grammar(verifier, verifier_spec['grammar'], verifier_spec['accepted'])
     os.umask(0o077)
     root = Path.home()/'.local/share/cdb-recorder-local'
     token = json.loads((root/'management/local-auth.json').read_text())['token']
@@ -68,6 +119,15 @@ def main():
             'phrase':args.phrase, 'external_playback':args.external_playback,
             'compare_stereo':args.compare_stereo,'signal_diagnostics':args.signal_diagnostics,
             'version':health['version'],'quiet_seconds':args.quiet_seconds,'started_epoch':time.time(),'cases':[]}
+    if verifier is not None:
+        report['vosk_lab'] = {'model': args.vosk_model.name,
+                             'grammar_sha256': hashlib.sha256(args.vosk_grammar.read_bytes()).hexdigest(),
+                             'production_integration': False, 'room_text_saved': False}
+    if args.whisper_binary:
+        report['whisper_lab'] = {'model_sha256': hashlib.sha256(args.whisper_model.read_bytes()).hexdigest(),
+                                'binary_sha256': hashlib.sha256(args.whisper_binary.read_bytes()).hexdigest(),
+                                'audio_context': 256, 'initial_prompt': 'Nabu.',
+                                'production_integration': False, 'room_text_saved': False}
     def stop(*_): raise SystemExit('Acoustic test interrupted')
     signal.signal(signal.SIGTERM,stop)
     try:
@@ -125,7 +185,8 @@ def main():
                         pcm,left,right=split_stereo(pcm)
                         for extra,summary,audio in zip(channels,channel_rows,(left,right)):
                             summary['detections']+=int(extra.feed(audio))
-                    if args.signal_diagnostics and played: captured.extend(pcm)
+                    if (args.signal_diagnostics or verifier is not None or args.whisper_binary) and played:
+                        captured.extend(pcm)
                     detected=detector.feed(pcm);measure.feed(pcm,detector.last_decision,detector.onset.renewals)
                     if detector.last_decision:
                         row['decisions'].append({'at_seconds':round(time.monotonic()-start,2),'category':detector.last_decision})
@@ -137,6 +198,12 @@ def main():
                 row['playback_exit']=None  # External controller must supply playback evidence.
             row['audio']=measure.snapshot();report['cases'].append(row)
             if args.compare_stereo: row['channel_comparison']=channel_rows
+            if verifier is not None:
+                row['vosk_lab'] = probe_vosk_pcm(verifier, verifier_spec['grammar'],
+                                                 verifier_spec['accepted'], captured)
+            if args.whisper_binary:
+                from wake_whisper_probe import probe_whisper_pcm
+                row['whisper_lab'] = probe_whisper_pcm(captured, args.whisper_binary, args.whisper_model)
             if args.signal_diagnostics:
                 from wake_acoustic_metrics import alignment
                 with wave.open(str(path)) as source:
@@ -145,7 +212,7 @@ def main():
                 if probabilities:
                     row['max_model_probability']=round(max(probabilities),5)
                     row['unchanged_probability_cutoff']=detector.model.probability_cutoff
-                captured.clear()
+            captured.clear()
     finally:
         for proc in (playback,capture):
             if proc is not None:

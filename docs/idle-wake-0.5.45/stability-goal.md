@@ -242,3 +242,16 @@ Der Benutzer hat das Optimierungsziel erneut aktiviert. Aktuelle Phrase:
 Weder Dateitreffer noch passive Ressourcenwerte ersetzen die reale Erst-Ruf-
 Abnahme. Der laufende 24h-Datensatz enthält angekündigte Labortests, Wartung und
 Versionswechsel; Rohdaten/Plan bleiben erhalten, nicht als saubere Standzeit zählen.
+
+
+- **16.10., weitere Vergleichsstufe nach 0.5.60:** Deutsches Vosk scheitert im
+  Raum trotz guter Dateireferenz (0/2 echte synthetische Rufe); nicht integriert.
+  Whisper Tiny mit begrenztem Kontext und Namenshinweis besteht 21/21 positive
+  und 0/36 negative Dateivarianten sowie 2/2 positive und 0/2 negative Raumclips.
+  Im Raum 1,77–1,84 Sekunden zusätzliche Prüfung **nach Erfassung**; kein Beleg
+  für sofortige Streaming-Aktivierung. Ringpuffer, Kandidatenfenster, Sperren,
+  Rate-Limit und Prozessabbruch einer solchen Integration bleiben zu entwickeln
+  und abzunehmen. Der Nutzer ist nicht am Pi; natürliche Abnahme offen, keine
+  erneute Nachfrage bis Rückkehr. Produktionsengine unverändert. Zwei bekannte
+  Wartungstests 13:49–13:51 und 13:59–14:02 unterbrechen die Ruhezeit; Original-
+  Beobachtungsplan bleibt erhalten. [Detaillierte Evidenz und nächste Schritte](../wake-word-research/2026-10-16/README.md).
