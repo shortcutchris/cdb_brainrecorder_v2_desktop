@@ -62,6 +62,15 @@ niemals einen Pi-/Backend-Neustart während einer Aufnahme auslösen.
 
 ## Fortschritt
 
+- **Natürlicher Okay-KAI-Ruf am 16.10. fehlgeschlagen:** Der Benutzer meldete
+  „Keine Reaktion“. Zwei Kandidaten wurden vom lokalen Detektor verworfen;
+  laufender Audioeingang und gute passive Ressourcenwerte widerlegen diesen
+  Fehler nicht. Die genaue Ablehnungsursache ist noch offen. Ein isoliertes,
+  textfreies Diagnosewerkzeug ist vorbereitet; der Sprachtest wartet auf die
+  Bereitschaft des Benutzers. Die Beobachtungsautomation kennt diesen Befund
+  und darf daraus keinen bestandenen akustischen Langzeitnachweis ableiten.
+  [Evidenz und Testverfahren](../wake-phrases-0.5.53/README.md#natürlicher-kai-test-fehlgeschlagen--16-oktober-2026).
+
 - **0.5.57 installiert:** alte Live-Ereignisleser bleiben an ihre Gesprächs- und
   Kontogeneration gebunden. Der Keepalive-Fehler ist isoliert reproduziert;
   371 lokale Python-Tests, neun gezielte Pi-Tests mit 100 Reader-Wechseln und

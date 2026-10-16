@@ -299,9 +299,13 @@ Prüfgründe `first_word_confidence`, `second_word_confidence`, `duration` oder
 synthetischer oder isolierter Treffer ersetzt anschließend nicht den Test der
 produktiven Gesprächsübergabe.
 
-Stand dieser Ergänzung: 23 gezielte lokale Tests bestanden, einschließlich
-Grenzwerten, Datenschutz-Ausgabe, Besetzt-Sperre und Fehlerbereinigung. Auf dem
-Pi ist der Skriptstart mit `--help` geprüft; der natürliche Diagnoselauf wartet
+Stand dieser Ergänzung: 25 gezielte lokale Tests bestanden, einschließlich
+Grenzwerten, Datenschutz-Ausgabe, Besetzt-Sperre und Fehlerbereinigung. Sechs
+Diagnosetests bestehen zusätzlich mit der echten Python-Runtime auf dem Pi,
+aber vollständig mit simuliertem Transport und Mikrofon: kein Hardwarezugriff,
+keine Wartungssperre im produktiven Dienst. Ein laufender produktiver Listener
+oder fehlender Erfassungsstatus verhindert einen zweiten Mikrofonbesitzer.
+Auf dem Pi ist außerdem der Skriptstart mit `--help` geprüft; der natürliche Diagnoselauf wartet
 auf den anwesenden Sprecher. Keine Schwellenänderung, kein App-/Browserneustart,
 keine Änderung an Geräte-, Audio- oder Kontoeinstellungen.
 

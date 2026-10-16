@@ -65,5 +65,33 @@ class CandidateDiagnosticTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, 'busy'): main()
         capture.assert_not_called()
 
+    def test_retained_production_capture_prevents_second_microphone_owner(self):
+        response = Mock()
+        response.__enter__ = Mock(return_value=response)
+        response.__exit__ = Mock(return_value=False)
+        response.read.side_effect = [b'{}', b'{"diagnostics":{"capture_running":true}}', b'{}']
+        with patch('sys.argv', ['diagnose', '--phrase', 'okay-kai']), \
+             patch('pathlib.Path.read_text', return_value='{"token":"test"}'), \
+             patch('urllib.request.urlopen', return_value=response) as request, \
+             patch('scripts.diagnose_wake_candidate.wake_phrase.PhraseDetector') as detector, \
+             patch('subprocess.Popen') as capture:
+            with self.assertRaisesRegex(RuntimeError, 'did not stop'): main()
+        detector.assert_not_called()
+        capture.assert_not_called()
+        self.assertTrue(request.call_args.args[0].full_url.endswith('/release'))
+
+    def test_missing_capture_status_fails_closed_before_microphone_open(self):
+        response = Mock()
+        response.__enter__ = Mock(return_value=response)
+        response.__exit__ = Mock(return_value=False)
+        response.read.side_effect = [b'{}', b'{}', b'{}']
+        with patch('sys.argv', ['diagnose', '--phrase', 'okay-kai']), \
+             patch('pathlib.Path.read_text', return_value='{"token":"test"}'), \
+             patch('urllib.request.urlopen', return_value=response) as request, \
+             patch('subprocess.Popen') as capture:
+            with self.assertRaises(KeyError): main()
+        capture.assert_not_called()
+        self.assertTrue(request.call_args.args[0].full_url.endswith('/release'))
+
 
 if __name__ == '__main__': unittest.main()
