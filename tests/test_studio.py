@@ -77,6 +77,19 @@ class StudioTests(unittest.TestCase):
             self.assertEqual(self.request(path,{})[0],400)
         self.app.first_start.busy=False
 
+    def test_remote_pairing_local_api_csrf_activity_and_no_public_commands(self):
+        from services.app_activity import AppActivity
+        with patch.object(self.app.remote_channel, 'enqueue', return_value={'accepted': True}) as enqueue:
+            self.assertEqual(self.request('/api/remote-control/pair', {}, {'X-CSRF-Token': 'wrong'})[0], 403)
+            enqueue.assert_not_called()
+            for activity in (AppActivity(recording=True), AppActivity(recording=True, paused=True), AppActivity(live='listening')):
+                with patch.object(self.app, 'activity', return_value=activity):
+                    self.assertEqual(self.request('/api/remote-control/pair', {})[0], 400)
+                    enqueue.assert_not_called()
+            with patch.object(self.app, 'activity', return_value=AppActivity(live='listening')):
+                self.assertEqual(self.request('/api/remote-control/revoke', {})[0], 200)
+        self.assertEqual(self.request('/api/remote-control/command', {'action': 'start'})[0], 400)
+
     def test_index_version_is_rendered_from_running_backend(self):
         with patch('web_server.VERSION', 'release-under-test'):
             for path in ('/', '/index.html'):
