@@ -1,5 +1,13 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.62 – Aufnahme über die gewählte gemeinsame Audioquelle
+
+Aufnahme und Mikrofontest verwenden wie die Sprachaktivierung die exakt
+zugeordnete PipeWire-Quelle. Dadurch verhindert ein vom Audiodienst offenes
+ReSpeaker-Gerät nicht mehr den Aufnahmestart. Die Aktivierungswort-Sperre während
+der Aufnahme und die anschließende Bereitschaft bleiben erhalten.
+[Fehlernachweis und Prüfung](docs/recording-source-fix-20261019/README.md).
+
 ## 0.5.61 – Handy-Fernbedienung für den Staging-Test
 
 Unter **Einstellungen → Gerät & Verwaltung → Handy-Fernbedienung** lässt sich
