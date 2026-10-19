@@ -41,6 +41,11 @@ class StudioApp:
         self.cdb = CdbService(root)
         self.cdb_backend = CdbBackend(self.cdb) if backend is None else None
         self.repo = SessionRepository(str(database))
+        # PipeWire may retain the ALSA device after wake listening stops. Use
+        # the same explicitly mapped source for recording and microphone tests.
+        if command_factory is None:
+            from services.live_audio import native_capture_command
+            command_factory = native_capture_command
         self.controller = LocalController(self.repo, root, backend=backend or self.cdb_backend, command_factory=command_factory)
         self.engine = self.controller.engine
         self.store, self.models, self.probe = self.engine.store, self.engine.models, self.engine.probe
