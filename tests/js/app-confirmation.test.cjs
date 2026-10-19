@@ -24,3 +24,11 @@ test('all shipped web screens avoid native JS input dialogs and unload prompts',
  for(const name of fs.readdirSync('studio').filter(n=>/\.(js|html)$/.test(n))){const s=fs.readFileSync(path.join('studio',name),'utf8');assert.doesNotMatch(s,/\b(?:confirm|alert|prompt)\s*\(/,name);assert.doesNotMatch(s,/beforeunload|onbeforeunload/,name)}
  assert.match(source,/addEventListener\('pagehide'.*storeDraft/);
 });
+
+test('pagehide persists dirty text that the existing editor restores after reload',()=>{
+ const storage=new Map(),old={id:7,values:{notes:'Lokaler Entwurf',transcript_text:'Text',summary_text:'Kurz'},base:{notes:'Gespeichert',transcript_text:'Text',summary_text:'Kurz'},dirty:new Set(['notes'])};let onHide;
+ const c={models:new Map([[7,old]]),namespace:'isolated',fields:['notes','transcript_text','summary_text'],localStorage:{setItem:(k,v)=>storage.set(k,v),getItem:k=>storage.get(k)||null},notice(){},window:{addEventListener:(name,fn)=>{assert.equal(name,'pagehide');onHide=fn}}};vm.createContext(c);
+ vm.runInContext(source.slice(source.indexOf('function draftKey('),source.indexOf('async function flush(')),c);
+ vm.runInContext(source.slice(source.indexOf("window.addEventListener('pagehide'"),source.indexOf('\n',source.indexOf("window.addEventListener('pagehide'"))),c);
+ onHide();c.models=new Map();const restored=c.makeModel({id:7,notes:'Gespeichert',transcript_text:'Text',summary_text:'Kurz'});assert.equal(restored.values.notes,'Lokaler Entwurf');assert.equal(restored.dirty.has('notes'),true);
+});
