@@ -62,3 +62,9 @@ eines natürlichen gesprochenen Rufes ausgegeben.
 [Image-Exportprüfung](image-export.json): 125 erlaubte Quelldateien, exportierte
 web_server.py identisch mit dem installierten Quellstand. Keine neue Runtime,
 Factory-Änderung oder Datenmigration; kein neues Image gebaut oder gebootet.
+
+Anschließend 61 Stichproben über rund 62 Sekunden: durchgehend `listening`,
+Wake eingeschaltet und Capture aktiv, kein neuer Erkennungstreffer. Ohne
+Bestätigung eines tatsächlich gesprochenen Rufes ist das kein negativer
+akustischer Test; die menschliche Rückmeldung steht noch aus.
+[Beobachtung](natural-observation.json).
