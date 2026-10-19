@@ -1,0 +1,20 @@
+{
+  "version": "0.5.63",
+  "ui_version": "0.5.63",
+  "verified_audio_sizes": 13,
+  "unchanged_existing_sessions": 28,
+  "wake_enabled": true,
+  "wake_phrase": "okay-nabu",
+  "wake_state": "listening",
+  "production_columns_visible": true,
+  "isolated_pi_ui_checks": [
+    "size_exact_bytes",
+    "summary_phase_elapsed_section",
+    "waiting_no_active_bar",
+    "missing_file_unknown",
+    "pagination_stays_on_page_2"
+  ],
+  "personal_data_in_screenshots": false,
+  "new_real_recording": false,
+  "new_model_inference": false
+}

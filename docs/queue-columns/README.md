@@ -21,3 +21,31 @@ Der saubere Image-Export umfasst unverändert 125 Quelldateien; die vier
 geänderten Laufzeitdateien sind bereits erlaubt. Die letzte CSS-Ergänzung
 begrenzt lange Fehlermeldungen auf drei sichtbare Zeilen; der vollständige
 Text bleibt im Tooltip und im Auftrag erhalten. Keine Daten wurden gelöscht.
+
+
+## Installiert und nachgeprüft
+
+Mit Nutzerfreigabe nach vollständig leerer Produktionsqueue installiert:
+**0.5.63**, signierte Sequenz **20**, Commit
+`ed3e1e14a94415e3e18e606ba327d553afef6fc8`. Die Wartungsreservierung prüfte
+unmittelbar vor dem Neustart erneut die Aktivität. Signatur, Runtime und alle
+118 Dateihashes stimmen. Audio-/Wake-Einstellungen sind unverändert; alle
+28 bisherigen Sitzungsdatensätze wurden mit der privaten Sicherung verglichen.
+[Installation](deployment.json).
+
+Die produktive Oberfläche meldet im HTML und Backend 0.5.63. Ihre drei alten
+fehlgeschlagenen Aufnahmen zeigen korrekt 0 B und „Angehalten“, ohne laufenden
+Balken. Die Größenfelder aller 13 Queue-Datensätze stimmen mit dem Dateisystem
+überein. „Okay Nabu“ bleibt eingeschaltet und `listening`.
+
+Zusätzlich lief der exakt installierte App-Code auf demselben Pi mit separatem
+synthetischem Profil und künstlicher KI-Verzögerung. Sichtprüfung bei 1280 × 720:
+Dateigröße 2 MB (1.952.078 Bytes), Zusammenfassung mit Schritt 2/2, weiterzählender
+Laufzeit und Abschnitt 1/1; wartender Auftrag ohne laufenden Balken. Vier
+synthetische Fehlerfälle erzeugten zwei Seiten; Seite 2 blieb über mehrere
+Statusaktualisierungen erhalten. Fehlende Audiodateien zeigen „–“. Die
+synthetischen Testdaten wurden nicht in das produktive Profil geschrieben.
+Keine zusätzliche echte Raumaufnahme und keine Modellinferenz gestartet.
+
+![Installierter Code auf dem Pi, isolierter synthetischer Test](evidence/pi-installed-summary.png)
+![Seitenwechsel im isolierten Pi-Test](evidence/pi-installed-page2.png)
