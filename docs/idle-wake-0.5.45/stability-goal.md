@@ -266,3 +266,13 @@ Versionswechsel; Rohdaten/Plan bleiben erhalten, nicht als saubere Standzeit zä
   Laborablauf sauber vor dem nächsten Clip abschließen; alte Rohdaten behalten.
   Wartung14:14–14:17 und14:28–14:31 sowie CPU-Labortests nicht als ungestörte
   Bereitschaft zählen. [Details](../wake-word-research/2026-10-16/README.md).
+
+
+## Abschlussauswertung des Beobachtungsfensters am 19. Oktober
+
+Der Lauf vom 16.–17. Oktober ist regulär beendet und nach wiederhergestelltem
+Zugang vollständig ausgewertet: 99,9906 % Messabdeckung, keine Ressourcenwarnungen,
+über Nacht ein stabiles RSS-Plateau. Ergebnis **needs_review**, Gesamtziel offen.
+Versionswechsel und bekannte Eingriffe verhindern eine ungestörte 24h-Abnahme;
+ein echter Wake nach der abschließenden langen Bereitschaft fehlt.
+[Abschlussbericht und vollständige Abnahmematrix](../stability-final-20261017/README.md).
