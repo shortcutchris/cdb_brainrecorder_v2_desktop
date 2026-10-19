@@ -1,0 +1,92 @@
+{
+  "version": "0.5.62",
+  "wake_initial": {
+    "enabled": true,
+    "phrase": "okay-nabu",
+    "state": "listening"
+  },
+  "cycles": [
+    {
+      "target_seconds": 180,
+      "samples": [
+        {
+          "elapsed": 0.05,
+          "audio_seconds": 0,
+          "wake_enabled": true,
+          "wake_state": "waiting",
+          "wake_capture": false
+        },
+        {
+          "elapsed": 30.65,
+          "audio_seconds": 31,
+          "wake_enabled": true,
+          "wake_state": "waiting",
+          "wake_capture": false
+        },
+        {
+          "elapsed": 60.13,
+          "audio_seconds": 60,
+          "wake_enabled": true,
+          "wake_state": "waiting",
+          "wake_capture": false
+        },
+        {
+          "elapsed": 90.67,
+          "audio_seconds": 91,
+          "wake_enabled": true,
+          "wake_state": "waiting",
+          "wake_capture": false
+        },
+        {
+          "elapsed": 120.22,
+          "audio_seconds": 120,
+          "wake_enabled": true,
+          "wake_state": "waiting",
+          "wake_capture": false
+        },
+        {
+          "elapsed": 150.82,
+          "audio_seconds": 151,
+          "wake_enabled": true,
+          "wake_state": "waiting",
+          "wake_capture": false
+        }
+      ],
+      "id": "51c5478fed834e3dac45385b88c15c18",
+      "wall_seconds": 180.52,
+      "wav_seconds": 180.32,
+      "channels": 1,
+      "rate": 16000,
+      "capture_log": "",
+      "wake_after": {
+        "enabled": true,
+        "phrase": "okay-nabu",
+        "state": "listening"
+      }
+    },
+    {
+      "target_seconds": 12,
+      "samples": [
+        {
+          "elapsed": 0.09,
+          "audio_seconds": 0,
+          "wake_enabled": true,
+          "wake_state": "waiting",
+          "wake_capture": false
+        }
+      ],
+      "id": "3f522835ab1f4697a633a19c47caf712",
+      "wall_seconds": 12.73,
+      "wav_seconds": 12.56,
+      "channels": 1,
+      "rate": 16000,
+      "capture_log": "",
+      "wake_after": {
+        "enabled": true,
+        "phrase": "okay-nabu",
+        "state": "listening"
+      }
+    }
+  ],
+  "status": "passed"
+}

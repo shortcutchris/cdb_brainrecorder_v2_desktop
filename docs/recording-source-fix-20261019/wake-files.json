@@ -1,0 +1,68 @@
+{
+  "installed_version": "0.5.62",
+  "rows": [
+    {
+      "file": "okay_nabu/1.wav",
+      "expected": true,
+      "detected": true
+    },
+    {
+      "file": "okay_nabu/2.wav",
+      "expected": true,
+      "detected": true
+    },
+    {
+      "file": "okay_nabu/3.wav",
+      "expected": true,
+      "detected": true
+    },
+    {
+      "file": "alexa/1.wav",
+      "expected": false,
+      "detected": false
+    },
+    {
+      "file": "alexa/2.wav",
+      "expected": false,
+      "detected": false
+    },
+    {
+      "file": "alexa/3.wav",
+      "expected": false,
+      "detected": false
+    },
+    {
+      "file": "hey_jarvis/1.wav",
+      "expected": false,
+      "detected": false
+    },
+    {
+      "file": "hey_jarvis/2.wav",
+      "expected": false,
+      "detected": false
+    },
+    {
+      "file": "hey_jarvis/3.wav",
+      "expected": false,
+      "detected": false
+    },
+    {
+      "file": "hey_mycroft/1.wav",
+      "expected": false,
+      "detected": false
+    },
+    {
+      "file": "hey_mycroft/2.wav",
+      "expected": false,
+      "detected": false
+    },
+    {
+      "file": "hey_mycroft/3.wav",
+      "expected": false,
+      "detected": false
+    }
+  ],
+  "microphone_used": false,
+  "speaker_used": false,
+  "all_passed": true
+}
