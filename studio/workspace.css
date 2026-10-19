@@ -136,3 +136,13 @@ body.keyboard-open .capture-footer{display:none}
 #queue-region .queue-delete{min-width:48px;min-height:48px;padding:12px;display:grid;place-items:center}
 #queue-region .queue-delete img{width:22px;height:22px}
 @media(max-width:900px){#queue-region .queue-row>.queue-row-actions{grid-column:2;grid-row:2/4;flex-direction:column}}
+
+#app-confirm{width:min(560px,calc(100vw - 40px));max-height:calc(100dvh - 40px);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:0;box-shadow:0 24px 80px #0005}
+#app-confirm::backdrop{background:#0008}
+#app-confirm .dialog-heading{padding:20px 24px;gap:16px}
+#app-confirm .dialog-heading h2{font-size:22px;margin:0}
+#app-confirm .confirm-body{padding:4px 24px 20px;line-height:1.6;overflow-wrap:anywhere}
+#app-confirm .confirm-body p{margin:0}
+#app-confirm .dialog-actions{padding:16px 24px;display:flex;gap:12px;border-top:1px solid var(--line);background:var(--panel)}
+#app-confirm .dialog-actions button{flex:1;min-height:56px;white-space:normal}
+#app-confirm{height:fit-content;min-height:0;inset:0;margin:auto}

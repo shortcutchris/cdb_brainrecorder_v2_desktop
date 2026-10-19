@@ -42,7 +42,7 @@ async function flush(model=models.get(selected)){
 }
 function changed(key,value){const model=models.get(selected);if(!model)return;model.values[key]=value;model.dirty.add(key);model.failed=false;$('draft-actions').hidden=false;storeDraft(model,key);clearTimeout(saveTimer);if(!online){model.failed=true;$('save-state').textContent='Offline · Entwurf bleibt lokal erhalten';return}$('save-state').textContent='Wird gespeichert …';saveTimer=setTimeout(()=>flush(model).catch(()=>{}),450)}
 $('editor').oninput=()=>changed(field,$('editor').value);
-window.addEventListener('beforeunload',event=>{if([...models.values()].some(m=>m.dirty.size)){event.preventDefault();event.returnValue=''}});
+window.addEventListener('pagehide',()=>{for(const model of models.values())for(const key of model.dirty)storeDraft(model,key)});
 window.addEventListener('pagehide',()=>{for(const m of models.values()){if(!m.dirty.size||m.saving)continue;const changes={},base={};for(const key of m.dirty){changes[key]=m.values[key];base[key]=m.base[key];storeDraft(m,key)}api('/api/sessions/'+m.id+'/save',{changes,base},true).catch(()=>{})}});
 function setEditor(value){const el=$('editor');if(el.value===value)return;const start=el.selectionStart,end=el.selectionEnd,scroll=el.scrollTop;el.value=value;el.setSelectionRange(Math.min(start,value.length),Math.min(end,value.length));el.scrollTop=scroll}
 function renderSelected(){
@@ -89,9 +89,30 @@ function renderState(){
  if(!online)$('capture-hint').textContent='Verbindung unterbrochen. Der letzte Aufnahmestand wird erneut geprüft.';else if(!active&&state.config.setup_complete&&!allowed('record'))$('capture-hint').textContent=state.capabilities.record.reason;drawWave(active?state.waveform:selectedPeaks);renderRecent();renderQueue();renderSettingsStatus();if(!online)$('phase').textContent='Verbindung unterbrochen · Entwürfe bleiben lokal';
 }
 function queueJobs(){const rows=new Map(state.sessions.filter(r=>r.local_job_id).map(r=>[r.local_job_id,r]));const jobs=state.jobs.filter(j=>rows.has(j.id)&&j.state!=='completed').map(j=>({...j,session:rows.get(j.id)}));for(const r of state.sessions)if(r.transcription_status==='failed'&&!r.local_job_id)jobs.push({id:'legacy-'+r.id,state:'failed',created:0,error:r.local_error,audio_file_bytes:r.audio_file_bytes,session:r});const order={recording:0,transcribing:1,summarizing:1,importing:2,queued:3,failed:4};return jobs.sort((a,b)=>(order[a.state]-order[b.state])||((a.queued_at||a.created)-(b.queued_at||b.created)))}
+let activeConfirmation=false;
+function confirmAction({title,message,accept='Löschen'}){
+ if(activeConfirmation)return Promise.resolve(false);
+ activeConfirmation=true;
+ const dialog=$('app-confirm'),origin=document.activeElement;
+ $('app-confirm-title').textContent=title;$('app-confirm-message').textContent=message;$('app-confirm-accept').textContent=accept;
+ return new Promise(resolve=>{
+  let settled=false;
+  function finish(accepted){
+   if(settled)return;settled=true;activeConfirmation=false;
+   dialog.oncancel=dialog.onclose=null;
+   $('app-confirm-cancel').onclick=$('app-confirm-close').onclick=$('app-confirm-accept').onclick=null;
+   dialog.close();if(origin?.isConnected)origin.focus();resolve(accepted);
+  }
+  $('app-confirm-cancel').onclick=$('app-confirm-close').onclick=()=>finish(false);
+  $('app-confirm-accept').onclick=()=>finish(true);
+  dialog.oncancel=event=>{event.preventDefault();finish(false)};
+  dialog.onclose=()=>finish(false);
+  dialog.showModal();$('app-confirm-cancel').focus();
+ });
+}
 async function deleteMeeting(id,title){
  await flush();
- if(!confirm('„'+title+'“ endgültig löschen? Vorhandene Audiodaten, Notizen und Ergebnisse dieses Meetings werden gelöscht.'))return false;
+ if(!await confirmAction({title:'Meeting löschen?',message:'„'+title+'“ wird endgültig gelöscht. Vorhandene Audiodaten, Notizen und Ergebnisse dieses Meetings werden entfernt.',accept:'Endgültig löschen'}))return false;
  await api('/api/sessions/'+id+'/delete',{});models.delete(id);
  if(selected===id){selected=null;audio.pause();audio.removeAttribute('src');delete audio.dataset.session;$('editor').value='';$('editor').disabled=true;$('meeting-title').textContent='Meeting auswählen'}
  await poll();return true;
@@ -205,7 +226,7 @@ async function loadPrompts(){prompts=await api('/api/prompts');for(const id of [
 function renderPrompt(){const p=prompts.find(p=>p.id===$('prompt-select').value);$('prompt-name').value=p?.name||'';$('prompt-text').value=p?.prompt_text||'';$('prompt-name').readOnly=Boolean(p?.is_default);$('prompt-text').readOnly=Boolean(p?.is_default);$('prompt-save').disabled=Boolean(p?.is_default);$('prompt-delete').disabled=!p||p.is_default}
 $('prompt-select').onchange=renderPrompt;$('prompt-new').onclick=()=>{$('prompt-select').value='';$('prompt-name').value='';$('prompt-text').value='';$('prompt-name').readOnly=false;$('prompt-text').readOnly=false;$('prompt-save').disabled=false;$('prompt-delete').disabled=true;$('prompt-name').focus()};
 $('prompt-save').onclick=run(async()=>{const id=$('prompt-select').value,known=new Set(prompts.map(p=>p.id));const saved=await api('/api/prompts',{action:id?'update':'add',id,name:$('prompt-name').value,text:$('prompt-text').value});await loadPrompts();$('prompt-select').value=id||saved.find(p=>!known.has(p.id))?.id||prompts[0]?.id;renderPrompt();notice('Prompt gespeichert.')});
-$('prompt-delete').onclick=run(async()=>{if(!confirm('Eigenen Prompt löschen?'))return;await api('/api/prompts',{action:'delete',id:$('prompt-select').value});await loadPrompts()});
+$('prompt-delete').onclick=run(async()=>{const ident=$('prompt-select').value;if(!await confirmAction({title:'Vorlage löschen?',message:'Die eigene Vorlage „'+($('prompt-name').value||'Unbenannt')+'“ wird endgültig gelöscht.',accept:'Vorlage löschen'}))return;await api('/api/prompts',{action:'delete',id:ident});await loadPrompts()});
 async function loadSetup(){
  if(setupBusy)return;setupBusy=true;
  try{const [setup,audioDevices]=await Promise.all([api('/api/setup'),api('/api/devices')]);catalog=setup.catalog;const c=state.config;

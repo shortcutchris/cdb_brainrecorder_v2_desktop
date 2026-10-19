@@ -20,8 +20,8 @@ test('failed rows expose a named delete action while running jobs do not',()=>{
  c.state.recording.id='recording';c.renderQueue();assert.equal(nodes['queue-panel'].children[1].children[4].children[1].disabled,true);
 });
 test('deleting from queue confirms the target row and preserves a different selected meeting',async()=>{
- const {c}=harness(),calls=[];c.models=new Map([[7,{}],[99,{}]]);c.selected=99;c.flush=async()=>{};c.poll=async()=>calls.push('poll');c.confirm=()=>false;c.api=async(path)=>calls.push(path);
+ const {c}=harness(),calls=[];c.models=new Map([[7,{}],[99,{}]]);c.selected=99;c.flush=async()=>{};c.poll=async()=>calls.push('poll');c.confirmAction=async()=>false;c.api=async(path)=>calls.push(path);
  assert.equal(await c.deleteMeeting(7,'Leerer Versuch'),false);assert.equal(calls.length,0);
- c.confirm=message=>{assert.match(message,/Leerer Versuch/);return true};assert.equal(await c.deleteMeeting(7,'Leerer Versuch'),true);
+ c.confirmAction=async({message})=>{assert.match(message,/Leerer Versuch/);return true};assert.equal(await c.deleteMeeting(7,'Leerer Versuch'),true);
  assert.equal(calls[0],'/api/sessions/7/delete');assert.equal(c.selected,99);assert.equal(c.models.has(99),true);assert.equal(c.models.has(7),false);
 });

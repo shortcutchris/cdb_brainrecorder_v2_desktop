@@ -1,5 +1,13 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.65 – Einheitliche App-Dialoge und helle Papierkörbe
+
+Meeting- und Vorlagenlöschung verwenden einen eigenen Dialog im aktuellen Theme.
+Abbrechen hat den Anfangsfokus; Escape und Schließen löschen nichts. Papierkörbe
+sind in dunklen Themes hell. Die bisherige Browserwarnung beim Verlassen weicht
+einer erneuten lokalen Entwurfssicherung.
+[Prüfumfang und Auslieferung](docs/app-dialogs/README.md).
+
 ## 0.5.64 – Fehlgeschlagene Aufträge direkt löschen
 
 Die Warteschlange zeigt bei Fehlern einen Papierkorb neben Wiederholen.

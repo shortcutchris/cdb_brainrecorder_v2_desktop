@@ -49,3 +49,6 @@ button.active,.tab.active{color:var(--accent-text)}
 .swatch-cdb{background:linear-gradient(90deg,#ffaa3a 0 33%,#04162b 33% 66%,#000e22 66%)}
 :root[data-theme=cdb] .record:not(.recording) img,:root[data-theme=cdb] .play img,:root[data-theme=cdb] .status button img{filter:brightness(0)}
 :root[data-theme=cdb] .status #errors{color:#ff9bb0}
+
+.queue-delete img{filter:var(--icon-filter)}
+:root[data-theme=midnight] .queue-delete img,:root[data-theme=graphite] .queue-delete img,:root[data-theme=cdb] .queue-delete img{filter:brightness(0) invert(1)}
