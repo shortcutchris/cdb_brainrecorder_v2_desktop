@@ -7,3 +7,6 @@ Bei fehlgeschlagenen Aufträgen steht neben Wiederholen ein Papierkorb mit einde
 ![Synthetischer Fehlerfall mit Papierkorb](preview.png)
 
 Image-Auswirkung: bereits erlaubte Laufzeitdateien studio/app.js, studio/workspace.css und Versionsquelle web_server.py. Das Papierkorb-SVG ist bereits enthalten. Keine neuen Abhängigkeiten, Factory-/Dienst-/Konfigurationsänderungen oder Datenmigration. Ein frisches Image übernimmt den App-Stand; kein neues Image gebaut oder boot-geprüft.
+
+
+Installiert als signierte Sequenz 21, Quellcommit 9afe335f77f833f15a17ce6c72711e396a3eefa6. Alle Laufzeitdateien geprüft; drei geänderte App-Dateien, unveränderte Runtime. Zusätzlich 56 Studio-Tests auf dem Pi bestanden (33,519 s). Alle 28 vorherigen Sitzungsdatensätze sind identisch; die drei alten Fehler bleiben bis zur Benutzerentscheidung sichtbar. Wake ist eingeschaltet und hört zu. Sauberer Image-Export mit 125 Dateien erstellt; kein Image gebaut. Die Browser-Sichtprüfung zeigt den Papierkorb und die Bestätigung. Der automatisierte Browser-Dialogabbruch war durch das Steuerwerkzeug blockiert; Abbrechen und zielgenaues Löschen sind durch die JavaScript- und HTTP-Regressionen geprüft, nicht als erfolgreich abgeschlossener Browser-Klicktest ausgegeben.
