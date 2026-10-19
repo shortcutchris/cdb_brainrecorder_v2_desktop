@@ -6,10 +6,18 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from scripts.wake_whisper_probe import matches_nabu, probe_whisper_pcm
+from scripts.wake_whisper_probe import matches_nabu, matches_nabu_joined, probe_whisper_pcm
 
 
 class WhisperProbeTests(unittest.TestCase):
+    def test_joined_lab_rule_accepts_exact_spelling_without_fuzzy_expansion(self):
+        for text in ['Oknabu.', 'Okaynabu!', '\u201eOKNABU\u201c', 'Okay Nabu.']:
+            with self.subTest(text=text): self.assertTrue(matches_nabu_joined(text))
+        for text in ['Oknabum.', 'Oknaboo.', 'Oknabuch', 'Oknabu2', 'Oknabu_test',
+                     'Sag Oknabu.', 'Na gut.', 'Okay, na bitte.', 'Oknab\u00fc.', '', 'Nabu.']:
+            with self.subTest(text=text): self.assertFalse(matches_nabu_joined(text))
+        self.assertFalse(matches_nabu('Oknabu.'))
+
     def test_whole_words_only_and_no_fuzzy_matching(self):
         for text in ['Okay Nabu.', 'OK, NABU! Wie spät ist es?']:
             self.assertTrue(matches_nabu(text))

@@ -19,8 +19,9 @@ except ImportError:
 
 class AsyncVerifier:
     """One owned native process, bounded output, anonymous RAM input, no threads."""
-    def __init__(self, binary, model, clock=time.monotonic):
+    def __init__(self, binary, model, clock=time.monotonic, matcher=matches_nabu):
         self.binary, self.model, self.clock = str(binary), str(model), clock
+        self.matcher = matcher
         self.process = None
         self.descriptor = None
         self.output = bytearray()
@@ -72,7 +73,7 @@ class AsyncVerifier:
             if len(self.output) > 8192: error = 'output_limit'
         detected = False
         if code == 0 and error is None:
-            try: detected = matches_nabu(self.output.decode('utf-8'))
+            try: detected = self.matcher(self.output.decode('utf-8'))
             except UnicodeError: error = 'invalid_result'
         report = {'detected': detected, 'returncode': code, 'error': error,
                   'wall_seconds': round(self.clock()-self.started, 4)}
