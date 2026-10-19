@@ -22,6 +22,24 @@ class StudioTests(unittest.TestCase):
         self.server=StudioServer(('127.0.0.1',0),self.app);self.thread=threading.Thread(target=self.server.serve_forever,daemon=True);self.thread.start()
         self.base='http://127.0.0.1:'+str(self.server.server_port)
     def tearDown(self):self.server.shutdown();self.server.server_close();self.app.close();self.tmp.cleanup()
+    def test_queue_reports_real_audio_sizes_for_existing_and_missing_files(self):
+        self.app.ambient_stop.set();self.app.ambient_thread.join(3)
+        ident=self.app.engine.store.create('Wartet')
+        folder=self.app.engine.store.folder(ident)
+        raw=folder/'audio.pcm';raw.write_bytes(b'\0\0'*320)
+        self.app.engine.store.update(ident,state='failed',error='Test')
+        self.app.controller.sync()
+        state=self.app.state();job=next(j for j in state['jobs'] if j['id']==ident)
+        self.assertEqual(job['audio_file_bytes'],640)
+        self.assertEqual(job['processing_detail'],'')
+        wav=folder/'audio.wav';wav.write_bytes(b'WAV'*300)
+        state=self.app.state();job=next(j for j in state['jobs'] if j['id']==ident)
+        self.assertEqual(job['audio_file_bytes'],900)
+        legacy=next(r for r in state['sessions'] if r['id']==self.sid)
+        self.assertEqual(legacy['audio_file_bytes'],(self.root/'test.wav').stat().st_size)
+        raw.unlink();wav.unlink()
+        self.assertIsNone(next(j for j in self.app.state()['jobs'] if j['id']==ident)['audio_file_bytes'])
+
     def test_recorder_and_probe_use_shared_explicit_audio_source(self):
         from services.live_audio import native_capture_command
         self.assertIs(self.app.engine.recorder.command_factory, native_capture_command)

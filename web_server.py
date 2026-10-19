@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.62'
+VERSION = '0.5.63'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -313,14 +313,28 @@ class StudioApp:
         if available<4*1024**2:raise ValueError('Modelltest wartet: mindestens 4 GiB verfügbarer Arbeitsspeicher erforderlich.')
 
 
+    @staticmethod
+    def audio_file_bytes(*paths):
+        for path in paths:
+            try:
+                return path.stat().st_size
+            except OSError:
+                continue
+        return None
+
     def state(self):
         with self.controller.lock:
             self.controller.sync()
             state = self.engine.state()
+            for job in state['jobs']:
+                folder = self.store.folder(job['id'])
+                job['audio_file_bytes'] = self.audio_file_bytes(folder/'audio.wav', folder/'audio.pcm', folder/'audio.import.wav')
+                job['processing_detail'] = state['progress'] if job['state'] in ('transcribing', 'summarizing') else ''
             rows = self.repo.get_all()
             state['sessions'] = [{k:r.get(k) for k in ('id','title','recorded_at','duration_sec',
                 'samplerate','channels','transcription_status','local_job_id','local_error')}
-                | {'has_audio': bool(r.get('path') and Path(r['path']).is_file())} for r in rows]
+                | {'has_audio': bool(r.get('path') and Path(r['path']).is_file()),
+                   'audio_file_bytes': self.audio_file_bytes(Path(r['path'])) if r.get('path') else None} for r in rows]
         raw = b''
         ident = state['recording']['id']
         if ident:

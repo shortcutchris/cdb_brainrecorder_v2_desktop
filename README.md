@@ -1,5 +1,12 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.63 – Dateigröße und Fortschritt pro Warteschlangenauftrag
+
+Jede Zeile zeigt die Größe der Audiodatei und eine eigene Fortschrittsspalte
+mit Verarbeitungsschritt, Laufzeit und verfügbarem Abschnittsstatus. Laufende
+Balken bleiben ohne erfundene Prozentwerte; Aktualisierungen erhalten Seite
+und Buttonfokus. [Vorschau und Prüfungen](docs/queue-columns/README.md).
+
 ## 0.5.62 – Aufnahme über die gewählte gemeinsame Audioquelle
 
 Aufnahme und Mikrofontest verwenden wie die Sprachaktivierung die exakt
