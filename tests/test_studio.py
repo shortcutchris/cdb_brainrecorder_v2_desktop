@@ -542,6 +542,17 @@ class StudioTests(unittest.TestCase):
             self.assertFalse(self.app.capabilities()['record']['allowed'])
             self.assertEqual(self.request('/api/record/start',{})[0],400)
 
+    def test_failed_empty_recording_can_be_deleted_without_reappearing(self):
+        ident=self.app.store.create('Leere Aufnahme')
+        self.app.store.update(ident,state='failed',error='Keine Audiodaten')
+        self.app.controller.sync()
+        row=next(r for r in self.app.repo.get_all() if r.get('local_job_id')==ident)
+        self.assertEqual(self.request(f'/api/sessions/{row["id"]}/delete',{})[0],200)
+        for _ in range(3):self.app.controller.sync()
+        self.assertIsNone(self.app.repo.get_by_id(row['id']))
+        self.assertNotIn(ident,[j['id'] for j in self.app.state()['jobs'] if any(r.get('local_job_id')==j['id'] for r in self.app.repo.get_all())])
+        self.assertIsNotNone(self.app.repo.get_by_id(self.sid))
+
     def test_shared_audio_is_preserved_when_one_reference_is_deleted(self):
         original=self.app.repo.get_by_id(self.sid)
         other=self.app.repo.create('Andere Referenz','2025-01-02',original['path'])

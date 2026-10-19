@@ -1,5 +1,12 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.64 – Fehlgeschlagene Aufträge direkt löschen
+
+Die Warteschlange zeigt bei Fehlern einen Papierkorb neben Wiederholen.
+Eine Bestätigung nennt das Meeting; die Aktion verwendet den bestehenden
+Löschweg und entfernt auch einen leeren Aufnahmeversuch dauerhaft aus der Liste.
+[Prüfung und Auslieferung](docs/queue-delete/README.md).
+
 ## 0.5.63 – Dateigröße und Fortschritt pro Warteschlangenauftrag
 
 Jede Zeile zeigt die Größe der Audiodatei und eine eigene Fortschrittsspalte

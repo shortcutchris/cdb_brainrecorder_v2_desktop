@@ -113,7 +113,7 @@ body.keyboard-open .capture-footer{display:none}
 .mic:disabled .readiness-arrow{display:none}
 
 /* Queue metadata and activity stay aligned while polling updates text in place. */
-#queue-region .queue-row,#queue-region .queue-columns{display:grid;grid-template-columns:minmax(120px,1.25fr) 90px minmax(120px,1fr) minmax(180px,1.3fr) 130px;gap:16px;align-items:center}
+#queue-region .queue-row,#queue-region .queue-columns{display:grid;grid-template-columns:minmax(120px,1.25fr) 90px minmax(120px,1fr) minmax(180px,1.3fr) 184px;gap:16px;align-items:center}
 #queue-region .queue-columns{padding:0 20px 10px;color:var(--muted);font-size:13px;font-weight:600}
 #queue-region .queue-row{height:auto;min-height:112px}
 #queue-region .queue-row>strong{min-width:0;font-size:16px}
@@ -124,9 +124,15 @@ body.keyboard-open .capture-footer{display:none}
 .queue-job-progress>small{color:var(--muted);font-size:12px;line-height:1.3;overflow-wrap:anywhere}
 .queue-job-progress progress{width:100%;height:6px;accent-color:var(--accent)}
 @media(max-width:850px){#queue-region .queue-row,#queue-region .queue-columns{grid-template-columns:minmax(100px,1fr) 76px minmax(110px,1fr) minmax(145px,1.2fr) 100px;gap:10px}#queue-region .queue-row button{padding-inline:8px}}
-@media(max-width:650px){#queue-region .queue-columns{display:none}#queue-region .queue-row{grid-template-columns:minmax(0,1fr) auto;gap:12px;height:auto;min-height:160px}#queue-region .queue-row>strong{grid-column:1}#queue-region .queue-file-size{grid-column:2;grid-row:1}#queue-region .queue-job-status{grid-column:1;grid-row:2}#queue-region .queue-job-progress{grid-column:1;grid-row:3}#queue-region .queue-row>button{grid-column:2;grid-row:2/4}}
+@media(max-width:900px){#queue-region .queue-columns{display:none}#queue-region .queue-row{grid-template-columns:minmax(0,1fr) auto;gap:12px;height:auto;min-height:160px}#queue-region .queue-row>strong{grid-column:1}#queue-region .queue-file-size{grid-column:2;grid-row:1}#queue-region .queue-job-status{grid-column:1;grid-row:2}#queue-region .queue-job-progress{grid-column:1;grid-row:3}#queue-region .queue-row>button{grid-column:2;grid-row:2/4}}
 .queue-job-progress progress:indeterminate{border:0;border-radius:4px;background:linear-gradient(90deg,var(--line) 0 30%,var(--accent) 45% 55%,var(--line) 70% 100%);background-size:240% 100%;animation:queue-flow 1.8s linear infinite}
 .queue-job-progress progress:indeterminate::-webkit-progress-bar{background:transparent}
 @keyframes queue-flow{from{background-position:100% 0}to{background-position:0 0}}
 @media(prefers-reduced-motion:reduce){.queue-job-progress progress:indeterminate{animation:none}}
 #queue-region .queue-job-status{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;line-height:1.35}
+
+.queue-row-actions{display:flex;align-items:center;gap:8px}
+#queue-region .queue-row-actions>button{padding-inline:10px}
+#queue-region .queue-delete{min-width:48px;min-height:48px;padding:12px;display:grid;place-items:center}
+#queue-region .queue-delete img{width:22px;height:22px}
+@media(max-width:900px){#queue-region .queue-row>.queue-row-actions{grid-column:2;grid-row:2/4;flex-direction:column}}
