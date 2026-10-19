@@ -22,6 +22,20 @@ class StudioTests(unittest.TestCase):
         self.server=StudioServer(('127.0.0.1',0),self.app);self.thread=threading.Thread(target=self.server.serve_forever,daemon=True);self.thread.start()
         self.base='http://127.0.0.1:'+str(self.server.server_port)
     def tearDown(self):self.server.shutdown();self.server.server_close();self.app.close();self.tmp.cleanup()
+    def test_recorder_and_probe_use_shared_explicit_audio_source(self):
+        from services.live_audio import native_capture_command
+        self.assertIs(self.app.engine.recorder.command_factory, native_capture_command)
+        self.assertIs(self.app.probe.recorder, self.app.engine.recorder)
+
+    def test_injected_capture_factory_remains_available_for_isolated_tests(self):
+        factory = lambda config: ['synthetic-capture']
+        app = StudioApp(self.root/'isolated', self.root/'isolated.db', backend=Backend(),
+                        command_factory=factory, preview=True)
+        try:
+            self.assertIs(app.engine.recorder.command_factory, factory)
+        finally:
+            app.close()
+
     def test_repeated_wake_cleanup_failure_does_not_kill_ambient_loop(self):
         self.app.ambient_stop.set(); self.app.ambient_thread.join(3)
         self.app.ambient_stop.clear()
