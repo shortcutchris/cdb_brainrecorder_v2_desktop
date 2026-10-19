@@ -1,0 +1,84 @@
+{
+  "status": "pending",
+  "overall_goal_complete": false,
+  "note": "Telemetry only. Review hourly RSS trend, actual UI/audio and the full acceptance matrix separately.",
+  "start_epoch": 1792146675.5296578,
+  "end_epoch": 1792233075.5296578,
+  "analyzed_until_epoch": 1792156963.635265,
+  "elapsed_hours": 2.8578,
+  "completed_observation": false,
+  "valid_metric_samples": 687,
+  "invalid_samples": 0,
+  "covered_seconds": 10287.16,
+  "coverage_percent": 99.9908,
+  "largest_gap_seconds": 0.011,
+  "planned_window_coverage_percent": 11.9064,
+  "last_sample_age_seconds": 7.261,
+  "versions": [
+    "0.5.59",
+    "0.5.60"
+  ],
+  "browser_generation_changes": 0,
+  "wake_phrases": [
+    "okay-nabu",
+    "unknown"
+  ],
+  "backend_instance_changes": 1,
+  "observer_starts": 2,
+  "alerts": [],
+  "review_items": [
+    "runtime_restart_requires_review",
+    "observer_restart_requires_review",
+    "missing_or_mixed_versions",
+    "mixed_or_unknown_wake_phrases",
+    "observation_gaps_require_review",
+    "real_wake_after_eight_hours_missing"
+  ],
+  "idle_browser_cpu_percent_of_one_core": {
+    "samples": 625,
+    "min": 26.6,
+    "median": 28.2,
+    "p95": 30.26,
+    "max": 52.46
+  },
+  "idle_health_ms": {
+    "samples": 627,
+    "min": 4.17,
+    "median": 4.95,
+    "p95": 98.11,
+    "max": 106.45
+  },
+  "browser_rss_mb": {
+    "samples": 687,
+    "min": 1299.11,
+    "median": 1308.09,
+    "p95": 1311.19,
+    "max": 1320.55
+  },
+  "hourly_browser_rss": [
+    {
+      "hour": 0,
+      "samples": 241,
+      "median_rss_mb": 1308.17
+    },
+    {
+      "hour": 1,
+      "samples": 240,
+      "median_rss_mb": 1307.335
+    },
+    {
+      "hour": 2,
+      "samples": 206,
+      "median_rss_mb": 1308.6149999999998
+    }
+  ],
+  "observed_wakes": [],
+  "qualified_long_idle_wakes": 0,
+  "snapshot_sha256": {
+    "plan.json": "404975de065e12179e4141d1f3df57adf421b5df6990a6c827068a31d07a1125",
+    "events.jsonl": "97a3cbc9a97897fb41a130d5b2f9686d0e8e8bd04f93ac78a8a3e37d04bf8915",
+    "metrics.jsonl": "f78ae853f3c968854349fc0abc762b2f855b210adde336c37197c4241086bba1",
+    "status.json": "e1814c31d3ae3ef58cf01f164678e1366b485772dd6ad1ac44989d4ae5ccb62a"
+  },
+  "known_interventions": "Observer mapping correction, 0.5.60 deployment and announced acoustic labs; not an uninterrupted acceptance run."
+}
