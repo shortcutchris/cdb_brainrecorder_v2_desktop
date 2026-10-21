@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.65'
+VERSION = '0.5.66'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -72,6 +72,9 @@ class StudioApp:
         self.closing = False
         from services.audio_output import AudioOutput
         self.speakers = AudioOutput(self.store.root)
+        from services.announcements import Announcements
+        self.announcements = Announcements(self.store.root)
+        self.announcement_playing = False
         from services.bluetooth_audio import BluetoothAudio
         self.bluetooth = BluetoothAudio(enabled=not preview and backend is None)
         from services.model_checks import ModelChecks
@@ -156,6 +159,34 @@ class StudioApp:
     def remote_live_command(self, envelope, verified_grant):
         return self.remote_control.command(envelope, verified_grant)
 
+    def speech_context_allowed(self):
+        import time
+        activity = self.activity()
+        return (not activity.occupied and not activity.pending and not self.closing
+                and self.wake.test_until <= time.monotonic()
+                and not any(deadline > time.monotonic() for deadline in self.playback_leases.values()))
+
+    def speech_allowed(self):
+        import time
+        return self.speech_context_allowed() and self.output_busy_until <= time.monotonic()
+
+    def tick_announcements(self):
+        import time
+        if self.announcement_playing and self.speakers.test_status()['state'] != 'running':
+            self.announcement_playing = False
+            self.output_busy_until = max(self.output_busy_until, time.monotonic() + 2)
+        # No transcript, tokens, error text or audio are passed to speech.
+        with self.live.lock:
+            event = self.live.announcement_failure
+            safe = (self.speech_context_allowed() and self.live.state == 'error' and event is not None
+                    and event['sequence'] == self.live.generation
+                    and event['account_generation'] == self.cdb.generation)
+            clip = self.announcements.failure_clip(event, safe, quiet=self.output_busy_until <= time.monotonic())
+        if clip:
+            self.wake.suspend('Lokale Ansage läuft.')
+            self.speakers.start_announcement(clip)
+            self.announcement_playing = True
+
     def tick_alarm(self):
         """Called under the device control locks; Live does not defer an alarm."""
         if self.alarm_id and not any(i['id']==self.alarm_id and i['state']=='due' for i in self.schedules.items()):
@@ -167,13 +198,15 @@ class StudioApp:
         if self.activity().alarm_allowed:
             for item in self.schedules.items():
                 if item['state']=='due' and item['sound']=='pending':
+                    if item.get('tone') == 'silent':
+                        self.schedules.sound_result(item['id'], 'silent'); continue
+                    clip = self.announcements.timer_clip(item['kind']) if self.speech_allowed() else None
                     self.wake.suspend('Timer-Signal läuft.')
                     # Claim before playback: at most one attempt after a crash.
                     self.schedules.sound_result(item['id'],'attempted')
                     try:
-                        if item.get('tone')=='silent':
-                            self.schedules.sound_result(item['id'],'silent'); continue
-                        self.speakers.start_alarm(item.get('tone','bell'))
+                        if clip is None: self.speakers.start_alarm(item.get('tone','bell'))
+                        else: self.speakers.start_alarm(item.get('tone','bell'), announcement=clip)
                         self.alarm_id = item['id']
                     except ValueError: self.schedules.sound_result(item['id'],'failed')
                     break
@@ -190,7 +223,7 @@ class StudioApp:
                         self.clock_ready = result.returncode == 0 and result.stdout.strip() == 'yes'
                     except (OSError, subprocess.SubprocessError): self.clock_ready = False
                     next_clock = time.monotonic()+60
-                if (self.wake.enabled or self.wake.test_until) and time.monotonic() >= next_output:
+                if (self.wake.enabled or self.wake.test_until or any(self.announcements.enabled.values())) and time.monotonic() >= next_output:
                     try:
                         output = subprocess.run(['pactl','-f','json','list','sink-inputs'],capture_output=True,text=True,timeout=2)
                         if output.returncode != 0: raise ValueError()
@@ -204,6 +237,7 @@ class StudioApp:
                     if self.closing: return
                     self.playback_leases = {key:value for key,value in self.playback_leases.items() if value>time.monotonic()}
                     self.tick_alarm()
+                    self.tick_announcements()
                     reason = self.wake_reason()
                     self.wake.tick(account=self.wake_account(),reason=reason,
                                    config=self.store.config(),trigger=self.wake_start)
@@ -360,6 +394,7 @@ class StudioApp:
         state['model_check'] = self.model_checks.public()
         state['model_results'] = self.model_checks.results()
         state['speaker_test'] = self.speakers.test_status()
+        state['announcements'] = self.announcements.public()
         state['respeaker'] = self.respeaker.public()
         state['live'] = self.live.public()
         state['display'] = self.display.status()
@@ -486,6 +521,14 @@ class StudioApp:
                     self.wake.suspend('Audiowiedergabe läuft.')
                 else: self.playback_leases.pop(key,None)
                 return {'ok':True}
+            if path == '/api/announcements/reload':
+                self.require('configure')
+                if body: raise ValueError('Keine Parameter erwartet.')
+                self.announcements.reload()
+                return self.announcements.public()
+            if path == '/api/announcements':
+                self.require('configure')
+                return self.announcements.configure(body)
             if path == '/api/timers/tone':
                 self.require('configure')
                 self.wake.suspend('Alarmton wird vorgespielt.')
@@ -513,6 +556,12 @@ class StudioApp:
                     self.live_audio_config()
                     return self.wake.configure(True,self.wake_account())
                 raise ValueError('Unbekannte Aktivierungswort-Aktion.')
+            if path in ('/api/record/start','/api/live/reserve','/api/microphone/test','/api/cdb/logout'):
+                with self.live.lock:
+                    self.announcements.failure_clip(self.live.announcement_failure, False)
+                if self.announcement_playing:
+                    self.speakers.stop_test()
+                    self.announcement_playing = False
             if path in ('/api/record/start','/api/live/reserve','/api/microphone/test') and self.alarm_id:
                 self.speakers.stop_test();self.schedules.sound_result(self.alarm_id,'interrupted');self.alarm_id=None
             if path == '/api/cdb/logout': self.wake.configure(False,None)

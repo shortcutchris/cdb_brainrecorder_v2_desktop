@@ -116,3 +116,7 @@ nötig; inkompatible App-Pakete werden abgewiesen. Die verbindliche
 - [TQS-/BFF-Abnahme](../device-tools-0.5.32/README.md),
   [Geräteverwaltung](../device-management-0.5.43/README.md),
   [Erststart](../first-start-0.5.44/README.md).
+
+## Vorbereitete Sprachansagen
+
+`services/announcements.py` verwaltet feste, geprüfte WAV-Clips und separate Opt-ins. `StudioApp` entscheidet unter den vorhandenen Gerätesperren über Ausgabe; `AudioOutput` besitzt den Wiedergabeprozess bis zum bestätigten Ende. Phonon wird ausschließlich vom optionalen Vorbereitungswerkzeug auf einem anderen Rechner verwendet. Kein zweiter Mikrofonpfad, keine Runtime-Synthese. [Verhalten und Installation](../local-announcements/README.md).

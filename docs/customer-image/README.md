@@ -128,3 +128,7 @@ Die privaten Signierschlüssel bleiben ausschließlich außerhalb des Repository
 
 Quellen: [pi-gen](https://github.com/RPi-Distro/pi-gen),
 [Pi-5-Prozessor](https://www.raspberrypi.com/documentation/computers/processors.html).
+
+## Optionale lokale Ansagen
+
+Die neue Ansagensteuerung verwendet die bestehenden App-Positivlisten, ohne Runtime- oder Schemawechsel. Frische Images und Updates aktivieren keine Sprache automatisch. Modell, Sprachpaket und `announcements.json` gehören nicht in den Quell-Export. Ein optionales Paket wird separat geprüft und installiert. [Paketformat, Bestandsgeräte und Abnahme](../local-announcements/README.md).

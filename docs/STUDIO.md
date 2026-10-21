@@ -186,3 +186,7 @@ dasselbe Brain-Konto. Code am Pi erzeugen, in der App eingeben und die Anfrage
 am Pi bestätigen. Das Handy steuert Start, Ende und Stummschaltung; Audio bleibt
 am Pi. Ohne Server-Capability bleibt der Bereich gesperrt. Aufnahme und Pause
 verhindern einen Gesprächsstart. [Bedienung, Sicherheitsregeln und Prüfumfang](remote-control/IMPLEMENTATION-63.md).
+
+## Lokale Ansagen (in Entwicklung)
+
+Unter **Einstellungen → Audio → Lautsprecher → Lokale Ansagen einrichten** lassen sich Gesprächshinweise sowie Timer-/Erinnerungsansagen getrennt einschalten, sobald ein geprüftes Sprachpaket bereitliegt. Beide Optionen starten ausgeschaltet. Keine Ansage während Aufnahme oder Pause; im Gespräch behalten Timer den bisherigen Ton. [Bedienung, Schutzregeln und Installation](local-announcements/README.md).

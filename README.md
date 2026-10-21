@@ -1,5 +1,14 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.66 – Vorbereitete lokale Sprachansagen
+
+Optionale deutsche Ansagen für fehlgeschlagene Gespräche, Timer und Erinnerungen
+verwenden geprüfte, vorberechnete Dateien. Aufnahme und Pause haben Vorrang;
+Sprachansagen bleiben während einer Unterhaltung aus. Beide Optionen sind bei
+der Ersteinrichtung ausgeschaltet. Keine neue Laufzeitabhängigkeit oder
+Datenbankmigration; ein Sprachpaket wird getrennt bereitgestellt.
+[Bedienung, Schutzregeln und Abnahme](docs/local-announcements/README.md).
+
 ## 0.5.65 – Einheitliche App-Dialoge und helle Papierkörbe
 
 Meeting- und Vorlagenlöschung verwenden einen eigenen Dialog im aktuellen Theme.
@@ -841,3 +850,7 @@ Lokaler Touch-Assistent für WLAN, Verwaltungscode und Übergang zur Audioeinric
 CDB/TQS, Geräteverwaltung und externen Bildschirm.
 [Image-Pflege und Build-Anleitung](docs/customer-image/README.md) beschreiben,
 wie neue Funktionen in künftige SD-Images und kompatible App-Updates eingehen.
+
+## Vorbereitete lokale Ansagen (in Entwicklung)
+
+Optionale feste Offline-, Timer- und Erinnerungsansagen ohne KI-Rechenlast im Betrieb. Standardmäßig aus; Aufnahme und Pause bleiben geschützt. Bedienung, Paketvorbereitung, Update-/Image-Einfluss und offener Gerätecheck: [Lokale Ansagen](docs/local-announcements/README.md).

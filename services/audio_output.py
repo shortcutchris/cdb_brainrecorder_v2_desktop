@@ -13,6 +13,7 @@ import threading
 import wave
 
 from meeting_recorder.core import atomic_write
+from meeting_recorder.child_process import owned_command
 
 
 class AudioOutput:
@@ -126,65 +127,111 @@ class AudioOutput:
             output.setparams((2, 2, rate, 0, 'NONE', 'not compressed'))
             output.writeframes(frames.tobytes())
 
-    def start_alarm(self, tone):
-        return self.start_test(tone, alarm=True)
+    def start_alarm(self, tone, announcement=None):
+        return self.start_test(tone, alarm=True, announcement=announcement)
 
-    def start_test(self, tone=None, *, alarm=False):
+    def start_announcement(self, clip):
+        return self.start_test(announcement=clip)
+
+    def start_test(self, tone=None, *, alarm=False, announcement=None):
+        if announcement is not None:
+            from services.announcements import validate_wav
+            validate_wav(announcement)
         if tone is not None:
             from services.alarm_tones import TONES
-            if tone not in TONES or tone=='silent': raise ValueError('Kein abspielbarer Alarmton.')
+            if tone not in TONES or tone == 'silent': raise ValueError('Kein abspielbarer Alarmton.')
         if alarm and tone is None: raise ValueError('Alarmton fehlt.')
         with self.lock:
-            if self.test['state'] == 'running':
-                raise ValueError('Testton läuft bereits.')
+            if self.test['state'] == 'running' or self.process is not None:
+                raise ValueError('Audioausgabe läuft bereits.')
             state = self.public()
             if not state['available']:
                 raise ValueError(state['message'])
             if state['muted'] or state['volume'] == 0:
                 raise ValueError('Stummschaltung aufheben und Lautstärke erhöhen.')
             self.cancelled = False
-            self.test = {'state': 'running', 'message': 'Alarmton am Pi.' if tone else 'Testton am Pi: erst links, dann rechts.', 'device': state['selected']}
-            self.thread = threading.Thread(target=self._play, args=(state['selected'],tone,60 if alarm else 3), daemon=True)
+            kind = 'alarm' if alarm else 'announcement' if announcement is not None else 'test'
+            self.test = {'state': 'running', 'kind': kind, 'message': 'Lokale Ansage am Pi.' if announcement is not None else 'Alarmton am Pi.' if tone else 'Testton am Pi: erst links, dann rechts.', 'device': state['selected']}
+            self.thread = threading.Thread(target=self._play, args=(state['selected'], tone, 60 if alarm else 3, announcement), daemon=True)
             self.thread.start()
             return self.test_status()
 
-    def _play(self, device, tone=None, seconds=3):
+    @staticmethod
+    def prepend_speech(path, clip):
+        import io
+        with wave.open(io.BytesIO(clip)) as speech:
+            mono = speech.readframes(speech.getnframes())
+        # Alarm tones are stereo; duplicate each PCM16 sample without changing
+        # its level. This is file assembly, never inference or live capture.
+        stereo = b''.join(mono[i:i+2] * 2 for i in range(0, len(mono), 2))
+        with wave.open(str(path)) as alarm:
+            params, frames = alarm.getparams(), alarm.readframes(alarm.getnframes())
+        with wave.open(str(path), 'wb') as output:
+            output.setparams(params)
+            output.writeframes(stereo + frames)
+
+    @staticmethod
+    def stop_process(process):
+        if process.poll() is not None: return
+        try: process.terminate()
+        except ProcessLookupError: pass
+        try: process.wait(timeout=1)
+        except subprocess.TimeoutExpired:
+            try: process.kill()
+            except ProcessLookupError: pass
+            process.wait(timeout=2)
+
+    def _play(self, device, tone=None, seconds=3, announcement=None):
+        process = None
+        released = True
+        outcome = 'failed'
         try:
             path = self.root / 'speaker-test.wav'
-            if tone is None: self.write_tone(path)
+            if tone is None:
+                if announcement is None: self.write_tone(path)
+                else: path.write_bytes(announcement)
             else:
                 from services.alarm_tones import write_alarm
-                write_alarm(path,tone,seconds)
+                write_alarm(path, tone, seconds)
+                if announcement is not None: self.prepend_speech(path, announcement)
             with self.lock:
-                if self.cancelled:
-                    return
-                self.process = subprocess.Popen(['paplay', '--device=' + device, str(path)],
-                                                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-                process = self.process
-            code = process.wait(timeout=seconds+5)
-            with self.lock:
-                if not self.cancelled:
-                    self.test = {'state': 'completed' if code == 0 else 'failed', 'device': device,
-                                 'message': ('Alarmton beendet.' if tone else 'Testton beendet. Waren beide Töne hörbar?') if code == 0 else 'Testton fehlgeschlagen. Ausgang und Verbindung prüfen.'}
+                if self.cancelled: return
+                process = subprocess.Popen(owned_command(['paplay', '--device=' + device, str(path)]),
+                                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                self.process = process
+                released = False
+            code = process.wait(timeout=seconds + (15 if announcement else 0) + 5)
+            released = True
+            outcome = 'completed' if code == 0 else 'failed'
         except (OSError, subprocess.SubprocessError):
-            with self.lock:
-                if self.process and self.process.poll() is None:
-                    self.process.kill()
-                    self.process.wait()
-                if not self.cancelled:
-                    self.test = {'state': 'failed', 'device': device, 'message': 'Testton fehlgeschlagen. Audioausgabe prüfen.'}
+            if process is not None:
+                try:
+                    self.stop_process(process)
+                    released = True
+                except (OSError, subprocess.SubprocessError): pass
         finally:
             with self.lock:
-                self.process = None
+                if released:
+                    self.process = None
+                    self.test = dict(self.test, state='cancelled' if self.cancelled else outcome,
+                                     message='Audioausgabe beendet.' if self.cancelled or outcome == 'completed' else 'Audioausgabe fehlgeschlagen. Ausgang prüfen.')
+                else:
+                    # Keep the device busy and retain the child for a retry.
+                    self.test = dict(self.test, state='running', message='Audioausgabe wird noch beendet. Bitte erneut stoppen.')
 
     def stop_test(self):
         with self.lock:
             self.cancelled = True
-            if self.process and self.process.poll() is None:
-                self.process.terminate()
+            process, thread = self.process, self.thread
+        try:
+            if process is not None: self.stop_process(process)
+            if thread is not None: thread.join(timeout=3)
+            if thread is not None and thread.is_alive():
+                raise ValueError('Audioausgabe wird noch beendet. Bitte erneut stoppen.')
+        except (OSError, subprocess.SubprocessError) as error:
+            raise ValueError('Audioausgabe wird noch beendet. Bitte erneut stoppen.') from error
+        with self.lock:
+            self.process = None
             if self.test['state'] == 'running':
-                self.test = {'state': 'cancelled', 'message': 'Testton beendet.'}
-            thread = self.thread
-        if thread:
-            thread.join(timeout=9)
-        return self.test_status()
+                self.test = dict(self.test, state='cancelled', message='Audioausgabe beendet.')
+            return self.test_status()
