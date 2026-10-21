@@ -60,7 +60,7 @@ vom 21.10. gelesen. Bestell-/Lieferrevision ist dort noch nicht bestätigt.
   unbekannte Zeit nach Neustart ausdrücklich gekennzeichnet.
 - `services/lcd_bridge.py`: separater, optionaler USB-Prozess, nur lokale Quelle;
   feste Größen-/Zeitgrenzen, Wiederverbindung, keine Kommandoweiterleitung.
-- `firmware/lcd-usb`: ESP-IDF 5.5.2, LVGL, Touch-Navigation und USB-Empfänger.
+- `firmware/lcd-usb`: ESP-IDF 5.5.2, LVGL 9.6.0, Touch-Navigation und USB-Empfänger.
 - `scripts/lcd-display/prepare_vendor.py`: lädt exakt geprüftes Herstellerarchiv,
   extrahiert nur zwei BSP-Dateien, wählt 1024×600. Archiv/BSP bleiben außerhalb Git.
   Herstellerdateien enthalten keinen eigenen Lizenzheader; Weitergabe von
@@ -104,7 +104,7 @@ Das ist Schutz gegen Verwechslung/Wiederholung über ein lokales USB-Kabel, **ke
 kryptografische Identitätsprüfung**. BLE benötigt später eigenes Pairing/Bonding.
 
 Snapshot enthält nur Gesamtzahl, Zeitbereitschaft und Timer mit ID, Revision,
-Titel (maximal 80 Zeichen), Status, Restmillisekunden und Zeitgültigkeit. Keine
+Titel (maximal 80 Zeichen; Schrift Latin-1 mit Umlauten/ß, keine universelle Emoji-Abdeckung), Status, Restmillisekunden und Zeitgültigkeit. Keine
 Aufnahmen, Konten, Tokens, Gesprächsinhalte oder Konfiguration. Es wird nichts auf
 dem Display dauerhaft gespeichert. Bei Quellenverlust keine Wiederholung alter
 Zustände; beim Wiederverbinden ersetzt ein vollständiger Zustand die Anzeige.

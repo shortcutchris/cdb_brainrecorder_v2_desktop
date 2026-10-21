@@ -11,6 +11,9 @@
 #include "esp_lv_adapter.h"
 #include "waveshare_rgb_lcd_port.h"
 #include "protocol.h"
+#if LVGL_VERSION_MAJOR != 9 || LVGL_VERSION_MINOR != 6 || LVGL_VERSION_PATCH != 0
+#error "Review this firmware before changing its LVGL version"
+#endif
 LV_FONT_DECLARE(cdb_text_20);
 LV_FONT_DECLARE(cdb_text_24);
 LV_FONT_DECLARE(cdb_text_32);
