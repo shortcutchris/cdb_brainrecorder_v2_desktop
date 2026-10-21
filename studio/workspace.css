@@ -146,3 +146,9 @@ body.keyboard-open .capture-footer{display:none}
 #app-confirm .dialog-actions{padding:16px 24px;display:flex;gap:12px;border-top:1px solid var(--line);background:var(--panel)}
 #app-confirm .dialog-actions button{flex:1;min-height:56px;white-space:normal}
 #app-confirm{height:fit-content;min-height:0;inset:0;margin:auto}
+
+/* Keep all fixed-speech choices reachable on the 1280 x 720 touch display. */
+.announcement-option { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:6px 16px; align-items:center; }
+.announcement-option > strong, .announcement-option > p { grid-column:1; margin:0; }
+.announcement-option > button { grid-column:2; grid-row:1 / span 2; }
+@media (max-width:700px) { .announcement-option { grid-template-columns:1fr; } .announcement-option > button { grid-column:1; grid-row:auto; } }

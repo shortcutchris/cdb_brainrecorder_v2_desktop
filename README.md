@@ -1,5 +1,13 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.67 – Lokale Verbindungsansage vor dem Gespräch
+
+Die optionale Ansage „Ich verbinde dich.“ erklingt einmal vor dem Öffnen des
+Gesprächsmikrofons. Wiedergabe und Nachhall bleiben abbrechbar; Aufnahme und
+Pause haben weiterhin Vorrang. Bestehende Ansagepakete und Einstellungen bleiben
+erhalten. Keine neuen Runtime-Abhängigkeiten oder Datenmigrationen.
+[Bedienung, Prüfung und Bereitstellung](docs/local-announcements/connecting.md).
+
 ## 0.5.66 – Vorbereitete lokale Sprachansagen
 
 Optionale deutsche Ansagen für fehlgeschlagene Gespräche, Timer und Erinnerungen

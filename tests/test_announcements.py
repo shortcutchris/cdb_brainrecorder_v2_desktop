@@ -41,7 +41,7 @@ class PackTests(unittest.TestCase):
     def test_clean_install_and_upgrade_preserve_other_settings_default_off(self):
         old = self.root / 'config.json'; old.write_text('{"device":"existing"}')
         manager = Announcements(self.root)
-        self.assertEqual(manager.enabled, {'offline': False, 'timers': False})
+        self.assertEqual(manager.enabled, {'offline': False, 'timers': False, 'connecting': False})
         self.assertFalse(manager.public()['ready'])
         with self.assertRaises(ValueError): manager.configure({'offline': True})
         pack(self.root); manager.configure({'timers': True})
@@ -56,7 +56,7 @@ class PackTests(unittest.TestCase):
         self.assertFalse(any(manager.enabled.values()))
         for body in ({'offline': 'true'}, {'text': 'arbitrary'}, {}, {'timers': 1}):
             with self.subTest(body=body), self.assertRaises(ValueError): manager.configure(body)
-        manager.configure({'offline': False, 'timers': False})
+        manager.configure({'offline': False, 'timers': False, 'connecting': False})
 
     def test_pack_tamper_missing_wrong_phrase_and_symlink_rejected(self):
         folder = pack(self.root)
@@ -118,7 +118,7 @@ class PackTests(unittest.TestCase):
         target = self.root / 'app'; target.mkdir()
         preference = target / 'announcements.json'; preference.write_text('{"timers":false}')
         installed = install(source, target)
-        self.assertEqual(set(p.name for p in installed.iterdir()), {'manifest.json', 'offline.wav', 'timer.wav', 'reminder.wav'})
+        self.assertEqual(set(p.name for p in installed.iterdir()), {'manifest.json', 'offline.wav', 'timer.wav', 'reminder.wav', 'connecting.wav'})
         self.assertEqual(preference.read_text(), '{"timers":false}')
         self.assertEqual(load_pack(installed), load_pack(source))
         with self.assertRaises(ValueError): install(source, target)
@@ -135,6 +135,36 @@ class PackTests(unittest.TestCase):
         manifest = json.loads((installed / 'manifest.json').read_bytes())
         self.assertEqual(manifest['clips']['offline']['text'], PHRASES['offline'])
         self.assertEqual(load_pack(installed), load_pack(source))
+
+    def test_legacy_pack_keeps_existing_opt_ins_and_requires_optional_connecting_clip(self):
+        folder = pack(self.root)
+        manifest = json.loads((folder / 'manifest.json').read_text())
+        del manifest['clips']['connecting']
+        (folder / 'manifest.json').write_text(json.dumps(manifest))
+        (folder / 'connecting.wav').unlink()
+        (self.root / 'announcements.json').write_text('{"offline":true,"timers":true}')
+        manager = Announcements(self.root)
+        self.assertTrue(manager.public()['ready'])
+        self.assertFalse(manager.public()['connecting_ready'])
+        self.assertIsNotNone(manager.timer_clip('timer'))
+        self.assertIsNone(manager.connecting_clip())
+        with self.assertRaises(ValueError): manager.configure({'connecting': True})
+        self.assertEqual(manager.enabled, {'offline': True, 'timers': True, 'connecting': False})
+
+    def test_connecting_clip_opt_in_and_duration_limit(self):
+        folder = pack(self.root); manager = Announcements(self.root)
+        self.assertIsNone(manager.connecting_clip())
+        manager.configure({'connecting': True})
+        self.assertEqual(manager.connecting_clip(), wav())
+        data = io.BytesIO()
+        with wave.open(data, 'wb') as audio:
+            audio.setparams((1, 2, 24000, 0, 'NONE', 'none'))
+            audio.writeframes(b'\x00\x01' * (24000 * 4))
+        (folder / 'connecting.wav').write_bytes(data.getvalue())
+        manifest = json.loads((folder / 'manifest.json').read_text())
+        manifest['clips']['connecting']['sha256'] = hashlib.sha256(data.getvalue()).hexdigest()
+        (folder / 'manifest.json').write_text(json.dumps(manifest))
+        with self.assertRaises(ValueError): load_pack(folder)
 
     def test_runtime_assets_allowlisted_private_pack_excluded(self):
         from fleet.releases import allowed

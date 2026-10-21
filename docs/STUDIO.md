@@ -190,3 +190,10 @@ verhindern einen Gesprächsstart. [Bedienung, Sicherheitsregeln und Prüfumfang]
 ## Lokale Ansagen (in Entwicklung)
 
 Unter **Einstellungen → Audio → Lautsprecher → Lokale Ansagen einrichten** lassen sich Gesprächshinweise sowie Timer-/Erinnerungsansagen getrennt einschalten, sobald ein geprüftes Sprachpaket bereitliegt. Beide Optionen starten ausgeschaltet. Keine Ansage während Aufnahme oder Pause; im Gespräch behalten Timer den bisherigen Ton. [Bedienung, Schutzregeln und Installation](local-announcements/README.md).
+
+## Vorbereitete Verbindungsansage
+
+Die separate Option „Gespräch wird verbunden“ spielt vor dem Gesprächsmikrofon
+„Ich verbinde dich.“ ab. Zwei Sekunden Nachhallabstand schützen den Eingang.
+Bestehende Drei-Clip-Pakete und Opt-ins bleiben gültig. Noch nicht produktiv
+installiert: [Bedienung, Ablauf und Prüfung](local-announcements/connecting.md).

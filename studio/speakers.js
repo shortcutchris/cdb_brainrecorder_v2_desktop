@@ -10,15 +10,15 @@ function speakerControls(data,s,connected,busy){
 function announcementControls(s,connected,busy){
  const a=s?.announcements||{};
  const locked=!connected||busy||Boolean(s?.recording?.id)||s?.capabilities?.configure?.allowed===false;
- return {reload:!locked,offline:!locked&&Boolean(a.ready||a.offline),timers:!locked&&Boolean(a.ready||a.timers),
+ return {reload:!locked,offline:!locked&&Boolean(a.ready||a.offline),timers:!locked&&Boolean(a.ready||a.timers),connecting:!locked&&Boolean(a.connecting_ready||a.connecting),
   stop:connected&&!busy&&!s?.recording?.id&&s?.speaker_test?.state==='running'};
 }
 function renderAnnouncements(){
  const a=state?.announcements||{},c=announcementControls(state,online,speakerBusy);
- for(const key of ['offline','timers']){
+ for(const key of ['offline','timers','connecting']){
   const button=$('announcements-'+key);button.disabled=!c[key];
   button.textContent=a[key]?'Ausschalten':'Einschalten';
-  button.setAttribute('aria-label',(key==='offline'?'Gesprächshinweis':'Timer-Ansagen')+(a[key]?' ausschalten':' einschalten'));button.setAttribute('aria-pressed',String(Boolean(a[key])));
+  button.setAttribute('aria-label',({offline:'Gesprächshinweis',timers:'Timer-Ansagen',connecting:'Verbindungsansage'}[key])+(a[key]?' ausschalten':' einschalten'));button.setAttribute('aria-pressed',String(Boolean(a[key])));
  }
  $('announcements-status').textContent=!online?'Verbindung zum Pi unterbrochen.':a.message||'Sprachpaket wird geprüft.';
  $('announcements-stop').disabled=!c.stop;
@@ -76,6 +76,6 @@ const beforeSpeakerState=renderState;
 renderState=function(){beforeSpeakerState();renderSpeakers();if(!$('speaker-page').hidden&&$('settings').open&&$('settings').dataset.overview!=='true')loadSpeakers()};
 
 $('speaker-announcements').onclick=()=>showSettingsDetail('announcements-page');
-for(const key of ['offline','timers'])$('announcements-'+key).onclick=()=>speakerAction('/api/announcements',{[key]:!state?.announcements?.[key]});
+for(const key of ['offline','timers','connecting'])$('announcements-'+key).onclick=()=>speakerAction('/api/announcements',{[key]:!state?.announcements?.[key]});
 $('announcements-stop').onclick=()=>speakerAction('/api/speakers/stop',{});
 $('announcements-reload').onclick=()=>speakerAction('/api/announcements/reload',{});

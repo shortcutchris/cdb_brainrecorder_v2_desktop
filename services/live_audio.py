@@ -155,6 +155,7 @@ class NativeLiveAudio:
         self.connecting_task = None
         self.connecting_stop = asyncio.Event()
         self.connecting_tone_state = 'waiting'
+        self.connecting_announcement_state = 'waiting'
         self.connecting_blocks = 0
         self.startup_input_blocked = True
         self.channel = None
@@ -214,6 +215,8 @@ class NativeLiveAudio:
 
     async def _open(self):
         self.opening_task = asyncio.current_task()
+        await self._connection_announcement()
+        if self.closed.is_set(): raise asyncio.CancelledError()
         from aiortc import AudioStreamTrack, RTCPeerConnection
         import av
         transport = self
@@ -313,6 +316,43 @@ class NativeLiveAudio:
             self.ready_tone_started = True
             self.ready_tone_state = 'playing'
             self._task(self._welcome())
+
+    async def _connection_announcement(self):
+        """Once before capture/SDP; owned by the reserved Live session, cancellable."""
+        clip = self.config.get('connecting_announcement')
+        if not clip:
+            self.connecting_announcement_state = 'skipped'
+            return
+        import io
+        import wave
+        from services.announcements import validate_wav
+        validate_wav(clip)
+        with wave.open(io.BytesIO(clip)) as audio:
+            if audio.getnframes() > 24000 * 3:
+                raise ValueError('Verbindungsansage zu lang.')
+            pcm = audio.readframes(audio.getnframes())
+        process = None
+        self.connecting_announcement_state = 'playing'
+        try:
+            process = await self._spawn(self.playback_command, stdin=asyncio.subprocess.PIPE)
+            # At most three seconds; no file path, model or extra capture process.
+            process.stdin.write(pcm)
+            await asyncio.wait_for(process.stdin.drain(), 2)
+            process.stdin.close()
+            await asyncio.wait_for(process.wait(), len(pcm) / 48000 + 2)
+            self.connecting_announcement_state = 'played' if process.returncode == 0 else 'failed'
+        except asyncio.CancelledError:
+            self.connecting_announcement_state = 'cancelled'
+            raise
+        except (OSError, ValueError, EOFError, asyncio.TimeoutError, ConnectionError):
+            self.connecting_announcement_state = 'failed'
+        finally:
+            # A cleanup failure propagates: never open input with a live output child.
+            if process: await self._terminate(process)
+        if self.closed.is_set(): raise asyncio.CancelledError()
+        if process:
+            # The room microphone remains unopened throughout playback and tail.
+            await asyncio.sleep(2)
 
     async def _connecting_tone(self):
         process = None
@@ -602,6 +642,7 @@ class NativeLiveAudio:
         return {'capture_backend': 'pipewire' if self.capture_command[0] == 'parec' else 'explicit-device',
                 'captured_frames': self.captured_frames, 'sent_frames': self.sent_frames,
                 'played_frames': self.received_frames, 'search_tones':self.search_tones, 'search_loop_blocks':self.search_loop_blocks, 'search_loop_pauses':self.search_loop_pauses, 'event_types':dict(self.event_types), 'processes_alive': sum(p.returncode is None for p in list(self.processes)),
+                'connecting_announcement': self.connecting_announcement_state,
                 'connecting_tone': self.connecting_tone_state, 'connecting_blocks': self.connecting_blocks,
                 'greeting': self.greeting_state, 'ready_tone': self.ready_tone_state, 'closed': self.closed.is_set()}
 

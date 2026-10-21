@@ -18,3 +18,5 @@ test('speech controls obey recording, pause, disconnected and occupied guards',(
  state.recording.id=null;state.capabilities.configure.allowed=false;
  assert.equal(ctx.announcementControls(state,true,false).offline,false);assert.equal(ctx.announcementControls(state,true,false).stop,true);
 });
+
+test('connecting voice requires its optional clip and follows activity lock',()=>{const state=s();state.announcements={ready:true,connecting_ready:false,connecting:false};assert.equal(ctx.announcementControls(state,true,false).connecting,false);state.announcements.connecting_ready=true;assert.equal(ctx.announcementControls(state,true,false).connecting,true);state.capabilities.configure.allowed=false;assert.equal(ctx.announcementControls(state,true,false).connecting,false)});

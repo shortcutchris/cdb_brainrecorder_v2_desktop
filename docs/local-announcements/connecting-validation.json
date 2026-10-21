@@ -1,0 +1,26 @@
+{
+  "python": {
+    "passed": 491,
+    "log_sha256": "3180ec2d91d8abd4a0a3141b02d36a280bb7782f69348ca4c3824643339db5d8"
+  },
+  "javascript": {
+    "passed": 125,
+    "log_sha256": "396e6606c511ee6cffdb010cc629aefcb02b268c6d427f4eb2136bd6aa43619a"
+  },
+  "connecting_clip_seconds": 1.68,
+  "post_playback_tail_seconds": 2,
+  "production_deployed": false,
+  "microphone_opened_in_tests": false,
+  "cloud_session_started_in_tests": false,
+  "browser": {
+    "viewport": "1280x720",
+    "missing_pack_activation_disabled": true,
+    "independent_opt_in_persists": true,
+    "screenshot": "connecting-preview.png"
+  },
+  "remaining": [
+    "production deployment",
+    "real start and cancellation",
+    "room echo acceptance"
+  ]
+}
