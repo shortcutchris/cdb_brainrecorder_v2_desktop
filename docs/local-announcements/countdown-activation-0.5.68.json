@@ -1,0 +1,23 @@
+{
+  "at": 1792609663.485661,
+  "version": "0.5.68",
+  "old_clips_unchanged": true,
+  "wake_and_speaker_preferences_preserved": true,
+  "backup": "/home/chris/recorder-backups/countdown-068",
+  "announcements": {
+    "offline": true,
+    "timers": true,
+    "connecting": true,
+    "countdown": true,
+    "ready": true,
+    "connecting_ready": true,
+    "countdown_ready": true,
+    "message": "Deutsches Sprachpaket bereit. \u00c4nderungen werden beim Speichern neu gepr\u00fcft."
+  },
+  "health": {
+    "version": "0.5.68",
+    "ready": true,
+    "activity": "idle",
+    "wake_state": "waiting"
+  }
+}

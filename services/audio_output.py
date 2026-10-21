@@ -219,11 +219,15 @@ class AudioOutput:
             code = process.wait(timeout=timeout)
             released = True
             outcome = 'completed' if code == 0 else 'failed'
-        except (OSError, subprocess.SubprocessError):
+        except (OSError, subprocess.SubprocessError) as error:
             if process is not None:
                 try:
                     self.stop_process(process)
                     released = True
+                    # Countdown playback has a deliberate timer deadline.
+                    # A confirmed stop there is normal; other failures stay errors.
+                    if countdown_end is not None and isinstance(error, subprocess.TimeoutExpired):
+                        outcome = 'completed'
                 except (OSError, subprocess.SubprocessError): pass
         finally:
             with self.lock:

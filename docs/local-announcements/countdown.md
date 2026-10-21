@@ -1,8 +1,15 @@
 # Deutscher Timer-Countdown
 
-Stand: 21. Oktober 2026. **Vorbereitete Erweiterung, noch nicht auf dem Pi
-installiert oder aktiviert.** Produktiv bleibt die bestätigte 0.5.67 mit den
-bisherigen vier Ansagen. Für diese Entwicklung wurde der Pi nicht angesprochen.
+Stand: 21. Oktober 2026. **0.5.68 auf dem Pi installiert und aktiviert**, signierte
+Sequenz 25, PR #15 gemergt. Die bisherigen vier Ansagen sind bytegleich erhalten.
+Ein echter 15-Sekunden-Timer startete die Wiedergabe nach 10,040 Sekunden;
+ein zweiter Test bestätigte den Abbruch. Anschließend jeweils idle/listening.
+Die persönliche Hörabnahme des neuen Clips bleibt offen.
+
+Der Test zeigte eine kurzzeitige falsche Fehlermeldung beim planmäßigen Beenden
+am Timerende. Korrektur 0.5.69 wertet ausschließlich den bestätigten Stopp nach
+Countdown-Fristablauf als normalen Abschluss. Andere Wiedergabefehler bleiben
+Fehler; bei fehlgeschlagener Beendigung bleibt der Prozess als belegt erhalten.
 
 ## Bedienung
 
@@ -122,8 +129,20 @@ Paket nur Countdown einschaltbar, Auswahl nach Neuladen erhalten; anschließend
 wieder ausgeschaltet. Alle vier Optionen sichtbar. Technische Ergebnisse:
 [countdown-validation.json](countdown-validation.json).
 
-Offen bleiben Merge/Deployment, koordinierte Pi-Timing-/Hörprüfung und natürliche
+Offen bleiben persönliche Hörprüfung und natürliche
 Rufwortprüfung nach der Ausgabe. Die bisherige Hörabnahme der Stimme ersetzt
 nicht die Abnahme dieses neuen Countdown-Clips.
 
 ![Countdown-Schalter in der lokalen Vorschau](countdown-preview.png)
+
+
+## Gerätebelege
+
+- [Signiertes Update 0.5.68](countdown-deployment-0.5.68.json)
+- [Paketwechsel und Aktivierung](countdown-activation-0.5.68.json)
+- [Erster Ablauf-/Abbruchtest einschließlich Frist-Anzeigefehler](countdown-pi-smoke-0.5.68.json)
+
+Die Prozessmessungen belegen Start/Beendigung der Wiedergabe, keine akustische
+Messung der hörbaren Zahlen. Der Alarm wurde nach Beginn gezielt quittiert;
+sein vollständiger Ausklang wurde nicht abgewartet. Keine Aufnahme oder
+Unterhaltung wurde für die Prüfung gestartet. Nur eigene Testtimer wurden geändert.

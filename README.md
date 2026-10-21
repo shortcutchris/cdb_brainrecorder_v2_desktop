@@ -1,10 +1,18 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.69 – Countdown-Abschluss ohne falsche Fehlermeldung
+
+Beim Pi-Test endete der Countdown planmäßig am Timerende, wurde aber kurz als
+Audiofehler angezeigt. Ein bestätigtes Beenden an dieser Frist gilt jetzt als
+normaler Abschluss; echte Fehler und fehlgeschlagene Prozessbeendigung bleiben
+sichtbar. Keine Änderung an Frist, Schutzregeln, Sprachpaket oder Datenformat.
+
 ## 0.5.68 – Timer auf Deutsch herunterzählen
 
 Separater Opt-in für „fünf, vier, drei, zwei, eins“ vor dem Timerende.
 Vorgefertigte Standardstimme, Vorrang für Aufnahme/Gespräch, keine verspätete
-Nachholwiedergabe. Noch nicht auf dem Pi installiert.
+Nachholwiedergabe. Auf dem Pi installiert und eingeschaltet; Timerablauf und
+Abbruch wurden technisch geprüft. Persönliche Hörabnahme des Countdowns offen.
 [Bedienung, Schutzregeln und Prüfumfang](docs/local-announcements/countdown.md).
 
 ## 0.5.67 – Lokale Verbindungsansage vor dem Gespräch

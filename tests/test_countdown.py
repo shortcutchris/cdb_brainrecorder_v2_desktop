@@ -141,6 +141,26 @@ class CountdownPlaybackTests(unittest.TestCase):
             with patch('services.audio_output.time.monotonic',side_effect=lambda:now[0]),patch('services.audio_output.time.sleep',side_effect=advance),patch('services.audio_output.subprocess.Popen',return_value=child):
                 output._play('fake',announcement=wav(seconds=5),countdown_end=105.05)
             child.terminate.assert_called_once();self.assertIsNone(output.process)
+            self.assertEqual(output.test_status()['state'],'completed')
+
+    def test_non_countdown_timeout_remains_failure(self):
+        with tempfile.TemporaryDirectory() as folder:
+            output=AudioOutput(folder)
+            child=Mock();child.wait.side_effect=[subprocess.TimeoutExpired('silent',1),0];child.poll.return_value=None
+            with patch('services.audio_output.subprocess.Popen',return_value=child):
+                output._play('fake',announcement=wav(seconds=5))
+            self.assertEqual(output.test_status()['state'],'failed')
+            self.assertIsNone(output.process)
+
+    def test_countdown_failed_cleanup_retains_busy_child(self):
+        with tempfile.TemporaryDirectory() as folder:
+            output=AudioOutput(folder)
+            child=Mock();child.wait.side_effect=subprocess.TimeoutExpired('silent',1);child.poll.return_value=None
+            with patch('services.audio_output.time.monotonic',return_value=100.),patch('services.audio_output.subprocess.Popen',return_value=child):
+                output._play('fake',announcement=wav(seconds=5),countdown_end=105.)
+            self.assertEqual(output.test_status()['state'],'running')
+            self.assertIs(output.process,child)
+            child.terminate.assert_called_once();child.kill.assert_called_once()
 
 
 class CountdownBuildTests(unittest.TestCase):
