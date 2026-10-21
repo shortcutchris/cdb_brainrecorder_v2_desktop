@@ -70,6 +70,7 @@ class DiscoveryTests(unittest.TestCase):
                 self.assertEqual(recorder.read_text(),'keep existing settings')
                 calls=[call.args[0] for call in execute.call_args_list]
                 self.assertIn(['systemctl','--user','restart','cdb-lcd-display.service'],calls)
+                self.assertTrue(any(call[:3]==['systemd-analyze','--user','verify'] for call in calls))
                 self.assertFalse(any('cdb-recorder-studio.service' in call for call in calls))
                 release=home/'release';(release/'services').mkdir(parents=True)
                 (release/'services/lcd_bridge.py').touch();(release/'web_server.py').touch()
@@ -83,6 +84,8 @@ class DiscoveryTests(unittest.TestCase):
         fresh=installer.unit(root,runtime)
         self.assertEqual(fresh,installer.unit(root,runtime))
         self.assertIn('WantedBy=default.target',fresh)
+        self.assertIn('WorkingDirectory=/opt/cdb recorder\n',fresh)
+        self.assertNotIn('WorkingDirectory="',fresh)
         self.assertIn('services.lcd_bridge',fresh);self.assertNotIn('--port',fresh)
         self.assertNotIn('cdb-recorder-studio.service',fresh)
         changed=installer.unit(root,runtime,8090,Path('/home/cdb/token'))

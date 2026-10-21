@@ -18,12 +18,15 @@ def quote(value):
 def unit(root, runtime, api_port=8088, token_file=None):
     if not 1 <= api_port <= 65535:
         raise ValueError('Invalid API port')
+    quote(root)  # Validate control characters; WorkingDirectory does not unquote its value.
+    if not root.is_absolute():
+        raise ValueError('Application path must be absolute')
     args = [runtime/'bin/python', '-m', 'services.lcd_bridge', '--api-port', str(api_port)]
     if token_file:
         args += ['--token-file', token_file]
     return '\n'.join([
         '[Unit]', 'Description=CDB automatic USB timer display', 'After=network.target', '',
-        '[Service]', 'Type=simple', 'WorkingDirectory='+quote(root),
+        '[Service]', 'Type=simple', 'WorkingDirectory='+str(root).replace('%', '%%'),
         'ExecStart='+' '.join(quote(arg).replace('$', '$$') for arg in args), 'Restart=always', 'RestartSec=5',
         'TimeoutStopSec=5', 'KillMode=control-group', 'UMask=0077', 'Nice=10',
         'CPUQuota=10%', 'MemoryMax=128M', 'NoNewPrivileges=yes',
@@ -61,9 +64,13 @@ def main():
     subprocess.run([str(runtime/'bin/python'), '-m', 'pip', 'install', 'pyserial==3.5'], check=True)
     destination = Path.home()/'.config/systemd/user/cdb-lcd-display.service'
     destination.parent.mkdir(parents=True, exist_ok=True)
-    staged = destination.with_suffix('.tmp')
-    staged.write_text(content)
-    staged.replace(destination)
+    staged = destination.with_name('cdb-lcd-display-verify.service')
+    try:
+        staged.write_text(content)
+        subprocess.run(['systemd-analyze', '--user', 'verify', str(staged)], check=True)
+        staged.replace(destination)
+    finally:
+        staged.unlink(missing_ok=True)
     subprocess.run(['systemctl', '--user', 'daemon-reload'], check=True)
     subprocess.run(['systemctl', '--user', 'enable', 'cdb-lcd-display.service'], check=True)
     if not args.no_start:
