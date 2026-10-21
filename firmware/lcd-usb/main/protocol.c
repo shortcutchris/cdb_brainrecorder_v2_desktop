@@ -16,6 +16,15 @@ static bool hex32(const char *v){if(strlen(v)!=32)return false;for(int i=0;i<32;
 void lcd_reset(lcd_model *m,const char *nonce){memset(m,0,sizeof(*m));strncpy(m->nonce,nonce,32);}
 int lcd_accept(lcd_model *m,const char *json,int64_t now){
  if(strlen(json)>=LCD_FRAME_SIZE)return 0;
+ // Bound cJSON recursion before parsing untrusted serial input.
+ int depth=0;bool quoted=false,escaped=false;
+ for(const char *p=json;*p;p++){
+  if(quoted){if(escaped)escaped=false;else if(*p=='\\')escaped=true;else if(*p=='"')quoted=false;}
+  else if(*p=='"')quoted=true;
+  else if(*p=='{'||*p=='['){if(++depth>8)return 0;}
+  else if(*p=='}'||*p==']'){if(--depth<0)return 0;}
+ }
+ if(depth||quoted)return 0;
  cJSON *root=cJSON_ParseWithOpts(json,NULL,true);if(!root)return 0;
  char protocol[16],type[16],nonce[33],session[33];int result=0;
  if(!text(root,"protocol",protocol,sizeof(protocol))||strcmp(protocol,LCD_PROTOCOL)||

@@ -1,7 +1,8 @@
 dependencies:
   idf: '>=5.5.0,<5.6'
   lvgl/lvgl:
-    version: '8.4.0'
+    git: https://github.com/lvgl/lvgl.git
+    version: 4495f428630cc1741bd8bfd977f080e8460e8e8d
     public: true
   espressif/esp_lvgl_adapter:
     version: '0.5.2'

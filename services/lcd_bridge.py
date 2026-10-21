@@ -71,8 +71,9 @@ def run(port, source, api_port, token):
     import serial  # Optional companion dependency; not part of the recorder runtime.
     while True:
         try:
-            with serial.Serial(port=None,baudrate=115200,timeout=.1,write_timeout=.3) as device:
-                device.dtr=False;device.rts=False;device.port=port;device.open()
+            device=serial.Serial(port=None,baudrate=115200,timeout=.1,write_timeout=.3)
+            device.dtr=False;device.rts=False;device.port=port
+            with device:
                 device.reset_input_buffer();bridge=Bridge(source);buffer=bytearray();dropping=False;next_send=0.
                 while True:
                     chunk=device.read(256)

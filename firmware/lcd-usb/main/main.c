@@ -14,7 +14,8 @@
 
 static lcd_model model;
 static lv_obj_t *heading,*status,*cards[4],*titles[4],*times[4],*states[4],*next,*back;
-static int page=0,focus=-1;
+static int page=0;
+static char focus_id[65];
 static int64_t now_ms(void){return esp_timer_get_time()/1000;}
 static void new_link(void){char nonce[33];for(int i=0;i<4;i++)snprintf(nonce+i*8,9,"%08" PRIx32,esp_random());lcd_reset(&model,nonce);}
 static void send_status(const char *type){
@@ -23,7 +24,7 @@ static void send_status(const char *type){
 }
 static void click(lv_event_t *event){
  intptr_t action=(intptr_t)lv_event_get_user_data(event);
- if(action==10){page=(page+1)%4;focus=-1;}else if(action==11){focus=-1;}else{focus=page*4+(int)action;}
+ if(action==10){page=(page+1)%4;focus_id[0]=0;}else if(action==11){focus_id[0]=0;}else{int index=page*4+(int)action;if(index<model.count)strcpy(focus_id,model.timers[index].id);}
 }
 static lv_obj_t *text_at(lv_obj_t *parent,int x,int y,int width,const lv_font_t *font){
  lv_obj_t *o=lv_label_create(parent);lv_obj_set_pos(o,x,y);lv_obj_set_width(o,width);lv_label_set_long_mode(o,LV_LABEL_LONG_DOT);lv_obj_set_style_text_font(o,font,0);return o;
@@ -46,8 +47,10 @@ static void create_ui(void){
 }
 static void visible(lv_obj_t *o,bool show){if(show)lv_obj_clear_flag(o,LV_OBJ_FLAG_HIDDEN);else lv_obj_add_flag(o,LV_OBJ_FLAG_HIDDEN);}
 static void render(int64_t now){
- if(!model.fresh){lv_label_set_text(status,"Verbindung unterbrochen - USB und Recorder pruefen");for(int i=0;i<4;i++)visible(cards[i],false);visible(next,false);visible(back,false);return;}
- int pages=(model.count+3)/4;if(page>=pages)page=0;if(focus>=model.count)focus=-1;
+ if(!model.fresh){lv_label_set_text(status,"Verbindung unterbrochen - USB und Recorder prüfen");for(int i=0;i<4;i++)visible(cards[i],false);visible(next,false);visible(back,false);return;}
+ int pages=(model.count+3)/4;if(page>=pages)page=0;
+ int focus=-1;for(int i=0;i<model.count;i++)if(!strcmp(model.timers[i].id,focus_id))focus=i;
+ if(focus<0)focus_id[0]=0;
  char info[256];snprintf(info,sizeof(info),"%s  |  %d Timer  |  Seite %d/%d%s",model.source,model.total,page+1,pages?pages:1,model.total>model.count?"  |  Weitere in der App":"");
  if(!model.count)snprintf(info,sizeof(info),"%s  |  Keine offenen Timer",model.source);
  lv_label_set_text(status,info);
@@ -60,7 +63,7 @@ static void render(int64_t now){
   if(ms<0)strcpy(value,"--:--");else{int64_t secs=(ms+999)/1000;snprintf(value,sizeof(value),"%02" PRId64 ":%02" PRId64 ":%02" PRId64,secs/3600,(secs/60)%60,secs%60);}
   lv_label_set_text(times[slot],value);
   bool due=!strcmp(t->state,"due"),missed=!strcmp(t->state,"missed");
-  lv_label_set_text(states[slot],!t->time_valid?"Zeitabgleich ausstehend":due?"ABGELAUFEN":missed?"VERPASST":ms==0?"Warte auf Timerstatus":"Laeuft");
+  lv_label_set_text(states[slot],!t->time_valid?"Zeitabgleich ausstehend":due?"ABGELAUFEN":missed?"VERPASST":ms==0?"Warte auf Timerstatus":"Läuft");
   lv_obj_set_style_text_color(states[slot],lv_color_hex(due||missed?0xFFBD69:0xA6E3CA),0);
  }
  visible(next,pages>1&&focus<0);visible(back,focus>=0);
@@ -79,6 +82,7 @@ void app_main(void){
  new_link();static char line[LCD_FRAME_SIZE];size_t length=0;bool dropping=false;int64_t hello=0,draw=0,last_byte=0;
  while(true){
   unsigned char chunk[256];int count=usb_serial_jtag_read_bytes(chunk,sizeof(chunk),pdMS_TO_TICKS(20));int64_t now=now_ms();
+  ESP_ERROR_CHECK(esp_lv_adapter_lock(-1));
   if(lcd_expired(&model,now)){new_link();length=0;dropping=false;}
   if(length&&now-last_byte>1000){length=0;dropping=false;}
   for(int i=0;i<count;i++){
@@ -89,6 +93,7 @@ void app_main(void){
    }else if(!dropping){if(chunk[i]==0||length+1>=sizeof(line)){length=0;dropping=true;}else line[length++]=(char)chunk[i];}
   }
   if(!model.bound&&now>=hello){send_status("hello");hello=now+1000;}
-  if(now>=draw){if(esp_lv_adapter_lock(50)==ESP_OK){render(now);esp_lv_adapter_unlock();}draw=now+100;}
+  if(now>=draw){render(now);draw=now+100;}
+  esp_lv_adapter_unlock();
  }
 }

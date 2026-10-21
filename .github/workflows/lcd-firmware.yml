@@ -19,7 +19,7 @@ jobs:
         run: |
           . /opt/esp/idf/export.sh
           cd firmware/lcd-usb
-          idf.py build
+          idf.py -DIDF_TARGET=esp32s3 build
       - uses: actions/upload-artifact@v4
         with:
           name: lcd-usb-compile-candidate
@@ -28,4 +28,12 @@ jobs:
             firmware/lcd-usb/build/bootloader/bootloader.bin
             firmware/lcd-usb/build/partition_table/partition-table.bin
             firmware/lcd-usb/build/flasher_args.json
+            firmware/lcd-usb/dependencies.lock
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lcd-usb-build-diagnostics
+          path: |
+            firmware/lcd-usb/build/log/
+            firmware/lcd-usb/sdkconfig
             firmware/lcd-usb/dependencies.lock
