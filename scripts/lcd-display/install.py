@@ -24,7 +24,7 @@ def unit(root, runtime, api_port=8088, token_file=None):
     return '\n'.join([
         '[Unit]', 'Description=CDB automatic USB timer display', 'After=network.target', '',
         '[Service]', 'Type=simple', 'WorkingDirectory='+quote(root),
-        'ExecStart='+' '.join(map(quote, args)), 'Restart=always', 'RestartSec=5',
+        'ExecStart='+' '.join(quote(arg).replace('$', '$$') for arg in args), 'Restart=always', 'RestartSec=5',
         'TimeoutStopSec=5', 'KillMode=control-group', 'UMask=0077', 'Nice=10',
         'CPUQuota=10%', 'MemoryMax=128M', 'NoNewPrivileges=yes',
         'RestrictAddressFamilies=AF_UNIX AF_INET', '', '[Install]', 'WantedBy=default.target', ''])

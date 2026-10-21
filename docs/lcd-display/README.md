@@ -159,7 +159,7 @@ Zustände; beim Wiederverbinden ersetzt ein vollständiger Zustand die Anzeige.
 Automatische Tests prüfen Projektion ohne Datenbankmutation, monotone Restzeit,
 Neustart ohne sichere Uhr, Entfernen erledigter Timer, Begrenzung, Authentifizierung,
 Handshake, Replay, Reconnect, Abbruch unvollständiger Frames und atomaren Austausch.
-Prüfstand 21.10.2026: 31 Python-Tests (LCD, vorhandene Timer, Remoteanzeige,
+Prüfstand 21.10.2026: 32 Python-Tests (LCD, vorhandene Timer, Remoteanzeige,
 Kundenimage-Vertrag) bestanden. Der echte Begleitprozess wurde zusätzlich über
 Pseudo-Terminal und synthetischen HTTP-Server geprüft: fragmentierte/zu große
 Eingaben, Handshake, Feldfilter, Quellenverlust und neuer Verbindungs-Nonce bestanden.
@@ -212,12 +212,11 @@ Abhängigkeiten. Der Build prüft zusätzlich Zielchip, Flash/PSRAM, Farbtiefe,
 Stackgröße und die vollständig abgeschaltete USB-Diagnosekonsole.
 Firmware-Metadatenversion: 0.2.0 (Entwicklung).
 
-Hardware-/Projektbuchsicherung: Commit
-[`58ef346`](https://github.com/shortcutchris/raspberry_pi_meeting_recorder/commit/58ef34646dd207d408feeef781abbcf4ec0db710),
-Live-Projektbuch Revision 4 `797274d5ac69451ea21d0591bf3c1ada`. Automatischer
-Import dieses Hardware-Dokumentationsstands am 21.10.2026 um 20:04:24 UTC bestätigt.
-Die dortige R3 hält USB zuerst, Zuständigkeiten und die noch offene Geräteabnahme
-fest. Es wurde keine neue CAD-/Druckversion erzeugt.
+Hardware-/Projektbuchsicherung der Automatik: Commit
+[`3738862`](https://github.com/shortcutchris/raspberry_pi_meeting_recorder/commit/3738862),
+Live-Projektbuch Revision 5 `b4ef7b7fb7924c768505d6990bbfe525` (Software R4).
+Die vorherige R3 und alle historischen Hardware-/CAD-Stände bleiben erhalten.
+Es wurde keine neue CAD-/Druckversion erzeugt.
 
 Die Kundenimage-Prüfung enthält jetzt ausdrücklich die beiden LCD-Pythonmodule
 und schließt die Display-Binärdatei aus. Der Begleitprozess lässt sich weiterhin

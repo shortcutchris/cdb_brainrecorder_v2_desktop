@@ -2,6 +2,7 @@ import importlib.util
 from pathlib import Path
 from types import SimpleNamespace
 import unittest
+import tempfile
 from unittest.mock import Mock, patch
 from services.lcd_bridge import discover, run
 
@@ -46,6 +47,30 @@ class DiscoveryTests(unittest.TestCase):
             with self.assertRaises(KeyboardInterrupt):run(None,'Pi',8088,'')
         self.assertEqual(first.port,'/dev/ttyACM0');self.assertEqual(second.port,'/dev/ttyACM7')
         self.assertFalse(first.dtr);self.assertFalse(first.rts);self.assertTrue(first.exclusive)
+
+    def test_install_then_upgrade_only_changes_companion(self):
+        with tempfile.TemporaryDirectory() as temp:
+            home=Path(temp)
+            recorder=home/'recorder-settings.json';recorder.write_text('keep existing settings')
+            with patch.object(installer.Path, 'home', return_value=home), \
+                 patch.object(installer.sys, 'platform', 'linux'), \
+                 patch.object(installer.os, 'getuid', return_value=1000), \
+                 patch.object(installer.os, 'getgroups', return_value=[20]), \
+                 patch.object(installer.grp, 'getgrnam', return_value=SimpleNamespace(gr_gid=20)), \
+                 patch.object(installer.os, 'umask'), \
+                 patch.object(installer.subprocess, 'run') as execute:
+                with patch.object(installer.sys, 'argv', ['install.py', '--no-start']):installer.main()
+                destination=home/'.config/systemd/user/cdb-lcd-display.service'
+                self.assertTrue(destination.is_file())
+                first=destination.read_text()
+                self.assertFalse(any('restart' in call.args[0] for call in execute.call_args_list))
+                execute.reset_mock()
+                with patch.object(installer.sys, 'argv', ['install.py']):installer.main()
+                self.assertEqual(first,destination.read_text())
+                self.assertEqual(recorder.read_text(),'keep existing settings')
+                calls=[call.args[0] for call in execute.call_args_list]
+                self.assertIn(['systemctl','--user','restart','cdb-lcd-display.service'],calls)
+                self.assertFalse(any('cdb-recorder-studio.service' in call for call in calls))
 
     def test_clean_and_repeat_service_configuration(self):
         root=Path('/opt/cdb recorder');runtime=Path('/home/cdb/.local/share/cdb-lcd/runtime')
