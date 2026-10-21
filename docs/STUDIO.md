@@ -202,10 +202,10 @@ geprüft. Bei Ersteinrichtung bleibt die Option aus: [Bedienung, Ablauf und Prü
 Die Stimme und der aktuelle Ansagenablauf wurden am 21. Oktober 2026 vom Nutzer
 positiv bestätigt. [Verwendetes lokales Sprachmodell, Standardstimme und Arbeitsweise](local-announcements/voice-baseline.md).
 
-## Vorbereiteter Timer-Countdown
+## Deutscher Timer-Countdown
 
 „Timer herunterzählen“ ist eine eigene, standardmäßig ausgeschaltete Option unter
 **Audio → Lautsprecher → Lokale Ansagen**. Sie zählt die letzten fünf Sekunden
 hörbarer Timer auf Deutsch; Erinnerungen bleiben unverändert. Aufnahme, Pause
-und Gespräche haben Vorrang, verpasste Countdowns werden ausgelassen. Noch nicht
-auf dem Pi installiert. [Stimme, Ablauf und Prüfung](local-announcements/countdown.md).
+und Gespräche haben Vorrang, verpasste Countdowns werden ausgelassen. Als 0.5.69
+auf dem Pi installiert und aktiviert. [Stimme, Ablauf und Prüfung](local-announcements/countdown.md).

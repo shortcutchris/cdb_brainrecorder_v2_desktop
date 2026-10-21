@@ -1,7 +1,7 @@
-# Vorbereitete deutsche Offline- und Timer-Ansagen
+# Lokale deutsche Sprachansagen
 
-Stand: 21. Oktober 2026. **Aktuell als 0.5.67 auf dem Pi installiert**, signierte
-Sequenz 24, Quellcommit `a517be0`, PR #13 und #14 gemergt. Offline- und Timer-Ansagen
+Stand: 21. Oktober 2026. **Aktuell als 0.5.69 auf dem Pi installiert**, signierte
+Sequenz 26, Quellcommit `eda2ba9`, PR #13, #14 und #15 gemergt. Offline- und Timer-Ansagen
 wurden auf ausdrücklichen Nutzerauftrag im freien Zustand aktiviert. Bei
 Ersteinrichtung bleiben beide Optionen aus. Das Sprachpaket wird getrennt
 bereitgestellt; kein Modell und keine zusätzliche KI-Laufzeit auf dem Pi.
@@ -12,13 +12,14 @@ ein optionales viertes Sprachpaket-Element. Abbruch und Start bis zur
 Cloud-Begrüßung wurden am Pi geprüft. Chris bestätigte anschließend Stimme und
 Ablauf: „läuft perfekt“. [Modell, Stimme, Arbeitsweise und Nutzerabnahme](voice-baseline.md).
 
-Die nächste vorbereitete Erweiterung ist der separat einschaltbare
-[deutsche Timer-Countdown](countdown.md); noch nicht auf dem Pi installiert.
+Der separat einschaltbare [deutsche Timer-Countdown](countdown.md) ist ebenfalls
+installiert und aktiviert. Er ergänzt den vierten Schalter und den fünften Clip.
 
 ## Bedienung
 
 **Einstellungen → Audio → Lautsprecher → Lokale Ansagen einrichten** bietet
-drei unabhängige Schalter einschließlich „Gespräch wird verbunden“. „Sprachpaket prüfen“ lädt ein vom Administrator
+vier unabhängige Schalter einschließlich „Gespräch wird verbunden“ und
+„Timer herunterzählen“. „Sprachpaket prüfen“ lädt ein vom Administrator
 bereitgestelltes Paket neu, ohne Neustart. Ohne gültiges Paket lässt sich keine
 neue Ansage einschalten; Ausschalten bleibt möglich. Der vorhandene
 Lautsprecher, seine Lautstärke und die Stummschaltung werden respektiert.

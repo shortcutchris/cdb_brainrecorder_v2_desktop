@@ -1,15 +1,18 @@
 # Deutscher Timer-Countdown
 
-Stand: 21. Oktober 2026. **0.5.68 auf dem Pi installiert und aktiviert**, signierte
-Sequenz 25, PR #15 gemergt. Die bisherigen vier Ansagen sind bytegleich erhalten.
-Ein echter 15-Sekunden-Timer startete die Wiedergabe nach 10,040 Sekunden;
+Stand: 21. Oktober 2026. **0.5.69 auf dem Pi installiert und aktiviert**, signierte
+Sequenz 26, Quellcommit `eda2ba9`; Countdown-PR #15 gemergt. Die bisherigen vier Ansagen sind bytegleich erhalten.
+Ein echter 15-Sekunden-Timer unter 0.5.69 startete die Wiedergabe nach 10,037 Sekunden;
 ein zweiter Test bestätigte den Abbruch. Anschließend jeweils idle/listening.
 Die persönliche Hörabnahme des neuen Clips bleibt offen.
 
-Der Test zeigte eine kurzzeitige falsche Fehlermeldung beim planmäßigen Beenden
+Der erste Test unter 0.5.68 zeigte eine kurzzeitige falsche Fehlermeldung beim planmäßigen Beenden
 am Timerende. Korrektur 0.5.69 wertet ausschließlich den bestätigten Stopp nach
 Countdown-Fristablauf als normalen Abschluss. Andere Wiedergabefehler bleiben
 Fehler; bei fehlgeschlagener Beendigung bleibt der Prozess als belegt erhalten.
+Die Wiederholung unter 0.5.69 zeigte keine fehlgeschlagene Ausgabe mehr.
+Timerfälligkeit wurde nach 15,369 Sekunden erfasst; der Alarmprozess nach 15,720 Sekunden. Der zweite Countdown
+startete nach 10,095 Sekunden und ließ sich während der Ausgabe abbrechen.
 
 ## Bedienung
 
@@ -51,8 +54,8 @@ Langsamer Geräteaufbau oder ein verpasster Start lässt den Countdown aus.
 Der Wiedergabeprozess bekommt höchstens die Restlaufzeit bis zum Timerende;
 bei Fristablauf wird er beendet. Die normale Timer-Fälligkeit und Alarmquittierung
 bleiben unverändert. Dies ist keine harte Echtzeitgarantie: Betriebssystem und
-Audiotreiber können den hörbaren Beginn verschieben. Eine tatsächliche Pi-
-Timing-/Hörprüfung gehört deshalb zur späteren Geräteabnahme.
+Audiotreiber können den hörbaren Beginn verschieben. Die technische Pi-Prüfung ist unten belegt; eine persönliche
+Hörprüfung bleibt Teil der Geräteabnahme.
 
 Die separate Datei `timer-countdowns.json` enthält nur Timer-IDs und Revisionen,
 keine Titel oder Inhalte. Ein Versuch wird vor Wiedergabe atomar mit fsync
@@ -137,6 +140,10 @@ nicht die Abnahme dieses neuen Countdown-Clips.
 
 
 ## Gerätebelege
+
+- [Abschlusszustand und aktivierte Optionen](countdown-final-0.5.69.json)
+- [Signiertes Folgeupdate 0.5.69](countdown-deployment-0.5.69.json)
+- [Wiederholte Ablauf-/Abbruchprüfung ohne Audiofehler](countdown-pi-smoke-0.5.69.json)
 
 - [Signiertes Update 0.5.68](countdown-deployment-0.5.68.json)
 - [Paketwechsel und Aktivierung](countdown-activation-0.5.68.json)

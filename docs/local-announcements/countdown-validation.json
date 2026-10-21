@@ -63,5 +63,21 @@
   "test_notes": [
     "First full run exposed a StudioApp test fixture without countdown state; fixture updated. Final full suite passed.",
     "Known shutdown ResourceWarning and Qt/dbus warnings remain; no new test failures."
-  ]
+  ],
+  "scope": "Isolierte Prüfung vor Deployment; aktuelle Gerätebelege siehe countdown.md",
+  "followup_0_5_69": {
+    "focused_python_passed": 66,
+    "log_sha256": "4ec3613c6eb98b4696cc0124a22fa4e49e1bd3dcedd29cb11d341dcede044ea4",
+    "tests": "Countdown deadline completion, non-countdown failure, failed cleanup ownership, opt-ins, schedules, clean image and upgrade paths",
+    "note": "First targeted invocation needed tests directory on PYTHONPATH for existing customer-image fixture imports; corrected invocation passed."
+  },
+  "pi_deployment_followup": {
+    "version": "0.5.69",
+    "sequence": 26,
+    "completion_and_cancellation_passed": true,
+    "no_playback_failure_observed": true,
+    "final_state": "idle/listening",
+    "evidence": "countdown-pi-smoke-0.5.69.json",
+    "natural_wake_and_personal_listening_acceptance": false
+  }
 }
