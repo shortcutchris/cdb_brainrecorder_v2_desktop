@@ -271,7 +271,8 @@ class StudioApp:
         if not speaker['available']:raise ValueError(speaker['message'])
         if speaker['muted'] or speaker['volume']==0:raise ValueError('Pi-Lautsprecher ist stumm. Unter Einstellungen → Audio einschalten.')
         output=next(d for d in speaker['devices'] if d['id']==speaker['selected'])
-        return {'device':device,'speaker':speaker['selected'],'microphone_label':microphone['label'],'speaker_label':output['label']}
+        return {'device':device,'speaker':speaker['selected'],'microphone_label':microphone['label'],'speaker_label':output['label'],
+                'connecting_announcement':self.announcements.connecting_clip()}
 
     def respeaker_state(self):
         recording=self.engine.recorder.status()

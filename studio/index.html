@@ -80,12 +80,13 @@
  <section id="announcements-page" class="settings-page" hidden>
  <div class="settings-content settings-columns">
   <div class="settings-column"><div class="settings-section-heading"><h3>Sprache ohne Cloud</h3><p>Feste deutsche Ansagen aus vorberechneten Dateien. Standardmäßig ausgeschaltet.</p></div>
-   <div class="settings-card"><strong>Gespräch nicht verfügbar</strong><p>Ein kurzer Hinweis nach einem fehlgeschlagenen Gespräch – auch ohne Internet.</p><button id="announcements-offline" aria-pressed="false">Einschalten</button></div>
-   <div class="settings-card"><strong>Timer &amp; Erinnerungen</strong><p>Eine allgemeine Ansage vor dem Alarmton, ohne individuelle Namen.</p><button id="announcements-timers" aria-pressed="false">Einschalten</button></div>
+   <div class="settings-card announcement-option"><strong>Gespräch wird verbunden</strong><p>„Ich verbinde dich.“ vor dem Gespräch. Das Mikrofon öffnet erst nach der Ansage und zwei Sekunden Nachhall.</p><button id="announcements-connecting" aria-pressed="false">Einschalten</button></div>
+   <div class="settings-card announcement-option"><strong>Gespräch nicht verfügbar</strong><p>Ein kurzer Hinweis nach einem fehlgeschlagenen Gespräch – auch ohne Internet.</p><button id="announcements-offline" aria-pressed="false">Einschalten</button></div>
+   <div class="settings-card announcement-option"><strong>Timer &amp; Erinnerungen</strong><p>Eine allgemeine Ansage vor dem Alarmton, ohne individuelle Namen.</p><button id="announcements-timers" aria-pressed="false">Einschalten</button></div>
   </div>
   <div class="settings-column"><div class="settings-section-heading"><h3>Deine Aufnahme hat Vorrang</h3><p>Keine Ansage während Aufnahme oder Pause. Im Gespräch bleiben Timer beim bisherigen Alarmton.</p></div>
-   <div class="settings-card"><strong>Rufwort bleibt geschützt</strong><p>Nur während der Ausgabe wird das Rufwort kurz ausgesetzt. Danach kehrt die Erkennung mit kurzem Nachhallabstand automatisch zurück.</p></div>
-   <div class="settings-card"><strong>Sprachpaket</strong><p id="announcements-status" role="status">Sprachpaket wird geprüft.</p><p>Ein Administrator bereitet die Dateien vor. Stille Timer bleiben still; fehlende Sprache ersetzt der bisherige Alarmton. Es läuft kein Sprachmodell im Hintergrund.</p></div>
+   <div class="settings-card"><strong>Rufwort bleibt geschützt</strong><p>Ausgabe und Gespräch sperren das Rufwort. Nach ihrem Ende kehrt die Erkennung automatisch zurück. Eine Verbindungsansage brichst du mit „Gespräch beenden“ ab.</p></div>
+   <div class="settings-card"><strong>Sprachpaket</strong><p id="announcements-status" role="status">Sprachpaket wird geprüft.</p><p>Die Verbindungsansage benötigt ein erweitertes Sprachpaket. Ein Administrator bereitet die Dateien vor. Stille Timer bleiben still; fehlende Sprache ersetzt der bisherige Alarmton. Es läuft kein Sprachmodell im Hintergrund.</p></div>
   </div>
  </div><div class="dialog-actions"><button id="announcements-reload">Sprachpaket prüfen</button><button id="announcements-stop" disabled>Audioausgabe stoppen</button><span>Fehlerhinweise werden bei Belegung ausgelassen, nicht später nachgesprochen.</span></div></section>
  <section id="audio-page" class="settings-page"><div class="settings-content audio-layout">

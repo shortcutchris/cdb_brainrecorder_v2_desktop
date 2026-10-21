@@ -6,6 +6,10 @@ wurden auf ausdrücklichen Nutzerauftrag im freien Zustand aktiviert. Bei
 Ersteinrichtung bleiben beide Optionen aus. Das Sprachpaket wird getrennt
 bereitgestellt; kein Modell und keine zusätzliche KI-Laufzeit auf dem Pi.
 
+Die vorbereitete Erweiterung [„Ich verbinde dich.“](connecting.md) ist ein
+separater PR und noch nicht auf dem Pi aktiv. Sie ergänzt einen dritten Schalter
+und ein optionales viertes Sprachpaket-Element.
+
 ## Bedienung
 
 **Einstellungen → Audio → Lautsprecher → Lokale Ansagen einrichten** bietet
