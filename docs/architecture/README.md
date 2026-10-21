@@ -121,7 +121,7 @@ nötig; inkompatible App-Pakete werden abgewiesen. Die verbindliche
 
 `services/announcements.py` verwaltet feste, geprüfte WAV-Clips und separate Opt-ins. `StudioApp` entscheidet unter den vorhandenen Gerätesperren über Ausgabe; `AudioOutput` besitzt den Wiedergabeprozess bis zum bestätigten Ende. Phonon wird ausschließlich vom optionalen Vorbereitungswerkzeug auf einem anderen Rechner verwendet. Kein zweiter Mikrofonpfad, keine Runtime-Synthese. [Verhalten und Installation](../local-announcements/README.md).
 
-## USB-Timerdisplay (Entwicklung, PR 16)
+## USB-Timerdisplay (0.5.70 auf dem Test-Pi, Hardwareabnahme offen)
 
 Der optionale `cdb-lcd-display.service` läuft getrennt vom Recorder. Er liest nur
 `/api/lcd/timers` über Loopback und öffnet ausschließlich einen anhand der

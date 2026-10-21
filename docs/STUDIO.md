@@ -209,3 +209,14 @@ positiv bestätigt. [Verwendetes lokales Sprachmodell, Standardstimme und Arbeit
 hörbarer Timer auf Deutsch; Erinnerungen bleiben unverändert. Aufnahme, Pause
 und Gespräche haben Vorrang, verpasste Countdowns werden ausgelassen. Als 0.5.69
 auf dem Pi installiert und aktiviert. [Stimme, Ablauf und Prüfung](local-announcements/countdown.md).
+
+## Zusätzliches USB-Timerdisplay
+
+Recorder 0.5.70 und der getrennte USB-Dienst sind auf dem Test-Pi vorbereitet.
+Nach Lieferung muss das Waveshare 5B Touch einmalig mit der passenden Firmware
+bespielt werden. Danach USB anstecken: vorhandene Timer erscheinen automatisch,
+kein zusätzlicher Schalter pro Timer. Ohne Timer zeigt das LCD „Keine offenen
+Timer“. Änderungen/Abbrüche werden übernommen; nach erneutem Anstecken verbindet
+es sich wieder. Touch wechselt nur Seite/Einzelansicht, die Bedienung und Töne
+bleiben beim Pi. [Flashen, Diagnose und erste Tests](lcd-display/FIRST-START.md).
+Die physische Displayabnahme steht noch aus.

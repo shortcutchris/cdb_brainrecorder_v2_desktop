@@ -22,9 +22,11 @@ Seite/Einzelansicht. Ton, deutsche Ansagen und Timerbedienung bleiben am Pi.
 
 [PR #16](https://github.com/shortcutchris/cdb_brainrecorder_v2_desktop/pull/16),
 Zielbranch `codex/recording-source-fix` (der bisherige produktive Entwicklungszweig).
-Der konkrete Installationsnachweis steht nach Durchführung in
-`pi-deployment-0.5.70.json` neben dieser Datei; Versionen nicht aus diesem Plan
-als bereits installiert ableiten.
+**Durchgeführt:** Recorder 0.5.70 / Sequenz 27 und Begleitdienst am 21.10. installiert.
+[Installationsnachweis](pi-deployment-0.5.70.json) mit Signatur-/Dateiprüfung,
+fünf Bereitschaftsmessungen und laufendem, aktiviertem Begleitdienst. Display
+weiterhin nicht vorhanden/geflasht. Installer-Nachbesserungen separat in `f407aae`;
+der App-Quellstand bleibt `2c5e7e7`.
 
 Geprüfter Firmware-Build: [Actions 39670925360](https://github.com/shortcutchris/cdb_brainrecorder_v2_desktop/actions/runs/39670925360),
 Quellstand `4c4287c8dfbf05b50b4d2d9354d4c9d2282d494c`. Firmwaredateien in
@@ -34,7 +36,7 @@ nachfolgenden 0.5.70-Vorbereitungskommitts unverändert. Artefakt
 SHA-256 `191c6e05628584cfc303f7910d9e6bde3b93a82dfa9a34b93530ae134c3ae2b6`.
 Lokale gesicherte Kopie auf Chris' Mac:
 `/Users/chris/.local/share/cdb-lcd-research-20261021/build-auto-4c4287c/`.
-Keine Binärdateien in Git. Vollständiges Artefakt zusammenhalten, nicht nur die
+[Prüfsummen aller Flash-Dateien](firmware-0.2.0-manifest.json). Keine Binärdateien in Git. Vollständiges Artefakt zusammenhalten, nicht nur die
 Anwendungsdatei flashen. Künftige Builds nur mit ihrem eigenen Manifest verwenden.
 
 ## Am Liefertag: Reihenfolge

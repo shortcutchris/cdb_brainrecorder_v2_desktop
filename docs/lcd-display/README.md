@@ -5,10 +5,14 @@
 [Pi Studio](https://pistudio.cdblab.de/library?project=device-fdb89fd08b3a454a).
 Chris hat **USB zuerst** bestätigt. BLE folgt als getrennte Erweiterung.
 
-**Entwicklungsstand, keine Geräteabnahme.** Kein Display angeschlossen oder
-geflasht, kein Recorder-Update installiert. Aufnahme und Rufworterkennung des
-produktiven Pi wurden für diese Arbeit nicht angesprochen. Ein erfolgreiches
-Kompilat beweist weder die Passung der Boardrevision noch die Bild-/Touchfunktion.
+**Pi vorbereitet, Geräteabnahme offen.** Am 21.10.2026 wurde PR #16 gemergt und
+Recorder **0.5.70, signierte Sequenz 27**, im freien Zustand unter Wartung installiert.
+Der zusätzliche USB-Dienst ist aktiviert und wartet ohne Display. Fünf Nachmessungen
+zeigen `idle/listening`; keine Ton-/Gesprächstests. Bestehende Einstellungen blieben
+unverändert. [Installationsnachweis](pi-deployment-0.5.70.json).
+Chris erwartet die Hardware am 22.10. und meldet sich nach Ankunft. Kein Display
+angeschlossen oder geflasht. Ein erfolgreiches Kompilat beweist weder die Passung
+der Boardrevision noch die Bild-/Touchfunktion.
 
 [Konkreter Ablauf für Lieferung, Flashen und erste Tests](FIRST-START.md).
 
@@ -110,7 +114,7 @@ Der neue Recorder-Endpunkt muss zuvor bereitgestellt sein. Ohne ihn bleibt die
 Anzeige offline. Für Diagnose bleibt `--port` als ausdrückliche manuelle Auswahl
 möglich. Der Standard erkennt den Anschluss nach einem Kabelwechsel neu. Ohne
 Protokollantwort wird die Verbindung nach fünf Sekunden freigegeben und nach
-zwei Sekunden erneut geprüft. Kein produktiver Autostart installiert.
+zwei Sekunden erneut geprüft. Auf dem Test-Pi ist der Autostart seit 21.10. eingerichtet.
 Der Begleitdienst braucht nur Leserechte auf die lokale API und Zugriff auf den USB-Port.
 Kein root, kein Managementtoken und kein Mikrofon-/Lautsprecherzugriff. Wenn der
 Recorder mit einem API-Token betrieben wird, optional `--token-file` aus einer
@@ -129,9 +133,12 @@ Voraussetzung: Python mit venv/pip, systemd-Benutzersitzung und bereits wirksame
 bricht andernfalls mit Hinweis ab. Er richtet ausschließlich eine separate
 Umgebung unter `~/.local/share/cdb-lcd/runtime` mit `pyserial==3.5` und
 `cdb-lcd-display.service` ein. Niedrige Prozesspriorität, 10 % eines CPU-Kerns und
-128 MiB Speichergrenze begrenzen den Begleitdienst. Er startet bzw. erneuert nur
+128 MiB Speichergrenze begrenzen den Begleitdienst. Zusätzlich gilt `LimitAS`
+für den virtuellen Adressraum, da auf diesem Pi der Memory-Cgroup-Controller
+nicht verfügbar ist. CPU-Quota 10 % und Adressraumlimit wurden am laufenden
+Prozess nachgewiesen; keine Änderung an Kernel-/Boot-Einstellungen. Er startet bzw. erneuert nur
 diesen Dienst, niemals Recorder, Audio oder USB-Treiber. Wiederholte Einrichtung
-ersetzt seine Unit atomar; vorhandene Timer/Einstellungen bleiben unberührt.
+prüft seine Unit vor Aktivierung mit `systemd-analyze --user verify` und ersetzt sie atomar; vorhandene Timer/Einstellungen bleiben unberührt.
 `--no-start` aktiviert nur den nächsten Sitzungsstart. Abweichender lokaler API-Port
 und private Tokendatei können übergeben werden. Bei einem signierten Pi-Installationsstand den Installer getrennt bereitstellen
 und `--app-root /home/chris/.local/share/cdb-recorder-app/current` übergeben.
@@ -198,8 +205,8 @@ ist ohne Installation wirkungslos und importiert pyserial erst beim Aufruf. Für
 bestehende Geräte ist die obige einmalige Einrichtung separat vom signierten
 App-Paket nötig; danach läuft die Erkennung bei jeder Desktop-Sitzung automatisch.
 Firmware wird separat auf das Display geflasht. Keine Timer-Schemamigration,
-keine neuen Recorder-Laufzeitabhängigkeiten und keine aktive Pi-Konfiguration
-geändert. Frisches SD-Image bekommt ohne explizite Provisionierung weder aktivierten
+keine neuen Recorder-Laufzeitabhängigkeiten. Auf dem vorhandenen Pi wurde nur
+der separate Begleitdienst samt eigener Umgebung zusätzlich eingerichtet. Frisches SD-Image bekommt ohne explizite Provisionierung weder aktivierten
 USB-Dienst noch Displayfirmware. Die derzeitige Factory-Rezeptur aktiviert ihn
 bewusst noch nicht: erst nach Geräteabnahme separate Umgebung/Unit provisionieren,
 `dialout` für den Image-Desktopbenutzer prüfen und Kaltstart mit/ohne Display testen.
@@ -227,3 +234,26 @@ und schließt die Display-Binärdatei aus. Der Begleitprozess lässt sich weiter
 ohne installiertes pyserial importieren; nur sein Start benötigt
 die separate Umgebung. Ein signiertes App-Update enthält die erlaubten Pythonmodule,
 installiert aber weder die zusätzliche Umgebung noch einen Autostart oder LCD-Firmware.
+
+## Installation 0.5.70 am 21.10.2026
+
+PR #16 gemergt als `7359323`. Signierter App-Quellstand `2c5e7e7`, Sequenz 27;
+Installer separat aus `f407aae`. Alle ausgelieferten App-Dateien und die bisherige
+Recorder-Runtime geprüft. Die Änderungszeiten von Rufwort-, Lautsprecher-,
+Ansage- und allgemeinen Einstellungen liegen vor der Installation; alle vier
+Ansageoptionen sind weiterhin eingeschaltet. Keine Timer zum Test angelegt.
+
+Beim ersten Start wurde eine falsch zitierte `WorkingDirectory`-Zeile durch
+systemd abgewiesen. Recorder 0.5.70 war bereits gesund; nur die zusätzliche Unit
+wurde korrigiert. Der Installer validiert sie jetzt vor Aktivierung. Ein weiterer
+Begleitdienst-Neustart setzte das unabhängig vom Memory-Cgroup-Controller wirksame
+Adressraumlimit. Kein weiterer Recorder-Neustart dafür nötig. Endzustand:
+Autostart aktiviert, tatsächlicher Prozess geprüft, keine automatischen Neustarts,
+keine passende LCD-Hardware vorhanden. Das ist eine Pi-Vorbereitung, keine
+Display- oder natürliche Rufwortabnahme.
+
+32 gezielte Python-Tests plus 59 Tests für Updates, Ansagen, Audioausgabe und
+Aktivitätsschutz bestanden. PR-Build [39672538358](https://github.com/shortcutchris/cdb_brainrecorder_v2_desktop/actions/runs/39672538358)
+inklusive C-Sanitizer, seriellem Prozesstest, ESP32-S3-Build und Konfigurationscheck
+erfolgreich. Installer-Korrekturen zusätzlich mit fünf Installation-/Erkennungstests
+und systemd auf dem Pi geprüft. [Flashpaket-Prüfsummen](firmware-0.2.0-manifest.json).
