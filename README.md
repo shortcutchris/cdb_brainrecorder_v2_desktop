@@ -1,5 +1,13 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.70 – USB-Timerdisplay vorbereiten
+
+Lokale, lesende Timer-Schnittstelle und getrennter USB-Begleitdienst für das
+Waveshare 5B Touch. Nach einmaliger Dienstinstallation und Display-Flash werden
+vorhandene Timer automatisch angezeigt. Keine neue Option pro Timer, keine
+Änderungen an Audio-Einstellungen. Hardwareabnahme steht nach Lieferung aus.
+[Installation und erste Inbetriebnahme](docs/lcd-display/FIRST-START.md).
+
 ## 0.5.69 – Countdown-Abschluss ohne falsche Fehlermeldung
 
 Beim Pi-Test endete der Countdown planmäßig am Timerende, wurde aber kurz als

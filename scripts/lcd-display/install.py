@@ -32,6 +32,7 @@ def unit(root, runtime, api_port=8088, token_file=None):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--app-root', type=Path, help='Stable application path, including current symlink for signed installs')
     parser.add_argument('--api-port', type=int, default=8088)
     parser.add_argument('--token-file', type=Path)
     parser.add_argument('--no-start', action='store_true', help='Enable for next login without starting now')
@@ -45,7 +46,10 @@ def main():
         permitted = False
     if not permitted:
         parser.error('The desktop user needs dialout membership (and a new login) before installation')
-    root = Path(__file__).resolve().parents[2]
+    root = args.app_root.expanduser().absolute() if args.app_root else Path(__file__).resolve().parents[2]
+    # Keep a current symlink: future signed updates must be picked up on service start.
+    if not (root/'services/lcd_bridge.py').is_file() or not (root/'web_server.py').is_file():
+        parser.error('Application path does not contain the LCD-enabled recorder')
     runtime = Path.home()/'.local/share/cdb-lcd/runtime'
     token = args.token_file.resolve() if args.token_file else None
     if token and (not token.is_file() or token.stat().st_mode & 0o077):

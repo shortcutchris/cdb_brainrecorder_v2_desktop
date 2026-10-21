@@ -71,6 +71,12 @@ class DiscoveryTests(unittest.TestCase):
                 calls=[call.args[0] for call in execute.call_args_list]
                 self.assertIn(['systemctl','--user','restart','cdb-lcd-display.service'],calls)
                 self.assertFalse(any('cdb-recorder-studio.service' in call for call in calls))
+                release=home/'release';(release/'services').mkdir(parents=True)
+                (release/'services/lcd_bridge.py').touch();(release/'web_server.py').touch()
+                current=home/'current';current.symlink_to(release,target_is_directory=True)
+                with patch.object(installer.sys,'argv',['install.py','--app-root',str(current),'--no-start']):installer.main()
+                self.assertIn(str(current),destination.read_text())
+                self.assertNotIn(str(release),destination.read_text())
 
     def test_clean_and_repeat_service_configuration(self):
         root=Path('/opt/cdb recorder');runtime=Path('/home/cdb/.local/share/cdb-lcd/runtime')

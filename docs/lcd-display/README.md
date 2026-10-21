@@ -10,6 +10,8 @@ geflasht, kein Recorder-Update installiert. Aufnahme und Rufworterkennung des
 produktiven Pi wurden für diese Arbeit nicht angesprochen. Ein erfolgreiches
 Kompilat beweist weder die Passung der Boardrevision noch die Bild-/Touchfunktion.
 
+[Konkreter Ablauf für Lieferung, Flashen und erste Tests](FIRST-START.md).
+
 ## Automatisch nach dem Anstecken
 
 Nach einmaliger Installation des Begleitdienstes und der passenden Displayfirmware
@@ -114,7 +116,7 @@ Kein root, kein Managementtoken und kein Mikrofon-/Lautsprecherzugriff. Wenn der
 Recorder mit einem API-Token betrieben wird, optional `--token-file` aus einer
 privaten Datei; keine Geheimnisse in Befehlszeilen oder Git.
 
-### Einmalige Einrichtung am Pi (noch nicht ausgeführt)
+### Einmalige Einrichtung am Pi
 
 Im geprüften Checkout als Recorder-Desktopbenutzer:
 
@@ -131,8 +133,10 @@ Umgebung unter `~/.local/share/cdb-lcd/runtime` mit `pyserial==3.5` und
 diesen Dienst, niemals Recorder, Audio oder USB-Treiber. Wiederholte Einrichtung
 ersetzt seine Unit atomar; vorhandene Timer/Einstellungen bleiben unberührt.
 `--no-start` aktiviert nur den nächsten Sitzungsstart. Abweichender lokaler API-Port
-und private Tokendatei können übergeben werden. Der Checkout muss am gewählten
-Pfad bleiben. Bei signierten App-Updates im selben Checkout verwendet der Dienst
+und private Tokendatei können übergeben werden. Bei einem signierten Pi-Installationsstand den Installer getrennt bereitstellen
+und `--app-root /home/chris/.local/share/cdb-recorder-app/current` übergeben.
+Dieser stabile Symlink bleibt in der Unit erhalten; nicht auf einen einzelnen
+Releaseordner auflösen. Bei normalem Checkout muss dessen Pfad erhalten bleiben. Bei signierten App-Updates im selben Checkout verwendet der Dienst
 nach seinem nächsten Start den aktualisierten Code.
 
 Ausschalten: `systemctl --user disable --now cdb-lcd-display.service`.
