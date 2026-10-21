@@ -561,14 +561,28 @@ class NativeLiveAudio:
             self.cue_played_at=0
             if process:await self._terminate(process)
 
+    async def _signal(self, process, sig):
+        try:
+            os.killpg(process.pid, sig)
+        except ProcessLookupError:
+            pass
+        except PermissionError:
+            # macOS can report EPERM for an already exited process group while
+            # asyncio still awaits its child-exit callback. Only confirmed reap
+            # makes that benign; a live/unreaped child must retain ownership.
+            try:
+                await asyncio.wait_for(process.wait(), .5)
+            except asyncio.TimeoutError:
+                raise PermissionError('Audio process signal denied; exit unconfirmed') from None
+            if process.returncode is None:
+                raise PermissionError('Audio process exit unconfirmed') from None
+
     async def _terminate(self, process):
         if process.returncode is None:
-            try: os.killpg(process.pid, signal.SIGTERM)
-            except ProcessLookupError: pass
+            await self._signal(process, signal.SIGTERM)
             try: await asyncio.wait_for(process.wait(), .5)
             except asyncio.TimeoutError:
-                try: os.killpg(process.pid, signal.SIGKILL)
-                except ProcessLookupError: pass
+                await self._signal(process, signal.SIGKILL)
                 await process.wait()
         for stream in (process.stdin,):
             if stream: stream.close()
@@ -606,11 +620,10 @@ class NativeLiveAudio:
                 cleanup.cancel()
             # Keep the event loop available for retry if cleanup fails. Setting
             # `closed` stops audio immediately; it does not prove resource release.
-            for process in list(self.processes):
-                if process.returncode is None:
-                    try: os.killpg(process.pid, signal.SIGKILL)
-                    except ProcessLookupError: pass
             async def reap():
+                for process in list(self.processes):
+                    if process.returncode is None:
+                        await self._signal(process, signal.SIGKILL)
                 await asyncio.gather(*(p.wait() for p in list(self.processes)), return_exceptions=True)
             reaping = asyncio.run_coroutine_threadsafe(reap(), self.loop)
             try: reaping.result(2)

@@ -1,0 +1,105 @@
+{
+  "checked_at": "2026-10-21T11:07:41.629096+00:00",
+  "status": "code_verified_hardware_acceptance_pending",
+  "base_commit": "99b3f7c",
+  "included_existing_fix": {
+    "pr": 11,
+    "commit": "fcd06e7faf656851ac2b31820d6ff32798dc950e",
+    "files": [
+      "services/live_audio.py",
+      "tests/test_audio_release.py"
+    ],
+    "merged": false
+  },
+  "environment": {
+    "os": "macOS arm64",
+    "python": "3.13.15 uv-managed",
+    "app_dependencies": "requirements.txt unchanged"
+  },
+  "python": {
+    "command": "python -m unittest discover -s tests",
+    "passed": 484,
+    "failed": 0,
+    "seconds": 75.953,
+    "log_sha256": "1f79c7934a946d15d3aa3cce1373c129fe7b8acd5957a858b1840fd13cf25369"
+  },
+  "javascript": {
+    "command": "node --test tests/js/*.test.cjs",
+    "passed": 124,
+    "failed": 0
+  },
+  "feature_tests": {
+    "count": 23,
+    "covers": [
+      "default-off clean install and preserved upgrade settings",
+      "bounded WAV, exact phrases, SHA-256, missing/corrupt files and symlinks",
+      "immutable playback cache and explicit reload",
+      "offline deduplication, TTL, output tail, busy drop, account and generation changes",
+      "recording and pause suppression",
+      "live tone fallback, silent timer and no pack fallback",
+      "wake stop failure blocks playback",
+      "actual silent child reaped before stop returns",
+      "unreaped child retains busy ownership",
+      "capture request preemption ordering and failure",
+      "HTTP CSRF and activity guards",
+      "new pack install without changing settings",
+      "runtime and image allowlists"
+    ]
+  },
+  "browser": {
+    "url": "isolated localhost preview",
+    "viewport": [
+      1280,
+      720
+    ],
+    "passed": [
+      "navigation to speaker and announcements page",
+      "missing pack prevents opt-in",
+      "valid pack enables both independent controls",
+      "toggle on and off",
+      "reload preserves settings",
+      "pack recheck button",
+      "inline help and screenshot layout"
+    ],
+    "microphone_opened": false,
+    "speaker_playback": false
+  },
+  "synthesis": {
+    "model": "gradium/phonon-40m-de",
+    "model_revision": "a114872a440a0aea5e55bfd200741931536a0f70",
+    "runtime": "ptts 0.4.0",
+    "device": "Mac CPU, one thread",
+    "clips": 3,
+    "manifest": "test-pack-manifest.json",
+    "audible_quality_assessment": "pending"
+  },
+  "production_pi": {
+    "accessed": false,
+    "deployed": false,
+    "configuration_changed": false,
+    "audio_played": false
+  },
+  "image": {
+    "recipe_allowlist_test": "passed",
+    "runtime_changes": false,
+    "schema_changes": false,
+    "image_built": false,
+    "hardware_boot_certified": false
+  },
+  "earlier_findings": [
+    "Miniconda Python 3.13.12 test process stalled opening existing SQLite data before announcement initialization; final full run used fresh uv-managed Python 3.13.15.",
+    "Existing search-loop test assumed child exit also ends the intentional 250 ms output tail; assertion now waits for the tail.",
+    "Existing native cleanup race reproduced: macOS EPERM with already-absent PID. Reused PR11 fix and its confirmed-reap/live-child tests; no platform-only signal shim remains."
+  ],
+  "nonfatal_test_warnings": [
+    "dbus-next Python deprecation",
+    "Qt offscreen size-hint/font notices",
+    "one uncollectable object ResourceWarning at interpreter shutdown"
+  ],
+  "remaining": [
+    "signed device release and explicit opt-in",
+    "coordinated speaker listening test",
+    "natural wake test after playback and room echo evaluation",
+    "on-device recording/pause acceptance"
+  ]
+}

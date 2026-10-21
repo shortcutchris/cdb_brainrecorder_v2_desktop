@@ -37,6 +37,9 @@ class SearchLoopTests(unittest.TestCase):
         self.assertEqual(a.feedback()['search']['web'],0)
         self.assertTrue(a.feedback()['search_audio']['playing'])
         self.wait(lambda:a.stats()['processes_alive']==0,3)
+        # The UI intentionally reports a 250 ms audio tail after the last write.
+        # Reaping the player does not mean that tail has elapsed.
+        self.wait(lambda:not a.feedback()['search_audio']['playing'],.5)
         self.assertFalse(a.feedback()['search_audio']['playing'])
         a.update_search('web','next','started')
         self.wait(lambda:a.feedback()['search_audio']['playing'])

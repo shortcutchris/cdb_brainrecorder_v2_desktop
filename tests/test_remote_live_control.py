@@ -78,6 +78,9 @@ class RemoteTests(unittest.TestCase):
         app.closing = False
         app.clock_ready = True
         app.alarm_id = None
+        app.announcement_playing = False
+        from services.announcements import Announcements
+        app.announcements = Announcements(self.tmp.name)
         app.playback_leases = {}
         app.output_busy_until = 0
         app.wake = SimpleNamespace(enabled=False, account=None, test_until=0, suspend=Mock())

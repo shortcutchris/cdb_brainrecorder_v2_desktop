@@ -73,6 +73,7 @@ class LiveConversation:
         self.answer = None
         self.binding = None
         self.generation = 0
+        self.announcement_failure = None
         self.restored_binding = None
         self.transcript_turns = {}
         self.seen_transcripts = set()
@@ -459,6 +460,9 @@ class LiveConversation:
         self.state, self.error = state, error
         self.lease = self.answer = None
         self.generation += 1
+        if state == 'error':
+            self.announcement_failure = {'sequence': self.generation, 'at': time.monotonic(),
+                                         'account_generation': getattr(self, 'account_generation', self.cdb.generation)}
         self._persist_history()
         self.finished.set()
 

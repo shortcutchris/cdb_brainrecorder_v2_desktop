@@ -841,3 +841,7 @@ Lokaler Touch-Assistent für WLAN, Verwaltungscode und Übergang zur Audioeinric
 CDB/TQS, Geräteverwaltung und externen Bildschirm.
 [Image-Pflege und Build-Anleitung](docs/customer-image/README.md) beschreiben,
 wie neue Funktionen in künftige SD-Images und kompatible App-Updates eingehen.
+
+## Vorbereitete lokale Ansagen (in Entwicklung)
+
+Optionale feste Offline-, Timer- und Erinnerungsansagen ohne KI-Rechenlast im Betrieb. Standardmäßig aus; Aufnahme und Pause bleiben geschützt. Bedienung, Paketvorbereitung, Update-/Image-Einfluss und offener Gerätecheck: [Lokale Ansagen](docs/local-announcements/README.md).

@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "generator": "ptts 0.4.0 / gradium/phonon-40m-de Q8",
+  "clips": {
+    "offline": {
+      "text": "Das Gespräch ist gerade nicht verfügbar. Bitte prüfe die Anzeige und versuche es erneut.",
+      "sha256": "94c2a361abaa6b550581491b8619bc318bafd5d162c66846f17b677a41875cbd",
+      "seconds": 5.2
+    },
+    "timer": {
+      "text": "Dein Timer ist abgelaufen.",
+      "sha256": "865dac7ca03904166656a9f078e4f4c0ac98da98343ed81d86722bd821b7a011",
+      "seconds": 2.24
+    },
+    "reminder": {
+      "text": "Eine Erinnerung ist fällig. Bitte prüfe die Anzeige.",
+      "sha256": "d53104882ea499a330ef5c996d037b251bff446938d9826a9029e448803ad8dd",
+      "seconds": 3.76
+    }
+  }
+}
