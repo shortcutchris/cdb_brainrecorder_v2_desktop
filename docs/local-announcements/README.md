@@ -1,19 +1,20 @@
 # Vorbereitete deutsche Offline- und Timer-Ansagen
 
-Stand: 21. Oktober 2026. **Als 0.5.66 auf dem Pi installiert**, signierte
-Sequenz 23, Quellcommit `19efc1a`, PR #13 gemergt. Offline- und Timer-Ansagen
+Stand: 21. Oktober 2026. **Aktuell als 0.5.67 auf dem Pi installiert**, signierte
+Sequenz 24, Quellcommit `a517be0`, PR #13 und #14 gemergt. Offline- und Timer-Ansagen
 wurden auf ausdrücklichen Nutzerauftrag im freien Zustand aktiviert. Bei
 Ersteinrichtung bleiben beide Optionen aus. Das Sprachpaket wird getrennt
 bereitgestellt; kein Modell und keine zusätzliche KI-Laufzeit auf dem Pi.
 
-Die vorbereitete Erweiterung [„Ich verbinde dich.“](connecting.md) ist ein
-separater PR und noch nicht auf dem Pi aktiv. Sie ergänzt einen dritten Schalter
-und ein optionales viertes Sprachpaket-Element.
+Die Erweiterung [„Ich verbinde dich.“](connecting.md) ist ebenfalls installiert
+und bei freiem Gerät aktiviert worden. Sie ergänzt einen dritten Schalter und
+ein optionales viertes Sprachpaket-Element. Abbruch und Start bis zur
+Cloud-Begrüßung wurden am Pi geprüft; die Hörabnahme der neuen Ansage bleibt offen.
 
 ## Bedienung
 
 **Einstellungen → Audio → Lautsprecher → Lokale Ansagen einrichten** bietet
-zwei unabhängige Schalter. „Sprachpaket prüfen“ lädt ein vom Administrator
+drei unabhängige Schalter einschließlich „Gespräch wird verbunden“. „Sprachpaket prüfen“ lädt ein vom Administrator
 bereitgestelltes Paket neu, ohne Neustart. Ohne gültiges Paket lässt sich keine
 neue Ansage einschalten; Ausschalten bleibt möglich. Der vorhandene
 Lautsprecher, seine Lautstärke und die Stummschaltung werden respektiert.

@@ -187,13 +187,14 @@ am Pi bestätigen. Das Handy steuert Start, Ende und Stummschaltung; Audio bleib
 am Pi. Ohne Server-Capability bleibt der Bereich gesperrt. Aufnahme und Pause
 verhindern einen Gesprächsstart. [Bedienung, Sicherheitsregeln und Prüfumfang](remote-control/IMPLEMENTATION-63.md).
 
-## Lokale Ansagen (in Entwicklung)
+## Lokale Ansagen
 
 Unter **Einstellungen → Audio → Lautsprecher → Lokale Ansagen einrichten** lassen sich Gesprächshinweise sowie Timer-/Erinnerungsansagen getrennt einschalten, sobald ein geprüftes Sprachpaket bereitliegt. Beide Optionen starten ausgeschaltet. Keine Ansage während Aufnahme oder Pause; im Gespräch behalten Timer den bisherigen Ton. [Bedienung, Schutzregeln und Installation](local-announcements/README.md).
 
-## Vorbereitete Verbindungsansage
+## Verbindungsansage
 
 Die separate Option „Gespräch wird verbunden“ spielt vor dem Gesprächsmikrofon
 „Ich verbinde dich.“ ab. Zwei Sekunden Nachhallabstand schützen den Eingang.
-Bestehende Drei-Clip-Pakete und Opt-ins bleiben gültig. Noch nicht produktiv
-installiert: [Bedienung, Ablauf und Prüfung](local-announcements/connecting.md).
+Bestehende Drei-Clip-Pakete und Opt-ins bleiben gültig. Seit 0.5.67 auf dem Pi
+installiert und bei freiem Gerät aktiviert; Abbruch und Start bis zur Begrüßung
+geprüft. Bei Ersteinrichtung bleibt die Option aus: [Bedienung, Ablauf und Prüfung](local-announcements/connecting.md).

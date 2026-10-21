@@ -9,9 +9,7 @@
   },
   "connecting_clip_seconds": 1.68,
   "post_playback_tail_seconds": 2,
-  "production_deployed": false,
-  "microphone_opened_in_tests": false,
-  "cloud_session_started_in_tests": false,
+  "production_deployed": true,
   "browser": {
     "viewport": "1280x720",
     "missing_pack_activation_disabled": true,
@@ -19,8 +17,23 @@
     "screenshot": "connecting-preview.png"
   },
   "remaining": [
-    "production deployment",
-    "real start and cancellation",
-    "room echo acceptance"
-  ]
+    "human listening acceptance of the new connection announcement",
+    "room echo acceptance",
+    "natural wake-word quality not established by these tests"
+  ],
+  "isolated_tests": {
+    "microphone_opened": false,
+    "cloud_session_started": false
+  },
+  "release_focused_python_tests": 45,
+  "production": {
+    "version": "0.5.67",
+    "sequence": 24,
+    "microphone_opened_in_authorized_full_start": true,
+    "cloud_session_started": true,
+    "cancel_during_announcement_passed": true,
+    "full_start_to_greeting_passed": true,
+    "final_idle_listening": true,
+    "evidence": "connecting-pi-smoke-0.5.67.json"
+  }
 }

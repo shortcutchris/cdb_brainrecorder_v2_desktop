@@ -1,0 +1,30 @@
+{
+  "at": 1792593210.179172,
+  "health": {
+    "version": "0.5.67",
+    "ready": true,
+    "activity": "idle",
+    "wake_state": "listening"
+  },
+  "app_pid": 510959,
+  "process_tree": [
+    {
+      "pid": 510959,
+      "ppid": 1167,
+      "state": "Ssl",
+      "name": "python"
+    },
+    {
+      "pid": 511894,
+      "ppid": 510959,
+      "state": "Ssl",
+      "name": "python"
+    },
+    {
+      "pid": 511900,
+      "ppid": 511894,
+      "state": "S",
+      "name": "parec"
+    }
+  ]
+}

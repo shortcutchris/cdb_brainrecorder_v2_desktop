@@ -1,0 +1,1457 @@
+{
+  "version": "0.5.67",
+  "started": 1792593131.9036903,
+  "tests": [
+    {
+      "test": "cancel_during_announcement",
+      "passed": true,
+      "samples": [
+        {
+          "elapsed": 0.215,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 1,
+            "connecting_announcement": "playing",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 0.389,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 1,
+            "connecting_announcement": "playing",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 0.552,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 1,
+            "connecting_announcement": "playing",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        }
+      ],
+      "after": {
+        "version": "0.5.67",
+        "ready": true,
+        "activity": "idle",
+        "wake_state": "listening"
+      }
+    },
+    {
+      "test": "connect_to_greeting",
+      "passed": true,
+      "samples": [
+        {
+          "elapsed": 0.142,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 1,
+            "connecting_announcement": "playing",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 0.308,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 1,
+            "connecting_announcement": "playing",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 0.47,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 1,
+            "connecting_announcement": "playing",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 0.645,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 1,
+            "connecting_announcement": "playing",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 0.81,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 1,
+            "connecting_announcement": "playing",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 0.972,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 1,
+            "connecting_announcement": "playing",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 1.135,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 1,
+            "connecting_announcement": "playing",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 1.298,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 1,
+            "connecting_announcement": "playing",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 1.461,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 1,
+            "connecting_announcement": "playing",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 1.625,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 1,
+            "connecting_announcement": "playing",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 1.787,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 1,
+            "connecting_announcement": "playing",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 1.95,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 0,
+            "connecting_announcement": "played",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 2.113,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 0,
+            "connecting_announcement": "played",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 2.277,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 0,
+            "connecting_announcement": "played",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 2.44,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 0,
+            "connecting_announcement": "played",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 2.603,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 0,
+            "connecting_announcement": "played",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 2.765,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 0,
+            "connecting_announcement": "played",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 2.935,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 0,
+            "connecting_announcement": "played",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 3.103,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 0,
+            "connecting_announcement": "played",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 3.27,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 0,
+            "connecting_announcement": "played",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 3.439,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 0,
+            "connecting_announcement": "played",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 3.605,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 0,
+            "connecting_announcement": "played",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 3.773,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 0,
+            "connecting_announcement": "played",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 3.941,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 0,
+            "connecting_announcement": "played",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 4.158,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 0,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 2,
+            "connecting_announcement": "played",
+            "connecting_tone": "waiting",
+            "connecting_blocks": 0,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 4.343,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 8,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 3,
+            "connecting_announcement": "played",
+            "connecting_tone": "playing",
+            "connecting_blocks": 6,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 4.506,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 16,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 3,
+            "connecting_announcement": "played",
+            "connecting_tone": "playing",
+            "connecting_blocks": 14,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 4.669,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 24,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 3,
+            "connecting_announcement": "played",
+            "connecting_tone": "playing",
+            "connecting_blocks": 22,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 4.834,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 34,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 3,
+            "connecting_announcement": "played",
+            "connecting_tone": "playing",
+            "connecting_blocks": 30,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 4.997,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 42,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 3,
+            "connecting_announcement": "played",
+            "connecting_tone": "playing",
+            "connecting_blocks": 38,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 5.16,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 50,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 3,
+            "connecting_announcement": "played",
+            "connecting_tone": "playing",
+            "connecting_blocks": 46,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 5.342,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 58,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 3,
+            "connecting_announcement": "played",
+            "connecting_tone": "playing",
+            "connecting_blocks": 54,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 5.505,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 66,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 3,
+            "connecting_announcement": "played",
+            "connecting_tone": "playing",
+            "connecting_blocks": 62,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 5.667,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 74,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 3,
+            "connecting_announcement": "played",
+            "connecting_tone": "playing",
+            "connecting_blocks": 70,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 5.831,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 84,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 3,
+            "connecting_announcement": "played",
+            "connecting_tone": "playing",
+            "connecting_blocks": 78,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 5.994,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 90,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 3,
+            "connecting_announcement": "played",
+            "connecting_tone": "playing",
+            "connecting_blocks": 86,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 6.156,
+          "state": "connecting",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 100,
+            "sent_frames": 0,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 3,
+            "connecting_announcement": "played",
+            "connecting_tone": "playing",
+            "connecting_blocks": 94,
+            "greeting": "waiting",
+            "ready_tone": "waiting",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 6.319,
+          "state": "listening",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 108,
+            "sent_frames": 6,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {},
+            "processes_alive": 3,
+            "connecting_announcement": "played",
+            "connecting_tone": "playing",
+            "connecting_blocks": 97,
+            "greeting": "waiting",
+            "ready_tone": "playing",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 6.488,
+          "state": "listening",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 116,
+            "sent_frames": 14,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1
+            },
+            "processes_alive": 3,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "waiting",
+            "ready_tone": "playing",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 6.652,
+          "state": "listening",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 124,
+            "sent_frames": 22,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1
+            },
+            "processes_alive": 3,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "waiting",
+            "ready_tone": "playing",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 6.816,
+          "state": "listening",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 132,
+            "sent_frames": 31,
+            "played_frames": 0,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1
+            },
+            "processes_alive": 2,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "sent",
+            "ready_tone": "played",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 6.989,
+          "state": "listening",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 140,
+            "sent_frames": 39,
+            "played_frames": 3,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1,
+              "session.instructions.appended": 1,
+              "session.commentary.appended": 1
+            },
+            "processes_alive": 2,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "accepted",
+            "ready_tone": "played",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 7.155,
+          "state": "listening",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 150,
+            "sent_frames": 48,
+            "played_frames": 10,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1,
+              "session.instructions.appended": 1,
+              "session.commentary.appended": 1
+            },
+            "processes_alive": 2,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "accepted",
+            "ready_tone": "played",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 7.321,
+          "state": "listening",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 158,
+            "sent_frames": 56,
+            "played_frames": 16,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1,
+              "session.instructions.appended": 1,
+              "session.commentary.appended": 1
+            },
+            "processes_alive": 2,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "accepted",
+            "ready_tone": "played",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 7.488,
+          "state": "listening",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 166,
+            "sent_frames": 64,
+            "played_frames": 24,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1,
+              "session.instructions.appended": 1,
+              "session.commentary.appended": 1
+            },
+            "processes_alive": 2,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "accepted",
+            "ready_tone": "played",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 7.653,
+          "state": "speaking",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 174,
+            "sent_frames": 72,
+            "played_frames": 31,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1,
+              "session.instructions.appended": 1,
+              "session.commentary.appended": 1,
+              "session.output_transcript.delta": 1
+            },
+            "processes_alive": 2,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "accepted",
+            "ready_tone": "played",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 7.816,
+          "state": "speaking",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 182,
+            "sent_frames": 81,
+            "played_frames": 40,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1,
+              "session.instructions.appended": 1,
+              "session.commentary.appended": 1,
+              "session.output_transcript.delta": 2
+            },
+            "processes_alive": 2,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "accepted",
+            "ready_tone": "played",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 7.98,
+          "state": "speaking",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 190,
+            "sent_frames": 89,
+            "played_frames": 48,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1,
+              "session.instructions.appended": 1,
+              "session.commentary.appended": 1,
+              "session.output_transcript.delta": 3
+            },
+            "processes_alive": 2,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "accepted",
+            "ready_tone": "played",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 8.151,
+          "state": "speaking",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 200,
+            "sent_frames": 98,
+            "played_frames": 57,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1,
+              "session.instructions.appended": 1,
+              "session.commentary.appended": 1,
+              "session.output_transcript.delta": 4
+            },
+            "processes_alive": 2,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "accepted",
+            "ready_tone": "played",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 8.322,
+          "state": "speaking",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 208,
+            "sent_frames": 106,
+            "played_frames": 65,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1,
+              "session.instructions.appended": 1,
+              "session.commentary.appended": 1,
+              "session.output_transcript.delta": 4
+            },
+            "processes_alive": 2,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "accepted",
+            "ready_tone": "played",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 8.491,
+          "state": "speaking",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 216,
+            "sent_frames": 114,
+            "played_frames": 72,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1,
+              "session.instructions.appended": 1,
+              "session.commentary.appended": 1,
+              "session.output_transcript.delta": 5
+            },
+            "processes_alive": 2,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "accepted",
+            "ready_tone": "played",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 8.659,
+          "state": "speaking",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 224,
+            "sent_frames": 123,
+            "played_frames": 80,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1,
+              "session.instructions.appended": 1,
+              "session.commentary.appended": 1,
+              "session.output_transcript.delta": 6
+            },
+            "processes_alive": 2,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "accepted",
+            "ready_tone": "played",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 8.829,
+          "state": "speaking",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 232,
+            "sent_frames": 131,
+            "played_frames": 88,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1,
+              "session.instructions.appended": 1,
+              "session.commentary.appended": 1,
+              "session.output_transcript.delta": 6
+            },
+            "processes_alive": 2,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "accepted",
+            "ready_tone": "played",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 8.996,
+          "state": "speaking",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 242,
+            "sent_frames": 140,
+            "played_frames": 97,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1,
+              "session.instructions.appended": 1,
+              "session.commentary.appended": 1,
+              "session.output_transcript.delta": 6
+            },
+            "processes_alive": 2,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "accepted",
+            "ready_tone": "played",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 9.165,
+          "state": "speaking",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 250,
+            "sent_frames": 149,
+            "played_frames": 106,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1,
+              "session.instructions.appended": 1,
+              "session.commentary.appended": 1,
+              "session.output_transcript.delta": 6
+            },
+            "processes_alive": 2,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "accepted",
+            "ready_tone": "played",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 9.348,
+          "state": "speaking",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 260,
+            "sent_frames": 158,
+            "played_frames": 115,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1,
+              "session.instructions.appended": 1,
+              "session.commentary.appended": 1,
+              "session.output_transcript.delta": 6
+            },
+            "processes_alive": 2,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "accepted",
+            "ready_tone": "played",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 9.529,
+          "state": "speaking",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 268,
+            "sent_frames": 167,
+            "played_frames": 124,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1,
+              "session.instructions.appended": 1,
+              "session.commentary.appended": 1,
+              "session.output_transcript.delta": 6
+            },
+            "processes_alive": 2,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "accepted",
+            "ready_tone": "played",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 9.699,
+          "state": "speaking",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 276,
+            "sent_frames": 175,
+            "played_frames": 132,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1,
+              "session.instructions.appended": 1,
+              "session.commentary.appended": 1,
+              "session.output_transcript.delta": 6
+            },
+            "processes_alive": 2,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "accepted",
+            "ready_tone": "played",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 9.874,
+          "state": "speaking",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 284,
+            "sent_frames": 184,
+            "played_frames": 141,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1,
+              "session.instructions.appended": 1,
+              "session.commentary.appended": 1,
+              "session.output_transcript.delta": 6
+            },
+            "processes_alive": 2,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "accepted",
+            "ready_tone": "played",
+            "closed": false
+          }
+        },
+        {
+          "elapsed": 10.048,
+          "state": "speaking",
+          "stats": {
+            "capture_backend": "pipewire",
+            "captured_frames": 294,
+            "sent_frames": 192,
+            "played_frames": 150,
+            "search_tones": 0,
+            "search_loop_blocks": 0,
+            "search_loop_pauses": 0,
+            "event_types": {
+              "session.started": 1,
+              "session.instructions.appended": 1,
+              "session.commentary.appended": 1,
+              "session.output_transcript.delta": 6
+            },
+            "processes_alive": 2,
+            "connecting_announcement": "played",
+            "connecting_tone": "stopped",
+            "connecting_blocks": 97,
+            "greeting": "accepted",
+            "ready_tone": "played",
+            "closed": false
+          }
+        }
+      ],
+      "after": {
+        "version": "0.5.67",
+        "ready": true,
+        "activity": "idle",
+        "wake_state": "listening"
+      }
+    }
+  ],
+  "finished": 1792593151.49465,
+  "final_health": {
+    "version": "0.5.67",
+    "ready": true,
+    "activity": "idle",
+    "wake_state": "listening"
+  }
+}
