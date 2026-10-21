@@ -16,19 +16,19 @@ from services.audio_output import AudioOutput
 from services.app_activity import AppActivity
 
 
-def wav(rate=24000, channels=1):
+def wav(rate=24000, channels=1, seconds=.25):
     out = io.BytesIO()
     with wave.open(out, 'wb') as audio:
         audio.setparams((channels, 2, rate, 0, 'NONE', 'none'))
-        audio.writeframes(b'\x00\x01' * (rate // 4) * channels)
+        audio.writeframes(b'\x00\x01' * int(rate * seconds) * channels)
     return out.getvalue()
 
 
 def pack(root):
     folder = Path(root) / 'announcements-pack'; folder.mkdir()
-    data = wav()
-    manifest = {'version': 1, 'clips': {key: {'text': text, 'sha256': hashlib.sha256(data).hexdigest()} for key, text in PHRASES.items()}}
-    for key in PHRASES: (folder / (key + '.wav')).write_bytes(data)
+    data = {key: wav(seconds=5 if key == 'countdown' else .25) for key in PHRASES}
+    manifest = {'version': 1, 'clips': {key: {'text': text, 'sha256': hashlib.sha256(data[key]).hexdigest()} for key, text in PHRASES.items()}}
+    for key in PHRASES: (folder / (key + '.wav')).write_bytes(data[key])
     (folder / 'manifest.json').write_text(json.dumps(manifest))
     return folder
 
@@ -41,7 +41,7 @@ class PackTests(unittest.TestCase):
     def test_clean_install_and_upgrade_preserve_other_settings_default_off(self):
         old = self.root / 'config.json'; old.write_text('{"device":"existing"}')
         manager = Announcements(self.root)
-        self.assertEqual(manager.enabled, {'offline': False, 'timers': False, 'connecting': False})
+        self.assertEqual(manager.enabled, {'offline': False, 'timers': False, 'connecting': False, 'countdown': False})
         self.assertFalse(manager.public()['ready'])
         with self.assertRaises(ValueError): manager.configure({'offline': True})
         pack(self.root); manager.configure({'timers': True})
@@ -56,7 +56,7 @@ class PackTests(unittest.TestCase):
         self.assertFalse(any(manager.enabled.values()))
         for body in ({'offline': 'true'}, {'text': 'arbitrary'}, {}, {'timers': 1}):
             with self.subTest(body=body), self.assertRaises(ValueError): manager.configure(body)
-        manager.configure({'offline': False, 'timers': False, 'connecting': False})
+        manager.configure({'offline': False, 'timers': False, 'connecting': False, 'countdown': False})
 
     def test_pack_tamper_missing_wrong_phrase_and_symlink_rejected(self):
         folder = pack(self.root)
@@ -118,7 +118,7 @@ class PackTests(unittest.TestCase):
         target = self.root / 'app'; target.mkdir()
         preference = target / 'announcements.json'; preference.write_text('{"timers":false}')
         installed = install(source, target)
-        self.assertEqual(set(p.name for p in installed.iterdir()), {'manifest.json', 'offline.wav', 'timer.wav', 'reminder.wav', 'connecting.wav'})
+        self.assertEqual(set(p.name for p in installed.iterdir()), {'manifest.json', 'offline.wav', 'timer.wav', 'reminder.wav', 'connecting.wav', 'countdown.wav'})
         self.assertEqual(preference.read_text(), '{"timers":false}')
         self.assertEqual(load_pack(installed), load_pack(source))
         with self.assertRaises(ValueError): install(source, target)
@@ -149,7 +149,7 @@ class PackTests(unittest.TestCase):
         self.assertIsNotNone(manager.timer_clip('timer'))
         self.assertIsNone(manager.connecting_clip())
         with self.assertRaises(ValueError): manager.configure({'connecting': True})
-        self.assertEqual(manager.enabled, {'offline': True, 'timers': True, 'connecting': False})
+        self.assertEqual(manager.enabled, {'offline': True, 'timers': True, 'connecting': False, 'countdown': False})
 
     def test_connecting_clip_opt_in_and_duration_limit(self):
         folder = pack(self.root); manager = Announcements(self.root)

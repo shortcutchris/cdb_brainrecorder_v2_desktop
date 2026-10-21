@@ -20,3 +20,13 @@ test('speech controls obey recording, pause, disconnected and occupied guards',(
 });
 
 test('connecting voice requires its optional clip and follows activity lock',()=>{const state=s();state.announcements={ready:true,connecting_ready:false,connecting:false};assert.equal(ctx.announcementControls(state,true,false).connecting,false);state.announcements.connecting_ready=true;assert.equal(ctx.announcementControls(state,true,false).connecting,true);state.capabilities.configure.allowed=false;assert.equal(ctx.announcementControls(state,true,false).connecting,false)});
+test('countdown has its own pack gate and can be disabled after pack loss',()=>{
+ const state=s();state.announcements={ready:true,countdown_ready:false,countdown:false};
+ assert.equal(ctx.announcementControls(state,true,false).countdown,false);
+ state.announcements.countdown_ready=true;assert.equal(ctx.announcementControls(state,true,false).countdown,true);
+ state.announcements.countdown_ready=false;state.announcements.countdown=true;
+ assert.equal(ctx.announcementControls(state,true,false).countdown,true);
+ for(const [connected,busy] of [[false,false],[true,true]])assert.equal(ctx.announcementControls(state,connected,busy).countdown,false);
+ state.recording={id:'recording',paused:true};assert.equal(ctx.announcementControls(state,true,false).countdown,false);
+ state.recording.id=null;state.capabilities.configure.allowed=false;assert.equal(ctx.announcementControls(state,true,false).countdown,false);
+});

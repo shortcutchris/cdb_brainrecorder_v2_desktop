@@ -75,6 +75,7 @@ class StudioApp:
         from services.announcements import Announcements
         self.announcements = Announcements(self.store.root)
         self.announcement_playing = False
+        self.countdown = None
         from services.bluetooth_audio import BluetoothAudio
         self.bluetooth = BluetoothAudio(enabled=not preview and backend is None)
         from services.model_checks import ModelChecks
@@ -187,6 +188,34 @@ class StudioApp:
             self.speakers.start_announcement(clip)
             self.announcement_playing = True
 
+    def stop_countdown(self):
+        import time
+        if self.countdown is not None:
+            self.speakers.stop_test()  # Retain ownership on failed cleanup.
+            self.countdown = None
+            self.announcement_playing = False
+            self.output_busy_until = max(self.output_busy_until, time.monotonic() + 2)
+
+    def tick_countdown(self):
+        """Under device locks, use only the timer deadline, never labels/content."""
+        import time
+        candidate = self.schedules.claim_countdown(self.clock_ready)
+        if self.countdown is not None:
+            valid = any(item['id'] == self.countdown['id'] and
+                        item['revision'] == self.countdown['revision'] and item['state'] == 'scheduled'
+                        for item in self.schedules.items())
+            if (not valid or time.monotonic() >= self.countdown['end_at'] or
+                    self.speakers.test_status()['state'] != 'running'):
+                self.stop_countdown()
+            return
+        clip = self.announcements.countdown_clip()
+        if candidate and clip and self.speech_allowed():
+            self.wake.suspend('Timer zählt herunter.')
+            try: self.speakers.start_countdown(clip, candidate['end_at'])
+            except ValueError: return  # Skip; the normal alarm remains due on time.
+            self.countdown = candidate
+            self.announcement_playing = True
+
     def tick_alarm(self):
         """Called under the device control locks; Live does not defer an alarm."""
         if self.alarm_id and not any(i['id']==self.alarm_id and i['state']=='due' for i in self.schedules.items()):
@@ -236,6 +265,7 @@ class StudioApp:
                 with self.control_lock, self.controller.lock, self.engine.recorder.lock:
                     if self.closing: return
                     self.playback_leases = {key:value for key,value in self.playback_leases.items() if value>time.monotonic()}
+                    self.tick_countdown()
                     self.tick_alarm()
                     self.tick_announcements()
                     reason = self.wake_reason()
@@ -540,6 +570,8 @@ class StudioApp:
                     if body.get('kind')=='reminder' and not self.clock_ready: raise ValueError('Gerätezeit zuerst synchronisieren lassen.')
                     return self.schedules.create(body)
                 result = self.schedules.change(body)
+                if self.countdown is not None and self.countdown['id'] == body.get('id'):
+                    self.stop_countdown()
                 if self.alarm_id == body.get('id'):
                     self.speakers.stop_test(); self.alarm_id=None
                 return result
@@ -560,6 +592,8 @@ class StudioApp:
             if path in ('/api/record/start','/api/live/reserve','/api/microphone/test','/api/cdb/logout'):
                 with self.live.lock:
                     self.announcements.failure_clip(self.live.announcement_failure, False)
+                if self.countdown is not None:
+                    self.stop_countdown()
                 if self.announcement_playing:
                     self.speakers.stop_test()
                     self.announcement_playing = False

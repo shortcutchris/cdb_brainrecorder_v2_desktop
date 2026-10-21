@@ -139,6 +139,37 @@ class Schedules:
         return [{k:r[k] for k in ('id','kind','label','due','state','revision','sound','tone')} |
                 {'remaining':max(0,round(self.remaining(r)))} for r in rows]
 
+    def claim_countdown(self, clock_ready=True):
+        """Consume the pre-roll window durably, even if speech is disabled/busy.
+
+        Separate bounded receipts leave the timer schema and alarm receipts
+        unchanged. Overlapping timers are consumed too, never queued for later.
+        A damaged/unwritable receipt file disables countdowns, not normal alarms.
+        """
+        from meeting_recorder.core import atomic_write
+        receipt = self.path.parent / 'timer-countdowns.json'
+        with self.lock, self.db() as db:
+            try:
+                from services.announcements import bounded_file
+                seen = json.loads(bounded_file(receipt, 32768)) if receipt.exists() else {}
+                if (not isinstance(seen, dict) or len(seen) > 150 or
+                        any(not isinstance(k, str) or type(v) is not int or v < 1 for k, v in seen.items())):
+                    return None
+                rows = db.execute("SELECT * FROM schedules WHERE state='scheduled' AND kind='timer'").fetchall()
+                updated = {r['id']:seen[r['id']] for r in rows if r['id'] in seen}
+                candidates = []
+                for row in rows:
+                    if row['boot'] != self.boot and not clock_ready: continue
+                    remaining = self.remaining(row)
+                    if remaining > 7 or seen.get(row['id']) == row['revision']: continue
+                    updated[row['id']] = row['revision']
+                    if 5 <= remaining <= 7 and row['tone'] != 'silent':
+                        candidates.append({'id': row['id'], 'revision': row['revision'],
+                                           'end_at': time.monotonic() + remaining})
+                if updated != seen: atomic_write(receipt, json.dumps(updated))
+                return min(candidates, key=lambda item: item['end_at']) if candidates else None
+            except (OSError, ValueError): return None
+
     def sound_result(self, ident, result):
         with self.lock, self.db() as db:
             db.execute("UPDATE schedules SET sound=? WHERE id=? AND state='due'",(result,ident))

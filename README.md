@@ -1,5 +1,12 @@
 # Corporate Digital Brain Desktop Recorder
 
+## Vorbereitet – Timer auf Deutsch herunterzählen
+
+Separater Opt-in für „fünf, vier, drei, zwei, eins“ vor dem Timerende.
+Vorgefertigte Standardstimme, Vorrang für Aufnahme/Gespräch, keine verspätete
+Nachholwiedergabe. Noch nicht auf dem Pi installiert.
+[Bedienung, Schutzregeln und Prüfumfang](docs/local-announcements/countdown.md).
+
 ## 0.5.67 – Lokale Verbindungsansage vor dem Gespräch
 
 Die optionale Ansage „Ich verbinde dich.“ erklingt einmal vor dem Öffnen des

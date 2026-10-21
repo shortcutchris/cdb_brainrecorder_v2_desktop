@@ -12,6 +12,9 @@ ein optionales viertes Sprachpaket-Element. Abbruch und Start bis zur
 Cloud-Begrüßung wurden am Pi geprüft. Chris bestätigte anschließend Stimme und
 Ablauf: „läuft perfekt“. [Modell, Stimme, Arbeitsweise und Nutzerabnahme](voice-baseline.md).
 
+Die nächste vorbereitete Erweiterung ist der separat einschaltbare
+[deutsche Timer-Countdown](countdown.md); noch nicht auf dem Pi installiert.
+
 ## Bedienung
 
 **Einstellungen → Audio → Lautsprecher → Lokale Ansagen einrichten** bietet
