@@ -1,6 +1,6 @@
 # Corporate Digital Brain Desktop Recorder
 
-## Vorbereitet – Timer auf Deutsch herunterzählen
+## 0.5.68 – Timer auf Deutsch herunterzählen
 
 Separater Opt-in für „fünf, vier, drei, zwei, eins“ vor dem Timerende.
 Vorgefertigte Standardstimme, Vorrang für Aufnahme/Gespräch, keine verspätete
