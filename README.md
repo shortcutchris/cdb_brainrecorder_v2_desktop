@@ -1,5 +1,13 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.70 – USB-Timerdisplay vorbereiten
+
+Lokale, lesende Timer-Schnittstelle und getrennter USB-Begleitdienst für das
+Waveshare 5B Touch. Nach einmaliger Dienstinstallation und Display-Flash werden
+vorhandene Timer automatisch angezeigt. Keine neue Option pro Timer, keine
+Änderungen an Audio-Einstellungen. Hardwareabnahme steht nach Lieferung aus.
+[Installation und erste Inbetriebnahme](docs/lcd-display/FIRST-START.md).
+
 ## 0.5.69 – Countdown-Abschluss ohne falsche Fehlermeldung
 
 Beim Pi-Test endete der Countdown planmäßig am Timerende, wurde aber kurz als
@@ -877,3 +885,11 @@ wie neue Funktionen in künftige SD-Images und kompatible App-Updates eingehen.
 ## Vorbereitete lokale Ansagen (in Entwicklung)
 
 Optionale feste Offline-, Timer- und Erinnerungsansagen ohne KI-Rechenlast im Betrieb. Standardmäßig aus; Aufnahme und Pause bleiben geschützt. Bedienung, Paketvorbereitung, Update-/Image-Einfluss und offener Gerätecheck: [Lokale Ansagen](docs/local-announcements/README.md).
+
+## LCD-Timerdisplay · Entwicklung
+
+USB-Prototyp mit automatischer Erkennung und Wiederverbindung nach einmaliger
+Dienstinstallation für das Waveshare ESP32-S3-Touch-LCD-5B: getrennte
+Begleitsoftware und Display-Firmware, vorhandene Timer als reine Anzeige. Noch
+nicht auf einem Gerät installiert oder abgenommen. Aufbau, Tests und offene
+Hardwareprüfungen: [LCD Remote Display](docs/lcd-display/README.md).

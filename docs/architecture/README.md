@@ -120,3 +120,12 @@ nötig; inkompatible App-Pakete werden abgewiesen. Die verbindliche
 ## Vorbereitete Sprachansagen
 
 `services/announcements.py` verwaltet feste, geprüfte WAV-Clips und separate Opt-ins. `StudioApp` entscheidet unter den vorhandenen Gerätesperren über Ausgabe; `AudioOutput` besitzt den Wiedergabeprozess bis zum bestätigten Ende. Phonon wird ausschließlich vom optionalen Vorbereitungswerkzeug auf einem anderen Rechner verwendet. Kein zweiter Mikrofonpfad, keine Runtime-Synthese. [Verhalten und Installation](../local-announcements/README.md).
+
+## USB-Timerdisplay (Entwicklung, PR 16)
+
+Der optionale `cdb-lcd-display.service` läuft getrennt vom Recorder. Er liest nur
+`/api/lcd/timers` über Loopback und öffnet ausschließlich einen anhand der
+USB-Metadaten erkannten CDB-Timerdisplay-Port. Keine Mikrofon-, Audio- oder
+Timer-Schreibbefehle; keine neue Option pro Timer. Firmware und Begleitdienst
+werden einmal separat eingerichtet. Details, Ausfälle, Installation und offene
+Hardwareabnahme: [LCD-Display](../lcd-display/README.md).

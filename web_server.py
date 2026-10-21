@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.69'
+VERSION = '0.5.70'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -782,6 +782,12 @@ class StudioHandler(Handler):
         if path=='/favicon.ico':
             self.send_response(204);self.headers_base('image/x-icon',0);self.end_headers();return
         if path=='/api/wake/status':self.respond(self.server.app.wake.public());return
+        if path=='/api/lcd/timers':
+            if self.client_address[0] not in ('127.0.0.1','::1'):
+                self.respond({'error':'Nur lokal verfügbar.'},403);return
+            from services.lcd_display import snapshot
+            app=self.server.app
+            self.respond(snapshot(app.schedules, app.clock_ready));return
         if path=='/api/state':self.respond(self.server.app.state());return
         if path=='/api/bluetooth':
             self.server.app.bluetooth.start();self.respond(self.server.app.bluetooth.public());return
