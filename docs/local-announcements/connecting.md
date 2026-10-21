@@ -4,8 +4,8 @@ Stand: 21. Oktober 2026. **PR #14 gemergt und als 0.5.67 auf dem Pi installiert*
 signierte Sequenz 24, Quellcommit `a517be09b27c25f9a72dee8c35365f1153ddcd46`.
 Die Verbindungsansage wurde auf Nutzerauftrag bei freiem Gerät aktiviert.
 Offline-/Timer-Ansagen und die bisherigen Mikrofon-/Lautsprechereinstellungen
-blieben erhalten. Die vorherige positive Hörprobe des Nutzers bezieht sich auf
-die bestehenden Offline-/Timer-Ansagen.
+blieben erhalten. Chris bestätigte nach diesem Deployment auch die neue Ansage und die Stimme:
+„läuft perfekt“. [Bestätigte Modell-/Stimmreferenz und Arbeitsweise](voice-baseline.md).
 
 ## Bedienung und Ablauf
 
@@ -101,8 +101,9 @@ Zwei kurze Starts über die normale, besitzgebundene Gesprächssteuerung:
 Die Zeiten sind Abtastwerte aus der technischen Zustandsprüfung, keine präzise
 akustische Latenzmessung. Es wurden keine Audiodateien oder Gesprächsinhalte
 exportiert. Die Tests beweisen weder natürliche Rufwortqualität noch die
-akustische Echofreiheit im Raum. **Die Hörabnahme der neuen Ansage und ihres
-Nachhalls bleibt offen.** Während der Tests lief keine Nutzeraufnahme oder
+akustische Echofreiheit im Raum. **Die persönliche Hörabnahme der neuen Ansage
+und des erlebten Ablaufs wurde anschließend vom Nutzer bestätigt.** Eine
+systematische Nachhall-/Raumprüfung ist damit nicht behauptet. Während der Tests lief keine Nutzeraufnahme oder
 bereits bestehende Unterhaltung.
 
 Belege: [signiertes Deployment](connecting-deployment-0.5.67.json),

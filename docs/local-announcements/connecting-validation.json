@@ -17,8 +17,7 @@
     "screenshot": "connecting-preview.png"
   },
   "remaining": [
-    "human listening acceptance of the new connection announcement",
-    "room echo acceptance",
+    "systematic room echo assessment beyond user listening acceptance",
     "natural wake-word quality not established by these tests"
   ],
   "isolated_tests": {
@@ -35,5 +34,13 @@
     "full_start_to_greeting_passed": true,
     "final_idle_listening": true,
     "evidence": "connecting-pi-smoke-0.5.67.json"
+  },
+  "user_acceptance": {
+    "date": "2026-10-21",
+    "source": "direct user message after deployment and device checks",
+    "reported_voice_and_behavior": "läuft perfekt",
+    "listening_accepted": true,
+    "reference": "voice-baseline.md",
+    "scope": "Current fixed announcement voice and experienced behavior; not a systematic room or wake-word evaluation"
   }
 }

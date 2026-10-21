@@ -198,3 +198,6 @@ Die separate Option „Gespräch wird verbunden“ spielt vor dem Gesprächsmikr
 Bestehende Drei-Clip-Pakete und Opt-ins bleiben gültig. Seit 0.5.67 auf dem Pi
 installiert und bei freiem Gerät aktiviert; Abbruch und Start bis zur Begrüßung
 geprüft. Bei Ersteinrichtung bleibt die Option aus: [Bedienung, Ablauf und Prüfung](local-announcements/connecting.md).
+
+Die Stimme und der aktuelle Ansagenablauf wurden am 21. Oktober 2026 vom Nutzer
+positiv bestätigt. [Verwendetes lokales Sprachmodell, Standardstimme und Arbeitsweise](local-announcements/voice-baseline.md).

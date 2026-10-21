@@ -9,7 +9,8 @@ bereitgestellt; kein Modell und keine zusätzliche KI-Laufzeit auf dem Pi.
 Die Erweiterung [„Ich verbinde dich.“](connecting.md) ist ebenfalls installiert
 und bei freiem Gerät aktiviert worden. Sie ergänzt einen dritten Schalter und
 ein optionales viertes Sprachpaket-Element. Abbruch und Start bis zur
-Cloud-Begrüßung wurden am Pi geprüft; die Hörabnahme der neuen Ansage bleibt offen.
+Cloud-Begrüßung wurden am Pi geprüft. Chris bestätigte anschließend Stimme und
+Ablauf: „läuft perfekt“. [Modell, Stimme, Arbeitsweise und Nutzerabnahme](voice-baseline.md).
 
 ## Bedienung
 
@@ -97,7 +98,9 @@ Benötigte lokale Modell-Dateien: `config.json`, `tokenizer.json`,
 schreibt erst nach erfolgreicher Prüfung in einen **neuen** Zielordner und
 überschreibt keine bestehenden Pakete. Er öffnet weder Mikrofon noch Lautsprecher.
 
-Das Paket enthält genau drei WAV-Dateien und `manifest.json`. Die App prüft
+Das aktuelle Paket enthält vier WAV-Dateien und `manifest.json`. Bestehende
+Drei-Clip-Pakete bleiben gültig; `connecting.wav` ist optional und auf drei
+Sekunden begrenzt. Die App prüft
 Paketversion, fest vorgegebenen Text, SHA-256 und WAV-Format. Erlaubt sind
 Mono-PCM, 16 Bit, 24 kHz und 0,1 bis 15 Sekunden pro Datei. Größen sind begrenzt;
 Dateiverweise und fremde Clip-Namen sind nicht erlaubt. Pfade kommen nicht aus
@@ -124,16 +127,16 @@ die Installation unterbrechen.
 
    Das Werkzeug prüft zuerst und legt dann ausschließlich den neuen Ordner
    `announcements-pack` an. Es verändert keine Einstellungen und überschreibt
-   kein vorhandenes Paket. Für eine spätere Paketablösung beide Schalter
+   kein vorhandenes Paket. Für eine spätere Paketablösung alle drei Schalter
    ausschalten, die alte Paketversion separat sichern und erst dann neu installieren.
    Das Werkzeug ist ein Operator-Werkzeug im Quellcheckout, kein Bestandteil
    des signierten App-Pakets.
-4. Auf der Ansagenseite „Sprachpaket prüfen“ wählen. Beide Schalter bleiben bei
+4. Auf der Ansagenseite „Sprachpaket prüfen“ wählen. Alle drei Schalter bleiben bei
    einer Ersteinrichtung aus. Anschließend nur die gewünschten Ansagen einschalten.
 5. Eine koordinierte Hörprobe und einen natürlichen Rufwort-Ruf nach der Ausgabe
    durchführen, wenn der Nutzer beim Pi ist und keine Aufnahme läuft.
 
-Zur Rücknahme beide Schalter ausschalten. Die vorhandenen Alarmtöne funktionieren
+Zur Rücknahme alle drei Schalter ausschalten. Die vorhandenen Alarmtöne funktionieren
 weiter. Keine Migration oder Rücksetzung der bisherigen Pi-Konfiguration ist nötig.
 
 ## Updates und frische SD-Images
