@@ -84,6 +84,7 @@ class DiscoveryTests(unittest.TestCase):
         fresh=installer.unit(root,runtime)
         self.assertEqual(fresh,installer.unit(root,runtime))
         self.assertIn('WantedBy=default.target',fresh)
+        self.assertIn('LimitAS=134217728',fresh)
         self.assertIn('WorkingDirectory=/opt/cdb recorder\n',fresh)
         self.assertNotIn('WorkingDirectory="',fresh)
         self.assertIn('services.lcd_bridge',fresh);self.assertNotIn('--port',fresh)
