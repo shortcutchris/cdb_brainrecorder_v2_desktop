@@ -20,6 +20,7 @@ class LCDTests(unittest.TestCase):
   ident=self.add();other=Schedules(Path(self.tmp.name),lambda:self.now,lambda:self.now,'new-boot')
   self.assertFalse(snapshot(other,False)['timers'][0]['time_valid'])
   self.now+=11;self.s.tick();r=snapshot(self.s,True)['timers'][0];self.assertEqual(r['state'],'due')
+  self.assertTrue(snapshot(other,False)['timers'][0]['time_valid']);self.assertEqual(snapshot(other,False)['timers'][0]['remaining_ms'],0)
   self.s.change({'action':'ack','id':ident,'revision':r['revision']});self.assertEqual(snapshot(self.s,True)['timers'],[])
  def test_bound_and_bounded_frames_no_control_characters(self):
   for i in range(20):self.add(str(i)+'\n'+ 'ü'*75)

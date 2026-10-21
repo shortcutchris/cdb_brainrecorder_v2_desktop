@@ -18,5 +18,6 @@ int main(void){
  const char *clear="{" PREFIX "\"type\":\"snapshot\",\"seq\":2,\"total\":0,\"timers\":[]}";
  assert(lcd_accept(&m,clear,200)==2);assert(m.count==0);
  assert(lcd_accept(&m,"{} garbage",300)==0);assert(lcd_accept(&m,"{",300)==0);
+ assert(lcd_accept(&m,"[[[[[[[[[[]]]]]]]]]]",300)==0);assert(m.sequence==2);
  puts("LCD protocol: handshake, replay, timeout, reconnect, atomic validation, removal passed");
 }

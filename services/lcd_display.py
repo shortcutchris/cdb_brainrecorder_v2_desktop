@@ -17,8 +17,9 @@ def snapshot(schedules, clock_ready):
         rows = db.execute("SELECT * FROM schedules WHERE state IN ('scheduled','due','missed') ORDER BY CASE state WHEN 'due' THEN 0 WHEN 'missed' THEN 1 ELSE 2 END,due").fetchall()
     timers = []
     for row in rows[:MAX_TIMERS]:
-        valid = bool(clock_ready or (row['kind'] == 'timer' and row['boot'] == schedules.boot))
-        remaining = schedules.remaining(row) if valid else 0
+        terminal = row['state'] in ('due', 'missed')
+        valid = bool(terminal or clock_ready or (row['kind'] == 'timer' and row['boot'] == schedules.boot))
+        remaining = schedules.remaining(row) if valid and not terminal else 0
         timers.append({'id': row['id'], 'revision': row['revision'], 'label': label(row['label']),
                        'state': row['state'], 'remaining_ms': max(0, min(31622400000, math.ceil(remaining * 1000))),
                        'time_valid': valid})

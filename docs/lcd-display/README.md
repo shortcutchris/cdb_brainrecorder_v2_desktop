@@ -71,7 +71,7 @@ Firmware lokal in einer eingerichteten ESP-IDF-5.5.2-Umgebung bauen:
 ```sh
 python3 scripts/lcd-display/prepare_vendor.py
 cd firmware/lcd-usb
-idf.py build
+idf.py -DIDF_TARGET=esp32s3 build
 ```
 
 Der GitHub-Build erzeugt nur Prüfartefakte. Flashen ist ein eigener Arbeitsschritt
@@ -114,7 +114,26 @@ Zustände; beim Wiederverbinden ersetzt ein vollständiger Zustand die Anzeige.
 Automatische Tests prüfen Projektion ohne Datenbankmutation, monotone Restzeit,
 Neustart ohne sichere Uhr, Entfernen erledigter Timer, Begrenzung, Authentifizierung,
 Handshake, Replay, Reconnect, Abbruch unvollständiger Frames und atomaren Austausch.
-C-Protokolltest wird zusätzlich mit Address-/UndefinedBehavior-Sanitizer ausgeführt.
+Prüfstand 21.10.2026: 27 Python-Tests (LCD, vorhandene Timer, Remoteanzeige,
+Kundenimage-Vertrag) bestanden. Der echte Begleitprozess wurde zusätzlich über
+Pseudo-Terminal und synthetischen HTTP-Server geprüft: fragmentierte/zu große
+Eingaben, Handshake, Feldfilter, Quellenverlust und neuer Verbindungs-Nonce bestanden.
+C-Protokolltest mit Address-/UndefinedBehavior-Sanitizer bestanden, einschließlich
+atomarer Ablehnung ungültiger und zu tief verschachtelter Pakete.
+
+Reproduzierbar aus dem Repository:
+
+```sh
+PYTHONPATH=.:tests python -m unittest tests.test_lcd_display tests.test_schedules tests.test_remote_display tests.test_customer_image
+# Separate Umgebung mit pyserial 3.5, Linux/macOS:
+python scripts/lcd-display/test_serial.py
+```
+
+Die Anzeige ist eine sekundengenaue Orientierung, keine Echtzeit-Alarmschnittstelle:
+Übertragungs-/Abfrageverzögerung ist nicht akustisch vermessen. Der Alarm und seine
+Zeitentscheidung bleiben beim bestehenden Pi-Scheduler. Computerbetrieb ist als
+Transport vorbereitet; vollständige Recorder-Zeitprüfung auf macOS/Windows und
+USB-Treiber wurden noch nicht abgenommen.
 
 Am realen Modul offen: USB-Erkennung, Versorgung unter Gesamtlast, Bild und Touch,
 Lesbarkeit, Kabelverlust/Reconnect, Display-Neustart, mehrere Timer, Aufwecken des
