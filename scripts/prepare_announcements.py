@@ -45,7 +45,7 @@ def build(model, output):
                 audio.setparams((1, 2, 24000, 0, 'NONE', 'not compressed'))
                 audio.writeframes((np.clip(pcm, -1, 1) * 32767).astype('<i2').tobytes())
             manifest['clips'][key] = {'text': text, 'sha256': hashlib.sha256(path.read_bytes()).hexdigest(), 'seconds': len(pcm) / 24000}
-        (folder / 'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
+        (folder / 'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
         load_pack(folder)
         # New destination only; a failed build never replaces an existing pack.
         if output.exists(): raise ValueError('Ziel wurde inzwischen angelegt.')
@@ -66,7 +66,7 @@ def install(source, root):
         for key, data in clips.items():
             path = folder / (key + '.wav'); path.write_bytes(data); path.chmod(0o600)
             manifest['clips'][key] = {'text': PHRASES[key], 'sha256': hashlib.sha256(data).hexdigest()}
-        path = folder / 'manifest.json'; path.write_text(json.dumps(manifest, ensure_ascii=False)); path.chmod(0o600)
+        path = folder / 'manifest.json'; path.write_text(json.dumps(manifest, ensure_ascii=False), encoding='utf-8'); path.chmod(0o600)
         load_pack(folder)
         if target.exists(): raise ValueError('Ziel wurde inzwischen angelegt.')
         folder.rename(target)

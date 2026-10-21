@@ -123,6 +123,19 @@ class PackTests(unittest.TestCase):
         self.assertEqual(load_pack(installed), load_pack(source))
         with self.assertRaises(ValueError): install(source, target)
 
+    def test_install_manifest_uses_utf8_with_non_utf8_system_default(self):
+        from scripts.prepare_announcements import install
+        source = pack(self.root)
+        target = self.root / 'non-utf8-app'; target.mkdir()
+        original = Path.write_text
+        def locale_write(path, data, encoding=None, **kwargs):
+            return original(path, data, encoding=encoding or 'latin-1', **kwargs)
+        with patch.object(Path, 'write_text', locale_write):
+            installed = install(source, target)
+        manifest = json.loads((installed / 'manifest.json').read_bytes())
+        self.assertEqual(manifest['clips']['offline']['text'], PHRASES['offline'])
+        self.assertEqual(load_pack(installed), load_pack(source))
+
     def test_runtime_assets_allowlisted_private_pack_excluded(self):
         from fleet.releases import allowed
         for name in ('services/announcements.py', 'studio/speakers.js'): self.assertTrue(allowed(name))

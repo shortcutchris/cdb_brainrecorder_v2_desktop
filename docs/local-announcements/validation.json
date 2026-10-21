@@ -74,10 +74,20 @@
     "audible_quality_assessment": "pending"
   },
   "production_pi": {
-    "accessed": false,
-    "deployed": false,
-    "configuration_changed": false,
-    "audio_played": false
+    "deployed": true,
+    "version": "0.5.66",
+    "sequence": 23,
+    "offline_enabled": true,
+    "timers_enabled": true,
+    "existing_configuration_preserved": true,
+    "audio_played": true,
+    "user_hearing_feedback": "Sound hört sich sehr gut an",
+    "isolated_tests_passed": 24,
+    "evidence": [
+      "deployment-0.5.66.json",
+      "pi-smoke-0.5.66.json",
+      "pi-final-0.5.66.json"
+    ]
   },
   "image": {
     "recipe_allowlist_test": "passed",
@@ -97,9 +107,13 @@
     "one uncollectable object ResourceWarning at interpreter shutdown"
   ],
   "remaining": [
-    "signed device release and explicit opt-in",
-    "coordinated speaker listening test",
     "natural wake test after playback and room echo evaluation",
-    "on-device recording/pause acceptance"
-  ]
+    "on-device recording/pause acceptance",
+    "production offline-failure playback not deliberately triggered"
+  ],
+  "release_followup": {
+    "python_tests": 485,
+    "result": "passed",
+    "operator_fix": "Explicit UTF-8 for pack manifests; added non-UTF-8 locale regression"
+  }
 }

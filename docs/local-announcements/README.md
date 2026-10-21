@@ -1,9 +1,10 @@
 # Vorbereitete deutsche Offline- und Timer-Ansagen
 
-Stand: 21. Oktober 2026. Implementierung auf Basis der installierten 0.5.65
-(Quellstand `99b3f7c`). **Noch nicht auf dem produktiven Pi installiert oder
-aktiviert.** Beide Funktionen sind standardmäßig aus. Kein Modell, keine
-Sprachdatei und keine zusätzliche KI-Abhängigkeit wird automatisch ausgerollt.
+Stand: 21. Oktober 2026. **Als 0.5.66 auf dem Pi installiert**, signierte
+Sequenz 23, Quellcommit `19efc1a`, PR #13 gemergt. Offline- und Timer-Ansagen
+wurden auf ausdrücklichen Nutzerauftrag im freien Zustand aktiviert. Bei
+Ersteinrichtung bleiben beide Optionen aus. Das Sprachpaket wird getrennt
+bereitgestellt; kein Modell und keine zusätzliche KI-Laufzeit auf dem Pi.
 
 ## Bedienung
 
@@ -101,9 +102,9 @@ Wiedergabe untergeschoben wird. „Sprachpaket prüfen“ verwirft einen ungült
 
 ## Bereitstellung und Rücknahme
 
-Die folgenden Schritte sind eine **Anleitung**, kein in diesem Auftrag
-vorgenommenes Pi-Deployment. App-Update und opt-in mit dem Nutzer abstimmen;
-keine Aufnahme, Pause oder Unterhaltung für die Installation unterbrechen.
+Die folgenden Schritte beschreiben den Bereitstellungsweg. App-Update und
+Opt-in müssen autorisiert sein; keine Aufnahme, Pause oder Unterhaltung für
+die Installation unterbrechen.
 
 1. Die neue App regulär als signiertes Update bereitstellen. Bestehende
    Mikrofon-, Rufwort-, Lautsprecher-, Konto- und Timer-Einstellungen beibehalten.
@@ -170,8 +171,38 @@ Aktivierung; gültiges Paket gibt beide Schalter frei; getrenntes Ein-/Ausschalt
 und „Sprachpaket prüfen“ funktionieren. Aufnahme-/Pause-, Live-, Konto-,
 Rufwort- und Beendigungsfehler werden in automatisierten Tests geprüft.
 
-**Noch offen:** signiertes Deployment, tatsächliche Lautsprecher-Hörprobe,
-Nachhall/Rufwort-Wiederanlauf im Raum und Geräteabnahme mit Aufnahme/Pause.
-Der produktive Pi wurde in diesem Implementierungsauftrag nicht verändert.
+## Geräteprüfung am 21. Oktober 2026
+
+Das signierte Update von 0.5.65 auf 0.5.66 wurde über die atomare Wartungssperre
+installiert. Runtime, Signatur und alle Programmdateien wurden geprüft;
+Konfiguration sowie Rufwort- und Lautsprechereinstellungen blieben erhalten.
+Beide Ansagen waren zunächst aus. Erst nach erneutem `idle` wurden das geprüfte
+Paket geladen und beide Optionen eingeschaltet.
+
+Je ein synthetischer Timer und eine Erinnerung wurden über die reguläre API
+angelegt. Die lokale Ausgabe lief jeweils etwa 4,5 Sekunden und wurde durch
+Quittieren des eigenen Testalarms beendet. Währenddessen war das Rufwort
+suspendiert; danach wieder `listening`. Keine offene Test-Erinnerung und keine
+Wartungssperre bleiben zurück. Die zusammengesetzte Erinnerungsdatei enthält
+nachweislich den korrekten Sprachvorspann. Bestehende Lautstärke unverändert.
+Der Benutzer bestätigte anschließend: „Der Sound hört sich sehr gut an.“
+
+Zusätzlich bestanden 24 isolierte Ansagentests auf dem Pi ohne Mikrofon- oder
+Lautsprecherzugriff. Die erste Testausführung fand das getrennt installierte
+Fleet-Modul nicht; nach korrektem Test-Suchpfad bestand die gesamte Suite.
+Ein beim Paketinstallieren entdeckter Locale-Fehler wurde im Operator-Werkzeug
+mit explizitem UTF-8 korrigiert und durch einen Nicht-UTF-8-Regressionstest
+abgedeckt. Die erste Installation brach vor Übernahme des Pakets ab. Der Fix
+ändert keine signierten Runtime-Dateien und benötigt keinen weiteren App-Neustart.
+
+Belege: [Deployment](deployment-0.5.66.json),
+[Timer-/Erinnerungsprüfung](pi-smoke-0.5.66.json),
+[abschließender Zustand](pi-final-0.5.66.json).
+
+**Noch offen:** natürlicher Ruf nach der Ausgabe, umfassende Nachhallprüfung
+und echte Geräteabnahme mit Aufnahme/Pause. Der Schutz dieser Zustände wurde
+isoliert getestet, nicht durch Unterbrechen einer produktiven Aufnahme.
+Der Offline-Fehlerpfad wurde automatisiert geprüft; auf dem produktiven Pi
+wurde dafür kein Cloud-Gespräch absichtlich zum Scheitern gebracht.
 
 ![Ansagenseite in der isolierten Vorschau](settings-preview.png)
