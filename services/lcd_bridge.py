@@ -1,4 +1,4 @@
-"""Opt-in USB companion. Separate process; never starts or controls the recorder."""
+"""Automatic USB companion. Separate process; never starts or controls the recorder."""
 import argparse
 import json
 import re
@@ -7,6 +7,21 @@ import uuid
 import urllib.request
 from pathlib import Path
 from .lcd_display import PROTOCOL, MAX_FRAME, label
+
+USB_VID = 0x303A
+USB_PID = 0x4001
+USB_MANUFACTURER = 'CDB'
+USB_PRODUCT = 'CDB Timer Display'
+
+
+def discover(ports):
+    """Metadata only: never open unrelated devices, or choose among multiple displays."""
+    matches = {p.device for p in ports if
+        p.vid == USB_VID and p.pid == USB_PID and
+        p.manufacturer == USB_MANUFACTURER and p.product == USB_PRODUCT and
+        isinstance(p.serial_number, str) and re.fullmatch(r'[0-9A-F]{12}', p.serial_number)}
+    return next(iter(matches)) if len(matches) == 1 else None
+
 
 NONCE = re.compile(r'^[0-9a-f]{32}$')
 
@@ -68,13 +83,19 @@ class Bridge:
 
 
 def run(port, source, api_port, token):
-    import serial  # Optional companion dependency; not part of the recorder runtime.
+    import serial  # Separate environment; not part of the recorder runtime.
+    from serial.tools import list_ports
     while True:
         try:
+            selected = port or discover(list_ports.comports())
+            if not selected:
+                time.sleep(2)
+                continue
             device=serial.Serial(port=None,baudrate=115200,timeout=.1,write_timeout=.3)
-            device.dtr=False;device.rts=False;device.port=port
+            device.dtr=False;device.rts=False;device.port=selected
+            device.exclusive=True
             with device:
-                device.reset_input_buffer();bridge=Bridge(source);buffer=bytearray();dropping=False;next_send=0.
+                device.reset_input_buffer();bridge=Bridge(source);buffer=bytearray();dropping=False;next_send=0.;last_peer=time.monotonic()
                 while True:
                     chunk=device.read(256)
                     for byte in chunk:
@@ -83,28 +104,32 @@ def run(port, source, api_port, token):
                                 try:
                                     incoming=json.loads(buffer)
                                     reply=bridge.receive(incoming,time.monotonic()) if isinstance(incoming,dict) else None
-                                    if reply:device.write(encode(reply))
+                                    if reply:
+                                        device.write(encode(reply));last_peer=time.monotonic()
+                                    elif bridge.last_ack > last_peer:last_peer=bridge.last_ack
                                 except (ValueError,UnicodeError,TypeError):pass
                             buffer.clear();dropping=False
                         elif not dropping:
                             buffer.append(byte)
                             if len(buffer)>1024:buffer.clear();dropping=True
                     now=time.monotonic()
+                    if now-last_peer>5:
+                        raise OSError('Display handshake/heartbeat timed out')
                     if bridge.bound and now>=next_send:
                         next_send=now+1
                         try:
                             data=fetch(api_port,token)
                             frame=bridge.frame(data,time.monotonic())
-                            if frame:device.write(encode(frame))
                         except (OSError,ValueError,KeyError,TypeError):
                             # No cached snapshots: display timeout truthfully signals source loss.
-                            pass
+                            continue
+                        if frame:device.write(encode(frame))
         except (OSError,serial.SerialException):time.sleep(2)
 
 
 def main():
     parser=argparse.ArgumentParser(description='LCD USB display companion (read-only)')
-    parser.add_argument('--port',required=True,help='Explicit /dev/serial/by-id/... or COM port; no scanning')
+    parser.add_argument('--port',help='Optional explicit diagnostic port; default: detect one CDB Timer Display by USB identity')
     parser.add_argument('--source',default='Pi Recorder')
     parser.add_argument('--api-port',type=int,default=8088)
     parser.add_argument('--token-file',type=Path)

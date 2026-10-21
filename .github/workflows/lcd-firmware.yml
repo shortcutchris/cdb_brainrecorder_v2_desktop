@@ -4,7 +4,7 @@ on:
     branches: [main, codex/recording-source-fix]
     paths: ['firmware/lcd-usb/**', 'scripts/lcd-display/**', '.github/workflows/lcd-firmware.yml']
   pull_request:
-    paths: ['firmware/lcd-usb/**', 'services/lcd_*.py', 'scripts/lcd-display/**', '.github/workflows/lcd-firmware.yml']
+    paths: ['firmware/lcd-usb/**', 'services/lcd_*.py', 'tests/test_lcd_discovery.py', 'scripts/lcd-display/**', '.github/workflows/lcd-firmware.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -28,6 +28,7 @@ jobs:
         run: |
           python3 -m venv /tmp/lcd-test-env
           /tmp/lcd-test-env/bin/pip install pyserial==3.5
+          /tmp/lcd-test-env/bin/python -m unittest tests.test_lcd_discovery
           /tmp/lcd-test-env/bin/python scripts/lcd-display/test_serial.py
       - name: Compile ESP32-S3 firmware
         shell: bash

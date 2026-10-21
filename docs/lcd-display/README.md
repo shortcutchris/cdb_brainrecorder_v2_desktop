@@ -1,4 +1,4 @@
-# LCD Remote Display · USB-Prototyp 0.1
+# LCD Remote Display · USB-Prototyp 0.2
 
 21.10.2026. Zielgerät: Waveshare ESP32-S3-Touch-LCD-5B, SKU 28151,
 1024 × 600, Touch. Hardwareprojekt `device-fdb89fd08b3a454a` im
@@ -9,6 +9,23 @@ Chris hat **USB zuerst** bestätigt. BLE folgt als getrennte Erweiterung.
 geflasht, kein Recorder-Update installiert. Aufnahme und Rufworterkennung des
 produktiven Pi wurden für diese Arbeit nicht angesprochen. Ein erfolgreiches
 Kompilat beweist weder die Passung der Boardrevision noch die Bild-/Touchfunktion.
+
+## Automatisch nach dem Anstecken
+
+Nach einmaliger Installation des Begleitdienstes und der passenden Displayfirmware
+ist kein Schalter pro Timer nötig: USB anschließen, vorhandene Timer werden
+übernommen. Ohne Timer steht „Keine offenen Timer“ auf dem Display. Abziehen
+ändert am Pi keine Timer; nach erneutem Anstecken folgt der aktuelle Gesamtstand.
+Der Dienst startet mit der Desktop-Benutzersitzung und wartet ohne Display.
+
+Die Erkennung liest nur USB-Metadaten: Espressif VID/PID `303a:4001`, Hersteller
+`CDB`, Produkt `CDB Timer Display`, zwölfstellige hexadezimale Chip-Seriennummer.
+Erst bei genau einem Treffer wird dessen Port geöffnet und das Protokoll geprüft.
+Andere Geräte, generische ESP-Boards und Bootloaderports werden nicht geöffnet.
+Bei mehreren passenden Displays wird im unverbundenen Zustand keines ausgewählt;
+eine bereits verbundene Anzeige bleibt verbunden. Mehrdisplaybetrieb ist noch
+nicht vorgesehen. Metadaten sind keine kryptografische Geräteauthentifizierung.
+Die Werksfirmware hat diese Kennung nicht: einmaliges gezieltes Flashen bleibt nötig.
 
 ## Zuständigkeiten
 
@@ -37,9 +54,10 @@ USB-Gerät bremst dadurch weder Recorder noch Timer-Steuertakt.
 ## Hardwareabgleich
 
 - Eigener ESP32-S3, 16 MB Flash, 8 MB PSRAM, RGB-Display, GT911-Touch, CH422G.
-- Native USB-Datenverbindung; Firmware verwendet USB Serial/JTAG als seriellen
-  Datenkanal. Diagnoseausgaben sind auf UART getrennt, damit kein Logtext in
-  Timerpakete gerät. USB-Port wird ausdrücklich ausgewählt; keine Geräteabtastung.
+- Native USB-Datenverbindung; Firmware verwendet TinyUSB 3.0.0 CDC mit eigener Produktkennung als seriellen
+  Datenkanal (USB-OTG auf GPIO 19/20). Diagnoseausgaben sind auf UART getrennt, damit kein Logtext in
+  Timerpakete gerät. Kein aktives Abtasten fremder Ports. Die USB-Konfiguration meldet 500 mA;
+  die Versorgung und Einschaltspitze müssen am echten Aufbau geprüft werden.
 - Herstellerangabe Versorgung 5 V / 450 mA ist kein gemessener Spitzenverbrauch.
   USB-Budget gemeinsam mit Pi-Mikrofon, Lautsprecher und vorhandener Peripherie
   am realen Aufbau prüfen. Gehäusekonzept ohne Akku; BLE würde separate Versorgung
@@ -83,15 +101,42 @@ Begleitdienst in **separater** Python-Umgebung mit `pyserial==3.5`; keine Pakete
 in die laufende Recorder-Umgebung nachinstallieren. Vom Repository starten:
 
 ```sh
-python -m services.lcd_bridge --port /dev/serial/by-id/GEPRUEFTES-GERAET --source 'Pi Recorder'
+python -m services.lcd_bridge --source 'Pi Recorder'
 ```
 
 Der neue Recorder-Endpunkt muss zuvor bereitgestellt sein. Ohne ihn bleibt die
-Anzeige offline. Kein produktiver Autostart installiert. Der Begleitdienst braucht
-nur Leserechte auf die lokale API und Zugriff auf genau den gewählten USB-Port.
+Anzeige offline. Für Diagnose bleibt `--port` als ausdrückliche manuelle Auswahl
+möglich. Der Standard erkennt den Anschluss nach einem Kabelwechsel neu. Ohne
+Protokollantwort wird die Verbindung nach fünf Sekunden freigegeben und nach
+zwei Sekunden erneut geprüft. Kein produktiver Autostart installiert.
+Der Begleitdienst braucht nur Leserechte auf die lokale API und Zugriff auf den USB-Port.
 Kein root, kein Managementtoken und kein Mikrofon-/Lautsprecherzugriff. Wenn der
 Recorder mit einem API-Token betrieben wird, optional `--token-file` aus einer
 privaten Datei; keine Geheimnisse in Befehlszeilen oder Git.
+
+### Einmalige Einrichtung am Pi (noch nicht ausgeführt)
+
+Im geprüften Checkout als Recorder-Desktopbenutzer:
+
+```sh
+python3 scripts/lcd-display/install.py
+```
+
+Voraussetzung: Python mit venv/pip, systemd-Benutzersitzung und bereits wirksame
+`dialout`-Gruppenmitgliedschaft. Der Installer erweitert keine Benutzerrechte und
+bricht andernfalls mit Hinweis ab. Er richtet ausschließlich eine separate
+Umgebung unter `~/.local/share/cdb-lcd/runtime` mit `pyserial==3.5` und
+`cdb-lcd-display.service` ein. Niedrige Prozesspriorität, 10 % eines CPU-Kerns und
+128 MiB Speichergrenze begrenzen den Begleitdienst. Er startet bzw. erneuert nur
+diesen Dienst, niemals Recorder, Audio oder USB-Treiber. Wiederholte Einrichtung
+ersetzt seine Unit atomar; vorhandene Timer/Einstellungen bleiben unberührt.
+`--no-start` aktiviert nur den nächsten Sitzungsstart. Abweichender lokaler API-Port
+und private Tokendatei können übergeben werden. Der Checkout muss am gewählten
+Pfad bleiben. Bei signierten App-Updates im selben Checkout verwendet der Dienst
+nach seinem nächsten Start den aktualisierten Code.
+
+Ausschalten: `systemctl --user disable --now cdb-lcd-display.service`.
+Das ist eine administrative Gesamteinstellung; keine neue Timer-Option in der App.
 
 ## Datenvertrag v1
 
@@ -114,7 +159,7 @@ Zustände; beim Wiederverbinden ersetzt ein vollständiger Zustand die Anzeige.
 Automatische Tests prüfen Projektion ohne Datenbankmutation, monotone Restzeit,
 Neustart ohne sichere Uhr, Entfernen erledigter Timer, Begrenzung, Authentifizierung,
 Handshake, Replay, Reconnect, Abbruch unvollständiger Frames und atomaren Austausch.
-Prüfstand 21.10.2026: 27 Python-Tests (LCD, vorhandene Timer, Remoteanzeige,
+Prüfstand 21.10.2026: 31 Python-Tests (LCD, vorhandene Timer, Remoteanzeige,
 Kundenimage-Vertrag) bestanden. Der echte Begleitprozess wurde zusätzlich über
 Pseudo-Terminal und synthetischen HTTP-Server geprüft: fragmentierte/zu große
 Eingaben, Handshake, Feldfilter, Quellenverlust und neuer Verbindungs-Nonce bestanden.
@@ -124,7 +169,7 @@ atomarer Ablehnung ungültiger und zu tief verschachtelter Pakete.
 Reproduzierbar aus dem Repository:
 
 ```sh
-PYTHONPATH=.:tests python -m unittest tests.test_lcd_display tests.test_schedules tests.test_remote_display tests.test_customer_image
+PYTHONPATH=.:tests python -m unittest tests.test_lcd_discovery tests.test_lcd_display tests.test_schedules tests.test_remote_display tests.test_customer_image
 # Separate Umgebung mit pyserial 3.5, Linux/macOS:
 python scripts/lcd-display/test_serial.py
 ```
@@ -145,13 +190,18 @@ Statusansichten sind noch nicht implementiert.
 ## Update- und Image-Einfluss
 
 API/Projektion liegen in vorhandenen erlaubten App-Verzeichnissen. Der Begleitdienst
-ist ohne Start wirkungslos und importiert pyserial erst beim Aufruf. Für eine
-Auslieferung muss seine separate Umgebung und ein gezielt konfigurierter Dienst
-zusätzlich eingerichtet und geprüft werden; kein automatischer Lauf bei Appstart.
+ist ohne Installation wirkungslos und importiert pyserial erst beim Aufruf. Für
+bestehende Geräte ist die obige einmalige Einrichtung separat vom signierten
+App-Paket nötig; danach läuft die Erkennung bei jeder Desktop-Sitzung automatisch.
 Firmware wird separat auf das Display geflasht. Keine Timer-Schemamigration,
 keine neuen Recorder-Laufzeitabhängigkeiten und keine aktive Pi-Konfiguration
 geändert. Frisches SD-Image bekommt ohne explizite Provisionierung weder aktivierten
-USB-Dienst noch Displayfirmware. Kein SD-Image gebaut oder bootgeprüft.
+USB-Dienst noch Displayfirmware. Die derzeitige Factory-Rezeptur aktiviert ihn
+bewusst noch nicht: erst nach Geräteabnahme separate Umgebung/Unit provisionieren,
+`dialout` für den Image-Desktopbenutzer prüfen und Kaltstart mit/ohne Display testen.
+Die Erzeugung der Unit ist für Erstinstallation und erneute Einrichtung getestet;
+das ersetzt keinen systemd-/USB-Test auf einem gebooteten Pi-Image.
+Kein SD-Image gebaut oder bootgeprüft.
 
 ## Entwicklungsnachweise
 
@@ -160,7 +210,7 @@ Der dort verlinkte GitHub-Actions-Lauf gehört jeweils zu einem konkreten Quellc
 und enthält Firmware, Bootloader, Partitionstabelle, Flashargumente und aufgelöste
 Abhängigkeiten. Der Build prüft zusätzlich Zielchip, Flash/PSRAM, Farbtiefe,
 Stackgröße und die vollständig abgeschaltete USB-Diagnosekonsole.
-Firmware-Metadatenversion: 0.1.0 (Entwicklung).
+Firmware-Metadatenversion: 0.2.0 (Entwicklung).
 
 Hardware-/Projektbuchsicherung: Commit
 [`58ef346`](https://github.com/shortcutchris/raspberry_pi_meeting_recorder/commit/58ef34646dd207d408feeef781abbcf4ec0db710),
@@ -171,6 +221,6 @@ fest. Es wurde keine neue CAD-/Druckversion erzeugt.
 
 Die Kundenimage-Prüfung enthält jetzt ausdrücklich die beiden LCD-Pythonmodule
 und schließt die Display-Binärdatei aus. Der Begleitprozess lässt sich weiterhin
-ohne installiertes pyserial importieren; nur sein ausdrücklicher Start benötigt
+ohne installiertes pyserial importieren; nur sein Start benötigt
 die separate Umgebung. Ein signiertes App-Update enthält die erlaubten Pythonmodule,
 installiert aber weder die zusätzliche Umgebung noch einen Autostart oder LCD-Firmware.

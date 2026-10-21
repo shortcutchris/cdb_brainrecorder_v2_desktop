@@ -880,7 +880,8 @@ Optionale feste Offline-, Timer- und Erinnerungsansagen ohne KI-Rechenlast im Be
 
 ## LCD-Timerdisplay · Entwicklung
 
-Optionaler USB-Prototyp für das Waveshare ESP32-S3-Touch-LCD-5B: getrennte
+USB-Prototyp mit automatischer Erkennung und Wiederverbindung nach einmaliger
+Dienstinstallation für das Waveshare ESP32-S3-Touch-LCD-5B: getrennte
 Begleitsoftware und Display-Firmware, vorhandene Timer als reine Anzeige. Noch
 nicht auf einem Gerät installiert oder abgenommen. Aufbau, Tests und offene
 Hardwareprüfungen: [LCD Remote Display](docs/lcd-display/README.md).
