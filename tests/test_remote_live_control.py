@@ -79,6 +79,7 @@ class RemoteTests(unittest.TestCase):
         app.clock_ready = True
         app.alarm_id = None
         app.announcement_playing = False
+        app.countdown = None
         from services.announcements import Announcements
         app.announcements = Announcements(self.tmp.name)
         app.playback_leases = {}

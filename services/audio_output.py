@@ -10,6 +10,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import threading
+import time
 import wave
 
 from meeting_recorder.core import atomic_write
@@ -133,7 +134,12 @@ class AudioOutput:
     def start_announcement(self, clip):
         return self.start_test(announcement=clip)
 
-    def start_test(self, tone=None, *, alarm=False, announcement=None):
+    def start_countdown(self, clip, end_at):
+        if not math.isfinite(end_at) or not 5 <= end_at - time.monotonic() <= 7:
+            raise ValueError('Countdown-Startzeit verpasst.')
+        return self.start_test(announcement=clip, countdown_end=end_at)
+
+    def start_test(self, tone=None, *, alarm=False, announcement=None, countdown_end=None):
         if announcement is not None:
             from services.announcements import validate_wav
             validate_wav(announcement)
@@ -152,7 +158,7 @@ class AudioOutput:
             self.cancelled = False
             kind = 'alarm' if alarm else 'announcement' if announcement is not None else 'test'
             self.test = {'state': 'running', 'kind': kind, 'message': 'Lokale Ansage am Pi.' if announcement is not None else 'Alarmton am Pi.' if tone else 'Testton am Pi: erst links, dann rechts.', 'device': state['selected']}
-            self.thread = threading.Thread(target=self._play, args=(state['selected'], tone, 60 if alarm else 3, announcement), daemon=True)
+            self.thread = threading.Thread(target=self._play, args=(state['selected'], tone, 60 if alarm else 3, announcement, countdown_end), daemon=True)
             self.thread.start()
             return self.test_status()
 
@@ -181,7 +187,7 @@ class AudioOutput:
             except ProcessLookupError: pass
             process.wait(timeout=2)
 
-    def _play(self, device, tone=None, seconds=3, announcement=None):
+    def _play(self, device, tone=None, seconds=3, announcement=None, countdown_end=None):
         process = None
         released = True
         outcome = 'failed'
@@ -194,13 +200,23 @@ class AudioOutput:
                 from services.alarm_tones import write_alarm
                 write_alarm(path, tone, seconds)
                 if announcement is not None: self.prepend_speech(path, announcement)
+            if countdown_end is not None:
+                start_at = countdown_end - 5
+                # Prepare in advance, then align the fixed one-second slots.
+                # Slow device setup never produces a late burst of numbers.
+                if time.monotonic() > start_at: return
+                while time.monotonic() < start_at:
+                    if self.cancelled: return
+                    time.sleep(min(.02, max(0, start_at - time.monotonic())))
+                if time.monotonic() - start_at > .1: return
             with self.lock:
                 if self.cancelled: return
                 process = subprocess.Popen(owned_command(['paplay', '--device=' + device, str(path)]),
                                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                 self.process = process
                 released = False
-            code = process.wait(timeout=seconds + (15 if announcement else 0) + 5)
+            timeout = max(.001, countdown_end - time.monotonic()) if countdown_end is not None else seconds + (15 if announcement else 0) + 5
+            code = process.wait(timeout=timeout)
             released = True
             outcome = 'completed' if code == 0 else 'failed'
         except (OSError, subprocess.SubprocessError):

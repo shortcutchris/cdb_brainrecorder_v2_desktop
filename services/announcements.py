@@ -8,6 +8,7 @@ import wave
 
 
 PHRASES = {
+    'countdown': 'Fünf, vier, drei, zwei, eins.',
     'connecting': 'Ich verbinde dich.',
     'offline': 'Das Gespräch ist gerade nicht verfügbar. Bitte prüfe die Anzeige und versuche es erneut.',
     'timer': 'Dein Timer ist abgelaufen.',
@@ -61,6 +62,10 @@ def load_pack(folder):
             if hashlib.sha256(data).hexdigest() != entry.get('sha256'):
                 raise ValueError('Sprachdatei wurde verändert.')
             clips[key] = validate_wav(data)
+            if key == 'countdown':
+                with wave.open(io.BytesIO(data)) as audio:
+                    if audio.getnframes() != 24000 * 5:
+                        raise ValueError('Timer-Countdown muss genau fünf Sekunden dauern.')
             if key == 'connecting':
                 with wave.open(io.BytesIO(data)) as audio:
                     if audio.getnframes() > 24000 * 3:
@@ -75,7 +80,7 @@ class Announcements:
         self.root = Path(root)
         self.preference = self.root / 'announcements.json'
         self.clock = clock
-        self.enabled = {'offline': False, 'timers': False, 'connecting': False}
+        self.enabled = {'offline': False, 'timers': False, 'connecting': False, 'countdown': False}
         try:
             saved = json.loads(self.preference.read_text())
             if isinstance(saved, dict):
@@ -97,7 +102,7 @@ class Announcements:
             self.message = 'Sprachpaket fehlt oder ist ungültig. Die bisherigen Alarmtöne bleiben verfügbar.'
 
     def public(self):
-        return dict(self.enabled, ready=bool(self.clips), connecting_ready='connecting' in self.clips, message=self.message)
+        return dict(self.enabled, ready=bool(self.clips), connecting_ready='connecting' in self.clips, countdown_ready='countdown' in self.clips, message=self.message)
 
     def configure(self, body):
         if not body or set(body) - set(self.enabled) or any(type(value) is not bool for value in body.values()):
@@ -107,11 +112,16 @@ class Announcements:
             raise ValueError(self.message)
         if body.get('connecting') and 'connecting' not in self.clips:
             raise ValueError('Sprachpaket mit Verbindungsansage zuerst bereitstellen.')
+        if body.get('countdown') and 'countdown' not in self.clips:
+            raise ValueError('Sprachpaket mit Timer-Countdown zuerst bereitstellen.')
         updated = self.enabled | body
         from meeting_recorder.core import atomic_write
         atomic_write(self.preference, json.dumps(updated))
         self.enabled = updated
         return self.public()
+
+    def countdown_clip(self):
+        return self.clips.get('countdown') if self.enabled['countdown'] else None
 
     def connecting_clip(self):
         return self.clips.get('connecting') if self.enabled['connecting'] else None

@@ -1,0 +1,67 @@
+{
+  "date": "2026-10-21",
+  "python": {
+    "passed": 506,
+    "log_sha256": "9ae2d387110a7e36e39dade716d011461178f594c354d3f12beee7f6374895ac"
+  },
+  "javascript": {
+    "passed": 126,
+    "log_sha256": "eb3965930268880178a9b1e7577c082b518d42db28b75fa5602dd29a1bfe6769"
+  },
+  "countdown_clip": {
+    "seconds": 5,
+    "sha256": "d5de08e2743e2d60fcab1e42825611910618b7e16d79d5abb7fc5a568cf93888",
+    "slots": [
+      {
+        "number": 5,
+        "slot_start_seconds": 0,
+        "first_active_sample_seconds": 0.0,
+        "last_active_sample_seconds": 0.6525
+      },
+      {
+        "number": 4,
+        "slot_start_seconds": 1,
+        "first_active_sample_seconds": 0.0,
+        "last_active_sample_seconds": 0.5626
+      },
+      {
+        "number": 3,
+        "slot_start_seconds": 2,
+        "first_active_sample_seconds": 0.0,
+        "last_active_sample_seconds": 0.633
+      },
+      {
+        "number": 2,
+        "slot_start_seconds": 3,
+        "first_active_sample_seconds": 0.0,
+        "last_active_sample_seconds": 0.6217
+      },
+      {
+        "number": 1,
+        "slot_start_seconds": 4,
+        "first_active_sample_seconds": 0.0,
+        "last_active_sample_seconds": 0.7022
+      }
+    ]
+  },
+  "previous_four_clips_byte_identical": true,
+  "browser": {
+    "missing_pack_disabled": true,
+    "countdown_independent_opt_in": true,
+    "persists_after_reload": true,
+    "reset_off_after_test": true,
+    "screenshot": "countdown-preview.png"
+  },
+  "production_pi_accessed": false,
+  "audio_hardware_opened": false,
+  "production_deployed": false,
+  "limits": [
+    "personal listening acceptance of countdown clip pending",
+    "Pi timing and cancellation acceptance pending",
+    "natural wake-word behavior after countdown pending"
+  ],
+  "test_notes": [
+    "First full run exposed a StudioApp test fixture without countdown state; fixture updated. Final full suite passed.",
+    "Known shutdown ResourceWarning and Qt/dbus warnings remain; no new test failures."
+  ]
+}
