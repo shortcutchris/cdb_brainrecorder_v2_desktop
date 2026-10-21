@@ -1,11 +1,16 @@
 name: LCD USB firmware
 on:
   push:
-    branches: [codex/lcd-usb-timer-display]
+    branches: [main, codex/recording-source-fix]
     paths: ['firmware/lcd-usb/**', 'scripts/lcd-display/**', '.github/workflows/lcd-firmware.yml']
+  pull_request:
+    paths: ['firmware/lcd-usb/**', 'services/lcd_*.py', 'scripts/lcd-display/**', '.github/workflows/lcd-firmware.yml']
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: lcd-firmware-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,6 +19,16 @@ jobs:
       - uses: actions/checkout@v4
       - name: Fetch verified Waveshare BSP
         run: python3 scripts/lcd-display/prepare_vendor.py
+      - name: Native protocol checks
+        run: |
+          cc -std=c11 -fsanitize=address,undefined -c /opt/esp/idf/components/json/cJSON/cJSON.c -o /tmp/lcd-cjson.o
+          cc -std=c11 -Wall -Wextra -Werror -fsanitize=address,undefined -I /opt/esp/idf/components/json/cJSON firmware/lcd-usb/test_protocol.c firmware/lcd-usb/main/protocol.c /tmp/lcd-cjson.o -lm -o /tmp/lcd-protocol-test
+          /tmp/lcd-protocol-test
+      - name: Companion integration over simulated USB
+        run: |
+          python3 -m venv /tmp/lcd-test-env
+          /tmp/lcd-test-env/bin/pip install pyserial==3.5
+          /tmp/lcd-test-env/bin/python scripts/lcd-display/test_serial.py
       - name: Compile ESP32-S3 firmware
         shell: bash
         run: |

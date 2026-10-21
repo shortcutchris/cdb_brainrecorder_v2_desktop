@@ -33,7 +33,7 @@ static void click(lv_event_t *event){
  if(action==10){page=(page+1)%4;focus_id[0]=0;}else if(action==11){focus_id[0]=0;}else{int index=page*4+(int)action;if(index<model.count)strcpy(focus_id,model.timers[index].id);}
 }
 static lv_obj_t *text_at(lv_obj_t *parent,int x,int y,int width,const lv_font_t *font){
- lv_obj_t *o=lv_label_create(parent);lv_obj_set_pos(o,x,y);lv_obj_set_width(o,width);lv_label_set_long_mode(o,LV_LABEL_LONG_DOT);lv_obj_set_style_text_font(o,font,0);return o;
+ lv_obj_t *o=lv_label_create(parent);lv_obj_set_pos(o,x,y);lv_obj_set_width(o,width);lv_obj_set_height(o,font->line_height+2);lv_label_set_long_mode(o,LV_LABEL_LONG_DOT);lv_obj_set_style_text_font(o,font,0);return o;
 }
 static void create_ui(void){
  lv_obj_t *screen=lv_scr_act();lv_obj_set_style_bg_color(screen,lv_color_hex(0x101B2D),0);lv_obj_set_style_text_color(screen,lv_color_hex(0xF3F6FB),0);
