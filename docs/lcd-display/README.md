@@ -223,10 +223,11 @@ Abhängigkeiten. Der Build prüft zusätzlich Zielchip, Flash/PSRAM, Farbtiefe,
 Stackgröße und die vollständig abgeschaltete USB-Diagnosekonsole.
 Firmware-Metadatenversion: 0.2.0 (Entwicklung).
 
-Hardware-/Projektbuchsicherung der Automatik: Commit
-[`3738862`](https://github.com/shortcutchris/raspberry_pi_meeting_recorder/commit/3738862),
-Live-Projektbuch Revision 5 `b4ef7b7fb7924c768505d6990bbfe525` (Software R4).
-Die vorherige R3 und alle historischen Hardware-/CAD-Stände bleiben erhalten.
+Aktuelle Hardware-/Projektbuchsicherung: Commit
+[`9e278bd`](https://github.com/shortcutchris/raspberry_pi_meeting_recorder/commit/9e278bd),
+Live-Projektbuch Revision 6 `1fe4e7720eae481e9b56a7b1a2c24bf7` (Pi vorbereitet R5),
+mit Installationsstand und dem Ablauf nach Lieferung am 22.10. Die vorherigen
+Software-R3/R4 und alle historischen Hardware-/CAD-Stände bleiben erhalten.
 Es wurde keine neue CAD-/Druckversion erzeugt.
 
 Die Kundenimage-Prüfung enthält jetzt ausdrücklich die beiden LCD-Pythonmodule
