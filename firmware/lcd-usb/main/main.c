@@ -11,6 +11,9 @@
 #include "esp_lv_adapter.h"
 #include "waveshare_rgb_lcd_port.h"
 #include "protocol.h"
+LV_FONT_DECLARE(cdb_text_20);
+LV_FONT_DECLARE(cdb_text_24);
+LV_FONT_DECLARE(cdb_text_32);
 
 static lcd_model model;
 static lv_obj_t *heading,*status,*cards[4],*titles[4],*times[4],*states[4],*next,*back;
@@ -31,14 +34,14 @@ static lv_obj_t *text_at(lv_obj_t *parent,int x,int y,int width,const lv_font_t 
 }
 static void create_ui(void){
  lv_obj_t *screen=lv_scr_act();lv_obj_set_style_bg_color(screen,lv_color_hex(0x101B2D),0);lv_obj_set_style_text_color(screen,lv_color_hex(0xF3F6FB),0);
- heading=text_at(screen,28,20,960,&lv_font_montserrat_32);lv_label_set_text(heading,"Timerdisplay");
- status=text_at(screen,28,68,960,&lv_font_montserrat_20);
+ heading=text_at(screen,28,20,960,&cdb_text_32);lv_label_set_text(heading,"Timerdisplay");
+ status=text_at(screen,28,68,960,&cdb_text_20);
  for(int i=0;i<4;i++){
   cards[i]=lv_btn_create(screen);lv_obj_set_style_bg_color(cards[i],lv_color_hex(0x20324D),0);lv_obj_set_style_pad_all(cards[i],0,0);
   lv_obj_add_event_cb(cards[i],click,LV_EVENT_CLICKED,(void *)(intptr_t)i);
-  titles[i]=text_at(cards[i],20,16,420,&lv_font_montserrat_24);
+  titles[i]=text_at(cards[i],20,16,420,&cdb_text_24);
   times[i]=text_at(cards[i],20,60,420,&lv_font_montserrat_48);
-  states[i]=text_at(cards[i],20,125,420,&lv_font_montserrat_20);
+  states[i]=text_at(cards[i],20,125,420,&cdb_text_20);
  }
  next=lv_btn_create(screen);lv_obj_set_pos(next,752,538);lv_obj_set_size(next,244,46);lv_obj_add_event_cb(next,click,LV_EVENT_CLICKED,(void *)10);
  lv_obj_t *label=lv_label_create(next);lv_label_set_text(label,"Weitere Timer");lv_obj_center(label);
