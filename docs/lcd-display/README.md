@@ -152,3 +152,25 @@ Firmware wird separat auf das Display geflasht. Keine Timer-Schemamigration,
 keine neuen Recorder-Laufzeitabhängigkeiten und keine aktive Pi-Konfiguration
 geändert. Frisches SD-Image bekommt ohne explizite Provisionierung weder aktivierten
 USB-Dienst noch Displayfirmware. Kein SD-Image gebaut oder bootgeprüft.
+
+## Entwicklungsnachweise
+
+Software-Review: [PR #16](https://github.com/shortcutchris/cdb_brainrecorder_v2_desktop/pull/16).
+Der dort verlinkte GitHub-Actions-Lauf gehört jeweils zu einem konkreten Quellcommit
+und enthält Firmware, Bootloader, Partitionstabelle, Flashargumente und aufgelöste
+Abhängigkeiten. Der Build prüft zusätzlich Zielchip, Flash/PSRAM, Farbtiefe,
+Stackgröße und die vollständig abgeschaltete USB-Diagnosekonsole.
+Firmware-Metadatenversion: 0.1.0 (Entwicklung).
+
+Hardware-/Projektbuchsicherung: Commit
+[`58ef346`](https://github.com/shortcutchris/raspberry_pi_meeting_recorder/commit/58ef34646dd207d408feeef781abbcf4ec0db710),
+Live-Projektbuch Revision 4 `797274d5ac69451ea21d0591bf3c1ada`. Automatischer
+Import dieses Hardware-Dokumentationsstands am 21.10.2026 um 20:04:24 UTC bestätigt.
+Die dortige R3 hält USB zuerst, Zuständigkeiten und die noch offene Geräteabnahme
+fest. Es wurde keine neue CAD-/Druckversion erzeugt.
+
+Die Kundenimage-Prüfung enthält jetzt ausdrücklich die beiden LCD-Pythonmodule
+und schließt die Display-Binärdatei aus. Der Begleitprozess lässt sich weiterhin
+ohne installiertes pyserial importieren; nur sein ausdrücklicher Start benötigt
+die separate Umgebung. Ein signiertes App-Update enthält die erlaubten Pythonmodule,
+installiert aber weder die zusätzliche Umgebung noch einen Autostart oder LCD-Firmware.

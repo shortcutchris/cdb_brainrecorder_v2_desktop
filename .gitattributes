@@ -1,0 +1,4 @@
+
+# Generated glyph tables and original upstream font license are reviewed via source/hash.
+firmware/lcd-usb/main/fonts/*.c linguist-generated=true -whitespace
+firmware/lcd-usb/main/fonts/OFL.txt -whitespace
