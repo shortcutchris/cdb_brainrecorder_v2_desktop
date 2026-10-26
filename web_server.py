@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.70'
+VERSION = '0.5.71'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -99,6 +99,8 @@ class StudioApp:
         self.respeaker = ReSpeakerLeds(self.store.root, self.respeaker_state, enabled=not preview and backend is None)
         from services.wake_word import WakeWord
         from services.schedules import Schedules
+        from services.nfc_tokens import NfcTokens
+        self.nfc = NfcTokens(self.store.root)
         self.wake = WakeWord(self.store.root)
         self.schedules = Schedules(self.store.root)
         self.live.device_executor = lambda scope, request: self.schedules.execute_tool(scope, request, self.clock_ready)
@@ -156,6 +158,27 @@ class StudioApp:
         except Exception:
             self.live.end(lease)
             raise
+        return lease
+
+    def nfc_start(self, mode):
+        reason = self.wake_reason()
+        if reason: raise ValueError(reason)
+        if mode == 'meeting':
+            return self.action('/api/record/start', {})['id']
+        account = self.wake_account()
+        if not account: raise ValueError('Für Talk zuerst beim Brain anmelden.')
+        self.wake.suspend('NFC-Gespräch startet.')
+        return self._start_device_live_locked(account)
+
+    def nfc_still_owned(self, mode, identity):
+        if mode == 'meeting': return self.engine.recorder.status().get('id') == identity
+        with self.live.lock:
+            return self.live.lease == identity and self.live.public()['busy']
+
+    def nfc_stop(self, mode, identity):
+        if not self.nfc_still_owned(mode, identity): return
+        if mode == 'meeting': self.action('/api/record/stop', {})
+        else: self.live.end(identity)
 
     def remote_live_command(self, envelope, verified_grant):
         return self.remote_control.command(envelope, verified_grant)
@@ -268,6 +291,7 @@ class StudioApp:
                     self.tick_countdown()
                     self.tick_alarm()
                     self.tick_announcements()
+                    self.nfc.tick(self.nfc_start, self.nfc_stop, self.nfc_still_owned)
                     reason = self.wake_reason()
                     self.wake.tick(account=self.wake_account(),reason=reason,
                                    config=self.store.config(),trigger=self.wake_start)
@@ -430,6 +454,7 @@ class StudioApp:
         state['live'] = self.live.public()
         state['display'] = self.display.status()
         state['wake'] = self.wake.public()
+        state['nfc'] = self.nfc.public()
         state['timers'] = {'items': self.schedules.items(), 'ringing_id': self.alarm_id, 'clock_ready': self.clock_ready, 'voice_available': bool(self.live.public().get('device_tools'))}
         state['bluetooth'] = self.bluetooth.public()
         state.update(csrf=self.csrf, version=VERSION, preview=self.preview,
@@ -522,6 +547,9 @@ class StudioApp:
             if self.closing:raise ValueError('Dienst wird beendet. Änderungen bitte kurz aufbewahren.')
             if self.management.busy():raise ValueError('Gerät wird gewartet. Bitte kurz warten.')
             if self.first_start.busy:raise ValueError('Netzwerk wird eingerichtet. Bitte kurz warten.')
+            if path == '/api/nfc':
+                self.require('configure')
+                return self.nfc.configure(body)
             if path == '/api/onboarding/network':
                 self.require('install')
                 if any(i['state'] in ('scheduled','due') for i in self.schedules.items()):raise ValueError('Aktiven Timer zuerst abschließen.')
@@ -747,6 +775,7 @@ class StudioApp:
             self.closing=True
             if hasattr(self, 'remote_channel'): self.remote_channel.close()
             self.ambient_stop.set()
+            self.nfc.close()
             self.wake.test_until=0
             self.wake.suspend()
             self.display.close()

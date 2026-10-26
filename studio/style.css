@@ -75,3 +75,5 @@ dialog.with-keyboard .dialog-actions{padding:8px 16px}
 /* Keyboard keys fit their four rows, including inside a dialog. */
 dialog .touch-keyboard .key-row button{min-height:44px;height:100%;margin:0;padding:0;font-size:18px;border-radius:6px}
 dialog .touch-keyboard .key-row:last-child button{font-size:14px}
+
+.nfc-banner { margin: .4rem 0; padding: .5rem .8rem; border: 1px solid currentColor; border-radius: .5rem; font-size: .85rem; }

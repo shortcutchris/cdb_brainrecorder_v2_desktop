@@ -1,5 +1,14 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.71 – NFC-Aufsteller für Talk und Meeting (Kandidat)
+
+Optionale USB-NFC-Steuerung mit getrennten, lokal zugeordneten Tags. Auflegen
+startet den bestehenden Gesprächs- oder Aufnahmepfad; bestätigtes Abnehmen beendet
+nur die eigene Sitzung. USB-Ausfälle beenden keine Aufnahme. Werkseitig aus,
+Wake Word bleibt erhalten. 125 gezielte Tests bestanden; echte Leser-/Tag- und
+Pi-Abnahme sowie Installation stehen aus.
+[Einrichtung, Laufzeitmigration und Grenzen](docs/nfc/README.md).
+
 ## 0.5.70 – USB-Timerdisplay vorbereiten
 
 Lokale, lesende Timer-Schnittstelle und getrennter USB-Begleitdienst für das
