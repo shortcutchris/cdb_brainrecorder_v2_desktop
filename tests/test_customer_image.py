@@ -14,7 +14,7 @@ class CustomerImageTests(unittest.TestCase):
         from cryptography.hazmat.primitives.serialization import Encoding,PublicFormat
         with tempfile.TemporaryDirectory() as folder:
             root=Path(folder);source=root/'source';source.mkdir()
-            entries={'services/lcd_display.py':'# projection', 'services/lcd_bridge.py':'# optional companion', 'firmware/lcd-usb/build/cdb_lcd_usb.bin':'DISPLAY FIRMWARE', 'services/announcements.py':'# fixed speech', 'announcements-pack/timer.wav':'PRIVATE', 'announcements.json':'PRIVATE', 'requirements-wake.txt':'pymicro-wakeword==2.5.0', 'services/wake_detectors.py':'# engines', 'services/remote_control.py':'# domain', 'services/remote_control_transport.py':'# outgoing', 'studio/remote-control.js':'// UI', 'studio/remote-control.css':'/* UI */', 'remote-control/connection.json':'PRIVATE', 'remote-control/receipts.sqlite3':'PRIVATE', 'web_server.py':"VERSION = '0.5.44'",'data/sessions.db':'PRIVATE','studio/welcome.html':'Hello','fleet/__init__.py':'','deploy/customer-image/network_service.py':'# network','deploy/customer-image/01-run-chroot.sh':'#!/bin/bash\n','kiosk.sh':'#!/bin/bash\n','scripts/audit_customer_rootfs.py':'# audit','credential.json':'PRIVATE','release-private.pem':'PRIVATE'}
+            entries={'services/nfc_tokens.py':'# state machine', 'services/nfc_reader.py':'# isolated worker', 'studio/nfc.js':'// setup', 'nfc-tokens.json':'PRIVATE', 'services/lcd_display.py':'# projection', 'services/lcd_bridge.py':'# optional companion', 'firmware/lcd-usb/build/cdb_lcd_usb.bin':'DISPLAY FIRMWARE', 'services/announcements.py':'# fixed speech', 'announcements-pack/timer.wav':'PRIVATE', 'announcements.json':'PRIVATE', 'requirements-wake.txt':'pymicro-wakeword==2.5.0', 'services/wake_detectors.py':'# engines', 'services/remote_control.py':'# domain', 'services/remote_control_transport.py':'# outgoing', 'studio/remote-control.js':'// UI', 'studio/remote-control.css':'/* UI */', 'remote-control/connection.json':'PRIVATE', 'remote-control/receipts.sqlite3':'PRIVATE', 'web_server.py':"VERSION = '0.5.44'",'data/sessions.db':'PRIVATE','studio/welcome.html':'Hello','fleet/__init__.py':'','deploy/customer-image/network_service.py':'# network','deploy/customer-image/01-run-chroot.sh':'#!/bin/bash\n','kiosk.sh':'#!/bin/bash\n','scripts/audit_customer_rootfs.py':'# audit','credential.json':'PRIVATE','release-private.pem':'PRIVATE'}
             for name,value in entries.items():
                 path=source/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_text(value)
             key=root/'public.pem';key.write_bytes(Ed25519PrivateKey.generate().public_key().public_bytes(Encoding.PEM,PublicFormat.SubjectPublicKeyInfo))
@@ -26,6 +26,9 @@ class CustomerImageTests(unittest.TestCase):
             self.assertIn('requirements-wake.txt',result['source_files'])
             self.assertIn('services/wake_detectors.py',result['source_files'])
             self.assertIn('services/announcements.py',result['source_files'])
+            for name in ('services/nfc_tokens.py','services/nfc_reader.py','studio/nfc.js'): self.assertIn(name,result['source_files'])
+            self.assertNotIn('nfc-tokens.json',result['source_files'])
+            self.assertIn('python3-pyscard pcscd libccid',(root/'kit/stage-brain/00-brain/00-packages').read_text())
             self.assertIn('services/lcd_display.py',result['source_files'])
             self.assertIn('services/lcd_bridge.py',result['source_files'])
             self.assertNotIn('firmware/lcd-usb/build/cdb_lcd_usb.bin',result['source_files'])
