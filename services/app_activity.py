@@ -67,7 +67,7 @@ class AppActivity:
         reason=self.reason
         return {
             'record':rule(not self.occupied and not low_disk and not needs_login and setup_complete,
-                          reason or ('Microsoft anmelden oder Verarbeitung auf lokal stellen.' if needs_login else 'Zu wenig freier Speicher.' if low_disk else 'Mikrofon zuerst einrichten.')),
+                          reason or ('Microsoft anmelden oder Verarbeitung auf lokal stellen.' if needs_login else 'Zu wenig freier Speicher.' if low_disk else 'Recorder-Einrichtung prüfen und abschließen.')),
             'configure':rule(not self.occupied,reason),
             'probe':rule(not self.occupied and not low_disk,reason or 'Zu wenig freier Speicher.'),
             'install':rule(not self.occupied and not self.pending,reason or 'Offene Verarbeitung zuerst abschließen.'),

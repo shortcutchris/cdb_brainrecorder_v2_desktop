@@ -37,6 +37,31 @@ class FirstStartTests(unittest.TestCase):
             self.assertFalse(FirstStart(root).public({})['required'])
             service.advance('done',{'state':'connected'})
 
+    def test_models_and_brain_resume_on_factory_boot_without_reopening_completed_setup(self):
+        with tempfile.TemporaryDirectory() as root:
+            save(Path(root)/'first-start.json', {'required': True})
+            for step in ('models', 'brain'):
+                FirstStart(root).advance(step, {}, True)
+                snapshot = FirstStart(root).public({})
+                self.assertEqual(snapshot['step'], step)
+                self.assertTrue(snapshot['required'] and snapshot['offline'])
+            FirstStart(root).advance('done', {}, True)
+            FirstStart(root).advance('models', {}, True)
+            self.assertFalse(FirstStart(root).public({})['required'])
+
+    def test_legacy_pi_reports_lan_without_privileged_wifi_helper(self):
+        from services.first_start import NetworkClient
+        with tempfile.TemporaryDirectory() as root:
+            client = NetworkClient(str(Path(root)/'missing.sock'))
+            with patch('services.first_start.subprocess.run') as run:
+                run.return_value.stdout = 'ethernet:connected\nwifi:disconnected\n'
+                status = client({'action':'status'})
+                self.assertEqual(status['devices'][0], {'type':'ethernet','state':'connected'})
+                self.assertFalse(status['wifi_setup'])
+                with self.assertRaises(FileNotFoundError):
+                    client({'action':'connect','ssid':'test','password':'secret'})
+                self.assertEqual(run.call_count, 1)
+
     def test_operation_reservation_and_no_secret_in_status(self):
         with tempfile.TemporaryDirectory() as root:
             wait=threading.Event()

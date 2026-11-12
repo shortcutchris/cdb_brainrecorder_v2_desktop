@@ -1,5 +1,6 @@
 (() => {
  $('management-network').onclick=()=>{if(allowed('install'))location.href='/welcome.html?network=1'};
+ $('setup-wizard').onclick=run(async()=>{if(allowed('install')){await flush();location.href='/welcome.html'}});
  let routed=false,restartConfirm=false,restarting=false,updateReload=false;
  $('management-reload').onclick=run(async()=>{await flush();location.reload()});
  $('management-restart').onclick=run(async()=>{
@@ -21,7 +22,7 @@
   }).catch(()=>{updateReload=false;notice('Oberfläche wurde aktualisiert. Entwurf bitte zuerst sichern und danach neu laden.');});
  }
  $('management-diagnostics').onclick=()=>showSettingsDetail('models-page');
- function render(){if(state&&!routed){routed=true;if(state.first_start?.required){location.replace('/welcome.html');return}if(new URLSearchParams(location.search).get('setup')==='audio'){openSettings().then(()=>showSettingsDetail('audio-page'));history.replaceState(null,'','/')}}$('management-network').disabled=!allowed('install');
+ function render(){if(state&&!routed){routed=true;if(state.first_start?.required){location.replace('/welcome.html');return}const setup=new URLSearchParams(location.search).get('setup');if(['audio','recorder'].includes(setup)){openSettings().then(()=>showSettingsDetail(setup==='audio'?'audio-page':'setup-page'));history.replaceState(null,'','/')}}$('management-network').disabled=$('setup-wizard').disabled=!allowed('install');
  const restartBlocked=!online||Boolean(state?.activity?.busy)||Boolean(state?.jobs?.some(j=>['queued','importing','transcribing','summarizing'].includes(j.state)))||Boolean(state?.timers?.items?.some(i=>['scheduled','due'].includes(i.state)))||Boolean(state?.cdb?.publications?.some(j=>['queued','accepted','sending'].includes(j.state)));
  $('management-restart').disabled=restarting||restartBlocked;
  $('management-reload').disabled=Boolean(state?.recording?.id)||Boolean(state?.live?.busy);

@@ -9,7 +9,7 @@ nicht benötigt und bleiben unangetastet.
 **Aktueller Testkandidat:** [SD-Image 0.5.44: Build, Prüfsumme und Kartentest](build-0.5.44/README.md).
 
 [Systemübersicht und Architektur](../architecture/README.md) ·
-[Erststart-Assistent](../first-start-0.5.44/README.md)
+[Erststart-Assistent ab 0.5.77](../erststart-0.5.77.md) · [Erststart im Image 0.5.44](../first-start-0.5.44/README.md)
 
 ## Was jede Weiterentwicklung berücksichtigen muss
 
