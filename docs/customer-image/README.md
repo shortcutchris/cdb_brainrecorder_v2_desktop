@@ -6,7 +6,7 @@ Das Kunden-Image wird aus **Quellcode und Bauanleitung** erstellt. Es ist kein
 Abbild eines benutzten Pi. Der laufende Pi und seine SD-Karte werden zum Bauen
 nicht benötigt und bleiben unangetastet.
 
-**Aktueller Testkandidat:** [SD-Image 0.5.44: Build, Prüfsumme und Kartentest](build-0.5.44/README.md).
+**Aktueller Testkandidat:** [SD-Image 0.5.77 mit WLAN-Assistent und Offline-Modellen](build-0.5.77/README.md). [Früherer Build 0.5.44](build-0.5.44/README.md).
 
 [Systemübersicht und Architektur](../architecture/README.md) ·
 [Erststart-Assistent ab 0.5.77](../erststart-0.5.77.md) · [Erststart im Image 0.5.44](../first-start-0.5.44/README.md)
@@ -79,7 +79,7 @@ Raspberry Pi OS Trixie ARM64, Wayland-Desktop mit Kiosk, Python-Runtime, Recorde
 separater Verwaltungsagent, root-eigener WLAN-Dienst, Erststart-Assistent,
 Whisper- und Ollama-Programme sowie der öffentliche Update-Prüfschlüssel.
 Keine persönlichen Daten, WLAN-Schlüssel, Brain-Sitzungen, gekoppelte Bluetooth-
-Geräte, Verwaltungs-Identitäten, privaten SSH-/Signierschlüssel.
+Geräte, Verwaltungs-Identitäten oder privaten SSH-/Signierschlüssel.
 Mit `--offline-models` enthält die Karte **Whisper Medium (mehrsprachig)** und
 **Qwen3 4B Instruct (Q4_K_M)**. Die zwei Modelle belegen zusammen rund 4,03 GB.
 Der Builder lädt die festgelegten Gewichte aus den öffentlichen Modellquellen,

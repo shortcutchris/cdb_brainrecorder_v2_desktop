@@ -27,7 +27,7 @@ Beobachtet auf Recorder Studio 0.5.76, Commit `4d92dce4`. Die unten beschriebene
 
 Das signierte App-Update kann die versionierten Studio- und Servicedateien übernehmen. Die neue gemeinsame Fortschrittsanzeige liegt in `studio/model-download.js`. Ein bestehendes Profil erhält durch das Update keinen erzwungenen Erststart.
 
-Das Kundenimage-Rezept enthält den privilegierten Netzwerkdienst. Auf einem älteren Gerät ohne diesen Dienst liest der Assistent den Verbindungsstatus über NetworkManager und weist auf den fehlenden Dienst für WLAN-Änderungen hin. Die Einrichtung des Dienstes gehört auf solchen Geräten in die Systemwartung. Der Assistent installiert weder Treiber noch Firmware. Modelle, Konten und Ansagenpakete sind gerätespezifisch. Ein physischer Erststart mit neuer SD-Karte und echter WLAN-Eingabe steht für 0.5.77 aus.
+Das Kundenimage-Rezept enthält den privilegierten Netzwerkdienst. Auf einem älteren Gerät ohne diesen Dienst liest der Assistent den Verbindungsstatus über NetworkManager und weist auf den fehlenden Dienst für WLAN-Änderungen hin. Die Einrichtung des Dienstes gehört auf solchen Geräten in die Systemwartung. Der Assistent installiert weder Treiber noch Firmware. Das [Offline-Image](customer-image/build-0.5.77/README.md) enthält Whisper Medium und Qwen3 4B Instruct. Die Kontoverbindung und das optionale Ansagenpaket werden getrennt eingerichtet.
 
 ### Nachprüfung am Gehäuse-Pi am 12.11.2026
 
