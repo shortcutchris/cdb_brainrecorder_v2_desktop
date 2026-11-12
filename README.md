@@ -2,6 +2,12 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.77 – Geführte Einrichtung (Kandidat)
+
+Auf einem neuen Factory-Gerät startet der Assistent beim Einschalten. Er prüft LAN und WLAN, bietet bei fehlender Verbindung die WLAN-Auswahl an und führt durch Gerätekopplung, lokale Modelldownloads und die persönliche Brain-Anmeldung am Handy. Zum Schluss öffnet er die Recorder-Einrichtung für Mikrofontest und Aufnahmefreigabe. Auf bestehenden Geräten lässt er sich unter **Einstellungen → Recorder-Einrichtung → Einrichtungsassistent öffnen** erneut starten.
+
+[Einrichtung, Image-Auswirkungen und Audit des Gehäuse-Pi vom 12.11.2026](docs/erststart-0.5.77.md)
+
 ## 0.5.76 – Fortschritt beim Modelldownload (Kandidat)
 
 Öffne während einer Modellinstallation die **Warteschlange**. Bei Whisper beziehen sich Balken, Prozent und Datenmenge auf die Modelldatei. Bei Ollama gelten sie für den jeweils geladenen Abschnitt. Der nächste Abschnitt kann wieder bei null beginnen. Vorbereitung und Prüfung haben eine eigene Anzeige. Erst wenn der Pi die Installation bestätigt, erscheint „Modell installiert“. Unter **Gerät & Diagnose** findest du denselben Downloadstand.

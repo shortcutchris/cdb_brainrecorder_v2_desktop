@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 import socket
+import subprocess
 import threading
 import uuid
 from fleet.common import read, save
@@ -14,7 +15,21 @@ class NetworkClient:
     def __call__(self, body):
         with socket.socket(socket.AF_UNIX) as sock:
             sock.settimeout(240)
-            sock.connect(self.path)
+            try:
+                sock.connect(self.path)
+            except FileNotFoundError:
+                if body.get('action') != 'status':
+                    raise
+                # Older installations may have NetworkManager but no privileged helper.
+                result = subprocess.run(['nmcli', '-t', '-f', 'TYPE,STATE', 'device', 'status'],
+                                        env={'PATH': '/usr/bin:/bin', 'LC_ALL': 'C'}, capture_output=True,
+                                        text=True, timeout=5, check=True)
+                devices = []
+                for line in result.stdout.splitlines():
+                    kind, _, state = line.partition(':')
+                    if kind in ('ethernet', 'wifi'):
+                        devices.append({'type': kind, 'state': state})
+                return {'devices': devices, 'connectivity': 'unknown', 'wifi_setup': False}
             sock.sendall(json.dumps(body).encode() + b'\n')
             raw = b''
             while not raw.endswith(b'\n'):
@@ -59,7 +74,7 @@ class FirstStart:
                 self.result = {'id': operation_id, 'action': action, 'state': 'done', 'message': 'Netzwerk aktualisiert.', 'network': result}
             except FileNotFoundError:
                 self.result = {'state': 'error', 'message': 'WLAN-Dienst auf diesem Gerät noch nicht installiert. Vorhandene Netzwerkverbindung bleibt erhalten.'}
-            except (OSError, ValueError, TimeoutError):
+            except (OSError, ValueError, subprocess.SubprocessError):
                 self.result = {'state': 'error', 'message': 'Netzwerk nicht verbunden. Passwort und Reichweite prüfen. Vorherige Verbindung wird wiederhergestellt; erneut prüfen.'}
             finally:
                 self.busy = False
@@ -68,12 +83,12 @@ class FirstStart:
         return {'ok': True}
 
     def advance(self, step, management, offline=False):
-        if step not in ('welcome', 'network', 'pair', 'audio', 'done'):
+        if step not in ('welcome', 'network', 'pair', 'models', 'brain', 'audio', 'done'):
             raise ValueError('Ungültiger Einrichtungsschritt.')
         if self.busy:
             raise ValueError('Netzwerkprüfung zuerst abschließen.')
         if step == 'done' and management.get('state') != 'connected' and offline is not True:
             raise ValueError('Gerät zuerst koppeln oder bewusst offline fortfahren.')
         saved = read(self.path, {})
-        save(self.path, saved | {'step': step, 'completed': step == 'done', 'offline': offline is True})
+        save(self.path, saved | {'step': step, 'completed': saved.get('completed') is True or step == 'done', 'offline': offline is True})
         return {'ok': True}

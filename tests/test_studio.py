@@ -114,6 +114,13 @@ class StudioTests(unittest.TestCase):
         from services.app_activity import AppActivity
         status,data,_=self.request('/api/onboarding')
         self.assertEqual(status,200);self.assertFalse(json.loads(data)['required'])
+        view=json.loads(data)
+        self.assertEqual(view['installation']['state'], 'idle')
+        self.assertEqual(set(view['brain']), {'server','signed_in','login'})
+        self.assertFalse(view['brain']['signed_in'])
+        for step in ('models','brain'):
+            self.assertEqual(self.request('/api/onboarding/step', {'step':step})[0],200)
+            self.assertEqual(json.loads(self.request('/api/onboarding')[1])['step'],step)
         for activity in (AppActivity(recording=True),AppActivity(live='active'),AppActivity(pending=True),AppActivity(maintenance=True)):
             with patch.object(self.app,'activity',return_value=activity), patch.object(self.app.first_start,'run_network') as network:
                 self.assertEqual(self.request('/api/onboarding/network',{'action':'connect'})[0],400)

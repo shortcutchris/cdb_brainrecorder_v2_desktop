@@ -28,7 +28,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.76'
+VERSION = '0.5.77'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -839,7 +839,14 @@ class StudioHandler(Handler):
             self.respond({'version':VERSION,'ready':not app.closing,'activity':('processing' if app.activity().pending and not app.activity().occupied else app.activity().mode),'wake_state':app.wake.public().get('state','unknown')});return
         if path=='/api/onboarding':
             app=self.server.app
-            self.respond(app.first_start.public(app.management.public())|{'csrf':app.csrf,'allowed':not app.activity().occupied and not app.activity().pending});return
+            activity = app.activity()
+            self.respond(app.first_start.public(app.management.public()) | {
+                'csrf': app.csrf, 'allowed': not activity.occupied and not activity.pending,
+                'reason': activity.reason or ('Offene Verarbeitung zuerst abschließen.' if activity.pending else ''),
+                'installation': app.models.status(),
+                'brain': {'signed_in': bool(app.cdb.read('session.json', {}).get('identity')),
+                          'server': app.cdb.config()['server'], 'login': dict(app.cdb.login)},
+            });return
         if path=='/api/live/activity':
             self.respond(self.server.app.live.feedback());return
         if path=='/api/live/setup':
