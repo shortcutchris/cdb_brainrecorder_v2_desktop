@@ -1,0 +1,755 @@
+{
+  "version": "0.5.69",
+  "started": 1792609833.9534392,
+  "tests": [
+    {
+      "mode": "completion",
+      "first_paplay_elapsed": 10.037,
+      "first_due_elapsed": 15.369,
+      "acted": true,
+      "samples": [
+        {
+          "elapsed": 0.012,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 15,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "idle",
+            "kind": null,
+            "message": "Noch kein Testton abgespielt."
+          },
+          "wake_state": "listening",
+          "paplay": false
+        },
+        {
+          "elapsed": 0.542,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 14,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "idle",
+            "kind": null,
+            "message": "Noch kein Testton abgespielt."
+          },
+          "wake_state": "listening",
+          "paplay": false
+        },
+        {
+          "elapsed": 1.61,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 13,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "idle",
+            "kind": null,
+            "message": "Noch kein Testton abgespielt."
+          },
+          "wake_state": "listening",
+          "paplay": false
+        },
+        {
+          "elapsed": 2.518,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 12,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "idle",
+            "kind": null,
+            "message": "Noch kein Testton abgespielt."
+          },
+          "wake_state": "listening",
+          "paplay": false
+        },
+        {
+          "elapsed": 3.638,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 11,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "idle",
+            "kind": null,
+            "message": "Noch kein Testton abgespielt."
+          },
+          "wake_state": "listening",
+          "paplay": false
+        },
+        {
+          "elapsed": 4.555,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 10,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "idle",
+            "kind": null,
+            "message": "Noch kein Testton abgespielt."
+          },
+          "wake_state": "listening",
+          "paplay": false
+        },
+        {
+          "elapsed": 5.665,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 9,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "idle",
+            "kind": null,
+            "message": "Noch kein Testton abgespielt."
+          },
+          "wake_state": "listening",
+          "paplay": false
+        },
+        {
+          "elapsed": 6.598,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 8,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "idle",
+            "kind": null,
+            "message": "Noch kein Testton abgespielt."
+          },
+          "wake_state": "listening",
+          "paplay": false
+        },
+        {
+          "elapsed": 7.518,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 7,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "idle",
+            "kind": null,
+            "message": "Noch kein Testton abgespielt."
+          },
+          "wake_state": "listening",
+          "paplay": false
+        },
+        {
+          "elapsed": 8.27,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 7,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "running",
+            "kind": "announcement",
+            "message": "Lokale Ansage am Pi."
+          },
+          "wake_state": "waiting",
+          "paplay": false
+        },
+        {
+          "elapsed": 8.622,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 6,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "running",
+            "kind": "announcement",
+            "message": "Lokale Ansage am Pi."
+          },
+          "wake_state": "waiting",
+          "paplay": false
+        },
+        {
+          "elapsed": 9.497,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 5,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "running",
+            "kind": "announcement",
+            "message": "Lokale Ansage am Pi."
+          },
+          "wake_state": "waiting",
+          "paplay": false
+        },
+        {
+          "elapsed": 10.037,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 5,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "running",
+            "kind": "announcement",
+            "message": "Lokale Ansage am Pi."
+          },
+          "wake_state": "waiting",
+          "paplay": true
+        },
+        {
+          "elapsed": 10.565,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 4,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "running",
+            "kind": "announcement",
+            "message": "Lokale Ansage am Pi."
+          },
+          "wake_state": "waiting",
+          "paplay": true
+        },
+        {
+          "elapsed": 11.628,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 3,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "running",
+            "kind": "announcement",
+            "message": "Lokale Ansage am Pi."
+          },
+          "wake_state": "waiting",
+          "paplay": true
+        },
+        {
+          "elapsed": 12.502,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 2,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "running",
+            "kind": "announcement",
+            "message": "Lokale Ansage am Pi."
+          },
+          "wake_state": "waiting",
+          "paplay": true
+        },
+        {
+          "elapsed": 13.595,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 1,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "running",
+            "kind": "announcement",
+            "message": "Lokale Ansage am Pi."
+          },
+          "wake_state": "waiting",
+          "paplay": true
+        },
+        {
+          "elapsed": 14.661,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 0,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "running",
+            "kind": "announcement",
+            "message": "Lokale Ansage am Pi."
+          },
+          "wake_state": "waiting",
+          "paplay": true
+        },
+        {
+          "elapsed": 15.015,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 0,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "completed",
+            "kind": "announcement",
+            "message": "Audioausgabe beendet."
+          },
+          "wake_state": "waiting",
+          "paplay": false
+        },
+        {
+          "elapsed": 15.369,
+          "timer": {
+            "state": "due",
+            "remaining": 0,
+            "revision": 2,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "completed",
+            "kind": "announcement",
+            "message": "Audioausgabe beendet."
+          },
+          "wake_state": "waiting",
+          "paplay": false
+        },
+        {
+          "elapsed": 15.545,
+          "timer": {
+            "state": "due",
+            "remaining": 0,
+            "revision": 2,
+            "sound": "attempted"
+          },
+          "speaker": {
+            "state": "running",
+            "kind": "alarm",
+            "message": "Alarmton am Pi."
+          },
+          "wake_state": "waiting",
+          "paplay": false
+        },
+        {
+          "elapsed": 15.72,
+          "timer": {
+            "state": "due",
+            "remaining": 0,
+            "revision": 2,
+            "sound": "attempted"
+          },
+          "speaker": {
+            "state": "running",
+            "kind": "alarm",
+            "message": "Alarmton am Pi."
+          },
+          "wake_state": "waiting",
+          "paplay": true
+        },
+        {
+          "elapsed": 16.653,
+          "timer": {
+            "state": "done",
+            "remaining": 0,
+            "revision": 3,
+            "sound": "attempted"
+          },
+          "speaker": {
+            "state": "cancelled",
+            "kind": "alarm",
+            "message": "Audioausgabe beendet."
+          },
+          "wake_state": "waiting",
+          "paplay": false
+        },
+        {
+          "elapsed": 17.72,
+          "timer": {
+            "state": "done",
+            "remaining": 0,
+            "revision": 3,
+            "sound": "attempted"
+          },
+          "speaker": {
+            "state": "cancelled",
+            "kind": "alarm",
+            "message": "Audioausgabe beendet."
+          },
+          "wake_state": "loading",
+          "paplay": false
+        },
+        {
+          "elapsed": 18.077,
+          "timer": {
+            "state": "done",
+            "remaining": 0,
+            "revision": 3,
+            "sound": "attempted"
+          },
+          "speaker": {
+            "state": "cancelled",
+            "kind": "alarm",
+            "message": "Audioausgabe beendet."
+          },
+          "wake_state": "listening",
+          "paplay": false
+        }
+      ],
+      "final_health": {
+        "version": "0.5.69",
+        "ready": true,
+        "activity": "idle",
+        "wake_state": "listening"
+      }
+    },
+    {
+      "mode": "cancellation",
+      "first_paplay_elapsed": 10.095,
+      "first_due_elapsed": null,
+      "acted": true,
+      "samples": [
+        {
+          "elapsed": 0.012,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 15,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "cancelled",
+            "kind": "alarm",
+            "message": "Audioausgabe beendet."
+          },
+          "wake_state": "listening",
+          "paplay": false
+        },
+        {
+          "elapsed": 0.542,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 14,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "cancelled",
+            "kind": "alarm",
+            "message": "Audioausgabe beendet."
+          },
+          "wake_state": "listening",
+          "paplay": false
+        },
+        {
+          "elapsed": 1.661,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 13,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "cancelled",
+            "kind": "alarm",
+            "message": "Audioausgabe beendet."
+          },
+          "wake_state": "listening",
+          "paplay": false
+        },
+        {
+          "elapsed": 2.58,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 12,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "cancelled",
+            "kind": "alarm",
+            "message": "Audioausgabe beendet."
+          },
+          "wake_state": "listening",
+          "paplay": false
+        },
+        {
+          "elapsed": 3.509,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 11,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "cancelled",
+            "kind": "alarm",
+            "message": "Audioausgabe beendet."
+          },
+          "wake_state": "listening",
+          "paplay": false
+        },
+        {
+          "elapsed": 4.618,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 10,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "cancelled",
+            "kind": "alarm",
+            "message": "Audioausgabe beendet."
+          },
+          "wake_state": "listening",
+          "paplay": false
+        },
+        {
+          "elapsed": 5.542,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 9,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "cancelled",
+            "kind": "alarm",
+            "message": "Audioausgabe beendet."
+          },
+          "wake_state": "listening",
+          "paplay": false
+        },
+        {
+          "elapsed": 6.67,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 8,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "cancelled",
+            "kind": "alarm",
+            "message": "Audioausgabe beendet."
+          },
+          "wake_state": "listening",
+          "paplay": false
+        },
+        {
+          "elapsed": 7.591,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 7,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "cancelled",
+            "kind": "alarm",
+            "message": "Audioausgabe beendet."
+          },
+          "wake_state": "listening",
+          "paplay": false
+        },
+        {
+          "elapsed": 8.335,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 7,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "running",
+            "kind": "announcement",
+            "message": "Lokale Ansage am Pi."
+          },
+          "wake_state": "waiting",
+          "paplay": false
+        },
+        {
+          "elapsed": 8.51,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 6,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "running",
+            "kind": "announcement",
+            "message": "Lokale Ansage am Pi."
+          },
+          "wake_state": "waiting",
+          "paplay": false
+        },
+        {
+          "elapsed": 9.57,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 5,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "running",
+            "kind": "announcement",
+            "message": "Lokale Ansage am Pi."
+          },
+          "wake_state": "waiting",
+          "paplay": false
+        },
+        {
+          "elapsed": 10.095,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 5,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "running",
+            "kind": "announcement",
+            "message": "Lokale Ansage am Pi."
+          },
+          "wake_state": "waiting",
+          "paplay": true
+        },
+        {
+          "elapsed": 10.62,
+          "timer": {
+            "state": "scheduled",
+            "remaining": 4,
+            "revision": 1,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "running",
+            "kind": "announcement",
+            "message": "Lokale Ansage am Pi."
+          },
+          "wake_state": "waiting",
+          "paplay": true
+        },
+        {
+          "elapsed": 11.364,
+          "timer": {
+            "state": "cancelled",
+            "remaining": 4,
+            "revision": 2,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "cancelled",
+            "kind": "announcement",
+            "message": "Audioausgabe beendet."
+          },
+          "wake_state": "waiting",
+          "paplay": false
+        },
+        {
+          "elapsed": 11.538,
+          "timer": {
+            "state": "cancelled",
+            "remaining": 3,
+            "revision": 2,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "cancelled",
+            "kind": "announcement",
+            "message": "Audioausgabe beendet."
+          },
+          "wake_state": "waiting",
+          "paplay": false
+        },
+        {
+          "elapsed": 12.614,
+          "timer": {
+            "state": "cancelled",
+            "remaining": 2,
+            "revision": 2,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "cancelled",
+            "kind": "announcement",
+            "message": "Audioausgabe beendet."
+          },
+          "wake_state": "waiting",
+          "paplay": false
+        },
+        {
+          "elapsed": 13.505,
+          "timer": {
+            "state": "cancelled",
+            "remaining": 1,
+            "revision": 2,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "cancelled",
+            "kind": "announcement",
+            "message": "Audioausgabe beendet."
+          },
+          "wake_state": "loading",
+          "paplay": false
+        },
+        {
+          "elapsed": 14.061,
+          "timer": {
+            "state": "cancelled",
+            "remaining": 1,
+            "revision": 2,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "cancelled",
+            "kind": "announcement",
+            "message": "Audioausgabe beendet."
+          },
+          "wake_state": "listening",
+          "paplay": false
+        },
+        {
+          "elapsed": 14.589,
+          "timer": {
+            "state": "cancelled",
+            "remaining": 0,
+            "revision": 2,
+            "sound": "pending"
+          },
+          "speaker": {
+            "state": "cancelled",
+            "kind": "announcement",
+            "message": "Audioausgabe beendet."
+          },
+          "wake_state": "listening",
+          "paplay": false
+        }
+      ],
+      "final_health": {
+        "version": "0.5.69",
+        "ready": true,
+        "activity": "idle",
+        "wake_state": "listening"
+      }
+    }
+  ],
+  "finished": 1792609870.347376
+}

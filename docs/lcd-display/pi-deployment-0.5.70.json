@@ -1,0 +1,81 @@
+{
+  "version": "0.5.70",
+  "sequence": 27,
+  "source_commit": "2c5e7e7b00c873c13f281a6a0b095ea3e42ef2a6",
+  "release": "297df7f69dfb88537801984d16fc4f0931b9949f709f901db50c71f0c7dfb10f",
+  "runtime_verified": true,
+  "changed_runtime_files": [
+    "web_server.py",
+    "services/lcd_display.py",
+    "services/lcd_bridge.py"
+  ],
+  "files_verified": true,
+  "preferences_unchanged_mtime": {
+    "wake-word.json": true,
+    "speaker.json": true,
+    "announcements.json": true,
+    "AudioRecorderApp.conf": true
+  },
+  "installer_commit": "f407aae",
+  "initial_companion_unit_error": "WorkingDirectory quoted; corrected and systemd validation passed before activation",
+  "health_samples": [
+    {
+      "version": "0.5.70",
+      "ready": true,
+      "activity": "idle",
+      "wake_state": "listening"
+    },
+    {
+      "version": "0.5.70",
+      "ready": true,
+      "activity": "idle",
+      "wake_state": "listening"
+    },
+    {
+      "version": "0.5.70",
+      "ready": true,
+      "activity": "idle",
+      "wake_state": "listening"
+    },
+    {
+      "version": "0.5.70",
+      "ready": true,
+      "activity": "idle",
+      "wake_state": "listening"
+    },
+    {
+      "version": "0.5.70",
+      "ready": true,
+      "activity": "idle",
+      "wake_state": "listening"
+    }
+  ],
+  "lcd_api": {
+    "protocol": "cdb.lcd/1",
+    "count": 0,
+    "total": 0
+  },
+  "companion_service": {
+    "MainPID": "646730",
+    "NRestarts": "0",
+    "MemoryCurrent": "[not set]",
+    "CPUUsageNSec": "94707000",
+    "WorkingDirectory": "/home/chris/.local/share/cdb-recorder-app/current",
+    "ActiveState": "active",
+    "SubState": "running"
+  },
+  "display_present": false,
+  "display_flashed": false,
+  "hardware_acceptance": "pending arrival and user-coordinated tests",
+  "announcement_options": {
+    "offline": true,
+    "timers": true,
+    "connecting": true,
+    "countdown": true
+  },
+  "cpu_quota_verified": "10000 100000",
+  "address_space_limit_verified": "Max address space         134217728            134217728            bytes     ",
+  "cgroup_memory_accounting": "unavailable; address-space limit used in addition to configured MemoryMax",
+  "verified_at": 1792615839.0690036,
+  "result": "updated"
+}

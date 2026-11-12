@@ -1,0 +1,493 @@
+{
+  "samples": [
+    {
+      "at": 1792399287.944444,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399289.0320292,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399290.0560465,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399291.0925906,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399292.1242135,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399293.143757,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399294.170591,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399295.1992264,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399296.3013651,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399297.3200011,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399298.3399289,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399299.3851979,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399300.4157875,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399301.4352677,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399302.4546816,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399303.4771876,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399304.4967356,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399305.5152996,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399306.5827417,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399307.6117942,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399308.6308875,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399309.6663363,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399310.6851785,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399311.7055833,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399312.7249286,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399313.7725868,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399314.80035,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399315.8203897,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399316.8685064,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399317.8879163,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399318.9142756,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399319.9427788,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399320.9707808,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399322.0207853,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399323.057875,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399324.1455698,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399325.1671724,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399326.1939979,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399327.2114127,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399328.2466424,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399329.2999182,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399330.3632274,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399331.3948784,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399332.4270315,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399333.4605315,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399334.4930608,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399335.5272152,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399336.5605817,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399337.5983458,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399338.6358707,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399339.6667013,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399340.701326,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399341.7276947,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399342.7591515,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399343.793729,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399344.8339708,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399345.8597848,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399346.8877673,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399347.920169,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399348.9500606,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    },
+    {
+      "at": 1792399349.998845,
+      "state": "listening",
+      "detections": 0,
+      "enabled": true,
+      "capture_running": true,
+      "live_state": "idle"
+    }
+  ],
+  "recognition_observed": false
+}

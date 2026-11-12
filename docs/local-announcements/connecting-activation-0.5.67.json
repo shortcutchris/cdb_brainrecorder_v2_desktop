@@ -1,0 +1,21 @@
+{
+  "at": 1792593103.9643283,
+  "version": "0.5.67",
+  "old_clips_unchanged": true,
+  "wake_and_speaker_preferences_preserved": true,
+  "backup": "/home/chris/recorder-backups/connecting-067",
+  "announcements": {
+    "offline": true,
+    "timers": true,
+    "connecting": true,
+    "ready": true,
+    "connecting_ready": true,
+    "message": "Deutsches Sprachpaket bereit. \u00c4nderungen werden beim Speichern neu gepr\u00fcft."
+  },
+  "health": {
+    "version": "0.5.67",
+    "ready": true,
+    "activity": "idle",
+    "wake_state": "waiting"
+  }
+}
