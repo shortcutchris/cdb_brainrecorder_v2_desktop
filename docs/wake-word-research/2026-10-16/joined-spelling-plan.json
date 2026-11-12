@@ -1,0 +1,31 @@
+{
+  "frozen_at": "2026-10-16T13:59:57.030713+00:00",
+  "matcher": "exact_joined_v2",
+  "matcher_source_sha256": "e26c2eba90b568c92818cc0fa87d9ea3389080643bf313c1ead694abbb1b0bbf",
+  "baseline": "two_words_v1 remains selectable; previous six cases are now regression, not independent",
+  "config_inherited": "independent-stream-plan.json, unchanged except exact joined leading spelling",
+  "fresh_voices": [
+    {
+      "label": "will",
+      "id": "bIHbv24MWmeRgasZH58o",
+      "positive": "Okay Nabu.",
+      "negative": "Okay, na gut. Okay, na bitte. Einen neuen Abovertrag brauche ich nicht."
+    },
+    {
+      "label": "sarah",
+      "id": "EXAVITQu4vr4xnSDxMaL",
+      "positive": "Okay Nabu.",
+      "negative": "Okay, na klar. Okay, nach Hause. Ich suche meinen Nachbarn."
+    }
+  ],
+  "tts": {
+    "model": "eleven_multilingual_v2",
+    "language": "de",
+    "speed": 1.0,
+    "category": "premade, no cloning; natural German accent not independently qualified"
+  },
+  "fresh_cases": 6,
+  "pass_rule": "single and double must accept first utterance, exactly one hit latched; full negatives zero; no unresolved verifier; no regeneration of failed cases",
+  "production_integration": false,
+  "room_test": "only considered after regression and fresh file gates pass"
+}

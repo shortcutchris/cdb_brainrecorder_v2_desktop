@@ -592,3 +592,251 @@ Kerns, RSS1308,2 MB, 51,25 °C, keine aktiven Warnungen. Original-Beobachtungspl
 unverändert; dieser Raumtest unterbricht erneut den Ruhezeitnachweis. Keine
 Raumaudiodateien oder Raumtranskripte gespeichert. App-Version, Rufwort,
 Lautstärke, Mikrofon-/DSP-Konfiguration und Kunden-Image unverändert.
+
+## Gepaarter Vergleich auf identischen Raum-Ausschnitten
+
+**16.10.2026, 15:32:27–15:35:08 Europe/Berlin.**
+[Messwerte](acoustic-paired-windows.json),
+[Werkzeug](../../../scripts/wake_candidate_comparison.py),
+[gezielte Tests](paired-window-tests.txt).
+
+Einmalige Wiedergabe derselben vier bekannten Dateien über den eingebauten
+Mac-Studio-Lautsprecher, unveränderte Systemlautstärke und ursprüngliche Rate.
+Die App reserviert Wartung atomar; der Test besitzt genau einen Mikrofoneingang.
+Zwei Sekunden echter Vorlauf werden nur im RAM gehalten. Der erste Nabu-Score
+von mindestens 0,15 nach dem Wiedergabesignal definiert den Kandidaten. Für
+beide Modelle werden daraus exakt dieselben Bytes mit zwei Sekunden Rückblick
+und entweder 0,8 oder 1,6 Sekunden Nachlauf ausgeschnitten. Fehlender Kontext
+wird als fehlend markiert, weder aufgefüllt noch still gekürzt. Alle 16 nativen
+Prüfungen waren vollständig, ohne Timeout oder Prozessfehler.
+
+| Prüfer | Nachlauf | Positive erste Kandidaten | Negative erste Kandidaten angenommen |
+| --- | --- | --- | --- |
+| Tiny | 0,8 s | 0/2 | 0/2 |
+| Tiny | 1,6 s | 0/2 | 0/2 |
+| Base | 0,8 s | 2/2 | 0/2 |
+| Base | 1,6 s | 1/2 | 0/2 |
+
+Die bestehende Nabu-Schwelle 0,85 wurde in beiden positiven Raumdateien nicht
+überschritten (Maxima 0,633 und 0,584), aber im ersten Negativtext erreicht
+(0,931). Sieben positive Modellframes in diesem Text sind **ein** fehlerhafter
+Dateifall, nicht sieben unabhängige Live-Starts. Die App startete kein Gespräch.
+Die Signal-Korrelationen von 0,111–0,184 bestätigen keine Verständlichkeit;
+ihre geschätzte Position ist keine verlässliche Sprachbeginn-Zeitmarke.
+
+Base mit kurzem Nachlauf benötigt hier 0,603–0,653 Sekunden je Prüfung,
+Tiny je nach Fall 0,336–1,852 Sekunden. Gemessen sind native Prozess-/Modellstarts
+nach Aufnahme, nicht die Verbindung oder Begrüßung eines Live-Gesprächs.
+Die Modelle wurden sequenziell geprüft, nicht parallel. Der größere Nachlauf
+verbessert die Erkennung nicht monoton: Bei identischem Anfang wird Ottos Ruf
+in Base damit verworfen. Dieses Ergebnis stützt **keine** pauschale Verlängerung
+und keine nachträglich geänderte Akzeptanzregel. Alle Prüfer benutzen weiterhin
+den Namenshinweis `Nabu.` und dieselbe strikte Wortprüfung.
+
+**Grenzen und nächste Entscheidung:** Dies sind bekannte TTS-Stimmen und nur
+der erste Kandidat je Datei. Spätere Kandidaten desselben Negativtexts, neue
+Sprecher, natürliche Erst-Rufe und acht Stunden negative Umgebung sind damit
+nicht geprüft. Base hatte im vorherigen Streaming-Raumtest zudem einen
+positiven Ruf verworfen. Deshalb weiterhin keine Produktionsintegration.
+Vor einem Kandidatenentscheid sind unabhängige Stimmen und die vollständige
+laufende Kandidatenfolge mit eingefrorenen Parametern zu prüfen. Bestehende
+Fehlversuche bleiben Teil der Auswertung; ein guter kleiner Ausschnitt ersetzt
+sie nicht.
+
+Validierung: drei neue Auswahl-/Grenztests und zwölf vorhandene Verifier-/Prozess-
+Tests bestanden. Die neue Auswahlprüfung bestätigt identische Bytes für beide
+Modelle und verweigert fehlenden Kontext. Kein vollständiger App-Gesamtlauf
+für diese isolierte Laborerweiterung behauptet. Testdateien sind bekannte
+synthetische Eingaben; Raum-PCM und Raumtranskripte wurden nicht gespeichert.
+
+Wartung bestätigt freigegeben. Beobachter PID1894368 läuft weiter; Stichprobe
+15:36:06: App 0.5.60, `idle`, `listening`, Browser 28,26 % eines Kerns,
+RSS 1310,41 MB, 52,9 °C, keine aktiven Warnungen. Dieser angekündigte Raumtest
+unterbricht erneut den Ruhezeitnachweis; ursprünglicher Plan bleibt erhalten.
+Alle Änderungen liegen unter Labor-Skripten, Tests und Dokumentation, außerhalb
+der App-/Image-Positivliste. Keine neue Abhängigkeit, keine produktive Änderung,
+kein neues Image. Die Dateien werden separat zur Prüfung gepusht.
+
+Reproduktion unter bestehender Testfreigabe: `check_wake_acoustic.py` mit
+`--phrase okay-nabu --external-playback --signal-diagnostics --quiet-seconds 30`,
+vorhandenem `--whisper-binary`, Tiny als `--whisper-model` und Base als
+`--compare-whisper-model`; `--clips` enthält die vier anhand der Bericht-Hashes
+identifizierten synthetischen Dateien. Ein externer Controller spielt jede
+Datei erst nach `play_clip` mit Originalrate ab und protokolliert ihren Exit.
+Ohne externe Wiedergabe gelten diese Messwerte nicht als reproduziert. Der
+Bericht enthält die Modell-/Binary-Hashes und die tatsächlichen Wiedergaben.
+
+## Unabhängiger Streaming-Dateitest: erster Ruf bleibt kritisch
+
+Vor Erzeugung der neuen Charlie-/HL-Dateien wurden Parameter und Abnahme in
+[independent-stream-plan.json](independent-stream-plan.json) eingefroren. Der
+native Base-Prüfer verarbeitete sechs vollständige Echtzeit-Dateiströme auf dem
+Pi (16.10., 15:43:14–15:44:38). Kein Mikrofon, Lautsprecher oder Cloud-Gespräch;
+der ursprüngliche Beobachterplan blieb unverändert. Die CPU-Testlast zählt
+nicht als unbeeinflusste Ruhezeit.
+
+**4/6 Szenarien bestanden:** HL wurde einzeln und vor der Wiederholung erkannt,
+beide Negativdateien lösten nicht aus. Charlie scheiterte einzeln und in der
+Doppelnennung am ersten Ruf; erst die identische Wiederholung wurde angenommen.
+Der primäre Nabu-Wert erreichte dabei 0,996. Alle Prüfer wurden geschlossen,
+kein offenes Ergebnis blieb übrig. [Vollständiger Bericht](independent-stream-result.json)
+und [Dateihashes](independent-fixtures.json). Keine Ersetzung fehlgeschlagener
+Dateien und keine nachträgliche Lockerung dieses Prüfstands.
+
+Eine getrennte Diagnose ausschließlich der bekannten synthetischen Charlie-Datei
+zeigt die Ursache **dieses Laborfalls**: Base liefert beim ersten Kandidaten
+`Oknabu.`, beim zweiten `Ok Nabu.`. Die bisherige Prüfung verlangt zwei Wörter
+und verwirft daher die erste Schreibweise. Beide nativen Aufrufe brauchten rund
+0,65 Sekunden. [Diagnose mit Fensterhashes](independent-synthetic-diagnosis.json).
+Dies erklärt nicht automatisch die zuvor vom Benutzer erlebten Produktionsfehler;
+produktiv arbeitet weiterhin das direkte microWakeWord-Modell, ohne Base-Prüfer.
+
+Eine eng begrenzte Behandlung zusammengezogener Schreibweisen ist eine nächste
+Laborhypothese. Die sechs Fälle sind nach dieser Diagnose bekannte Regressionen,
+keine unabhängige Abnahme einer darauf angepassten Variante. Neue Teststimmen und
+Negativbeispiele müssen getrennt ausgewertet werden. Bis dahin keine Integration.
+
+Image-/Update-Einfluss: ausschließlich nicht ausgelieferte Laborskripte,
+synthetische Metadaten und Dokumentation; keine Runtime- oder Profiländerung.
+Der separat autorisierte Mobile-Fernbedienungstest hat inzwischen App 0.5.61
+installiert, mit unveränderter produktiver Nabu-Konfiguration. Der Beobachter
+PID1894368 wurde am 16.10. um 15:57 erneut als tatsächlicher Prozess bestätigt;
+keine Warnung, Browser 27,66 % eines Kerns und RSS 1320,17 MB. Kein Langzeitabschluss.
+
+## Eng begrenzte Schreibweisenkorrektur, getrennt geprüft
+
+Der Laborprüfer kann optional exakt `Oknabu` oder `Okaynabu` am Textanfang
+akzeptieren. Keine phonetische Erweiterung auf Naboo, Nabum oder ähnliche Wörter;
+keine Suche nach Teilzeichenfolgen. Die ursprüngliche Zweiwortregel bleibt der
+Standard, damit bisherige Messungen reproduzierbar bleiben. Produktiv wird kein
+Whisper-Wake-Prüfer aufgerufen. Der neue Modus ist ausdrücklich `--joined-spelling`.
+
+Parameter und zwei neue Stimmen wurden in
+[joined-spelling-plan.json](joined-spelling-plan.json) vor Erzeugung eingefroren
+(Commit `6f4bfda`). Vier kurze Dateien mit den vorhandenen, nicht geklonten
+Premade-Stimmen Will und Sarah, deutschem Text, Originalgeschwindigkeit und
+multilingual_v2; keine Regeneration. Ein natürlicher deutscher Akzent wurde
+nicht menschlich qualifiziert. [Quellhashes](joined-fixtures.json).
+
+Der isolierte Echtzeitlauf direkt auf dem Pi besteht **12/12 Szenarien**:
+
+- Sechs bekannte Charlie-/HL-Regressionen einschließlich der früheren Erst-Ruf-
+  Fehler bestehen jetzt. Diese sechs sind keine unabhängige Generalisierung.
+- Sechs neue Will-/Sarah-Szenarien bestehen: beide Stimmen beim ersten Einzelruf,
+  beide Doppelnennungen genau einmal vor dem zweiten Ruf, beide kompletten
+  Negativdateien ohne Aktivierung. Vier verschiedene positive Eingabedateien
+  insgesamt, jeweils wiederholt; keine zwölf unabhängigen Sprecher.
+- Wills Negativdatei erreicht primär 0,996, wird von Base aber verworfen. Sarahs
+  Negativdatei erzeugt keinen Kandidaten; sie prüft daher nicht den Base-Prüfer.
+- Alle nativen Verifier geschlossen, keine offenen Ergebnisse am Dateiende.
+  [Vollständiger Bericht mit Latenzen](joined-stream-result.json).
+
+14 lokale Probe-/Prozesstests bestanden einschließlich explizit opt-in
+zusammengezogener Schreibweise, negativem Prozess-Exit und Ressourcenfreigabe.
+Der Satz `Oknabu.` wird im unveränderten Standardmodus weiterhin verworfen.
+Kein vollständiger App-Gesamttest für diese reine Laboränderung behauptet.
+
+Diese Dateiprüfung rechtfertigt als nächsten Schritt einen kontrollierten
+Raumvergleich mit dem ReSpeaker, noch keine produktive Integration. Natürliche
+Erstrufe, längere negative Umgebung und reale Bereitschaft nach acht Stunden
+bleiben offen. Der neue Prüfstand korrigiert die älteren Fehlberichte nicht
+rückwirkend. Update-/Image-Einfluss weiterhin keiner; die Laboränderungen werden
+separat in PR #12 geprüft.
+
+## Raumprüfung der Schreibweisenkorrektur: nicht freigabefähig
+
+Die eingefrorene [Raumplanung](joined-room-plan.json), Quellstand `cdcef69`,
+wurde anschließend über Mac Studio → ReSpeaker ausgeführt. Alle vier externen
+Wiedergaben endeten korrekt, Originalrate, Player-Gain 1,0, unveränderte
+Gerätelautstärke rund 0,5. Vor jedem Clip 30 Sekunden reale Ruhe. Die App wurde
+atomar reserviert; keine produktive Live-Aktivierung, kein gespeicherter Raumton
+oder Raumtext. [Ergebnis und anschließende Zustandsprüfung](joined-room-result.json).
+
+| Raumdatei | Ergebnis | Eingrenzung |
+| --- | --- | --- |
+| Charlie, positiver Ruf | Verpasst | Primärmaximum 0,737; Kandidat erzeugt, Base nach 3,031 s abgebrochen |
+| Sarah, positiver Ruf | Verpasst | Primärmaximum 0,051; bereits unter Kandidatenschwelle 0,15, Base nicht gestartet |
+| Will, Gegenbeispiele | Keine Aktivierung | Primärmaximum 0,836; Base verwirft nach 0,640 s |
+| Charlie, Gegenbeispiele | Keine Aktivierung | Primärmaximum 0,063; kein Kandidat |
+
+**0/2 positive und 0/2 negative aktiviert.** Keine Aktivierung vor Wiedergabe,
+keine offenen Prüfer beim Wechsel. Der Gesamtprozess beendet sich technisch
+korrekt mit Exit 0, aber `quality_passed` ist ausdrücklich **false**. Technischer
+Testabschluss ist keine Qualitätsfreigabe.
+
+Die Dateierfolge übertragen sich damit nicht auf diesen Raumweg. Der erste
+Base-Timeout ist belegt; eine Ursache wie Kaltstart, Decoderlaufzeit oder
+Scheduling ist noch nicht getrennt nachgewiesen. Das Zeitlimit wird nicht bloß
+verlängert. Sarahs Fehler entsteht dagegen bereits vor der Zusatzprüfung.
+Mikrofonpeaks um −10 dBFS zeigen vorhandenes Signal, beweisen aber keine
+Verständlichkeit; die niedrige Korrelation darf nicht als genaue Sprachzeitmarke
+genutzt werden. Es gab keinen menschlichen Hörvergleich vor Ort.
+
+Folgeentscheidung: **keine Produktionsintegration** dieser Variante. Vor einem
+weiteren Modellentscheid müssen Audioübertragung und Kandidatenqualität am realen
+ReSpeaker von der begrenzten Laufzeit des Zusatzprüfers getrennt werden. Das
+Bibliotheks-Audit bestätigt, dass unser primärer Vergleich dieselbe gemittelte
+Wahrscheinlichkeit und strikte Schwelle wie `pymicro_wakeword.process_streaming`
+verwendet; keine ausgelassene zusätzliche Bibliotheksprüfung gefunden.
+
+Wartung freigegeben, kein Laborprozess übrig, fünf tatsächliche Nachmessungen
+zeigen App 0.5.61, `idle`, `okay-nabu/listening`. Der Beobachter PID1894368 läuft
+weiter; ursprünglicher Plan bleibt erhalten, dieses Laborintervall unterbricht
+die Ruhezeitevidenz. 14 Probe-/Prozesstests bestanden vor dem Raumtest. Alle
+Änderungen bleiben außerhalb von App-/Image-Auslieferung, keine Runtimeänderung.
+
+
+## Getrennte Laufzeit- und Vorlaufdiagnose, 16. Oktober
+
+Zwei weitere Dateiversuche auf dem echten Pi grenzen Vermutungen ein, ohne
+Mikrofon, Lautsprecher, Cloud-Gespräch oder Wartungssperre zu benutzen. Keine
+Änderung an App 0.5.61, Fernbedienung oder produktiven Wake-Parametern.
+
+**Laufzeit:** `scripts/profile_wake_whisper.py` verarbeitet ausschließlich die
+hashgebundene bekannte Charlie-TTS-Datei. Zwölf native Base-Aufrufe: saubere
+Sprache, künstliches Echo, Rauschen mit 10/0 dB SNR, reines Rauschen und digitale
+Stille, jeweils zweimal. Alle Aufrufe enden in **0,595–0,637 Sekunden**; Modellladen
+84,20–99,25 ms, keine Major Page Faults. Acht Sprachvarianten werden erkannt,
+vier Rausch-/Stillevarianten verworfen. [Messdaten](whisper-stage-timings.json).
+Kein ausgegebener Text gespeichert. Seed, PCM-Hashes, Modell- und Binary-Hash
+sind festgehalten; das Echo ist eine synthetische Verzögerung, kein gemessener Raum.
+
+Die acht Sekunden sind ausschließlich eine Diagnoseobergrenze. Das Drei-Sekunden-
+Limit des bisherigen Kandidatenlabors bleibt unverändert. Die Originalmessdatei
+nennt diese Felder noch `production_deadline_seconds` und
+`would_exceed_production_deadline`; diese Bezeichnung ist irreführend:
+**Produktiv läuft kein Whisper-Wake-Prüfer.** Das Skript verwendet für künftige
+Messungen `candidate_deadline_seconds` und `would_exceed_candidate_deadline`.
+Die archivierten Messwerte bleiben unverändert. OS-Caches wurden nicht geleert;
+das ist kein kontrollierter Kaltstarttest. Der Timeout im Raum ist damit weder
+reproduziert noch erklärt. Daraus folgt keine Freigabe oder Fristverlängerung.
+
+**Vorlauf:** `scripts/check_nabu_conditioning.py` prüft vier bereits bekannte
+positive Quelldateien mit jeweils vier Vorläufen: zwei oder 32 Sekunden digitale
+Stille sowie 32 Sekunden künstliches Rauschen bei −60/−40 dBFS. Unverändertes
+microWakeWord 2.5.0, Schwelle 0,85. Zwei identische Rufe je Fall, fünf Sekunden
+Stille dazwischen, ohne Detektor-Neustart. In **16/16 Fällen** übersteigen erster
+und zweiter Ruf die Schwelle; kein Treffer im Vorlauf. Erster Treffer 0,75–0,90
+Sekunden ab Beginn der jeweiligen Datei im Audiostrom. Die reine Stille von
+32 statt zwei Sekunden verändert bei keiner Stimme das Primärmaximum. Sarahs
+Ruf erreicht hier etwa 0,986, im Raum zuvor lediglich 0,051.
+[Alle Fälle](nabu-conditioning.json).
+
+Das sind vier Quelldateien, keine 32 unabhängigen Stimmen. Die Vorläufe werden
+beschleunigt in insgesamt 2,63 Sekunden Rechenzeit verarbeitet: kein Beleg für
+reale Standzeit, USB-Bereitschaft, acht Stunden Ruhe oder Gesprächsstartlatenz.
+Die Hypothese einer grundsätzlich nötigen zweiten Nennung nach digitaler Stille
+wird durch diese Fälle nicht gestützt. Die Abweichung im Lautsprecher-/Raum-/
+Mikrofonweg bleibt separat zu untersuchen; Hardware-Standby ist nicht bewiesen.
+
+Nächste unterscheidende Prüfung nach dem Fernbedienungs-E2E: Beim reservierten
+Raumtest dieselben flüchtigen Kandidatenfenster mit numerischen Stufenlaufzeiten
+prüfen, gleichzeitig Eingangstiming, Samplezahl, Überläufe und Kandidatengrenzen
+festhalten. Raumton und Gesprächsinhalte weiterhin nicht speichern. Erst nach
+vergleichbarer akustischer Evidenz über Modell oder Kandidatenschwelle entscheiden.
+Natürliche Erst-Rufe und die vollständige Langzeit-/Fehler-Abnahmematrix bleiben
+unerfüllt; die früheren Raumfehler werden durch Dateierfolge nicht aufgehoben.
+
+Update-/Image-Einfluss: ausschließlich Laborskripte, technische Messdaten und
+Dokumentation außerhalb der App-Allowlist. Kein App-Update und kein neues Image.
+Die CPU-Testfenster werden privat für die laufende Stabilitätsauswertung markiert.

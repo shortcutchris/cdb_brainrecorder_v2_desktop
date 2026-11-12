@@ -15,6 +15,16 @@ def matches_nabu(text):
     return len(words) >= 2 and words[0] in ('ok', 'okay') and words[1] == 'nabu'
 
 
+def matches_nabu_joined(text):
+    """Lab revision 2: permit only the exact joined leading wake spelling.
+
+    No phonetic/fuzzy expansion or substring match. Keep the original matcher
+    intact so earlier frozen evaluations remain reproducible.
+    """
+    if matches_nabu(text): return True
+    return re.match(r'^\s*[\"\u201c\u201e\u00ab\u00bb\u2018\u2019\']?(?:ok|okay)nabu(?=$|[\s.!?,;:\"\u201c\u201d\u201e\u00ab\u00bb\u2018\u2019\'])', text.lower()) is not None
+
+
 def probe_whisper_pcm(pcm, binary, model):
     if not hasattr(os, 'memfd_create'):
         raise RuntimeError('This lab probe requires Linux anonymous RAM descriptors')
