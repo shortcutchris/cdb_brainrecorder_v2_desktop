@@ -13,3 +13,24 @@ test('different input marks old sample and quiet signal warnings remain visible'
 test('playback is paused and disabled during a recording or connection loss; media errors allow retry',async()=>{const h=harness();h.media.attrs.src='/test.wav';h.c.setMicrophoneSetup([], [{id:'usb'}]);await h.el('probe-play').onclick();h.c.state.recording.id='recording';h.c.renderMicrophone(h.c.state.microphone_test);assert.equal(h.media.paused,true);assert.equal(h.el('probe-play').disabled,true);h.c.state.recording.id=null;h.c.online=false;h.c.renderMicrophone(h.c.state.microphone_test);assert.equal(h.el('probe-play').disabled,true);h.c.online=true;h.media.listeners.error();assert.equal(h.el('probe-player-state').textContent,'Wiedergabe fehlgeschlagen');await h.el('probe-play').onclick();assert.equal(h.media.loads,1);assert.equal(h.media.paused,false)});
 
 test('idle player renders preserve the image resource while play and pause update it',()=>{const h=harness(),icon=h.el('probe-play-icon');for(let i=0;i<1000;i++)h.c.renderProbePlayer();assert.equal(icon.srcWrites,1,'identical polls must not reload the SVG image');assert.equal(icon.src,'/assets/play.svg');h.media.paused=false;h.c.renderProbePlayer();assert.equal(icon.src,'/assets/pause.svg');assert.equal(icon.srcWrites,2);for(let i=0;i<1000;i++)h.c.renderProbePlayer();assert.equal(icon.srcWrites,2);h.media.paused=true;h.c.renderProbePlayer();assert.equal(icon.src,'/assets/play.svg');assert.equal(icon.srcWrites,3)});
+
+test('remaining seconds and setup status follow the active capture without waiting for inventory',()=>{
+ const h=harness(),probe=h.c.state.microphone_test,check=()=>h.el('checks').children[0].children[2].textContent;
+ Object.assign(probe,{state:'running',seconds_left:5});
+ h.c.setMicrophoneSetup([{label:'Mikrofon getestet',ok:false}],[{id:'usb'}]);
+ for(let s=5;s>0;s--){probe.seconds_left=s;h.c.renderMicrophone(probe);assert.equal(h.el('probe-start').textContent,'Noch '+s+' s');assert.equal(check(),'Läuft …')}
+ probe.seconds_left=0;h.c.renderMicrophone(probe);assert.match(h.el('probe-start').textContent,/abgeschlossen/);
+ probe.state='completed';h.c.renderMicrophone(probe);assert.equal(check(),'Bereit');
+ h.c.online=false;h.c.renderMicrophone(probe);assert.equal(check(),'Offline');
+});
+
+test('a blocked retest preserves playback and gives the reason beside the test',()=>{
+ const h=harness();h.c.state.capabilities={probe:{allowed:false,reason:'Modelldownload läuft.'}};
+ h.media.attrs.src='/test.wav';
+ h.c.setMicrophoneSetup([{label:'Mikrofon getestet',ok:true},{label:'Sprachmodell installiert',ok:false}],[{id:'usb'}]);
+ assert.match(h.el('probe-state').textContent,/Modelldownload läuft/);
+ assert.equal(h.el('probe-play').disabled,false);
+ assert.match(h.el('setup-progress').textContent,/Ein Schritt ist offen/);
+ h.c.showSettingsDetail=page=>assert.equal(page,'asr-page');
+ h.el('checks').children[1].onclick();
+});

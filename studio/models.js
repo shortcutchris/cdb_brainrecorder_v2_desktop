@@ -18,6 +18,7 @@ function activeCheckStatus(prefix){
  if(provider==='local'){
   const value=state.config[prefix==='asr'?'whisper_model':'summary_model'];
   const m=catalog?.[prefix==='asr'?'asr':'llm']?.find(m=>(prefix==='asr'?m.path:m.id)===value);
+  if(m&&!m.installed)return 'Voreingestellt · Modell fehlt';
   return m?.tested?'Aktiv · Gerätetest bestanden':'Aktiv · Gerätetest noch offen';
  }
  const s={stage,provider:'cdb'};
@@ -47,19 +48,19 @@ function renderModelChoices(){
   const current=state.cdb.config[stage]===draftProvider(stage)&&(cloud||Boolean(m&&(prefix==='asr'?m.path===state.config.whisper_model:m.id===state.config.summary_model)));
   const tested=cloud?[latest,...(state.model_results||[])].some(r=>r?.state==='completed'&&recordMatches(r,modelSelection(prefix))):m?.tested;
   const box=$(prefix+'-info');box.hidden=cloud;box.replaceChildren();
-  if(m&&!cloud){const p=document.createElement('p');p.textContent=(m.installed?'Installiert':'Download: '+(m.bytes/1e9).toFixed(2)+' GB')+' · '+(m.tested?'Gerätetest bestanden':'Noch kein bestandener Gerätetest')+' · '+(current?'Bereits aktiv':'Nur ausgewählt');box.append(p);if(m.source){const a=document.createElement('a');a.href=m.source;a.target='_blank';a.rel='noopener noreferrer';a.textContent=(m.license||'Lizenz')+' · Modellquelle ansehen';box.append(a)}}
+  if(m&&!cloud){const p=document.createElement('p');p.textContent=(m.installed?'Installiert':'Download: '+(m.bytes/1e9).toFixed(2)+' GB')+' · '+(m.tested?'Gerätetest bestanden':'Noch kein bestandener Gerätetest')+' · '+(current?(m.installed?'Bereits aktiv':'Voreingestellt'):'Nur ausgewählt');box.append(p);if(m.source){const a=document.createElement('a');a.href=m.source;a.target='_blank';a.rel='noopener noreferrer';a.textContent=(m.license||'Lizenz')+' · Modellquelle ansehen';box.append(a)}}
   const reason=!allowed('model_test')?(state.capabilities.model_test.reason||'Verbindung unterbrochen. Bitte warten.'):!cloud&&catalog?.test_block_reason?catalog.test_block_reason:!cloud&&!m?.installed?'Zuerst herunterladen.':!cloud&&!(prefix==='asr'?catalog?.whisper_runtime:catalog?.ollama)?'Lokale Laufzeit unter Gerät & Diagnose prüfen.':!cloud&&m?.candidate&&!m.runtime_compatible?'Laufzeit dieses Modells noch nicht bestätigt.':cloud&&!state.cdb.identity?'Zuerst beim Brain anmelden.':'';
   $(prefix+'-install').hidden=Boolean(m?.installed);$(prefix+'-install').disabled=!allowed('install')||!m||m.installed||m.id==='custom';
   $(prefix+'-test').disabled=Boolean(reason)||busy;$(prefix+'-test').textContent=t?.state==='running'?'Test läuft …':'Modell testen';
   $(prefix+'-login').hidden=!cloud||Boolean(state.cdb.identity);
   $(prefix+'-activate').disabled=!allowed('configure')||!tested||current;
-  $(prefix+'-activate').textContent=current?'Bereits aktiv':'Modell aktivieren';
+  $(prefix+'-activate').textContent=current?(!cloud&&m&&!m.installed?'Voreingestellt':'Bereits aktiv'):'Modell aktivieren';
   $(prefix+'-check-status').textContent=t?.state==='failed'?'Test fehlgeschlagen · Details stehen im Ergebnis.':match?(current&&t.state==='completed'?'Test erfolgreich · Bereits aktiv.':t.message)+(t.seconds!==undefined?' · '+t.seconds+' s':''):reason||(tested?'Gerätetest bestanden'+(current?' · Bereits aktiv.':'. Auswahl kann aktiviert werden.'):'Test mit künstlichem Beispiel · Aktive Modelle bleiben unverändert.');
   $(prefix+'-check-status').classList.toggle('is-working',Boolean(t?.state==='running'));
   $(prefix+'-result-box').hidden=false;const result=(t?.state==='failed'?t.message:t?.result)||'';const resultId=t?.id||'';if($(prefix+'-result-box').dataset.check!==resultId){$(prefix+'-result-box').dataset.check=resultId;checkPages[prefix]=0}
   $(prefix+'-result-caption').textContent=t?.state==='failed'?'Test fehlgeschlagen':result?'Künstliches Beispiel':t?.state==='running'?'Wird geprüft …':tested?'Prüfung bestätigt':'Noch kein Ergebnis';
   const resultEl=$(prefix+'-result'),pageSize=Math.max(80,Math.min(360,Math.floor((resultEl.clientWidth||900)/9)*Math.max(1,Math.floor((resultEl.clientHeight||48)/21))));
-  const count=Math.max(1,Math.ceil(result.length/pageSize));checkPages[prefix]=Math.min(checkPages[prefix],count-1);$(prefix+'-result').textContent=result.slice(checkPages[prefix]*pageSize,(checkPages[prefix]+1)*pageSize)||(t?.state==='running'?'Das Modell verarbeitet das künstliche Beispiel. Das Ergebnis erscheint hier.':tested?'Der Test ist bestätigt. Für eine neue Ergebnisvorschau kannst du das Modell erneut testen.':'Starte einen Modelltest. Das Ergebnis erscheint hier, ohne das aktive Modell zu ändern.');drawPageNumbers($(prefix+'-result-pages'),count,checkPages[prefix],i=>{checkPages[prefix]=i;renderModelChoices()});
+  const count=Math.max(1,Math.ceil(result.length/pageSize));checkPages[prefix]=Math.min(checkPages[prefix],count-1);$(prefix+'-result').textContent=result.slice(checkPages[prefix]*pageSize,(checkPages[prefix]+1)*pageSize)||(t?.state==='running'?'Das Modell verarbeitet das künstliche Beispiel. Das Ergebnis erscheint hier.':tested?'Der Test ist bestätigt. Für eine neue Ergebnisvorschau kannst du das Modell erneut testen.':reason||'Starte einen Modelltest mit dem künstlichen Beispiel.');drawPageNumbers($(prefix+'-result-pages'),count,checkPages[prefix],i=>{checkPages[prefix]=i;renderModelChoices()});
  }
 }
 // Keep the candidate selection on this page; provider changes need explicit use().

@@ -2,6 +2,23 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.73 – Mikrofon testen und Recorder einrichten
+
+Unter **Einstellungen → Audio → Mikrofon** wird die Eingangswahl sofort gespeichert.
+Starte den Fünf-Sekunden-Test, sprich während des Countdowns und tippe danach auf **Anhören**.
+**Recorder-Einrichtung** zeigt die Voraussetzungen für Aufnahmen mit den gewählten KI-Anbietern.
+Tippe auf einen offenen Punkt, um die passende Einstellung zu öffnen. Sind alle Punkte bereit,
+kannst du die Ersteinrichtung dort abschließen. Lautsprecher und optionales Zubehör haben eigene Tests.
+
+Bestehende Geräte erhalten die Ansicht per signiertem App-Update. Neue SD-Images übernehmen die
+bereits freigegebenen App-Dateien beim nächsten Build. Datenformat und Laufzeit bleiben gleich.
+
+## 0.5.72 – Mikrofontest am Gerät (Kandidat)
+
+Unter **Einstellungen → Audio → Mikrofon** startest du die fünfsekündige Probe direkt am Eingangspegel. Der Knopf zeigt die verbleibenden Sekunden. Rechts steht beim Mikrofontest nach dem Speichern **Bereit**. Mit **Anhören** unter dem Pegel prüfst du die Aufnahme.
+
+[ReSpeaker einrichten](docs/respeaker.md) · [Pi-Bildschirm am Mac bedienen](docs/audio/pi-display-am-mac.md)
+
 ## 0.5.71 – NFC-Aufsteller für Talk und Meeting (Kandidat)
 
 Optionale USB-NFC-Steuerung mit getrennten, lokal zugeordneten Tags. Auflegen

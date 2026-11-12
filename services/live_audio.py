@@ -26,7 +26,7 @@ from meeting_recorder.audio import Recorder
 from meeting_recorder.child_process import owned_command
 
 
-def native_capture_command(config, *, proc_root='/proc/asound'):
+def native_capture_command(config, *, proc_root='/proc/asound', timed_probe=False):
     """Use the exact ALSA card's PipeWire source to share duplex USB hardware.
 
     Never chooses a default source or matches a display name. Without a mapped
@@ -66,6 +66,10 @@ def native_capture_command(config, *, proc_root='/proc/asound'):
                    and str(s.get('properties', {}).get('alsa.device')) == number]
         if not matches: return Recorder.command(config)
     if len(matches) != 1: raise ValueError('Mehrere Audioquellen passen zum Mikrofon. Audioeinstellungen prüfen.')
+    if timed_probe:
+        # The shared probe appends '-d 5'. Only the timed capture adapter
+        # interprets that as a duration; parec uses '-d' for its device.
+        return Recorder.command({'device': 'pulse:' + matches[0]['name']})
     return ['parec', '--device=' + matches[0]['name'], '--raw', '--format=s16le', '--rate=16000',
             '--channels=1', '--latency-msec=40']
 

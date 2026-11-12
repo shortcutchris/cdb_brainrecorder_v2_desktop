@@ -40,10 +40,41 @@ class StudioTests(unittest.TestCase):
         raw.unlink();wav.unlink()
         self.assertIsNone(next(j for j in self.app.state()['jobs'] if j['id']==ident)['audio_file_bytes'])
 
+    def test_probe_counts_captured_seconds_and_requires_a_saved_sample(self):
+        app = self.app
+        with patch.object(app.probe,'start',return_value={'state':'running'}):
+            status, data, _ = self.request('/api/microphone/test', {})
+            self.assertEqual(status, 200)
+            self.assertEqual(json.loads(data)['seconds_left'], 5)
+        raw, wav = app.probe.folder/'audio.pcm', app.probe.folder/'audio.wav'
+        for seconds in range(6):
+            raw.write_bytes(bytes(seconds * 32000))
+            self.assertEqual(app.microphone_progress({'state': 'running'})['seconds_left'], 5 - seconds)
+        app.probe_started_ns = raw.stat().st_mtime_ns + 1
+        self.assertEqual(app.microphone_progress({'state': 'running'})['seconds_left'], 5)
+        raw.unlink()
+        app.probe.update(state='completed', device=app.store.config()['device'])
+        self.assertEqual(app.state()['microphone_test']['state'], 'failed')
+        self.assertFalse(app.setup_state()['checks'][0]['ok'])
+        wav.write_bytes((self.root/'test.wav').read_bytes())
+        self.assertEqual(app.state()['microphone_test']['sample_id'], str(wav.stat().st_mtime_ns))
+        self.assertTrue(app.setup_state()['checks'][0]['ok'])
+
     def test_recorder_and_probe_use_shared_explicit_audio_source(self):
-        from services.live_audio import native_capture_command
-        self.assertIs(self.app.engine.recorder.command_factory, native_capture_command)
-        self.assertIs(self.app.probe.recorder, self.app.engine.recorder)
+        recorder = self.app.engine.recorder
+        self.assertIs(self.app.probe.recorder, recorder)
+        config = {'device': 'pulse:array'}
+        sources = [{'name': 'array', 'properties': {}}]
+        with patch('services.live_audio.shutil.which', return_value='/usr/bin/tool'), \
+             patch('services.live_audio.subprocess.run') as run:
+            run.return_value.stdout = json.dumps(sources)
+            self.assertEqual(recorder.command_factory(config)[0], 'parec')
+            recorder.probe = True
+            try:
+                self.assertEqual(recorder.command_factory(config),
+                                 [sys.executable, '-m', 'meeting_recorder.capture_source', '--device', 'array'])
+            finally:
+                recorder.probe = False
 
     def test_injected_capture_factory_remains_available_for_isolated_tests(self):
         factory = lambda config: ['synthetic-capture']
@@ -390,6 +421,7 @@ class StudioTests(unittest.TestCase):
         self.assertEqual(self.request('/api/cdb/send',{'session':self.sid,'area':'invalid'})[0],400)
         self.assertEqual(json.loads(self.request('/api/state')[1])['cdb']['config']['summary'],'local')
     def test_cloud_setup_does_not_require_unused_local_models(self):
+        (self.app.probe.folder/'audio.wav').write_bytes((self.root/'test.wav').read_bytes())
         with patch.object(self.app.cdb,'config',return_value={'transcription':'cdb','summary':'cdb'}), patch.object(self.app.cdb,'read',return_value={'identity':{'user_id':'synthetic'}}), patch.object(self.app.models,'catalog',return_value={'whisper_runtime':False,'ollama':False,'asr':[],'llm':[]}), patch.object(self.app.probe,'status',return_value={'state':'completed','device':'default'}), patch.object(self.app,'model_test_preflight'):
             setup=self.app.setup_state()
             self.assertTrue(setup['ready']);self.assertEqual(len(setup['checks']),2)
