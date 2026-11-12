@@ -1,0 +1,12 @@
+test_invalid_bounds_are_rejected (test_wake_candidate_comparison.PairedCandidateTests.test_invalid_bounds_are_rejected) ... ok
+test_missing_candidate_or_context_never_pads_or_invokes_model (test_wake_candidate_comparison.PairedCandidateTests.test_missing_candidate_or_context_never_pads_or_invokes_model) ... ok
+test_models_receive_identical_complete_windows_with_fixed_tails (test_wake_candidate_comparison.PairedCandidateTests.test_models_receive_identical_complete_windows_with_fixed_tails) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.000s
+
+OK
+----------------------------------------------------------------------
+Ran 12 tests in 0.468s
+
+OK

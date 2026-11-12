@@ -1,0 +1,45 @@
+{
+  "frozen_before_generation_utc": "2026-10-16T13:40:49.376494+00:00",
+  "production_integration": false,
+  "candidate_threshold": 0.15,
+  "primary_cutoff_unchanged": 0.85,
+  "lookback_seconds": 2,
+  "tail_seconds": 0.8,
+  "minimum_rearm_seconds": 2,
+  "low_score_frames_to_rearm": 6,
+  "verifier_timeout_seconds": 3,
+  "verifier_model": "ggml-base.bin",
+  "verifier_sha256": "60ed5bc3dd14eea856493d334349b405782ddcaf0028d4b5df4088345fba2efe",
+  "prompt": "Nabu.",
+  "tts_model": "eleven_multilingual_v2",
+  "language": "de",
+  "speed": 1.0,
+  "voice_cloning_performed": false,
+  "voices": [
+    {
+      "label": "charlie",
+      "id": "vmVmHDKBkkCgbLVIOJRb",
+      "positive": "Okay Nabu.",
+      "negative": "Okay, na gut. Okay, na bitte. Okay, na klar."
+    },
+    {
+      "label": "hl",
+      "id": "b0JqlN5qkeuPi5BoQiHn",
+      "positive": "Okay Nabu.",
+      "negative": "Okay, nach Hause. Okay, na und? Ich habe ein Abo."
+    }
+  ],
+  "file_cases_per_voice": [
+    "single positive",
+    "double positive separated by five seconds; first utterance must activate, only one activation before owner release",
+    "full negative clip including all candidate attempts"
+  ],
+  "audio_storage": "Only generated synthetic files; no room PCM or transcript",
+  "limits": [
+    "Two new synthetic voices, not natural speaker acceptance",
+    "No tuning or re-generation to replace a failed case",
+    "File checks precede any additional room test",
+    "Production observer plan unchanged; isolated CPU load is lab load"
+  ],
+  "first_call_deadline": "utterance end plus 4 seconds: 0.8s tail + up to 3s verifier + 0.2s scheduling; double must also precede second call"
+}

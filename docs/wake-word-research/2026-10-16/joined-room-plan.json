@@ -1,0 +1,32 @@
+{
+  "frozen_at": "2026-10-16T14:05:57.470716+00:00",
+  "matcher": "exact_joined_v2",
+  "inherited_parameters": "joined-spelling-plan.json",
+  "external_speaker": "Mac Studio built-in speaker, existing system volume, playback gain 1.0, original rate",
+  "quiet_seconds": 30,
+  "cases": [
+    {
+      "file": "charlie-positive.wav",
+      "expected": true,
+      "sha256": "69a4de7344f9b2a5c1e10aa35b0850c316e4323e6d86d9bab9205fb3e14a4ac9"
+    },
+    {
+      "file": "sarah-positive.wav",
+      "expected": true,
+      "sha256": "268d125bb3b722e572c716fdb5b45c7f735e460a479c1b984e2c767f557e1a85"
+    },
+    {
+      "file": "will-negative.wav",
+      "expected": false,
+      "sha256": "71f210a6de2ffbec9fe0088fe1ff303aa29ea86cc1abcca478bd9f95b0b7eecb"
+    },
+    {
+      "file": "charlie-negative.wav",
+      "expected": false,
+      "sha256": "3497a90aacfe783a04c00e451c6fa3f2b7f198195c619430040df2180538facc"
+    }
+  ],
+  "audio_storage": "transient room PCM only; no room audio/text persisted",
+  "pass_rule": "each positive exactly one detection after playback, negatives zero, no pre-play hits, all verifier/capture owners released; no production Live start",
+  "limits": "four known synthetic files, first room test of this matcher; no natural or eight-hour acceptance"
+}

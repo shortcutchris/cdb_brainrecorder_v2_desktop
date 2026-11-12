@@ -1,0 +1,408 @@
+{
+  "playback_host": "Mac Studio",
+  "playback_device": "BuiltInSpeakerDevice",
+  "system_default_audio_changed": false,
+  "playbacks": [
+    {
+      "index": 0,
+      "expected": true,
+      "start_epoch": 1792157578.5223,
+      "end_epoch": 1792157580.733094,
+      "returncode": 0,
+      "output": "Device volume channel 0: 0.49999997\nPlaying on Mac Studio-Lautsprecher, UID BuiltInSpeakerDevice, duration 1.068125, player volume 1.0, native rate",
+      "error": ""
+    },
+    {
+      "index": 1,
+      "expected": true,
+      "start_epoch": 1792157614.162524,
+      "end_epoch": 1792157616.1034691,
+      "returncode": 0,
+      "output": "Device volume channel 0: 0.49999997\nPlaying on Mac Studio-Lautsprecher, UID BuiltInSpeakerDevice, duration 0.882375, player volume 1.0, native rate",
+      "error": ""
+    },
+    {
+      "index": 2,
+      "expected": false,
+      "start_epoch": 1792157653.2804759,
+      "end_epoch": 1792157658.182375,
+      "returncode": 0,
+      "output": "Device volume channel 0: 0.49999997\nPlaying on Mac Studio-Lautsprecher, UID BuiltInSpeakerDevice, duration 4.0, player volume 1.0, native rate",
+      "error": ""
+    },
+    {
+      "index": 3,
+      "expected": false,
+      "start_epoch": 1792157692.176955,
+      "end_epoch": 1792157700.958383,
+      "returncode": 0,
+      "output": "Device volume channel 0: 0.49999997\nPlaying on Mac Studio-Lautsprecher, UID BuiltInSpeakerDevice, duration 7.8, player volume 1.0, native rate",
+      "error": ""
+    }
+  ],
+  "capture_returncode": 0,
+  "capture_error": "",
+  "capture": {
+    "synthetic_acoustic": true,
+    "production_live_handoff": false,
+    "phrase": "okay-nabu",
+    "external_playback": true,
+    "compare_stereo": false,
+    "signal_diagnostics": true,
+    "version": "0.5.60",
+    "quiet_seconds": 30.0,
+    "started_epoch": 1792157547.6259363,
+    "cases": [
+      {
+        "clip": "positive.wav",
+        "sha256": "8e3e02991ae170f52ca909bf8b27732c6a07e5e00b885d5dad18ca2ead10ad4e",
+        "detections": 0,
+        "decisions": [],
+        "play_at_seconds": 30.0,
+        "playback_exit": null,
+        "audio": {
+          "blocks": 683,
+          "speech_segments": 0,
+          "accepted": 0,
+          "candidate_rejected": 0,
+          "partial_wake_word": 0,
+          "other_speech": 0,
+          "onset_renewals": 0,
+          "decision": "none",
+          "peak_dbfs": -6.6,
+          "rms_dbfs": -35.6
+        },
+        "paired_windows": {
+          "mode": "paired_post_capture",
+          "candidate_frame": 90,
+          "lookback_seconds": 2,
+          "candidate_threshold": 0.15,
+          "transcript_saved": false,
+          "production_trigger": false,
+          "windows": [
+            {
+              "tail_seconds": 0.8,
+              "start_frame": 50,
+              "end_frame": 106,
+              "audio_seconds": 2.8,
+              "models": {
+                "primary": {
+                  "detected": false,
+                  "returncode": 0,
+                  "error": null,
+                  "wall_seconds": 0.3357
+                },
+                "comparison": {
+                  "detected": true,
+                  "returncode": 0,
+                  "error": null,
+                  "wall_seconds": 0.6034
+                }
+              }
+            },
+            {
+              "tail_seconds": 1.6,
+              "start_frame": 50,
+              "end_frame": 122,
+              "audio_seconds": 3.6,
+              "models": {
+                "primary": {
+                  "detected": false,
+                  "returncode": 0,
+                  "error": null,
+                  "wall_seconds": 0.3366
+                },
+                "comparison": {
+                  "detected": false,
+                  "returncode": 0,
+                  "error": null,
+                  "wall_seconds": 0.6543
+                }
+              }
+            }
+          ]
+        },
+        "capture_pre_roll_seconds": 2.0,
+        "signal_alignment": {
+          "correlation": 0.165,
+          "lag_seconds": 3.64
+        },
+        "max_model_probability": 0.63281,
+        "unchanged_probability_cutoff": 0.85
+      },
+      {
+        "clip": "positive.wav",
+        "sha256": "d4435cb0e11eefc342443a6464abcd18d5df687ac43646e52d7f0abc955967ad",
+        "detections": 0,
+        "decisions": [],
+        "play_at_seconds": 30.0,
+        "playback_exit": null,
+        "audio": {
+          "blocks": 717,
+          "speech_segments": 0,
+          "accepted": 0,
+          "candidate_rejected": 0,
+          "partial_wake_word": 0,
+          "other_speech": 0,
+          "onset_renewals": 0,
+          "decision": "none",
+          "peak_dbfs": -9.4,
+          "rms_dbfs": -32.5
+        },
+        "paired_windows": {
+          "mode": "paired_post_capture",
+          "candidate_frame": 77,
+          "lookback_seconds": 2,
+          "candidate_threshold": 0.15,
+          "transcript_saved": false,
+          "production_trigger": false,
+          "windows": [
+            {
+              "tail_seconds": 0.8,
+              "start_frame": 37,
+              "end_frame": 93,
+              "audio_seconds": 2.8,
+              "models": {
+                "primary": {
+                  "detected": false,
+                  "returncode": 0,
+                  "error": null,
+                  "wall_seconds": 1.8518
+                },
+                "comparison": {
+                  "detected": true,
+                  "returncode": 0,
+                  "error": null,
+                  "wall_seconds": 0.6173
+                }
+              }
+            },
+            {
+              "tail_seconds": 1.6,
+              "start_frame": 37,
+              "end_frame": 109,
+              "audio_seconds": 3.6,
+              "models": {
+                "primary": {
+                  "detected": false,
+                  "returncode": 0,
+                  "error": null,
+                  "wall_seconds": 1.8177
+                },
+                "comparison": {
+                  "detected": true,
+                  "returncode": 0,
+                  "error": null,
+                  "wall_seconds": 0.6231
+                }
+              }
+            }
+          ]
+        },
+        "capture_pre_roll_seconds": 2.0,
+        "signal_alignment": {
+          "correlation": 0.1841,
+          "lag_seconds": 0.617
+        },
+        "max_model_probability": 0.58359,
+        "unchanged_probability_cutoff": 0.85
+      },
+      {
+        "clip": "confuser.wav",
+        "sha256": "2c984111dbd599ab36cf29200b09638d23612ab0b45d7fb35833a01b8f29b450",
+        "detections": 7,
+        "decisions": [
+          {
+            "at_seconds": 32.43,
+            "category": "accepted"
+          },
+          {
+            "at_seconds": 32.47,
+            "category": "accepted"
+          },
+          {
+            "at_seconds": 32.56,
+            "category": "accepted"
+          },
+          {
+            "at_seconds": 32.6,
+            "category": "accepted"
+          },
+          {
+            "at_seconds": 32.62,
+            "category": "accepted"
+          },
+          {
+            "at_seconds": 32.67,
+            "category": "accepted"
+          },
+          {
+            "at_seconds": 32.75,
+            "category": "accepted"
+          }
+        ],
+        "play_at_seconds": 30.04,
+        "playback_exit": null,
+        "audio": {
+          "blocks": 839,
+          "speech_segments": 7,
+          "accepted": 7,
+          "candidate_rejected": 0,
+          "partial_wake_word": 0,
+          "other_speech": 0,
+          "onset_renewals": 0,
+          "decision": "accepted",
+          "peak_dbfs": -9.6,
+          "rms_dbfs": -37.6
+        },
+        "paired_windows": {
+          "mode": "paired_post_capture",
+          "candidate_frame": 84,
+          "lookback_seconds": 2,
+          "candidate_threshold": 0.15,
+          "transcript_saved": false,
+          "production_trigger": false,
+          "windows": [
+            {
+              "tail_seconds": 0.8,
+              "start_frame": 44,
+              "end_frame": 100,
+              "audio_seconds": 2.8,
+              "models": {
+                "primary": {
+                  "detected": false,
+                  "returncode": 0,
+                  "error": null,
+                  "wall_seconds": 0.3798
+                },
+                "comparison": {
+                  "detected": false,
+                  "returncode": 0,
+                  "error": null,
+                  "wall_seconds": 0.6525
+                }
+              }
+            },
+            {
+              "tail_seconds": 1.6,
+              "start_frame": 44,
+              "end_frame": 116,
+              "audio_seconds": 3.6,
+              "models": {
+                "primary": {
+                  "detected": false,
+                  "returncode": 0,
+                  "error": null,
+                  "wall_seconds": 0.3795
+                },
+                "comparison": {
+                  "detected": false,
+                  "returncode": 0,
+                  "error": null,
+                  "wall_seconds": 0.7257
+                }
+              }
+            }
+          ]
+        },
+        "capture_pre_roll_seconds": 2.0,
+        "signal_alignment": {
+          "correlation": 0.1802,
+          "lag_seconds": 3.274
+        },
+        "max_model_probability": 0.93125,
+        "unchanged_probability_cutoff": 0.85
+      },
+      {
+        "clip": "acoustic-negative.wav",
+        "sha256": "c9678a4da659cf683372fb2f0316fdd837a071d6aba4625a84c48495fbddbe46",
+        "detections": 0,
+        "decisions": [],
+        "play_at_seconds": 30.0,
+        "playback_exit": null,
+        "audio": {
+          "blocks": 861,
+          "speech_segments": 0,
+          "accepted": 0,
+          "candidate_rejected": 0,
+          "partial_wake_word": 0,
+          "other_speech": 0,
+          "onset_renewals": 0,
+          "decision": "none",
+          "peak_dbfs": -8.2,
+          "rms_dbfs": -37.5
+        },
+        "paired_windows": {
+          "mode": "paired_post_capture",
+          "candidate_frame": 85,
+          "lookback_seconds": 2,
+          "candidate_threshold": 0.15,
+          "transcript_saved": false,
+          "production_trigger": false,
+          "windows": [
+            {
+              "tail_seconds": 0.8,
+              "start_frame": 45,
+              "end_frame": 101,
+              "audio_seconds": 2.8,
+              "models": {
+                "primary": {
+                  "detected": false,
+                  "returncode": 0,
+                  "error": null,
+                  "wall_seconds": 1.8197
+                },
+                "comparison": {
+                  "detected": false,
+                  "returncode": 0,
+                  "error": null,
+                  "wall_seconds": 0.6512
+                }
+              }
+            },
+            {
+              "tail_seconds": 1.6,
+              "start_frame": 45,
+              "end_frame": 117,
+              "audio_seconds": 3.6,
+              "models": {
+                "primary": {
+                  "detected": false,
+                  "returncode": 0,
+                  "error": null,
+                  "wall_seconds": 1.8127
+                },
+                "comparison": {
+                  "detected": false,
+                  "returncode": 0,
+                  "error": null,
+                  "wall_seconds": 0.6817
+                }
+              }
+            }
+          ]
+        },
+        "capture_pre_roll_seconds": 2.0,
+        "signal_alignment": {
+          "correlation": 0.111,
+          "lag_seconds": 3.006
+        },
+        "max_model_probability": 0.24063,
+        "unchanged_probability_cutoff": 0.85
+      }
+    ],
+    "whisper_lab": {
+      "model_sha256": "be07e048e1e599ad46341c8d2a135645097a538221678b7acdd1b1919c6e1b21",
+      "binary_sha256": "edc5829b59668a3697392c8c4425db27de39e02fee9dcf35549961a5f3d4ecaa",
+      "audio_context": 256,
+      "initial_prompt": "Nabu.",
+      "production_integration": false,
+      "room_text_saved": false,
+      "streaming": false,
+      "paired_model_sha256": "60ed5bc3dd14eea856493d334349b405782ddcaf0028d4b5df4088345fba2efe",
+      "paired_post_capture": true
+    },
+    "maintenance_released": true,
+    "finished_epoch": 1792157708.09458
+  }
+}
