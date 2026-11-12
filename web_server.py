@@ -28,7 +28,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.72'
+VERSION = '0.5.73'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -724,7 +724,7 @@ class StudioApp:
                 self.require('configure');return self.speakers.start_test()
             if path=='/api/record/start':
                 self.require('record')
-                if not self.store.config()['setup_complete']:raise ValueError('Kein getestetes Mikrofon. Bitte Einstellungen öffnen und Audio-Einrichtung abschließen.')
+                if not self.store.config()['setup_complete']:raise ValueError('Bitte unter Einstellungen die Recorder-Einrichtung prüfen und abschließen.')
                 if self.engine.recorder.active:raise ValueError('Aufnahme läuft bereits.')
                 return {'id':self.engine.start('')}
             if path=='/api/record/control':

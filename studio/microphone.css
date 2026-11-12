@@ -1,4 +1,4 @@
-/* Two stable columns: capture controls on the left, setup checks on the right. */
+/* Two stable columns: capture controls on the left, sample playback on the right. */
 #settings #audio-page .audio-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;align-content:start}
 .audio-input-column,.audio-check-column{min-width:0;display:flex;flex-direction:column;gap:16px}
 #settings #audio-page h3{font-size:22px;line-height:28px;letter-spacing:-.3px;margin:0 0 8px}
@@ -26,18 +26,25 @@
 #probe-seek::-moz-range-track{height:6px;background:var(--line);border-radius:8px}
 #probe-seek::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--accent);border:2px solid var(--surface)}
 .probe-times{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;line-height:16px;font-variant-numeric:tabular-nums}
-#settings #audio-page #checks{display:flex;flex-direction:column;flex-wrap:nowrap;gap:8px;margin:0}
-#settings #audio-page .audio-check{display:flex;align-items:center;gap:12px;min-height:62px;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+#settings #setup-page #checks{display:flex;flex-direction:column;flex-wrap:nowrap;gap:8px;margin:0}
+#settings #setup-page .audio-check{display:flex;align-items:center;gap:12px;min-height:62px;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
 .audio-check>img{width:22px;height:22px;flex:0 0 22px;opacity:.6}
 .audio-check[data-ready=true]>img{opacity:1}
 .audio-check-label{min-width:0;flex:1;font-size:14px;line-height:20px;font-weight:550}
 .audio-check-state{flex-shrink:0;font-size:12px;color:var(--muted);white-space:nowrap}
 .audio-check[data-ready=true] .audio-check-state{color:var(--accent-text)}
 #settings #probe-audio{display:none}
-@media(max-height:740px){.audio-input-column,.audio-check-column{gap:12px}#settings #audio-page .audio-layout{gap:20px}.audio-meter-card,.probe-player{padding:14px}#settings #audio-page .audio-check{min-height:58px;padding:10px 12px}}
+@media(max-height:740px){.audio-input-column,.audio-check-column{gap:12px}#settings #audio-page .audio-layout{gap:20px}.audio-meter-card,.probe-player{padding:14px}#settings #setup-page .audio-check{min-height:58px;padding:10px 12px}}
 @media(max-width:850px){#settings #audio-page .audio-layout{grid-template-columns:minmax(0,1fr)}.audio-check-column{margin-top:8px}}
 .audio-check>img{filter:var(--icon-filter)}
 .audio-check[data-ready=true]>img{filter:var(--active-filter)}
 #probe-play img{filter:brightness(0) invert(var(--on-icon,1))}
 #settings #probe-seek{height:44px;min-height:44px}
 .probe-times{font-size:13px}
+
+#settings #setup-page .audio-check{width:100%;text-align:left;margin:0}
+#settings #setup-page .audio-check-label{white-space:normal}
+#settings #setup-page #setup-progress{margin-top:16px;color:var(--text)}
+#settings.workspace-view #setup-page>.dialog-actions{justify-content:flex-end}
+#settings #setup-page #finish-setup{min-width:var(--settings-action-width)}
+@media(max-width:850px){#settings #setup-page .settings-columns{grid-template-columns:minmax(0,1fr)}}

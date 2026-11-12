@@ -10,7 +10,7 @@ Ein **neues oder ausgetauschtes ReSpeaker** kann dagegen eine andere Firmware ha
 
 | Situation | Was ist zu tun? |
 | --- | --- |
-| Dasselbe eingerichtete Mikrofon erneut anschließen | Anschließen, Geräte aktualisieren, kurzen Mikrofontest machen. Kein Flashen. |
+| Dasselbe eingerichtete Mikrofon erneut anschließen | Anschließen, Mikrofone suchen, kurzen Mikrofontest machen. Kein Flashen. |
 | Pi neu starten oder dieselbe SD-Karte in einen anderen Pi einsetzen | Mikrofon anschließen und Auswahl prüfen. Die Firmware befindet sich weiterhin im Mikrofon. |
 | Pi mit neuer SD-Karte / neu installiertem System | Recorder und Diagnosewerkzeuge bei Bedarf neu einrichten. Die Mikrofon-Firmware bleibt erhalten. |
 | Neues oder anderes ReSpeaker anschließen | USB-Erkennung und Firmware prüfen; nur bei Bedarf auf USB umstellen. |
@@ -21,10 +21,10 @@ Ein **neues oder ausgetauschtes ReSpeaker** kann dagegen eine andere Firmware ha
 
 1. Eine laufende Aufnahme einschließlich Pause zuerst mit **Stoppen** beenden. Das Mikrofon während der Aufnahme nicht abziehen.
 2. Ein USB-**Datenkabel** vom Pi zum **XMOS-USB-C-Anschluss direkt neben der 3,5-mm-Klinkenbuchse** verwenden. Der blaue USB-A-Port des Pi ist geeignet. Der zweite USB-C-Port einer XIAO-Variante ist nicht der USB-Audioanschluss des XMOS.
-3. In der App **Einstellungen → Audio → Mikrofon → Geräte aktualisieren** öffnen.
+3. In der App **Einstellungen → Audio → Mikrofon → Mikrofone suchen** öffnen.
 4. **reSpeaker XVF3800 4-Mic Array** auswählen. Das Array kann als `plughw:CARD=Array,DEV=0` oder `sysdefault:CARD=Array` erscheinen. Am Gehäuse-Pi wurde der fünfsekündige Test mit `sysdefault:CARD=Array` bestätigt. Gerätenummern können sich ändern; nicht dauerhaft auf „Karte 2“ verlassen.
-5. **Mikrofon testen · 5 Sekunden** antippen und sofort einen vollständigen kurzen Satz sprechen. Der Knopf direkt unter dem Pegel zählt die verbleibenden Sekunden. Rechts wechselt **Mikrofontest** auf **Läuft …**. Nach dem Speichern erscheint **Bereit** und direkt darunter lässt sich die **Testaufnahme → Anhören**. Der Pegel ist dann wieder inaktiv.
-6. Bei einem anderen Eingang ist ein neuer Test nötig. Die Probe des vorherigen Eingangs ist als **Frühere Aufnahme** gekennzeichnet. Falls die Einrichtung als offen angezeigt wird, die noch offenen Prüfpunkte abschließen. Danach zum Recorder zurückgehen.
+5. **Mikrofon testen · 5 Sekunden** antippen und sofort einen vollständigen kurzen Satz sprechen. Der Knopf direkt unter dem Pegel zählt die verbleibenden Sekunden. Sobald der Countdown endet, erscheint die Probe unter **Test anhören**. Tippe auf **Anhören** und prüfe deine Stimme. Der Pegel ist dann wieder inaktiv.
+6. Bei einem anderen Eingang ist ein neuer Test nötig. Die Probe des vorherigen Eingangs ist als **Frühere Aufnahme** gekennzeichnet. Unter **Recorder-Einrichtung** stehen der Mikrofontest und die Voraussetzungen der gewählten KI. Offene Einträge führen direkt zur passenden Einstellung.
 
 LEDs zeigen zunächst nur, dass das Gerät Strom hat. Erst die Geräteliste und ein erfolgreicher Audiotest bestätigen die Aufnahmeverbindung. [Seeed: USB-Diagnose](https://wiki.seeedstudio.com/respeaker_xvf3800_faq/)
 
@@ -72,13 +72,13 @@ Für eine neue Pi-Installation einmalig `scripts/install-respeaker.sh` aus dem R
 
 | Beobachtung | Nächster Schritt |
 | --- | --- |
-| LEDs leuchten, aber kein Mikrofon in der App | Geräte aktualisieren; richtigen USB-C-Anschluss und ein sicher datenfähiges Kabel prüfen. |
+| LEDs leuchten, aber kein Mikrofon in der App | Mikrofone suchen; richtigen USB-C-Anschluss und ein sicher datenfähiges Kabel prüfen. |
 | Auch `lsusb` zeigt kein ReSpeaker | Anderes Datenkabel und direkten Pi-Port testen. Bei weiterhin fehlender Erkennung Safe Mode prüfen. |
 | ReSpeaker nur im Safe Mode sichtbar | USB-Verbindung funktioniert grundsätzlich; USB-Firmware / Recovery prüfen. Im Safe Mode ist keine normale Aufnahme möglich. |
 | `lsusb` zeigt das Gerät, `arecord -l` aber keine Aufnahmequelle | Betriebsmodus und USB-Audio-Treiber prüfen; nicht wahllos Gerätepfade in der App ändern. |
 | Quelle vorhanden, Aufnahme sehr leise | Normal sprechen, Hardware-Mute prüfen, Mikrofonöffnungen freihalten und Testaufnahme anhören. Ruhiger Raum allein kann einen niedrigen Pegel erklären. |
 | „Gerät belegt“ / Aufnahme startet nicht | Laufenden Mikrofontest und andere Aufnahmeprogramme beenden; anschließend erneut testen. |
-| Nach Abziehen erscheint die Quelle nicht mehr | Wieder anschließen und Geräte aktualisieren. Falls während einer Aufnahme abgezogen: betroffene Aufnahme und Fehlerhinweis prüfen. |
+| Nach Abziehen erscheint die Quelle nicht mehr | Wieder anschließen und Mikrofone suchen. Falls während einer Aufnahme abgezogen: betroffene Aufnahme und Fehlerhinweis prüfen. |
 | Gute Pegel, aber Fehler im Transkript | Längere Sprachprobe aufnehmen; Mikrofonposition, Raumakustik und Transkriptionsmodell getrennt beurteilen. Firmware nicht allein wegen eines Erkennungsfehlers neu installieren. |
 
 Unser erster Test im ruhigen Raum war sehr leise. Im gesprochenen Folgetest erreichte der Pegel **61/100**, ohne übersteuerte Samples. Whisper Medium erkannte Sprache, aber nicht fehlerfrei; die fünf Sekunden benötigten rund **80 Sekunden**. Dies ist ein einzelner Kurztest und keine belastbare Hochrechnung für eine Stunde Audio. [Messwerte und Installationsprotokoll](respeaker-2026-10-13/README.md)

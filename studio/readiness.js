@@ -17,10 +17,10 @@ function recorderReadiness(s,connected,snapshot){
   if(check.label==='CDB-Firmenanmeldung')return status('error','Brain anmelden','connection-page');
   if(['Transkriptionsprogramm vorhanden','Sprachmodell installiert'].includes(check.label))return status('error','Transkription prüfen','asr-page');
   if(['Lokaler Modelldienst bereit','Zusammenfassungsmodell installiert'].includes(check.label))return status('error','Zusammenfassung prüfen','llm-page');
-  return status('error','Einrichtung prüfen','models-page');
+  return status('error','Einrichtung prüfen','setup-page');
  }
- if(!s.config.setup_complete)return status('error','Einrichtung abschließen','audio-page');
- if(s.capabilities?.record?.allowed===false)return status('error',/Speicher/.test(s.capabilities.record.reason)?'Speicher knapp':'Einrichtung prüfen',/Speicher/.test(s.capabilities.record.reason)?'library':'audio-page');
+ if(!s.config.setup_complete)return status('error','Einrichtung abschließen','setup-page');
+ if(s.capabilities?.record?.allowed===false)return status('error',/Speicher/.test(s.capabilities.record.reason)?'Speicher knapp':'Einrichtung prüfen',/Speicher/.test(s.capabilities.record.reason)?'library':'setup-page');
  return status('ready','Aufnahmebereit');
 }
 function readinessKey(s){return JSON.stringify([s?.config,s?.cdb?.config,s?.cdb?.identity?.user_id,s?.microphone_test,s?.installation?.state,s?.model_check?.state])}

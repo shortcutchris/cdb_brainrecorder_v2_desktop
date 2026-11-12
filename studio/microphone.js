@@ -18,18 +18,48 @@ function renderMicrophone(probe){
  const view=microphoneView(probe,connected,$('mic-select').value);
  const remaining=probe.seconds_left??5;
  $('probe-start').dataset.counting=String(view.running&&online);
- $('probe-start').textContent=view.running&&online?(remaining>0?'Noch '+remaining+' s':'Aufnahme wird abgeschlossen …'):'Mikrofon testen · 5 Sekunden';
- $('probe-level').value=view.level;$('probe-level-label').textContent=view.label;$('probe-state').textContent=view.message;
+ const lock=state?.capabilities?.probe;
+ const idleLabel=view.ready?'Erneut testen · 5 Sekunden':'Mikrofon testen · 5 Sekunden';
+ $('probe-start').textContent=view.running&&online?(remaining>0?'Noch '+remaining+' s':'Aufnahme wird abgeschlossen …'):idleLabel;
+ $('probe-level').value=view.level;$('probe-level-label').textContent=view.label;$('probe-state').textContent=!view.running&&online&&connected&&lock?.allowed===false&&lock.reason?view.message+' Neuer Test gesperrt: '+lock.reason:view.message;
  if(view.running||state?.recording.id||!online)pauseMicrophoneAudio();
  if(probe.state!=='completed'&&probeAudio.hasAttribute('src')){probeAudio.removeAttribute('src');probeAudio.load();probePlaybackError=false}
- const labels={'Mikrofon getestet':'Mikrofontest','Transkriptionsprogramm vorhanden':'Whisper-Laufzeit','Sprachmodell installiert':'Transkriptionsmodell','Lokaler Modelldienst bereit':'Lokaler Modelldienst','Zusammenfassungsmodell installiert':'Zusammenfassungsmodell','CDB-Firmenanmeldung':'Brain-Konto'};
  const checks=microphoneChecks.map(check=>{
   const mic=check.label==='Mikrofon getestet';
-  return {label:labels[check.label]||check.label,ok:mic?view.ready:online&&check.ok,
+  return {label:check.label,ok:mic?view.ready:online&&check.ok,
    status:mic?view.checkStatus:!online?'Offline':check.ok?'Bereit':'Offen'};
  });
- const signature=JSON.stringify(checks);if(signature!==microphoneCheckSignature){microphoneCheckSignature=signature;$('checks').replaceChildren();for(const check of checks){const row=document.createElement('div');row.className='audio-check';row.dataset.ready=String(check.ok);row.setAttribute('role','listitem');const label=document.createElement('span');label.className='audio-check-label';label.textContent=check.label;const status=document.createElement('span');status.className='audio-check-state';status.textContent=check.status;row.append(icon(check.ok?'check-circle':'circle'),label,status);$('checks').append(row)}}
+ renderSetupChecklist(checks);
  renderProbePlayer(view);
+}
+const setupDestinations={
+ 'Mikrofon getestet':['Mikrofontest','audio-page'],
+ 'Transkriptionsprogramm vorhanden':['Whisper-Laufzeit','asr-page'],
+ 'Sprachmodell installiert':['Transkriptionsmodell','asr-page'],
+ 'Lokaler Modelldienst bereit':['Lokaler Modelldienst','llm-page'],
+ 'Zusammenfassungsmodell installiert':['Zusammenfassungsmodell','llm-page'],
+ 'CDB-Firmenanmeldung':['Brain-Konto','connection-page']
+};
+function renderSetupChecklist(checks){
+ const open=checks.filter(check=>!check.ok).length;
+ $('setup-progress').textContent=!online?'Verbindung unterbrochen.':!checks.length?'Status wird geprüft …':
+  open?(open===1?'Ein Schritt ist offen.':open+' Schritte sind offen.')+' Tippe auf einen Eintrag, um ihn zu prüfen.':
+  state.config?.setup_complete?'Einrichtung abgeschlossen.': 'Alle Voraussetzungen sind erfüllt. Du kannst die Einrichtung abschließen.';
+ const signature=JSON.stringify(checks);
+ if(signature===microphoneCheckSignature)return;
+ microphoneCheckSignature=signature;
+ $('checks').replaceChildren();
+ for(const check of checks){
+  const [title,page]=setupDestinations[check.label]||[check.label,null];
+  const row=document.createElement(page?'button':'div');
+  row.className='audio-check';row.dataset.ready=String(check.ok);
+  if(page)row.onclick=()=>showSettingsDetail(page);
+  const label=document.createElement('span');label.className='audio-check-label';label.textContent=title;
+  const status=document.createElement('span');status.className='audio-check-state';status.textContent=check.status;
+  row.append(icon(check.ok?'check-circle':'circle'),label,status);
+  if(page)row.append(icon('caret-right'));
+  $('checks').append(row);
+ }
 }
 function renderProbePlayer(view){
  view=view||microphoneView(state?.microphone_test||{},microphoneDevices.some(d=>d.id===$('mic-select').value),$('mic-select').value);

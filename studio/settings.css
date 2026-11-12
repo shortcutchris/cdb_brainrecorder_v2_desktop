@@ -112,13 +112,23 @@
 #settings #connection-page #cdb-login-message{min-height:44px}
 /* Equal action widths; the flexible second column preserves the left/right grouping. */
 #settings{--settings-action-width:clamp(156px,calc((100vw - 172px)/4),208px);--settings-trail-width:160px}
-#settings.workspace-view :is(#audio-page,#connection-page,#asr-page,#llm-page,#prompts-page,#appearance-page,#models-page)>.dialog-actions{display:grid;grid-template-columns:var(--settings-action-width) minmax(var(--settings-action-width),1fr) repeat(2,var(--settings-action-width));gap:12px}
-#settings.workspace-view :is(#audio-page,#connection-page,#asr-page,#llm-page,#prompts-page,#appearance-page,#models-page)>.dialog-actions button{width:100%;min-width:0;grid-row:1;justify-self:stretch}
+#settings.workspace-view :is(#connection-page,#asr-page,#llm-page,#prompts-page,#appearance-page,#models-page)>.dialog-actions{display:grid;grid-template-columns:var(--settings-action-width) minmax(var(--settings-action-width),1fr) repeat(2,var(--settings-action-width));gap:12px}
+#settings.workspace-view :is(#connection-page,#asr-page,#llm-page,#prompts-page,#appearance-page,#models-page)>.dialog-actions button{width:100%;min-width:0;grid-row:1;justify-self:stretch}
 #settings .model-page .model-preparation{grid-column:1;grid-row:1;grid-template-columns:var(--settings-action-width)}
 #settings .dialog-actions :is(#asr-test,#llm-test,#prompt-new,#theme-copy,#theme-cancel,#cdb-logout){grid-column:3}
 #settings .dialog-actions :is(#asr-activate,#llm-activate,#prompt-save,#theme-new,#theme-save,#brain-models,#binary-save){grid-column:4}
 #settings .dialog-actions :is(#refresh-devices,#prompt-delete,#theme-delete){grid-column:1}
-#settings #finish-setup{grid-column:3}
+/* The microphone footer has two actions, anchored to the content edges. */
+#settings.workspace-view #audio-page>.dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+#settings #audio-page>.dialog-actions button {
+  width: var(--settings-action-width);
+  flex: 0 1 var(--settings-action-width);
+  min-width: 0;
+}
 #settings #connection-page .dialog-actions #cdb-logout{grid-column:2;max-width:var(--settings-action-width);justify-self:end}
 #settings #connection-page .dialog-actions #brain-transfers{grid-column:3}
 #settings #connection-page .dialog-actions #brain-models{grid-column:4}

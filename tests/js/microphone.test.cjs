@@ -23,3 +23,14 @@ test('remaining seconds and setup status follow the active capture without waiti
  probe.state='completed';h.c.renderMicrophone(probe);assert.equal(check(),'Bereit');
  h.c.online=false;h.c.renderMicrophone(probe);assert.equal(check(),'Offline');
 });
+
+test('a blocked retest preserves playback and gives the reason beside the test',()=>{
+ const h=harness();h.c.state.capabilities={probe:{allowed:false,reason:'Modelldownload läuft.'}};
+ h.media.attrs.src='/test.wav';
+ h.c.setMicrophoneSetup([{label:'Mikrofon getestet',ok:true},{label:'Sprachmodell installiert',ok:false}],[{id:'usb'}]);
+ assert.match(h.el('probe-state').textContent,/Modelldownload läuft/);
+ assert.equal(h.el('probe-play').disabled,false);
+ assert.match(h.el('setup-progress').textContent,/Ein Schritt ist offen/);
+ h.c.showSettingsDetail=page=>assert.equal(page,'asr-page');
+ h.el('checks').children[1].onclick();
+});
