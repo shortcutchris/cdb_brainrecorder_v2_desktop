@@ -20,14 +20,15 @@
   working=true;message('');render();
   try{await fn(value)}catch(e){message(e.message)}finally{try{await poll(true)}finally{working=false;render()}}
  }}
- function connected(){return (network?.devices||[]).filter(d=>d.state==='connected')}
+ function connected(){return (network?.devices||[]).filter(d=>d.state==='connected'||d.state==='connected (externally)')}
  function renderNetwork(){
   const links=connected(),lan=links.some(d=>d.type==='ethernet'),canWifi=network?.wifi_setup!==false;
   $('link-state').textContent=network?(lan?'LAN verbunden':links.length?'WLAN verbunden':'Kein Netzwerk verbunden')+' · '+({full:'Internetzugang bestätigt',portal:'Anmeldeseite erforderlich',limited:'Internetzugang eingeschränkt',none:'Kein Internet'}[network.connectivity]||'Internetzugang ungeprüft'):'Verbindung noch nicht geprüft';
   $('network-help').textContent=!canWifi?'Für WLAN-Änderungen fehlt auf diesem Gerät der Einrichtungsdienst.':links.length?'Du kannst mit der vorhandenen Verbindung weitergehen oder ein anderes WLAN wählen.':'Wähle ein WLAN aus der Liste oder gib einen Netzwerknamen ein.';
   const locked=working||!snapshot?.allowed;
   $('other-network').disabled=locked||!canWifi;
-  $('scan').disabled=locked||!canWifi;
+  $('scan').disabled=locked;
+  $('scan').textContent=network&&canWifi?'WLAN suchen':'Verbindung prüfen';
   const host=$('networks');
   page=Math.max(0,Math.min(page,Math.ceil(networks.length/3)-1));
   const key=JSON.stringify([networks,page,locked,canWifi]);
@@ -166,7 +167,7 @@
   await go(order[order.indexOf(step)-1]);
  });
  $('other-network').onclick=()=>credentials('','wpa2');
- $('scan').onclick=run(async()=>{networkRequest='scan'});
+ $('scan').onclick=run(async()=>{networkRequest=network&&network.wifi_setup!==false?'scan':'status'});
  $('connect').onclick=run(async()=>{
   const password=$('password').value;$('password').value='';
   await api('/api/onboarding/network',{action:'connect',ssid:$('ssid').value,password,security:$('security').value,hidden:$('hidden-network').checked});

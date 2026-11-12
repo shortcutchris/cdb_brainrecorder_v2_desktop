@@ -32,6 +32,14 @@ test('resume network checks LAN first; Wi-Fi discovery runs once if disconnected
   assert.match(h.el('link-state').textContent,lan?/LAN verbunden/:/Kein Netzwerk/);
  }
 });
+test('a Pi without the Wi-Fi helper can recheck a newly plugged Ethernet cable',async()=>{
+ const h=await wizard({step:'network'});
+ h.status.operation={id:'status-1',action:'status',state:'done',network:{wifi_setup:false,devices:[]}};
+ await h.tick();assert.equal(h.el('other-network').disabled,true);await h.el('scan').onclick();
+ assert.deepEqual(h.posts.map(x=>x[1].action),['status','status']);
+ h.status.operation={...h.status.operation,id:'status-2',network:{wifi_setup:false,devices:[{type:'ethernet',state:'connected (externally)'}]}};
+ await h.tick();assert.match(h.el('link-state').textContent,/LAN verbunden/);
+});
 test('manual network entry returns to Studio without persisting a factory step',async()=>{
  const h=await wizard({step:'brain'},'?network=1');
  assert.match(h.el('heading').textContent,/Netzwerk/);await h.el('back').onclick();assert.equal(h.location.href,'/');
