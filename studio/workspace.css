@@ -20,7 +20,7 @@ body[data-workspace="recorder"] .meeting-header h1{font-size:var(--view-title);l
 /* Reserve feedback and footer space instead of moving existing controls. */
 #settings.workspace-view .settings-page>.dialog-actions,#settings.workspace-view .settings-page>.dialog-actions:has(>button[hidden]:only-child){display:flex;min-height:80px}
 #settings #probe-state{min-height:24px}
-#settings #download-progress[value="0"]{display:block;visibility:hidden}
+#settings #download-progress[hidden]{display:block;visibility:hidden}
 #settings #download-state:empty,#settings #model-test-state:empty{display:block;visibility:hidden}
 #settings #download-state,#settings #model-test-state{min-height:24px}
 #settings #theme-validation{min-height:24px}

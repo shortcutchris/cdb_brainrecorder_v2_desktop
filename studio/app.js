@@ -123,6 +123,51 @@ function queueFileSize(bytes){
  while(bytes>=1000&&unit<units.length-1){bytes/=1000;unit++}
  return bytes.toLocaleString('de-DE',{maximumFractionDigits:unit?1:0})+' '+units[unit];
 }
+function modelDownload(d){
+ if(!d||!['running','failed','completed'].includes(d.state))return null;
+ const whisper=d.backend==='whisper';
+ const entry=catalog?.[whisper?'asr':'llm']?.find(m=>m.id===d.model);
+ const view={
+  model:entry?.label||(whisper?'Whisper '+d.model:d.model),
+  kind:whisper?'Transkriptionsmodell':'Zusammenfassungsmodell',
+  phase:'Download wird vorbereitet …',percent:null,amount:''
+ };
+ if(d.state==='completed'){view.phase='Modell installiert';return view}
+ if(d.state==='failed'){view.phase='Download fehlgeschlagen'+(d.message?' · '+d.message:'');return view}
+ const message=d.message||'';
+ if(/prüfsumme bestätigt|bereits vorhanden|writing manifest|modell installiert|ollama: success/i.test(message)){
+  view.phase='Installation wird abgeschlossen …';
+ }else if(/verifying/i.test(message)){
+  view.phase='Modelldaten werden geprüft …';
+ }else if(/pulling manifest/i.test(message)){
+  view.phase='Modellinformationen werden geladen …';
+ }else if(/heruntergeladen|ollama: pulling |^ollama: download$/i.test(message)){
+  view.phase=whisper?'Modelldatei wird geladen':'Modellabschnitt wird geladen';
+  if(Number.isFinite(d.completed)&&d.completed>=0){
+   if(Number.isFinite(d.total)&&d.total>0){
+    view.percent=Math.min(100,Math.floor(100*d.completed/d.total));
+    view.amount=queueFileSize(d.completed)+' von '+queueFileSize(d.total);
+   }else if(d.completed>0){view.amount=queueFileSize(d.completed)+' geladen'}
+  }
+ }
+ return view;
+}
+function showDownloadBar(bar,d,view){
+ bar.hidden=d?.state!=='running'||(!online&&view?.percent==null);
+ if(view?.percent==null){bar.removeAttribute('value')}else{bar.value=view.percent}
+}
+function renderQueueDownload(d){
+ const view=modelDownload(d),card=$('queue-download');
+ // Keep a recent success visible briefly after the last progress poll.
+ card.hidden=!view||(d.state==='completed'&&Date.now()/1000-d.updated>300);
+ if(card.hidden)return;
+ $('transfer-kind').textContent=view.kind;
+ $('transfer-model').textContent=view.model;
+ $('transfer-phase').textContent=online?view.phase:'Letzter Stand · Verbindung zum Pi unterbrochen';
+ $('transfer-percent').textContent=view.percent==null?'':view.percent+' %';
+ $('transfer-amount').textContent=view.amount;
+ showDownloadBar($('transfer-bar'),d,view);
+}
 function queueProgress(job){
  if(!online)return {active:false,label:'Status nicht aktuell',detail:'Verbindung zum Pi unterbrochen'};
  const elapsed=duration(Math.max(0,Date.now()/1000-job.updated));
@@ -147,10 +192,13 @@ function refreshQueueDetails(jobs){
 }
 function renderQueue(){
  const jobs=queueJobs(),active=jobs.find(j=>['transcribing','summarizing','importing'].includes(j.state)),waiting=jobs.filter(j=>j.state==='queued'),failed=jobs.filter(j=>j.state==='failed');
+ const installing=state.installation?.state==='running';
+ renderQueueDownload(state.installation);
  const test=state.model_test&&busyStates.includes(state.model_test.state)?state.model_test:null;const processing=active||test;
- $('phase').textContent=processing?(test&&!active?'Modelltest · ':'')+(names[processing.state]||processing.state)+' · '+duration(Date.now()/1000-processing.updated):state.recording.id?'Aufnahme läuft':waiting.length?'Wartet auf Verarbeitung':state.installation.state==='running'?'Modelldownload läuft':state.free_mb<state.config.min_free_mb?'Zu wenig freier Speicher':!state.config.setup_complete?'Mikrofon einrichten':'Lokal bereit';
- $('waiting').textContent=waiting.length+' warten';$('errors').textContent=failed.length?failed.length+' Fehler':'';document.body.classList.toggle('working',Boolean(processing));setIcon($('activity-icon'),'/assets/'+(processing?'circle-notch':state.recording.id?'microphone':failed.length?'arrow-clockwise':'check-circle')+'.svg');
- const signature=JSON.stringify([allowed('process'),online,state.recording.id,Boolean(state.activity?.busy)])+JSON.stringify(jobs.map(j=>[j.id,j.state,j.session.title,j.error]));if(signature===queueSignature){refreshQueueDetails(jobs);return}queueSignature=signature;const scroll=$('queue-panel').scrollTop;$('queue-panel').replaceChildren();queueNodes=new Map();let position=0;
+ $('queue-status').hidden=online&&installing&&!jobs.length&&!processing&&!state.recording.id;
+ $('phase').textContent=processing?(test&&!active?'Modelltest · ':'')+(names[processing.state]||processing.state)+' · '+duration(Date.now()/1000-processing.updated):state.recording.id?'Aufnahme läuft':waiting.length?'Wartet auf Verarbeitung':installing?'Modelldownload läuft':state.installation?.state==='failed'?'Modelldownload fehlgeschlagen':state.free_mb<state.config.min_free_mb?'Zu wenig freier Speicher':!state.config.setup_complete?'Mikrofon einrichten':'Lokal bereit';
+ $('waiting').textContent=waiting.length+' warten';$('errors').textContent=failed.length?failed.length+' Fehler':'';document.body.classList.toggle('working',Boolean(processing));setIcon($('activity-icon'),'/assets/'+(processing?'circle-notch':state.recording.id?'microphone':failed.length||state.installation?.state==='failed'?'arrow-clockwise':installing?'download-simple':'check-circle')+'.svg');
+ const signature=JSON.stringify([allowed('process'),online,state.recording.id,Boolean(state.activity?.busy),installing])+JSON.stringify(jobs.map(j=>[j.id,j.state,j.session.title,j.error]));if(signature===queueSignature){refreshQueueDetails(jobs);return}queueSignature=signature;const scroll=$('queue-panel').scrollTop;$('queue-panel').replaceChildren();queueNodes=new Map();let position=0;
  if(jobs.length){const header=document.createElement('div');header.className='queue-columns';header.setAttribute('aria-hidden','true');for(const text of ['Meeting','Dateigröße','Status','Fortschritt','']){const cell=document.createElement('span');cell.textContent=text;header.append(cell)}$('queue-panel').append(header)}
  for(const job of jobs){
   const row=document.createElement('div');row.className='queue-row';row.dataset.queueKey=JSON.stringify([job.id,job.state,job.session.title,job.error]);
@@ -169,7 +217,7 @@ function renderQueue(){
   row.append(title,size,status,progress,actions);queueNodes.set(job.id,{size,label,bar,detail});$('queue-panel').append(row);
  }
  refreshQueueDetails(jobs);
- if(!jobs.length){const empty=document.createElement('p');empty.textContent='Keine offenen Aufträge.';$('queue-panel').append(empty)}$('queue-panel').scrollTop=scroll;
+ if(!jobs.length&&!installing){const empty=document.createElement('p');empty.textContent='Keine offenen Aufträge.';$('queue-panel').append(empty)}$('queue-panel').scrollTop=scroll;
 }
 async function poll(){
  if(pollRunning)return;pollRunning=true;
@@ -279,7 +327,9 @@ let previousDownload='',previousProbe='',previousModelTest='';function renderSet
  const refreshProbe=probeKey!==previousProbe&&['completed','failed'].includes(p.state);
  previousProbe=probeKey;
  if(refreshProbe&&$('settings').open)loadSetup().catch(e=>notice(e.message));
- if(d.total)$('download-progress').value=100*d.completed/d.total;else if(d.state==='running')$('download-progress').removeAttribute('value');else $('download-progress').value=0;$('download-state').textContent=(d.message||'')+(d.total&&d.state==='running'?' · '+Math.round(d.completed/1e6)+' / '+Math.round(d.total/1e6)+' MB':'');
+ const download=modelDownload(d);
+ showDownloadBar($('download-progress'),d,download);
+ $('download-state').textContent=download?[download.model,online?download.phase:'Letzter Stand · Verbindung unterbrochen',download.percent==null?'':download.percent+' %',download.amount].filter(Boolean).join(' · '):'';
  if(d.state==='completed'&&previousDownload!=='completed'&&$('settings').open)loadSetup().catch(e=>notice(e.message));previousDownload=d.state;
  $('model-test').disabled=Boolean(catalog?.test_block_reason)||!allowed('model_test')||!chosenModel('whisper')?.installed||!chosenModel('ollama')?.installed||(chosenModel('ollama')?.candidate&&!chosenModel('ollama')?.runtime_compatible)||!catalog?.whisper_runtime||!catalog?.ollama||Boolean(state.model_test&&busyStates.includes(state.model_test.state));if(catalog?.test_block_reason)$('model-test-state').textContent=catalog.test_block_reason;else if(state.model_test){const t=state.model_test;$('model-test-state').textContent=(names[t.state]||t.state)+(t.error?' · '+t.error:'')+(t.summary?'\n'+t.summary:'')}
  if(state.model_test?.state==='completed'&&previousModelTest!=='completed'&&$('settings').open)loadSetup().catch(e=>notice(e.message));previousModelTest=state.model_test?.state||'';

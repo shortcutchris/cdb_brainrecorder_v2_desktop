@@ -48,12 +48,12 @@ $('prompt-text').addEventListener('scroll',renderPromptPages,{passive:true});$('
 
 function renderQueueMenu(){
  if(!state)return;
- const jobs=queueJobs(),count=jobs.filter(j=>j.state!=='recording').length;
+ const jobs=queueJobs(),count=jobs.filter(j=>j.state!=='recording').length+Number(state.installation?.state==='running');
  $('queue-badge').textContent=count>99?'99+':String(count);$('queue-badge').hidden=count===0;
- $('queue-toggle').title='Warteschlange · '+$('phase').textContent+(count?' · '+count+' Aufträge':'');
+ $('queue-toggle').title='Warteschlange · '+$('phase').textContent+(count?' · '+count+(count===1?' Auftrag':' Aufträge'):'');
  $('queue-toggle').classList.toggle('active',$('queue-region').open);
  $('queue-toggle').disabled=Boolean(state.recording.id);
- $('activity-icon').hidden=!state.recording.id&&!jobs.some(j=>['transcribing','summarizing','importing','failed'].includes(j.state))&&state.installation?.state!=='running'&&!['queued','transcribing','summarizing'].includes(state.model_test?.state);
+ $('activity-icon').hidden=!state.recording.id&&!jobs.some(j=>['transcribing','summarizing','importing','failed'].includes(j.state))&&!['running','failed'].includes(state.installation?.state)&&!['queued','transcribing','summarizing'].includes(state.model_test?.state);
  $('queue-toggle').classList.toggle('has-errors',jobs.some(j=>j.state==='failed'));
 }
 const renderBeforeQueueMenu=renderState;renderState=function(){renderBeforeQueueMenu();renderQueueMenu()};

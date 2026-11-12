@@ -1,8 +1,8 @@
 const test=require('node:test'),assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs');
 const source=fs.readFileSync('studio/app.js','utf8');
 function harness(){
- const nodes={};function el(){return {dataset:{},children:[],hidden:false,textContent:'',setAttribute(k,v){this[k]=v},append(...n){this.children.push(...n)},replaceChildren(){this.children=[]}}}
- const c={online:true,state:{recording:{id:null},sessions:[],jobs:[],installation:{state:'idle'},free_mb:1000,config:{min_free_mb:100,setup_complete:true}},names:{transcribing:'Transkription läuft',summarizing:'Zusammenfassung läuft',queued:'Wartet',failed:'Fehler'},busyStates:[],queueSignature:'',duration:n=>Math.floor(n)+' s',allowed:()=>true,setIcon(){},document:{createElement:el,body:{classList:{toggle(){}}}},$:id=>nodes[id]??=(Object.assign(el(),{scrollTop:0})),icon:()=>el(),run:f=>f};
+ const nodes={};function el(){return {dataset:{},children:[],hidden:false,textContent:'',setAttribute(k,v){this[k]=v},removeAttribute(k){delete this[k]},append(...n){this.children.push(...n)},replaceChildren(){this.children=[]}}}
+ const c={catalog:null,online:true,state:{recording:{id:null},sessions:[],jobs:[],installation:{state:'idle'},free_mb:1000,config:{min_free_mb:100,setup_complete:true}},names:{transcribing:'Transkription läuft',summarizing:'Zusammenfassung läuft',queued:'Wartet',failed:'Fehler'},busyStates:[],queueSignature:'',duration:n=>Math.floor(n)+' s',allowed:()=>true,setIcon(){},document:{createElement:el,body:{classList:{toggle(){}}}},$:id=>nodes[id]??=(Object.assign(el(),{scrollTop:0})),icon:()=>el(),run:f=>f};
  vm.createContext(c);vm.runInContext(source.slice(source.indexOf('function queueJobs()'),source.indexOf('async function poll(){')),c);return {c,nodes};
 }
 test('file sizes distinguish unknown, zero and decimal megabytes',()=>{const {c}=harness();assert.equal(c.queueFileSize(null),'–');assert.equal(c.queueFileSize(0),'0 B');assert.equal(c.queueFileSize(1_952_078),'2 MB');assert.equal(c.queueFileSize(-2),'–')});
@@ -24,4 +24,35 @@ test('deleting from queue confirms the target row and preserves a different sele
  assert.equal(await c.deleteMeeting(7,'Leerer Versuch'),false);assert.equal(calls.length,0);
  c.confirmAction=async({message})=>{assert.match(message,/Leerer Versuch/);return true};assert.equal(await c.deleteMeeting(7,'Leerer Versuch'),true);
  assert.equal(calls[0],'/api/sessions/7/delete');assert.equal(c.selected,99);assert.equal(c.models.has(99),true);assert.equal(c.models.has(7),false);
+});
+
+test('Whisper reports file bytes and only declares success after installation',()=>{
+ const {c,nodes}=harness();
+ const d=c.state.installation={state:'running',backend:'whisper',model:'medium',completed:0,total:2000,message:'Download wird vorbereitet …'};
+ c.renderQueue();
+ assert.equal(nodes['queue-download'].hidden,false);
+ assert.equal(nodes['transfer-bar'].value,undefined);
+ assert.equal(nodes['queue-panel'].children.length,0);
+ d.message='Whisper-Modell wird heruntergeladen';c.renderQueue();
+ assert.equal(nodes['transfer-bar'].value,0);
+ d.completed=1500;c.renderQueue();
+ assert.equal(nodes['transfer-bar'].value,75);assert.equal(nodes['transfer-amount'].textContent,'1,5 kB von 2 kB');
+ assert.equal(nodes['transfer-model'].textContent,'Whisper medium');
+ d.total=0;c.renderQueue();assert.equal(nodes['transfer-bar'].value,undefined);assert.equal(nodes['transfer-amount'].textContent,'1,5 kB geladen');
+ d.message='Prüfsumme bestätigt.';d.total=d.completed;c.renderQueue();assert.equal(nodes['transfer-percent'].textContent,'');
+ d.state='completed';d.updated=Date.now()/1000;c.renderQueue();assert.equal(nodes['transfer-phase'].textContent,'Modell installiert');assert.equal(nodes['transfer-bar'].hidden,true);
+ d.updated-=301;c.renderQueue();assert.equal(nodes['queue-download'].hidden,true);
+});
+test('Ollama progress follows each layer, verification, connectivity and errors',()=>{
+ const {c,nodes}=harness();
+ const d=c.state.installation={state:'running',backend:'ollama',model:'qwen3:4b-instruct',message:'Ollama: pulling manifest',completed:0,total:0};
+ c.catalog={llm:[{id:d.model,label:'Qwen3 4B Instruct'}]};c.renderQueue();
+ assert.match(nodes['transfer-phase'].textContent,/Modellinformationen/);assert.equal(nodes['transfer-model'].textContent,'Qwen3 4B Instruct');
+ d.message='Ollama: pulling 85e4a5b7b8ef';d.completed=878359254;d.total=2497280480;c.renderQueue();
+ assert.equal(nodes['transfer-percent'].textContent,'35 %');assert.match(nodes['transfer-phase'].textContent,/abschnitt/);
+ c.online=false;c.renderQueue();assert.match(nodes['transfer-phase'].textContent,/Letzter Stand/);assert.equal(nodes['transfer-bar'].value,35);
+ c.online=true;d.message='Ollama: pulling fffff';d.completed=1;d.total=100;c.renderQueue();assert.equal(nodes['transfer-bar'].value,1);
+ d.message='Ollama: verifying sha256 digest';c.renderQueue();assert.match(nodes['transfer-phase'].textContent,/geprüft/);assert.equal(nodes['transfer-bar'].value,undefined);
+ c.online=false;c.renderQueue();assert.equal(nodes['transfer-bar'].hidden,true);
+ c.online=true;d.state='failed';d.message='Speicherreserve erreicht.';c.renderQueue();assert.match(nodes['transfer-phase'].textContent,/fehlgeschlagen.*Speicherreserve/);assert.equal(nodes['transfer-bar'].hidden,true);
 });

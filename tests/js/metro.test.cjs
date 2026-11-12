@@ -14,3 +14,9 @@ test('microphone opens Audio directly; completed setup hides completion CTA',asy
 test('long prompt text pages reach end without moving settings and disappear for short text',()=>{const h=harness(),editor=h.el('prompt-text');Object.assign(editor,{clientHeight:160,scrollHeight:480,scrollTop:0,value:'long prompt',getClientRects(){return [{}]}});let pages;h.c.drawPageNumbers=(nav,count,current,choose)=>{pages={count,current,choose}};h.c.renderPromptPages();assert.equal(pages.count,4);pages.choose(3);assert.equal(editor.scrollTop,320);editor.scrollHeight=160;editor.scrollTop=0;h.c.renderPromptPages();assert.equal(pages.count,1)});
 
 test('queue menu displays pending count and remains locked during recording',()=>{const h=harness();h.c.queueJobs=()=>[{state:'queued'},{state:'summarizing'},{state:'recording'}];h.c.renderQueueMenu();assert.equal(h.el('queue-badge').textContent,'2');assert.equal(h.el('queue-badge').hidden,false);h.c.state.recording.id='active';h.c.renderQueueMenu();assert.equal(h.el('queue-toggle').disabled,true);h.c.queueJobs=()=>[];h.c.state.recording.id=null;h.c.renderQueueMenu();assert.equal(h.el('queue-badge').hidden,true);assert.equal(h.el('queue-toggle').disabled,false)});
+
+test('an active model download counts alongside meetings until installation completes',()=>{
+ const h=harness();h.c.queueJobs=()=>[{state:'queued'}];h.c.state.installation={state:'running'};
+ h.c.renderQueueMenu();assert.equal(h.el('queue-badge').textContent,'2');assert.equal(h.el('activity-icon').hidden,false);
+ h.c.state.installation.state='completed';h.c.renderQueueMenu();assert.equal(h.el('queue-badge').textContent,'1');
+});

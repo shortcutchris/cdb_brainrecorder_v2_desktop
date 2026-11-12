@@ -2,6 +2,12 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.76 – Fortschritt beim Modelldownload (Kandidat)
+
+Öffne während einer Modellinstallation die **Warteschlange**. Bei Whisper beziehen sich Balken, Prozent und Datenmenge auf die Modelldatei. Bei Ollama gelten sie für den jeweils geladenen Abschnitt. Der nächste Abschnitt kann wieder bei null beginnen. Vorbereitung und Prüfung haben eine eigene Anzeige. Erst wenn der Pi die Installation bestätigt, erscheint „Modell installiert“. Unter **Gerät & Diagnose** findest du denselben Downloadstand.
+
+Die Anzeige verwendet die vorhandenen Statusdaten. Ein signiertes App-Update und der nächste reguläre SD-Image-Build übernehmen die geänderten Studio-Dateien ohne zusätzliche Laufzeitpakete.
+
 ## 0.5.75 – Brain-Anmeldung am Touchdisplay
 
 Unter **Einstellungen → Brain-Konto** zeigt der Pi die Microsoft-Adresse als Text und QR-Code.
