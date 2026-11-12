@@ -43,7 +43,7 @@ class StudioTests(unittest.TestCase):
     def test_probe_counts_captured_seconds_and_requires_a_saved_sample(self):
         app = self.app
         with patch.object(app.probe,'start',return_value={'state':'running'}):
-            status, data = self.request('/api/microphone/test', {})
+            status, data, _ = self.request('/api/microphone/test', {})
             self.assertEqual(status, 200)
             self.assertEqual(json.loads(data)['seconds_left'], 5)
         raw, wav = app.probe.folder/'audio.pcm', app.probe.folder/'audio.wav'
