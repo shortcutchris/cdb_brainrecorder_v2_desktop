@@ -1,5 +1,7 @@
 # SD-Images bauen, testen und weiterentwickeln
 
+Bei der Hardwareabnahme eines neuen Pi mit interner Soundbar den [Links-rechts-Hörtest in Recorder Studio](../audio/soundbar.md) durchführen.
+
 Das Kunden-Image wird aus **Quellcode und Bauanleitung** erstellt. Es ist kein
 Abbild eines benutzten Pi. Der laufende Pi und seine SD-Karte werden zum Bauen
 nicht benötigt und bleiben unangetastet.

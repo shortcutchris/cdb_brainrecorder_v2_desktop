@@ -1,5 +1,7 @@
 # Corporate Digital Brain Desktop Recorder
 
+Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
+
 ## 0.5.71 – NFC-Aufsteller für Talk und Meeting (Kandidat)
 
 Optionale USB-NFC-Steuerung mit getrennten, lokal zugeordneten Tags. Auflegen
