@@ -116,7 +116,7 @@
 #settings.workspace-view :is(#audio-page,#connection-page,#asr-page,#llm-page,#prompts-page,#appearance-page,#models-page)>.dialog-actions button{width:100%;min-width:0;grid-row:1;justify-self:stretch}
 #settings .model-page .model-preparation{grid-column:1;grid-row:1;grid-template-columns:var(--settings-action-width)}
 #settings .dialog-actions :is(#asr-test,#llm-test,#prompt-new,#theme-copy,#theme-cancel,#cdb-logout){grid-column:3}
-#settings .dialog-actions :is(#asr-activate,#llm-activate,#probe-start,#prompt-save,#theme-new,#theme-save,#brain-models,#binary-save){grid-column:4}
+#settings .dialog-actions :is(#asr-activate,#llm-activate,#prompt-save,#theme-new,#theme-save,#brain-models,#binary-save){grid-column:4}
 #settings .dialog-actions :is(#refresh-devices,#prompt-delete,#theme-delete){grid-column:1}
 #settings #finish-setup{grid-column:3}
 #settings #connection-page .dialog-actions #cdb-logout{grid-column:2;max-width:var(--settings-action-width);justify-self:end}

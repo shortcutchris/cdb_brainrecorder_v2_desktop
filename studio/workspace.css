@@ -34,7 +34,6 @@ body[data-workspace="recorder"] .meeting-header h1{font-size:var(--view-title);l
 #settings-overview{padding-top:24px}
 #theme-status{margin-right:auto;text-align:left}
 #settings #audio-page .dialog-actions #refresh-devices{margin-right:auto}
-#settings #audio-page .dialog-actions #probe-start{order:1}
 #settings #audio-page .dialog-actions #finish-setup{order:2}
 .touch-pager{height:80px;min-height:80px;flex:0 0 80px;flex-direction:row;gap:16px;padding:12px var(--view-inset)}
 .touch-pager .direct-pages{display:flex;gap:8px;align-items:center}

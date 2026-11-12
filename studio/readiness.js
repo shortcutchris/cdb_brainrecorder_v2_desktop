@@ -45,7 +45,9 @@ async function refreshRecorderReadiness(){
  readinessPending=true;
  try{
   const [setup,inventory]=await Promise.all([api('/api/setup'),api('/api/devices')]);
-  if(key===readinessKey(state)&&online){readinessSnapshot={setup,devices:inventory.devices};readinessSnapshotKey=key;readinessChecked=Date.now()}
+  if(key===readinessKey(state)&&online){readinessSnapshot={setup,devices:inventory.devices};readinessSnapshotKey=key;readinessChecked=Date.now();
+   if($('settings').open)applyMicrophoneInventory(setup,inventory.devices)
+  }
  }catch(_){readinessSnapshot={error:true};readinessSnapshotKey=key;readinessChecked=Date.now()}
  finally{readinessPending=false;renderState()}
 }

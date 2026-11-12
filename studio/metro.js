@@ -13,7 +13,8 @@ function renderSettingsOverview(){
  if(!state)return;
  const ready=Boolean(state.config.setup_complete);
  $('finish-setup').hidden=ready;
- $('setup-overview-status').textContent=ready?'Dein Recorder ist eingerichtet.':'Beginne mit dem Mikrofon und schließe die Einrichtung ab.';
+ const current=typeof currentReadiness==='function'?currentReadiness():null;
+ $('setup-overview-status').textContent=ready?(current?.label||'Status wird geprüft'):'Beginne mit dem Mikrofon und schließe die Einrichtung ab.';
  $('setup-overview-action').textContent='Audio einrichten';$('setup-overview-action').hidden=ready;
  $('setup-overview-action').disabled=!online||Boolean(state.recording.id);
 }

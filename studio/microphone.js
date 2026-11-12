@@ -8,17 +8,25 @@ function microphoneView(probe,connected,selectedDevice){
  const sameDevice=completed&&probe.device===selectedDevice;
  return {running,level:running&&connected&&online?Math.max(0,Math.min(100,Number(probe.level)||0)):0,
   label:running&&online?'Live':!online?'Offline':'Inaktiv',
-  message:!connected?'Kein Mikrofon verbunden. Anschließen und Geräte aktualisieren.':!online?'Verbindung unterbrochen. Pegel wird erneut geprüft.':running?'Sprich jetzt fünf Sekunden in das Mikrofon.':completed&&!sameDevice?'Testaufnahme gehört zu einem anderen Mikrofon. Bitte neu testen.':completed?(probe.message||'Test beendet. Höre dir die Aufnahme an.'):probe.message||'Starte einen kurzen Test und prüfe den Klang.',
-  sampleLabel:completed?(!connected||!sameDevice?'Frühere Aufnahme':'Bereit'):running?'Test läuft …':probe.state==='failed'?'Test fehlgeschlagen':'Noch kein Test'};
+  message:!online?'Verbindung unterbrochen. Pegel wird erneut geprüft.':!connected?'Mikrofon anschließen oder einen verfügbaren Eingang wählen.':running?'Sprich jetzt in das ausgewählte Mikrofon.':completed&&!sameDevice?'Testaufnahme gehört zu einem anderen Mikrofon. Bitte neu testen.':completed?(probe.message||'Test beendet. Höre dir die Aufnahme an.'):probe.state==='failed'?probe.message:'Starte den Test, um den Eingangspegel zu sehen.',
+  ready:online&&connected&&sameDevice,
+  checkStatus:!online?'Offline':!connected?'Nicht verbunden':running?'Läuft …':probe.state==='failed'?'Fehlgeschlagen':sameDevice?'Bereit':'Offen',
+  sampleLabel:!online?'Offline':completed?(!connected||!sameDevice?'Frühere Aufnahme':'Bereit'):running?'Test läuft …':probe.state==='failed'?'Test fehlgeschlagen':'Noch kein Test'};
 }
 function renderMicrophone(probe){
  const connected=microphoneDevices.some(d=>d.id===$('mic-select').value);
  const view=microphoneView(probe,connected,$('mic-select').value);
+ const remaining=probe.seconds_left??5;
+ $('probe-start').textContent=view.running&&online?(remaining>0?'Noch '+remaining+' s':'Aufnahme wird abgeschlossen …'):'Mikrofon testen · 5 Sekunden';
  $('probe-level').value=view.level;$('probe-level-label').textContent=view.label;$('probe-state').textContent=view.message;
  if(view.running||state?.recording.id||!online)pauseMicrophoneAudio();
- if(view.running&&probeAudio.hasAttribute('src')){probeAudio.removeAttribute('src');probeAudio.load();probePlaybackError=false}
+ if(probe.state!=='completed'&&probeAudio.hasAttribute('src')){probeAudio.removeAttribute('src');probeAudio.load();probePlaybackError=false}
  const labels={'Mikrofon getestet':'Mikrofontest','Transkriptionsprogramm vorhanden':'Whisper-Laufzeit','Sprachmodell installiert':'Transkriptionsmodell','Lokaler Modelldienst bereit':'Lokaler Modelldienst','Zusammenfassungsmodell installiert':'Zusammenfassungsmodell','CDB-Firmenanmeldung':'Brain-Konto'};
- const checks=microphoneChecks.map((check,i)=>({...check,label:labels[check.label]||check.label,ok:check.ok&&(i!==0||(connected&&probe.state==='completed'&&probe.device===$('mic-select').value)),status:i===0?(!connected?'Nicht verbunden':view.running?'Läuft …':probe.state==='failed'?'Fehlgeschlagen':check.ok&&probe.device===$('mic-select').value?'Bereit':'Offen'):check.ok?'Bereit':'Offen'}));
+ const checks=microphoneChecks.map(check=>{
+  const mic=check.label==='Mikrofon getestet';
+  return {label:labels[check.label]||check.label,ok:mic?view.ready:online&&check.ok,
+   status:mic?view.checkStatus:!online?'Offline':check.ok?'Bereit':'Offen'};
+ });
  const signature=JSON.stringify(checks);if(signature!==microphoneCheckSignature){microphoneCheckSignature=signature;$('checks').replaceChildren();for(const check of checks){const row=document.createElement('div');row.className='audio-check';row.dataset.ready=String(check.ok);row.setAttribute('role','listitem');const label=document.createElement('span');label.className='audio-check-label';label.textContent=check.label;const status=document.createElement('span');status.className='audio-check-state';status.textContent=check.status;row.append(icon(check.ok?'check-circle':'circle'),label,status);$('checks').append(row)}}
  renderProbePlayer(view);
 }
@@ -26,6 +34,7 @@ function renderProbePlayer(view){
  view=view||microphoneView(state?.microphone_test||{},microphoneDevices.some(d=>d.id===$('mic-select').value),$('mic-select').value);
  const available=state?.microphone_test?.state==='completed'&&probeAudio.hasAttribute('src')&&online&&!state?.recording.id;
  $('probe-play').disabled=!available;$('probe-mute').disabled=!available;$('probe-seek').disabled=!available||!Number.isFinite(probeAudio.duration)||probeAudio.duration<=0;
+ $('probe-play-text').textContent=probeAudio.paused?'Anhören':'Pause';
  setIcon($('probe-play-icon'),'/assets/'+(probeAudio.paused?'play':'pause')+'.svg');$('probe-play').setAttribute('aria-label',probeAudio.paused?'Testaufnahme abspielen':'Testaufnahme pausieren');
  $('probe-player-state').textContent=probePlaybackError?'Wiedergabe fehlgeschlagen':!probeAudio.paused?'Wird abgespielt':view.sampleLabel;
  $('probe-time').textContent=duration(probeAudio.currentTime);$('probe-total').textContent=duration(probeAudio.duration);

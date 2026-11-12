@@ -22,9 +22,9 @@ Ein **neues oder ausgetauschtes ReSpeaker** kann dagegen eine andere Firmware ha
 1. Eine laufende Aufnahme einschließlich Pause zuerst mit **Stoppen** beenden. Das Mikrofon während der Aufnahme nicht abziehen.
 2. Ein USB-**Datenkabel** vom Pi zum **XMOS-USB-C-Anschluss direkt neben der 3,5-mm-Klinkenbuchse** verwenden. Der blaue USB-A-Port des Pi ist geeignet. Der zweite USB-C-Port einer XIAO-Variante ist nicht der USB-Audioanschluss des XMOS.
 3. In der App **Einstellungen → Audio → Mikrofon → Geräte aktualisieren** öffnen.
-4. **reSpeaker XVF3800 4-Mic Array** auswählen. Auf unserem Pi ist die getestete Quelle `plughw:CARD=Array,DEV=0`. Gerätenummern können sich ändern; nicht dauerhaft auf „Karte 2“ verlassen.
-5. **Mikrofon testen · 5 Sekunden** antippen und sofort einen vollständigen kurzen Satz sprechen. Den Pegel beobachten und die Testaufnahme im Player anhören.
-6. Falls die Einrichtung als offen angezeigt wird, die noch offenen Prüfpunkte abschließen. Danach zum Recorder zurückgehen.
+4. **reSpeaker XVF3800 4-Mic Array** auswählen. Das Array kann als `plughw:CARD=Array,DEV=0` oder `sysdefault:CARD=Array` erscheinen. Am Gehäuse-Pi wurde der fünfsekündige Test mit `sysdefault:CARD=Array` bestätigt. Gerätenummern können sich ändern; nicht dauerhaft auf „Karte 2“ verlassen.
+5. **Mikrofon testen · 5 Sekunden** antippen und sofort einen vollständigen kurzen Satz sprechen. Der Knopf direkt unter dem Pegel zählt die verbleibenden Sekunden. Rechts wechselt **Mikrofontest** auf **Läuft …**. Nach dem Speichern erscheint **Bereit** und direkt darunter lässt sich die **Testaufnahme → Anhören**. Der Pegel ist dann wieder inaktiv.
+6. Bei einem anderen Eingang ist ein neuer Test nötig. Die Probe des vorherigen Eingangs ist als **Frühere Aufnahme** gekennzeichnet. Falls die Einrichtung als offen angezeigt wird, die noch offenen Prüfpunkte abschließen. Danach zum Recorder zurückgehen.
 
 LEDs zeigen zunächst nur, dass das Gerät Strom hat. Erst die Geräteliste und ein erfolgreicher Audiotest bestätigen die Aufnahmeverbindung. [Seeed: USB-Diagnose](https://wiki.seeedstudio.com/respeaker_xvf3800_faq/)
 
@@ -134,3 +134,5 @@ Geprüftes Herstellerrepository: Commit `4b49bfd19977c63cf6e90dfe9e5827e74e20bf6
 Das ReSpeaker stellt auch einen Audioausgang bereit; das ist kein Nachweis, dass angeschlossene Lautsprecher bereits geprüft wurden. Diese unter **Einstellungen → Audio → Lautsprecher** separat auswählen, Lautstärke setzen und den Testton prüfen. Kopfhörer-/Lautsprecheranschlüsse entsprechend der Herstellerdokumentation verwenden.
 
 Das hier eingerichtete ReSpeaker wird über **USB** genutzt. Bluetooth-Geräte sind ein separater Weg: Die App listet verbundene Bluetooth-Mikrofone, wenn PipeWire/PulseAudio sie als Aufnahmequelle bereitstellt. Bloßes Pairing oder ein reines Musik-Wiedergabeprofil genügt nicht. [Details zur Aufnahmesteuerung und Bluetooth](capture-0.5.17/README.md)
+
+Die Bedienoberfläche und der zeitbegrenzte Test für PipeWire-Quellen sind Teil des regulären App-Pakets für Bestandsgeräte und neue SD-Images.

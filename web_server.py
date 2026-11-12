@@ -15,6 +15,7 @@ import shutil
 import signal
 import subprocess
 import threading
+import time
 from http.server import ThreadingHTTPServer
 from urllib.parse import urlsplit
 
@@ -22,12 +23,12 @@ from data.repo import SessionRepository
 from services.local_controller import LocalController
 from settings import SettingsManager
 from services.cdb_integration import CdbService, CdbBackend
-from meeting_recorder.audio import devices
+from meeting_recorder.audio import BYTES_PER_SECOND, devices
 from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.71'
+VERSION = '0.5.72'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -44,8 +45,7 @@ class StudioApp:
         # PipeWire may retain the ALSA device after wake listening stops. Use
         # the same explicitly mapped source for recording and microphone tests.
         if command_factory is None:
-            from services.live_audio import native_capture_command
-            command_factory = native_capture_command
+            command_factory = self.capture_command
         self.controller = LocalController(self.repo, root, backend=backend or self.cdb_backend, command_factory=command_factory)
         self.engine = self.controller.engine
         self.store, self.models, self.probe = self.engine.store, self.engine.models, self.engine.probe
@@ -65,6 +65,7 @@ class StudioApp:
         if self.settings_file:self.settings_file.parent.mkdir(parents=True,exist_ok=True)
         self.settings_lock = threading.RLock()
         self.control_lock = threading.RLock()
+        self.probe_started_ns = 0
         from services.device_management import DeviceManagement
         self.management = DeviceManagement(self.store.root)
         from services.first_start import FirstStart
@@ -360,11 +361,43 @@ class StudioApp:
         rule = self.capabilities()[capability]
         if not rule['allowed']: raise ValueError(rule['reason'])
 
+    def capture_command(self, config):
+        from services.live_audio import native_capture_command
+        return native_capture_command(config, timed_probe=self.engine.recorder.probe)
+
+    def microphone_progress(self, result):
+        if result['state'] == 'running':
+            raw = self.probe.folder / 'audio.pcm'
+            try:
+                stat = raw.stat()
+            except FileNotFoundError:
+                stat = None
+            recorded = stat.st_size if stat and stat.st_mtime_ns >= self.probe_started_ns else 0
+            if stat is None:
+                # Finalizing replaces the raw data with the completed WAV.
+                try:
+                    if (self.probe.folder / 'audio.wav').stat().st_mtime_ns >= self.probe_started_ns:
+                        recorded = 5 * BYTES_PER_SECOND
+                except FileNotFoundError:
+                    pass
+            return result | {'seconds_left': max(0, 5 - recorded // BYTES_PER_SECOND)}
+        if result['state'] == 'completed':
+            try:
+                sample = (self.probe.folder / 'audio.wav').stat()
+                if sample.st_size > 44:
+                    return result | {'sample_id': str(sample.st_mtime_ns)}
+            except FileNotFoundError:
+                pass
+            return result | {'state': 'failed', 'message': 'Testaufnahme fehlt. Bitte erneut testen.'}
+        return result
+
     def audio_devices(self): return devices()
     def setup_state(self):
         self.finish_model_validation()
         result=SharedWebApp.setup_state(self)
         providers=self.cdb.config();checks=result['checks']
+        result['probe'] = self.microphone_progress(result['probe'])
+        checks[0]['ok'] = checks[0]['ok'] and result['probe']['state'] == 'completed'
         result['checks']=[check for i,check in enumerate(checks) if i==0 or i in (1,2) and providers['transcription']=='local' or i in (3,4) and providers['summary']=='local']
         if 'cdb' in (providers['transcription'],providers['summary']):result['checks'].append({'label':'CDB-Firmenanmeldung','ok':bool(self.cdb.read('session.json',{}).get('identity'))})
         result['ready']=all(check['ok'] for check in result['checks'])
@@ -415,6 +448,7 @@ class StudioApp:
         with self.controller.lock:
             self.controller.sync()
             state = self.engine.state()
+            state['microphone_test'] = self.microphone_progress(state['microphone_test'])
             for job in state['jobs']:
                 folder = self.store.folder(job['id'])
                 job['audio_file_bytes'] = self.audio_file_bytes(folder/'audio.wav', folder/'audio.pcm', folder/'audio.import.wav')
@@ -570,7 +604,6 @@ class StudioApp:
                 self.require('configure')
                 return self.management.enroll(body.get('code'))
             if path == '/api/playback':
-                import time
                 key = body.get('client')
                 if not isinstance(key,str) or not 8<=len(key)<=80 or type(body.get('playing')) is not bool:
                     raise ValueError('Ungültiger Wiedergabestatus.')
@@ -746,7 +779,8 @@ class StudioApp:
                 return self.start_model_test({'whisper':asr,'ollama':llm})
             if path=='/api/microphone/test':
                 self.require('probe')
-                return self.probe.start()
+                self.probe_started_ns = time.time_ns()
+                return self.microphone_progress(self.probe.start())
             if path=='/api/setup/complete':
                 self.require('finish_setup')
                 if not self.setup_state()['ready']:raise ValueError('Einrichtung noch nicht bereit. Offene Punkte prüfen.')

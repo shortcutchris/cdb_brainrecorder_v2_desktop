@@ -28,10 +28,23 @@ def create_preview(root, delay=12):
         with wave.open(str(source),'wb') as f:
             f.setparams((1,2,16000,0,'NONE','none'));f.writeframes(data.tobytes())
         (root/'capture.pcm').write_bytes(data[:32000].tobytes())
-    script="import sys,time,signal;signal.signal(signal.SIGINT,lambda *_:sys.exit(0));data=open(sys.argv[1],'rb').read();\nwhile True:\n sys.stdout.buffer.write(data[:3200]);sys.stdout.buffer.flush();data=data[3200:]+data[:3200];time.sleep(.1)"
+    script = """import signal, sys, time
+signal.signal(signal.SIGINT, lambda *_: sys.exit(0))
+with open(sys.argv[1], 'rb') as source:
+    data = source.read()
+limit = int(sys.argv[3]) * 10 if sys.argv[2:3] == ['-d'] else None
+blocks = 0
+while limit is None or blocks < limit:
+    sys.stdout.buffer.write(data[:3200])
+    sys.stdout.buffer.flush()
+    data = data[3200:] + data[:3200]
+    blocks += 1
+    time.sleep(.1)
+"""
     backend=PreviewBackend(delay)
     app=StudioApp(root/'queue',root/'sessions.db',backend=backend,
         command_factory=lambda _:[sys.executable,'-u','-c',script,str(root/'capture.pcm')],preview=True,settings_file=root/'settings.ini')
+    app.audio_devices = lambda: {'available': True, 'devices': [{'id': 'default', 'label': 'Simuliertes Mikrofon'}], 'text': ''}
     backend.stopping=app.engine.worker.stopping
     app.engine.configure({'setup_complete':True})
     if not app.repo.get_all():
