@@ -147,3 +147,23 @@
 #settings.workspace-view #management-page>.dialog-actions{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
 #settings.workspace-view #management-page>.dialog-actions button{width:100%;min-width:0}
 #management-page>.dialog-actions>span{font-size:13px;color:var(--muted)}
+
+#settings #connection-page #cdb-cancel-login{grid-column:1;grid-row:1}
+/* During device authorization, give the scan target the full settings workspace. */
+#settings #connection-page .settings-content:has(#cdb-login-code:not([hidden])){grid-template-columns:minmax(0,1fr)}
+#connection-page .settings-content:has(#cdb-login-code:not([hidden]))>.settings-column:first-child,
+#connection-page .account-next-step:has(#cdb-login-code:not([hidden]))>.settings-section-heading{display:none}
+#settings #cdb-login-code:not([hidden]){display:flex;align-items:center;justify-content:center;gap:clamp(20px,4vw,64px);min-height:0}
+#settings #cdb-login-qr{flex:none;width:min(390px,43vw,calc(100dvh - 278px));height:auto;image-rendering:pixelated}
+#settings .device-login-instructions{max-width:360px;min-width:0}
+#settings .device-login-instructions h3{margin:0 0 12px}
+#settings .device-login-instructions p{margin:6px 0;line-height:1.4}
+#settings #cdb-login-url{display:block;overflow-wrap:anywhere;user-select:all;font-weight:600;margin-bottom:20px}
+#settings #cdb-code{margin:4px 0;padding:0;font-size:30px;letter-spacing:2px;overflow-wrap:anywhere}
+@media(max-width:640px){
+ #settings #cdb-login-code:not([hidden]){flex-direction:column;align-items:flex-start}
+ #settings #cdb-login-qr{align-self:center;width:min(100%,312px)}
+}
+@media(min-width:641px) and (max-height:650px){
+ #settings #cdb-login-qr{width:min(312px,43vw,calc(100dvh - 278px))}
+}

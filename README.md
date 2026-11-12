@@ -2,6 +2,13 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.75 – Brain-Anmeldung am Touchdisplay
+
+Unter **Einstellungen → Brain-Konto** zeigt der Pi die Microsoft-Adresse als Text und QR-Code.
+Auf dem Gehäuse-Display ist der QR-Code 390 × 390 Pixel groß, bei 1024 × 600 sind es 312 × 312 Pixel. Den QR-Code mit dem Handy scannen oder die Adresse am Rechner öffnen und dort den daneben angezeigten Gerätecode eingeben. Der Pi bleibt in Recorder Studio.
+**Anmeldung abbrechen** beendet nur den offenen Versuch. Das signierte App-Update und der nächste
+reguläre SD-Image-Build enthalten beide QR-Grafiken. Die bestehende Laufzeit genügt.
+
 ## 0.5.73 – Mikrofon testen und Recorder einrichten
 
 Unter **Einstellungen → Audio → Mikrofon** wird die Eingangswahl sofort gespeichert.

@@ -59,3 +59,21 @@ test('Azure OpenAI summary uses company login and hides local model activation i
 test('CDB transcription hides local model actions and restores them when local is selected',()=>{const h=harness();h.c.config.transcription='cdb';h.context.renderCdb();assert.equal(h.element('cdb-asr-info').hidden,false);assert.equal(h.element('local-asr-settings').hidden,true);assert.equal(h.element('local-asr-actions').hidden,true);h.c.config.transcription='local';h.context.renderCdb();assert.equal(h.element('cdb-asr-info').hidden,true);assert.equal(h.element('local-asr-settings').hidden,false);assert.equal(h.element('local-asr-actions').hidden,false)});
 
 test('CDB status uses readable German labels and preserves only reported progress',()=>{const h=harness();assert.equal(h.context.readableCdbProgress('CDB: queued'),'CDB-Auftrag wartet');assert.equal(h.context.readableCdbProgress('CDB: transcribing · 42 %'),'CDB transkribiert · 42 %');assert.equal(h.context.readableCdbProgress('Abschnitt 2/9'),'Abschnitt 2/9')});
+
+test('device sign-in shows only a local QR and clears the code after cancellation',async()=>{
+ const h=harness();h.c.identity=null;
+ h.context.setIcon=(el,src)=>{el.src=src};
+ for(const [url,asset] of [['https://login.microsoft.com/device','microsoft-device'],['https://microsoft.com/devicelogin','microsoft-devicelogin']]){
+  h.c.login={state:'pending',url,code:'TEST-ONLY',expires:2000000000};
+  h.context.renderCdb();
+  assert.equal(h.element('cdb-login-qr').src,'/assets/'+asset+'.png');
+  assert.equal(h.element('cdb-login-url').href,undefined);
+  assert.equal(h.element('cdb-code').textContent,'TEST-ONLY');
+  assert.equal(h.element('cdb-cancel-login').hidden,false);
+ }
+ await h.element('cdb-cancel-login').onclick();
+ assert.deepEqual(h.calls.map(([path])=>path),['/api/cdb/login/cancel']);
+ h.c.login={state:'idle'};h.context.renderCdb();
+ assert.equal(h.element('cdb-code').textContent,'');
+ assert.equal(h.element('cdb-login-code').hidden,true);
+});
