@@ -42,7 +42,7 @@ async function flush(model=models.get(selected)){
 }
 function changed(key,value){const model=models.get(selected);if(!model)return;model.values[key]=value;model.dirty.add(key);model.failed=false;$('draft-actions').hidden=false;storeDraft(model,key);clearTimeout(saveTimer);if(!online){model.failed=true;$('save-state').textContent='Offline · Entwurf bleibt lokal erhalten';return}$('save-state').textContent='Wird gespeichert …';saveTimer=setTimeout(()=>flush(model).catch(()=>{}),450)}
 $('editor').oninput=()=>changed(field,$('editor').value);
-window.addEventListener('beforeunload',event=>{if([...models.values()].some(m=>m.dirty.size)){event.preventDefault();event.returnValue=''}});
+window.addEventListener('pagehide',()=>{for(const model of models.values())for(const key of model.dirty)storeDraft(model,key)});
 window.addEventListener('pagehide',()=>{for(const m of models.values()){if(!m.dirty.size||m.saving)continue;const changes={},base={};for(const key of m.dirty){changes[key]=m.values[key];base[key]=m.base[key];storeDraft(m,key)}api('/api/sessions/'+m.id+'/save',{changes,base},true).catch(()=>{})}});
 function setEditor(value){const el=$('editor');if(el.value===value)return;const start=el.selectionStart,end=el.selectionEnd,scroll=el.scrollTop;el.value=value;el.setSelectionRange(Math.min(start,value.length),Math.min(end,value.length));el.scrollTop=scroll}
 function renderSelected(){
@@ -88,14 +88,87 @@ function renderState(){
  $('capture-hint').textContent=state.preview?'Lokale Testbibliothek · künstliche Audioquelle. Keine Verbindung zu persönlichen Pi-Meetings.':active?'Aufnahme läuft. Tippe auf den Button, um sie sicher zu beenden.':c.setup_complete?'Bereit für eine neue Aufnahme. Tippe auf den Button, um zu starten.':'Kein getestetes Mikrofon. Bitte Audio in den Einstellungen einrichten.';
  if(!online)$('capture-hint').textContent='Verbindung unterbrochen. Der letzte Aufnahmestand wird erneut geprüft.';else if(!active&&state.config.setup_complete&&!allowed('record'))$('capture-hint').textContent=state.capabilities.record.reason;drawWave(active?state.waveform:selectedPeaks);renderRecent();renderQueue();renderSettingsStatus();if(!online)$('phase').textContent='Verbindung unterbrochen · Entwürfe bleiben lokal';
 }
-function queueJobs(){const rows=new Map(state.sessions.filter(r=>r.local_job_id).map(r=>[r.local_job_id,r]));const jobs=state.jobs.filter(j=>rows.has(j.id)&&j.state!=='completed').map(j=>({...j,session:rows.get(j.id)}));for(const r of state.sessions)if(r.transcription_status==='failed'&&!r.local_job_id)jobs.push({id:'legacy-'+r.id,state:'failed',created:0,error:r.local_error,session:r});const order={recording:0,transcribing:1,summarizing:1,importing:2,queued:3,failed:4};return jobs.sort((a,b)=>(order[a.state]-order[b.state])||((a.queued_at||a.created)-(b.queued_at||b.created)))}
+function queueJobs(){const rows=new Map(state.sessions.filter(r=>r.local_job_id).map(r=>[r.local_job_id,r]));const jobs=state.jobs.filter(j=>rows.has(j.id)&&j.state!=='completed').map(j=>({...j,session:rows.get(j.id)}));for(const r of state.sessions)if(r.transcription_status==='failed'&&!r.local_job_id)jobs.push({id:'legacy-'+r.id,state:'failed',created:0,error:r.local_error,audio_file_bytes:r.audio_file_bytes,session:r});const order={recording:0,transcribing:1,summarizing:1,importing:2,queued:3,failed:4};return jobs.sort((a,b)=>(order[a.state]-order[b.state])||((a.queued_at||a.created)-(b.queued_at||b.created)))}
+let activeConfirmation=false;
+function confirmAction({title,message,accept='Löschen'}){
+ if(activeConfirmation)return Promise.resolve(false);
+ activeConfirmation=true;
+ const dialog=$('app-confirm'),origin=document.activeElement;
+ $('app-confirm-title').textContent=title;$('app-confirm-message').textContent=message;$('app-confirm-accept').textContent=accept;
+ return new Promise(resolve=>{
+  let settled=false;
+  function finish(accepted){
+   if(settled)return;settled=true;activeConfirmation=false;
+   dialog.oncancel=dialog.onclose=null;
+   $('app-confirm-cancel').onclick=$('app-confirm-close').onclick=$('app-confirm-accept').onclick=null;
+   dialog.close();if(origin?.isConnected)origin.focus();resolve(accepted);
+  }
+  $('app-confirm-cancel').onclick=$('app-confirm-close').onclick=()=>finish(false);
+  $('app-confirm-accept').onclick=()=>finish(true);
+  dialog.oncancel=event=>{event.preventDefault();finish(false)};
+  dialog.onclose=()=>finish(false);
+  dialog.showModal();$('app-confirm-cancel').focus();
+ });
+}
+async function deleteMeeting(id,title){
+ await flush();
+ if(!await confirmAction({title:'Meeting löschen?',message:'„'+title+'“ wird endgültig gelöscht. Vorhandene Audiodaten, Notizen und Ergebnisse dieses Meetings werden entfernt.',accept:'Endgültig löschen'}))return false;
+ await api('/api/sessions/'+id+'/delete',{});models.delete(id);
+ if(selected===id){selected=null;audio.pause();audio.removeAttribute('src');delete audio.dataset.session;$('editor').value='';$('editor').disabled=true;$('meeting-title').textContent='Meeting auswählen'}
+ await poll();return true;
+}
+function queueFileSize(bytes){
+ if(!Number.isFinite(bytes)||bytes<0)return '–';
+ const units=['B','kB','MB','GB'];let unit=0;
+ while(bytes>=1000&&unit<units.length-1){bytes/=1000;unit++}
+ return bytes.toLocaleString('de-DE',{maximumFractionDigits:unit?1:0})+' '+units[unit];
+}
+function queueProgress(job){
+ if(!online)return {active:false,label:'Status nicht aktuell',detail:'Verbindung zum Pi unterbrochen'};
+ const elapsed=duration(Math.max(0,Date.now()/1000-job.updated));
+ if(job.state==='transcribing')return {active:true,label:'Schritt 1 von 2 · '+elapsed,detail:'Audio wird transkribiert'};
+ if(job.state==='summarizing')return {active:true,label:'Schritt 2 von 2 · '+elapsed,detail:job.processing_detail||'Protokoll wird erstellt'};
+ if(job.state==='importing')return {active:true,label:'Audio vorbereiten · '+elapsed,detail:'Datei wird vorbereitet'};
+ if(job.state==='recording')return {active:true,label:'Aufnahme läuft',detail:'Datei wächst während der Aufnahme'};
+ return {active:false,label:job.state==='failed'?'Angehalten':'Noch nicht gestartet',detail:job.state==='failed'?'Details unter Status':'Wird der Reihe nach verarbeitet'};
+}
+let queueNodes=new Map();
+function refreshQueueDetails(jobs){
+ for(const job of jobs){
+  const nodes=queueNodes.get(job.id);if(!nodes)continue;
+  const size=queueFileSize(job.audio_file_bytes),p=queueProgress(job);
+  if(nodes.size.textContent!==size)nodes.size.textContent=size;
+  nodes.size.title=Number.isFinite(job.audio_file_bytes)?job.audio_file_bytes.toLocaleString('de-DE')+' Bytes · Audiodatei':'Noch keine Audiodatei vorhanden';
+  if(nodes.label.textContent!==p.label)nodes.label.textContent=p.label;
+  if(nodes.detail.textContent!==p.detail)nodes.detail.textContent=p.detail;
+  nodes.bar.hidden=!p.active;
+  nodes.bar.setAttribute('aria-label',p.label+' · '+p.detail);
+ }
+}
 function renderQueue(){
  const jobs=queueJobs(),active=jobs.find(j=>['transcribing','summarizing','importing'].includes(j.state)),waiting=jobs.filter(j=>j.state==='queued'),failed=jobs.filter(j=>j.state==='failed');
  const test=state.model_test&&busyStates.includes(state.model_test.state)?state.model_test:null;const processing=active||test;
  $('phase').textContent=processing?(test&&!active?'Modelltest · ':'')+(names[processing.state]||processing.state)+' · '+duration(Date.now()/1000-processing.updated):state.recording.id?'Aufnahme läuft':waiting.length?'Wartet auf Verarbeitung':state.installation.state==='running'?'Modelldownload läuft':state.free_mb<state.config.min_free_mb?'Zu wenig freier Speicher':!state.config.setup_complete?'Mikrofon einrichten':'Lokal bereit';
  $('waiting').textContent=waiting.length+' warten';$('errors').textContent=failed.length?failed.length+' Fehler':'';document.body.classList.toggle('working',Boolean(processing));setIcon($('activity-icon'),'/assets/'+(processing?'circle-notch':state.recording.id?'microphone':failed.length?'arrow-clockwise':'check-circle')+'.svg');
- const signature=String(allowed('process'))+JSON.stringify(jobs.map(j=>[j.id,j.state,j.session.title,j.error]));if(signature===queueSignature)return;queueSignature=signature;const scroll=$('queue-panel').scrollTop;$('queue-panel').replaceChildren();let position=0;
- for(const job of jobs){const row=document.createElement('div');row.className='queue-row';const title=document.createElement('strong');if(job.state==='queued')position++;title.textContent=(job.state==='queued'?position+'. ':'')+job.session.title;const status=document.createElement('span');status.textContent=job.state==='failed'?job.error||'Fehler':names[job.state];status.title=job.error||'';const action=document.createElement('button');action.textContent=job.state==='failed'?'Wiederholen':'Öffnen';action.disabled=Boolean(state.recording.id)||(job.state==='failed'&&!allowed('process'));action.onclick=run(async()=>{await flush();if(job.state==='failed'){await api('/api/sessions/'+job.session.id+'/retry',{});await poll()}else await selectMeeting(job.session.id)});row.append(title,status,action);$('queue-panel').append(row)}
+ const signature=JSON.stringify([allowed('process'),online,state.recording.id,Boolean(state.activity?.busy)])+JSON.stringify(jobs.map(j=>[j.id,j.state,j.session.title,j.error]));if(signature===queueSignature){refreshQueueDetails(jobs);return}queueSignature=signature;const scroll=$('queue-panel').scrollTop;$('queue-panel').replaceChildren();queueNodes=new Map();let position=0;
+ if(jobs.length){const header=document.createElement('div');header.className='queue-columns';header.setAttribute('aria-hidden','true');for(const text of ['Meeting','Dateigröße','Status','Fortschritt','']){const cell=document.createElement('span');cell.textContent=text;header.append(cell)}$('queue-panel').append(header)}
+ for(const job of jobs){
+  const row=document.createElement('div');row.className='queue-row';row.dataset.queueKey=JSON.stringify([job.id,job.state,job.session.title,job.error]);
+  const title=document.createElement('strong');if(job.state==='queued')position++;title.textContent=(job.state==='queued'?position+'. ':'')+job.session.title;
+  const size=document.createElement('span');size.className='queue-file-size';size.setAttribute('aria-label','Dateigröße');
+  const status=document.createElement('span');status.className='queue-job-status';status.textContent=job.state==='failed'?job.error||'Fehler':names[job.state];status.title=job.error||'';
+  const progress=document.createElement('div');progress.className='queue-job-progress';
+  const label=document.createElement('span'),bar=document.createElement('progress'),detail=document.createElement('small');bar.max=1;progress.append(label,bar,detail);
+  const action=document.createElement('button');action.textContent=job.state==='failed'?'Wiederholen':'Öffnen';action.disabled=Boolean(state.recording.id)||(job.state==='failed'&&!allowed('process'));action.onclick=run(async()=>{await flush();if(job.state==='failed'){await api('/api/sessions/'+job.session.id+'/retry',{});await poll()}else await selectMeeting(job.session.id)});
+  let actions=action;
+  if(job.state==='failed'){
+   actions=document.createElement('div');actions.className='queue-row-actions';
+   const remove=document.createElement('button');remove.className='queue-delete';remove.title='Meeting löschen';remove.setAttribute('aria-label','„'+job.session.title+'“ löschen');remove.append(icon('trash'));
+   remove.disabled=!online||Boolean(state.recording.id)||Boolean(state.activity?.busy);remove.onclick=run(()=>deleteMeeting(job.session.id,job.session.title));actions.append(action,remove);
+  }
+  row.append(title,size,status,progress,actions);queueNodes.set(job.id,{size,label,bar,detail});$('queue-panel').append(row);
+ }
+ refreshQueueDetails(jobs);
  if(!jobs.length){const empty=document.createElement('p');empty.textContent='Keine offenen Aufträge.';$('queue-panel').append(empty)}$('queue-panel').scrollTop=scroll;
 }
 async function poll(){
@@ -147,13 +220,13 @@ for(const heading of document.querySelectorAll('.dialog-heading')){const b=docum
 $('export').onclick=run(exportMeeting);$('download').onclick=run(exportMeeting);
 async function processMeeting(transcribeAgain=false){await flush();if(!selected)return;await api('/api/sessions/'+selected+'/process',{prompt:$('prompt').value,transcribe_again:transcribeAgain});$('more').close();await poll()}
 $('process').onclick=run(()=>processMeeting(false));$('retranscribe').onclick=run(()=>processMeeting(true));
-$('delete').onclick=run(async()=>{await flush();if(!selected||!confirm('Dieses Meeting und seine Audiodatei endgültig löschen?'))return;const id=selected;await api('/api/sessions/'+id+'/delete',{});models.delete(id);selected=null;audio.pause();audio.removeAttribute('src');delete audio.dataset.session;$('editor').value='';$('editor').disabled=true;$('meeting-title').textContent='Meeting auswählen';$('more').close();await poll()});
+$('delete').onclick=run(async()=>{if(selected&&await deleteMeeting(selected,models.get(selected)?.row.title||'Meeting'))$('more').close()});
 function fillSelect(element,entries,selectedValue,valueKey,label){element.replaceChildren();for(const entry of entries){const option=document.createElement('option');option.value=entry[valueKey];option.textContent=label(entry);element.append(option)}if(selectedValue!==undefined)element.value=selectedValue}
 async function loadPrompts(){prompts=await api('/api/prompts');for(const id of ['prompt','prompt-select']){const before=$(id).value;fillSelect($(id),prompts,before||prompts[0]?.id,'id',p=>p.name)}renderPrompt()}
 function renderPrompt(){const p=prompts.find(p=>p.id===$('prompt-select').value);$('prompt-name').value=p?.name||'';$('prompt-text').value=p?.prompt_text||'';$('prompt-name').readOnly=Boolean(p?.is_default);$('prompt-text').readOnly=Boolean(p?.is_default);$('prompt-save').disabled=Boolean(p?.is_default);$('prompt-delete').disabled=!p||p.is_default}
 $('prompt-select').onchange=renderPrompt;$('prompt-new').onclick=()=>{$('prompt-select').value='';$('prompt-name').value='';$('prompt-text').value='';$('prompt-name').readOnly=false;$('prompt-text').readOnly=false;$('prompt-save').disabled=false;$('prompt-delete').disabled=true;$('prompt-name').focus()};
 $('prompt-save').onclick=run(async()=>{const id=$('prompt-select').value,known=new Set(prompts.map(p=>p.id));const saved=await api('/api/prompts',{action:id?'update':'add',id,name:$('prompt-name').value,text:$('prompt-text').value});await loadPrompts();$('prompt-select').value=id||saved.find(p=>!known.has(p.id))?.id||prompts[0]?.id;renderPrompt();notice('Prompt gespeichert.')});
-$('prompt-delete').onclick=run(async()=>{if(!confirm('Eigenen Prompt löschen?'))return;await api('/api/prompts',{action:'delete',id:$('prompt-select').value});await loadPrompts()});
+$('prompt-delete').onclick=run(async()=>{const ident=$('prompt-select').value;if(!await confirmAction({title:'Vorlage löschen?',message:'Die eigene Vorlage „'+($('prompt-name').value||'Unbenannt')+'“ wird endgültig gelöscht.',accept:'Vorlage löschen'}))return;await api('/api/prompts',{action:'delete',id:ident});await loadPrompts()});
 async function loadSetup(){
  if(setupBusy)return;setupBusy=true;
  try{const [setup,audioDevices]=await Promise.all([api('/api/setup'),api('/api/devices')]);catalog=setup.catalog;const c=state.config;

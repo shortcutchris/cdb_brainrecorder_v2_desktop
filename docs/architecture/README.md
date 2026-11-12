@@ -63,10 +63,12 @@ Der Mira-Prototyp verwendet dagegen einen eigenen Server, andere Kopplungsrichtu
 und WebSockets. Diese beiden Protokolle dürfen nicht gleichgesetzt werden.
 Siehe [Codeprüfung und belegter Serverbestand](../mira-receiver-review.md).
 
-**Geplante Erweiterung, noch nicht implementiert:** Eine Bluetooth-Tastenfernbedienung
-und die CDB-Mobile-App sollen dieselben gesicherten Gesprächsaktionen bedienen.
+**Erweiterung im Feature-Branch, als 0.5.61 auf dem Test-Pi installiert;
+serverseitige Staging-Freischaltung und Verbundabnahme noch offen:** Die CDB-Mobile-App
+steuert denselben Pi-Gesprächsdienst über einen eigenen CDB-Control-Kanal.
+Bluetooth-Tastenfernbedienungen sind zunächst zurückgestellt.
 Persönliche Steuerrechte bleiben von Geräteadministration und lesender
-Bildschirmkopplung getrennt. [Entwurf und geprüfte Integrationspunkte](../remote-control/README.md).
+Bildschirmkopplung getrennt. [Umsetzung, Vertrag und Abnahmegrenzen](../remote-control/IMPLEMENTATION-63.md).
 
 ## Wo die Server laufen
 
@@ -114,3 +116,16 @@ nötig; inkompatible App-Pakete werden abgewiesen. Die verbindliche
 - [TQS-/BFF-Abnahme](../device-tools-0.5.32/README.md),
   [Geräteverwaltung](../device-management-0.5.43/README.md),
   [Erststart](../first-start-0.5.44/README.md).
+
+## Vorbereitete Sprachansagen
+
+`services/announcements.py` verwaltet feste, geprüfte WAV-Clips und separate Opt-ins. `StudioApp` entscheidet unter den vorhandenen Gerätesperren über Ausgabe; `AudioOutput` besitzt den Wiedergabeprozess bis zum bestätigten Ende. Phonon wird ausschließlich vom optionalen Vorbereitungswerkzeug auf einem anderen Rechner verwendet. Kein zweiter Mikrofonpfad, keine Runtime-Synthese. [Verhalten und Installation](../local-announcements/README.md).
+
+## USB-Timerdisplay (0.5.70 auf dem Test-Pi, Hardwareabnahme offen)
+
+Der optionale `cdb-lcd-display.service` läuft getrennt vom Recorder. Er liest nur
+`/api/lcd/timers` über Loopback und öffnet ausschließlich einen anhand der
+USB-Metadaten erkannten CDB-Timerdisplay-Port. Keine Mikrofon-, Audio- oder
+Timer-Schreibbefehle; keine neue Option pro Timer. Firmware und Begleitdienst
+werden einmal separat eingerichtet. Details, Ausfälle, Installation und offene
+Hardwareabnahme: [LCD-Display](../lcd-display/README.md).

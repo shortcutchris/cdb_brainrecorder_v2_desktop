@@ -27,7 +27,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.60'
+VERSION = '0.5.71'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -72,6 +72,10 @@ class StudioApp:
         self.closing = False
         from services.audio_output import AudioOutput
         self.speakers = AudioOutput(self.store.root)
+        from services.announcements import Announcements
+        self.announcements = Announcements(self.store.root)
+        self.announcement_playing = False
+        self.countdown = None
         from services.bluetooth_audio import BluetoothAudio
         self.bluetooth = BluetoothAudio(enabled=not preview and backend is None)
         from services.model_checks import ModelChecks
@@ -86,6 +90,8 @@ class StudioApp:
 
         from services.live_conversation import LiveConversation
         self.live = LiveConversation(self.cdb, self.store.root, audio_config=self.live_audio_config)
+        from services.remote_control import RemoteControl
+        self.remote_control = RemoteControl(self)
         from services.remote_display import DisplayHub
         self.display = DisplayHub(self.live, self.display_account)
         self.display_preferences = self.store.root/'display-enabled.json'
@@ -93,6 +99,8 @@ class StudioApp:
         self.respeaker = ReSpeakerLeds(self.store.root, self.respeaker_state, enabled=not preview and backend is None)
         from services.wake_word import WakeWord
         from services.schedules import Schedules
+        from services.nfc_tokens import NfcTokens
+        self.nfc = NfcTokens(self.store.root)
         self.wake = WakeWord(self.store.root)
         self.schedules = Schedules(self.store.root)
         self.live.device_executor = lambda scope, request: self.schedules.execute_tool(scope, request, self.clock_ready)
@@ -102,6 +110,8 @@ class StudioApp:
         self.clock_ready = False
         self.ambient_error = ''
         self.output_busy_until = 0
+        from services.remote_control_transport import create_channel
+        self.remote_channel = create_channel(self, start=not preview and backend is None)
         self.ambient_thread = threading.Thread(target=self.ambient_loop, daemon=True)
         self.ambient_thread.start()
 
@@ -132,8 +142,11 @@ class StudioApp:
         if reason: raise ValueError(reason)
         if not self.wake.enabled or self.wake.account != self.wake_account():
             raise ValueError('Brain-Anmeldung oder Freigabe hat sich geändert.')
+        return self._start_device_live_locked(self.wake.account)
+
+    def _start_device_live_locked(self, binding):
+        """Caller owns the control/controller/recorder locks and input consent."""
         self.require('live')
-        binding = self.wake.account
         path = self.live.root/('areas-'+self.live._selection_key(binding)+'.json')
         try: remembered = json.loads(path.read_text())
         except (OSError, ValueError): raise ValueError('Im Live-Gespräch zuerst Wissensbereiche auswählen.') from None
@@ -145,6 +158,86 @@ class StudioApp:
         except Exception:
             self.live.end(lease)
             raise
+        return lease
+
+    def nfc_start(self, mode):
+        reason = self.wake_reason()
+        if reason: raise ValueError(reason)
+        if mode == 'meeting':
+            return self.action('/api/record/start', {})['id']
+        account = self.wake_account()
+        if not account: raise ValueError('Für Talk zuerst beim Brain anmelden.')
+        self.wake.suspend('NFC-Gespräch startet.')
+        return self._start_device_live_locked(account)
+
+    def nfc_still_owned(self, mode, identity):
+        if mode == 'meeting': return self.engine.recorder.status().get('id') == identity
+        with self.live.lock:
+            return self.live.lease == identity and self.live.public()['busy']
+
+    def nfc_stop(self, mode, identity):
+        if not self.nfc_still_owned(mode, identity): return
+        if mode == 'meeting': self.action('/api/record/stop', {})
+        else: self.live.end(identity)
+
+    def remote_live_command(self, envelope, verified_grant):
+        return self.remote_control.command(envelope, verified_grant)
+
+    def speech_context_allowed(self):
+        import time
+        activity = self.activity()
+        return (not activity.occupied and not activity.pending and not self.closing
+                and self.wake.test_until <= time.monotonic()
+                and not any(deadline > time.monotonic() for deadline in self.playback_leases.values()))
+
+    def speech_allowed(self):
+        import time
+        return self.speech_context_allowed() and self.output_busy_until <= time.monotonic()
+
+    def tick_announcements(self):
+        import time
+        if self.announcement_playing and self.speakers.test_status()['state'] != 'running':
+            self.announcement_playing = False
+            self.output_busy_until = max(self.output_busy_until, time.monotonic() + 2)
+        # No transcript, tokens, error text or audio are passed to speech.
+        with self.live.lock:
+            event = self.live.announcement_failure
+            safe = (self.speech_context_allowed() and self.live.state == 'error' and event is not None
+                    and event['sequence'] == self.live.generation
+                    and event['account_generation'] == self.cdb.generation)
+            clip = self.announcements.failure_clip(event, safe, quiet=self.output_busy_until <= time.monotonic())
+        if clip:
+            self.wake.suspend('Lokale Ansage läuft.')
+            self.speakers.start_announcement(clip)
+            self.announcement_playing = True
+
+    def stop_countdown(self):
+        import time
+        if self.countdown is not None:
+            self.speakers.stop_test()  # Retain ownership on failed cleanup.
+            self.countdown = None
+            self.announcement_playing = False
+            self.output_busy_until = max(self.output_busy_until, time.monotonic() + 2)
+
+    def tick_countdown(self):
+        """Under device locks, use only the timer deadline, never labels/content."""
+        import time
+        candidate = self.schedules.claim_countdown(self.clock_ready)
+        if self.countdown is not None:
+            valid = any(item['id'] == self.countdown['id'] and
+                        item['revision'] == self.countdown['revision'] and item['state'] == 'scheduled'
+                        for item in self.schedules.items())
+            if (not valid or time.monotonic() >= self.countdown['end_at'] or
+                    self.speakers.test_status()['state'] != 'running'):
+                self.stop_countdown()
+            return
+        clip = self.announcements.countdown_clip()
+        if candidate and clip and self.speech_allowed():
+            self.wake.suspend('Timer zählt herunter.')
+            try: self.speakers.start_countdown(clip, candidate['end_at'])
+            except ValueError: return  # Skip; the normal alarm remains due on time.
+            self.countdown = candidate
+            self.announcement_playing = True
 
     def tick_alarm(self):
         """Called under the device control locks; Live does not defer an alarm."""
@@ -157,13 +250,15 @@ class StudioApp:
         if self.activity().alarm_allowed:
             for item in self.schedules.items():
                 if item['state']=='due' and item['sound']=='pending':
+                    if item.get('tone') == 'silent':
+                        self.schedules.sound_result(item['id'], 'silent'); continue
+                    clip = self.announcements.timer_clip(item['kind']) if self.speech_allowed() else None
                     self.wake.suspend('Timer-Signal läuft.')
                     # Claim before playback: at most one attempt after a crash.
                     self.schedules.sound_result(item['id'],'attempted')
                     try:
-                        if item.get('tone')=='silent':
-                            self.schedules.sound_result(item['id'],'silent'); continue
-                        self.speakers.start_alarm(item.get('tone','bell'))
+                        if clip is None: self.speakers.start_alarm(item.get('tone','bell'))
+                        else: self.speakers.start_alarm(item.get('tone','bell'), announcement=clip)
                         self.alarm_id = item['id']
                     except ValueError: self.schedules.sound_result(item['id'],'failed')
                     break
@@ -180,7 +275,7 @@ class StudioApp:
                         self.clock_ready = result.returncode == 0 and result.stdout.strip() == 'yes'
                     except (OSError, subprocess.SubprocessError): self.clock_ready = False
                     next_clock = time.monotonic()+60
-                if (self.wake.enabled or self.wake.test_until) and time.monotonic() >= next_output:
+                if (self.wake.enabled or self.wake.test_until or any(self.announcements.enabled.values())) and time.monotonic() >= next_output:
                     try:
                         output = subprocess.run(['pactl','-f','json','list','sink-inputs'],capture_output=True,text=True,timeout=2)
                         if output.returncode != 0: raise ValueError()
@@ -193,7 +288,10 @@ class StudioApp:
                 with self.control_lock, self.controller.lock, self.engine.recorder.lock:
                     if self.closing: return
                     self.playback_leases = {key:value for key,value in self.playback_leases.items() if value>time.monotonic()}
+                    self.tick_countdown()
                     self.tick_alarm()
+                    self.tick_announcements()
+                    self.nfc.tick(self.nfc_start, self.nfc_stop, self.nfc_still_owned)
                     reason = self.wake_reason()
                     self.wake.tick(account=self.wake_account(),reason=reason,
                                    config=self.store.config(),trigger=self.wake_start)
@@ -227,7 +325,8 @@ class StudioApp:
         if not speaker['available']:raise ValueError(speaker['message'])
         if speaker['muted'] or speaker['volume']==0:raise ValueError('Pi-Lautsprecher ist stumm. Unter Einstellungen → Audio einschalten.')
         output=next(d for d in speaker['devices'] if d['id']==speaker['selected'])
-        return {'device':device,'speaker':speaker['selected'],'microphone_label':microphone['label'],'speaker_label':output['label']}
+        return {'device':device,'speaker':speaker['selected'],'microphone_label':microphone['label'],'speaker_label':output['label'],
+                'connecting_announcement':self.announcements.connecting_clip()}
 
     def respeaker_state(self):
         recording=self.engine.recorder.status()
@@ -303,14 +402,28 @@ class StudioApp:
         if available<4*1024**2:raise ValueError('Modelltest wartet: mindestens 4 GiB verfügbarer Arbeitsspeicher erforderlich.')
 
 
+    @staticmethod
+    def audio_file_bytes(*paths):
+        for path in paths:
+            try:
+                return path.stat().st_size
+            except OSError:
+                continue
+        return None
+
     def state(self):
         with self.controller.lock:
             self.controller.sync()
             state = self.engine.state()
+            for job in state['jobs']:
+                folder = self.store.folder(job['id'])
+                job['audio_file_bytes'] = self.audio_file_bytes(folder/'audio.wav', folder/'audio.pcm', folder/'audio.import.wav')
+                job['processing_detail'] = state['progress'] if job['state'] in ('transcribing', 'summarizing') else ''
             rows = self.repo.get_all()
             state['sessions'] = [{k:r.get(k) for k in ('id','title','recorded_at','duration_sec',
                 'samplerate','channels','transcription_status','local_job_id','local_error')}
-                | {'has_audio': bool(r.get('path') and Path(r['path']).is_file())} for r in rows]
+                | {'has_audio': bool(r.get('path') and Path(r['path']).is_file()),
+                   'audio_file_bytes': self.audio_file_bytes(Path(r['path'])) if r.get('path') else None} for r in rows]
         raw = b''
         ident = state['recording']['id']
         if ident:
@@ -329,16 +442,19 @@ class StudioApp:
         state['level'] = self.probe.level(raw) if raw else 0
         state['capabilities'] = self.capabilities(state)
         state['activity'] = self.activity(state).public()
+        state['remote_control'] = self.remote_channel.public()
         state['management'] = self.management.public()
         state['first_start'] = self.first_start.public(state['management'])
         state['cdb'] = self.cdb.public()
         state['model_check'] = self.model_checks.public()
         state['model_results'] = self.model_checks.results()
         state['speaker_test'] = self.speakers.test_status()
+        state['announcements'] = self.announcements.public()
         state['respeaker'] = self.respeaker.public()
         state['live'] = self.live.public()
         state['display'] = self.display.status()
         state['wake'] = self.wake.public()
+        state['nfc'] = self.nfc.public()
         state['timers'] = {'items': self.schedules.items(), 'ringing_id': self.alarm_id, 'clock_ready': self.clock_ready, 'voice_available': bool(self.live.public().get('device_tools'))}
         state['bluetooth'] = self.bluetooth.public()
         state.update(csrf=self.csrf, version=VERSION, preview=self.preview,
@@ -431,6 +547,9 @@ class StudioApp:
             if self.closing:raise ValueError('Dienst wird beendet. Änderungen bitte kurz aufbewahren.')
             if self.management.busy():raise ValueError('Gerät wird gewartet. Bitte kurz warten.')
             if self.first_start.busy:raise ValueError('Netzwerk wird eingerichtet. Bitte kurz warten.')
+            if path == '/api/nfc':
+                self.require('configure')
+                return self.nfc.configure(body)
             if path == '/api/onboarding/network':
                 self.require('install')
                 if any(i['state'] in ('scheduled','due') for i in self.schedules.items()):raise ValueError('Aktiven Timer zuerst abschließen.')
@@ -444,6 +563,9 @@ class StudioApp:
             if path == '/api/device/restart':
                 if body.get('confirm') is not True:raise ValueError('Neustart bitte bestätigen.')
                 return self.management.restart_device(self,VERSION)
+            if path.startswith('/api/remote-control/'):
+                if path != '/api/remote-control/revoke': self.require('configure')
+                return self.remote_channel.enqueue(path.removeprefix('/api/remote-control/'), body)
             if path == '/api/management/enroll':
                 self.require('configure')
                 return self.management.enroll(body.get('code'))
@@ -458,6 +580,14 @@ class StudioApp:
                     self.wake.suspend('Audiowiedergabe läuft.')
                 else: self.playback_leases.pop(key,None)
                 return {'ok':True}
+            if path == '/api/announcements/reload':
+                self.require('configure')
+                if body: raise ValueError('Keine Parameter erwartet.')
+                self.announcements.reload()
+                return self.announcements.public()
+            if path == '/api/announcements':
+                self.require('configure')
+                return self.announcements.configure(body)
             if path == '/api/timers/tone':
                 self.require('configure')
                 self.wake.suspend('Alarmton wird vorgespielt.')
@@ -468,6 +598,8 @@ class StudioApp:
                     if body.get('kind')=='reminder' and not self.clock_ready: raise ValueError('Gerätezeit zuerst synchronisieren lassen.')
                     return self.schedules.create(body)
                 result = self.schedules.change(body)
+                if self.countdown is not None and self.countdown['id'] == body.get('id'):
+                    self.stop_countdown()
                 if self.alarm_id == body.get('id'):
                     self.speakers.stop_test(); self.alarm_id=None
                 return result
@@ -485,6 +617,14 @@ class StudioApp:
                     self.live_audio_config()
                     return self.wake.configure(True,self.wake_account())
                 raise ValueError('Unbekannte Aktivierungswort-Aktion.')
+            if path in ('/api/record/start','/api/live/reserve','/api/microphone/test','/api/cdb/logout'):
+                with self.live.lock:
+                    self.announcements.failure_clip(self.live.announcement_failure, False)
+                if self.countdown is not None:
+                    self.stop_countdown()
+                if self.announcement_playing:
+                    self.speakers.stop_test()
+                    self.announcement_playing = False
             if path in ('/api/record/start','/api/live/reserve','/api/microphone/test') and self.alarm_id:
                 self.speakers.stop_test();self.schedules.sound_result(self.alarm_id,'interrupted');self.alarm_id=None
             if path == '/api/cdb/logout': self.wake.configure(False,None)
@@ -633,7 +773,9 @@ class StudioApp:
     def close(self):
         with self.control_lock:
             self.closing=True
+            if hasattr(self, 'remote_channel'): self.remote_channel.close()
             self.ambient_stop.set()
+            self.nfc.close()
             self.wake.test_until=0
             self.wake.suspend()
             self.display.close()
@@ -669,6 +811,12 @@ class StudioHandler(Handler):
         if path=='/favicon.ico':
             self.send_response(204);self.headers_base('image/x-icon',0);self.end_headers();return
         if path=='/api/wake/status':self.respond(self.server.app.wake.public());return
+        if path=='/api/lcd/timers':
+            if self.client_address[0] not in ('127.0.0.1','::1'):
+                self.respond({'error':'Nur lokal verfügbar.'},403);return
+            from services.lcd_display import snapshot
+            app=self.server.app
+            self.respond(snapshot(app.schedules, app.clock_ready));return
         if path=='/api/state':self.respond(self.server.app.state());return
         if path=='/api/bluetooth':
             self.server.app.bluetooth.start();self.respond(self.server.app.bluetooth.public());return

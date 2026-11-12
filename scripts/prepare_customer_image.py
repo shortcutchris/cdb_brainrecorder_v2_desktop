@@ -60,7 +60,7 @@ def prepare(output, public_key, server='https://cdblab.de/devices', country='DE'
     stage = output / 'stage-brain'; step = stage / '00-brain'
     (stage / 'prerun.sh').write_text('#!/bin/bash\nif [ ! -d "${ROOTFS_DIR}" ]; then copy_previous; fi\n')
     (stage / 'EXPORT_IMAGE').write_text("IMG_SUFFIX='-brain'\n")
-    (step / '00-packages').write_text('python3-venv libportaudio2 libsndfile1 alsa-utils ffmpeg espeak-ng chromium labwc dbus-user-session pipewire pipewire-pulse wireplumber pulseaudio-utils libspa-0.2-bluetooth network-manager bluez libxcb-cursor0 libegl1 libopengl0 lightdm cmake build-essential curl git zstd\n')
+    (step / '00-packages').write_text('python3-venv python3-pyscard pcscd libccid libportaudio2 libsndfile1 alsa-utils ffmpeg espeak-ng chromium labwc dbus-user-session pipewire pipewire-pulse wireplumber pulseaudio-utils libspa-0.2-bluetooth network-manager bluez libxcb-cursor0 libegl1 libopengl0 lightdm cmake build-essential curl git zstd\n')
     (step / '00-run.sh').write_text('#!/bin/bash\nset -euo pipefail\ntest -n "${ROOTFS_DIR}" && test "${ROOTFS_DIR}" != /\nmkdir -p "${ROOTFS_DIR}/opt/cdb"\ncp -a files/source files/factory "${ROOTFS_DIR}/opt/cdb/"\ninstall -m 644 files/factory.json "${ROOTFS_DIR}/etc/cdb-factory-image.json"\ntouch "${ROOTFS_DIR}/.cdb-image-build"\n')
     shutil.copyfile(SOURCE / 'deploy/customer-image/01-run-chroot.sh', step / '01-run-chroot.sh')
     (step / '02-run.sh').write_text('#!/bin/bash\nset -euo pipefail\npython3 files/factory/audit_customer_rootfs.py "${ROOTFS_DIR}"\n')

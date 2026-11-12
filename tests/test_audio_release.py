@@ -129,6 +129,48 @@ class LiveReleaseTests(unittest.TestCase):
 
 
 class NativeReleaseTests(unittest.TestCase):
+    def test_signal_denied_after_exit_is_confirmed_before_release(self):
+        for fallback in (False, True):
+            with self.subTest(fallback=fallback):
+                audio = NativeLiveAudio({}, capture_command=['unused'], playback_command=['unused'])
+                child = Mock(pid=12345, returncode=None, stdin=None)
+                async def exited():
+                    child.returncode = 0
+                    return 0
+                child.wait = AsyncMock(side_effect=exited)
+                audio.processes.append(child)
+                try:
+                    with patch('services.live_audio.os.killpg', side_effect=PermissionError('synthetic exited group')):
+                        if fallback:
+                            with patch.object(audio, '_shutdown', new=AsyncMock()):
+                                audio.close()
+                        else:
+                            audio.close()
+                    self.assertTrue(audio.cleanup_complete)
+                    self.assertFalse(audio.thread.is_alive())
+                    self.assertEqual(audio.stats()['processes_alive'], 0)
+                    self.assertGreater(child.wait.await_count, 0)
+                finally:
+                    child.returncode = 0
+                    audio.close()
+
+    def test_signal_denied_for_live_child_preserves_owner_until_retry(self):
+        audio = NativeLiveAudio({}, capture_command=['unused'], playback_command=['unused'])
+        child = audio._submit(audio._spawn([sys.executable, '-c', 'import time; time.sleep(20)']))
+        try:
+            with patch('services.live_audio.os.killpg', side_effect=PermissionError('synthetic denied')):
+                with self.assertRaises(PermissionError): audio.close()
+            self.assertIsNone(child.returncode)
+            self.assertIn(child, audio.processes)
+            self.assertFalse(audio.cleanup_complete)
+            self.assertTrue(audio.thread.is_alive())
+            audio.close()
+            self.assertIsNotNone(child.returncode)
+            self.assertTrue(audio.cleanup_complete)
+            self.assertFalse(audio.thread.is_alive())
+        finally:
+            audio.close()
+
     def test_100_concurrent_close_retries_leave_no_audio_threads(self):
         # Real event loops and simultaneous callers, but no microphone, playback
         # process or cloud connection. Exercise the newly retryable close path.

@@ -1,3 +1,7 @@
+> Umsetzung zu Mobile #63: [aktueller Stand, Bedienung und Tests](IMPLEMENTATION-63.md).
+> Der [Vertrag v1](contract-v1.md) ersetzt ältere Transport-/Lease-Annahmen.
+> Noch nicht produktiv ausgeliefert; zunächst nur Software-Fernbedienung.
+
 # Fernbedienung für den Voice Agent – gemeinsamer Entwurf
 
 Stand: 16.10.2026. Auf Nutzerauftrag parallel geprüfte Erweiterung.

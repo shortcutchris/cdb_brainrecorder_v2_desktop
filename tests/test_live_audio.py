@@ -68,6 +68,7 @@ class ReadyToneTests(unittest.IsolatedAsyncioTestCase):
         from services.live_audio import NativeLiveAudio
         self.audio=NativeLiveAudio.__new__(NativeLiveAudio)
         self.audio.closed=threading.Event();self.audio.tasks=set();self.audio.processes=[]
+        self.audio.config={};self.audio.connecting_announcement_state='waiting'
         self.audio.ready_tone_started=False;self.audio.ready_tone_state='waiting'
         self.audio.connecting_task=None;self.audio.connecting_stop=asyncio.Event()
         self.audio.connecting_tone_state='waiting';self.audio.connecting_blocks=0
@@ -89,6 +90,81 @@ class ReadyToneTests(unittest.IsolatedAsyncioTestCase):
         for task in list(self.audio.tasks):task.cancel()
         if self.audio.tasks:await asyncio.gather(*self.audio.tasks,return_exceptions=True)
         self.tmp.cleanup()
+
+    def connecting_wav(self):
+        import io, wave
+        out = io.BytesIO()
+        with wave.open(out, 'wb') as audio:
+            audio.setparams((1, 2, 24000, 0, 'NONE', 'none'))
+            audio.writeframes(b'\x01\x02' * 2400)
+        return out.getvalue()
+
+    async def test_connecting_voice_finishes_and_reaps_before_capture_opens(self):
+        import sys, time
+        from unittest.mock import patch
+        self.audio.config = {'connecting_announcement': self.connecting_wav()}
+        self.audio.capture_command = ['fake-capture']
+        original = self.audio._spawn
+        order = []
+        async def spawn(command, **kwargs):
+            if command == self.audio.capture_command:
+                order.append('capture')
+                self.assertEqual(self.audio.connecting_announcement_state, 'played')
+                self.assertFalse(self.audio.processes)
+                self.assertGreaterEqual(time.monotonic() - started, 2)
+                raise RuntimeError('capture sentinel; hardware never opened')
+            order.append('announcement')
+            return await original(command, **kwargs)
+        started = time.monotonic()
+        with patch.object(self.audio, '_spawn', spawn), patch.dict(sys.modules, {'aiortc': SimpleNamespace(AudioStreamTrack=object, RTCPeerConnection=object), 'av': SimpleNamespace()}):
+            with self.assertRaisesRegex(RuntimeError, 'capture sentinel'): await self.audio._open()
+        self.assertEqual(order, ['announcement', 'capture'])
+        self.assertEqual(self.output.read_bytes(), b'\x01\x02' * 2400)
+        self.assertTrue(self.audio.startup_input_blocked)
+        self.assertFalse(self.commands)
+
+    async def test_connecting_voice_disabled_and_missing_player_are_optional(self):
+        await self.audio._connection_announcement()
+        self.assertEqual(self.audio.connecting_announcement_state, 'skipped')
+        self.audio.config = {'connecting_announcement': self.connecting_wav()}
+        self.audio.playback_command = ['/no-such-announcement-player']
+        await self.audio._connection_announcement()
+        self.assertEqual(self.audio.connecting_announcement_state, 'failed')
+        self.assertFalse(self.audio.processes)
+
+    async def test_cancel_connecting_voice_reaps_child_and_never_opens_capture(self):
+        import asyncio, sys
+        from unittest.mock import patch
+        self.audio.config = {'connecting_announcement': self.connecting_wav()}
+        self.audio.playback_command = [sys.executable, '-c', 'import time;time.sleep(10)']
+        self.audio.capture_command = ['capture-must-not-open']
+        calls = []; original = self.audio._spawn
+        async def spawn(command, **kwargs):
+            calls.append(command)
+            return await original(command, **kwargs)
+        with patch.object(self.audio, '_spawn', spawn):
+            task = asyncio.create_task(self.audio._open())
+            for _ in range(100):
+                if self.audio.processes: break
+                await asyncio.sleep(.01)
+            children = list(self.audio.processes); self.assertTrue(children)
+            self.audio.closed.set(); task.cancel()
+            with self.assertRaises(asyncio.CancelledError): await task
+        self.assertEqual(calls, [self.audio.playback_command])
+        self.assertEqual(self.audio.connecting_announcement_state, 'cancelled')
+        self.assertTrue(all(p.returncode is not None for p in children))
+        self.assertFalse(self.audio.processes)
+        self.assertFalse(self.commands)
+
+    async def test_connecting_cleanup_failure_blocks_capture(self):
+        from unittest.mock import AsyncMock, patch
+        self.audio.config = {'connecting_announcement': self.connecting_wav()}
+        with patch.object(self.audio, '_terminate', AsyncMock(side_effect=RuntimeError('cleanup pending'))):
+            with self.assertRaisesRegex(RuntimeError, 'cleanup pending'): await self.audio._open()
+        # Real test writer has exited, only bookkeeping is deliberately retained.
+        self.assertTrue(all(p.returncode is not None for p in self.audio.processes))
+        self.audio.processes.clear()
+        self.assertFalse(self.commands)
 
     async def test_chime_only_after_connected_once_and_real_pcm_is_written(self):
         import asyncio
