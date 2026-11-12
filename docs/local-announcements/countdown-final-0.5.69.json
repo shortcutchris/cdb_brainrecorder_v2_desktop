@@ -1,0 +1,20 @@
+{
+  "health": {
+    "version": "0.5.69",
+    "ready": true,
+    "activity": "idle",
+    "wake_state": "listening"
+  },
+  "announcements": {
+    "offline": true,
+    "timers": true,
+    "connecting": true,
+    "countdown": true,
+    "ready": true,
+    "connecting_ready": true,
+    "countdown_ready": true,
+    "message": "Deutsches Sprachpaket bereit. \u00c4nderungen werden beim Speichern neu gepr\u00fcft."
+  },
+  "open_timer_count": 0,
+  "maintenance_active": false
+}

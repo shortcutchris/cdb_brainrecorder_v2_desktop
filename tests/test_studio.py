@@ -22,6 +22,69 @@ class StudioTests(unittest.TestCase):
         self.server=StudioServer(('127.0.0.1',0),self.app);self.thread=threading.Thread(target=self.server.serve_forever,daemon=True);self.thread.start()
         self.base='http://127.0.0.1:'+str(self.server.server_port)
     def tearDown(self):self.server.shutdown();self.server.server_close();self.app.close();self.tmp.cleanup()
+    def test_queue_reports_real_audio_sizes_for_existing_and_missing_files(self):
+        self.app.ambient_stop.set();self.app.ambient_thread.join(3)
+        ident=self.app.engine.store.create('Wartet')
+        folder=self.app.engine.store.folder(ident)
+        raw=folder/'audio.pcm';raw.write_bytes(b'\0\0'*320)
+        self.app.engine.store.update(ident,state='failed',error='Test')
+        self.app.controller.sync()
+        state=self.app.state();job=next(j for j in state['jobs'] if j['id']==ident)
+        self.assertEqual(job['audio_file_bytes'],640)
+        self.assertEqual(job['processing_detail'],'')
+        wav=folder/'audio.wav';wav.write_bytes(b'WAV'*300)
+        state=self.app.state();job=next(j for j in state['jobs'] if j['id']==ident)
+        self.assertEqual(job['audio_file_bytes'],900)
+        legacy=next(r for r in state['sessions'] if r['id']==self.sid)
+        self.assertEqual(legacy['audio_file_bytes'],(self.root/'test.wav').stat().st_size)
+        raw.unlink();wav.unlink()
+        self.assertIsNone(next(j for j in self.app.state()['jobs'] if j['id']==ident)['audio_file_bytes'])
+
+    def test_probe_counts_captured_seconds_and_requires_a_saved_sample(self):
+        app = self.app
+        with patch.object(app.probe,'start',return_value={'state':'running'}):
+            status, data, _ = self.request('/api/microphone/test', {})
+            self.assertEqual(status, 200)
+            self.assertEqual(json.loads(data)['seconds_left'], 5)
+        raw, wav = app.probe.folder/'audio.pcm', app.probe.folder/'audio.wav'
+        for seconds in range(6):
+            raw.write_bytes(bytes(seconds * 32000))
+            self.assertEqual(app.microphone_progress({'state': 'running'})['seconds_left'], 5 - seconds)
+        app.probe_started_ns = raw.stat().st_mtime_ns + 1
+        self.assertEqual(app.microphone_progress({'state': 'running'})['seconds_left'], 5)
+        raw.unlink()
+        app.probe.update(state='completed', device=app.store.config()['device'])
+        self.assertEqual(app.state()['microphone_test']['state'], 'failed')
+        self.assertFalse(app.setup_state()['checks'][0]['ok'])
+        wav.write_bytes((self.root/'test.wav').read_bytes())
+        self.assertEqual(app.state()['microphone_test']['sample_id'], str(wav.stat().st_mtime_ns))
+        self.assertTrue(app.setup_state()['checks'][0]['ok'])
+
+    def test_recorder_and_probe_use_shared_explicit_audio_source(self):
+        recorder = self.app.engine.recorder
+        self.assertIs(self.app.probe.recorder, recorder)
+        config = {'device': 'pulse:array'}
+        sources = [{'name': 'array', 'properties': {}}]
+        with patch('services.live_audio.shutil.which', return_value='/usr/bin/tool'), \
+             patch('services.live_audio.subprocess.run') as run:
+            run.return_value.stdout = json.dumps(sources)
+            self.assertEqual(recorder.command_factory(config)[0], 'parec')
+            recorder.probe = True
+            try:
+                self.assertEqual(recorder.command_factory(config),
+                                 [sys.executable, '-m', 'meeting_recorder.capture_source', '--device', 'array'])
+            finally:
+                recorder.probe = False
+
+    def test_injected_capture_factory_remains_available_for_isolated_tests(self):
+        factory = lambda config: ['synthetic-capture']
+        app = StudioApp(self.root/'isolated', self.root/'isolated.db', backend=Backend(),
+                        command_factory=factory, preview=True)
+        try:
+            self.assertIs(app.engine.recorder.command_factory, factory)
+        finally:
+            app.close()
+
     def test_repeated_wake_cleanup_failure_does_not_kill_ambient_loop(self):
         self.app.ambient_stop.set(); self.app.ambient_thread.join(3)
         self.app.ambient_stop.clear()
@@ -62,6 +125,19 @@ class StudioTests(unittest.TestCase):
         for path in ('/api/record/start','/api/live/reserve','/api/management/enroll'):
             self.assertEqual(self.request(path,{})[0],400)
         self.app.first_start.busy=False
+
+    def test_remote_pairing_local_api_csrf_activity_and_no_public_commands(self):
+        from services.app_activity import AppActivity
+        with patch.object(self.app.remote_channel, 'enqueue', return_value={'accepted': True}) as enqueue:
+            self.assertEqual(self.request('/api/remote-control/pair', {}, {'X-CSRF-Token': 'wrong'})[0], 403)
+            enqueue.assert_not_called()
+            for activity in (AppActivity(recording=True), AppActivity(recording=True, paused=True), AppActivity(live='listening')):
+                with patch.object(self.app, 'activity', return_value=activity):
+                    self.assertEqual(self.request('/api/remote-control/pair', {})[0], 400)
+                    enqueue.assert_not_called()
+            with patch.object(self.app, 'activity', return_value=AppActivity(live='listening')):
+                self.assertEqual(self.request('/api/remote-control/revoke', {})[0], 200)
+        self.assertEqual(self.request('/api/remote-control/command', {'action': 'start'})[0], 400)
 
     def test_index_version_is_rendered_from_running_backend(self):
         with patch('web_server.VERSION', 'release-under-test'):
@@ -345,6 +421,7 @@ class StudioTests(unittest.TestCase):
         self.assertEqual(self.request('/api/cdb/send',{'session':self.sid,'area':'invalid'})[0],400)
         self.assertEqual(json.loads(self.request('/api/state')[1])['cdb']['config']['summary'],'local')
     def test_cloud_setup_does_not_require_unused_local_models(self):
+        (self.app.probe.folder/'audio.wav').write_bytes((self.root/'test.wav').read_bytes())
         with patch.object(self.app.cdb,'config',return_value={'transcription':'cdb','summary':'cdb'}), patch.object(self.app.cdb,'read',return_value={'identity':{'user_id':'synthetic'}}), patch.object(self.app.models,'catalog',return_value={'whisper_runtime':False,'ollama':False,'asr':[],'llm':[]}), patch.object(self.app.probe,'status',return_value={'state':'completed','device':'default'}), patch.object(self.app,'model_test_preflight'):
             setup=self.app.setup_state()
             self.assertTrue(setup['ready']);self.assertEqual(len(setup['checks']),2)
@@ -496,6 +573,17 @@ class StudioTests(unittest.TestCase):
         with patch.object(self.app.store,'free_mb',return_value=256):
             self.assertFalse(self.app.capabilities()['record']['allowed'])
             self.assertEqual(self.request('/api/record/start',{})[0],400)
+
+    def test_failed_empty_recording_can_be_deleted_without_reappearing(self):
+        ident=self.app.store.create('Leere Aufnahme')
+        self.app.store.update(ident,state='failed',error='Keine Audiodaten')
+        self.app.controller.sync()
+        row=next(r for r in self.app.repo.get_all() if r.get('local_job_id')==ident)
+        self.assertEqual(self.request(f'/api/sessions/{row["id"]}/delete',{})[0],200)
+        for _ in range(3):self.app.controller.sync()
+        self.assertIsNone(self.app.repo.get_by_id(row['id']))
+        self.assertNotIn(ident,[j['id'] for j in self.app.state()['jobs'] if any(r.get('local_job_id')==j['id'] for r in self.app.repo.get_all())])
+        self.assertIsNotNone(self.app.repo.get_by_id(self.sid))
 
     def test_shared_audio_is_preserved_when_one_reference_is_deleted(self):
         original=self.app.repo.get_by_id(self.sid)

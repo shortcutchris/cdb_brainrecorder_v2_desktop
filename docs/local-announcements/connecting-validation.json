@@ -1,0 +1,46 @@
+{
+  "python": {
+    "passed": 491,
+    "log_sha256": "3180ec2d91d8abd4a0a3141b02d36a280bb7782f69348ca4c3824643339db5d8"
+  },
+  "javascript": {
+    "passed": 125,
+    "log_sha256": "396e6606c511ee6cffdb010cc629aefcb02b268c6d427f4eb2136bd6aa43619a"
+  },
+  "connecting_clip_seconds": 1.68,
+  "post_playback_tail_seconds": 2,
+  "production_deployed": true,
+  "browser": {
+    "viewport": "1280x720",
+    "missing_pack_activation_disabled": true,
+    "independent_opt_in_persists": true,
+    "screenshot": "connecting-preview.png"
+  },
+  "remaining": [
+    "systematic room echo assessment beyond user listening acceptance",
+    "natural wake-word quality not established by these tests"
+  ],
+  "isolated_tests": {
+    "microphone_opened": false,
+    "cloud_session_started": false
+  },
+  "release_focused_python_tests": 45,
+  "production": {
+    "version": "0.5.67",
+    "sequence": 24,
+    "microphone_opened_in_authorized_full_start": true,
+    "cloud_session_started": true,
+    "cancel_during_announcement_passed": true,
+    "full_start_to_greeting_passed": true,
+    "final_idle_listening": true,
+    "evidence": "connecting-pi-smoke-0.5.67.json"
+  },
+  "user_acceptance": {
+    "date": "2026-10-21",
+    "source": "direct user message after deployment and device checks",
+    "reported_voice_and_behavior": "läuft perfekt",
+    "listening_accepted": true,
+    "reference": "voice-baseline.md",
+    "scope": "Current fixed announcement voice and experienced behavior; not a systematic room or wake-word evaluation"
+  }
+}

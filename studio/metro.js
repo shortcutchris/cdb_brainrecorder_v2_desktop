@@ -13,8 +13,8 @@ function renderSettingsOverview(){
  if(!state)return;
  const ready=Boolean(state.config.setup_complete);
  $('finish-setup').hidden=ready;
- $('setup-overview-status').textContent=ready?'Dein Recorder ist eingerichtet.':'Beginne mit dem Mikrofon und schließe die Einrichtung ab.';
- $('setup-overview-action').textContent='Audio einrichten';$('setup-overview-action').hidden=ready;
+ const current=typeof currentReadiness==='function'?currentReadiness():null;
+ $('setup-overview-status').textContent=current?.label||'Status wird geprüft';
  $('setup-overview-action').disabled=!online||Boolean(state.recording.id);
 }
 document.querySelectorAll('[data-settings]').forEach(button=>{
@@ -28,7 +28,7 @@ document.querySelectorAll('[data-settings]').forEach(button=>{
 });
 document.querySelectorAll('[data-settings-tile]').forEach(button=>button.onclick=()=>showSettingsDetail(button.dataset.settingsTile));
 $('settings-overview-back').onclick=showSettingsOverview;
-$('setup-overview-action').onclick=run(async()=>{if(state?.recording.id)return;if(state?.config.setup_complete)await showRecorder();else showSettingsDetail('audio-page')});
+$('setup-overview-action').onclick=run(async()=>{if(state?.recording.id)return;showSettingsDetail('setup-page')});
 $('mic-settings').onclick=run(async()=>{await openSettings();showSettingsDetail('audio-page')});
 for(const button of document.querySelectorAll('.rail-button')){
  const label=button.querySelector('span')?.textContent;

@@ -1,0 +1,520 @@
+{
+  "started": 1792591443.1003516,
+  "before": {
+    "activity": "idle",
+    "recording": false,
+    "live_busy": false,
+    "wake_state": "listening",
+    "speaker_state": "idle",
+    "speaker_kind": null,
+    "ringing": null
+  },
+  "existing_volume": 100,
+  "reload": {
+    "offline": false,
+    "timers": false,
+    "ready": true,
+    "message": "Deutsches Sprachpaket bereit. Änderungen werden beim Speichern neu geprüft."
+  },
+  "activated": {
+    "offline": true,
+    "timers": true,
+    "ready": true,
+    "message": "Deutsches Sprachpaket bereit. Änderungen werden beim Speichern neu geprüft."
+  },
+  "tests": [
+    {
+      "kind": "timer",
+      "samples": [
+        {
+          "activity": "idle",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "listening",
+          "speaker_state": "idle",
+          "speaker_kind": null,
+          "ringing": null,
+          "seconds": 0.04
+        },
+        {
+          "activity": "idle",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "listening",
+          "speaker_state": "idle",
+          "speaker_kind": null,
+          "ringing": null,
+          "seconds": 0.41
+        },
+        {
+          "activity": "idle",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "listening",
+          "speaker_state": "idle",
+          "speaker_kind": null,
+          "ringing": null,
+          "seconds": 0.79
+        },
+        {
+          "activity": "idle",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "listening",
+          "speaker_state": "idle",
+          "speaker_kind": null,
+          "ringing": null,
+          "seconds": 1.17
+        },
+        {
+          "activity": "idle",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "listening",
+          "speaker_state": "idle",
+          "speaker_kind": null,
+          "ringing": null,
+          "seconds": 1.54
+        },
+        {
+          "activity": "idle",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "listening",
+          "speaker_state": "idle",
+          "speaker_kind": null,
+          "ringing": null,
+          "seconds": 1.92
+        },
+        {
+          "activity": "idle",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "listening",
+          "speaker_state": "idle",
+          "speaker_kind": null,
+          "ringing": null,
+          "seconds": 2.29
+        },
+        {
+          "activity": "idle",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "listening",
+          "speaker_state": "idle",
+          "speaker_kind": null,
+          "ringing": null,
+          "seconds": 2.66
+        },
+        {
+          "activity": "idle",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "listening",
+          "speaker_state": "idle",
+          "speaker_kind": null,
+          "ringing": null,
+          "seconds": 3.06
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "16c7bd5a-c3c4-4c69-869d-e22e07de5ce8",
+          "seconds": 3.43
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "16c7bd5a-c3c4-4c69-869d-e22e07de5ce8",
+          "seconds": 3.81
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "16c7bd5a-c3c4-4c69-869d-e22e07de5ce8",
+          "seconds": 4.18
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "16c7bd5a-c3c4-4c69-869d-e22e07de5ce8",
+          "seconds": 4.56
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "16c7bd5a-c3c4-4c69-869d-e22e07de5ce8",
+          "seconds": 4.95
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "16c7bd5a-c3c4-4c69-869d-e22e07de5ce8",
+          "seconds": 5.33
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "16c7bd5a-c3c4-4c69-869d-e22e07de5ce8",
+          "seconds": 5.72
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "16c7bd5a-c3c4-4c69-869d-e22e07de5ce8",
+          "seconds": 6.1
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "16c7bd5a-c3c4-4c69-869d-e22e07de5ce8",
+          "seconds": 6.49
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "16c7bd5a-c3c4-4c69-869d-e22e07de5ce8",
+          "seconds": 6.88
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "16c7bd5a-c3c4-4c69-869d-e22e07de5ce8",
+          "seconds": 7.26
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "16c7bd5a-c3c4-4c69-869d-e22e07de5ce8",
+          "seconds": 7.65
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "16c7bd5a-c3c4-4c69-869d-e22e07de5ce8",
+          "seconds": 8.06
+        }
+      ],
+      "after": {
+        "activity": "idle",
+        "recording": false,
+        "live_busy": false,
+        "wake_state": "listening",
+        "speaker_state": "cancelled",
+        "speaker_kind": "alarm",
+        "ringing": null
+      },
+      "test_timer_acknowledged": true
+    },
+    {
+      "kind": "reminder",
+      "samples": [
+        {
+          "activity": "idle",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "listening",
+          "speaker_state": "cancelled",
+          "speaker_kind": "alarm",
+          "ringing": null,
+          "seconds": 0.02
+        },
+        {
+          "activity": "idle",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "listening",
+          "speaker_state": "cancelled",
+          "speaker_kind": "alarm",
+          "ringing": null,
+          "seconds": 0.4
+        },
+        {
+          "activity": "idle",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "listening",
+          "speaker_state": "cancelled",
+          "speaker_kind": "alarm",
+          "ringing": null,
+          "seconds": 0.77
+        },
+        {
+          "activity": "idle",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "listening",
+          "speaker_state": "cancelled",
+          "speaker_kind": "alarm",
+          "ringing": null,
+          "seconds": 1.15
+        },
+        {
+          "activity": "idle",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "listening",
+          "speaker_state": "cancelled",
+          "speaker_kind": "alarm",
+          "ringing": null,
+          "seconds": 1.52
+        },
+        {
+          "activity": "idle",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "listening",
+          "speaker_state": "cancelled",
+          "speaker_kind": "alarm",
+          "ringing": null,
+          "seconds": 1.9
+        },
+        {
+          "activity": "idle",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "listening",
+          "speaker_state": "cancelled",
+          "speaker_kind": "alarm",
+          "ringing": null,
+          "seconds": 2.28
+        },
+        {
+          "activity": "idle",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "listening",
+          "speaker_state": "cancelled",
+          "speaker_kind": "alarm",
+          "ringing": null,
+          "seconds": 2.66
+        },
+        {
+          "activity": "idle",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "listening",
+          "speaker_state": "cancelled",
+          "speaker_kind": "alarm",
+          "ringing": null,
+          "seconds": 3.05
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "be303dae-77e2-40ea-85c5-4b529a2fade3",
+          "seconds": 3.59
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "be303dae-77e2-40ea-85c5-4b529a2fade3",
+          "seconds": 3.96
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "be303dae-77e2-40ea-85c5-4b529a2fade3",
+          "seconds": 4.34
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "be303dae-77e2-40ea-85c5-4b529a2fade3",
+          "seconds": 4.71
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "be303dae-77e2-40ea-85c5-4b529a2fade3",
+          "seconds": 5.09
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "be303dae-77e2-40ea-85c5-4b529a2fade3",
+          "seconds": 5.47
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "be303dae-77e2-40ea-85c5-4b529a2fade3",
+          "seconds": 5.84
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "be303dae-77e2-40ea-85c5-4b529a2fade3",
+          "seconds": 6.23
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "be303dae-77e2-40ea-85c5-4b529a2fade3",
+          "seconds": 6.6
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "be303dae-77e2-40ea-85c5-4b529a2fade3",
+          "seconds": 6.98
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "be303dae-77e2-40ea-85c5-4b529a2fade3",
+          "seconds": 7.35
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "be303dae-77e2-40ea-85c5-4b529a2fade3",
+          "seconds": 7.73
+        },
+        {
+          "activity": "alarm",
+          "recording": false,
+          "live_busy": false,
+          "wake_state": "waiting",
+          "speaker_state": "running",
+          "speaker_kind": "alarm",
+          "ringing": "be303dae-77e2-40ea-85c5-4b529a2fade3",
+          "seconds": 8.1
+        }
+      ],
+      "after": {
+        "activity": "idle",
+        "recording": false,
+        "live_busy": false,
+        "wake_state": "listening",
+        "speaker_state": "cancelled",
+        "speaker_kind": "alarm",
+        "ringing": null
+      },
+      "test_timer_acknowledged": true
+    }
+  ],
+  "after": {
+    "activity": "idle",
+    "recording": false,
+    "live_busy": false,
+    "wake_state": "listening",
+    "speaker_state": "cancelled",
+    "speaker_kind": "alarm",
+    "ringing": null
+  },
+  "finished": 1792591464.3095975,
+  "settings": {
+    "offline": true,
+    "timers": true,
+    "ready": true,
+    "message": "Deutsches Sprachpaket bereit. Änderungen werden beim Speichern neu geprüft."
+  },
+  "human_hearing_assessment": {
+    "confirmed": true,
+    "feedback": "Der Sound hört sich sehr gut an.",
+    "source": "User feedback after the timer/reminder checks, 2026-10-21"
+  },
+  "natural_wake_recognition_tested": false,
+  "offline_live_failure_on_production_triggered": false
+}

@@ -1,5 +1,112 @@
 # Corporate Digital Brain Desktop Recorder
 
+Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
+
+## 0.5.73 – Mikrofon testen und Recorder einrichten
+
+Unter **Einstellungen → Audio → Mikrofon** wird die Eingangswahl sofort gespeichert.
+Starte den Fünf-Sekunden-Test, sprich während des Countdowns und tippe danach auf **Anhören**.
+**Recorder-Einrichtung** zeigt die Voraussetzungen für Aufnahmen mit den gewählten KI-Anbietern.
+Tippe auf einen offenen Punkt, um die passende Einstellung zu öffnen. Sind alle Punkte bereit,
+kannst du die Ersteinrichtung dort abschließen. Lautsprecher und optionales Zubehör haben eigene Tests.
+
+Bestehende Geräte erhalten die Ansicht per signiertem App-Update. Neue SD-Images übernehmen die
+bereits freigegebenen App-Dateien beim nächsten Build. Datenformat und Laufzeit bleiben gleich.
+
+## 0.5.72 – Mikrofontest am Gerät (Kandidat)
+
+Unter **Einstellungen → Audio → Mikrofon** startest du die fünfsekündige Probe direkt am Eingangspegel. Der Knopf zeigt die verbleibenden Sekunden. Rechts steht beim Mikrofontest nach dem Speichern **Bereit**. Mit **Anhören** unter dem Pegel prüfst du die Aufnahme.
+
+[ReSpeaker einrichten](docs/respeaker.md) · [Pi-Bildschirm am Mac bedienen](docs/audio/pi-display-am-mac.md)
+
+## 0.5.71 – NFC-Aufsteller für Talk und Meeting (Kandidat)
+
+Optionale USB-NFC-Steuerung mit getrennten, lokal zugeordneten Tags. Auflegen
+startet den bestehenden Gesprächs- oder Aufnahmepfad; bestätigtes Abnehmen beendet
+nur die eigene Sitzung. USB-Ausfälle beenden keine Aufnahme. Werkseitig aus,
+Wake Word bleibt erhalten. 125 gezielte Tests bestanden; echte Leser-/Tag- und
+Pi-Abnahme sowie Installation stehen aus.
+[Einrichtung, Laufzeitmigration und Grenzen](docs/nfc/README.md).
+
+## 0.5.70 – USB-Timerdisplay vorbereiten
+
+Lokale, lesende Timer-Schnittstelle und getrennter USB-Begleitdienst für das
+Waveshare 5B Touch. Nach einmaliger Dienstinstallation und Display-Flash werden
+vorhandene Timer automatisch angezeigt. Keine neue Option pro Timer, keine
+Änderungen an Audio-Einstellungen. Hardwareabnahme steht nach Lieferung aus.
+[Installation und erste Inbetriebnahme](docs/lcd-display/FIRST-START.md).
+
+## 0.5.69 – Countdown-Abschluss ohne falsche Fehlermeldung
+
+Beim Pi-Test endete der Countdown planmäßig am Timerende, wurde aber kurz als
+Audiofehler angezeigt. Ein bestätigtes Beenden an dieser Frist gilt jetzt als
+normaler Abschluss; echte Fehler und fehlgeschlagene Prozessbeendigung bleiben
+sichtbar. Keine Änderung an Frist, Schutzregeln, Sprachpaket oder Datenformat.
+
+## 0.5.68 – Timer auf Deutsch herunterzählen
+
+Separater Opt-in für „fünf, vier, drei, zwei, eins“ vor dem Timerende.
+Vorgefertigte Standardstimme, Vorrang für Aufnahme/Gespräch, keine verspätete
+Nachholwiedergabe. Auf dem Pi installiert und eingeschaltet; Timerablauf und
+Abbruch wurden technisch geprüft. Persönliche Hörabnahme des Countdowns offen.
+[Bedienung, Schutzregeln und Prüfumfang](docs/local-announcements/countdown.md).
+
+## 0.5.67 – Lokale Verbindungsansage vor dem Gespräch
+
+Die optionale Ansage „Ich verbinde dich.“ erklingt einmal vor dem Öffnen des
+Gesprächsmikrofons. Wiedergabe und Nachhall bleiben abbrechbar; Aufnahme und
+Pause haben weiterhin Vorrang. Bestehende Ansagepakete und Einstellungen bleiben
+erhalten. Keine neuen Runtime-Abhängigkeiten oder Datenmigrationen.
+[Bedienung, Prüfung und Bereitstellung](docs/local-announcements/connecting.md).
+
+## 0.5.66 – Vorbereitete lokale Sprachansagen
+
+Optionale deutsche Ansagen für fehlgeschlagene Gespräche, Timer und Erinnerungen
+verwenden geprüfte, vorberechnete Dateien. Aufnahme und Pause haben Vorrang;
+Sprachansagen bleiben während einer Unterhaltung aus. Beide Optionen sind bei
+der Ersteinrichtung ausgeschaltet. Keine neue Laufzeitabhängigkeit oder
+Datenbankmigration; ein Sprachpaket wird getrennt bereitgestellt.
+[Bedienung, Schutzregeln und Abnahme](docs/local-announcements/README.md).
+
+## 0.5.65 – Einheitliche App-Dialoge und helle Papierkörbe
+
+Meeting- und Vorlagenlöschung verwenden einen eigenen Dialog im aktuellen Theme.
+Abbrechen hat den Anfangsfokus; Escape und Schließen löschen nichts. Papierkörbe
+sind in dunklen Themes hell. Die bisherige Browserwarnung beim Verlassen weicht
+einer erneuten lokalen Entwurfssicherung.
+[Prüfumfang und Auslieferung](docs/app-dialogs/README.md).
+
+## 0.5.64 – Fehlgeschlagene Aufträge direkt löschen
+
+Die Warteschlange zeigt bei Fehlern einen Papierkorb neben Wiederholen.
+Eine Bestätigung nennt das Meeting; die Aktion verwendet den bestehenden
+Löschweg und entfernt auch einen leeren Aufnahmeversuch dauerhaft aus der Liste.
+[Prüfung und Auslieferung](docs/queue-delete/README.md).
+
+## 0.5.63 – Dateigröße und Fortschritt pro Warteschlangenauftrag
+
+Jede Zeile zeigt die Größe der Audiodatei und eine eigene Fortschrittsspalte
+mit Verarbeitungsschritt, Laufzeit und verfügbarem Abschnittsstatus. Laufende
+Balken bleiben ohne erfundene Prozentwerte; Aktualisierungen erhalten Seite
+und Buttonfokus. [Vorschau und Prüfungen](docs/queue-columns/README.md).
+
+## 0.5.62 – Aufnahme über die gewählte gemeinsame Audioquelle
+
+Aufnahme und Mikrofontest verwenden wie die Sprachaktivierung die exakt
+zugeordnete PipeWire-Quelle. Dadurch verhindert ein vom Audiodienst offenes
+ReSpeaker-Gerät nicht mehr den Aufnahmestart. Die Aktivierungswort-Sperre während
+der Aufnahme und die anschließende Bereitschaft bleiben erhalten.
+[Fehlernachweis und Prüfung](docs/recording-source-fix-20261019/README.md).
+
+## 0.5.61 – Handy-Fernbedienung für den Staging-Test
+
+Unter **Einstellungen → Gerät & Verwaltung → Handy-Fernbedienung** lässt sich
+cdbMOBILE per Einmalcode und ausdrücklicher Bestätigung am Pi koppeln. Start,
+Ende und Stummschaltung verwenden denselben geschützten Gesprächsdienst.
+Der Server muss die Funktion freischalten; bis dahin bleibt sie nicht verfügbar.
+Bestehende Brain-, Audio- und Wake-Einstellungen bleiben erhalten.
+[Bedienung, Prüfungen und Auslieferungsstand](docs/remote-control/IMPLEMENTATION-63.md).
+
 ## 0.5.60 – Nabu-Erkennung nachvollziehbar prüfen
 
 Die lokale Diagnose hält jetzt auch Modellwerte unterhalb der Erkennungsschwelle
@@ -168,6 +275,8 @@ Aktives Modell und Teststatus bleiben klar getrennt. Ergebnisse bleiben pro Mode
 
 
 Eine Desktop-Anwendung zum Aufzeichnen, Verwalten und Wiedergeben von Audio-Sessions mit Raspberry Pi Touch-Optimierung.
+
+> In Entwicklung: [cdbMOBILE als Pi-Fernbedienung, Kopplung und Abnahme](docs/remote-control/IMPLEMENTATION-63.md). Noch nicht produktiv freigeschaltet.
 
 ## Raspberry-Pi-Grundfunktionen
 
@@ -800,3 +909,15 @@ Lokaler Touch-Assistent für WLAN, Verwaltungscode und Übergang zur Audioeinric
 CDB/TQS, Geräteverwaltung und externen Bildschirm.
 [Image-Pflege und Build-Anleitung](docs/customer-image/README.md) beschreiben,
 wie neue Funktionen in künftige SD-Images und kompatible App-Updates eingehen.
+
+## Vorbereitete lokale Ansagen (in Entwicklung)
+
+Optionale feste Offline-, Timer- und Erinnerungsansagen ohne KI-Rechenlast im Betrieb. Standardmäßig aus; Aufnahme und Pause bleiben geschützt. Bedienung, Paketvorbereitung, Update-/Image-Einfluss und offener Gerätecheck: [Lokale Ansagen](docs/local-announcements/README.md).
+
+## LCD-Timerdisplay · Entwicklung
+
+USB-Prototyp mit automatischer Erkennung und Wiederverbindung nach einmaliger
+Dienstinstallation für das Waveshare ESP32-S3-Touch-LCD-5B: getrennte
+Begleitsoftware und Display-Firmware, vorhandene Timer als reine Anzeige. Noch
+nicht auf einem Gerät installiert oder abgenommen. Aufbau, Tests und offene
+Hardwareprüfungen: [LCD Remote Display](docs/lcd-display/README.md).

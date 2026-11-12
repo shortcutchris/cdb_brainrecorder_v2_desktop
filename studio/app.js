@@ -3,7 +3,7 @@ const $=id=>document.getElementById(id), fields=['title','notes','transcript_tex
 let online=false, setupReady=false, lastStateAt=0;
 let state=null, selected=null, field='notes', csrf='', namespace='', models=new Map(), prompts=[], catalog=null;
 let observedRecordingId=null,pendingRecordingId=null, librarySelection=null, libraryField='notes';
-let pollRunning=false, saveTimer=null, recordingAction=false, recordingIntent=null, nextRecordAction=0, queueSignature='', recentSignature='', setupBusy=false;
+let pollRunning=false, saveTimer=null, recordingAction=false, recordingIntent=null, nextRecordAction=0, queueSignature='', recentSignature='', setupBusy=false, setupRefreshRequested=false, probeStarting=false;
 const names={recording:'Aufnahme läuft',importing:'Audio vorbereiten',queued:'Wartet',transcribing:'Transkription läuft',summarizing:'Zusammenfassung läuft',completed:'Fertig',failed:'Fehler'};
 const busyStates=['recording','importing','queued','transcribing','summarizing'];
 const audio=$('audio');audio.volume=.8;
@@ -42,7 +42,7 @@ async function flush(model=models.get(selected)){
 }
 function changed(key,value){const model=models.get(selected);if(!model)return;model.values[key]=value;model.dirty.add(key);model.failed=false;$('draft-actions').hidden=false;storeDraft(model,key);clearTimeout(saveTimer);if(!online){model.failed=true;$('save-state').textContent='Offline · Entwurf bleibt lokal erhalten';return}$('save-state').textContent='Wird gespeichert …';saveTimer=setTimeout(()=>flush(model).catch(()=>{}),450)}
 $('editor').oninput=()=>changed(field,$('editor').value);
-window.addEventListener('beforeunload',event=>{if([...models.values()].some(m=>m.dirty.size)){event.preventDefault();event.returnValue=''}});
+window.addEventListener('pagehide',()=>{for(const model of models.values())for(const key of model.dirty)storeDraft(model,key)});
 window.addEventListener('pagehide',()=>{for(const m of models.values()){if(!m.dirty.size||m.saving)continue;const changes={},base={};for(const key of m.dirty){changes[key]=m.values[key];base[key]=m.base[key];storeDraft(m,key)}api('/api/sessions/'+m.id+'/save',{changes,base},true).catch(()=>{})}});
 function setEditor(value){const el=$('editor');if(el.value===value)return;const start=el.selectionStart,end=el.selectionEnd,scroll=el.scrollTop;el.value=value;el.setSelectionRange(Math.min(start,value.length),Math.min(end,value.length));el.scrollTop=scroll}
 function renderSelected(){
@@ -88,14 +88,87 @@ function renderState(){
  $('capture-hint').textContent=state.preview?'Lokale Testbibliothek · künstliche Audioquelle. Keine Verbindung zu persönlichen Pi-Meetings.':active?'Aufnahme läuft. Tippe auf den Button, um sie sicher zu beenden.':c.setup_complete?'Bereit für eine neue Aufnahme. Tippe auf den Button, um zu starten.':'Kein getestetes Mikrofon. Bitte Audio in den Einstellungen einrichten.';
  if(!online)$('capture-hint').textContent='Verbindung unterbrochen. Der letzte Aufnahmestand wird erneut geprüft.';else if(!active&&state.config.setup_complete&&!allowed('record'))$('capture-hint').textContent=state.capabilities.record.reason;drawWave(active?state.waveform:selectedPeaks);renderRecent();renderQueue();renderSettingsStatus();if(!online)$('phase').textContent='Verbindung unterbrochen · Entwürfe bleiben lokal';
 }
-function queueJobs(){const rows=new Map(state.sessions.filter(r=>r.local_job_id).map(r=>[r.local_job_id,r]));const jobs=state.jobs.filter(j=>rows.has(j.id)&&j.state!=='completed').map(j=>({...j,session:rows.get(j.id)}));for(const r of state.sessions)if(r.transcription_status==='failed'&&!r.local_job_id)jobs.push({id:'legacy-'+r.id,state:'failed',created:0,error:r.local_error,session:r});const order={recording:0,transcribing:1,summarizing:1,importing:2,queued:3,failed:4};return jobs.sort((a,b)=>(order[a.state]-order[b.state])||((a.queued_at||a.created)-(b.queued_at||b.created)))}
+function queueJobs(){const rows=new Map(state.sessions.filter(r=>r.local_job_id).map(r=>[r.local_job_id,r]));const jobs=state.jobs.filter(j=>rows.has(j.id)&&j.state!=='completed').map(j=>({...j,session:rows.get(j.id)}));for(const r of state.sessions)if(r.transcription_status==='failed'&&!r.local_job_id)jobs.push({id:'legacy-'+r.id,state:'failed',created:0,error:r.local_error,audio_file_bytes:r.audio_file_bytes,session:r});const order={recording:0,transcribing:1,summarizing:1,importing:2,queued:3,failed:4};return jobs.sort((a,b)=>(order[a.state]-order[b.state])||((a.queued_at||a.created)-(b.queued_at||b.created)))}
+let activeConfirmation=false;
+function confirmAction({title,message,accept='Löschen'}){
+ if(activeConfirmation)return Promise.resolve(false);
+ activeConfirmation=true;
+ const dialog=$('app-confirm'),origin=document.activeElement;
+ $('app-confirm-title').textContent=title;$('app-confirm-message').textContent=message;$('app-confirm-accept').textContent=accept;
+ return new Promise(resolve=>{
+  let settled=false;
+  function finish(accepted){
+   if(settled)return;settled=true;activeConfirmation=false;
+   dialog.oncancel=dialog.onclose=null;
+   $('app-confirm-cancel').onclick=$('app-confirm-close').onclick=$('app-confirm-accept').onclick=null;
+   dialog.close();if(origin?.isConnected)origin.focus();resolve(accepted);
+  }
+  $('app-confirm-cancel').onclick=$('app-confirm-close').onclick=()=>finish(false);
+  $('app-confirm-accept').onclick=()=>finish(true);
+  dialog.oncancel=event=>{event.preventDefault();finish(false)};
+  dialog.onclose=()=>finish(false);
+  dialog.showModal();$('app-confirm-cancel').focus();
+ });
+}
+async function deleteMeeting(id,title){
+ await flush();
+ if(!await confirmAction({title:'Meeting löschen?',message:'„'+title+'“ wird endgültig gelöscht. Vorhandene Audiodaten, Notizen und Ergebnisse dieses Meetings werden entfernt.',accept:'Endgültig löschen'}))return false;
+ await api('/api/sessions/'+id+'/delete',{});models.delete(id);
+ if(selected===id){selected=null;audio.pause();audio.removeAttribute('src');delete audio.dataset.session;$('editor').value='';$('editor').disabled=true;$('meeting-title').textContent='Meeting auswählen'}
+ await poll();return true;
+}
+function queueFileSize(bytes){
+ if(!Number.isFinite(bytes)||bytes<0)return '–';
+ const units=['B','kB','MB','GB'];let unit=0;
+ while(bytes>=1000&&unit<units.length-1){bytes/=1000;unit++}
+ return bytes.toLocaleString('de-DE',{maximumFractionDigits:unit?1:0})+' '+units[unit];
+}
+function queueProgress(job){
+ if(!online)return {active:false,label:'Status nicht aktuell',detail:'Verbindung zum Pi unterbrochen'};
+ const elapsed=duration(Math.max(0,Date.now()/1000-job.updated));
+ if(job.state==='transcribing')return {active:true,label:'Schritt 1 von 2 · '+elapsed,detail:'Audio wird transkribiert'};
+ if(job.state==='summarizing')return {active:true,label:'Schritt 2 von 2 · '+elapsed,detail:job.processing_detail||'Protokoll wird erstellt'};
+ if(job.state==='importing')return {active:true,label:'Audio vorbereiten · '+elapsed,detail:'Datei wird vorbereitet'};
+ if(job.state==='recording')return {active:true,label:'Aufnahme läuft',detail:'Datei wächst während der Aufnahme'};
+ return {active:false,label:job.state==='failed'?'Angehalten':'Noch nicht gestartet',detail:job.state==='failed'?'Details unter Status':'Wird der Reihe nach verarbeitet'};
+}
+let queueNodes=new Map();
+function refreshQueueDetails(jobs){
+ for(const job of jobs){
+  const nodes=queueNodes.get(job.id);if(!nodes)continue;
+  const size=queueFileSize(job.audio_file_bytes),p=queueProgress(job);
+  if(nodes.size.textContent!==size)nodes.size.textContent=size;
+  nodes.size.title=Number.isFinite(job.audio_file_bytes)?job.audio_file_bytes.toLocaleString('de-DE')+' Bytes · Audiodatei':'Noch keine Audiodatei vorhanden';
+  if(nodes.label.textContent!==p.label)nodes.label.textContent=p.label;
+  if(nodes.detail.textContent!==p.detail)nodes.detail.textContent=p.detail;
+  nodes.bar.hidden=!p.active;
+  nodes.bar.setAttribute('aria-label',p.label+' · '+p.detail);
+ }
+}
 function renderQueue(){
  const jobs=queueJobs(),active=jobs.find(j=>['transcribing','summarizing','importing'].includes(j.state)),waiting=jobs.filter(j=>j.state==='queued'),failed=jobs.filter(j=>j.state==='failed');
  const test=state.model_test&&busyStates.includes(state.model_test.state)?state.model_test:null;const processing=active||test;
  $('phase').textContent=processing?(test&&!active?'Modelltest · ':'')+(names[processing.state]||processing.state)+' · '+duration(Date.now()/1000-processing.updated):state.recording.id?'Aufnahme läuft':waiting.length?'Wartet auf Verarbeitung':state.installation.state==='running'?'Modelldownload läuft':state.free_mb<state.config.min_free_mb?'Zu wenig freier Speicher':!state.config.setup_complete?'Mikrofon einrichten':'Lokal bereit';
  $('waiting').textContent=waiting.length+' warten';$('errors').textContent=failed.length?failed.length+' Fehler':'';document.body.classList.toggle('working',Boolean(processing));setIcon($('activity-icon'),'/assets/'+(processing?'circle-notch':state.recording.id?'microphone':failed.length?'arrow-clockwise':'check-circle')+'.svg');
- const signature=String(allowed('process'))+JSON.stringify(jobs.map(j=>[j.id,j.state,j.session.title,j.error]));if(signature===queueSignature)return;queueSignature=signature;const scroll=$('queue-panel').scrollTop;$('queue-panel').replaceChildren();let position=0;
- for(const job of jobs){const row=document.createElement('div');row.className='queue-row';const title=document.createElement('strong');if(job.state==='queued')position++;title.textContent=(job.state==='queued'?position+'. ':'')+job.session.title;const status=document.createElement('span');status.textContent=job.state==='failed'?job.error||'Fehler':names[job.state];status.title=job.error||'';const action=document.createElement('button');action.textContent=job.state==='failed'?'Wiederholen':'Öffnen';action.disabled=Boolean(state.recording.id)||(job.state==='failed'&&!allowed('process'));action.onclick=run(async()=>{await flush();if(job.state==='failed'){await api('/api/sessions/'+job.session.id+'/retry',{});await poll()}else await selectMeeting(job.session.id)});row.append(title,status,action);$('queue-panel').append(row)}
+ const signature=JSON.stringify([allowed('process'),online,state.recording.id,Boolean(state.activity?.busy)])+JSON.stringify(jobs.map(j=>[j.id,j.state,j.session.title,j.error]));if(signature===queueSignature){refreshQueueDetails(jobs);return}queueSignature=signature;const scroll=$('queue-panel').scrollTop;$('queue-panel').replaceChildren();queueNodes=new Map();let position=0;
+ if(jobs.length){const header=document.createElement('div');header.className='queue-columns';header.setAttribute('aria-hidden','true');for(const text of ['Meeting','Dateigröße','Status','Fortschritt','']){const cell=document.createElement('span');cell.textContent=text;header.append(cell)}$('queue-panel').append(header)}
+ for(const job of jobs){
+  const row=document.createElement('div');row.className='queue-row';row.dataset.queueKey=JSON.stringify([job.id,job.state,job.session.title,job.error]);
+  const title=document.createElement('strong');if(job.state==='queued')position++;title.textContent=(job.state==='queued'?position+'. ':'')+job.session.title;
+  const size=document.createElement('span');size.className='queue-file-size';size.setAttribute('aria-label','Dateigröße');
+  const status=document.createElement('span');status.className='queue-job-status';status.textContent=job.state==='failed'?job.error||'Fehler':names[job.state];status.title=job.error||'';
+  const progress=document.createElement('div');progress.className='queue-job-progress';
+  const label=document.createElement('span'),bar=document.createElement('progress'),detail=document.createElement('small');bar.max=1;progress.append(label,bar,detail);
+  const action=document.createElement('button');action.textContent=job.state==='failed'?'Wiederholen':'Öffnen';action.disabled=Boolean(state.recording.id)||(job.state==='failed'&&!allowed('process'));action.onclick=run(async()=>{await flush();if(job.state==='failed'){await api('/api/sessions/'+job.session.id+'/retry',{});await poll()}else await selectMeeting(job.session.id)});
+  let actions=action;
+  if(job.state==='failed'){
+   actions=document.createElement('div');actions.className='queue-row-actions';
+   const remove=document.createElement('button');remove.className='queue-delete';remove.title='Meeting löschen';remove.setAttribute('aria-label','„'+job.session.title+'“ löschen');remove.append(icon('trash'));
+   remove.disabled=!online||Boolean(state.recording.id)||Boolean(state.activity?.busy);remove.onclick=run(()=>deleteMeeting(job.session.id,job.session.title));actions.append(action,remove);
+  }
+  row.append(title,size,status,progress,actions);queueNodes.set(job.id,{size,label,bar,detail});$('queue-panel').append(row);
+ }
+ refreshQueueDetails(jobs);
  if(!jobs.length){const empty=document.createElement('p');empty.textContent='Keine offenen Aufträge.';$('queue-panel').append(empty)}$('queue-panel').scrollTop=scroll;
 }
 async function poll(){
@@ -147,31 +220,47 @@ for(const heading of document.querySelectorAll('.dialog-heading')){const b=docum
 $('export').onclick=run(exportMeeting);$('download').onclick=run(exportMeeting);
 async function processMeeting(transcribeAgain=false){await flush();if(!selected)return;await api('/api/sessions/'+selected+'/process',{prompt:$('prompt').value,transcribe_again:transcribeAgain});$('more').close();await poll()}
 $('process').onclick=run(()=>processMeeting(false));$('retranscribe').onclick=run(()=>processMeeting(true));
-$('delete').onclick=run(async()=>{await flush();if(!selected||!confirm('Dieses Meeting und seine Audiodatei endgültig löschen?'))return;const id=selected;await api('/api/sessions/'+id+'/delete',{});models.delete(id);selected=null;audio.pause();audio.removeAttribute('src');delete audio.dataset.session;$('editor').value='';$('editor').disabled=true;$('meeting-title').textContent='Meeting auswählen';$('more').close();await poll()});
+$('delete').onclick=run(async()=>{if(selected&&await deleteMeeting(selected,models.get(selected)?.row.title||'Meeting'))$('more').close()});
 function fillSelect(element,entries,selectedValue,valueKey,label){element.replaceChildren();for(const entry of entries){const option=document.createElement('option');option.value=entry[valueKey];option.textContent=label(entry);element.append(option)}if(selectedValue!==undefined)element.value=selectedValue}
 async function loadPrompts(){prompts=await api('/api/prompts');for(const id of ['prompt','prompt-select']){const before=$(id).value;fillSelect($(id),prompts,before||prompts[0]?.id,'id',p=>p.name)}renderPrompt()}
 function renderPrompt(){const p=prompts.find(p=>p.id===$('prompt-select').value);$('prompt-name').value=p?.name||'';$('prompt-text').value=p?.prompt_text||'';$('prompt-name').readOnly=Boolean(p?.is_default);$('prompt-text').readOnly=Boolean(p?.is_default);$('prompt-save').disabled=Boolean(p?.is_default);$('prompt-delete').disabled=!p||p.is_default}
 $('prompt-select').onchange=renderPrompt;$('prompt-new').onclick=()=>{$('prompt-select').value='';$('prompt-name').value='';$('prompt-text').value='';$('prompt-name').readOnly=false;$('prompt-text').readOnly=false;$('prompt-save').disabled=false;$('prompt-delete').disabled=true;$('prompt-name').focus()};
 $('prompt-save').onclick=run(async()=>{const id=$('prompt-select').value,known=new Set(prompts.map(p=>p.id));const saved=await api('/api/prompts',{action:id?'update':'add',id,name:$('prompt-name').value,text:$('prompt-text').value});await loadPrompts();$('prompt-select').value=id||saved.find(p=>!known.has(p.id))?.id||prompts[0]?.id;renderPrompt();notice('Prompt gespeichert.')});
-$('prompt-delete').onclick=run(async()=>{if(!confirm('Eigenen Prompt löschen?'))return;await api('/api/prompts',{action:'delete',id:$('prompt-select').value});await loadPrompts()});
+$('prompt-delete').onclick=run(async()=>{const ident=$('prompt-select').value;if(!await confirmAction({title:'Vorlage löschen?',message:'Die eigene Vorlage „'+($('prompt-name').value||'Unbenannt')+'“ wird endgültig gelöscht.',accept:'Vorlage löschen'}))return;await api('/api/prompts',{action:'delete',id:ident});await loadPrompts()});
+function applyMicrophoneInventory(setup,devices){
+ const select=$('mic-select'),device=state.config.device;
+ if(JSON.stringify(devices)!==JSON.stringify(microphoneDevices)||select.dataset.device!==device){
+  fillSelect(select,devices,device,'id',d=>d.label);
+  if(!select.value){
+   const placeholder=new Option(devices.length?'Eingang auswählen …':'Kein Mikrofon gefunden','',false,true);
+   placeholder.disabled=true;select.prepend(placeholder);select.value='';
+  }
+  select.dataset.device=device;
+ }
+ setMicrophoneSetup(setup.checks,devices);
+ setupReady=setup.ready&&Boolean(select.value);
+}
 async function loadSetup(){
- if(setupBusy)return;setupBusy=true;
+ if(setupBusy){setupRefreshRequested=true;return}setupBusy=true;
  try{const [setup,audioDevices]=await Promise.all([api('/api/setup'),api('/api/devices')]);catalog=setup.catalog;const c=state.config;
-  fillSelect($('mic-select'),audioDevices.devices,c.device,'id',d=>d.label);if(!audioDevices.devices.length){fillSelect($('mic-select'),[{id:'',label:'Kein Mikrofon gefunden'}],'','id',d=>d.label)}
+  applyMicrophoneInventory(setup,audioDevices.devices);
   fillSelect($('asr-select'),catalog.asr,catalog.asr.some(m=>m.path===$('asr-select').value)?$('asr-select').value:c.whisper_model,'path',m=>m.label+' · '+(m.installed?'installiert':'fehlt'));
   fillSelect($('llm-select'),catalog.llm,catalog.llm.some(m=>m.id===$('llm-select').value)?$('llm-select').value:c.summary_model,'id',m=>m.label+' · '+(m.installed?'installiert':'fehlt'));
-  $('binary').value=c.whisper_binary;setMicrophoneSetup(setup.checks,audioDevices.devices);setupReady=setup.ready&&Boolean($('mic-select').value);bindRule('finish-setup','finish_setup',!setupReady);renderModelInfo();renderSettingsStatus();
- }finally{setupBusy=false}
+  $('binary').value=c.whisper_binary;renderModelInfo();renderSettingsStatus();
+ }finally{setupBusy=false;if(setupRefreshRequested){setupRefreshRequested=false;await loadSetup()}}
 }
 async function openSettings(){if(state?.recording.id)throw new Error('Aufnahme läuft. Bitte zuerst stoppen.');await leaveDraft();if(typeof showSettingsOverview==='function')showSettingsOverview();workspaceView('settings');await loadPrompts();await loadSetup()}
 $('settings-open').onclick=run(openSettings);$('mic-settings').onclick=run(openSettings);$('refresh-devices').onclick=run(loadSetup);
 document.querySelectorAll('[data-settings]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-settings]').forEach(x=>(x.classList.toggle('active',x===b),x.setAttribute('aria-pressed',String(x===b))));document.querySelectorAll('.settings-page').forEach(p=>{p.hidden=p.id!==b.dataset.settings;if(!p.hidden)p.querySelector('.settings-content').scrollTop=0})});
 async function configure(changes){await api('/api/settings',changes);await poll();await loadSetup()}
-$('mic-select').onchange=run(async()=>{if($('mic-select').value)await configure({device:$('mic-select').value})});
+$('mic-select').onchange=run(async()=>{if($('mic-select').value){renderSettingsStatus();await configure({device:$('mic-select').value})}});
 for(const id of ['asr-select','llm-select'])$(id).onchange=()=>{renderModelInfo();renderSettingsStatus()};
 $('binary-save').onclick=run(()=>configure({whisper_binary:$('binary').value}));
-$('probe-start').onclick=run(async()=>{pauseMicrophoneAudio();await api('/api/microphone/test',{});await poll()});
-$('finish-setup').onclick=run(async()=>{await api('/api/setup/complete',{});await poll();await loadSetup();notice('Einrichtung gespeichert.')});
+$('probe-start').onclick=run(async()=>{if(probeStarting)return;
+ probeStarting=true;pauseMicrophoneAudio();renderSettingsStatus();
+ try{state.microphone_test=await api('/api/microphone/test',{});renderSettingsStatus();await poll()}
+ finally{probeStarting=false;renderSettingsStatus()}});
+$('finish-setup').onclick=run(async()=>{await api('/api/setup/complete',{});await poll();await loadSetup();notice('Recorder-Einrichtung abgeschlossen.')});
 function chosenModel(backend){return (backend==='whisper'?catalog?.asr:catalog?.llm)?.find(m=>(backend==='whisper'?m.path:m.id)===$(backend==='whisper'?'asr-select':'llm-select').value)}
 function renderModelInfo(){if(!catalog)return;for(const [backend,info,install,activate] of [['whisper','asr-info','asr-install','asr-activate'],['ollama','llm-info','llm-install','llm-activate']]){const m=chosenModel(backend),box=$(info);box.replaceChildren();if(m){for(const text of [m.description,m.license+' · '+(m.bytes/1e9).toFixed(2)+' GB Download',m.installed?'Installiert':'Nicht installiert',m.test_status||'Auf diesem Gerät ungeprüft',m.active?'Derzeit aktiv':'Nicht aktiv',m.compatibility||'Lokale Laufzeit im Gerätetest prüfen']){const p=document.createElement('p');p.textContent=text;box.append(p)}if(m.source){const a=document.createElement('a');a.href=m.source;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Modellquelle und Lizenz ansehen';box.append(a)}}$(install).disabled=!m||m.installed||m.id==='custom'||!allowed('install');$(activate).disabled=!m||!m.tested||m.active||!allowed('configure')}}
 async function installModel(backend){const m=chosenModel(backend);if(!m)return;await api('/api/models/install',{backend,model:m.id});await poll();await loadSetup()}
@@ -180,10 +269,16 @@ for(const [id,backend] of [['asr-activate','whisper'],['llm-activate','ollama']]
 $('model-test').onclick=run(async()=>{await api('/api/models/test',{asr:chosenModel('whisper')?.id,llm:chosenModel('ollama')?.id});await poll()});
 let previousDownload='',previousProbe='',previousModelTest='';function renderSettingsStatus(){
  if(!state)return;$('settings-constraint').textContent=!online?'Verbindung unterbrochen. Einstellungen warten auf eine neue Verbindung.':state.capabilities.configure.reason||(!state.capabilities.install.allowed?'Aufnahme und Notizen bleiben verfügbar. Modelle herunterladen oder testen erst nach Abschluss offener Aufträge.':'');const p=state.microphone_test,d=state.installation;const busy=!allowed('configure');
- for(const id of ['mic-select','asr-select','llm-select','binary-save','probe-start'])$(id).disabled=busy||id==='mic-select'&&!$('mic-select').value;
- bindRule('probe-start','probe',!$('mic-select').value);bindRule('finish-setup','finish_setup',!setupReady);
+ for(const id of ['mic-select','asr-select','llm-select','binary-save','probe-start'])$(id).disabled=busy||id==='mic-select'&&!microphoneDevices.length;
+ const selectedMic=$('mic-select').value,matches=Boolean(selectedMic)&&selectedMic===state.config.device;
+ bindRule('probe-start','probe',!matches||probeStarting||p.state==='running');
+ bindRule('finish-setup','finish_setup',!setupReady||!matches||p.state!=='completed'||p.device!==selectedMic);
+ const probeKey=p.state==='completed'?p.state+':'+p.sample_id:p.state;
+ if(p.state==='completed'&&previousProbe!==probeKey)$('probe-audio').src='/api/microphone/audio?completed='+encodeURIComponent(p.sample_id);
  if(typeof renderMicrophone==='function')renderMicrophone(p);
- if(p.state==='completed'&&previousProbe!=='completed'){$('probe-audio').src='/api/microphone/audio?completed='+Date.now();if($('settings').open)loadSetup().catch(e=>notice(e.message))}if(p.state==='failed'&&previousProbe!=='failed'&&$('settings').open)loadSetup().catch(e=>notice(e.message));previousProbe=p.state;
+ const refreshProbe=probeKey!==previousProbe&&['completed','failed'].includes(p.state);
+ previousProbe=probeKey;
+ if(refreshProbe&&$('settings').open)loadSetup().catch(e=>notice(e.message));
  if(d.total)$('download-progress').value=100*d.completed/d.total;else if(d.state==='running')$('download-progress').removeAttribute('value');else $('download-progress').value=0;$('download-state').textContent=(d.message||'')+(d.total&&d.state==='running'?' · '+Math.round(d.completed/1e6)+' / '+Math.round(d.total/1e6)+' MB':'');
  if(d.state==='completed'&&previousDownload!=='completed'&&$('settings').open)loadSetup().catch(e=>notice(e.message));previousDownload=d.state;
  $('model-test').disabled=Boolean(catalog?.test_block_reason)||!allowed('model_test')||!chosenModel('whisper')?.installed||!chosenModel('ollama')?.installed||(chosenModel('ollama')?.candidate&&!chosenModel('ollama')?.runtime_compatible)||!catalog?.whisper_runtime||!catalog?.ollama||Boolean(state.model_test&&busyStates.includes(state.model_test.state));if(catalog?.test_block_reason)$('model-test-state').textContent=catalog.test_block_reason;else if(state.model_test){const t=state.model_test;$('model-test-state').textContent=(names[t.state]||t.state)+(t.error?' · '+t.error:'')+(t.summary?'\n'+t.summary:'')}

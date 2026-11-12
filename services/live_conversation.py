@@ -73,12 +73,14 @@ class LiveConversation:
         self.answer = None
         self.binding = None
         self.generation = 0
+        self.announcement_failure = None
         self.restored_binding = None
         self.transcript_turns = {}
         self.seen_transcripts = set()
         self.history = []
         self.areas = []
         self.muted = False
+        self.control_revision = 0
         self.deadline = 0
         self.maximum = 0
         self.last_heartbeat = 0
@@ -162,9 +164,18 @@ class LiveConversation:
         except (OSError, ValueError, AttributeError): return None
 
     def setup(self):
+        catalog_generation = self.cdb.generation
         binding = self._binding()
         caps = self.cdb.call(BASE + '/capabilities', binding=binding)
         areas = self.cdb.areas(binding)
+        # Account-bound display metadata for an idle mobile remote. Fetch remains
+        # outside Studio/control locks; names never confer access to an area.
+        with self.lock:
+            if catalog_generation != self.cdb.generation: raise ValueError('Brain-Konto hat sich geändert.')
+            catalog = self.root / ('area-names-' + self._selection_key(binding) + '.json')
+            atomic_write(catalog, json.dumps({'binding': binding, 'areas': [
+                {'id': a['id'], 'name': (a.get('label') or a['name'])[:160]} for a in areas]}))
+            os.chmod(catalog, 0o600)
         self._restore(binding)
         maximum = caps.get('max_areas', 8)
         if not isinstance(maximum, int): maximum = 8
@@ -395,6 +406,7 @@ class LiveConversation:
         with self.lock:
             self._owner(lease)
             if self.native: self.native.mute(muted)
+            if self.muted != muted: self.control_revision += 1
             self.muted = muted
             return {'muted': muted}
 
@@ -448,6 +460,9 @@ class LiveConversation:
         self.state, self.error = state, error
         self.lease = self.answer = None
         self.generation += 1
+        if state == 'error':
+            self.announcement_failure = {'sequence': self.generation, 'at': time.monotonic(),
+                                         'account_generation': getattr(self, 'account_generation', self.cdb.generation)}
         self._persist_history()
         self.finished.set()
 

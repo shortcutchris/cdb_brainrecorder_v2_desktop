@@ -1,0 +1,209 @@
+{
+  "status": "needs_review",
+  "overall_goal_complete": false,
+  "note": "Telemetry only. Review hourly RSS trend, actual UI/audio and the full acceptance matrix separately.",
+  "start_epoch": 1792146675.5296578,
+  "end_epoch": 1792233075.5296578,
+  "analyzed_until_epoch": 1792233075.5296578,
+  "elapsed_hours": 24.0,
+  "completed_observation": true,
+  "valid_metric_samples": 5761,
+  "invalid_samples": 0,
+  "covered_seconds": 86391.912,
+  "coverage_percent": 99.9906,
+  "largest_gap_seconds": 0.011,
+  "planned_window_coverage_percent": 99.9906,
+  "last_sample_age_seconds": 172342.514,
+  "versions": [
+    "0.5.59",
+    "0.5.60",
+    "0.5.61"
+  ],
+  "browser_generation_changes": 0,
+  "wake_phrases": [
+    "okay-nabu",
+    "unknown"
+  ],
+  "backend_instance_changes": 2,
+  "observer_starts": 2,
+  "alerts": [],
+  "review_items": [
+    "runtime_restart_requires_review",
+    "observer_restart_requires_review",
+    "missing_or_mixed_versions",
+    "mixed_or_unknown_wake_phrases",
+    "observation_gaps_require_review",
+    "real_wake_after_eight_hours_missing"
+  ],
+  "idle_browser_cpu_percent_of_one_core": {
+    "samples": 5672,
+    "min": 26.46,
+    "median": 29.0,
+    "p95": 30.46,
+    "max": 96.59
+  },
+  "idle_health_ms": {
+    "samples": 5674,
+    "min": 4.09,
+    "median": 4.83,
+    "p95": 97.6,
+    "max": 113.27
+  },
+  "browser_rss_mb": {
+    "samples": 5761,
+    "min": 1299.11,
+    "median": 1379.89,
+    "p95": 1383.38,
+    "max": 1388.67
+  },
+  "hourly_browser_rss": [
+    {
+      "hour": 0,
+      "samples": 241,
+      "median_rss_mb": 1308.17
+    },
+    {
+      "hour": 1,
+      "samples": 240,
+      "median_rss_mb": 1307.335
+    },
+    {
+      "hour": 2,
+      "samples": 240,
+      "median_rss_mb": 1308.65
+    },
+    {
+      "hour": 3,
+      "samples": 240,
+      "median_rss_mb": 1309.3049999999998
+    },
+    {
+      "hour": 4,
+      "samples": 240,
+      "median_rss_mb": 1311.885
+    },
+    {
+      "hour": 5,
+      "samples": 240,
+      "median_rss_mb": 1311.98
+    },
+    {
+      "hour": 6,
+      "samples": 240,
+      "median_rss_mb": 1312.4850000000001
+    },
+    {
+      "hour": 7,
+      "samples": 240,
+      "median_rss_mb": 1313.26
+    },
+    {
+      "hour": 8,
+      "samples": 240,
+      "median_rss_mb": 1313.6149999999998
+    },
+    {
+      "hour": 9,
+      "samples": 240,
+      "median_rss_mb": 1314.365
+    },
+    {
+      "hour": 10,
+      "samples": 240,
+      "median_rss_mb": 1380.5149999999999
+    },
+    {
+      "hour": 11,
+      "samples": 240,
+      "median_rss_mb": 1381.0549999999998
+    },
+    {
+      "hour": 12,
+      "samples": 240,
+      "median_rss_mb": 1380.68
+    },
+    {
+      "hour": 13,
+      "samples": 240,
+      "median_rss_mb": 1380.84
+    },
+    {
+      "hour": 14,
+      "samples": 240,
+      "median_rss_mb": 1381.8600000000001
+    },
+    {
+      "hour": 15,
+      "samples": 240,
+      "median_rss_mb": 1381.3850000000002
+    },
+    {
+      "hour": 16,
+      "samples": 240,
+      "median_rss_mb": 1381.91
+    },
+    {
+      "hour": 17,
+      "samples": 240,
+      "median_rss_mb": 1381.53
+    },
+    {
+      "hour": 18,
+      "samples": 240,
+      "median_rss_mb": 1381.085
+    },
+    {
+      "hour": 19,
+      "samples": 240,
+      "median_rss_mb": 1380.52
+    },
+    {
+      "hour": 20,
+      "samples": 240,
+      "median_rss_mb": 1380.4450000000002
+    },
+    {
+      "hour": 21,
+      "samples": 240,
+      "median_rss_mb": 1380.8
+    },
+    {
+      "hour": 22,
+      "samples": 240,
+      "median_rss_mb": 1380.74
+    },
+    {
+      "hour": 23,
+      "samples": 240,
+      "median_rss_mb": 1380.59
+    }
+  ],
+  "observed_wakes": [
+    {
+      "detected_epoch": 1792181479.5936234,
+      "observed": true,
+      "idle_seconds": 22.0,
+      "phrase": "okay-nabu",
+      "idle_evidence_revision": 2,
+      "connected_seconds": 3.0,
+      "first_output_seconds": 4.0
+    },
+    {
+      "detected_epoch": 1792181493.5950553,
+      "observed": true,
+      "idle_seconds": 1.0,
+      "phrase": "okay-nabu",
+      "idle_evidence_revision": 2,
+      "connected_seconds": 2.0,
+      "first_output_seconds": 5.0
+    }
+  ],
+  "qualified_long_idle_wakes": 0,
+  "retrieved_at_utc": "2026-10-19T10:22:02Z",
+  "source_sha256": {
+    "plan.json": "404975de065e12179e4141d1f3df57adf421b5df6990a6c827068a31d07a1125",
+    "status.json": "554f3c4c4656ee8bd58aebf9bf7c4eb7c7785dd8d6bb814eb1c88ebcda273a77",
+    "events.jsonl": "530417efee438fac6f9f119664f16cba9ca23d78fe6f04757bee39beabb47b06",
+    "metrics.jsonl": "f417feaec671261254f79601327c95859ae81057bb50b161201bfc6087b4f161"
+  }
+}

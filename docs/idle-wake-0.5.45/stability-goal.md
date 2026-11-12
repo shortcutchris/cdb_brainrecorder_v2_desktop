@@ -243,6 +243,15 @@ Weder Dateitreffer noch passive Ressourcenwerte ersetzen die reale Erst-Ruf-
 Abnahme. Der laufende 24h-Datensatz enthält angekündigte Labortests, Wartung und
 Versionswechsel; Rohdaten/Plan bleiben erhalten, nicht als saubere Standzeit zählen.
 
+- **16.10., Audio-Cleanup-Kandidat, noch nicht installiert:** Der bekannte
+  sporadische Mac-Suchtonfehler ist als Rennen zwischen Prozessende und
+  asyncio-Abschluss eingegrenzt. Bestätigtes Reaping behandelt den bereits
+  verschwundenen Prozess korrekt, verweigerte Signale an lebende Prozesse
+  behalten die Reservierung. 415 Mac-Tests, zwölf echte stumme Suchtonzyklen
+  und zehn isolierte Pi-Freigabetests bestanden. Die 2,86h-Zwischenmessung
+  zeigt keinen wachsenden RSS-Trend, ist wegen bekannter Eingriffe und fehlendem
+  natürlichen Wake keine Langzeitabnahme. [Nachweise und Grenzen](../audio-reap-race-20261016/README.md).
+
 
 - **16.10., weitere Vergleichsstufe nach 0.5.60:** Deutsches Vosk scheitert im
   Raum trotz guter Dateireferenz (0/2 echte synthetische Rufe); nicht integriert.
@@ -293,3 +302,13 @@ Versionswechsel; Rohdaten/Plan bleiben erhalten, nicht als saubere Standzeit zä
   Keine reale Standzeitprüfung, kein Hardware-/Raumweg, keine neue Freigabe.
   Messdaten und Grenzen im Forschungsbericht; produktive 0.5.61 unverändert,
   Pi frei für den separat koordinierten Fernbedienungs-E2E. Ziel weiterhin offen.
+
+
+## Abschlussauswertung des Beobachtungsfensters am 19. Oktober
+
+Der Lauf vom 16.–17. Oktober ist regulär beendet und nach wiederhergestelltem
+Zugang vollständig ausgewertet: 99,9906 % Messabdeckung, keine Ressourcenwarnungen,
+über Nacht ein stabiles RSS-Plateau. Ergebnis **needs_review**, Gesamtziel offen.
+Versionswechsel und bekannte Eingriffe verhindern eine ungestörte 24h-Abnahme;
+ein echter Wake nach der abschließenden langen Bereitschaft fehlt.
+[Abschlussbericht und vollständige Abnahmematrix](../stability-final-20261017/README.md).

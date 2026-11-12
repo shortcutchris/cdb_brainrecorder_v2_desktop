@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-26",
+  "candidate": "0.5.71",
+  "base": "01195be9752c4467302e64195c1871c33e373a44",
+  "tests": 125,
+  "passed": true,
+  "testModules": [
+    "test_nfc_tokens",
+    "test_nfc_reader",
+    "test_wake_word",
+    "test_audio_release",
+    "test_customer_image",
+    "test_remote_live_control",
+    "test_studio"
+  ],
+  "engineWheel": "vendor/raspberry_pi_meeting_recorder-0.2.7-py3-none-any.whl",
+  "engineSha256": "13ceeeedce47cc4b51397f055eb9f3dd8dfd5fae119d6cf96edefabe85e3452d",
+  "testEnvironment": "macOS Python 3.14; exact pinned engine extracted to isolated PYTHONPATH; optional PCSC simulated",
+  "environmentCorrection": "Initial run used an older preinstalled engine missing Recorder.control; rerun with repository-pinned 0.2.7 passed all 125. No production workaround.",
+  "browser": "Real isolated local preview; settings/audio/nfc navigation, default-off and enrollment gating, missing-runtime message verified",
+  "piDeployed": false,
+  "physicalReaderTest": false,
+  "sdImageBuilt": false
+}

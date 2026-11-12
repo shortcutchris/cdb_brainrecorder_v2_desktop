@@ -177,3 +177,46 @@ Einstellungen → KI & Modelle zeigt die **aktiven** Modelle für Transkription 
 Direkte Tests werden unter `model-checks/` dauerhaft gespeichert; ein bei Neustart unterbrochener Test wird als fehlgeschlagen angezeigt und muss wiederholt werden. Lokale Freigaben sind an den Modell-Fingerprint gebunden. Brain-Aktivierung benötigt einen bestandenen Test desselben Verarbeitungsschritts und desselben Firmenkontos/Servers. Die letzte Online-Prüfung wird durch einen neuen Test ersetzt. Brain verwaltet das konkrete Online-Modell zentral; der Zugang bietet keine freie GPT-Modellliste.
 
 Gerät & Diagnose enthält die erweiterten Programmpfade. Aufnahmemodelle werden dort nicht mehr getestet oder ausgewählt.
+
+## Handy-Fernbedienung (Feature-Branch, noch nicht ausgeliefert)
+
+Unter **Einstellungen → Gerät & Verwaltung → Handy-Fernbedienung** kann der Pi
+nach serverseitiger Freischaltung mit cdbMOBILE gekoppelt werden. Beide verwenden
+dasselbe Brain-Konto. Code am Pi erzeugen, in der App eingeben und die Anfrage
+am Pi bestätigen. Das Handy steuert Start, Ende und Stummschaltung; Audio bleibt
+am Pi. Ohne Server-Capability bleibt der Bereich gesperrt. Aufnahme und Pause
+verhindern einen Gesprächsstart. [Bedienung, Sicherheitsregeln und Prüfumfang](remote-control/IMPLEMENTATION-63.md).
+
+## Lokale Ansagen
+
+Unter **Einstellungen → Audio → Lautsprecher → Lokale Ansagen einrichten** lassen sich Gesprächshinweise sowie Timer-/Erinnerungsansagen getrennt einschalten, sobald ein geprüftes Sprachpaket bereitliegt. Beide Optionen starten ausgeschaltet. Keine Ansage während Aufnahme oder Pause; im Gespräch behalten Timer den bisherigen Ton. [Bedienung, Schutzregeln und Installation](local-announcements/README.md).
+
+## Verbindungsansage
+
+Die separate Option „Gespräch wird verbunden“ spielt vor dem Gesprächsmikrofon
+„Ich verbinde dich.“ ab. Zwei Sekunden Nachhallabstand schützen den Eingang.
+Bestehende Drei-Clip-Pakete und Opt-ins bleiben gültig. Seit 0.5.67 auf dem Pi
+installiert und bei freiem Gerät aktiviert; Abbruch und Start bis zur Begrüßung
+geprüft. Bei Ersteinrichtung bleibt die Option aus: [Bedienung, Ablauf und Prüfung](local-announcements/connecting.md).
+
+Die Stimme und der aktuelle Ansagenablauf wurden am 21. Oktober 2026 vom Nutzer
+positiv bestätigt. [Verwendetes lokales Sprachmodell, Standardstimme und Arbeitsweise](local-announcements/voice-baseline.md).
+
+## Deutscher Timer-Countdown
+
+„Timer herunterzählen“ ist eine eigene, standardmäßig ausgeschaltete Option unter
+**Audio → Lautsprecher → Lokale Ansagen**. Sie zählt die letzten fünf Sekunden
+hörbarer Timer auf Deutsch; Erinnerungen bleiben unverändert. Aufnahme, Pause
+und Gespräche haben Vorrang, verpasste Countdowns werden ausgelassen. Als 0.5.69
+auf dem Pi installiert und aktiviert. [Stimme, Ablauf und Prüfung](local-announcements/countdown.md).
+
+## Zusätzliches USB-Timerdisplay
+
+Recorder 0.5.70 und der getrennte USB-Dienst sind auf dem Test-Pi vorbereitet.
+Nach Lieferung muss das Waveshare 5B Touch einmalig mit der passenden Firmware
+bespielt werden. Danach USB anstecken: vorhandene Timer erscheinen automatisch,
+kein zusätzlicher Schalter pro Timer. Ohne Timer zeigt das LCD „Keine offenen
+Timer“. Änderungen/Abbrüche werden übernommen; nach erneutem Anstecken verbindet
+es sich wieder. Touch wechselt nur Seite/Einzelansicht, die Bedienung und Töne
+bleiben beim Pi. [Flashen, Diagnose und erste Tests](lcd-display/FIRST-START.md).
+Die physische Displayabnahme steht noch aus.
