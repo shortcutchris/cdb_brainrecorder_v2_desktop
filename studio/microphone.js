@@ -17,6 +17,7 @@ function renderMicrophone(probe){
  const connected=microphoneDevices.some(d=>d.id===$('mic-select').value);
  const view=microphoneView(probe,connected,$('mic-select').value);
  const remaining=probe.seconds_left??5;
+ $('probe-start').dataset.counting=String(view.running&&online);
  $('probe-start').textContent=view.running&&online?(remaining>0?'Noch '+remaining+' s':'Aufnahme wird abgeschlossen …'):'Mikrofon testen · 5 Sekunden';
  $('probe-level').value=view.level;$('probe-level-label').textContent=view.label;$('probe-state').textContent=view.message;
  if(view.running||state?.recording.id||!online)pauseMicrophoneAudio();

@@ -2,7 +2,7 @@
 #settings #audio-page .audio-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;align-content:start}
 .audio-input-column,.audio-check-column{min-width:0;display:flex;flex-direction:column;gap:16px}
 #settings #audio-page h3{font-size:22px;line-height:28px;letter-spacing:-.3px;margin:0 0 8px}
-#settings #audio-page .audio-section-heading p{font-size:15px;line-height:22px;margin:0;min-height:44px;color:var(--muted)}
+#settings #audio-page .audio-section-heading p{font-size:15px;line-height:22px;margin:0;min-height:22px;color:var(--muted)}
 #settings #audio-page .audio-device-label{margin:0;font-size:14px}
 .audio-meter-card,.probe-player{padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--panel);min-width:0}
 .audio-card-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:24px;font-size:15px;line-height:24px}
@@ -10,10 +10,11 @@
 #settings #probe-level{display:block;width:100%;height:16px;margin:12px 0;background:var(--surface)}
 #probe-level::-webkit-progress-bar{background:var(--surface)}
 #probe-level::-webkit-progress-value{transition:width .15s linear}
-#settings #probe-state{font-size:14px;line-height:20px;margin:0;height:40px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+#settings #probe-state{font-size:14px;line-height:20px;margin:0;min-height:20px}
 .probe-player-controls{display:flex;align-items:center;gap:12px;margin-top:12px}
 #settings .probe-player-controls button{width:56px;height:56px;flex:0 0 56px;padding:0;border-radius:14px;border:1px solid var(--line);background:var(--surface)}
 #settings #audio-page #probe-start{min-height:56px;width:100%;margin-top:8px}
+#settings #audio-page #probe-start[data-counting=true]{opacity:1;color:var(--text);background:var(--panel);font-weight:650;font-variant-numeric:tabular-nums}
 #settings #probe-play{display:inline-flex;align-items:center;justify-content:center;gap:8px;flex:0 0 auto;width:auto;padding:0 12px;background:var(--accent);border-color:var(--accent);color:var(--on-accent,white)}
 #probe-play img{width:22px;height:22px}
 #probe-play img{filter:brightness(0) invert(1)}
