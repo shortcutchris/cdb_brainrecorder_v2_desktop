@@ -14,7 +14,7 @@ class CustomerImageTests(unittest.TestCase):
         from cryptography.hazmat.primitives.serialization import Encoding,PublicFormat
         with tempfile.TemporaryDirectory() as folder:
             root=Path(folder);source=root/'source';source.mkdir()
-            entries={'services/nfc_tokens.py':'# state machine', 'services/nfc_reader.py':'# isolated worker', 'studio/nfc.js':'// setup', 'nfc-tokens.json':'PRIVATE', 'services/lcd_display.py':'# projection', 'services/lcd_bridge.py':'# optional companion', 'firmware/lcd-usb/build/cdb_lcd_usb.bin':'DISPLAY FIRMWARE', 'services/announcements.py':'# fixed speech', 'announcements-pack/timer.wav':'PRIVATE', 'announcements.json':'PRIVATE', 'requirements-wake.txt':'pymicro-wakeword==2.5.0', 'services/wake_detectors.py':'# engines', 'services/remote_control.py':'# domain', 'services/remote_control_transport.py':'# outgoing', 'studio/remote-control.js':'// UI', 'studio/remote-control.css':'/* UI */', 'remote-control/connection.json':'PRIVATE', 'remote-control/receipts.sqlite3':'PRIVATE', 'web_server.py':"VERSION = '0.5.44'",'data/sessions.db':'PRIVATE','studio/welcome.html':'Hello','fleet/__init__.py':'','deploy/customer-image/network_service.py':'# network','deploy/customer-image/01-run-chroot.sh':'#!/bin/bash\n','kiosk.sh':'#!/bin/bash\n','scripts/audit_customer_rootfs.py':'# audit','credential.json':'PRIVATE','release-private.pem':'PRIVATE'}
+            entries={'services/nfc_tokens.py':'# state machine', 'services/nfc_reader.py':'# isolated worker', 'studio/nfc.js':'// setup', 'nfc-tokens.json':'PRIVATE', 'services/lcd_display.py':'# projection', 'services/lcd_bridge.py':'# optional companion', 'firmware/lcd-usb/build/cdb_lcd_usb.bin':'DISPLAY FIRMWARE', 'services/announcements.py':'# fixed speech', 'announcements-pack/timer.wav':'PRIVATE', 'announcements.json':'PRIVATE', 'requirements-wake.txt':'pymicro-wakeword==2.5.0', 'services/wake_detectors.py':'# engines', 'services/remote_control.py':'# domain', 'services/remote_control_transport.py':'# outgoing', 'studio/remote-control.js':'// UI', 'studio/remote-control.css':'/* UI */', 'remote-control/connection.json':'PRIVATE', 'remote-control/receipts.sqlite3':'PRIVATE', 'web_server.py':"VERSION = '0.5.44'",'data/sessions.db':'PRIVATE','studio/welcome.html':'Hello','fleet/__init__.py':'','deploy/customer-image/network_service.py':'# network','deploy/customer-image/factory_models.py':'# model seeding','deploy/customer-image/01-run-chroot.sh':'#!/bin/bash\n','kiosk.sh':'#!/bin/bash\n','scripts/audit_customer_rootfs.py':'# audit','credential.json':'PRIVATE','release-private.pem':'PRIVATE'}
             for name,value in entries.items():
                 path=source/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_text(value)
             key=root/'public.pem';key.write_bytes(Ed25519PrivateKey.generate().public_key().public_bytes(Encoding.PEM,PublicFormat.SubjectPublicKeyInfo))
@@ -23,6 +23,14 @@ class CustomerImageTests(unittest.TestCase):
                 return ('\0'.join(entries)+'\0').encode() if 'ls-files' in args else b'abc123\n'
             with patch.object(builder,'SOURCE',source),patch.object(builder.subprocess,'check_output',side_effect=git):
                 result=builder.prepare(root/'kit',key)
+            self.assertFalse(result['offline_models'])
+            with patch.object(builder,'SOURCE',source),patch.object(builder.subprocess,'check_output',side_effect=git):
+                offline=builder.prepare(root/'offline',key,offline_models=True)
+            files=root/'offline/stage-brain/00-brain/files'
+            self.assertTrue(offline['offline_models'])
+            import json
+            self.assertTrue(json.loads((files/'factory.json').read_bytes())['offline_models'])
+            self.assertIn('stage-brain/00-brain/files/factory/factory_models.py',offline['build_files'])
             self.assertIn('requirements-wake.txt',result['source_files'])
             self.assertIn('services/wake_detectors.py',result['source_files'])
             self.assertIn('services/announcements.py',result['source_files'])
@@ -58,6 +66,26 @@ class CustomerImageTests(unittest.TestCase):
             with self.assertRaises(ValueError):audit.audit(root)
             wifi.unlink();(root/'etc/machine-id').write_text('shared-identity')
             with self.assertRaises(ValueError):audit.audit(root)
+
+    def test_offline_model_is_available_without_copying_weights_or_overwriting_preferences(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder); source=root/'source'; (source/'fleet').mkdir(parents=True)
+            home=root/'home'; home.mkdir(); key=root/'public.pem'; key.write_text('test key')
+            seed=root/'ggml-medium.bin'; seed.write_bytes(b'test weights')
+            factory.initialize(home,source,key,'https://example.com','test','0.5.77',seed)
+            model=home/'.local/share/cdb-recorder-local/models/ggml-medium.bin'
+            self.assertEqual(model.resolve(),seed.resolve())
+            model.unlink(); model.write_bytes(b'existing model')
+            factory.initialize(home,source,key,'https://example.com','test','0.5.77',seed)
+            self.assertEqual(model.read_bytes(),b'existing model')
+
+    def test_offline_model_audit_rejects_wrong_whisper_digest(self):
+        models=module('factory_models','deploy/customer-image/factory_models.py')
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder); path=root/'opt/cdb/models'/models.WHISPER
+            path.parent.mkdir(parents=True); path.write_bytes(b'truncated')
+            with self.assertRaisesRegex(ValueError,'checksum mismatch'):
+                models.bundle(root)
 
     def test_fresh_profile_resume_does_not_overwrite_state(self):
         from fleet.common import read,save

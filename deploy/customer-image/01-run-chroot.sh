@@ -7,6 +7,10 @@ cd /opt/cdb/source
 python3 -m venv /opt/cdb/runtime
 /opt/cdb/runtime/bin/pip install --only-binary=:all: -r requirements.txt cryptography==50.0.2 -r requirements-wake.txt
 bash /opt/cdb/factory/install-runtimes.sh
+if python3 -c 'import json, sys; sys.exit(0 if json.load(open("/etc/cdb-factory-image.json"))["offline_models"] else 1)'; then
+    python3 /opt/cdb/factory/factory_models.py / --download
+    chown -R ollama:ollama /var/lib/ollama/models
+fi
 install -m 644 /opt/cdb/factory/70-cdb-respeaker.rules /etc/udev/rules.d/70-cdb-respeaker.rules
 /opt/cdb/runtime/bin/pip freeze > /opt/cdb/factory/python-packages.txt
 dpkg-query -W > /opt/cdb/factory/os-packages.txt

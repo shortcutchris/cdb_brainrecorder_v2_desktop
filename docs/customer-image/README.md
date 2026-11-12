@@ -52,7 +52,7 @@ dem gemeinsam genutzten Infrastrukturserver bauen.
 python3 scripts/prepare_customer_image.py \
   --output /neuer/pfad/brain-kit \
   --public-key /sicherer/pfad/release-public.pem \
-  --server https://cdblab.de/devices --country DE
+  --server https://cdblab.de/devices --country DE --offline-models
 cd /neuer/pfad/brain-kit
 ./build.sh --docker
 # Auf einem vorbereiteten dedizierten ARM64-Linux-Host alternativ: ./build.sh
@@ -79,7 +79,26 @@ Raspberry Pi OS Trixie ARM64, Wayland-Desktop mit Kiosk, Python-Runtime, Recorde
 separater Verwaltungsagent, root-eigener WLAN-Dienst, Erststart-Assistent,
 Whisper- und Ollama-Programme sowie der öffentliche Update-Prüfschlüssel.
 Keine persönlichen Daten, WLAN-Schlüssel, Brain-Sitzungen, gekoppelte Bluetooth-
-Geräte, Verwaltungs-Identitäten, privaten SSH-/Signierschlüssel oder Modelle.
+Geräte, Verwaltungs-Identitäten, privaten SSH-/Signierschlüssel.
+Mit `--offline-models` enthält die Karte **Whisper Medium (mehrsprachig)** und
+**Qwen3 4B Instruct (Q4_K_M)**. Die zwei Modelle belegen zusammen rund 4,03 GB.
+Der Builder lädt die festgelegten Gewichte aus den öffentlichen Modellquellen,
+prüft SHA-256 und legt die Lizenztexte unter `/usr/share/doc/cdb-models` ab.
+Die Offlineprüfung kontrolliert die Gewichte und Ollama-Layer im fertigen Image.
+Ohne diesen Schalter bleibt der bisherige Download im Assistenten verfügbar.
+[Whisper-Gewichte](https://huggingface.co/ggerganov/whisper.cpp) ·
+[Qwen-Paket](https://ollama.com/library/qwen3:4b-instruct).
+
+Beim ersten Start erkennt der Assistent eine bestehende LAN-Verbindung.
+Für WLAN auf **WLAN suchen**, auf den Netznamen und erst nach Eingabe des
+Schlüssels auf **Verbinden** tippen. Bis dahin bleibt die bisherige Verbindung
+bestehen. Der Image-Bau aktiviert `cdb-network.service` und berechtigt den
+Gerätebenutzer für die lokale WLAN-Schnittstelle. Auf einer Karte mit
+vorinstallierten Modellen sollen beide Modellkarten **Installiert** anzeigen.
+Zum Gerätetest auf einer zweiten Karte den ersten Start ohne Internet durchführen
+und mit einem synthetischen Audioclip Transkription und Zusammenfassung prüfen.
+Die persönliche Brain-Anmeldung kann später online erfolgen.
+
 Die ReSpeaker-USB-Firmware befindet sich auf dem Mikrofon selbst; ein SD-Image
 flasht sie nicht automatisch erneut. Siehe [Mikrofondokumentation](../respeaker.md).
 

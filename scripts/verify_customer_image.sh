@@ -30,7 +30,7 @@ e2fsck -fn "${loop}p2"
 mount -o ro "${loop}p1" "$workspace/boot"
 mount -o ro,noload "${loop}p2" "$workspace/root"
 python3 "$script_dir/audit_customer_rootfs.py" "$workspace/root"
-python3 - "$workspace/root" <<'VERIFY'
+python3 - "$workspace/root" "$script_dir/../deploy/customer-image/factory_models.py" <<'VERIFY'
 import hashlib,json,sys
 from pathlib import Path
 root=Path(sys.argv[1]);manifest=json.loads((root/'opt/cdb/factory/source-manifest.json').read_text())
@@ -40,6 +40,11 @@ for name,expected in manifest['source_files'].items():
     path=Path(name)
     assert not path.is_absolute() and '..' not in path.parts
     assert hashlib.sha256((root/'opt/cdb/source'/path).read_bytes()).hexdigest()==expected, name
+if config.get('offline_models') != manifest.get('offline_models'):
+    raise ValueError('Model profile mismatch')
+if config.get('offline_models'):
+    import runpy
+    runpy.run_path(sys.argv[2])['bundle'](root)
 print('Source files verified:',len(manifest['source_files']), 'commit:',manifest['source_commit'])
 VERIFY
 test -s "$workspace/boot/config.txt"

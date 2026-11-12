@@ -16,8 +16,7 @@ Touchdisplay. Python auf demselben Pi besitzt Mikrofon, Lautsprecher,
 Aufnahmen, dauerhafte Verarbeitungsschlange, Timer und Aktivierungswort.
 Die Oberfläche spricht die lokale API auf `127.0.0.1:8088` an. Aufnahme und
 Live-Gespräch schließen sich aus; die Verarbeitung bereits fertiger Aufnahmen
-kann parallel weiterlaufen. Lokale Whisper-/Ollama-Modelle werden nach der
-Installation ausgewählt und heruntergeladen.
+kann parallel weiterlaufen. Das optionale Offline-Image enthält Whisper Medium und Qwen3 4B Instruct bereits beim ersten Start. Weitere Modelle können im Assistenten oder später in den Einstellungen geladen werden.
 
 **Das Brain-Konto erschließt Wissen und Online-KI.** Die Microsoft-Anmeldung
 läuft über den Device-Code-Ablauf. Python bewahrt die Sitzung auf; der Browser
