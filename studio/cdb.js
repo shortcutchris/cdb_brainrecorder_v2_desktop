@@ -39,9 +39,16 @@ function renderCdb(){
  $('cdb-account').textContent=c.identity?'Angemeldet: '+c.identity.name+' · '+c.config.server.replace('https://',''):'Nicht angemeldet · lokale Verarbeitung verfügbar';
  $('cdb-connection-heading').textContent=c.identity?'Dein Brain':'Mit deinem Firmenkonto verbinden';$('cdb-connection-intro').hidden=false;$('cdb-server').closest('label').hidden=false;$('cdb-server').disabled=Boolean(c.identity)||!allowed('configure');
  const pending=c.login.state==='pending';$('cdb-login-code').hidden=!pending;
- if(pending){$('cdb-code').textContent=c.login.code;$('cdb-login-url').href=c.login.url;$('cdb-login-url').textContent=c.login.url.replace('https://','');$('cdb-expiry').textContent='Gültig bis '+new Date(c.login.expires*1000).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})}
+ if(pending){
+  const qr=c.login.url==='https://login.microsoft.com/device'?'microsoft-device':'microsoft-devicelogin';
+  setIcon($('cdb-login-qr'),'/assets/'+qr+'.png');
+ }
+ $('cdb-code').textContent=pending?c.login.code:'';
+ $('cdb-login-url').textContent=pending?c.login.url.replace('https://',''):'';
+ $('cdb-expiry').textContent=pending?'Gültig bis '+new Date(c.login.expires*1000).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}):'';
  $('cdb-login-message').textContent=c.login.message||'';
- $('cdb-login').hidden=Boolean(c.identity);$('cdb-login').disabled=pending||!allowed('configure');$('cdb-logout').disabled=!allowed('configure')||(!pending&&!c.identity);
+ $('cdb-cancel-login').hidden=!pending;
+ $('cdb-login').hidden=Boolean(c.identity)||pending;$('cdb-login').disabled=pending||!allowed('configure');$('cdb-logout').disabled=!allowed('configure')||(!pending&&!c.identity);
  $('cdb-connected-area').hidden=!c.identity;$('cdb-connection-refresh').hidden=!c.identity;
  for(const id of ['cdb-areas-refresh','cdb-connection-refresh'])$(id).disabled=!c.identity||areaLoading||areaSaving;
  let message=!c.identity?'Bitte zuerst unter Brain-Konto mit Microsoft anmelden.':areaLoading?'Knowledge Areas werden geladen …':areaSaving?'Standardbereich wird gespeichert …':areaError?'CDB: '+areaError:c.destination&&areaLoaded&&!cdbArea?'Der bisherige Standardbereich ist nicht mehr verfügbar. Bitte neu wählen.':!cdbAreas.length?'Für dieses Konto sind keine Knowledge Areas verfügbar.':cdbArea?'Standard gespeichert: '+cdbArea.label+'. Schreibrecht wird vor jeder Übertragung geprüft.':'Bitte einen Standardbereich wählen. Es wird nichts automatisch übertragen.';
@@ -68,6 +75,7 @@ async function saveDefaultArea(id){
 }
 for(const [id,key] of [['cdb-server','server'],['cdb-transcription','transcription'],['cdb-summary','summary']])$(id).onchange=run(async()=>{try{await api('/api/cdb/config',{[key]:$(id).value})}finally{await poll()}});
 $('cdb-login').onclick=run(async()=>{await api('/api/cdb/login',{});await poll()});
+$('cdb-cancel-login').onclick=run(async()=>{await api('/api/cdb/login/cancel',{});await poll()});
 $('cdb-logout').onclick=run(async()=>{await api('/api/cdb/logout',{});resetAreas('');await poll()});
 for(const id of ['cdb-areas-refresh','cdb-connection-refresh'])$(id).onclick=run(loadCdbAreas);
 for(const id of ['cdb-area','cdb-connection-area'])$(id).onchange=run(()=>saveDefaultArea(id));

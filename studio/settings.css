@@ -147,3 +147,11 @@
 #settings.workspace-view #management-page>.dialog-actions{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
 #settings.workspace-view #management-page>.dialog-actions button{width:100%;min-width:0}
 #management-page>.dialog-actions>span{font-size:13px;color:var(--muted)}
+
+#settings #connection-page #cdb-cancel-login{grid-column:1;grid-row:1}
+#settings .device-login-instructions{display:flex;align-items:center;gap:16px;margin:12px 0}
+#settings .device-login-instructions img{flex:none;border-radius:6px;image-rendering:pixelated}
+#settings .device-login-instructions p{margin:4px 0;line-height:1.35}
+#settings #cdb-login-url{display:block;overflow-wrap:anywhere;user-select:all;font-weight:600;margin-bottom:12px}
+#settings #cdb-code{margin:4px 0 0;padding:0;font-size:24px;letter-spacing:2px;overflow-wrap:anywhere}
+@media(max-width:1100px){#settings .device-login-instructions{gap:10px}#settings .device-login-instructions img{width:100px;height:100px}}

@@ -4,7 +4,7 @@ Stand 12.10.2026. Python-Backend und HTML-Kiosk bleiben eine Anwendung mit einer
 
 ## Bedienung
 
-1. Einstellungen → Verbindung → Microsoft anmelden. Die angezeigte Microsoft-Adresse auf dem Handy oder Rechner öffnen und den Gerätecode eingeben. Nach bestätigter Anmeldung zeigt der Pi den CDB-Kontonamen. Abmelden/Abbrechen beendet die lokale Sitzung beziehungsweise die laufende Anmeldung.
+1. Einstellungen → Brain-Konto → **Anmeldecode anzeigen**. Mit dem Handy den QR-Code scannen oder die angezeigte Microsoft-Adresse auf einem anderen Gerät öffnen. Dort den Gerätecode eingeben und das Firmenkonto bestätigen. Der Pi bleibt bedienbar und zeigt den Kontonamen nach erfolgreicher Anmeldung automatisch an. **Anmeldung abbrechen** verwirft einen ausstehenden Versuch. **Abmelden** trennt ein bereits verbundenes Konto.
 2. Transkription und Zusammenfassung unabhängig auf „Auf diesem Gerät“ oder „Über CDB“ stellen. CDB benötigt eine gültige Firmenanmeldung und überträgt Audio beziehungsweise Text. Lokale Modelle und öffentliche Modelldownloads brauchen keine Firmenanmeldung. Kein automatischer Wechsel zwischen lokal und CDB.
 3. Knowledge Areas → Bereiche laden → Zielbereich wählen. Das bestätigte Ziel bleibt kontogebunden gespeichert. Eine sichtbare Area ist noch kein garantiertes Schreibrecht.
 4. Meetingaktionen → Ins Brain übertragen. Gesendet werden ein eingefrorener Markdown-Text mit Zusammenfassung, vollständigem Transkript und Notizen sowie Titel und festem Ziel. Der Original-Audioversand zur Archivierung gehört nicht zu diesem Text-Ingest. Eine für CDB-Transkription übertragene Audiodatei ist ein eigener Serverbestand.

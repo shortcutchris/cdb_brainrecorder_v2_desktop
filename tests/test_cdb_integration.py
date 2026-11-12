@@ -214,7 +214,13 @@ class CdbTests(unittest.TestCase):
             return original(url,*args,**kwargs)
         self.transport.request=request
         result=self.c.start_login();self.assertEqual(result['login']['state'],'pending');self.assertNotIn('synthetic-device',json.dumps(result))
-        self.c.logout();self.assertEqual(self.c.public()['login']['state'],'idle')
+        generation=self.c.generation
+        self.assertEqual(self.c.cancel_login()['login']['state'],'idle')
+        self.assertGreater(self.c.generation,generation)
+        self.assertEqual(self.c.public()['identity']['user_id'],'user1')
+        self.c.login={'state':'completed'}
+        self.assertEqual(self.c.cancel_login()['login']['state'],'completed')
+        self.assertEqual(self.c.public()['identity']['user_id'],'user1')
     def test_changing_default_does_not_retarget_existing_publication(self):
         other={'id':DOC,'name':'other','label':'Other','client_id':CLIENT,'global':False}
         first={'id':AREA,'name':'synthetic','label':'Synthetic','client_id':CLIENT,'global':False}

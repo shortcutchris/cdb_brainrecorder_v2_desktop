@@ -28,7 +28,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.73'
+VERSION = '0.5.74'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -581,6 +581,8 @@ class StudioApp:
             if self.closing:raise ValueError('Dienst wird beendet. Änderungen bitte kurz aufbewahren.')
             if self.management.busy():raise ValueError('Gerät wird gewartet. Bitte kurz warten.')
             if self.first_start.busy:raise ValueError('Netzwerk wird eingerichtet. Bitte kurz warten.')
+            if path == '/api/cdb/login/cancel':
+                return self.cdb.cancel_login()
             if path == '/api/nfc':
                 self.require('configure')
                 return self.nfc.configure(body)
