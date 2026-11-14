@@ -6,7 +6,9 @@ Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einric
 
 In der **Warteschlange** zeigt jede laufende lokale Transkription die Länge der Aufnahme. Sobald Whisper einen Fortschritt meldet, erscheinen ein Balken, die verarbeitete Audiozeit und eine geschätzte Restzeit für die Transkription. Die Schätzung wird bei jedem neuen Messpunkt aus der bisherigen Verarbeitungsgeschwindigkeit aktualisiert. Die anschließende Zusammenfassung ist ein eigener Schritt. Beim erneuten Versuch beginnt die Anzeige von vorn.
 
-Die Anzeige gilt für Aufträge, die mit dieser Version starten. Das reguläre App-Update und der nächste SD-Image-Bau enthalten die Änderung ohne neue Laufzeitpakete oder Modelle.
+Im Einrichtungsassistenten lassen sich WLAN-Sicherheit und Brain-Umgebung direkt antippen. In der Studio-Oberfläche erscheinen Auswahllisten und Bestätigungen über der geöffneten Sitzung, die nach dem Schließen erhalten bleibt.
+
+Die Fortschrittsanzeige gilt für Aufträge, die mit dieser Version starten. Das reguläre App-Update und der nächste SD-Image-Bau enthalten die Änderung ohne neue Laufzeitpakete oder Modelle.
 
 ## 0.5.77 – Geführte Einrichtung (Kandidat)
 

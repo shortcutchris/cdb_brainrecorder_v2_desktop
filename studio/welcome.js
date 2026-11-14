@@ -64,8 +64,8 @@
  }
  function renderBrain(){
   const brain=snapshot?.brain,pending=brain?.login.state==='pending',signed=brain?.signed_in;
-  if(brain)$('brain-server').value=brain.server;
-  $('brain-server').disabled=working||!snapshot?.allowed||signed||pending;
+  for(const choice of [$('brain-production'),$('brain-staging')])choice.checked=choice.value===brain?.server;
+  $('brain-environment').disabled=working||!snapshot?.allowed||signed||pending;
   $('brain-status').textContent=signed?'Brain-Konto verbunden.':pending?'QR-Code am Handy scannen und den Gerätecode eingeben.':brain?.login.message||'Noch nicht angemeldet.';
   $('brain-login').hidden=signed||pending;$('brain-login').disabled=working||!snapshot?.allowed;
   $('brain-cancel').hidden=!pending;$('brain-cancel').disabled=working||!snapshot;
@@ -107,7 +107,7 @@
   if(step==='brain')renderBrain();
  }
  function credentials(ssid,security){
-  $('ssid').value=ssid;$('security').value=security;$('password').value='';
+  $('ssid').value=ssid;$('security-wpa3').checked=security==='wpa3';$('security-wpa2').checked=security!=='wpa3';$('password').value='';
   $('hidden-network').checked=false;$('show-password').checked=false;$('password').type='password';
   step='credentials';message('');render();
  }
@@ -170,13 +170,13 @@
  $('scan').onclick=run(async()=>{networkRequest=network&&network.wifi_setup!==false?'scan':'status'});
  $('connect').onclick=run(async()=>{
   const password=$('password').value;$('password').value='';
-  await api('/api/onboarding/network',{action:'connect',ssid:$('ssid').value,password,security:$('security').value,hidden:$('hidden-network').checked});
+  await api('/api/onboarding/network',{action:'connect',ssid:$('ssid').value,password,security:$('security-wpa3').checked?'wpa3':'wpa2',hidden:$('hidden-network').checked});
  });
  $('pair').onclick=run(async()=>{await api('/api/management/enroll',{code:$('code').value});$('code').value='';message('Kopplung wird geprüft.')});
  for(const [backend,entry] of Object.entries(recommended)){
   $(backend+'-install').onclick=run(async()=>{await api('/api/models/install',{backend,model:entry.id});catalogRevision=''});
  }
- $('brain-server').onchange=run(server=>api('/api/cdb/config',{server}));
+ $('brain-production').onchange=$('brain-staging').onchange=run(server=>api('/api/cdb/config',{server}));
  $('brain-login').onclick=run(()=>api('/api/cdb/login',{}));
  $('brain-cancel').onclick=run(()=>api('/api/cdb/login/cancel',{}));
  $('offline').onchange=render;$('show-password').onchange=()=>{$('password').type=$('show-password').checked?'text':'password'};
