@@ -2,6 +2,12 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.78 – Fortschritt der lokalen Transkription (Kandidat)
+
+In der **Warteschlange** zeigt jede laufende lokale Transkription die Länge der Aufnahme. Sobald Whisper einen Fortschritt meldet, erscheinen ein Balken, die verarbeitete Audiozeit und eine geschätzte Restzeit für die Transkription. Die Schätzung wird bei jedem neuen Messpunkt aus der bisherigen Verarbeitungsgeschwindigkeit aktualisiert. Die anschließende Zusammenfassung ist ein eigener Schritt. Beim erneuten Versuch beginnt die Anzeige von vorn.
+
+Die Anzeige gilt für Aufträge, die mit dieser Version starten. Das reguläre App-Update und der nächste SD-Image-Bau enthalten die Änderung ohne neue Laufzeitpakete oder Modelle.
+
 ## 0.5.77 – Geführte Einrichtung (Kandidat)
 
 Auf einem neuen Factory-Gerät startet der Assistent beim Einschalten. Er prüft LAN und WLAN, bietet bei fehlender Verbindung die WLAN-Auswahl an und führt durch Gerätekopplung, lokale Modelldownloads und die persönliche Brain-Anmeldung am Handy. Zum Schluss öffnet er die Recorder-Einrichtung für Mikrofontest und Aufnahmefreigabe. Auf bestehenden Geräten lässt er sich unter **Einstellungen → Recorder-Einrichtung → Einrichtungsassistent öffnen** erneut starten.

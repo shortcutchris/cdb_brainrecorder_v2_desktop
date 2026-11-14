@@ -21,7 +21,8 @@ import uuid
 
 from services.http_connection import HTTPSConnection, HTTPSHandler
 from meeting_recorder.core import atomic_write
-from meeting_recorder.processing import LocalModels, Interrupted
+from meeting_recorder.processing import Interrupted
+from services.queued_whisper import QueuedWhisper
 
 SCOPE = 'api://bfc31465-9282-4d18-8a6a-f3007b42832f/access_as_user offline_access'
 AUTH = 'https://login.microsoftonline.com/organizations/oauth2/v2.0/'
@@ -280,7 +281,7 @@ class CdbService:
 
 class CdbBackend:
     def __init__(self,service):
-        self.service=service;self.stopping=service.stopping;self.local=LocalModels(self.stopping);self.store=None
+        self.service=service;self.stopping=service.stopping;self.local=QueuedWhisper(self.stopping);self.store=None
     def route(self,folder,c):
         p=folder/'cdb-request.json'
         return json.loads(p.read_text()) if p.exists() and not c.get('model_test') else {'transcription':'local','summary':'local'}
