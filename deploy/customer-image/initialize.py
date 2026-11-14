@@ -10,7 +10,7 @@ import subprocess
 import sys
 
 
-def initialize(home, source, key, server, runtime, version):
+def initialize(home, source, key, server, runtime, version, whisper_seed=None):
     home, source, key = Path(home), Path(source), Path(key)
     data = home / '.local/share/cdb-recorder-local'
     app = home / '.local/share/cdb-recorder-app'
@@ -28,6 +28,11 @@ def initialize(home, source, key, server, runtime, version):
     if not release.exists():
         shutil.copytree(source, release, ignore=shutil.ignore_patterns('__pycache__'))
     (data / 'models').mkdir(parents=True, exist_ok=True)
+    if whisper_seed is not None:
+        if not whisper_seed.is_file():
+            raise ValueError('Factory Whisper model missing')
+        model = data / 'models' / 'ggml-medium.bin'
+        if not model.exists(): model.symlink_to(whisper_seed)
     if not (release / 'models').exists(): (release / 'models').symlink_to(data / 'models')
     if not (app / 'current').exists(): (app / 'current').symlink_to(release)
     if not agent.exists(): agent.mkdir(parents=True)
@@ -63,7 +68,8 @@ def main():
     freeze = subprocess.check_output(['/opt/cdb/runtime/bin/python', '-m', 'pip', 'freeze']).decode()
     version = subprocess.check_output(['/opt/cdb/runtime/bin/python', '-c', 'import sys;print(str(sys.version_info[:2]),end="")']).decode()
     runtime = hashlib.sha256((version + freeze).encode()).hexdigest()
-    created = initialize(user.pw_dir, '/opt/cdb/source', '/opt/cdb/factory/release-public.pem', config['server'], runtime, config['version'])
+    created = initialize(user.pw_dir, '/opt/cdb/source', '/opt/cdb/factory/release-public.pem', config['server'], runtime, config['version'],
+                         Path('/opt/cdb/models/ggml-medium.bin') if config.get('offline_models') else None)
     if created:
         # Parent directories were created by root during this fresh bootstrap.
         # The desktop must be able to create its kiosk profile alongside app data.

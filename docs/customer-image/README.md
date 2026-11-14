@@ -6,7 +6,7 @@ Das Kunden-Image wird aus **Quellcode und Bauanleitung** erstellt. Es ist kein
 Abbild eines benutzten Pi. Der laufende Pi und seine SD-Karte werden zum Bauen
 nicht benötigt und bleiben unangetastet.
 
-**Aktueller Testkandidat:** [SD-Image 0.5.44: Build, Prüfsumme und Kartentest](build-0.5.44/README.md).
+**Aktueller Testkandidat:** [SD-Image 0.5.77 mit WLAN-Assistent und Offline-Modellen](build-0.5.77/README.md). [Früherer Build 0.5.44](build-0.5.44/README.md).
 
 [Systemübersicht und Architektur](../architecture/README.md) ·
 [Erststart-Assistent ab 0.5.77](../erststart-0.5.77.md) · [Erststart im Image 0.5.44](../first-start-0.5.44/README.md)
@@ -52,7 +52,7 @@ dem gemeinsam genutzten Infrastrukturserver bauen.
 python3 scripts/prepare_customer_image.py \
   --output /neuer/pfad/brain-kit \
   --public-key /sicherer/pfad/release-public.pem \
-  --server https://cdblab.de/devices --country DE
+  --server https://cdblab.de/devices --country DE --offline-models
 cd /neuer/pfad/brain-kit
 ./build.sh --docker
 # Auf einem vorbereiteten dedizierten ARM64-Linux-Host alternativ: ./build.sh
@@ -79,7 +79,26 @@ Raspberry Pi OS Trixie ARM64, Wayland-Desktop mit Kiosk, Python-Runtime, Recorde
 separater Verwaltungsagent, root-eigener WLAN-Dienst, Erststart-Assistent,
 Whisper- und Ollama-Programme sowie der öffentliche Update-Prüfschlüssel.
 Keine persönlichen Daten, WLAN-Schlüssel, Brain-Sitzungen, gekoppelte Bluetooth-
-Geräte, Verwaltungs-Identitäten, privaten SSH-/Signierschlüssel oder Modelle.
+Geräte, Verwaltungs-Identitäten oder privaten SSH-/Signierschlüssel.
+Mit `--offline-models` enthält die Karte **Whisper Medium (mehrsprachig)** und
+**Qwen3 4B Instruct (Q4_K_M)**. Die zwei Modelle belegen zusammen rund 4,03 GB.
+Der Builder lädt die festgelegten Gewichte aus den öffentlichen Modellquellen,
+prüft SHA-256 und legt die Lizenztexte unter `/usr/share/doc/cdb-models` ab.
+Die Offlineprüfung kontrolliert die Gewichte und Ollama-Layer im fertigen Image.
+Ohne diesen Schalter bleibt der bisherige Download im Assistenten verfügbar.
+[Whisper-Gewichte](https://huggingface.co/ggerganov/whisper.cpp) ·
+[Qwen-Paket](https://ollama.com/library/qwen3:4b-instruct).
+
+Beim ersten Start erkennt der Assistent eine bestehende LAN-Verbindung.
+Für WLAN auf **WLAN suchen**, auf den Netznamen und erst nach Eingabe des
+Schlüssels auf **Verbinden** tippen. Bis dahin bleibt die bisherige Verbindung
+bestehen. Der Image-Bau aktiviert `cdb-network.service` und berechtigt den
+Gerätebenutzer für die lokale WLAN-Schnittstelle. Auf einer Karte mit
+vorinstallierten Modellen sollen beide Modellkarten **Installiert** anzeigen.
+Zum Gerätetest auf einer zweiten Karte den ersten Start ohne Internet durchführen
+und mit einem synthetischen Audioclip Transkription und Zusammenfassung prüfen.
+Die persönliche Brain-Anmeldung kann später online erfolgen.
+
 Die ReSpeaker-USB-Firmware befindet sich auf dem Mikrofon selbst; ein SD-Image
 flasht sie nicht automatisch erneut. Siehe [Mikrofondokumentation](../respeaker.md).
 
