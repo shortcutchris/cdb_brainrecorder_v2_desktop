@@ -149,3 +149,17 @@ body.keyboard-open .capture-footer{display:none}
 .announcement-option > strong, .announcement-option > p { grid-column:1; margin:0; }
 .announcement-option > button { grid-column:2; grid-row:1 / span 2; }
 @media (max-width:700px) { .announcement-option { grid-template-columns:1fr; } .announcement-option > button { grid-column:1; grid-row:auto; } }
+
+/* A session stays visible behind secondary dialogs, including on the 600px display. */
+dialog:modal:not(.workspace-view):not(.with-keyboard){
+ width:min(720px,calc(100vw - 48px));height:auto;max-height:calc(100dvh - 64px);
+ margin:auto;background:var(--surface);color:var(--ink)
+}
+dialog:modal::backdrop{background:rgb(19 33 46 / 52%)}
+#touch-picker:modal:not(.with-keyboard){height:min(520px,calc(100dvh - 64px))}
+#feedback:modal,#app-confirm:modal{max-width:560px}
+dialog:modal:not(.workspace-view)>.dialog-body{flex:0 1 auto;overflow-y:auto}
+#touch-picker:modal>.dialog-body{flex:1}
+dialog:modal:not(.workspace-view)>.dialog-heading,dialog:modal:not(.workspace-view)>.dialog-actions{
+ min-height:64px;height:auto;flex:0 0 auto;padding-block:8px
+}

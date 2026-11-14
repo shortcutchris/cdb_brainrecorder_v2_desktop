@@ -136,6 +136,16 @@ function renderQueueDownload(d){
 function queueProgress(job){
  if(!online)return {active:false,label:'Status nicht aktuell',detail:'Verbindung zum Pi unterbrochen'};
  const elapsed=duration(Math.max(0,Date.now()/1000-job.updated));
+ if(job.state==='transcribing'&&job.whisper_progress){
+  const {percent,duration_seconds:total,remaining_seconds:remaining}=job.whisper_progress;
+  const known=Number.isFinite(percent);
+  const audio=Number.isFinite(total)&&total>0;
+  const label=known?(audio?duration(total*percent/100)+' von '+duration(total)+' Audio verarbeitet':percent+' % verarbeitet')
+    :(audio?'Audiodauer '+duration(total):'Lokale Transkription');
+  const detail=!known?'Warte auf ersten Whisper-Fortschritt':percent===100?'Transkript wird fertiggestellt'
+    :remaining>=60?'Noch ca. '+Math.round(remaining/60)+' Min. für die Transkription':'Noch ca. '+Math.max(1,Math.round(remaining))+' Sek. für die Transkription';
+  return {active:true,label,detail,fraction:known?percent/100:null};
+ }
  if(job.state==='transcribing')return {active:true,label:'Schritt 1 von 2 · '+elapsed,detail:'Audio wird transkribiert'};
  if(job.state==='summarizing')return {active:true,label:'Schritt 2 von 2 · '+elapsed,detail:job.processing_detail||'Protokoll wird erstellt'};
  if(job.state==='importing')return {active:true,label:'Audio vorbereiten · '+elapsed,detail:'Datei wird vorbereitet'};
@@ -151,6 +161,8 @@ function refreshQueueDetails(jobs){
   nodes.size.title=Number.isFinite(job.audio_file_bytes)?job.audio_file_bytes.toLocaleString('de-DE')+' Bytes · Audiodatei':'Noch keine Audiodatei vorhanden';
   if(nodes.label.textContent!==p.label)nodes.label.textContent=p.label;
   if(nodes.detail.textContent!==p.detail)nodes.detail.textContent=p.detail;
+  if(Number.isFinite(p.fraction))nodes.bar.value=p.fraction;
+  else nodes.bar.removeAttribute('value');
   nodes.bar.hidden=!p.active;
   nodes.bar.setAttribute('aria-label',p.label+' · '+p.detail);
  }

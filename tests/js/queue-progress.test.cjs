@@ -56,3 +56,20 @@ test('Ollama progress follows each layer, verification, connectivity and errors'
  c.online=false;c.renderQueue();assert.equal(nodes['transfer-bar'].hidden,true);
  c.online=true;d.state='failed';d.message='Speicherreserve erreicht.';c.renderQueue();assert.match(nodes['transfer-phase'].textContent,/fehlgeschlagen.*Speicherreserve/);assert.equal(nodes['transfer-bar'].hidden,true);
 });
+
+test('local Whisper displays audio position and ETA in a stable row and clears them on phase change',()=>{
+ const {c,nodes}=harness();
+ const job={id:'w',state:'transcribing',updated:Date.now()/1000,
+  whisper_progress:{duration_seconds:600,percent:null,remaining_seconds:null}};
+ c.state.sessions=[{local_job_id:'w',title:'Test'}];c.state.jobs=[job];c.renderQueue();
+ const row=nodes['queue-panel'].children[1],[label,bar,detail]=row.children[3].children;
+ assert.equal(bar.value,undefined);assert.match(detail.textContent,/ersten Whisper/);
+ Object.assign(job.whisper_progress,{percent:50,remaining_seconds:320});c.renderQueue();
+ assert.equal(nodes['queue-panel'].children[1],row);
+ assert.equal(label.textContent,'300 s von 600 s Audio verarbeitet');assert.equal(bar.value,.5);
+ assert.equal(detail.textContent,'Noch ca. 5 Min. für die Transkription');
+ job.whisper_progress.percent=100;c.renderQueue();assert.match(detail.textContent,/fertiggestellt/);
+ job.state='summarizing';c.renderQueue();
+ const next=nodes['queue-panel'].children[1].children[3];
+ assert.equal(next.children[1].value,undefined);assert.match(next.children[0].textContent,/Schritt 2/);
+});

@@ -51,7 +51,7 @@ test('model download starts explicitly and renders measured bytes; the pending B
  assert.deepEqual(h.posts[0],['/api/models/install',{backend:'whisper',model:'medium'}]);
  h.status.installation.state='completed';await h.tick();await h.el('next').onclick();
  assert.equal(h.status.step,'brain');
- h.el('brain-server').value='https://cdbos.de';await h.el('brain-server').onchange({target:h.el('brain-server')});
+ h.el('brain-production').value='https://cdbos.de';await h.el('brain-production').onchange({target:h.el('brain-production')});
  assert.equal(h.status.brain.server,'https://cdbos.de');
  h.status.brain.login={state:'pending',code:'TEST',url:'https://login.microsoft.com/device'};await h.tick();
  assert.equal(h.el('brain-code').textContent,'TEST');assert.equal(h.el('next').disabled,true);

@@ -12,3 +12,9 @@
 [data-step="models"],[data-step="brain"]{overflow:auto}
 
 @media(max-height:620px){#brain-qr{width:min(100%,312px)}}
+
+.wizard-choice{margin:8px 0;padding:0;border:0;display:flex;flex-wrap:wrap;gap:8px}
+.wizard-choice legend{margin-bottom:6px}
+.wizard-choice label{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:6px 12px;margin:0;border:1px solid var(--line);border-radius:10px}
+.wizard-choice label:has(:checked){color:var(--accent-text);background:var(--soft);border-color:var(--accent)}
+.wizard-choice input[type=radio]{width:18px;height:18px;margin:0;accent-color:var(--accent)}
