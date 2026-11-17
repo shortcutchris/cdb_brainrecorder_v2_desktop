@@ -2,6 +2,10 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.79 – Aufnahmeknopf auf dem Touchdisplay
+
+„Aufnahme stoppen“ steht an derselben Stelle und ist genauso groß wie „Aufnahme starten“, auch bei geöffneter Bildschirmtastatur. Das signierte App-Update und der nächste SD-Image-Bau enthalten die Änderung über die bestehenden Studio-Dateien.
+
 ## 0.5.78 – Fortschritt der lokalen Transkription (Kandidat)
 
 In der **Warteschlange** zeigt jede laufende lokale Transkription die Länge der Aufnahme. Sobald Whisper einen Fortschritt meldet, erscheinen ein Balken, die verarbeitete Audiozeit und eine geschätzte Restzeit für die Transkription. Die Schätzung wird bei jedem neuen Messpunkt aus der bisherigen Verarbeitungsgeschwindigkeit aktualisiert. Die anschließende Zusammenfassung ist ein eigener Schritt. Beim erneuten Versuch beginnt die Anzeige von vorn.
