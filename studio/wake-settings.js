@@ -32,7 +32,7 @@
   if(!saving)$('wake-phrase').value=w.phrase||'hey-brain';
   disabled('wake-phrase',frozen);
   text('wake-state',!w.enabled&&!w.testing?'Aktivierungswort ausgeschaltet.':w.message||'Bereitschaft wird geprüft.');$('wake-state').dataset.state=w.state||'off';
-  text('wake-count',w.testing?'Lokaler Test · '+w.detections+' Erkennungen':'Nur aktiv, wenn Aufnahme, Gespräch und Wiedergabe beendet sind.');
+  text('wake-count',w.testing?(w.detections?'Proberuf erkannt · '+w.detections+' Treffer':'Test läuft · sage jetzt dein Rufwort'):'Nur aktiv, wenn Aufnahme, Gespräch und Wiedergabe beendet sind.');
   const hint=error||(saving?'Auswahl wird gespeichert …':loading?'Wissensbereiche werden geladen …':!identity?'Melde dich zuerst bei deinem Brain-Konto an.':!w.available?'Die lokale Aktivierungswort-Erkennung ist noch nicht installiert.':busy?'Aufnahme oder Gespräch läuft. Bitte zuerst beenden.':w.enabled?'Aktiv. Zum Ändern von Rufwort oder Wissen zuerst ausschalten.':w.testing?'Lokaler Erkennungstest läuft. Es wird kein Gespräch gestartet.':!setup?'Bitte Wissensbereiche aktualisieren.':!setup.enabled?'Voice One ist für dieses Brain-Konto nicht freigeschaltet.':!setup.audio?.available?'Bitte Mikrofon und Lautsprecher unter Audio einrichten.':!chosen.size?'Wähle mindestens einen Wissensbereich. Danach kannst du einschalten.':'Bereit. Beim Einschalten wird diese Auswahl für dein Brain-Konto gespeichert.');
   text('wake-hint',hint);text('wake-toggle',w.enabled?'Aktivierungswort ausschalten':'Aktivierungswort einschalten');$('wake-toggle').setAttribute('aria-pressed',String(Boolean(w.enabled)));
   disabled('wake-toggle',!online||saving||(!w.enabled&&(loading||busy||w.testing||!identity||!w.available||!setup?.enabled||!setup?.audio?.available||!chosen.size)));

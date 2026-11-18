@@ -15,6 +15,8 @@
   text('remote-code-caption',pending?'Die App wartet auf deine Zustimmung.':r.code?'Einmalcode · fünf Minuten gültig':r.paired?'Dieses Handy darf Gespräche am Pi steuern.':'Anschließend bestätigst du hier am Pi.');
   text('remote-controller',pending?'App-Kennung: '+pending.controller_id.slice(0,8):'');
   text('remote-primary',pending?'Handy freigeben':'Code erzeugen');
+  $('remote-primary').hidden=Boolean(r.paired&&!pending||r.code&&!pending);
+  $('remote-revoke').hidden=!r.device_id;
   $('remote-primary').disabled=blocked||!r.account_ready||Boolean(r.paired)||Boolean(r.code);
   $('remote-reject').dataset.inactive=String(!pending);$('remote-reject').disabled=blocked||!pending;
   text('remote-revoke',revokeConfirm?'Jetzt entkoppeln':'Entkoppeln');$('remote-revoke').disabled=blocked||!r.device_id;

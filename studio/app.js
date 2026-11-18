@@ -167,6 +167,7 @@ function refreshQueueDetails(jobs){
   nodes.bar.setAttribute('aria-label',p.label+' · '+p.detail);
  }
 }
+let failedOnly=false,retriedSession='';
 function renderQueue(){
  const jobs=queueJobs(),active=jobs.find(j=>['transcribing','summarizing','importing'].includes(j.state)),waiting=jobs.filter(j=>j.state==='queued'),failed=jobs.filter(j=>j.state==='failed');
  const installing=state.installation?.state==='running';
@@ -174,17 +175,23 @@ function renderQueue(){
  const test=state.model_test&&busyStates.includes(state.model_test.state)?state.model_test:null;const processing=active||test;
  $('queue-status').hidden=online&&installing&&!jobs.length&&!processing&&!state.recording.id;
  $('phase').textContent=processing?(test&&!active?'Modelltest · ':'')+(names[processing.state]||processing.state)+' · '+duration(Date.now()/1000-processing.updated):state.recording.id?'Aufnahme läuft':waiting.length?'Wartet auf Verarbeitung':installing?'Modelldownload läuft':state.installation?.state==='failed'?'Modelldownload fehlgeschlagen':state.free_mb<state.config.min_free_mb?'Zu wenig freier Speicher':!state.config.setup_complete?'Mikrofon einrichten':'Lokal bereit';
- $('waiting').textContent=waiting.length+' warten';$('errors').textContent=failed.length?failed.length+' Fehler':'';document.body.classList.toggle('working',Boolean(processing));setIcon($('activity-icon'),'/assets/'+(processing?'circle-notch':state.recording.id?'microphone':failed.length||state.installation?.state==='failed'?'arrow-clockwise':installing?'download-simple':'check-circle')+'.svg');
- const signature=JSON.stringify([allowed('process'),online,state.recording.id,Boolean(state.activity?.busy),installing])+JSON.stringify(jobs.map(j=>[j.id,j.state,j.session.title,j.error]));if(signature===queueSignature){refreshQueueDetails(jobs);return}queueSignature=signature;const scroll=$('queue-panel').scrollTop;$('queue-panel').replaceChildren();queueNodes=new Map();let position=0;
+ if(!failed.length)failedOnly=false;
+ $('errors').hidden=!failed.length;
+ $('errors').setAttribute('aria-pressed',String(failedOnly));
+ $('errors').setAttribute('aria-label',failedOnly?'Alle Aufträge anzeigen':'Fehlgeschlagene Aufträge anzeigen');
+ $('waiting').textContent=waiting.length+' warten';$('errors').textContent=failedOnly?'Alle Aufträge anzeigen':failed.length?failed.length+' Fehler':'';document.body.classList.toggle('working',Boolean(processing));setIcon($('activity-icon'),'/assets/'+(processing?'circle-notch':state.recording.id?'microphone':failed.length||state.installation?.state==='failed'?'arrow-clockwise':installing?'download-simple':'check-circle')+'.svg');
+ const signature=JSON.stringify([failedOnly,allowed('process'),online,state.recording.id,Boolean(state.activity?.busy),installing])+JSON.stringify(jobs.map(j=>[j.id,j.state,j.session.title,j.error]));if(signature===queueSignature){refreshQueueDetails(jobs);return}queueSignature=signature;const scroll=$('queue-panel').scrollTop;$('queue-panel').replaceChildren();queueNodes=new Map();let position=0;
  if(jobs.length){const header=document.createElement('div');header.className='queue-columns';header.setAttribute('aria-hidden','true');for(const text of ['Meeting','Dateigröße','Status','Fortschritt','']){const cell=document.createElement('span');cell.textContent=text;header.append(cell)}$('queue-panel').append(header)}
- for(const job of jobs){
-  const row=document.createElement('div');row.className='queue-row';row.dataset.queueKey=JSON.stringify([job.id,job.state,job.session.title,job.error]);
+ for(const job of (failedOnly?failed:jobs)){
+  const row=document.createElement('div');row.className='queue-row';
+  if(retriedSession===job.session.id&&job.state!=='failed'){row.classList.add('touch-confirmed');$('queue-panel').dataset.focusJob=job.id;retriedSession=''}
+  row.dataset.job=job.id;row.dataset.queueKey=JSON.stringify([job.id,job.state,job.session.title,job.error]);
   const title=document.createElement('strong');if(job.state==='queued')position++;title.textContent=(job.state==='queued'?position+'. ':'')+job.session.title;
   const size=document.createElement('span');size.className='queue-file-size';size.setAttribute('aria-label','Dateigröße');
   const status=document.createElement('span');status.className='queue-job-status';status.textContent=job.state==='failed'?job.error||'Fehler':names[job.state];status.title=job.error||'';
   const progress=document.createElement('div');progress.className='queue-job-progress';
   const label=document.createElement('span'),bar=document.createElement('progress'),detail=document.createElement('small');bar.max=1;progress.append(label,bar,detail);
-  const action=document.createElement('button');action.textContent=job.state==='failed'?'Wiederholen':'Öffnen';action.disabled=Boolean(state.recording.id)||(job.state==='failed'&&!allowed('process'));action.onclick=run(async()=>{await flush();if(job.state==='failed'){await api('/api/sessions/'+job.session.id+'/retry',{});await poll()}else await selectMeeting(job.session.id)});
+  const action=document.createElement('button');action.textContent=job.state==='failed'?'Wiederholen':'Öffnen';action.disabled=Boolean(state.recording.id)||(job.state==='failed'&&!allowed('process'));action.onclick=run(async()=>{await flush();if(job.state==='failed'){await api('/api/sessions/'+job.session.id+'/retry',{});failedOnly=false;retriedSession=job.session.id;$('queue-feedback').textContent='„'+job.session.title+'“ erneut eingereiht.';await poll()}else await selectMeeting(job.session.id)});
   let actions=action;
   if(job.state==='failed'){
    actions=document.createElement('div');actions.className='queue-row-actions';
@@ -263,7 +270,7 @@ $('record').onclick=run(async()=>{
  }finally{recordingAction=false;recordingIntent=null;if(state)renderState()}
 });
 $('queue-toggle').onclick=run(openQueue);
-$('errors').onclick=run(openQueue);
+$('errors').onclick=()=>{failedOnly=!failedOnly;renderQueue()};
 $('play').onclick=run(async()=>{if(audio.paused){if(state?.recording.id){$('feedback').showModal();return}await audio.play();}else audio.pause()});
 $('feedback-play').onclick=run(async()=>{$('feedback').close();await audio.play()});
 audio.onplay=()=>{setIcon($('play-icon'),'/assets/pause.svg');$('play').setAttribute('aria-label','Wiedergabe pausieren')};audio.onpause=()=>{setIcon($('play-icon'),'/assets/play.svg');$('play').setAttribute('aria-label','Wiedergabe starten')};audio.onerror=()=>{if(audio.src)notice('Audio konnte nicht wiedergegeben werden. Datei und Audioausgabe prüfen.')};
@@ -282,7 +289,7 @@ function workspaceView(id=null){
  }
  if(id&&id!=='detail'&&!$(id).open)$(id).show();
 }
-async function openQueue(){if(state?.recording.id)throw new Error('Aufnahme läuft. Bitte zuerst stoppen.');await leaveDraft();workspaceView('queue-region');$('queue-panel').hidden=false;}
+async function openQueue(){if(state?.recording.id)throw new Error('Aufnahme läuft. Bitte zuerst stoppen.');await leaveDraft();failedOnly=false;$('queue-feedback').textContent='';renderQueue();workspaceView('queue-region');$('queue-panel').hidden=false;}
 async function showRecorder(){
  await leaveDraft();audio.pause();
  const current=state?.recording.id&&state.sessions.find(row=>row.local_job_id===state.recording.id);
@@ -363,7 +370,14 @@ let previousDownload='',previousProbe='',previousModelTest='';function renderSet
  if(typeof renderMicrophone==='function')renderMicrophone(p);
  const refreshProbe=probeKey!==previousProbe&&['completed','failed'].includes(p.state);
  previousProbe=probeKey;
- if(refreshProbe&&$('settings').open)loadSetup().catch(e=>notice(e.message));
+ if(refreshProbe&&$('settings').open){
+  if(p.state==='completed'&&$('settings').dataset.detail==='audio-page'){
+   const player=$('probe-player-state').closest('.probe-player');
+   player?.classList.remove('touch-confirmed');
+   requestAnimationFrame(()=>player?.classList.add('touch-confirmed'));
+  }
+  loadSetup().catch(e=>notice(e.message));
+ }
  const download=modelDownload(d,catalog);
  showDownloadBar($('download-progress'),d,download);
  $('download-state').textContent=download?[download.model,online?download.phase:'Letzter Stand · Verbindung unterbrochen',download.percent==null?'':download.percent+' %',download.amount].filter(Boolean).join(' · '):'';

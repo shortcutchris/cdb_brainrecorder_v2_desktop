@@ -28,6 +28,11 @@
     const headerSize=queue?(el.querySelector('.queue-columns')?.getBoundingClientRect().height||0):0;
     const size=Math.max(1,Math.floor((el.clientHeight-24-headerSize)/Math.max(1,rowSize))),count=Math.max(1,Math.ceil(items.length/size));
     const content=items.map(e=>e.dataset.queueKey||e.textContent).join('|');if(content!==p.content){p.content=content;p.page=0}
+    if(queue&&el.dataset?.focusJob){
+     const index=items.findIndex(row=>row.dataset.job===el.dataset.focusJob);
+     if(index>=0)p.page=Math.floor(index/size);
+     delete el.dataset.focusJob;
+    }
     p.page=Math.min(p.page||0,count-1);items.forEach((row,i)=>{const hidden=Math.floor(i/size)!==p.page;if(row.hidden!==hidden)row.hidden=hidden});
     const signature=[count,p.page,size,content].join('|');if(signature===p.signature)continue;p.signature=signature;el.scrollTop=0;
     p.info.textContent='Seite '+(p.page+1)+' von '+count;

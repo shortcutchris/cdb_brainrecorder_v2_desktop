@@ -17,7 +17,7 @@ function renderAnnouncements(){
  const a=state?.announcements||{},c=announcementControls(state,online,speakerBusy);
  for(const key of ['offline','timers','connecting','countdown']){
   const button=$('announcements-'+key);button.disabled=!c[key];
-  button.textContent=a[key]?'Ausschalten':'Einschalten';
+  button.textContent=a[key]?'Ein':'Aus';
   button.setAttribute('aria-label',({offline:'Gesprächshinweis',timers:'Timer-Ansagen',connecting:'Verbindungsansage',countdown:'Timer-Countdown'}[key])+(a[key]?' ausschalten':' einschalten'));button.setAttribute('aria-pressed',String(Boolean(a[key])));
  }
  $('announcements-status').textContent=!online?'Verbindung zum Pi unterbrochen.':a.message||'Sprachpaket wird geprüft.';
@@ -75,6 +75,7 @@ showSettingsDetail=function(page){beforeSpeakerDetail(page);if(page==='speaker-p
 const beforeSpeakerState=renderState;
 renderState=function(){beforeSpeakerState();renderSpeakers();if(!$('speaker-page').hidden&&$('settings').open&&$('settings').dataset.overview!=='true')loadSpeakers()};
 
+$('audio-announcements').onclick=()=>showSettingsDetail('announcements-page');
 $('speaker-announcements').onclick=()=>showSettingsDetail('announcements-page');
 for(const key of ['offline','timers','connecting','countdown'])$('announcements-'+key).onclick=()=>speakerAction('/api/announcements',{[key]:!state?.announcements?.[key]});
 $('announcements-stop').onclick=()=>speakerAction('/api/speakers/stop',{});

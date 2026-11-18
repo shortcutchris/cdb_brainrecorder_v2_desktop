@@ -6,6 +6,7 @@
   $('nfc-banner').hidden=!n.enabled;
   $('nfc-banner').textContent=n.enabled?'NFC · '+(n.message||'Bereitschaft prüfen.') : '';
   $('nfc-state').textContent=error||n.message||'NFC ausgeschaltet.';
+  $('nfc-next').textContent=busy?'Einrichtung nach der Aufnahme oder dem Gespräch möglich.':n.enabled?'Aufsteller bereit. Zum Ändern zuerst NFC ausschalten.':!n.can_enroll?'Lege einen Aufsteller auf und tippe auf „Leser prüfen“.':'Aufsteller erkannt. Ordne ihm Gespräch oder Meeting zu.';
   $('nfc-assigned').textContent=['talk','meeting'].map(k=>k.toUpperCase()+': '+(n.assigned?.[k]?'zugeordnet':'noch offen')).join(' · ');
   $('nfc-toggle').textContent=n.enabled?'NFC ausschalten':'NFC einschalten';
   $('nfc-toggle').setAttribute('aria-pressed',String(Boolean(n.enabled)));

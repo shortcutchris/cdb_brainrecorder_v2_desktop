@@ -6,7 +6,7 @@
  function focusSettings(el){document.querySelectorAll('.keyboard-muted').forEach(x=>x.classList.remove('keyboard-muted'));const settings=el?.closest('#settings.with-keyboard');if(!settings)return;let node=el.closest('label')||el;while(node&&node.parentElement&&!node.parentElement.classList.contains('settings-page')){for(const sibling of node.parentElement.children)if(sibling!==node)sibling.classList.add('keyboard-muted');if(node.parentElement.classList.contains('settings-content'))break;node=node.parentElement}}
  const editable=el=>el instanceof HTMLTextAreaElement||el instanceof HTMLInputElement&&['text','password','search','url','email','tel'].includes(el.type);
  document.addEventListener('focusin',event=>{if(editable(event.target)){target=event.target;focusSettings(target);if(!panel.hidden)requestAnimationFrame(()=>target?.scrollIntoView({block:'nearest'}))}});
- function hide(){document.querySelectorAll('.keyboard-muted').forEach(x=>x.classList.remove('keyboard-muted'));panel.hidden=true;document.body.classList.remove('keyboard-open');document.querySelectorAll('dialog').forEach(d=>d.classList.remove('with-keyboard'))}
+ function hide(){document.querySelectorAll('.keyboard-muted').forEach(x=>x.classList.remove('keyboard-muted'));panel.hidden=true;document.body.classList.remove('keyboard-open','editing-meeting');document.querySelectorAll('dialog').forEach(d=>d.classList.remove('with-keyboard'))}
  function draw(){
   panel.replaceChildren();
   const rows=numeric?[['1','2','3','4','5','6','7','8','9','0'],['@','#','€','%','&','(',')','/',';',':','?'],['⇧','+','-','*','=','!','"',"'",'_','\\','§','⌫']]:[['q','w','e','r','t','z','u','i','o','p','ü'],['a','s','d','f','g','h','j','k','l','ö','ä'],['⇧','y','x','c','v','b','n','m',',','.','ß','⌫']];
@@ -35,7 +35,7 @@
   if(!target||!target.isConnected||target.disabled||target.readOnly||!target.getClientRects().length||(dialog&&!dialog.contains(target)))target=[...(dialog||document).querySelectorAll('textarea:not([disabled]):not([readonly]),input:not([disabled]):not([readonly])')].find(el=>editable(el)&&el.getClientRects().length);
   if(!target)return;
   if(target.inputMode==='numeric')numeric=true;
-  (dialog||document.body).append(panel);panel.hidden=false;document.body.classList.add('keyboard-open');if(dialog)dialog.classList.add('with-keyboard');draw();target?.focus({preventScroll:true});focusSettings(target);requestAnimationFrame(()=>target?.scrollIntoView({block:'nearest'}));
+  (dialog||document.body).append(panel);panel.hidden=false;document.body.classList.add('keyboard-open');document.body.classList.toggle('editing-meeting',target.id==='editor');if(dialog)dialog.classList.add('with-keyboard');draw();target?.focus({preventScroll:true});focusSettings(target);requestAnimationFrame(()=>target?.scrollIntoView({block:'nearest'}));
  }
  document.getElementById('keyboard').onclick=toggle;
  document.addEventListener('click',event=>{if(event.target.closest('#library-open,#settings-open,#queue-toggle,#queue-close,#settings-overview-back,[data-settings-tile],#more-open,#theme-save,#theme-cancel,[data-settings]'))hide()},true);

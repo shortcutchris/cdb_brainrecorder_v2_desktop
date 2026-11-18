@@ -17,47 +17,66 @@
  }
  const picker=document.createElement('dialog');picker.id='knowledge-picker';picker.setAttribute('aria-labelledby','knowledge-title');
  picker.innerHTML=`<h2 id="knowledge-title">Gesprächswissen wählen</h2>
-  <p id="knowledge-status" role="status"></p><div id="knowledge-grid" role="group" aria-label="Wissensbereiche"></div>
+  <div class="knowledge-tools"><input id="knowledge-search" type="search" aria-label="Wissensbereiche suchen" placeholder="Bereiche suchen …"><button id="knowledge-keys" aria-label="Bildschirmtastatur öffnen">Tastatur</button><button id="knowledge-selected" aria-pressed="false">Ausgewählte</button></div><p id="knowledge-status" role="status"></p><div id="knowledge-grid" role="group" aria-label="Wissensbereiche"></div>
   <nav id="knowledge-pages" aria-label="Bereichsseiten"><button id="knowledge-prev">Zurück</button><span id="knowledge-page"></span><button id="knowledge-next">Weiter</button></nav>
   <footer><button id="knowledge-cancel">Abbrechen</button><button class="primary" id="knowledge-apply">Übernehmen</button></footer>`;document.body.append(picker);
  let pending=false,revision=0,catalog=null,draft=new Set(),page=0,saving=false;
+ let selectedOnly=false,readOnly=false;
  const pageSize=6;
+ const normalize=value=>value.toLocaleLowerCase('de').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
  function drawPicker(){
-  const pages=Math.max(1,Math.ceil(catalog.areas.length/pageSize));
+  const query=normalize($('knowledge-search').value.trim());
+  const areas=catalog.areas.filter(a=>(!selectedOnly||draft.has(a.id))&&normalize(a.name).includes(query));
+  const pages=Math.max(1,Math.ceil(areas.length/pageSize));
+  page=Math.min(page,pages-1);
+  $('knowledge-selected').setAttribute('aria-pressed',String(selectedOnly));
+  $('knowledge-selected').textContent='Ausgewählte ('+draft.size+')';
   $('knowledge-grid').dataset.paged=String(pages>1);
   $('knowledge-grid').replaceChildren();
-  for(const area of catalog.areas.slice(page*pageSize,(page+1)*pageSize)){
+  for(const area of areas.slice(page*pageSize,(page+1)*pageSize)){
    const button=document.createElement('button');
    button.type='button';
    button.textContent=area.name;
    button.title=area.name;
    button.setAttribute('aria-pressed',String(draft.has(area.id)));
-   button.disabled=saving||(!draft.has(area.id)&&draft.size>=catalog.limit);
+   button.disabled=readOnly||saving||(!draft.has(area.id)&&draft.size>=catalog.limit);
    button.onclick=()=>{
+    if(saving||readOnly)return;
     if(draft.has(area.id))draft.delete(area.id);else draft.add(area.id);
-    const index=catalog.areas.indexOf(area)%pageSize;
+    const index=areas.indexOf(area)%pageSize;
     drawPicker();
     $('knowledge-grid').children[index]?.focus();
    };
    $('knowledge-grid').append(button);
   }
-  $('knowledge-status').textContent=catalog.areas.length?draft.size+' von maximal '+catalog.limit+' ausgewählt':'Für dieses Brain-Konto sind keine Wissensbereiche verfügbar.';
+  $('knowledge-status').textContent=!areas.length&&catalog.areas.length?'Keine passenden Bereiche · '+draft.size+' ausgewählt':catalog.areas.length?draft.size+' von maximal '+catalog.limit+' ausgewählt':'Für dieses Brain-Konto sind keine Wissensbereiche verfügbar.';
+  if(readOnly)$('knowledge-status').textContent='Für dieses Gespräch festgelegt · '+draft.size+(draft.size===1?' Bereich':' Bereiche');
   $('knowledge-pages').hidden=pages===1;$('knowledge-page').textContent=(page+1)+' / '+pages;
   $('knowledge-prev').disabled=saving||page===0;$('knowledge-next').disabled=saving||page+1>=pages;
   $('knowledge-apply').disabled=saving||!draft.size||draft.size>catalog.limit;$('knowledge-cancel').disabled=saving;
  }
- function openPicker(selection){
-  catalog=selection;
+ function openPicker(selection,review=false){
+  if(picker.open||saving)return;
+  readOnly=review;catalog=selection;
+  selectedOnly=false;$('knowledge-search').value='';
   draft=new Set(catalog.ids);
+  $('knowledge-title').textContent=readOnly?'Gesprächswissen in diesem Gespräch':'Gesprächswissen wählen';
+  $('knowledge-cancel').textContent=readOnly?'Schließen':'Abbrechen';
+  $('knowledge-apply').hidden=readOnly;
+  $('knowledge-selected').hidden=readOnly;
   page=0;
   drawPicker();
   picker.showModal();
  }
+ window.openStudioKnowledge=openPicker;
+ $('knowledge-search').oninput=()=>{page=0;drawPicker()};
+ $('knowledge-selected').onclick=()=>{selectedOnly=!selectedOnly;page=0;drawPicker()};
+ $('knowledge-keys').onclick=()=>{$('knowledge-search').focus();$('keyboard').click()};
  $('knowledge-prev').onclick=()=>{page--;drawPicker()};$('knowledge-next').onclick=()=>{page++;drawPicker()};
  $('knowledge-cancel').onclick=()=>picker.close();
  picker.oncancel=event=>{if(saving)event.preventDefault()};
  $('knowledge-apply').onclick=async()=>{
-  if(saving||!catalog)return;
+  if(saving||readOnly||!catalog)return;
   saving=true;drawPicker();
   try{await window.studioLiveHome.apply(catalog.key,[...draft]);picker.close()}
   catch(error){saving=false;drawPicker();$('knowledge-status').textContent=error.message}
@@ -107,7 +126,10 @@
   $('start-knowledge').disabled=unavailable;
   const selection=window.studioLiveHome.selection();
   $('knowledge-count').textContent=selection?'('+selection.ids.length+')':'';
-  if(picker.open&&(locked||!online||!selection||selection.key!==catalog.key))picker.close();
+  if(picker.open){
+   const invalid=readOnly?!$('live-view').open||(!state?.live?.busy&&!state?.live?.history?.length):locked||!selection||selection.key!==catalog.key;
+   if(!online||invalid)picker.close();
+  }
   const readiness=typeof currentReadiness==='function'?currentReadiness():{tone:'waiting',label:'Status wird geprüft'};
   $('hint-recorder').textContent=$('record').disabled?readiness.label:'Aufnahme am Pi starten';
   $('start-led').dataset.state=readiness.tone;$('start-status').textContent=readiness.label;

@@ -54,8 +54,14 @@ function renderModelChoices(){
   $(prefix+'-test').disabled=Boolean(reason)||busy;$(prefix+'-test').textContent=t?.state==='running'?'Test läuft …':'Modell testen';
   $(prefix+'-login').hidden=!cloud||Boolean(state.cdb.identity);
   $(prefix+'-activate').disabled=!allowed('configure')||!tested||current;
+  const next=cloud&&!state.cdb.identity?'login':!cloud&&m&&!m.installed?'install':!tested?'test':!current?'activate':'';
+  for(const action of ['login','install','test','activate']){
+   const button=$(prefix+'-'+action);
+   button.dataset.next=String(action===next&&!button.disabled);
+  }
   $(prefix+'-activate').textContent=current?(!cloud&&m&&!m.installed?'Voreingestellt':'Bereits aktiv'):'Modell aktivieren';
   $(prefix+'-check-status').textContent=t?.state==='failed'?'Test fehlgeschlagen · Details stehen im Ergebnis.':match?(current&&t.state==='completed'?'Test erfolgreich · Bereits aktiv.':t.message)+(t.seconds!==undefined?' · '+t.seconds+' s':''):reason||(tested?'Gerätetest bestanden'+(current?' · Bereits aktiv.':'. Auswahl kann aktiviert werden.'):'Test mit künstlichem Beispiel · Aktive Modelle bleiben unverändert.');
+  if(reason&&(!t||t.state!=='running'))$(prefix+'-check-status').textContent=reason;
   $(prefix+'-check-status').classList.toggle('is-working',Boolean(t?.state==='running'));
   $(prefix+'-result-box').hidden=false;const result=(t?.state==='failed'?t.message:t?.result)||'';const resultId=t?.id||'';if($(prefix+'-result-box').dataset.check!==resultId){$(prefix+'-result-box').dataset.check=resultId;checkPages[prefix]=0}
   $(prefix+'-result-caption').textContent=t?.state==='failed'?'Test fehlgeschlagen':result?'Künstliches Beispiel':t?.state==='running'?'Wird geprüft …':tested?'Prüfung bestätigt':'Noch kein Ergebnis';

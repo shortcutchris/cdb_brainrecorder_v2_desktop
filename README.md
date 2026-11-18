@@ -2,6 +2,14 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.84 – Touch-Bedienung im Gespräch und bei der Einrichtung
+
+Die Startseite und die Gesprächsvorbereitung öffnen dasselbe Raster für das Gesprächswissen. Über die Suche und „Ausgewählte“ lassen sich Bereiche finden und kontrollieren. Erst „Übernehmen“ speichert die Auswahl. Während des Gesprächs lassen sich die verwendeten Bereiche nachsehen. Mikrofon und Gesprächsende haben feste, 72 Pixel hohe Tasten. Beim Schreiben von Meetingnotizen macht der Player Platz für den Text.
+
+In der Warteschlange öffnet die Fehlerzahl direkt die fehlgeschlagenen Aufträge. „Wiederholen“ führt zum erneut eingereihten Meeting. Neue Timer und erfolgreiche Mikrofontests heben ihr Ergebnis kurz hervor. Bei reduzierter Bewegung bleiben Text und Status sichtbar. Audio enthält einen direkten Einstieg in die lokalen Ansagen. WLAN, Konto, Modellwahl und Geräteverwaltung führen zur nächsten Aktion. Neustart und Diagnose liegen unter „Wartung & Neustart“.
+
+Die Änderungen kommen über die bestehenden signierten Studio-Dateien auf vorhandene Geräte und mit dem nächsten regulären SD-Image-Bau auf neue Karten. Gerätekonfiguration, Modellbestand und Datenformat bleiben kompatibel.
+
 ## 0.5.83 – Rückmeldung nach dem Aufnahmestopp
 
 Nach „Stopp“ bestätigt die untere Statusleiste kurz, dass das Meeting gespeichert und zur Transkription eingereiht wurde. Sie nennt je nach Auftrag Brain oder die lokale Transkription. Ein kleines Audiosymbol bewegt sich zur Warteschlange. Bei reduzierter Bewegung erscheint nur der Text. Den Fortschritt und mögliche Fehler zeigt die Warteschlange. Das reguläre App-Update und der nächste SD-Image-Bau enthalten die Änderung.

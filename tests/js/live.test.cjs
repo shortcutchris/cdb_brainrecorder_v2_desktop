@@ -77,79 +77,47 @@ async function areaHarness(max=8){
  h.c.api=async(path,body)=>path==='/api/live/setup'?{enabled:true,max_areas:max,areas,default_area:areas[0],audio:{available:true}}:api(path,body);
  await h.element('live-open').onclick();return {...h,areas};
 }
-test('area search and direct pages preserve multi-selection and send all selected IDs',async()=>{
- const h=await areaHarness();h.element('live-areas').children[1].onclick();
- h.element('live-area-pages').children[1].onclick();h.element('live-areas').children[2].onclick();
- h.element('live-area-search').value='PROJEKT';h.element('live-area-search').oninput();
- assert.equal(h.element('live-areas').children.length,3);assert.equal(h.element('live-area-position').textContent,'1 / 1');
- assert.equal(h.element('live-selection-count').textContent,'3 von maximal 8 ausgewählt');
- h.element('live-area-search').value='kein Treffer';h.element('live-area-search').oninput();assert.match(h.element('live-areas').children[0].textContent,/Keine passenden/);
- await h.element('live-start').onclick();assert.deepEqual(Array.from(h.calls.find(([p])=>p.endsWith('/reserve'))[1].area_ids),['area-0','area-1','area-6']);
-});
-test('selection limits block additional checks and zero selection blocks start, including refresh',async()=>{
- const h=await areaHarness(2);h.element('live-areas').children[1].onclick();assert.equal(h.element('live-areas').children[2].disabled,true);
- h.element('live-areas').children[2].onclick();assert.equal(h.element('live-selection-count').textContent,'2 von maximal 2 ausgewählt');
- h.element('live-areas').children[0].onclick();h.element('live-areas').children[1].onclick();assert.equal(h.element('live-start').disabled,true);
- await h.element('live-refresh').onclick();assert.equal(h.element('live-selection-count').textContent,'0 von maximal 2 ausgewählt');
- await h.element('live-start').onclick();assert.equal(h.calls.some(([p])=>p.endsWith('/reserve')),false);
-});
-test('connecting and running areas are read-only, stale click handlers cannot change selection',async()=>{
- const h=await areaHarness(),old=h.element('live-areas').children[1];await h.element('live-start').onclick();old.onclick();
- assert.equal(h.element('live-area-search').disabled,true);assert.equal(h.element('live-areas').children.length,1);assert.equal(h.element('live-areas').children[0].onclick,undefined);
- h.c.state.live.areas=h.areas.slice(0,8);h.c.renderState();h.element('live-area-pages').children[1].onclick();assert.equal(h.element('live-area-position').textContent,'2 / 2');
- assert.equal(h.element('live-areas').children.every(row=>row.onclick===undefined),true);
- h.c.state.live={busy:false,state:'ended',areas:h.areas.slice(0,8),history:[{role:'assistant',text:'Fertig'}]};h.c.renderState();assert.equal(h.element('live-area-search').disabled,true);
-});
-test('account changes discard pending area requests rather than showing another account selection',async()=>{
- const h=await areaHarness();let resolve;h.c.api=()=>new Promise(r=>resolve=r);const loading=h.element('live-refresh').onclick();await tick();
- assert.equal(h.element('live-start').disabled,true);h.c.state.cdb.identity={name:'Other'};h.c.renderState();resolve({enabled:true,max_areas:8,areas:h.areas,default_area:h.areas[0],audio:{available:true}});await loading;
- assert.equal(h.element('live-selection-count').textContent,'0 von maximal 8 ausgewählt');assert.equal(h.element('live-start').disabled,true);assert.match(h.element('live-areas').children[0].textContent,/Keine Wissensbereiche/);
-});
-
-test('selected filter collects choices from all pages and clears search without losing choices',async()=>{
- const h=await areaHarness();h.element('live-areas').children[1].onclick();h.element('live-area-pages').children[1].onclick();h.element('live-areas').children[2].onclick();
- h.element('live-area-search').value='nothing';h.element('live-area-search').oninput();h.element('live-selected-filter').onclick();
- assert.equal(h.element('live-area-search').value,'');assert.equal(h.element('live-selected-filter').textContent,'Ausgewählt (3)');
- assert.deepEqual(h.element('live-areas').children.map(r=>r['aria-label']),['Projekt Atlas 0','Teamwissen 1','Kundenservice 6']);
- h.element('live-areas').children[1].onclick();assert.equal(h.element('live-areas').children.length,2);assert.equal(h.element('live-selected-filter').textContent,'Ausgewählt (2)');
- h.element('live-selected-filter').onclick();assert.equal(h.element('live-areas').children.length,4);
+test('shared grid commits all chosen IDs and enforces the account limit before reserving',async()=>{
+ const h=await areaHarness(2),base=h.c.api;h.c.api=async(p,b)=>{const r=await base(p,b);if(p.endsWith('/setup'))r.selection_account_key='key';return r};
+ let shown;h.c.window.openStudioKnowledge=s=>shown=s;
+ await h.element('live-knowledge-open').onclick();assert.equal(shown.areas.length,12);
+ const grid=h.c.window.studioLiveHome;
+ for(const invalid of [[],['other'],['area-0','area-0'],['area-0','area-1','area-2']])await assert.rejects(grid.apply('key',invalid));
+ await grid.apply('key',['area-0','area-6']);
  await h.element('live-start').onclick();assert.deepEqual(Array.from(h.calls.find(([p])=>p.endsWith('/reserve'))[1].area_ids),['area-0','area-6']);
 });
-test('empty selected filter is recoverable and stale filter cannot change a running session',async()=>{
- const h=await areaHarness();h.element('live-selected-filter').onclick();h.element('live-areas').children[0].onclick();
- assert.match(h.element('live-areas').children[0].textContent,/Noch nichts ausgewählt/);assert.equal(h.element('live-selected-filter').disabled,false);assert.equal(h.element('live-start').disabled,true);
- h.element('live-selected-filter').onclick();h.element('live-areas').children[0].onclick();await h.element('live-start').onclick();
- assert.equal(h.element('live-selected-filter').hidden,true);h.element('live-selected-filter').onclick();assert.equal(h.element('live-areas').children[0].onclick,undefined);
+test('during a conversation the same grid opens read-only with confirmed session areas',async()=>{
+ const h=await areaHarness();await h.element('live-start').onclick();h.c.state.live.areas=h.areas.slice(1,9);h.c.renderState();
+ let shown,locked;h.c.window.openStudioKnowledge=(s,readOnly)=>{shown=s;locked=readOnly};
+ await h.element('live-knowledge-open').onclick();assert.equal(locked,true);assert.equal(shown.areas.length,8);
+ assert.deepEqual(Array.from(shown.ids),h.areas.slice(1,9).map(x=>x.id));
+ await assert.rejects(h.c.window.studioLiveHome.apply('key',['area-1']));
 });
-
-test('saved account selection replaces default, keeps explicit empty, and drops missing areas',async()=>{
- for(const saved of [['area-1','gone'],[]]){
-  const h=harness(),base=h.c.api;h.c.api=async(p,b)=>p.endsWith('/setup')?{enabled:true,max_areas:8,areas:[{id:'area-0'},{id:'area-1'}],default_area:{id:'area-0'},remembered_area_ids:saved,selection_account_key:'key',audio:{available:true}}:base(p,b);
-  await h.element('live-open').onclick();assert.equal(h.element('live-areas').children[0]['aria-checked'],'false');assert.equal(h.element('live-areas').children[1]['aria-checked'],saved.length?'true':'false');assert.equal(h.element('live-start').disabled,!saved.length);
+test('a pending selection cannot start the old configuration or leak into a changed account',async()=>{
+ const h=await areaHarness(),base=h.c.api;let done;
+ h.c.api=async(p,b)=>{if(p.endsWith('/areas'))return new Promise(r=>done=r);const v=await base(p,b);if(p.endsWith('/setup'))v.selection_account_key='key';return v};
+ const grid=h.c.window.studioLiveHome;await grid.refresh();const saving=grid.apply('key',['area-4']);await tick();
+ await grid.start();assert.equal(h.calls.some(([p])=>p.endsWith('/reserve')),false);
+ h.c.state.cdb.identity={name:'New'};h.c.renderState();done();await assert.rejects(saving);assert.equal(grid.selection(),null);
+});
+test('remembered empty selection is respected and retired areas are discarded',async()=>{
+ for(const saved of [[],['area-1','retired']]){
+  const h=harness();h.c.api=async()=>({enabled:true,areas:[{id:'area-0'},{id:'area-1'}],default_area:{id:'area-0'},remembered_area_ids:saved,selection_account_key:'key',audio:{available:true}});
+  await h.element('live-open').onclick();
+  assert.deepEqual(Array.from(h.c.window.studioLiveHome.selection().ids),saved.filter(id=>id!=='retired'));assert.equal(h.element('live-start').disabled,!saved.length);
  }
 });
-test('selection writes are ordered and finish before conversation reservation',async()=>{
- const h=await areaHarness(),base=h.c.api;h.c.api=async(p,b)=>{const r=await base(p,b);if(p.endsWith('/setup'))r.selection_account_key='account-A';return r};await h.element('live-refresh').onclick();let release;const writes=[];h.c.api=async(p,b)=>{if(p.endsWith('/areas')){writes.push(b);if(writes.length===1)await new Promise(r=>release=r);return {saved:true}}return base(p,b)};
- h.element('live-areas').children[1].onclick();await tick();h.element('live-areas').children[2].onclick();const starting=h.element('live-start').onclick();await tick();assert.equal(h.calls.some(([p])=>p.endsWith('/reserve')),false);release();await starting;
- assert.deepEqual(writes.map(x=>Array.from(x.area_ids)),[['area-0','area-1'],['area-0','area-1','area-2']]);assert.equal(writes[0].account_key,'account-A');assert.equal(h.c.state.live.busy,true);
-});
-test('queued selection for old account is discarded and save failure is visible',async()=>{
- const h=await areaHarness(),base=h.c.api;h.c.api=async(p,b)=>{const r=await base(p,b);if(p.endsWith('/setup'))r.selection_account_key='old';return r};await h.element('live-refresh').onclick();let saves=0;h.c.api=async()=>{saves++;throw new Error('Speicher nicht verfügbar')};
- h.element('live-areas').children[1].onclick();await tick();assert.match(h.element('live-notice').textContent,/nicht gemerkt/);
- h.element('live-areas').children[2].onclick();h.c.state.cdb.identity={name:'New account'};h.c.renderState();await tick();assert.equal(saves,1);
-});
-
 test('hidden chat performs no pagination measurement; becomes current when shown',()=>{
  const h=harness(),box=h.element('live-messages');box.getClientRects=()=>[];h.c.state.live.history=[{role:'assistant',text:'Unsichtbarer Verlauf '.repeat(200)}];h.c.renderState();assert.equal(box.children.length,0);
  box.getClientRects=()=>[{}];h.c.renderState();assert.ok(box.children.length>0);
 });
 test('wake setup invalidates cached live area preferences without clearing the conversation',async()=>{
  const h=harness();await h.element('live-open').onclick();h.c.state.live.history=[{role:'assistant',text:'Behalten'}];h.events['brain-areas-changed']();assert.equal(h.c.state.live.history[0].text,'Behalten');
- h.c.state.live.history=[];h.c.api=async()=>({enabled:true,areas:[{id:'new',label:'Wake selected'}],remembered_area_ids:['new'],audio:{available:true}});await h.element('live-open').onclick();assert.equal(h.element('live-selection-count').textContent.includes('1'),true);
+ h.c.state.live.history=[];h.c.api=async()=>({enabled:true,areas:[{id:'new',label:'Wake selected'}],remembered_area_ids:['new'],audio:{available:true}});await h.element('live-open').onclick();assert.equal(h.element('live-knowledge-open').textContent.includes('1'),true);
 });
 
 test('reopening setup adopts account selection saved by another browser',async()=>{
- const h=harness();await h.element('live-open').onclick();h.c.api=async()=>({enabled:true,areas:[{id:'area',label:'Original'},{id:'other',label:'From Pi'}],remembered_area_ids:['other'],audio:{available:true}});await h.element('live-open').onclick();assert.equal(h.element('live-areas').children.find(b=>b['aria-label']==='From Pi')['aria-checked'],'true');assert.equal(h.element('live-areas').children.find(b=>b['aria-label']==='Original')['aria-checked'],'false');
+ const h=harness();await h.element('live-open').onclick();h.c.api=async()=>({enabled:true,areas:[{id:'area',label:'Original'},{id:'other',label:'From Pi'}],remembered_area_ids:['other'],audio:{available:true}});await h.element('live-open').onclick();assert.deepEqual(Array.from(h.c.window.studioLiveHome.selection().ids),['other']);
 });
 
 test('startup displays the actual stage and elapsed time without claiming microphone readiness',()=>{

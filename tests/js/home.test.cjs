@@ -46,3 +46,12 @@ test('a Live session started by another client replaces the Home view',()=>{cons
 test('Home uses actual recorder readiness, never setup_complete alone',()=>{const h=harness();assert.equal(h.element('start-led').dataset.state,'waiting');h.c.currentReadiness=()=>({tone:'error',label:'Mikrofon prüfen',target:'audio-page'});h.c.renderState();assert.equal(h.c.state.config.setup_complete,true);assert.equal(h.element('start-led').dataset.state,'error');assert.equal(h.element('start-status').textContent,'Mikrofon prüfen');h.c.currentReadiness=()=>({tone:'ready',label:'Aufnahmebereit'});h.c.renderState();assert.equal(h.element('start-led').dataset.state,'ready');assert.equal(h.element('start-status').textContent,'Aufnahmebereit')});
 
 test('opening Home releases automatic dialog focus without stealing later keyboard focus',async()=>{const h=harness();assert.equal(h.c.document.activeElement,h.c.document.body);h.c.document.activeElement=h.element('library-open');h.c.renderState();assert.equal(h.c.document.activeElement,h.element('library-open'));await h.element('library-open').onclick();await h.element('start-open').onclick();assert.equal(h.c.document.activeElement,h.c.document.body)});
+
+test('search, selected filter and cancel leave saved choices intact',async()=>{
+ const h=harness();await h.element('start-knowledge').onclick();
+ const search=h.element('knowledge-search');search.value='REICH 8';search.oninput();
+ assert.equal(h.element('knowledge-grid').children.length,1);h.element('knowledge-grid').children[0].onclick();
+ search.value='';search.oninput();h.element('knowledge-selected').onclick();
+ assert.deepEqual(h.element('knowledge-grid').children.map(x=>x.textContent),['Bereich 0','Bereich 8']);
+ h.element('knowledge-cancel').onclick();assert.deepEqual(h.c.window.studioLiveHome.selection().ids,['0']);
+});

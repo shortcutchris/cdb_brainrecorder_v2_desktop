@@ -24,10 +24,25 @@
  document.querySelectorAll('[data-minutes]').forEach(b=>b.onclick=()=>{$('timer-number').value=b.dataset.minutes;$('timer-unit').value='60'});
  $('timer-history').onclick=()=>{history=!history;page=0;renderTools()};
  function closeKeyboard(){if(document.body.classList.contains('keyboard-open'))$('keyboard').click()}
- async function mutate(body){try{await api('/api/timers',body);$('timer-message').textContent='';await poll()}catch(e){$('timer-message').textContent=e.message;throw e}}
+ async function mutate(body){try{const result=await api('/api/timers',body);$('timer-message').textContent='';await poll();return result}catch(e){$('timer-message').textContent=e.message;throw e}}
  $('timer-tone').onchange=()=>renderTools();
  $('timer-tone-test').onclick=run(async()=>{await api('/api/timers/tone',{tone:$('timer-tone').value});await poll()});
- $('timer-create').onclick=run(async()=>{if(creating)return;creating=true;renderTools();try{await mutate({action:'create',kind,tone:$('timer-tone').value,label:$('timer-label').value,seconds:Number($('timer-number').value)*Number($('timer-unit').value),local_time:$('timer-date').value,zone:'Europe/Berlin',request_id:crypto.randomUUID()});closeKeyboard();$('timer-message').textContent=kind==='timer'?'Timer läuft.':'Erinnerung gespeichert.';history=false;page=0}finally{creating=false;renderTools()}});
+ $('timer-create').onclick=run(async()=>{
+  if(creating)return;
+  creating=true;renderTools();
+  try{
+   const result=await mutate({action:'create',kind,tone:$('timer-tone').value,label:$('timer-label').value,
+    seconds:Number($('timer-number').value)*Number($('timer-unit').value),local_time:$('timer-date').value,
+    zone:'Europe/Berlin',request_id:crypto.randomUUID()});
+   closeKeyboard();history=false;
+   $('timer-message').textContent=kind==='timer'?'Timer läuft.':'Erinnerung gespeichert.';
+   const rows=(state.timers?.items||[]).filter(item=>!['done','cancelled'].includes(item.state));
+   page=Math.floor(Math.max(0,rows.findIndex(item=>item.id===result.id))/3);
+   renderTools();
+   const detail=[...document.querySelectorAll('[data-timer-id]')].find(el=>el.dataset.timerId===result.id);
+   detail?.closest('.timer-row')?.classList.add('touch-confirmed');
+  }finally{creating=false;renderTools()}
+ });
  async function change(item,action){if(item)await mutate({action,id:item.id,revision:item.revision})}
  $('alarm-ack').onclick=run(()=>change(alarmItem,'ack'));$('alarm-snooze').onclick=run(()=>change(alarmItem,'snooze'));
  function duration(seconds){return Math.floor(seconds/3600).toString().padStart(2,'0')+':'+Math.floor(seconds%3600/60).toString().padStart(2,'0')+':'+(seconds%60).toString().padStart(2,'0')}
