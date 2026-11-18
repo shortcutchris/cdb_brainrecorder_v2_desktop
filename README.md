@@ -2,6 +2,12 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.80 – Bedienung am Pi-Display
+
+Das Seitenmenü zeigt die Namen der Bereiche direkt unter den Symbolen. Alle neun Einträge passen auf die Pi-Displays mit 1280 × 720 und 1024 × 600 Pixeln. Bestätigungen und weitere Dialoge haben einheitliche Schließen- und Aktionsbuttons. Bei langen Inhalten steht die Seitenwahl in einer eigenen Zeile; bei kurzen Dialogen entfällt sie. Die geöffnete Sitzung bleibt hinter dem Dialog erhalten.
+
+[Prüfung, Installation und Zielgeräte](docs/pi-touch-0.5.80/README.md). Bestehende Geräte erhalten die Änderungen als App-Update; neue SD-Images übernehmen die freigegebenen Studio-Dateien beim nächsten Build. Es sind keine zusätzlichen Laufzeitpakete und keine Datenmigration nötig.
+
 ## 0.5.79 – Aufnahmeknopf auf dem Touchdisplay
 
 „Aufnahme stoppen“ steht an derselben Stelle und ist genauso groß wie „Aufnahme starten“, auch bei geöffneter Bildschirmtastatur. Das signierte App-Update und der nächste SD-Image-Bau enthalten die Änderung über die bestehenden Studio-Dateien.

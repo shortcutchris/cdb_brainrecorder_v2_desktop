@@ -17,3 +17,12 @@ profiles, device identity, SSH/Tailscale keys or the private release-signing key
 Preserve the current Pi configuration unless the user explicitly authorizes a
 specific deployment or configuration change. Large images and raw build logs
 stay outside Git; commit the recipe, documentation and sanitized acceptance data.
+
+## Primary UI target
+
+Recorder Studio is used on the physical Pi touch displays, primarily 1280 x 720
+and secondarily 1024 x 600, with touch input and the on-screen keyboard. Prioritize
+these sizes over smartphone layouts. Check main navigation, modal actions and
+keyboard-visible input before deploying UI changes. Recorder Studio on the Pi
+and Pi Studio (the 3D design/download application) are separate deployments;
+verify the running version and physical kiosk display when asked to update the Pi.

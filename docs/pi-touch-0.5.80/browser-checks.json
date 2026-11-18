@@ -1,0 +1,434 @@
+[
+  {
+    "viewport": "1280x720",
+    "view": "navigation",
+    "visible_controls": 9,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "home",
+    "visible_controls": 9,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "library-open",
+    "visible_controls": 9,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "live-open",
+    "visible_controls": 9,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "display-open",
+    "visible_controls": 9,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "timers-open",
+    "visible_controls": 9,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "queue-toggle",
+    "visible_controls": 9,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "settings-open",
+    "visible_controls": 9,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "remote-page",
+    "visible_controls": 3,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "management-page",
+    "visible_controls": 5,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "appearance-page",
+    "visible_controls": 4,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "nfc-page",
+    "visible_controls": 4,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "wake-page",
+    "visible_controls": 3,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "audio-home",
+    "visible_controls": 0,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "bluetooth-page",
+    "visible_controls": 4,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "speaker-page",
+    "visible_controls": 3,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "announcements-page",
+    "visible_controls": 2,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "audio-page",
+    "visible_controls": 2,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "setup-page",
+    "visible_controls": 1,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "ai-page",
+    "visible_controls": 0,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "connection-page",
+    "visible_controls": 2,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "asr-page",
+    "visible_controls": 3,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "llm-page",
+    "visible_controls": 3,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "brain-page",
+    "visible_controls": 0,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "models-page",
+    "visible_controls": 0,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "prompts-page",
+    "visible_controls": 2,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "more",
+    "visible_controls": 4,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "more-keyboard",
+    "visible_controls": 4,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "cdb-transfer",
+    "visible_controls": 3,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "feedback",
+    "visible_controls": 3,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "local-export",
+    "visible_controls": 2,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "conflict",
+    "visible_controls": 3,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "app-confirm",
+    "visible_controls": 3,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "picker",
+    "visible_controls": 4,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "picker-keyboard",
+    "visible_controls": 4,
+    "passed": true
+  },
+  {
+    "viewport": "1280x720",
+    "view": "confirmation-dark",
+    "visible_controls": 3,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "navigation",
+    "visible_controls": 9,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "home",
+    "visible_controls": 9,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "library-open",
+    "visible_controls": 9,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "live-open",
+    "visible_controls": 9,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "display-open",
+    "visible_controls": 9,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "timers-open",
+    "visible_controls": 9,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "queue-toggle",
+    "visible_controls": 9,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "settings-open",
+    "visible_controls": 9,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "remote-page",
+    "visible_controls": 3,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "management-page",
+    "visible_controls": 5,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "appearance-page",
+    "visible_controls": 4,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "nfc-page",
+    "visible_controls": 4,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "wake-page",
+    "visible_controls": 3,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "audio-home",
+    "visible_controls": 0,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "bluetooth-page",
+    "visible_controls": 4,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "speaker-page",
+    "visible_controls": 3,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "announcements-page",
+    "visible_controls": 2,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "audio-page",
+    "visible_controls": 2,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "setup-page",
+    "visible_controls": 1,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "ai-page",
+    "visible_controls": 0,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "connection-page",
+    "visible_controls": 2,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "asr-page",
+    "visible_controls": 3,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "llm-page",
+    "visible_controls": 3,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "brain-page",
+    "visible_controls": 0,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "models-page",
+    "visible_controls": 0,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "prompts-page",
+    "visible_controls": 2,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "more",
+    "visible_controls": 4,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "more-keyboard",
+    "visible_controls": 4,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "cdb-transfer",
+    "visible_controls": 3,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "feedback",
+    "visible_controls": 3,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "local-export",
+    "visible_controls": 2,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "conflict",
+    "visible_controls": 3,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "app-confirm",
+    "visible_controls": 3,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "picker",
+    "visible_controls": 4,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "picker-keyboard",
+    "visible_controls": 5,
+    "passed": true
+  },
+  {
+    "viewport": "1024x600",
+    "view": "confirmation-dark",
+    "visible_controls": 3,
+    "passed": true
+  }
+]
