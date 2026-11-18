@@ -24,6 +24,7 @@ bekommt keine Microsoft-Tokens. Der Pi ruft die öffentliche CDB-API auf.
 Das CDB-WebOS-Backend (BFF) reicht TQS-Anfragen an den zuständigen Dienst weiter.
 TQS vermittelt Transkription, Zusammenfassung, Wissenssuche und Live-Sitzungen.
 Die Auswahl „lokal“ beziehungsweise „CDB“ bestimmt, wo die Verarbeitung erfolgt.
+Beim Aufnahmestart speichert der Pi die gewählte Verarbeitung und bei CDB das zuvor bestätigte Firmenkonto lokal am Auftrag. Erst bei der Verarbeitung prüft er die Anmeldung für dieses Konto und erneuert sie bei Bedarf. So kann die Aufnahme auch bei einer langsamen Brain-Verbindung sofort beginnen.
 Die Übertragung in eine Knowledge Area ist ein eigener, quittierter Auftrag.
 
 Im Live-Gespräch laufen Steuerung und Ereignisse über die CDB-API
