@@ -2,6 +2,10 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.82 – Meetingaufnahme am Pi starten
+
+Beim Antippen von „Meeting aufzeichnen“ übernimmt ein dauerhaft laufender Thread des Recorders den Mikrofonprozess. So läuft die Aufnahme weiter, wenn die Startanfrage des Displays beendet ist. „Stopp“ speichert das Meeting und übergibt es wie bisher an die Verarbeitung. Bestehende Geräte erhalten die Korrektur als App-Update, neue SD-Karten beim nächsten Image-Bau.
+
 ## 0.5.81 – Leise Aufnahmen und Echo im Live-Gespräch
 
 Meldet CDB für eine Aufnahme `no_speech`, zeigt die Warteschlange „CDB hat keine Sprache erkannt“ an. Die Aufnahme bleibt zum Anhören und für einen neuen Versuch erhalten.

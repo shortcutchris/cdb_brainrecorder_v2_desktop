@@ -3,6 +3,7 @@
 Loopback only. No second recorder, worker, model pipeline or session database.
 """
 import argparse
+from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import hmac
 import json
@@ -28,7 +29,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.81'
+VERSION = '0.5.82'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -65,6 +66,7 @@ class StudioApp:
         if self.settings_file:self.settings_file.parent.mkdir(parents=True,exist_ok=True)
         self.settings_lock = threading.RLock()
         self.control_lock = threading.RLock()
+        self.recording_owner = ThreadPoolExecutor(max_workers=1, thread_name_prefix='studio-recording')
         self.probe_started_ns = 0
         from services.device_management import DeviceManagement
         self.management = DeviceManagement(self.store.root)
@@ -827,6 +829,7 @@ class StudioApp:
             if self.model_checks.thread:self.model_checks.thread.join(timeout=5)
             self.respeaker.close()
             self.engine.close()
+        self.recording_owner.shutdown(wait=True)
         self.ambient_thread.join(timeout=3)
 
 
@@ -970,7 +973,15 @@ class StudioHandler(Handler):
             if not 0<=length<=4_000_000:self.respond({'error':'Anfrage zu groß.'},413);return
             body=json.loads(self.rfile.read(length) or b'{}')
             if not isinstance(body,dict):raise ValueError('JSON-Objekt erwartet.')
-            self.respond(self.server.app.action(urlsplit(self.path).path,body))
+            path = urlsplit(self.path).path
+            app = self.server.app
+            if path == '/api/record/start':
+                # Linux delivers PDEATHSIG when the spawning thread exits. An
+                # HTTP handler can finish while the microphone is still needed.
+                result = app.recording_owner.submit(app.action, path, body).result()
+            else:
+                result = app.action(path, body)
+            self.respond(result)
         except (BrokenPipeError,ConnectionResetError):pass
         except Conflict as e:self.respond({'error':str(e)},409)
         except (ValueError,KeyError) as e:self.respond({'error':str(e)},400)

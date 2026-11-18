@@ -2,7 +2,7 @@ import json, sys, threading, time, tempfile, unittest, urllib.request, urllib.er
 from pathlib import Path
 from unittest.mock import patch
 from PySide6.QtCore import QSettings
-from web_server import StudioApp, StudioServer
+from web_server import StudioApp, StudioHandler, StudioServer
 
 
 class Backend:
@@ -533,6 +533,43 @@ class StudioTests(unittest.TestCase):
         self.app.repo.update(self.sid,local_job_id=ident,transcription_status='queued')
         self.assertEqual(self.request(f'/api/sessions/{self.sid}/delete',{})[0],400)
         self.assertIsNotNone(self.app.repo.get_by_id(self.sid))
+
+    def test_capture_continues_after_start_request_disconnects(self):
+        # Force the Linux capture child to register its parent-death signal
+        # before the HTTP request thread exits, independent of scheduler speed.
+        script = "import os,time\nwhile True:\n os.write(1, bytes(3200));time.sleep(.05)"
+        self.app.engine.recorder.command_factory = lambda _: [sys.executable, '-u', '-c', script]
+        self.app.engine.configure({'setup_complete': True})
+        self.app.store.claim = lambda: None
+        original_respond = StudioHandler.respond
+
+        def wait_for_bytes(pcm, target):
+            deadline = time.monotonic() + 2
+            while pcm.exists() and time.monotonic() < deadline:
+                size = pcm.stat().st_size
+                if size >= target:
+                    return size
+                time.sleep(.02)
+            return 0
+
+        def respond_after_capture(handler, data, *args, **kwargs):
+            if handler.path == '/api/record/start' and 'id' in data:
+                pcm = self.app.store.folder(data['id']) / 'audio.pcm'
+                wait_for_bytes(pcm, 3200)
+            return original_respond(handler, data, *args, **kwargs)
+
+        with patch.object(StudioHandler, 'respond', respond_after_capture):
+            status, body, _ = self.request('/api/record/start', {})
+        self.assertEqual(status, 200)
+        ident = json.loads(body)['id']
+        pcm = self.app.store.folder(ident) / 'audio.pcm'
+        initial = pcm.stat().st_size
+        self.assertGreaterEqual(initial, 3200)
+        self.assertGreaterEqual(wait_for_bytes(pcm, initial + 12800), initial + 12800)
+        self.assertEqual(self.app.engine.recorder.active, ident)
+        self.assertEqual(self.request('/api/record/stop', {})[0], 200)
+        with wave.open(str(pcm.with_name('audio.wav')), 'rb') as audio:
+            self.assertGreaterEqual(audio.getnframes() * 2, initial + 12800)
 
     def test_concurrent_state_poll_and_capture_stop_complete_without_lock_inversion(self):
         import concurrent.futures
