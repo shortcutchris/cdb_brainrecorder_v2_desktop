@@ -82,3 +82,17 @@ body.editing-meeting .meeting-header {min-height:44px}
 #announcements-page button[aria-pressed=true]::before{content:'✓ ';font-weight:bold}
 
 #queue-feedback{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--accent-text)}
+
+/* Keep the text origin fixed while switching between meeting tabs. */
+body[data-workspace="detail"] .editor-wrap>.editor-config{order:2;padding-bottom:8px}
+#queue-region>.touch-pager>button{min-width:96px;height:56px;margin:0}
+#queue-region>.touch-pager>.direct-pages{flex-shrink:0}
+#queue-region>.touch-pager>span{font-variant-numeric:tabular-nums}
+#queue-region .queue-panel{overflow-y:auto;overscroll-behavior:contain}
+@media(max-width:850px){#queue-region>.touch-pager>.direct-pages{display:none}}
+#recording-navigation-hint{
+ position:fixed;z-index:35;bottom:20px;left:50%;transform:translateX(-50%);
+ width:max-content;max-width:calc(100% - 36px);padding:14px 20px;
+ background:var(--panel);color:var(--ink);border:2px solid var(--accent);
+ border-radius:12px;box-shadow:0 4px 18px #0003;pointer-events:none
+}

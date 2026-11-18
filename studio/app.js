@@ -23,7 +23,7 @@ function run(fn){return async(...args)=>{try{await fn(...args)}catch(error){noti
 function draftKey(id,key){return 'recorder:'+namespace+':'+id+':'+key}
 function storeDraft(model,key){try{localStorage.setItem(draftKey(model.id,key),JSON.stringify({value:model.values[key],base:model.base[key]}))}catch(_){notice('Lokaler Entwurfsspeicher nicht verfügbar. Bitte Änderungen zeitnah speichern.')}}
 function clearDraft(id,key){try{localStorage.removeItem(draftKey(id,key))}catch(_){} }
-function makeModel(row){const model={id:row.id,row,base:{},values:{},dirty:new Set(),saving:null,failed:false,savedAt:null};for(const key of fields){model.base[key]=row[key]||'';model.values[key]=row[key]||'';try{const draft=JSON.parse(localStorage.getItem(draftKey(row.id,key))||'null');if(draft&&typeof draft.value==='string'&&draft.value!==model.values[key]){model.values[key]=draft.value;model.base[key]=draft.base;model.dirty.add(key);notice('Ein ungespeicherter Entwurf wurde wiederhergestellt. Er bleibt bis zum erfolgreichen Speichern erhalten.')}}catch(_){}}models.set(row.id,model);return model}
+function makeModel(row){const model={id:row.id,row,base:{},values:{},textPositions:{},dirty:new Set(),saving:null,failed:false,savedAt:null};for(const key of fields){model.base[key]=row[key]||'';model.values[key]=row[key]||'';try{const draft=JSON.parse(localStorage.getItem(draftKey(row.id,key))||'null');if(draft&&typeof draft.value==='string'&&draft.value!==model.values[key]){model.values[key]=draft.value;model.base[key]=draft.base;model.dirty.add(key);notice('Ein ungespeicherter Entwurf wurde wiederhergestellt. Er bleibt bis zum erfolgreichen Speichern erhalten.')}}catch(_){}}models.set(row.id,model);return model}
 async function flush(model=models.get(selected)){
  if(!model)return true;
  if(!online&&model.dirty.size)throw new Error('Offline · Entwurf bleibt lokal erhalten.');
@@ -73,7 +73,19 @@ async function selectMeeting(id,context='detail'){
  if(model.dirty.size&&!model.failed)flush(model).catch(()=>{});
 }
 function mergeRow(model,row){model.row=row;for(const key of fields){if(!model.dirty.has(key)&&!model.saving){model.base[key]=row[key]||'';model.values[key]=row[key]||''}}}
-document.querySelectorAll('[data-field]').forEach(button=>button.onclick=run(async()=>{await leaveDraft();field=button.dataset.field;if(document.body.dataset.workspace==='detail')libraryField=field;renderSelected()}));
+document.querySelectorAll('[data-field]').forEach(button=>button.onclick=run(async()=>{
+ const model=models.get(selected),next=button.dataset.field;
+ if(!model||next===field)return;
+ await leaveDraft();
+ if(selected!==model.id||button.disabled)return;
+ const editor=$('editor');
+ model.textPositions[field]={start:editor.selectionStart,end:editor.selectionEnd,scroll:editor.scrollTop};
+ field=next;if(document.body.dataset.workspace==='detail')libraryField=field;
+ renderSelected();
+ const position=model.textPositions[field];
+ editor.setSelectionRange(position?.start??0,position?.end??0);
+ editor.scrollTop=position?.scroll??0;
+}));
 function renderRecent(){
  const rows=state?.sessions.slice(0,3)||[];const signature=JSON.stringify([rows,selected]);if(signature===recentSignature)return;recentSignature=signature;
  $('recent').replaceChildren();for(const [i,row] of rows.entries()){const button=document.createElement('button');button.className='recent-card'+(row.id===selected?' selected':'');button.append(icon(['users','chart-bar','user'][i]));const text=document.createElement('span');text.className='card-text';const strong=document.createElement('strong');strong.textContent=row.title;const date=document.createElement('small');const d=new Date(row.recorded_at);date.textContent=Number.isNaN(+d)?row.recorded_at:d.toLocaleDateString('de-DE')+' · '+d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});text.append(strong,date);button.append(text);button.title=row.title;button.onclick=run(async()=>{await selectMeeting(row.id)});$('recent').append(button)}
@@ -82,7 +94,7 @@ function renderRecent(){
 function drawWave(peaks){const canvas=$('waveform'),context=canvas.getContext('2d');context.clearRect(0,0,canvas.width,canvas.height);context.strokeStyle=getComputedStyle(document.documentElement).getPropertyValue(state?.recording.id?'--accent':'--wave').trim();context.lineWidth=3;context.lineCap='round';for(let i=0;i<peaks.length;i++){const h=Math.max(1,Math.min(30,peaks[i]*85));const x=5+i*(canvas.width-10)/peaks.length;context.beginPath();context.moveTo(x,36-h);context.lineTo(x,36+h);context.stroke()}}
 let selectedPeaks=[0];
 function renderState(){
- const active=Boolean(state.recording.id);for(const id of ['library-open','settings-open','queue-toggle','mic-settings','more-open']){$(id).disabled=active;$(id).title=active?'Aufnahme läuft · zuerst stoppen':''}document.querySelectorAll('[data-field]').forEach(b=>b.disabled=active&&b.dataset.field!=='notes');$('recording-lock').hidden=!active;for(const id of ['seek','volume'])$(id).disabled=active;$('record').classList.toggle('recording',active);$('record').setAttribute('aria-label',active?'Aufnahme stoppen':'Aufnahme starten');setIcon($('record-icon'),'/assets/'+(active?'stop':'circle')+'.svg');$('record-label').textContent=recordingAction?(recordingIntent==='stop'?'Aufnahme wird beendet …':'Aufnahme startet …'):active?'Aufnahme stoppen':'Aufnahme starten';$('duration').textContent=duration(state.recording.seconds);$('record').disabled=recordingAction||!online||(!active&&state.config.setup_complete&&!allowed('record'));$('record').title=active?'':state.capabilities?.record.reason||'';for(const b of document.querySelectorAll('.dialog-stop')){b.hidden=!active;b.disabled=recordingAction||!online;b.textContent=recordingAction&&recordingIntent==='stop'?'Wird beendet …':'Aufnahme stoppen'}
+ const active=Boolean(state.recording.id);if(!active)$('recording-navigation-hint').hidden=true;for(const id of ['library-open','settings-open','queue-toggle','mic-settings','more-open']){$(id).disabled=active;$(id).title=active?'Aufnahme läuft · zuerst stoppen':''}document.querySelectorAll('[data-field]').forEach(b=>b.disabled=active&&b.dataset.field!=='notes');$('recording-lock').hidden=!active;for(const id of ['seek','volume'])$(id).disabled=active;$('record').classList.toggle('recording',active);$('record').setAttribute('aria-label',active?'Aufnahme stoppen':'Aufnahme starten');setIcon($('record-icon'),'/assets/'+(active?'stop':'circle')+'.svg');$('record-label').textContent=recordingAction?(recordingIntent==='stop'?'Aufnahme wird beendet …':'Aufnahme startet …'):active?'Aufnahme stoppen':'Aufnahme starten';$('duration').textContent=duration(state.recording.seconds);$('record').disabled=recordingAction||!online||(!active&&state.config.setup_complete&&!allowed('record'));$('record').title=active?'':state.capabilities?.record.reason||'';for(const b of document.querySelectorAll('.dialog-stop')){b.hidden=!active;b.disabled=recordingAction||!online;b.textContent=recordingAction&&recordingIntent==='stop'?'Wird beendet …':'Aufnahme stoppen'}
  const destination=state.cdb?.destination;$('ready-area').textContent=destination?'Standardbereich: '+(destination.label||destination.name)+'. Vor der Übertragung kannst du das Ziel ändern.':'Noch kein Standardbereich gewählt. Du kannst ihn unter Einstellungen → Knowledge Areas festlegen.';
  const c=state.config;
  $('capture-hint').textContent=state.preview?'Lokale Testbibliothek · künstliche Audioquelle. Keine Verbindung zu persönlichen Pi-Meetings.':active?'Aufnahme läuft. Tippe auf den Button, um sie sicher zu beenden.':c.setup_complete?'Bereit für eine neue Aufnahme. Tippe auf den Button, um zu starten.':'Kein getestetes Mikrofon. Bitte Audio in den Einstellungen einrichten.';
@@ -176,6 +188,7 @@ function renderQueue(){
  $('queue-status').hidden=online&&installing&&!jobs.length&&!processing&&!state.recording.id;
  $('phase').textContent=processing?(test&&!active?'Modelltest · ':'')+(names[processing.state]||processing.state)+' · '+duration(Date.now()/1000-processing.updated):state.recording.id?'Aufnahme läuft':waiting.length?'Wartet auf Verarbeitung':installing?'Modelldownload läuft':state.installation?.state==='failed'?'Modelldownload fehlgeschlagen':state.free_mb<state.config.min_free_mb?'Zu wenig freier Speicher':!state.config.setup_complete?'Mikrofon einrichten':'Lokal bereit';
  if(!failed.length)failedOnly=false;
+ $('queue-panel').dataset.filter=failedOnly?'failed':'all';
  $('errors').hidden=!failed.length;
  $('errors').setAttribute('aria-pressed',String(failedOnly));
  $('errors').setAttribute('aria-label',failedOnly?'Alle Aufträge anzeigen':'Fehlgeschlagene Aufträge anzeigen');
@@ -276,6 +289,23 @@ $('feedback-play').onclick=run(async()=>{$('feedback').close();await audio.play(
 audio.onplay=()=>{setIcon($('play-icon'),'/assets/pause.svg');$('play').setAttribute('aria-label','Wiedergabe pausieren')};audio.onpause=()=>{setIcon($('play-icon'),'/assets/play.svg');$('play').setAttribute('aria-label','Wiedergabe starten')};audio.onerror=()=>{if(audio.src)notice('Audio konnte nicht wiedergegeben werden. Datei und Audioausgabe prüfen.')};
 let seeking=false;$('seek').onpointerdown=()=>{seeking=true};$('seek').onchange=()=>{if(Number.isFinite(audio.duration))audio.currentTime=audio.duration*Number($('seek').value)/1000;seeking=false};$('seek').onpointerup=()=>{seeking=false};
 audio.ontimeupdate=()=>{$('play-time').textContent=duration(audio.currentTime);if(!seeking)$('seek').value=Number.isFinite(audio.duration)?audio.currentTime/audio.duration*1000:0};audio.ondurationchange=()=>{$('play-total').textContent=duration(audio.duration)};$('volume').oninput=()=>{audio.volume=Number($('volume').value);$('volume').style.setProperty('--volume',(audio.volume*100)+'%')};
+let navigationHintTimer=0;
+function recordingNavigationHint(event){
+ const recording=state?.recording;
+ const button=event.target.closest('.rail-button, .tabs [data-field]');
+ if(!recording?.id||!button||button.id==='keyboard'||button.id==='home'||button.dataset.field==='notes')return;
+ // Disabled touch controls still dispatch pointer events in the Pi kiosk.
+ // Handle clicks too for navigation controls activated without a pointer.
+ if(event.type==='click'){event.preventDefault();event.stopPropagation()}
+ const hint=$('recording-navigation-hint');
+ hint.textContent=(recording.paused?'Die Aufnahme ist pausiert.':'Die Aufnahme läuft weiter.')+' „'+(button.getAttribute('aria-label')||button.textContent.trim())+'“ ist nach dem Stoppen verfügbar.';
+ hint.hidden=false;clearTimeout(navigationHintTimer);
+ navigationHintTimer=setTimeout(()=>{hint.hidden=true},3500);
+}
+for(const navigation of document.querySelectorAll('.rail, .tabs')){
+ navigation.addEventListener('pointerup',recordingNavigationHint,true);
+ navigation.addEventListener('click',recordingNavigationHint,true);
+}
 function workspaceView(id=null){
  if(id&&state?.recording.id)throw new Error('Aufnahme läuft. Bitte zuerst stoppen.');
  if(id!=='settings'&&typeof pauseMicrophoneAudio==='function')pauseMicrophoneAudio();
