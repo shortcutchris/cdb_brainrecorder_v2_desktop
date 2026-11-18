@@ -60,3 +60,25 @@ dialog:modal:not(.workspace-view) > .dialog-actions .primary {
   dialog:modal:not(.workspace-view) > .dialog-actions { padding:8px 20px; }
   dialog:modal:not(.workspace-view) > .dialog-actions { min-height:72px; gap:8px; }
 }
+
+/* Give the active writing field the space usually occupied by playback and navigation. */
+body.editing-meeting main.content :is(.player,.recent,.library-navigation,.editor-config,.tabs){display:none!important}
+body.editing-meeting main.content {grid-template-rows:auto minmax(0,1fr) auto}
+body.editing-meeting .meeting-header {min-height:44px}
+.device-maintenance summary {min-height:52px;padding:12px 0;cursor:pointer;font-weight:650}
+.device-maintenance button {min-height:52px;margin:4px}
+#settings :is(#asr-info,#llm-info) a {display:inline-flex;align-items:center;min-height:48px}
+#queue-region .queue-status #errors {min-height:48px;padding:0 14px;margin:0;color:var(--accent-text)}
+#queue-region .queue-status #errors[aria-pressed=true] {background:var(--accent);color:var(--on-accent)}
+#settings .dialog-actions button[data-next=true] {background:var(--accent);color:var(--on-accent);font-weight:700}
+#settings .dialog-actions button[data-next=false]:not(:disabled){background:var(--panel);color:var(--ink)}
+#timer-alarm :is(#alarm-snooze,#alarm-ack){min-height:52px}
+@media(prefers-reduced-motion:no-preference){
+ .touch-confirmed{animation:touch-confirmed 900ms ease-out}
+ @keyframes touch-confirmed{from{box-shadow:inset 5px 0 var(--accent);background:var(--soft)}to{box-shadow:inset 0 0 transparent}}
+}
+
+#announcements-page button[aria-pressed=true]{background:var(--soft);border-color:var(--accent-text);color:var(--accent-text)}
+#announcements-page button[aria-pressed=true]::before{content:'✓ ';font-weight:bold}
+
+#queue-feedback{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--accent-text)}

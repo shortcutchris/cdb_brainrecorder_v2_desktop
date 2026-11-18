@@ -4,7 +4,7 @@ body[data-workspace="live-view"] .capture,body[data-workspace="live-view"] .rece
 #live-heading{font-size:var(--view-title);margin:0;line-height:32px}
 #live-status{font-size:14px;color:var(--muted);max-width:45%;text-align:right}
 .live-content{flex:1;min-height:0;display:flex;flex-direction:column;padding:20px var(--view-inset) 8px;overflow:hidden;gap:12px}
-.live-layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;flex:1;min-height:0}
+.live-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;flex:1;min-height:0}
 .live-main,#live-setup,#live-chat{min-width:0;min-height:0;display:flex;flex-direction:column;flex:1;overflow:hidden}
 #live-setup[hidden],#live-chat[hidden]{display:none}
 .live-welcome{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;text-align:center;gap:12px;padding:8px}
@@ -23,36 +23,8 @@ body[data-workspace="live-view"] .capture,body[data-workspace="live-view"] .rece
 #live-refresh img{width:24px;height:24px}
 #live-start,#live-end{margin-left:auto}
 #live-messages{flex:1;min-height:0;display:flex;flex-direction:column;gap:12px;overflow:hidden}
-.live-knowledge{min-width:0;min-height:0;border-left:1px solid var(--line);padding-left:20px;display:grid;grid-template-rows:44px 48px minmax(0,1fr) 48px;gap:6px}
-.live-knowledge-heading{display:flex;gap:12px;align-items:center;min-width:0}
-.live-knowledge-heading>img{width:28px;height:28px}
-.live-knowledge-heading h3{font-size:20px;line-height:24px;margin:0 0 2px}
-#live-selection-count{font-size:13px;line-height:18px;color:var(--muted)}
-.live-area-tools{height:48px;min-width:0}
-#live-search-label{display:flex;height:48px;position:relative;margin:0}
-#live-search-label>img{position:absolute;left:12px;top:14px;width:20px;height:20px;pointer-events:none}
-#live-area-search{width:100%;height:48px;min-height:48px;border-radius:12px;padding:0 12px 0 40px;font-size:16px;background:var(--panel);border:1px solid var(--line);color:var(--ink);box-sizing:border-box}
-#live-area-lock{display:flex;align-items:center;gap:10px;margin:0;height:48px;font-size:13px;line-height:18px;color:var(--muted)}
-#live-area-lock>img{width:20px;height:20px;flex:0 0 20px}
-#live-search-label[hidden],#live-area-lock[hidden]{display:none}
-#live-areas{min-height:0;display:grid;grid-template-rows:repeat(var(--area-rows,4),minmax(48px,1fr));gap:6px;overflow:hidden}
-#live-view .live-area{height:100%;min-height:48px;min-width:0;padding:4px 12px;display:flex;align-items:center;gap:12px;text-align:left;font-size:16px;line-height:20px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);box-sizing:border-box}
-#live-view .live-area[data-selected=true]{background:var(--soft);border-color:var(--soft)}
-#live-view div.live-area[data-selected=true]{border-color:transparent;border-radius:0;background:transparent;border-bottom:1px solid var(--line)}
-.live-area>img{width:24px;height:24px;flex:0 0 24px}
-.live-area>span{min-width:0;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.live-area-empty{font-size:15px;line-height:22px;color:var(--muted);margin:8px 0;grid-row:1/-1}
-.live-area-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0}
-#live-area-position{font-size:13px;color:var(--muted);white-space:nowrap}
-#live-area-pages,#live-chat-pages{height:48px;min-height:48px;display:flex;gap:6px;align-items:center;margin:0}
-#live-area-pages button,#live-chat-pages button{width:48px;min-width:48px;height:48px;min-height:48px;padding:0}
-@media(max-width:1100px){.live-layout{grid-template-columns:minmax(0,1fr) 288px;gap:16px}.live-knowledge{padding-left:16px}.live-history-controls{flex-wrap:wrap!important;flex-basis:104px!important;gap:4px!important}.live-history-trailing{width:100%;justify-content:space-between}.live-welcome h3{font-size:22px}}
-#live-view.with-keyboard .live-feedback,#live-view.with-keyboard .live-pi-audio{display:none}
-#live-view.with-keyboard .live-content{padding-top:8px;gap:6px}
-#live-view.with-keyboard .live-knowledge{grid-template-rows:32px 48px minmax(0,1fr) 48px}
-#live-view.with-keyboard .live-knowledge-heading h3{font-size:16px;line-height:18px}
-#live-view.with-keyboard .live-knowledge-heading>img{width:24px;height:24px}
-#live-view.with-keyboard .live-welcome h3{font-size:22px}
+#live-chat-pages{height:48px;min-height:48px;display:flex;gap:6px;align-items:center;margin:0}
+#live-chat-pages button{width:48px;min-width:48px;height:48px;min-height:48px;padding:0}
 .live-message{box-sizing:border-box;background:transparent;border:1px solid transparent;border-radius:0;padding:12px 0;flex:0 0 auto;width:94%;min-height:0;overflow:visible;align-self:flex-start}
 .live-message.user{width:fit-content;max-width:76%;align-self:flex-end;background:var(--soft);padding:12px 18px;border-radius:22px 22px 6px 22px}
 .live-message.assistant{align-self:flex-start}
@@ -119,3 +91,18 @@ body[data-workspace="live-view"] #live-view.workspace-view{grid-column:2;grid-ro
 #live-area-lock{flex:1}
 #live-view #live-selected-filter{min-height:48px}
 #live-area-search{margin:0}
+
+
+#live-view #live-knowledge-open {margin-left:auto; min-height:52px; padding-inline:18px}
+#live-status {overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+#live-status:empty {display:none}
+#live-view[data-active=true] .live-footer {height:96px; min-height:96px; gap:20px}
+#live-view[data-active=true] .live-footer :is(#live-mute,#live-end) {
+ flex:1 1 0; margin:0; height:72px; min-height:72px; display:flex;
+ align-items:center; justify-content:center; gap:14px; font-size:20px; font-weight:700;
+}
+#live-view #live-mute {background:var(--accent); color:var(--on-accent)}
+#live-view #live-end {background:var(--surface); color:var(--ink); border:2px solid var(--ink)}
+#live-mute::before,#live-end::before {content:""; background:currentColor; width:26px; height:26px; mask:center / contain no-repeat url('/assets/microphone.svg')}
+#live-end::before {mask-image:url('/assets/stop.svg')}
+#live-view #live-mute[aria-pressed=true] {background:var(--ink); color:var(--surface)}

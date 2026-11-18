@@ -29,3 +29,11 @@
 #knowledge-picker footer button,#knowledge-pages button{min-height:52px;margin:0}
 #knowledge-apply{background:var(--accent);color:var(--on-accent);padding-inline:22px;border-radius:12px}
 @media(max-width:650px){#knowledge-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.start-tiles{gap:10px}}
+
+.knowledge-tools{display:flex;align-items:center;gap:10px}
+.knowledge-tools input{flex:1;min-width:0;padding-inline:14px}
+.knowledge-tools :is(button,input){min-height:48px;margin:0}
+#knowledge-selected[aria-pressed=true]{background:var(--accent);color:var(--on-accent)}
+#knowledge-picker.with-keyboard{max-height:96dvh;gap:6px;padding:10px 18px}
+#knowledge-picker.with-keyboard #knowledge-grid,#knowledge-picker.with-keyboard #knowledge-pages,#knowledge-picker.with-keyboard footer{display:none}
+#knowledge-picker.with-keyboard h2{margin:0}

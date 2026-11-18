@@ -18,3 +18,5 @@
 .wizard-choice label{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:6px 12px;margin:0;border:1px solid var(--line);border-radius:10px}
 .wizard-choice label:has(:checked){color:var(--accent-text);background:var(--soft);border-color:var(--accent)}
 .wizard-choice input[type=radio]{width:18px;height:18px;margin:0;accent-color:var(--accent)}
+
+section[data-step] label:has(input[type=checkbox]){display:flex;align-items:center;gap:10px;min-height:48px;cursor:pointer}

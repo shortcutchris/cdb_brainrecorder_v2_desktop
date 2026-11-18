@@ -12,7 +12,7 @@
   rail.disabled=!online||Boolean(state?.recording?.id)||Boolean($('home').disabled);
   const d=state?.display||{},locked=!online||!state?.capabilities?.configure?.allowed||request;
   $('display-url').textContent=d.url||'Adresse wird geladen …';
-  $('display-status').textContent=!d.enabled?'Freigabe ausgeschaltet':d.connected?'Bildschirm verbunden':d.paired?'Verbindung unterbrochen':d.pending?'Wartet auf den Kopplungscode':'Bereit zum Koppeln';
+  $('display-status').textContent=!d.enabled?'Freigabe ausgeschaltet':d.connected?'Bildschirm verbunden':d.paired?'Verbindung unterbrochen':d.pending?'Code vom zweiten Bildschirm hier eingeben':'Am zweiten Bildschirm Code anfordern';
   $('display-status').dataset.connected=String(Boolean(d.connected));
   $('display-name').textContent=d.name||'Noch kein Bildschirm gekoppelt.';
   $('display-enable').textContent=d.enabled?'Freigabe ausschalten':'Freigabe einschalten';$('display-enable').disabled=locked;

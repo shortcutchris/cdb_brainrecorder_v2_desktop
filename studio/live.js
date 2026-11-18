@@ -2,81 +2,58 @@
 (() => {
  const rail=document.createElement('button');rail.id='live-open';rail.className='rail-button';rail.setAttribute('aria-label','Live-Gespräch');rail.title='Live-Gespräch';rail.innerHTML='<img src="/assets/users.svg" alt=""><span>Live-Gespräch</span>';$('settings-open').before(rail);
  const view=document.createElement('dialog');view.id='live-view';view.className='workspace-view';view.setAttribute('aria-labelledby','live-heading');view.setAttribute('role','region');
- view.innerHTML=`<div class="dialog-heading"><h2 id="live-heading">Live-Gespräch</h2><span id="live-status" role="status">Bereiche wählen</span></div>
- <section class="live-content"><div class="live-feedback" id="live-feedback"><div class="live-feedback-copy"><strong id="live-feedback-title" role="status">Bereit für dein Gespräch</strong><span id="live-feedback-detail">Wähle rechts dein Gesprächswissen.</span></div><div id="live-wave" class="live-wave" role="img" aria-label="Audiopegel">${Array.from({length:16},(_,i)=>'<i id="live-bar-'+i+'"></i>').join('')}</div><button id="live-sound" aria-pressed="true">Suchton an</button></div>
- <div class="live-layout"><div class="live-main"><div id="live-setup"><div class="live-welcome"><h3>Worüber möchtest du sprechen?</h3><p>Wähle einen oder mehrere Wissensbereiche<br>und starte dein Gespräch.</p></div><div class="live-pi-audio"><div class="live-device-cards"><div><span>Mikrofon</span><strong id="live-input-name">Wird geprüft …</strong></div><div><span>Lautsprecher</span><strong id="live-output-name">Wird geprüft …</strong></div></div><p id="live-audio-status" role="status">Mikrofon und Lautsprecher werden am Pi geprüft.</p></div></div>
+ view.innerHTML=`<div class="dialog-heading"><h2 id="live-heading">Live-Gespräch</h2><button id="live-knowledge-open" aria-haspopup="dialog" aria-controls="knowledge-picker">Gesprächswissen wählen</button><span id="live-status" role="status"></span></div>
+ <section class="live-content"><div class="live-feedback" id="live-feedback"><div class="live-feedback-copy"><strong id="live-feedback-title" role="status">Bereit für dein Gespräch</strong><span id="live-feedback-detail">Wähle oben dein Gesprächswissen.</span></div><div id="live-wave" class="live-wave" role="img" aria-label="Audiopegel">${Array.from({length:16},(_,i)=>'<i id="live-bar-'+i+'"></i>').join('')}</div><button id="live-sound" aria-pressed="true">Suchton an</button></div>
+ <div class="live-layout"><div class="live-main"><div id="live-setup"><div class="live-welcome"><h3>Worüber möchtest du sprechen?</h3><p>Wähle oben dein Gesprächswissen und starte das Gespräch.</p></div><div class="live-pi-audio"><div class="live-device-cards"><div><span>Mikrofon</span><strong id="live-input-name">Wird geprüft …</strong></div><div><span>Lautsprecher</span><strong id="live-output-name">Wird geprüft …</strong></div></div><p id="live-audio-status" role="status">Mikrofon und Lautsprecher werden am Pi geprüft.</p></div></div>
  <div id="live-chat" hidden><div id="live-messages" role="log" aria-live="polite"></div><div class="live-history-controls"><nav id="live-chat-pages" class="direct-pages" aria-label="Gesprächsseiten"></nav><div class="live-history-trailing"><div id="live-cue" data-mode="idle"><span class="live-cue-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span id="live-cue-label" role="status"></span></div><button id="live-follow" aria-pressed="true">Am aktuellen Gespräch</button></div></div></div></div>
- <aside class="live-knowledge" aria-labelledby="live-knowledge-heading"><div class="live-knowledge-heading"><img src="/assets/book-open.svg" alt=""><div><h3 id="live-knowledge-heading">Gesprächswissen</h3><span id="live-selection-count" role="status"></span></div></div><div class="live-area-tools"><label id="live-search-label"><img src="/assets/magnifying-glass.svg" alt=""><input id="live-area-search" type="search" aria-label="Wissensbereiche suchen" placeholder="Suchen …" autocomplete="off"></label><button id="live-selected-filter" aria-pressed="false">Ausgewählt (0)</button><p id="live-area-lock" hidden><img src="/assets/lock-simple.svg" alt=""><span id="live-area-lock-text">Auswahl im Gespräch gesperrt</span></p></div><div id="live-areas" role="group" aria-label="Wissensbereiche"></div><div class="live-area-footer"><nav id="live-area-pages" class="direct-pages" aria-label="Bereichsseiten"></nav><span id="live-area-position"></span></div></aside></div><p id="live-notice" role="status"></p></section>
+</div><p id="live-notice" role="status"></p></section>
  <footer class="live-footer"><button id="live-audio-settings">Audioeinstellungen</button><button id="live-refresh" aria-label="Bereiche und Geräte aktualisieren" title="Bereiche und Geräte aktualisieren"><img src="/assets/arrow-clockwise.svg" alt=""></button><button id="live-new" hidden>Neues Gespräch</button><button id="live-mute" hidden aria-pressed="false">Mikro stumm</button><button id="live-start" class="primary">Gespräch starten</button><button id="live-end" hidden>Gespräch beenden</button></footer>`;document.body.append(view);
- let setup=null,chosen=new Set(),areaPage=0,chatPage=null,lease=null,heartbeat=null,starting=false,ending=false,loadedOwner=null,generation=0;
- let selectedOnly=false,selectionSave=Promise.resolve();
- let areaQuery='',areaPageSize=4,areaSignature='',areaNavSignature='',setupLoading=false,setupError='',selectionInitialized=false,loadSerial=0,requestedAreas=[];
+ let setup=null,chosen=new Set(),chatPage=null,lease=null,heartbeat=null,starting=false,ending=false,loadedOwner=null,generation=0;
+ let savingSelection=false,setupLoading=false,setupError='',selectionInitialized=false,loadSerial=0,requestedAreas=[];
  window.addEventListener('brain-areas-changed',()=>{selectionInitialized=false;setup=null;chosen.clear();loadSerial++;setupLoading=false});
  const ownerKey=()=>JSON.stringify([state?.cdb?.identity||null,state?.cdb?.config?.server||null]);
  const areaName=a=>a.label||a.name||'Unbenannter Bereich';
  const areaLocked=()=>busy()||Boolean(state?.live?.history?.length);
  const maxAreas=()=>Math.min(8,Math.max(1,Number(setup?.max_areas)||8));
- const messages={connecting:'Verbindet am Pi …',listening:'Hört zu',thinking:'Denkt nach …',speaking:'Spricht',reconnecting:'Verbindung wird erneuert …',closing:'Gespräch wird beendet …',ended:'Gespräch beendet',error:'Nicht verbunden',idle:'Bereiche wählen'};
  const busy=()=>Boolean(state?.live?.busy)||starting||ending;
  const post=(path,body={})=>api('/api/live/'+path,body);
  function note(message){$('live-notice').textContent=message||'';}
  function stopHeartbeat(){clearInterval(heartbeat);heartbeat=null;}
  async function finish(){generation++;if(ending)return;ending=true;stopHeartbeat();const old=lease;lease=null;try{if(old)await post('end',{lease:old});else if(state?.live?.busy)await post('end',{});}finally{starting=false;ending=false;await poll();renderLive();}}
  async function load(forHome=false){
-  if(busy()||(forHome!==true&&areaLocked()))return;
+  if(savingSelection||busy()||(forHome!==true&&areaLocked()))return;
   const serial=++loadSerial,owner=ownerKey();setupLoading=true;setupError='';renderLive();
   try{
-   await selectionSave;if(serial!==loadSerial||owner!==ownerKey())return;
    const result=await api('/api/live/setup');if(serial!==loadSerial||owner!==ownerKey())return;
    setup=result;const available=new Set(setup.areas.map(a=>a.id));chosen=new Set([...chosen].filter(id=>available.has(id)));
    if(Array.isArray(setup.remembered_area_ids))chosen=new Set(setup.remembered_area_ids.filter(id=>available.has(id)));
    else if(!selectionInitialized&&setup.default_area&&available.has(setup.default_area.id))chosen.add(setup.default_area.id);
-   selectionInitialized=true;areaPage=0;note(setup.enabled?'':'Voice One ist in dieser Brain-Umgebung nicht freigeschaltet.');
+   selectionInitialized=true;note(setup.enabled?'':'Voice One ist in dieser Brain-Umgebung nicht freigeschaltet.');
   }catch(e){if(serial===loadSerial){setup=null;setupError=e.message;note(e.message)}}
   finally{if(serial===loadSerial){setupLoading=false;renderLive()}}
- }
- function rememberSelection(){
-  const owner=ownerKey(),key=setup?.selection_account_key,ids=[...chosen];if(!key)return;
-  selectionSave=selectionSave.catch(()=>{}).then(async()=>{
-   if(owner!==ownerKey())return;
-   try{await post('areas',{account_key:key,area_ids:ids})}
-   catch(e){if(owner===ownerKey())note('Auswahl konnte nicht gemerkt werden: '+e.message)}
-  });
  }
  const baseWorkspace=workspaceView;
  workspaceView=function(id=null){if(busy()&&id!=='live-view')throw new Error('Gespräch läuft. Bitte zuerst beenden.');if(view.open&&id!=='live-view')view.close();baseWorkspace(id);rail.classList.toggle('active',id==='live-view');rail.setAttribute('aria-current',id==='live-view'?'page':'false');};
  rail.onclick=run(async()=>{if(state?.recording.id)throw new Error('Aufnahme läuft. Bitte zuerst stoppen.');await leaveDraft();audio.pause();if(typeof pauseMicrophoneAudio==='function')pauseMicrophoneAudio();workspaceView('live-view');renderLive();if(!busy()&&!state?.live?.history?.length)await load()});
- function drawAreas(){
-  const locked=areaLocked(),live=liveState(),confirmed=live.areas||[];
-  const source=locked?(confirmed.length?confirmed:busy()?requestedAreas:[]):setup?.areas||[];
-  const normalize=text=>text.toLocaleLowerCase('de').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  const query=locked?'':normalize(areaQuery.trim()),areas=source.filter(a=>(locked||!selectedOnly||chosen.has(a.id))&&(!query||normalize(areaName(a)).includes(query)));
-  const count=Math.max(1,Math.ceil(areas.length/areaPageSize));areaPage=Math.max(0,Math.min(areaPage,count-1));
-  $('live-area-search').disabled=locked||setupLoading||!online||!setup;$('live-search-label').hidden=locked;$('live-area-lock').hidden=!locked;
-  $('live-selected-filter').hidden=locked;$('live-selected-filter').disabled=locked||setupLoading||!online||!setup;$('live-selected-filter').textContent='Ausgewählt ('+chosen.size+')';$('live-selected-filter').setAttribute('aria-pressed',String(selectedOnly));$('live-selected-filter').setAttribute('aria-label',selectedOnly?'Alle Wissensbereiche anzeigen':'Nur ausgewählte Wissensbereiche anzeigen ('+chosen.size+')');
-  $('live-area-lock-text').textContent=busy()?'Auswahl im Gespräch gesperrt':'Für dieses Gespräch festgelegt';
-  $('live-selection-count').textContent=locked?(source.length+(source.length===1?' Bereich ':' Bereiche ')+(busy()?'im Gespräch':'verwendet')):setupLoading?'Bereiche werden geladen …':chosen.size+' von maximal '+maxAreas()+' ausgewählt';
-  const rows=areas.slice(areaPage*areaPageSize,(areaPage+1)*areaPageSize);
-  const signature=JSON.stringify([rows,locked,[...chosen],areaPageSize,online,setupLoading,setupError,maxAreas(),selectedOnly]);
-  if(signature!==areaSignature){
-   areaSignature=signature;const box=$('live-areas');box.style.setProperty?.('--area-rows',areaPageSize);box.replaceChildren();
-   for(const area of rows){
-    const selected=locked||chosen.has(area.id),row=document.createElement(locked?'div':'button');row.className='live-area';row.title=areaName(area);row.dataset.selected=String(selected);
-    const icon=document.createElement('img');icon.src='/assets/'+(locked?'check-circle':selected?'check-square':'square')+'.svg';icon.alt='';
-    const label=document.createElement('span');label.textContent=areaName(area);row.append(icon,label);
-    if(!locked){row.type='button';row.setAttribute('role','checkbox');row.setAttribute('aria-checked',String(selected));row.setAttribute('aria-label',areaName(area));row.disabled=!online||setupLoading||(!selected&&chosen.size>=maxAreas());
-     row.onclick=()=>{if(areaLocked()||!online||setupLoading||!setup?.areas.some(a=>a.id===area.id))return;if(chosen.has(area.id))chosen.delete(area.id);else if(chosen.size<maxAreas())chosen.add(area.id);else return;selectionInitialized=true;note('');rememberSelection();renderLive()};
-    }box.append(row);
-   }
-   if(!rows.length){const empty=document.createElement('p');empty.className='live-area-empty';empty.textContent=locked?'Bereiche werden bestätigt …':setupLoading?'Bereiche werden geladen …':setupError?'Bereiche konnten nicht geladen werden. Bitte aktualisieren.':query?'Keine passenden Bereiche. Suche ändern.':selectedOnly?'Noch nichts ausgewählt. Filter ausschalten, um Bereiche zu wählen.':'Keine Wissensbereiche verfügbar.';box.append(empty)}
-  }
-  const navKey=count+':'+areaPage;
-  if(navKey!==areaNavSignature){areaNavSignature=navKey;const nav=$('live-area-pages');nav.replaceChildren();const first=Math.max(0,Math.min(areaPage-1,count-3));for(let i=first;i<Math.min(count,first+3);i++){const button=document.createElement('button');button.textContent=String(i+1);button.setAttribute('aria-label','Bereichsseite '+(i+1));button.setAttribute('aria-current',i===areaPage?'page':'false');button.onclick=()=>{areaPage=i;drawAreas()};nav.append(button)}}
-  $('live-area-position').textContent=(areaPage+1)+' / '+count;
+ function drawKnowledge(live,locked){
+  const areas=locked?(live.areas?.length?live.areas:requestedAreas):(setup?.areas||[]).filter(a=>chosen.has(a.id));
+  const names=areas.map(areaName);
+  const button=$('live-knowledge-open');
+  button.hidden=locked&&!names.length;
+  button.disabled=!online||(!locked&&(setupLoading||!setup?.enabled));
+  button.textContent=names.length?'Gesprächswissen ('+names.length+')':'Gesprächswissen wählen';
+  $('live-status').textContent=names.join(' · ')||(locked?'Bereiche werden bestätigt …':'');
  }
- $('live-selected-filter').onclick=()=>{if(areaLocked()||setupLoading||!online||!setup)return;selectedOnly=!selectedOnly;areaQuery='';$('live-area-search').value='';areaPage=0;drawAreas()};
- $('live-area-search').oninput=()=>{if(areaLocked())return;areaQuery=$('live-area-search').value;areaPage=0;drawAreas()};
- if(typeof ResizeObserver!=='undefined')new ResizeObserver(()=>{const size=Math.max(1,Math.min(4,Math.floor((($('live-areas').clientHeight||210)+6)/54)));if(size!==areaPageSize){const first=areaPage*areaPageSize;areaPageSize=size;areaPage=Math.floor(first/size);drawAreas()}}).observe($('live-areas'));
+ $('live-knowledge-open').onclick=run(async()=>{
+  if(!view.open||!online)return;
+  if(areaLocked()){
+   const areas=(liveState().areas?.length?liveState().areas:requestedAreas).map(a=>({id:a.id,name:areaName(a)}));
+   window.openStudioKnowledge({areas,ids:areas.map(a=>a.id),limit:maxAreas()},true);
+   return;
+  }
+  const selection=await window.studioLiveHome.refresh();
+  if(view.open&&!areaLocked()&&online)window.openStudioKnowledge(selection);
+ });
  // Fit real rendered text to the fixed viewport, never arbitrary character counts.
  function historyPages(history,measure,height){
   const pages=[];let page=[],used=0;
@@ -177,13 +154,13 @@
  function drawFeedback(f){
   const cue=cuePresentation(f);$('live-cue').dataset.mode=cue.mode;feedbackText('live-cue-label',cue.label);
   const ready=!busy()&&!state?.live?.history?.length;
-  const p=ready?{title:setupLoading?'Bereiche werden geladen …':'Bereit für dein Gespräch',detail:setupError?'Verbindung prüfen und aktualisieren.':'Wähle rechts dein Gesprächswissen.',mode:'idle',bars:[]}:feedbackPresentation(online?f:{unavailable:true});
+  const p=ready?{title:setupLoading?'Bereiche werden geladen …':'Bereit für dein Gespräch',detail:setupError?'Verbindung prüfen und aktualisieren.':'Wähle oben dein Gesprächswissen.',mode:'idle',bars:[]}:feedbackPresentation(online?f:{unavailable:true});
   $('live-wave').style.visibility=ready?'hidden':'visible';$('live-sound').style.visibility=ready?'hidden':'visible';feedbackText('live-feedback-title',p.title);feedbackText('live-feedback-detail',p.detail);$('live-feedback').dataset.mode=p.mode;
   $('live-wave').setAttribute('aria-label',p.mode==='speaking'?'Pegel der Antwort':'Mikrofonpegel');
   for(let i=0;i<16;i++){const v=Number(p.bars?.[i]);$('live-bar-'+i).style.transform='scaleY('+(.04+.96*(Number.isFinite(v)?Math.min(1,Math.max(0,v)):0))+')'}
   feedbackText('live-sound',f?.search_sound===false?'Suchton aus':'Suchton an');$('live-sound').setAttribute('aria-pressed',String(f?.search_sound!==false));const soundDisabled=!online||soundSaving||Boolean(f?.active&&!lease&&state?.live?.owner_kind!=='device');if($('live-sound').disabled!==soundDisabled)$('live-sound').disabled=soundDisabled;
  }
- let feedbackLoading=false,soundSaving=false;
+ let feedbackLoading=false,soundSaving=false,muteSaving=false;
  async function refreshFeedback(){
   if(feedbackLoading||!online||!view.open||document.hidden||!busy())return;
   feedbackLoading=true;const runId=generation;
@@ -193,26 +170,25 @@
  $('live-sound').onclick=run(async()=>{if(soundSaving)return;soundSaving=true;try{const f=await post('preferences',{lease,search_sound:state?.live?.feedback?.search_sound===false});state.live.feedback=f;drawFeedback(f)}finally{soundSaving=false;drawFeedback(state?.live?.feedback)}});
  function renderLive(){
   const live=state?.live||{state:'idle',history:[]},active=busy(),history=Boolean(live.history?.length),recording=Boolean(state?.recording.id);rail.disabled=recording;
-  const owner=ownerKey();if(owner!==loadedOwner&&!active){loadedOwner=owner;setup=null;chosen.clear();requestedAreas=[];selectedOnly=false;selectionInitialized=false;setupLoading=false;setupError='';loadSerial++;areaQuery='';$('live-area-search').value='';areaPage=0;}
-  $('live-status').textContent='CDB Voice One';$('live-setup').hidden=active||history;$('live-chat').hidden=!active&&!history;
+  const owner=ownerKey();if(owner!==loadedOwner&&!active){loadedOwner=owner;setup=null;chosen.clear();requestedAreas=[];selectionInitialized=false;setupLoading=false;setupError='';loadSerial++;}
+  view.dataset.active=String(active);$('live-setup').hidden=active||history;$('live-chat').hidden=!active&&!history;
   $('live-start').hidden=active||history;$('live-end').hidden=!active;$('live-end').disabled=ending||live.state==='closing';
-  $('live-mute').hidden=!active;$('live-mute').disabled=(!lease&&live.owner_kind!=='device')||ending||live.state==='closing';$('live-mute').textContent=live.muted?'Mikro einschalten':'Mikro stumm';$('live-mute').setAttribute('aria-pressed',String(Boolean(live.muted)));
+  $('live-mute').hidden=!active;$('live-mute').disabled=!online||muteSaving||(!lease&&live.owner_kind!=='device')||ending||live.state==='closing';$('live-mute').textContent=live.muted?'Mikro einschalten':'Mikro stumm';$('live-mute').setAttribute('aria-pressed',String(Boolean(live.muted)));
   $('live-refresh').hidden=active||history;$('live-audio-settings').hidden=active||history;$('live-new').hidden=active||!history;
-  $('live-start').disabled=!online||recording||!setup?.enabled||setupLoading||!chosen.size||chosen.size>maxAreas()||!setup?.audio?.available;
+  $('live-start').disabled=!online||recording||!setup?.enabled||savingSelection||setupLoading||!chosen.size||chosen.size>maxAreas()||!setup?.audio?.available;
   $('live-refresh').disabled=setupLoading||!online;$('live-audio-settings').disabled=active||recording||!online;
   $('live-input-name').textContent=setup?.audio?.microphone_label||'Mikrofon prüfen';$('live-output-name').textContent=setup?.audio?.speaker_label||'Lautsprecher prüfen';
   $('live-audio-status').textContent=setup?.audio?.message||(setup?.audio?.available?'Bereit. Keine zusätzliche Browserfreigabe nötig.':'Unter Audioeinstellungen prüfen und anschließend aktualisieren.');
-  drawFeedback(live.feedback||{active:live.busy,state:live.state,muted:live.muted});drawAreas();drawHistory(live);if(!active&&$('live-notice').textContent==='Sprich am Pi. Der Recorder bleibt während des Gesprächs gesperrt.')note('');if(live.error)note(live.error);$('home').disabled=active;for(const id of ['library-open','settings-open','queue-toggle'])if(active)$(id).disabled=true;if(active)$('record').disabled=true;
+  drawFeedback(live.feedback||{active:live.busy,state:live.state,muted:live.muted});drawKnowledge(live,active||history);drawHistory(live);if(!active&&$('live-notice').textContent==='Sprich am Pi. Der Recorder bleibt während des Gesprächs gesperrt.')note('');if(live.error)note(live.error);$('home').disabled=active;for(const id of ['library-open','settings-open','queue-toggle'])if(active)$(id).disabled=true;if(active)$('record').disabled=true;
   if(lease&&!live.busy&&!starting&&!ending){stopHeartbeat();lease=null;}
  }
  const previousRender=renderState;renderState=function(){previousRender();renderLive()};
  $('live-refresh').onclick=run(load);
  $('live-audio-settings').onclick=run(async()=>{if(busy())return;await openSettings();showSettingsDetail('audio-home')});
- $('live-new').onclick=run(async()=>{await post('clear');chatPage=null;areaPage=0;selectedOnly=false;areaQuery='';$('live-area-search').value='';requestedAreas=[];await poll();await load()});
+ $('live-new').onclick=run(async()=>{await post('clear');chatPage=null;requestedAreas=[];await poll();await load()});
  async function startConversation(){
-  if(state?.recording?.id||busy()||!online||setupLoading||!setup?.enabled||!chosen.size||chosen.size>maxAreas()||!setup?.audio?.available)return;const runId=++generation;requestedAreas=setup.areas.filter(a=>chosen.has(a.id));starting=true;areaPage=0;chatPage=null;if(document.body.classList.contains('keyboard-open'))$('keyboard').click();audio.pause();if(typeof pauseMicrophoneAudio==='function')pauseMicrophoneAudio();note('Mikrofon und Lautsprecher werden am Pi verbunden …');renderLive();
+  if(state?.recording?.id||busy()||!online||savingSelection||setupLoading||!setup?.enabled||!chosen.size||chosen.size>maxAreas()||!setup?.audio?.available)return;const runId=++generation;requestedAreas=setup.areas.filter(a=>chosen.has(a.id));starting=true;chatPage=null;if(document.body.classList.contains('keyboard-open'))$('keyboard').click();audio.pause();if(typeof pauseMicrophoneAudio==='function')pauseMicrophoneAudio();note('Mikrofon und Lautsprecher werden am Pi verbunden …');renderLive();
   try{
-   await selectionSave;if(runId!==generation)return;
    const reserved=await post('reserve',{area_ids:[...chosen]});if(runId!==generation){await post('end',{lease:reserved.lease});return;}lease=reserved.lease;
    heartbeat=setInterval(()=>{if(runId===generation&&lease)post('pulse',{lease}).catch(()=>{if(runId===generation)finish().catch(()=>{})})},5000);
    await post('start-native',{lease});if(runId!==generation)return;starting=false;note('Sprich am Pi. Der Recorder bleibt während des Gesprächs gesperrt.');await poll();renderLive();
@@ -236,17 +212,23 @@
   },
   async apply(key,ids){
    const valid=()=>online&&!busy()&&!state?.recording?.id&&key&&key===this.selection()?.key;
-   if(!valid()||!ids.length||ids.length>maxAreas()||!ids.every(id=>setup.areas.some(a=>a.id===id)))throw new Error('Gesprächswissen bitte neu öffnen.');
-   await selectionSave;
-   if(!valid())throw new Error('Gesprächswissen bitte neu öffnen.');
-   await post('areas',{account_key:key,area_ids:ids});
-   if(!valid())throw new Error('Gerätestatus hat sich geändert.');
-   chosen=new Set(ids);selectionInitialized=true;renderLive();
+   if(savingSelection||!valid()||!ids.length||ids.length>maxAreas()||new Set(ids).size!==ids.length||!ids.every(id=>setup.areas.some(a=>a.id===id)))throw new Error('Gesprächswissen bitte neu öffnen.');
+   savingSelection=true;renderLive();
+   try{
+    await post('areas',{account_key:key,area_ids:ids});
+    if(!valid())throw new Error('Gerätestatus hat sich geändert.');
+    chosen=new Set(ids);selectionInitialized=true;
+   }finally{savingSelection=false;renderLive()}
   },
   start:startConversation
  };
  $('live-end').onclick=run(finish);
- $('live-mute').onclick=run(async()=>{if(!lease&&state?.live?.owner_kind!=='device')return;await post('mute',{lease,muted:!state?.live?.muted});await poll()});
+ $('live-mute').onclick=run(async()=>{
+  if($('live-mute').disabled||!busy())return;
+  muteSaving=true;renderLive();
+  try{await post('mute',{lease,muted:!state?.live?.muted});await poll()}
+  finally{muteSaving=false;renderLive()}
+ });
  window.addEventListener('pagehide',()=>{stopHeartbeat();if(lease)fetch('/api/live/end',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({lease}),keepalive:true}).catch(()=>{})});
  window.addEventListener('offline',()=>{if(lease)finish().catch(()=>{})});
  renderLive();
