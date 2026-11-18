@@ -202,6 +202,21 @@ class CdbTests(unittest.TestCase):
         binding={'server':DEFAULT['server'],'user_id':'user1','client_id':CLIENT}
         result=CdbBackend(self.c).remote_transcribe(folder,{'binding':binding})
         self.assertEqual(result,'Testtranskript');self.assertEqual(sum('transcription-jobs/' in u for u,b in self.transport.sent),1)
+    def test_no_speech_is_actionable_and_retry_reuses_the_uploaded_recording(self):
+        folder = self.root / 'quiet'
+        folder.mkdir()
+        checkpoint = folder / 'cdb-asr.json'
+        checkpoint.write_text(json.dumps({'recording_id': RECORDING, 'job_id': 'asr1'}))
+        route = {'binding': {'server': DEFAULT['server'], 'user_id': 'user1', 'client_id': CLIENT}}
+        failed = {'recording_id': RECORDING, 'job_id': 'asr1', 'status': 'failed',
+                  'error_code': 'no_speech', 'error_message': 'private provider detail'}
+        backend = CdbBackend(self.c)
+        with patch.object(self.c, 'call', return_value=failed):
+            with self.assertRaisesRegex(CdbFailure, 'keine Sprache erkannt'):
+                backend.remote_transcribe(folder, route)
+        self.assertEqual(json.loads(checkpoint.read_text()), {'recording_id': RECORDING})
+        self.assertEqual(backend.remote_transcribe(folder, route), 'Testtranskript')
+
     def test_unknown_old_job_defaults_local(self):
         self.assertEqual(CdbBackend(self.c).route(self.root,{})['transcription'],'local')
     def test_destination_is_durable_and_hidden_after_logout(self):

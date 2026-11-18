@@ -62,6 +62,41 @@ class CaptureSourceTests(unittest.TestCase):
 
 
 
+class LiveEchoTests(unittest.IsolatedAsyncioTestCase):
+    def test_sysdefault_is_mapped_only_for_live_and_only_if_unique(self):
+        from pathlib import Path
+        with tempfile.TemporaryDirectory() as root:
+            card = Path(root) / 'card2'
+            card.mkdir()
+            (card / 'id').write_text('Array')
+            config = {'device': 'sysdefault:CARD=Array'}
+            source = {'name': 'array', 'properties': {'alsa.card': '2', 'alsa.device': '0'}}
+            with patch('services.live_audio.shutil.which', return_value='tool'), patch('services.live_audio.subprocess.run') as run:
+                run.return_value.stdout = json.dumps([source])
+                self.assertIn('--device=array', native_capture_command(config, proc_root=root, live=True))
+                self.assertEqual(native_capture_command(config, proc_root=root)[0], 'arecord')
+                run.return_value.stdout = json.dumps([source, dict(source, name='second')])
+                self.assertEqual(native_capture_command(config, proc_root=root, live=True)[0], 'arecord')
+
+    async def test_echo_source_and_reference_share_the_session_and_correct_physical_devices(self):
+        import asyncio
+        from unittest.mock import AsyncMock, Mock
+        from services.live_audio import NativeLiveAudio
+        audio = NativeLiveAudio.__new__(NativeLiveAudio)
+        audio.capture_command = ['parec', '--device=physical-mic']
+        audio.playback_command = ['paplay', '--device=physical-speaker']
+        audio._spawn = AsyncMock(return_value=SimpleNamespace(returncode=None, wait=asyncio.Event().wait))
+        audio._task = lambda coro: coro.close()
+        with patch('services.live_audio.shutil.which', return_value='pw-cli'), patch('services.live_audio.subprocess.run', return_value=Mock(returncode=0)):
+            await audio._open_echo_cancel()
+        args = json.loads(audio._spawn.await_args.args[0][-1])
+        self.assertEqual(args['capture.props']['target.object'], 'physical-mic')
+        self.assertEqual(args['playback.props']['target.object'], 'physical-speaker')
+        self.assertEqual(audio.capture_command[1], '--device=' + args['source.props']['node.name'])
+        self.assertEqual(audio.playback_command[1], '--device=' + args['sink.props']['node.name'])
+        self.assertTrue(audio.echo_cancel_active)
+
+
 class ReadyToneTests(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self):
         import asyncio, threading, sys

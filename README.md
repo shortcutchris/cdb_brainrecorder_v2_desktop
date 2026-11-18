@@ -2,6 +2,14 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.81 – Leise Aufnahmen und Echo im Live-Gespräch
+
+Meldet CDB für eine Aufnahme `no_speech`, zeigt die Warteschlange „CDB hat keine Sprache erkannt“ an. Die Aufnahme bleibt zum Anhören und für einen neuen Versuch erhalten.
+
+Bei einem Live-Gespräch mit zugeordnetem PipeWire-Mikrofon und Lautsprecher führt Studio die Wiedergabe als Referenz zur WebRTC-Echounterdrückung zurück. Der Filter gehört zum Gespräch und wird beim Beenden freigegeben. Die Sprecherrollen kommen weiterhin vom Sprachdienst. Das Mikrofon bleibt auch während der Antwort offen, damit man Brain unterbrechen kann.
+
+Bestehende Geräte erhalten die Änderungen mit dem signierten App-Update. Ein neues SD-Image übernimmt die Studio-Dateien beim nächsten Bau. Die PipeWire-Werkzeuge und das WebRTC-Audiomodul stammen aus dem Raspberry-Pi-OS-Audiostack.
+
 ## 0.5.80 – Direktstart am Touchdisplay (Kandidat)
 
 **Mit dem Brain sprechen** startet Voice One mit dem Gesprächswissen des angemeldeten Kontos. Über **Gesprächswissen** oben rechts lassen sich Bereiche antippen und seitenweise durchblättern. **Übernehmen** speichert die Auswahl für kommende Gespräche. **Abbrechen** verwirft die Änderung. Fehlt eine Auswahl, öffnet der Gesprächsstart zuerst das Raster.
