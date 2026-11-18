@@ -19,10 +19,12 @@ test('queue paging accounts for its header and keeps the selected page while pro
  const s=fs.readFileSync('studio/touch.js','utf8'),fn=s.slice(s.indexOf(' function refresh(){'),s.indexOf(' const selectButtons='));
  const rows=Array.from({length:3},(_,i)=>({dataset:{queueKey:'job-'+i},textContent:'Job '+i+' · 00:01',hidden:false,classList:{contains:()=>true},getBoundingClientRect:()=>({height:112})}));
  const el={id:'queue-panel',children:rows,clientHeight:400,scrollTop:0,getAttribute:()=> 'Queue',querySelector:()=>({getBoundingClientRect:()=>({height:30})})};
- const bar={hidden:false,getAttribute:()=> 'Queue Seiten',setAttribute(){}},p={bar,info:{},numbers:{},name:'Queue',signature:''};
- let select;const c={pagers:new Map([[el,p]]),isVisible:()=>true,refreshSelects(){},getComputedStyle:()=>({marginBottom:'12px'}),drawPageNumbers(n,count,page,callback){assert.equal(count,2);select=callback},schedule(){}};
- vm.createContext(c);vm.runInContext(fn,c);c.refresh();assert.equal(p.info.textContent,'Seite 1 von 2');select(1);c.refresh();assert.equal(p.info.textContent,'Seite 2 von 2');
+ const bar={hidden:false,getAttribute:()=> 'Queue Seiten',setAttribute(){}},p={bar,info:{},numbers:{},previous:{},next:{},name:'Queue',signature:''};
+ let select;const c={pagers:new Map([[el,p]]),isVisible:()=>true,refreshSelects(){},getComputedStyle:()=>({marginBottom:'12px'}),drawPageNumbers(n,count,page,callback){select=callback},schedule(){}};
+ vm.createContext(c);vm.runInContext(fn,c);c.refresh();assert.equal(p.info.textContent,'Aufträge 1–2 von 3 · Seite 1 von 2');assert.equal(p.previous.disabled,true);select(1);c.refresh();assert.equal(p.info.textContent,'Auftrag 3 von 3 · Seite 2 von 2');assert.equal(p.next.disabled,true);
  rows[0].textContent='Job 0 · 00:02';c.refresh();assert.equal(p.page,1);assert.equal(rows[2].hidden,false);assert.equal(rows[0].hidden,true);
+ rows[0].dataset.queueKey+='-failed';c.refresh();assert.equal(p.page,1);
+ rows.pop();c.refresh();assert.equal(p.page,0);assert.equal(p.next.hidden,true);
 });
 
 test('secondary dialog paging appears only for overflow and reaches a stable layout',()=>{

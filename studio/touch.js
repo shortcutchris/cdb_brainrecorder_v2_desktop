@@ -11,7 +11,17 @@
   bar.append(info,numbers);
   const actions=el.classList.contains('dialog-body')?el.parentElement.querySelector(':scope > .dialog-actions'):null;
   if(el.id==='editor')el.closest('.editor-wrap').querySelector('.editor-footer').prepend(bar);else if(el.id==='queue-panel')el.closest('#queue-region').append(bar);else if(actions){actions.prepend(bar);bar.classList.add('inline-pager')}else el.after(bar);
-  pagers.set(el,{bar,info,numbers,name,signature:''});el.addEventListener('scroll',schedule,{passive:true});el.addEventListener('input',schedule);new ResizeObserver(schedule).observe(el);
+  const pager={bar,info,numbers,name,signature:'',page:0};
+  if(el.id==='queue-panel'){
+   const stepButton=(label,step)=>{
+    const button=document.createElement('button');button.type='button';button.textContent=label;
+    button.onclick=()=>{pager.page+=step;schedule()};
+    return button;
+   };
+   pager.previous=stepButton('Zurück',-1);pager.next=stepButton('Weiter',1);
+   bar.insertBefore(pager.previous,numbers);bar.append(pager.next);
+  }
+  pagers.set(el,pager);el.addEventListener('scroll',schedule,{passive:true});el.addEventListener('input',schedule);new ResizeObserver(schedule).observe(el);
  }
  function refresh(){
   for(const [el,p] of pagers){
@@ -21,21 +31,37 @@
    if(!visible||typeof drawPageNumbers!=='function')continue;
    const list=el.id==='queue-panel'?el:el.querySelector('#library-list');
    if(list){
-    if(p.bar.hidden)p.bar.hidden=false;
     const items=[...list.children].filter(e=>e.classList.contains(el.id==='queue-panel'?'queue-row':'library-item'));
-    const queue=el.id==='queue-panel',visibleRow=items.find(row=>!row.hidden);
+    const queue=el.id==='queue-panel';
+    if(queue&&!items.length){
+     if(!p.bar.hidden)p.bar.hidden=true;
+     p.page=0;p.signature='';continue;
+    }
+    if(p.bar.hidden)p.bar.hidden=false;
+    const visibleRow=items.find(row=>!row.hidden);
     const rowSize=queue&&visibleRow?visibleRow.getBoundingClientRect().height+(parseFloat(getComputedStyle(visibleRow).marginBottom)||0):queue?124:96;
     const headerSize=queue?(el.querySelector('.queue-columns')?.getBoundingClientRect().height||0):0;
-    const size=Math.max(1,Math.floor((el.clientHeight-24-headerSize)/Math.max(1,rowSize))),count=Math.max(1,Math.ceil(items.length/size));
-    const content=items.map(e=>e.dataset.queueKey||e.textContent).join('|');if(content!==p.content){p.content=content;p.page=0}
+    const size=Math.max(1,Math.floor((el.clientHeight-(queue?0:24)-headerSize)/Math.max(1,rowSize))),count=Math.max(1,Math.ceil(items.length/size));
+    const content=items.map(e=>e.dataset.queueKey||e.textContent).join('|');if(queue){
+     const filter=el.dataset?.filter;
+     if(filter!==p.filter){p.filter=filter;p.page=0}
+    }else if(content!==p.content){p.content=content;p.page=0}
     if(queue&&el.dataset?.focusJob){
      const index=items.findIndex(row=>row.dataset.job===el.dataset.focusJob);
      if(index>=0)p.page=Math.floor(index/size);
      delete el.dataset.focusJob;
     }
-    p.page=Math.min(p.page||0,count-1);items.forEach((row,i)=>{const hidden=Math.floor(i/size)!==p.page;if(row.hidden!==hidden)row.hidden=hidden});
+    p.page=Math.max(0,Math.min(p.page||0,count-1));items.forEach((row,i)=>{const hidden=Math.floor(i/size)!==p.page;if(row.hidden!==hidden)row.hidden=hidden});
     const signature=[count,p.page,size,content].join('|');if(signature===p.signature)continue;p.signature=signature;el.scrollTop=0;
-    p.info.textContent='Seite '+(p.page+1)+' von '+count;
+    const pageLabel='Seite '+(p.page+1)+' von '+count;
+    p.info.textContent=pageLabel;
+    if(queue){
+     const first=p.page*size+1,last=Math.min((p.page+1)*size,items.length);
+     const range=first===last?'Auftrag '+first:'Aufträge '+first+'–'+last;
+     p.info.textContent=range+' von '+items.length+' · '+pageLabel;
+     p.previous.hidden=p.next.hidden=count===1;
+     p.previous.disabled=p.page===0;p.next.disabled=p.page===count-1;
+    }
     drawPageNumbers(p.numbers,count,p.page,i=>{p.page=i;p.signature='';schedule()});continue;
    }
    const max=Math.max(0,el.scrollHeight-el.clientHeight),line=parseFloat(getComputedStyle(el).lineHeight)||24;
