@@ -1,0 +1,29 @@
+{
+  "version": "0.5.80",
+  "previous_version": "0.5.79",
+  "source_commit": "67ff106cb852fe8555915d22ed440e84ad4cb563",
+  "release": "2f682ee1d83a11ad05c7e7c41edb22a367f071707c4c0a470064092d440a6c59",
+  "installed_at": "2026-11-18T10:02:18.189983+00:00",
+  "signature_verified": true,
+  "files_verified": 129,
+  "settings_preserved": true,
+  "session_inventory_preserved": true,
+  "recording_active_during_update": false,
+  "service_healthy": true,
+  "kiosk_restarted": true,
+  "rollback_directory_retained": true,
+  "sd_image_built": false,
+  "physical_display_checked": true,
+  "physical_display_pixels": [
+    1280,
+    720
+  ],
+  "physical_display_status": "Aufnahmebereit",
+  "maintenance_released": true,
+  "http_index_version_verified": true,
+  "stylesheet_served_verified": true,
+  "services_active": [
+    "cdb-recorder-studio.service",
+    "pi-recorder-kiosk.service"
+  ]
+}
