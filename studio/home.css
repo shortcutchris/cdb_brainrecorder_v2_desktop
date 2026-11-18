@@ -1,22 +1,31 @@
-/* The same fixed header, footer and baseline as every Studio workspace. */
-#start-view.workspace-view[open]{display:flex;flex-direction:column;padding:0 0 var(--view-base);background:var(--surface);overflow:hidden}
-#start-view .dialog-heading h2{font-size:var(--view-title);line-height:32px;letter-spacing:-.4px;font-weight:650;margin:0}
-.start-heading-label{margin-left:auto;font-size:14px;color:var(--muted)}
-.start-content{flex:1;min-height:0;padding:20px var(--view-inset) 24px;display:flex;flex-direction:column;gap:16px}
-#start-view .start-intro{font-size:16px;line-height:24px;margin:0;color:var(--muted)}
-.start-tiles{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:16px}
-#start-view .start-tile{min-width:0;min-height:0;margin:0;padding:24px;border:1px solid var(--line);border-radius:20px;background:var(--panel);color:var(--ink);display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:8px;overflow:hidden}
-#start-view .start-tile[data-featured=true]{background:var(--soft)}
-#start-view .start-tile:active:not(:disabled){background:var(--soft)}
-#start-view .start-tile:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
-.start-tile-top{display:flex;align-items:center;justify-content:space-between;align-self:stretch;margin-bottom:auto;padding-bottom:16px}
-.start-tile-top img{width:36px;height:36px;filter:var(--active-filter)}
-.start-tile-top>span{font-size:22px;line-height:28px;color:var(--muted)}
-.start-tile strong{font-size:23px;font-weight:600;line-height:30px;letter-spacing:-.3px}
-.start-tile-copy{font-size:14px;line-height:20px;color:var(--muted);max-width:100%}
-.start-footer{flex:0 0 80px;min-height:80px;padding:12px var(--view-inset);background:var(--panel);border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:24px;font-size:14px;color:var(--muted)}
+#start-view.workspace-view[open]{display:flex;flex-direction:column;padding:0 0 var(--view-base);background:var(--surface);color:var(--ink);overflow:hidden}
+#start-heading,#knowledge-title{font-size:var(--view-title);margin:0}
+#start-knowledge{margin:0 0 0 auto;padding:0 18px;min-height:52px;display:flex;align-items:center;gap:10px;background:var(--soft);color:var(--accent-text);border-radius:14px}
+#start-knowledge img{width:18px;filter:var(--active-filter)}
+.start-content{flex:1;min-height:0;padding:clamp(16px,3vh,28px) var(--view-inset) 0;display:flex;flex-direction:column;gap:16px}
+.start-content h3{margin:0;font-size:clamp(22px,2.6vw,34px);letter-spacing:-.03em}
+.start-tiles{flex:1;min-height:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+#start-view .start-tile{min-width:0;margin:0;padding:20px;border:1px solid var(--line);border-radius:20px;background:var(--panel);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px}
+#start-view #start-live{background:var(--soft)}
+.start-tile img{width:56px;height:56px;filter:var(--active-filter);margin-bottom:8px}
+.start-tile strong{font-size:clamp(22px,2.3vw,32px);line-height:1.2}
+.start-tile span,#start-feedback,#knowledge-status{color:var(--muted)}
+#start-feedback{min-height:1.4em;margin:0}
+.start-footer{min-height:64px;padding:12px var(--view-inset);background:var(--panel);border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:20px;font-size:14px;color:var(--muted)}
 .start-device-status{display:flex;align-items:center;gap:12px;color:var(--ink)}
-#start-led{width:10px;height:10px;flex:0 0 10px;border-radius:50%;background:var(--muted);box-shadow:0 0 0 5px var(--surface)}
+#start-led{width:10px;height:10px;border-radius:50%;background:var(--muted)}
 #start-led[data-state=ready]{background:#26a66f}#start-led[data-state=waiting]{background:#be871d}#start-led[data-state=error]{background:#e35164}
-@media(max-height:650px){.start-content{padding-block:12px 16px;gap:12px}.start-tiles{gap:12px}#start-view .start-tile{padding:16px;border-radius:16px}.start-tile-top{padding-bottom:8px}.start-tile-top img{width:28px;height:28px}.start-tile strong{font-size:20px;line-height:26px}.start-tile-copy{font-size:13px;line-height:18px}}
-@media(max-width:800px){.start-tiles{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));gap:12px}#start-view .start-tile{padding:12px;gap:4px}.start-tile-top{display:none}.start-tile strong{font-size:18px;line-height:24px}.start-tile-copy{font-size:12px;line-height:16px}.start-heading-label,#start-background{display:none}}
+#knowledge-picker{height:fit-content;min-height:0;width:min(850px,94vw);max-height:94dvh;padding:24px;gap:16px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:20px}
+#knowledge-status{margin:0}
+#knowledge-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;overflow:auto}
+#knowledge-grid[data-paged=true]{grid-template-rows:repeat(2,minmax(88px,auto))}
+#knowledge-grid button{min-height:88px;margin:0;display:flex;align-items:center;gap:10px;text-align:left;overflow-wrap:anywhere}
+#knowledge-grid button,#knowledge-pages button,#knowledge-cancel{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+#knowledge-grid button::before{content:'';box-sizing:border-box;width:24px;height:24px;flex:none;border:2px solid var(--muted);border-radius:7px;text-align:center}
+#knowledge-grid button[aria-pressed=true]{border-color:var(--accent-text);background:var(--soft)}
+#knowledge-grid button[aria-pressed=true]::before{content:'✓';color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+#knowledge-pages,#knowledge-picker footer{display:flex;align-items:center;justify-content:center;gap:14px}
+#knowledge-picker footer{justify-content:flex-end;border-top:1px solid var(--line);padding-top:14px}
+#knowledge-picker footer button,#knowledge-pages button{min-height:52px;margin:0}
+#knowledge-apply{background:var(--accent);color:var(--on-accent);padding-inline:22px;border-radius:12px}
+@media(max-width:650px){#knowledge-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.start-tiles{gap:10px}}

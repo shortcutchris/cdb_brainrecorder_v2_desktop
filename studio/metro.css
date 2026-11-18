@@ -165,3 +165,6 @@ body:not([data-workspace="recorder"]) #queue-region.workspace-view{grid-column:2
 #queue-region .queue-body>.touch-pager{border:0;border-radius:12px;padding:12px}
 #queue-region:not([open]){display:none}
 .rail #queue-toggle .queue-activity{position:absolute;width:18px;height:18px;right:4px;bottom:4px;background:var(--surface);border-radius:50%}
+
+/* Nine touch targets share the compact Pi rail, including the keyboard. */
+@media(max-height:650px){.rail{padding-block:8px;gap:6px}}
