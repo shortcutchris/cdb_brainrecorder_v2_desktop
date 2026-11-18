@@ -2,6 +2,14 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.81 – Leise Aufnahmen und Echo im Live-Gespräch
+
+Meldet CDB für eine Aufnahme `no_speech`, zeigt die Warteschlange „CDB hat keine Sprache erkannt“ an. Die Aufnahme bleibt zum Anhören und für einen neuen Versuch erhalten.
+
+Bei einem Live-Gespräch mit zugeordnetem PipeWire-Mikrofon und Lautsprecher führt Studio die Wiedergabe als Referenz zur WebRTC-Echounterdrückung zurück. Der Filter gehört zum Gespräch und wird beim Beenden freigegeben. Die Sprecherrollen kommen weiterhin vom Sprachdienst. Das Mikrofon bleibt auch während der Antwort offen, damit man Brain unterbrechen kann.
+
+Bestehende Geräte erhalten die Änderungen mit dem signierten App-Update. Ein neues SD-Image übernimmt die Studio-Dateien beim nächsten Bau. Die PipeWire-Werkzeuge und das WebRTC-Audiomodul stammen aus dem Raspberry-Pi-OS-Audiostack.
+
 ## 0.5.80 – Direktstart am Touchdisplay (Kandidat)
 
 **Mit dem Brain sprechen** startet Voice One mit dem Gesprächswissen des angemeldeten Kontos. Über **Gesprächswissen** oben rechts lassen sich Bereiche antippen und seitenweise durchblättern. **Übernehmen** speichert die Auswahl für kommende Gespräche. **Abbrechen** verwirft die Änderung. Fehlt eine Auswahl, öffnet der Gesprächsstart zuerst das Raster.
@@ -9,6 +17,12 @@ Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einric
 **Meeting aufzeichnen** startet die Aufnahme und öffnet die Aufnahmesteuerung. Die Kachel zeigt an, wenn eine Voraussetzung fehlt. Während einer laufenden Aufnahme oder Unterhaltung bleibt die jeweilige Steuerung im Vordergrund. Bibliothek, Warteschlange und Einstellungen bleiben über die linke Leiste erreichbar.
 
 Die Startseite und das Raster verwenden das eingestellte Studio-Design. Auf 1024 × 600 nutzt die Navigation kleinere Abstände, damit auch die Tastaturtaste vollständig sichtbar ist. Vorhandene Geräte erhalten die Änderungen mit dem regulären App-Update, neue SD-Karten beim nächsten Image-Bau aus denselben Studio-Dateien. Bestehende Aufnahmen und Geräteprofile benötigen keine Migration.
+
+## 0.5.80 – Bedienung am Pi-Display
+
+Das Seitenmenü zeigt die Namen der Bereiche direkt unter den Symbolen. Alle neun Einträge passen auf die Pi-Displays mit 1280 × 720 und 1024 × 600 Pixeln. Bestätigungen und weitere Dialoge haben einheitliche Schließen- und Aktionsbuttons. Bei langen Inhalten steht die Seitenwahl in einer eigenen Zeile; bei kurzen Dialogen entfällt sie. Die geöffnete Sitzung bleibt hinter dem Dialog erhalten.
+
+[Prüfung, Installation und Zielgeräte](docs/pi-touch-0.5.80/README.md). Bestehende Geräte erhalten die Änderungen als App-Update; neue SD-Images übernehmen die freigegebenen Studio-Dateien beim nächsten Build. Es sind keine zusätzlichen Laufzeitpakete und keine Datenmigration nötig.
 
 ## 0.5.79 – Aufnahmeknopf auf dem Touchdisplay
 

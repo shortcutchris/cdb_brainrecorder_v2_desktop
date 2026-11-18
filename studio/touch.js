@@ -15,11 +15,13 @@
  }
  function refresh(){
   for(const [el,p] of pagers){
-   const label=el.getAttribute('aria-label')||p.name,visible=isVisible(el);if(p.bar.hidden===visible)p.bar.hidden=!visible;
+   const label=el.getAttribute('aria-label')||p.name,visible=isVisible(el);
+   if(!visible&&!p.bar.hidden)p.bar.hidden=true;
    if(p.bar.getAttribute('aria-label')!==label+' Seiten')p.bar.setAttribute('aria-label',label+' Seiten');
    if(!visible||typeof drawPageNumbers!=='function')continue;
    const list=el.id==='queue-panel'?el:el.querySelector('#library-list');
    if(list){
+    if(p.bar.hidden)p.bar.hidden=false;
     const items=[...list.children].filter(e=>e.classList.contains(el.id==='queue-panel'?'queue-row':'library-item'));
     const queue=el.id==='queue-panel',visibleRow=items.find(row=>!row.hidden);
     const rowSize=queue&&visibleRow?visibleRow.getBoundingClientRect().height+(parseFloat(getComputedStyle(visibleRow).marginBottom)||0):queue?124:96;
@@ -33,6 +35,9 @@
    }
    const max=Math.max(0,el.scrollHeight-el.clientHeight),line=parseFloat(getComputedStyle(el).lineHeight)||24;
    const step=Math.max(line,Math.floor(el.clientHeight/line)*line),count=max>2?Math.ceil(max/step)+1:1;
+   // Secondary dialogs only need paging when content actually overflows.
+   const showPager=count>1||!el.closest('dialog:not(.workspace-view)');
+   if(p.bar.hidden===showPager)p.bar.hidden=!showPager;
    const current=max>2&&el.scrollTop>=max-2?count-1:Math.min(count-1,Math.floor((el.scrollTop+2)/step));
    const signature=[count,current,step,max,label].join('|');if(signature===p.signature)continue;p.signature=signature;
    p.info.textContent='Seite '+(current+1)+' von '+count;

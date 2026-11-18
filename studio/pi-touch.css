@@ -1,0 +1,62 @@
+/* Physical Pi displays: 1280 x 720 first, 1024 x 600 supported. */
+:root { --rail:112px; }
+.rail {
+  padding:8px; gap:4px; overflow-y:auto; overscroll-behavior:contain;
+}
+.rail .rail-button, .rail .rail-button.keyboard, .rail #queue-toggle {
+  width:100%; height:68px; min-height:68px; padding:6px 2px; gap:4px;
+  border-radius:12px; touch-action:manipulation;
+}
+.rail .rail-button img, .rail .rail-button:first-child img { width:26px; height:26px; }
+.rail .rail-button span {
+  position:static; width:auto; height:auto; overflow:visible; clip-path:none;
+  white-space:nowrap; font-size:12px; line-height:16px; font-weight:550;
+}
+.rail .rail-button.active { color:var(--accent-text); }
+.rail .rail-button:active:not(:disabled) { background:var(--soft); }
+.rail #queue-toggle .queue-activity { right:22px; bottom:26px; }
+.rail #queue-badge { top:2px; right:4px; }
+
+/* A pager gets its own row; it must never squeeze the decision buttons. */
+dialog:modal:not(.workspace-view) > .dialog-actions {
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+  height:auto; min-height:80px; flex:0 0 auto; gap:12px; padding:12px 24px;
+}
+dialog:modal:not(.workspace-view) > .dialog-actions > button {
+  width:100%; min-width:0; min-height:56px; margin:0;
+  padding:12px 16px; border-radius:12px; font-size:16px; line-height:22px;
+  white-space:normal; overflow-wrap:break-word; touch-action:manipulation;
+}
+dialog:modal:not(.workspace-view) > .dialog-actions > button:only-of-type { grid-column:2; }
+dialog:modal:not(.workspace-view) > .dialog-actions > .inline-pager {
+  grid-column:1/-1; grid-row:1; width:100%; margin:0;
+  justify-content:space-between; height:56px; min-height:56px;
+}
+dialog:modal:not(.workspace-view) > .dialog-heading { padding:12px 24px; gap:12px; }
+dialog:modal:not(.workspace-view) > .dialog-heading h2 { font-size:22px; line-height:28px; }
+dialog:modal:not(.workspace-view) > .dialog-heading .icon-button {
+  flex:0 0 56px; width:56px; height:56px; min-height:56px; border-radius:12px;
+}
+dialog:modal:not(.workspace-view) :is(.dialog-body,.confirm-body) {
+  min-height:0; overflow-y:auto; overscroll-behavior:contain;
+}
+dialog:modal:not(.workspace-view) > .dialog-actions .primary {
+  background:var(--accent); color:var(--on-accent);
+}
+#touch-picker:modal > .dialog-actions { display:flex; align-items:center; }
+#touch-picker .picker-option { min-height:64px; line-height:24px; text-align:left; }
+#touch-picker .picker-option[aria-pressed="true"] { box-shadow:inset 4px 0 var(--accent); }
+#settings.workspace-view .settings-page > .dialog-actions button {
+  white-space:normal; line-height:20px; padding-inline:12px;
+}
+@media (max-height:650px) {
+  :root { --rail:104px; }
+  .rail .rail-button, .rail .rail-button.keyboard, .rail #queue-toggle {
+    height:60px; min-height:60px; padding-block:4px;
+  }
+  .rail .rail-button img, .rail .rail-button:first-child img { width:24px; height:24px; }
+  .rail #queue-toggle .queue-activity { right:18px; bottom:23px; }
+  dialog:modal:not(.workspace-view) > .dialog-heading,
+  dialog:modal:not(.workspace-view) > .dialog-actions { padding:8px 20px; }
+  dialog:modal:not(.workspace-view) > .dialog-actions { min-height:72px; gap:8px; }
+}

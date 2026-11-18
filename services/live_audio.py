@@ -26,7 +26,7 @@ from meeting_recorder.audio import Recorder
 from meeting_recorder.child_process import owned_command
 
 
-def native_capture_command(config, *, proc_root='/proc/asound', timed_probe=False):
+def native_capture_command(config, *, proc_root='/proc/asound', timed_probe=False, live=False):
     """Use the exact ALSA card's PipeWire source to share duplex USB hardware.
 
     Never chooses a default source or matches a display name. Without a mapped
@@ -52,8 +52,13 @@ def native_capture_command(config, *, proc_root='/proc/asound', timed_probe=Fals
         if not matches: raise ValueError('Gewählte Audioquelle am Pi ist nicht verbunden.')
     else:
         match = re.fullmatch(r'(?:plug)?hw:(?:CARD=)?([^,]+),(?:DEV=)?([0-9]+)', device)
-        if not match: return Recorder.command(config)
-        card, number = match.groups()
+        default_card = re.fullmatch(r'sysdefault:CARD=([^,]+)', device) if live else None
+        if match:
+            card, number = match.groups()
+        elif default_card:
+            card, number = default_card.group(1), None
+        else:
+            return Recorder.command(config)
         if not card.isdigit():
             cards = []
             for path in Path(proc_root).glob('card[0-9]*/id'):
@@ -63,7 +68,8 @@ def native_capture_command(config, *, proc_root='/proc/asound', timed_probe=Fals
             if len(cards) != 1: return Recorder.command(config)
             card = cards[0]
         matches = [s for s in sources if str(s.get('properties', {}).get('alsa.card')) == card
-                   and str(s.get('properties', {}).get('alsa.device')) == number]
+                   and (number is None or str(s.get('properties', {}).get('alsa.device')) == number)]
+        if default_card and len(matches) != 1: return Recorder.command(config)
         if not matches: return Recorder.command(config)
     if len(matches) != 1: raise ValueError('Mehrere Audioquellen passen zum Mikrofon. Audioeinstellungen prüfen.')
     if timed_probe:
@@ -143,9 +149,10 @@ class NativeLiveAudio:
     def __init__(self, config, on_failure=None, *, capture_command=None, playback_command=None):
         self.config = dict(config)
         self.on_failure = on_failure or (lambda: None)
-        self.capture_command = capture_command or native_capture_command(config)
+        self.capture_command = capture_command or native_capture_command(config, live=True)
         self.playback_command = playback_command or ['paplay', '--raw', '--format=s16le', '--rate=24000',
                                                      '--channels=1', '--latency-msec=80', '--device=' + config['speaker']]
+        self.echo_cancel_active = False
         self.gate = PcmGate()
         self.input_meter=SearchInputEnvelope();self.output_meter=AudioEnvelope();self.searches=SearchActivity()
         self.search_sound=True;self.cue_task=None;self.cue_serial=0;self.cue_requested_at=0;self.cue_played_at=0;self.user_speech_at=0;self.search_loop_blocks=0;self.search_loop_pauses=0;self.web_event_count=0;self.event_types={};self.search_tones=0
@@ -217,6 +224,43 @@ class NativeLiveAudio:
             # Service cleanup may synchronously wait for this event loop.
             threading.Thread(target=self.on_failure, daemon=True).start()
 
+    async def _open_echo_cancel(self):
+        # One client owns all four filter nodes. Studio's existing process
+        # supervisor removes them on close, cancellation or parent death.
+        if self.capture_command[0] != 'parec' or self.playback_command[0] != 'paplay' or not shutil.which('pw-cli'):
+            return
+        source = next(arg[9:] for arg in self.capture_command if arg.startswith('--device='))
+        sink = next(arg[9:] for arg in self.playback_command if arg.startswith('--device='))
+        prefix = 'cdb_live_' + uuid.uuid4().hex
+        mic, speaker = prefix + '_mic', prefix + '_speaker'
+        def physical(name):
+            return {'target.object': name, 'node.dont-fallback': True, 'node.dont-reconnect': True}
+        args = {
+            'library.name': 'aec/libspa-aec-webrtc', 'audio.rate': 48000, 'audio.position': ['MONO'],
+            'capture.props': physical(source), 'playback.props': physical(sink),
+            'source.props': {'node.name': mic, 'priority.session': 1},
+            'sink.props': {'node.name': speaker, 'priority.session': 1},
+        }
+        helper = await self._spawn(['pw-cli', '-m', 'load-module', 'libpipewire-module-echo-cancel',
+                                    json.dumps(args, separators=(',', ':'))],
+                                   stdin=asyncio.subprocess.PIPE, stdout=asyncio.subprocess.DEVNULL)
+        def registered(kind, name):
+            return subprocess.run(['pactl', 'get-' + kind + '-mute', name], timeout=1,
+                                  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode == 0
+        for _ in range(20):
+            if helper.returncode is not None: break
+            if await asyncio.to_thread(registered, 'source', mic) and await asyncio.to_thread(registered, 'sink', speaker):
+                self.capture_command = ['--device=' + mic if arg.startswith('--device=') else arg for arg in self.capture_command]
+                self.playback_command = ['--device=' + speaker if arg.startswith('--device=') else arg for arg in self.playback_command]
+                self.echo_cancel_active = True
+                async def watch_filter():
+                    await helper.wait()
+                    self._fail()
+                self._task(watch_filter())
+                return
+            await asyncio.sleep(.05)
+        raise ValueError('Echounterdrückung für Mikrofon und Lautsprecher konnte nicht starten.')
+
     async def _open(self):
         self.opening_task = asyncio.current_task()
         await self._connection_announcement()
@@ -224,6 +268,7 @@ class NativeLiveAudio:
         from aiortc import AudioStreamTrack, RTCPeerConnection
         import av
         transport = self
+        await self._open_echo_cancel()
         capture = await self._spawn(self.capture_command, stdout=asyncio.subprocess.PIPE, limit=2560)
         playback = await self._spawn(self.playback_command, stdin=asyncio.subprocess.PIPE)
         playback.stdin.transport.set_write_buffer_limits(high=9600, low=4800)
@@ -643,7 +688,7 @@ class NativeLiveAudio:
         if self.peer: await self.peer.close()
 
     def stats(self):
-        return {'capture_backend': 'pipewire' if self.capture_command[0] == 'parec' else 'explicit-device',
+        return {'echo_cancel_active': self.echo_cancel_active, 'capture_backend': 'pipewire' if self.capture_command[0] == 'parec' else 'explicit-device',
                 'captured_frames': self.captured_frames, 'sent_frames': self.sent_frames,
                 'played_frames': self.received_frames, 'search_tones':self.search_tones, 'search_loop_blocks':self.search_loop_blocks, 'search_loop_pauses':self.search_loop_pauses, 'event_types':dict(self.event_types), 'processes_alive': sum(p.returncode is None for p in list(self.processes)),
                 'connecting_announcement': self.connecting_announcement_state,

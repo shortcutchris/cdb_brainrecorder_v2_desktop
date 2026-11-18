@@ -24,3 +24,17 @@ test('queue paging accounts for its header and keeps the selected page while pro
  vm.createContext(c);vm.runInContext(fn,c);c.refresh();assert.equal(p.info.textContent,'Seite 1 von 2');select(1);c.refresh();assert.equal(p.info.textContent,'Seite 2 von 2');
  rows[0].textContent='Job 0 · 00:02';c.refresh();assert.equal(p.page,1);assert.equal(rows[2].hidden,false);assert.equal(rows[0].hidden,true);
 });
+
+test('secondary dialog paging appears only for overflow and reaches a stable layout',()=>{
+ const s=fs.readFileSync('studio/touch.js','utf8'),fn=s.slice(s.indexOf(' function refresh(){'),s.indexOf(' const selectButtons='));
+ let hidden=false,writes=0,select;
+ const bar={get hidden(){return hidden},set hidden(v){hidden=v;writes++},getAttribute:()=> 'Details Seiten',setAttribute(){}};
+ const el={id:'',clientHeight:240,scrollHeight:240,scrollTop:0,getAttribute:()=> 'Details',querySelector:()=>null,closest:()=>({})};
+ const p={bar,info:{},numbers:{},name:'Details',signature:''};
+ const c={pagers:new Map([[el,p]]),isVisible:()=>true,refreshSelects(){},getComputedStyle:()=>({lineHeight:'24px'}),drawPageNumbers(n,count,page,callback){select=callback},schedule(){}};
+ vm.createContext(c);vm.runInContext(fn,c);
+ for(let i=0;i<100;i++)c.refresh();assert.equal(hidden,true);assert.equal(writes,1,'unchanged visibility must not trigger another layout frame');
+ el.scrollHeight=640;c.refresh();assert.equal(hidden,false);assert.equal(writes,2);
+ select(2);c.refresh();assert.equal(el.scrollTop,400);assert.equal(p.info.textContent,'Seite 3 von 3');
+ el.scrollHeight=240;el.scrollTop=0;c.refresh();assert.equal(hidden,true);assert.equal(writes,3);
+});

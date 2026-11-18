@@ -335,6 +335,8 @@ class CdbBackend:
                 service.progress='';return text.strip()
             if r.get('status')=='failed':
                 saved.pop('job_id',None);remember()
+                if r.get('error_code') == 'no_speech':
+                    raise CdbFailure('CDB hat keine Sprache erkannt. Aufnahme anhören und bei Bedarf den Mikrofonpegel prüfen.')
                 raise CdbFailure('CDB-Transkription fehlgeschlagen. Erneut versuchen startet einen neuen Serverauftrag.')
             if self.stopping.wait(5):raise Interrupted()
         raise Interrupted()
