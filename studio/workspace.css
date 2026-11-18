@@ -163,3 +163,10 @@ dialog:modal:not(.workspace-view)>.dialog-body{flex:0 1 auto;overflow-y:auto}
 dialog:modal:not(.workspace-view)>.dialog-heading,dialog:modal:not(.workspace-view)>.dialog-actions{
  min-height:64px;height:auto;flex:0 0 auto;padding-block:8px
 }
+
+.editor-wrap>.save-state{display:flex;align-items:center;gap:12px}
+#queue-receipt{color:var(--accent-text);font-weight:650}
+#queue-receipt:empty{display:none}
+#queue-receipt:not(:empty)+#save-state{margin-inline-start:auto}
+.queue-flight{position:fixed;inset:0 auto auto 0;offset-anchor:center;offset-rotate:0deg;z-index:100;display:grid;place-items:center;width:36px;height:36px;border:1px solid var(--accent-text);border-radius:50%;background:var(--accent);box-shadow:0 2px 6px #0003;pointer-events:none}
+.queue-flight img{width:22px;height:22px;filter:brightness(0) invert(var(--on-icon,1))}

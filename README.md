@@ -2,6 +2,10 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.83 – Rückmeldung nach dem Aufnahmestopp
+
+Nach „Stopp“ bestätigt die untere Statusleiste kurz, dass das Meeting gespeichert und zur Transkription eingereiht wurde. Sie nennt je nach Auftrag Brain oder die lokale Transkription. Ein kleines Audiosymbol bewegt sich zur Warteschlange. Bei reduzierter Bewegung erscheint nur der Text. Den Fortschritt und mögliche Fehler zeigt die Warteschlange. Das reguläre App-Update und der nächste SD-Image-Bau enthalten die Änderung.
+
 ## 0.5.82 – Meetingaufnahme am Pi starten
 
 Beim Antippen von „Meeting aufzeichnen“ übernimmt ein dauerhaft laufender Thread des Recorders den Mikrofonprozess. So läuft die Aufnahme weiter, wenn die Startanfrage des Displays beendet ist. „Stopp“ speichert das Meeting und übergibt es wie bisher an die Verarbeitung. Bestehende Geräte erhalten die Korrektur als App-Update, neue SD-Karten beim nächsten Image-Bau.

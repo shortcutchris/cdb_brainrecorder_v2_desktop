@@ -558,7 +558,8 @@ class StudioTests(unittest.TestCase):
                 wait_for_bytes(pcm, 3200)
             return original_respond(handler, data, *args, **kwargs)
 
-        with patch.object(StudioHandler, 'respond', respond_after_capture):
+        route = {'transcription': 'cdb', 'summary': 'local', 'binding': None}
+        with patch.object(StudioHandler, 'respond', respond_after_capture), patch.object(self.app.cdb, 'snapshot', return_value=route):
             status, body, _ = self.request('/api/record/start', {})
         self.assertEqual(status, 200)
         ident = json.loads(body)['id']
@@ -567,7 +568,9 @@ class StudioTests(unittest.TestCase):
         self.assertGreaterEqual(initial, 3200)
         self.assertGreaterEqual(wait_for_bytes(pcm, initial + 12800), initial + 12800)
         self.assertEqual(self.app.engine.recorder.active, ident)
-        self.assertEqual(self.request('/api/record/stop', {})[0], 200)
+        status, body, _ = self.request('/api/record/stop', {})
+        self.assertEqual(status, 200)
+        self.assertEqual(json.loads(body), {'id': ident, 'transcription': 'cdb'})
         with wave.open(str(pcm.with_name('audio.wav')), 'rb') as audio:
             self.assertGreaterEqual(audio.getnframes() * 2, initial + 12800)
 

@@ -201,7 +201,67 @@ async function poll(){
  try{const s=await api('/api/state');state=s;online=true;lastStateAt=Date.now();csrf=s.csrf;namespace=s.namespace;renderState();const newRecordingId=pendingRecordingId||s.recording.id;const recordingRow=newRecordingId&&s.sessions.find(r=>r.local_job_id===newRecordingId);if(recordingRow&&observedRecordingId!==newRecordingId){observedRecordingId=newRecordingId;pendingRecordingId=null;field='notes';for(const d of document.querySelectorAll('dialog[open]'))d.close();workspaceView();await selectMeeting(recordingRow.id,null)}else if(s.recording.id&&(document.body.dataset.workspace!=='recorder'||field!=='notes')){field='notes';for(const d of document.querySelectorAll('dialog[open]'))d.close();await selectMeeting(recordingRow.id,null)}else if(selected!==null){const id=selected,row=await api('/api/sessions/'+id);if(id===selected){const model=models.get(id);mergeRow(model,row);renderSelected()}}}
  catch(error){online=false;queueSignature='';if(state){renderState();renderSelected()}$('phase').textContent='Verbindung unterbrochen · Entwürfe bleiben lokal';$('record').disabled=true;for(const id of ['delete','retranscribe','process','finish-setup','probe-start','asr-install','llm-install','model-test','binary-save'])$(id).disabled=true;for(const b of document.querySelectorAll('.dialog-stop'))b.disabled=true;if(!state)notice(error.message)}finally{pollRunning=false}
 }
-$('record').onclick=run(async()=>{if(recordingAction||performance.now()<nextRecordAction)return;recordingAction=true;recordingIntent=state?.recording.id?'stop':'start';if(state)renderState();nextRecordAction=performance.now()+700;$('record').disabled=true;try{if(!state)throw new Error('Noch keine Verbindung.');if(!state.recording.id&&!state.config.setup_complete){await openSettings();throw new Error('Bitte zuerst Mikrofon testen und Einrichtung abschließen.')}if(!state.recording.id){audio.pause();pauseMicrophoneAudio()}const starting=!state.recording.id;if(starting)await flush();const result=await api('/api/record/'+(starting?'start':'stop'),{});if(starting)pendingRecordingId=result.id;await poll();if(!starting){const row=state.sessions.find(r=>r.local_job_id===observedRecordingId);if(row){field='notes';await selectMeeting(row.id,null)}}}finally{recordingAction=false;recordingIntent=null;if(state)renderState()}});
+let queueReceiptTimer;
+function clearQueueReceipt(){
+ clearTimeout(queueReceiptTimer);
+ $('queue-receipt').textContent='';
+}
+function showQueueReceipt(provider){
+ clearQueueReceipt();
+ const detail=provider==='cdb'?'Brain-Transkription eingereiht':provider==='local'?'Lokale Transkription eingereiht':'Verarbeitung eingereiht';
+ $('queue-receipt').textContent='Aufnahme gespeichert · '+detail;
+ queueReceiptTimer=setTimeout(clearQueueReceipt,5500);
+ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ const from=$('record').getBoundingClientRect();
+ const queueIcon=$('queue-toggle').querySelector('img');
+ const target=queueIcon.getBoundingClientRect();
+ if(!from.width||!target.width)return;
+ const badge=document.createElement('span');
+ badge.className='queue-flight';
+ badge.setAttribute('aria-hidden','true');
+ badge.append(icon('waveform'));
+ const sx=from.left+from.width/2, sy=from.top+from.height/2;
+ const tx=target.left+target.width/2, ty=target.top+target.height/2;
+ const crest=Math.max(26,Math.min(sy,ty)-110);
+ const bend=sx+(tx-sx)*.48;
+ badge.style.offsetPath=`path('M ${sx} ${sy} C ${sx} ${crest}, ${bend} ${crest}, ${tx} ${ty}')`;
+ document.body.append(badge);
+ const flight=badge.animate([
+  {offsetDistance:'0%',transform:'scale(.65)',opacity:0},
+  {offsetDistance:'6%',transform:'scale(1.12)',opacity:1,offset:.18},
+  {offsetDistance:'78%',transform:'scale(1)',opacity:1,offset:.76},
+  {offsetDistance:'100%',transform:'scale(.54)',opacity:.85}
+ ],{duration:820,easing:'ease-in-out'});
+ flight.oncancel=()=>badge.remove();
+ flight.onfinish=()=>{
+  badge.remove();
+  queueIcon.animate([{transform:'translateY(0)'},{transform:'translateY(3px)',offset:.18},
+   {transform:'translateY(-5px)',offset:.52},{transform:'translateY(0)'}],{duration:330,easing:'ease-out'});
+ };
+}
+$('record').onclick=run(async()=>{
+ if(recordingAction||performance.now()<nextRecordAction)return;
+ const starting=!state?.recording.id;
+ recordingAction=true;recordingIntent=starting?'start':'stop';
+ if(state)renderState();
+ nextRecordAction=performance.now()+700;$('record').disabled=true;
+ try{
+  if(!state)throw new Error('Noch keine Verbindung.');
+  if(starting){
+   clearQueueReceipt();
+   if(!state.config.setup_complete){await openSettings();throw new Error('Bitte zuerst Mikrofon testen und Einrichtung abschließen.')}
+   audio.pause();pauseMicrophoneAudio();await flush();
+  }
+  const result=await api('/api/record/'+(starting?'start':'stop'),{});
+  if(starting)pendingRecordingId=result.id;
+  else showQueueReceipt(result.transcription);
+  await poll();
+  if(!starting){
+   const row=state.sessions.find(r=>r.local_job_id===result.id);
+   if(row){field='notes';await selectMeeting(row.id,null)}
+  }
+ }finally{recordingAction=false;recordingIntent=null;if(state)renderState()}
+});
 $('queue-toggle').onclick=run(openQueue);
 $('errors').onclick=run(openQueue);
 $('play').onclick=run(async()=>{if(audio.paused){if(state?.recording.id){$('feedback').showModal();return}await audio.play();}else audio.pause()});
