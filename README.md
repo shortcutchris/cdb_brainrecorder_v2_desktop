@@ -2,6 +2,10 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.85 – Meetingaufnahme bei abgelaufener Brain-Sitzung
+
+„Meeting aufzeichnen“ startet die lokale Aufnahme auch dann, wenn die gespeicherte Brain-Anmeldung erneuert werden muss. Beim Stopp speichert der Pi die Aufnahme. Für die anschließende Cloud-Verarbeitung prüft er das zum Meeting gehörende Konto. Das signierte Update und das nächste reguläre SD-Image enthalten die Änderung.
+
 ## 0.5.84 – Touch-Bedienung im Gespräch und bei der Einrichtung
 
 Die Startseite und die Gesprächsvorbereitung öffnen dasselbe Raster für das Gesprächswissen. Über die Suche und „Ausgewählte“ lassen sich Bereiche finden und kontrollieren. Erst „Übernehmen“ speichert die Auswahl. Während des Gesprächs lassen sich die verwendeten Bereiche nachsehen. Mikrofon und Gesprächsende haben feste, 72 Pixel hohe Tasten. Beim Schreiben von Meetingnotizen macht der Player Platz für den Text.

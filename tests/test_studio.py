@@ -558,11 +558,25 @@ class StudioTests(unittest.TestCase):
                 wait_for_bytes(pcm, 3200)
             return original_respond(handler, data, *args, **kwargs)
 
-        route = {'transcription': 'cdb', 'summary': 'local', 'binding': None}
-        with patch.object(StudioHandler, 'respond', respond_after_capture), patch.object(self.app.cdb, 'snapshot', return_value=route):
+        # An expired Microsoft session must not block local capture, even when
+        # there is no connection to Brain. The worker checks the account later.
+        cdb = self.app.cdb
+        config = cdb.config()
+        tenant = '90dba7db-6206-448d-91bf-90bf419d6e27'
+        cdb.write('config.json', config | {'transcription': 'cdb'})
+        cdb.write('session.json', {
+            'server': config['server'], 'client_id': config['client_id'], 'expires': 0,
+            'refresh': 'synthetic', 'identity': {'user_id': 'account-a', 'client_id': tenant},
+        })
+        with patch.object(StudioHandler, 'respond', respond_after_capture), patch.object(
+            cdb.transport, 'request', side_effect=ValueError('Brain offline')
+        ) as remote:
             status, body, _ = self.request('/api/record/start', {})
+            remote.assert_not_called()
         self.assertEqual(status, 200)
         ident = json.loads(body)['id']
+        route = json.loads((self.app.store.folder(ident) / 'cdb-request.json').read_text())
+        self.assertEqual(route['binding'], {'server': config['server'], 'user_id': 'account-a', 'client_id': tenant})
         pcm = self.app.store.folder(ident) / 'audio.pcm'
         initial = pcm.stat().st_size
         self.assertGreaterEqual(initial, 3200)

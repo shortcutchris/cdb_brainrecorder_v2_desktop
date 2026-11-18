@@ -156,10 +156,17 @@ class CdbService:
         if previous and identity|{'name':''} != previous['identity']|{'name':''}:raise CdbFailure('Firmenkonto hat sich geändert. Neu anmelden.')
         session={'server':c['server'],'client_id':c['client_id'],'token':r['access_token'],'refresh':r.get('refresh_token') or (previous or {}).get('refresh'), 'expires':time.time()+r['expires_in'],'identity':identity}
         self.write('session.json',session);return session
+    def stored_session(self, config):
+        session = self.read('session.json', {})
+        identity = session.get('identity') or {}
+        if (session.get('server') != config['server'] or session.get('client_id') != config['client_id']
+                or not identity.get('user_id') or not UUID.fullmatch(identity.get('client_id') or '')):
+            raise CdbFailure('Bitte zuerst mit Microsoft anmelden.')
+        return session
+
     def session(self,binding=None):
         with self.lock:
-            s=self.read('session.json',{});c=self.config()
-            if not s or s['server']!=c['server'] or s['client_id']!=c['client_id']:raise CdbFailure('Bitte zuerst mit Microsoft anmelden.')
+            c=self.config();s=self.stored_session(c)
             if binding and binding!={'server':s['server'],**{k:s['identity'][k] for k in ('user_id','client_id')}}:raise CdbFailure('Auftrag gehört zu einem anderen Firmenkonto. Passendes Konto anmelden.')
             if s['expires']<time.time()+60:
                 if not s.get('refresh'):raise CdbFailure('Bitte erneut mit Microsoft anmelden.')
@@ -169,7 +176,9 @@ class CdbService:
     def snapshot(self):
         c=self.config();binding=None
         if 'cdb' in (c['transcription'],c['summary']):
-            s=self.session();binding={'server':s['server'],**{k:s['identity'][k] for k in ('user_id','client_id')}}
+            # Capture only binds the job to the previously verified account.
+            # Transcription and summary authenticate against this binding at use.
+            s=self.stored_session(c);binding={'server':s['server'],**{k:s['identity'][k] for k in ('user_id','client_id')}}
         return {k:c[k] for k in ('transcription','summary')}|{'binding':binding}
     def start_login(self):
         with self.lock:

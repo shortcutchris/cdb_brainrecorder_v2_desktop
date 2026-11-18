@@ -164,6 +164,16 @@ class CdbTests(unittest.TestCase):
         self.assertEqual(snap['transcription'],'cdb');self.assertEqual(snap['binding']['user_id'],'user1')
         self.c.logout()
         with self.assertRaises(CdbFailure):self.c.session(snap['binding'])
+    def test_cloud_snapshot_requires_matching_saved_environment_and_account(self):
+        self.c.configure({'summary':'cdb'})
+        saved=self.c.read('session.json',{})
+        for changes in ({'server':'https://cdbos.de'}, {'client_id':'another-app'}, {'identity':{}}, {'identity':{'user_id':'x'}}):
+            with self.subTest(changes=changes):
+                self.c.write('session.json',saved | changes)
+                with self.assertRaises(CdbFailure): self.c.snapshot()
+        self.c.logout()
+        with self.assertRaises(CdbFailure): self.c.snapshot()
+
     def test_refresh_checks_identity_before_replacing_credentials(self):
         s=self.c.read('session.json',{});s['expires']=0;self.c.write('session.json',s)
         self.transport.identity['user_id']='someone-else'
