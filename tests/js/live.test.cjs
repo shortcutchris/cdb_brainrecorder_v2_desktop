@@ -158,3 +158,31 @@ test('startup displays the actual stage and elapsed time without claiming microp
  assert.match(h.element('live-feedback-detail').textContent,/Gespräch beim Brain starten · 8 s/);
  assert.match(h.element('live-feedback-detail').textContent,/gleich bereit/);
 });
+
+test('home starts with remembered areas even after a completed conversation',async()=>{
+ const h=harness(),api=h.c.api;
+ h.c.state.live.history=[{role:'user',text:'Bisheriges Gespräch'}];
+ h.c.api=async(path,body)=>{
+  const result=await api(path,body);
+  if(path.endsWith('/setup'))Object.assign(result,{selection_account_key:'account',remembered_area_ids:['area']});
+  return result;
+ };
+ const home=h.c.window.studioLiveHome,selection=await home.refresh();
+ assert.equal(selection.ids.join(','),'area');
+ assert.equal(h.calls.some(([p])=>p.endsWith('/clear')),false);
+ await home.start();assert.equal(h.calls.at(-2)[1].area_ids.join(','),'area');
+});
+test('failed or stale-account grid updates preserve the prior selection',async()=>{
+ const h=harness(),api=h.c.api;
+ h.c.api=async(path,body)=>{
+  if(path.endsWith('/areas'))throw Error('Speichern fehlgeschlagen');
+  const result=await api(path,body);
+  if(path.endsWith('/setup'))Object.assign(result,{selection_account_key:'account',areas:[...result.areas,{id:'new'}]});
+  return result;
+ };
+ const home=h.c.window.studioLiveHome;await home.refresh();
+ await assert.rejects(home.apply('account',['new']),/Speichern fehlgeschlagen/);
+ assert.equal(home.selection().ids.join(','),'area');
+ h.c.state.cdb.identity={name:'Anderes Konto'};
+ await assert.rejects(home.apply('account',['new']),/neu öffnen/);assert.equal(home.selection(),null);
+});

@@ -2,6 +2,14 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.80 – Direktstart am Touchdisplay (Kandidat)
+
+**Mit dem Brain sprechen** startet Voice One mit dem Gesprächswissen des angemeldeten Kontos. Über **Gesprächswissen** oben rechts lassen sich Bereiche antippen und seitenweise durchblättern. **Übernehmen** speichert die Auswahl für kommende Gespräche. **Abbrechen** verwirft die Änderung. Fehlt eine Auswahl, öffnet der Gesprächsstart zuerst das Raster.
+
+**Meeting aufzeichnen** startet die Aufnahme und öffnet die Aufnahmesteuerung. Die Kachel zeigt an, wenn eine Voraussetzung fehlt. Während einer laufenden Aufnahme oder Unterhaltung bleibt die jeweilige Steuerung im Vordergrund. Bibliothek, Warteschlange und Einstellungen bleiben über die linke Leiste erreichbar.
+
+Die Startseite und das Raster verwenden das eingestellte Studio-Design. Auf 1024 × 600 nutzt die Navigation kleinere Abstände, damit auch die Tastaturtaste vollständig sichtbar ist. Vorhandene Geräte erhalten die Änderungen mit dem regulären App-Update, neue SD-Karten beim nächsten Image-Bau aus denselben Studio-Dateien. Bestehende Aufnahmen und Geräteprofile benötigen keine Migration.
+
 ## 0.5.79 – Aufnahmeknopf auf dem Touchdisplay
 
 „Aufnahme stoppen“ steht an derselben Stelle und ist genauso groß wie „Aufnahme starten“, auch bei geöffneter Bildschirmtastatur. Das signierte App-Update und der nächste SD-Image-Bau enthalten die Änderung über die bestehenden Studio-Dateien.

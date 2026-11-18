@@ -11,7 +11,7 @@
  let setup=null,chosen=new Set(),areaPage=0,chatPage=null,lease=null,heartbeat=null,starting=false,ending=false,loadedOwner=null,generation=0;
  let selectedOnly=false,selectionSave=Promise.resolve();
  let areaQuery='',areaPageSize=4,areaSignature='',areaNavSignature='',setupLoading=false,setupError='',selectionInitialized=false,loadSerial=0,requestedAreas=[];
- window.addEventListener('brain-areas-changed',()=>{selectionInitialized=false;setup=null});
+ window.addEventListener('brain-areas-changed',()=>{selectionInitialized=false;setup=null;chosen.clear();loadSerial++;setupLoading=false});
  const ownerKey=()=>JSON.stringify([state?.cdb?.identity||null,state?.cdb?.config?.server||null]);
  const areaName=a=>a.label||a.name||'Unbenannter Bereich';
  const areaLocked=()=>busy()||Boolean(state?.live?.history?.length);
@@ -22,8 +22,8 @@
  function note(message){$('live-notice').textContent=message||'';}
  function stopHeartbeat(){clearInterval(heartbeat);heartbeat=null;}
  async function finish(){generation++;if(ending)return;ending=true;stopHeartbeat();const old=lease;lease=null;try{if(old)await post('end',{lease:old});else if(state?.live?.busy)await post('end',{});}finally{starting=false;ending=false;await poll();renderLive();}}
- async function load(){
-  if(areaLocked())return;
+ async function load(forHome=false){
+  if(busy()||(forHome!==true&&areaLocked()))return;
   const serial=++loadSerial,owner=ownerKey();setupLoading=true;setupError='';renderLive();
   try{
    await selectionSave;if(serial!==loadSerial||owner!==ownerKey())return;
@@ -209,15 +209,42 @@
  $('live-refresh').onclick=run(load);
  $('live-audio-settings').onclick=run(async()=>{if(busy())return;await openSettings();showSettingsDetail('audio-home')});
  $('live-new').onclick=run(async()=>{await post('clear');chatPage=null;areaPage=0;selectedOnly=false;areaQuery='';$('live-area-search').value='';requestedAreas=[];await poll();await load()});
- $('live-start').onclick=run(async()=>{
-  if(starting||busy()||!online||setupLoading||!setup?.enabled||!chosen.size||chosen.size>maxAreas()||!setup?.audio?.available)return;const runId=++generation;requestedAreas=setup.areas.filter(a=>chosen.has(a.id));starting=true;areaPage=0;chatPage=null;if(document.body.classList.contains('keyboard-open'))$('keyboard').click();audio.pause();if(typeof pauseMicrophoneAudio==='function')pauseMicrophoneAudio();note('Mikrofon und Lautsprecher werden am Pi verbunden …');renderLive();
+ async function startConversation(){
+  if(state?.recording?.id||busy()||!online||setupLoading||!setup?.enabled||!chosen.size||chosen.size>maxAreas()||!setup?.audio?.available)return;const runId=++generation;requestedAreas=setup.areas.filter(a=>chosen.has(a.id));starting=true;areaPage=0;chatPage=null;if(document.body.classList.contains('keyboard-open'))$('keyboard').click();audio.pause();if(typeof pauseMicrophoneAudio==='function')pauseMicrophoneAudio();note('Mikrofon und Lautsprecher werden am Pi verbunden …');renderLive();
   try{
    await selectionSave;if(runId!==generation)return;
    const reserved=await post('reserve',{area_ids:[...chosen]});if(runId!==generation){await post('end',{lease:reserved.lease});return;}lease=reserved.lease;
    heartbeat=setInterval(()=>{if(runId===generation&&lease)post('pulse',{lease}).catch(()=>{if(runId===generation)finish().catch(()=>{})})},5000);
    await post('start-native',{lease});if(runId!==generation)return;starting=false;note('Sprich am Pi. Der Recorder bleibt während des Gesprächs gesperrt.');await poll();renderLive();
   }catch(e){if(runId===generation){await finish().catch(()=>{});note(e.message);}throw e;}
- });
+ }
+ $('live-start').onclick=run(startConversation);
+ // Home edits the selection for the next conversation, even with history on screen.
+ // Reserve starts a fresh session without clearing the previous history during selection.
+ window.studioLiveHome={
+  selection(){
+   if(!setup||loadedOwner!==ownerKey())return null;
+   return {key:setup.selection_account_key,
+    ids:[...chosen],limit:maxAreas(),audio:setup.audio,enabled:setup.enabled};
+  },
+  async refresh(){
+   const owner=ownerKey();
+   await load(true);
+   if(owner!==ownerKey()||busy()||state?.recording?.id)throw new Error('Gerätestatus hat sich geändert.');
+   if(!setup||setupLoading)throw new Error(setupError||'Gesprächswissen bitte erneut laden.');
+   return {...this.selection(),areas:setup.areas.map(a=>({id:a.id,name:areaName(a)}))};
+  },
+  async apply(key,ids){
+   const valid=()=>online&&!busy()&&!state?.recording?.id&&key&&key===this.selection()?.key;
+   if(!valid()||!ids.length||ids.length>maxAreas()||!ids.every(id=>setup.areas.some(a=>a.id===id)))throw new Error('Gesprächswissen bitte neu öffnen.');
+   await selectionSave;
+   if(!valid())throw new Error('Gesprächswissen bitte neu öffnen.');
+   await post('areas',{account_key:key,area_ids:ids});
+   if(!valid())throw new Error('Gerätestatus hat sich geändert.');
+   chosen=new Set(ids);selectionInitialized=true;renderLive();
+  },
+  start:startConversation
+ };
  $('live-end').onclick=run(finish);
  $('live-mute').onclick=run(async()=>{if(!lease&&state?.live?.owner_kind!=='device')return;await post('mute',{lease,muted:!state?.live?.muted});await poll()});
  window.addEventListener('pagehide',()=>{stopHeartbeat();if(lease)fetch('/api/live/end',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({lease}),keepalive:true}).catch(()=>{})});
