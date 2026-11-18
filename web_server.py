@@ -29,7 +29,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.82'
+VERSION = '0.5.83'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -737,7 +737,15 @@ class StudioApp:
                 if not body or set(body)-{'paused','muted'} or any(type(v) is not bool for v in body.values()):raise ValueError('Ungültige Aufnahmesteuerung.')
                 return self.engine.recorder.control(**body)
             if path=='/api/record/stop':
-                ident=self.engine.stop();self.controller.sync();return {'id':ident}
+                ident = self.engine.stop()
+                self.controller.sync()
+                # Use the route saved for this recording, even if preferences change.
+                try:
+                    route = json.loads((self.store.folder(ident) / 'cdb-request.json').read_text())
+                except (OSError, ValueError):
+                    route = {}
+                provider = route.get('transcription') if isinstance(route, dict) else None
+                return {'id': ident, 'transcription': provider if provider in ('local', 'cdb') else None}
             if path.startswith('/api/cdb/'):
                 if path=='/api/cdb/config':
                     self.require('configure');return self.cdb.configure(body)
