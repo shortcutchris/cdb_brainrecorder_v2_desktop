@@ -7,13 +7,18 @@ function renderSettingsTrail(){
  $('settings-parent-back').hidden=!detail||!parent;$('settings-parent-separator').hidden=!detail||!parent;
  $('settings-parent-back').textContent=parent?.label||'';$('settings-parent-back').onclick=()=>{if(!state?.recording.id&&parent)showSettingsDetail(parent.page)};
 }
+function brainEnvironment(server){
+ if(server==='https://staging.cdbos.de')return 'Staging';
+ if(server==='https://cdbos.de')return 'Produktion';
+ return 'Unbekannte Umgebung';
+}
 function renderBrainIdentity(){
  const c=state?.cdb;if(!c)return;
  const signed=Boolean(c.identity),pending=c.login.state==='pending';
  $('brain-signin-state').textContent=signed?'Angemeldet':pending?'Anmeldung läuft':'Nicht angemeldet';
  $('brain-signin-state').dataset.connected=String(signed);
  $('brain-user-name').textContent=signed?(c.identity.name||'Firmenkonto'):'Noch nicht verbunden';
- $('brain-instance').textContent=c.config.server==='https://staging.cdbos.de'?'CDB · Staging':c.config.server==='https://cdbos.de'?'CDB · Produktion':'Brain-Umgebung';
+ $('brain-instance').textContent='CDB · '+brainEnvironment(c.config.server);
  $('brain-instance-host').textContent=c.config.server.replace(/^https:\/\//,'');
 }
 const beforeSettingsTrailDetail=showSettingsDetail;

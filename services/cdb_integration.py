@@ -136,12 +136,18 @@ class CdbService:
             if 'cdb' in (c['transcription'],c['summary']):self.session()
             self.write('config.json',c)
         return self.public()
-    def cancel_login(self):
+    def invalidate_pending_login(self):
+        # Device-code polling checks this generation under the same lock before saving.
+        if self.login['state'] != 'pending':
+            return
         with self.lock:
             if self.login['state']=='pending':
                 self.generation+=1
                 self.login={'state':'idle'}
-            return self.public()
+
+    def cancel_login(self):
+        self.invalidate_pending_login()
+        return self.public()
 
     def logout(self):
         with self.lock:

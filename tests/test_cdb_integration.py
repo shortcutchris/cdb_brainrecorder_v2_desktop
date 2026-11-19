@@ -246,6 +246,29 @@ class CdbTests(unittest.TestCase):
         self.c.login={'state':'completed'}
         self.assertEqual(self.c.cancel_login()['login']['state'],'completed')
         self.assertEqual(self.c.public()['identity']['user_id'],'user1')
+    def test_late_device_token_cannot_replace_account_after_audio_start(self):
+        from threading import Event, Thread
+        entered, release = Event(), Event()
+        original = self.transport.request
+        def delayed_token(url, *args, **kwargs):
+            entered.set()
+            release.wait(3)
+            return original(url, *args, **kwargs)
+        self.c.login = {'state':'pending', 'expires': time.time() + 60}
+        saved = self.c.read('session.json', {})
+        with patch.object(self.c.stopping, 'wait', return_value=False), patch.object(self.transport, 'request', side_effect=delayed_token):
+            worker = Thread(target=self.c.poll_login, args=({'device_code':'synthetic'}, DEFAULT, self.c.generation))
+            worker.start()
+            try:
+                self.assertTrue(entered.wait(1))
+                self.c.invalidate_pending_login()
+            finally:
+                release.set()
+                worker.join(3)
+        self.assertFalse(worker.is_alive())
+        self.assertEqual(self.c.login['state'], 'idle')
+        self.assertEqual(self.c.read('session.json', {}), saved)
+
     def test_changing_default_does_not_retarget_existing_publication(self):
         other={'id':DOC,'name':'other','label':'Other','client_id':CLIENT,'global':False}
         first={'id':AREA,'name':'synthetic','label':'Synthetic','client_id':CLIENT,'global':False}

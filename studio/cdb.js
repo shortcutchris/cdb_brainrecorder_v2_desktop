@@ -24,6 +24,9 @@ function updateAreaSelect(id,entries,value,placeholder){
  if(el.value!==value)el.value=value;
  el.disabled=!state?.cdb?.identity||areaLoading||areaSaving||!areaLoaded||!entries.length;
 }
+function deviceLoginQr(url){
+ return url==='https://login.microsoft.com/device'?'/assets/microsoft-device.png':'/assets/microsoft-devicelogin.png';
+}
 function renderCdb(){
  const c=state?.cdb;if(!c)return;
  const binding=cdbBinding(c);
@@ -40,8 +43,7 @@ function renderCdb(){
  $('cdb-connection-heading').textContent=c.identity?'Dein Brain':'Mit deinem Firmenkonto verbinden';$('cdb-connection-intro').hidden=false;$('cdb-server').closest('label').hidden=false;$('cdb-server').disabled=Boolean(c.identity)||!allowed('configure');
  const pending=c.login.state==='pending';$('cdb-login-code').hidden=!pending;
  if(pending){
-  const qr=c.login.url==='https://login.microsoft.com/device'?'microsoft-device':'microsoft-devicelogin';
-  setIcon($('cdb-login-qr'),'/assets/'+qr+'.png');
+  setIcon($('cdb-login-qr'),deviceLoginQr(c.login.url));
  }
  $('cdb-code').textContent=pending?c.login.code:'';
  $('cdb-login-url').textContent=pending?c.login.url.replace('https://',''):'';
