@@ -29,7 +29,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.86'
+VERSION = '0.5.87'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -156,6 +156,9 @@ class StudioApp:
         if remembered.get('binding') != binding or not remembered.get('area_ids'):
             raise ValueError('Im Live-Gespräch zuerst Wissensbereiche auswählen.')
         self.live_audio_config()
+        self.cdb.invalidate_pending_login()
+        if binding != self.wake_account():
+            raise ValueError('Brain-Konto hat sich geändert.')
         lease = self.live.reserve(remembered['area_ids'], owner_kind='device', cached_binding=binding)['lease']
         try: self.live.start_native(lease)
         except Exception:
@@ -585,6 +588,9 @@ class StudioApp:
             if self.closing:raise ValueError('Dienst wird beendet. Änderungen bitte kurz aufbewahren.')
             if self.management.busy():raise ValueError('Gerät wird gewartet. Bitte kurz warten.')
             if self.first_start.busy:raise ValueError('Netzwerk wird eingerichtet. Bitte kurz warten.')
+            # Check before any wake, playback or account side effects.
+            if path in ('/api/cdb/login', '/api/cdb/logout', '/api/cdb/config'):
+                self.require('configure')
             if path == '/api/cdb/login/cancel':
                 return self.cdb.cancel_login()
             if path == '/api/nfc':
@@ -698,7 +704,9 @@ class StudioApp:
                 raise ValueError(self.activity().reason)
             if path.startswith('/api/live/'):
                 if path=='/api/live/reserve':
-                    self.require('live');return self.live.reserve(body.get('area_ids'))
+                    self.require('live')
+                    self.cdb.invalidate_pending_login()
+                    return self.live.reserve(body.get('area_ids'))
                 if path=='/api/live/areas':
                     self.require('configure');return self.live.remember_areas(body.get('area_ids'),body.get('account_key'))
                 if path=='/api/live/clear':
@@ -732,6 +740,7 @@ class StudioApp:
                 self.require('record')
                 if not self.store.config()['setup_complete']:raise ValueError('Bitte unter Einstellungen die Recorder-Einrichtung prüfen und abschließen.')
                 if self.engine.recorder.active:raise ValueError('Aufnahme läuft bereits.')
+                self.cdb.invalidate_pending_login()
                 return {'id':self.engine.start('')}
             if path=='/api/record/control':
                 if not body or set(body)-{'paused','muted'} or any(type(v) is not bool for v in body.values()):raise ValueError('Ungültige Aufnahmesteuerung.')
@@ -748,11 +757,11 @@ class StudioApp:
                 return {'id': ident, 'transcription': provider if provider in ('local', 'cdb') else None}
             if path.startswith('/api/cdb/'):
                 if path=='/api/cdb/config':
-                    self.require('configure');return self.cdb.configure(body)
+                    return self.cdb.configure(body)
                 if path=='/api/cdb/login':
-                    self.require('configure');return self.cdb.start_login()
+                    return self.cdb.start_login()
                 if path=='/api/cdb/logout':
-                    self.require('configure');self.cdb.logout();return self.cdb.public()
+                    self.cdb.logout();return self.cdb.public()
                 if path=='/api/cdb/area':return self.cdb.select_area(body.get('area'))
                 if path=='/api/cdb/send':return self.cdb.enqueue(self.session(int(body.get('session',0))),body.get('area'))
                 raise KeyError('Unbekannte CDB-Aktion.')

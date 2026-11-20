@@ -1,0 +1,21 @@
+#account-shortcut {
+ flex:0 1 auto; margin:0 0 0 auto; min-width:120px; max-width:176px; min-height:48px;
+ padding:5px 12px; gap:9px; display:flex; align-items:center; text-align:left;
+ border:1px solid var(--line); border-radius:12px; background:var(--panel); color:var(--ink);
+}
+#account-shortcut img { width:22px; height:22px; flex:none; filter:var(--active-filter) }
+#account-shortcut span { display:grid; min-width:0 }
+#account-shortcut strong { overflow:hidden; white-space:nowrap; text-overflow:ellipsis; font-size:15px }
+#account-shortcut small { font-size:12px; color:var(--muted) }
+#recorder-ready #account-shortcut { position:fixed; top:16px; right:var(--view-inset) }
+#settings-breadcrumb h2 { overflow:hidden; text-overflow:ellipsis }
+#account-dialog .dialog-heading { display:flex; justify-content:space-between }
+#account-dialog .dialog-body { padding:16px 24px; overflow-wrap:anywhere }
+#account-dialog #account-full-name { font-size:20px }
+#account-dialog p { margin:6px 0 }
+#account-dialog #account-message:empty { display:none }
+#account-login-details { display:flex; align-items:center; gap:24px; margin-top:10px }
+#account-login-details img { width:min(390px,52vh); height:auto; flex:none; image-rendering:pixelated }
+#account-code { font-size:28px; letter-spacing:.08em }
+#account-dialog #account-close { min-height:48px; padding:8px 16px }
+#account-shortcut[hidden], #account-login-details[hidden] { display:none }

@@ -38,7 +38,7 @@
   (dialog||document.body).append(panel);panel.hidden=false;document.body.classList.add('keyboard-open');document.body.classList.toggle('editing-meeting',target.id==='editor');if(dialog)dialog.classList.add('with-keyboard');draw();target?.focus({preventScroll:true});focusSettings(target);requestAnimationFrame(()=>target?.scrollIntoView({block:'nearest'}));
  }
  document.getElementById('keyboard').onclick=toggle;
- document.addEventListener('click',event=>{if(event.target.closest('#library-open,#settings-open,#queue-toggle,#queue-close,#settings-overview-back,[data-settings-tile],#more-open,#theme-save,#theme-cancel,[data-settings]'))hide()},true);
+ document.addEventListener('click',event=>{if(event.target.closest('#account-shortcut,#library-open,#settings-open,#queue-toggle,#queue-close,#settings-overview-back,[data-settings-tile],#more-open,#theme-save,#theme-cancel,[data-settings]'))hide()},true);
  for(const dialog of document.querySelectorAll('dialog')){
   dialog.addEventListener('close',hide);const heading=dialog.querySelector('.dialog-heading');if(!heading||dialog.classList.contains('workspace-view')||!dialog.querySelector('textarea:not([readonly]),input:not([readonly])'))continue;
   const button=document.createElement('button');button.type='button';button.className='icon-button';button.setAttribute('aria-label','Bildschirmtastatur öffnen');const icon=document.createElement('img');icon.src='/assets/keyboard.svg';icon.alt='';button.append(icon);heading.insertBefore(button,dialog.querySelector('[data-close]'));

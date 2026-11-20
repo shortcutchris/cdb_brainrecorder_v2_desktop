@@ -2,6 +2,14 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.87 – Brain-Konto oben rechts
+
+Die Kontotaste zeigt den Namen und die gewählte Brain-Umgebung (Staging oder Produktion). „Brain anmelden“ öffnet direkt den QR-Code. Scanne ihn mit dem Handy und gib dort den Code vom Pi ein. Eine ausstehende Anmeldung kannst du erneut öffnen oder abbrechen. Zum Abmelden tippe oben rechts auf deinen Namen und dann auf „Abmelden“.
+
+Während einer laufenden oder pausierten Aufnahme und vom Verbindungsaufbau bis zum Ende eines Live-Gesprächs kannst du das Konto ansehen. Anmelden, Abmelden und Umgebungswechsel sind in dieser Zeit gesperrt. Startet eine Aufnahme oder ein Gespräch während einer offenen Geräteanmeldung, verfällt der ausstehende Code am Recorder. Einen neuen Code kannst du nach dem Stopp anfordern.
+
+Das reguläre Studio-Update und der nächste SD-Image-Bau enthalten die Änderung. Vorhandene Konten und Geräteeinstellungen können ohne Migration weiterverwendet werden.
+
 ## 0.5.86 – Navigation bei Aufnahme, Warteschlange und Meetingansicht
 
 Bei laufender oder pausierter Aufnahme erklärt ein kurzer Hinweis, wann ein gesperrter Bereich wieder verfügbar ist. Die Warteschlange zeigt den sichtbaren Bereich und die Gesamtzahl der Aufträge. Mit „Weiter“ und „Zurück“ lassen sich auch ältere Fehler erreichen. In der Bibliothek bleiben Player, Reiter und Textanfang beim Umschalten an derselben Stelle. Jeder Reiter merkt sich während der Sitzung die eigene Leseposition.

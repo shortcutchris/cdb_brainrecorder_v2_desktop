@@ -26,6 +26,8 @@ class Brain:
         self.generation = 0
         self.binding = dict(BINDING)
         self.calls = []
+    def invalidate_pending_login(self):
+        pass  # This signed-in fixture never starts an interactive device login.
     def read(self, name, fallback):
         return {'server': self.binding['server'], 'client_id': self.binding['client_id'],
                 'identity': {'user_id': self.binding['user_id'], 'client_id': self.binding['client_id']}}

@@ -372,11 +372,13 @@ class StudioTests(unittest.TestCase):
             try:self.assertEqual(self.request('/api/live/reserve',{'area_ids':[area]})[0],400)
             finally:self.app.engine.recorder.active=None
             self.assertEqual(self.request('/api/live/reserve',{'area_ids':[area]},{'X-CSRF-Token':'bad'})[0],403)
+            self.app.cdb.login = {'state':'pending'}
             status,body,_=self.request('/api/live/reserve',{'area_ids':[area]})
+            self.assertEqual(self.app.cdb.login['state'], 'idle')
             self.assertEqual(status,200);lease=json.loads(body)['lease']
             for mode in ('connecting','listening','thinking','speaking','reconnecting','closing'):
                 self.app.live.state=mode
-                for path in ('/api/record/start','/api/settings','/api/speakers/test','/api/cdb/logout','/api/live/reserve'):
+                for path in ('/api/record/start','/api/settings','/api/speakers/test','/api/cdb/login','/api/cdb/logout','/api/cdb/config','/api/live/reserve'):
                     with self.subTest(mode=mode,path=path):self.assertEqual(self.request(path,{})[0],400)
             self.app.live.state='connecting'
             self.assertEqual(self.request('/api/live/pulse',{'lease':'other-browser'})[0],400)
@@ -436,6 +438,30 @@ class StudioTests(unittest.TestCase):
         self.app.engine.configure({'setup_complete':True})
         with patch.object(self.app.cdb,'config',return_value={'transcription':'cdb','summary':'local'}):
             rule=self.app.capabilities()['record'];self.assertFalse(rule['allowed']);self.assertIn('Microsoft',rule['reason'])
+
+    def test_account_change_is_rejected_before_wake_or_audio_side_effects(self):
+        with patch.object(self.app.wake, 'configure') as wake_config, patch.object(self.app.wake, 'suspend') as suspend:
+            for paused in (False, True):
+                self.app.engine.recorder.active = 'synthetic'
+                self.app.engine.recorder.paused = paused
+                try:
+                    for url, body in [('/api/cdb/login', {}), ('/api/cdb/logout', {}),
+                                      ('/api/cdb/config', {'server':'https://cdbos.de'})]:
+                        self.assertEqual(self.request(url, body)[0], 400)
+                finally:
+                    self.app.engine.recorder.active = None
+                    self.app.engine.recorder.paused = False
+            wake_config.assert_not_called()
+            suspend.assert_not_called()
+
+    def test_record_start_invalidates_outstanding_device_code(self):
+        self.app.engine.configure({'setup_complete':True})
+        self.app.cdb.login = {'state':'pending'}
+        generation = self.app.cdb.generation
+        with patch.object(self.app.engine, 'start', return_value='synthetic'):
+            self.assertEqual(self.request('/api/record/start', {})[0], 200)
+        self.assertGreater(self.app.cdb.generation, generation)
+        self.assertEqual(self.app.cdb.login['state'], 'idle')
 
     def test_cdb_actions_share_origin_and_csrf_protection(self):
         self.assertEqual(self.request('/api/cdb/login',{}, {'Origin':'http://evil.example'})[0],403)
