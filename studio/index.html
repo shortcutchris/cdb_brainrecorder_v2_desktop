@@ -6,11 +6,27 @@
  <img src="/assets/user.svg" alt=""><span><strong id="account-short-name"></strong><small id="account-short-environment"></small></span>
 </button>
 <dialog id="account-dialog" aria-labelledby="account-heading">
- <header class="dialog-heading"><h2 id="account-heading">Brain-Konto</h2><button type="button" id="account-close" autofocus>Schließen</button></header>
- <div class="dialog-body"><strong id="account-full-name"></strong><p id="account-environment"></p>
- <section id="account-login-details" hidden><img id="account-qr" alt="QR-Code zur Microsoft-Geräteanmeldung" width="312" height="312">
- <div><h3>Mit dem Handy scannen</h3><p>Gib bei Microsoft diesen Code ein.</p><strong id="account-code"></strong><p id="account-url"></p><small id="account-expiry"></small></div></section>
- <p id="account-message" role="status"></p></div>
+ <header class="dialog-heading">
+  <h2 id="account-heading">Brain-Konto</h2>
+  <span id="account-environment"></span>
+  <button type="button" id="account-close" aria-label="Schließen" autofocus><img src="/assets/x.svg" alt=""></button>
+ </header>
+ <div class="dialog-body">
+  <div id="account-profile">
+   <span class="account-avatar" aria-hidden="true"><img src="/assets/user.svg" alt=""></span>
+   <div><span id="account-identity-label">Angemeldet als</span><strong id="account-full-name"></strong></div>
+  </div>
+  <section id="account-login-details" aria-label="Anmeldung mit Microsoft" hidden>
+   <img id="account-qr" alt="QR-Code zur Microsoft-Geräteanmeldung" width="312" height="312">
+   <div class="account-instructions">
+    <h3>Mit dem Handy scannen</h3>
+    <p>Oder öffne <span id="account-url"></span> im Browser.</p>
+    <div class="account-device-code"><span>Bei Microsoft eingeben</span><strong id="account-code"></strong></div>
+    <small id="account-expiry"></small>
+   </div>
+  </section>
+  <p id="account-message" role="status"></p>
+ </div>
  <footer class="dialog-actions"><button type="button" id="account-action"></button></footer>
 </dialog>
 <aside class="rail" aria-label="Navigation">

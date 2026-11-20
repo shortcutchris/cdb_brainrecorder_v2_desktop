@@ -2,6 +2,10 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.88 – Kontodialog auf dem Touchdisplay
+
+Beim Anmelden stehen QR-Code und Microsoft-Eingabecode nebeneinander. Im angemeldeten Zustand zeigt der Dialog den vollständigen Namen. Die Umgebung steht in beiden Ansichten oben im Kopf. Die Darstellung nutzt das gewählte Studio-Design und kommt mit dem regulären App-Update sowie mit dem nächsten SD-Image auf den Pi.
+
 ## 0.5.87 – Brain-Konto oben rechts
 
 Die Kontotaste zeigt den Namen und die gewählte Brain-Umgebung (Staging oder Produktion). „Brain anmelden“ öffnet direkt den QR-Code. Scanne ihn mit dem Handy und gib dort den Code vom Pi ein. Eine ausstehende Anmeldung kannst du erneut öffnen oder abbrechen. Zum Abmelden tippe oben rechts auf deinen Namen und dann auf „Abmelden“.

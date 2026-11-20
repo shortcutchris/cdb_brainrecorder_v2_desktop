@@ -9,13 +9,82 @@
 #account-shortcut small { font-size:12px; color:var(--muted) }
 #recorder-ready #account-shortcut { position:fixed; top:16px; right:var(--view-inset) }
 #settings-breadcrumb h2 { overflow:hidden; text-overflow:ellipsis }
-#account-dialog .dialog-heading { display:flex; justify-content:space-between }
-#account-dialog .dialog-body { padding:16px 24px; overflow-wrap:anywhere }
-#account-dialog #account-full-name { font-size:20px }
-#account-dialog p { margin:6px 0 }
+#account-dialog:modal {
+ --account-inset:clamp(20px,2.4vw,32px);
+ width:min(510px,94vw); height:fit-content; min-height:0; padding:0; gap:0;
+ border:1px solid var(--line); border-radius:24px;
+ box-shadow:0 24px 72px rgb(12 26 46 / 24%);
+}
+#account-dialog[data-view="qr"] { width:min(810px,94vw) }
+#account-dialog > .dialog-heading {
+ display:flex; align-items:center; gap:12px; padding:12px var(--account-inset);
+ background:var(--surface); border-bottom:1px solid var(--line);
+}
+#account-dialog #account-heading { margin:0; color:var(--ink); font-size:21px; letter-spacing:-.025em }
+#account-environment {
+ color:var(--accent-text); background:var(--soft); border-radius:999px;
+ padding:5px 11px; font-size:14px; line-height:18px; font-weight:600;
+}
+#account-dialog #account-close {
+ display:grid; place-items:center; flex:none; margin:0 0 0 auto;
+ width:48px; height:48px; min-width:48px; min-height:48px; padding:0;
+ border:1px solid var(--line); border-radius:50%; background:var(--surface);
+}
+#account-close img { width:20px; filter:var(--icon-filter) }
+#account-dialog .dialog-body { padding:24px var(--account-inset); overflow-wrap:anywhere }
+#account-profile { display:flex; align-items:center; gap:20px; padding-block:6px }
+.account-avatar {
+ display:grid; place-items:center; width:74px; height:74px; flex:none;
+ border-radius:24px; background:var(--soft);
+}
+.account-avatar img { width:36px; height:36px; filter:var(--active-filter) }
+#account-identity-label,#account-expiry,.account-instructions p {
+ color:var(--muted); line-height:1.4; font-size:16px;
+}
+#account-full-name {
+ display:block; font-size:clamp(24px,2.4vw,32px); line-height:1.18;
+ letter-spacing:-.035em; color:var(--ink);
+}
+#account-identity-label { display:block; margin-bottom:5px }
+#account-login-details {
+ display:grid; grid-template-columns:auto minmax(0,1fr); align-items:center;
+ gap:clamp(20px,3vw,38px);
+}
+#account-qr {
+ width:min(390px,52vh); height:auto; max-width:100%; display:block;
+ border-radius:12px; outline:1px solid var(--line); background:white; image-rendering:pixelated;
+}
+.account-instructions h3 { font-size:clamp(23px,2.3vw,29px); line-height:1.15; margin:0; letter-spacing:-.03em }
+#account-dialog .account-instructions p { margin:10px 0 0 }
+#account-url { color:var(--ink); font-weight:600 }
+.account-device-code {
+ display:grid; gap:8px; background:var(--soft); color:var(--accent-text);
+ border-radius:14px; padding:14px 18px; margin:20px 0 8px;
+}
+.account-device-code span { font-size:15px; font-weight:600 }
+#account-code { font:700 clamp(24px,2.5vw,32px)/1.2 ui-monospace,monospace; letter-spacing:.06em }
+#account-expiry { font-size:14px }
+#account-dialog #account-message {
+ margin:16px 0 0; border-inline-start:3px solid var(--accent-text);
+ padding:10px 14px; background:var(--panel); color:var(--ink); font-size:16px;
+}
 #account-dialog #account-message:empty { display:none }
-#account-login-details { display:flex; align-items:center; gap:24px; margin-top:10px }
-#account-login-details img { width:min(390px,52vh); height:auto; flex:none; image-rendering:pixelated }
-#account-code { font-size:28px; letter-spacing:.08em }
-#account-dialog #account-close { min-height:48px; padding:8px 16px }
-#account-shortcut[hidden], #account-login-details[hidden] { display:none }
+#account-dialog > .dialog-actions {
+ display:flex; justify-content:flex-end; min-height:0; padding:12px var(--account-inset);
+ border-top:1px solid var(--line); background:var(--surface);
+}
+#account-dialog #account-action {
+ flex:0 1 auto; width:auto; min-width:160px; min-height:52px; margin:0; padding:10px 22px;
+ background:var(--panel); color:var(--ink); border:1px solid var(--line); border-radius:14px;
+}
+#account-dialog[data-view="signed-out"] #account-action { background:var(--accent); color:var(--on-accent) }
+#account-dialog button:focus-visible { outline:3px solid var(--accent-text); outline-offset:2px }
+#account-shortcut[hidden],#account-dialog [hidden] { display:none }
+@media(max-height:650px) {
+ #account-dialog .dialog-body { padding-block:16px }
+ #account-dialog > .dialog-heading,#account-dialog > .dialog-actions { padding-block:8px }
+}
+@media(max-width:640px) {
+ #account-login-details { grid-template-columns:1fr }
+ #account-qr { justify-self:center }
+}

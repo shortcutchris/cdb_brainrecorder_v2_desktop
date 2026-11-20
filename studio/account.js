@@ -31,20 +31,24 @@
   const login = c.login;
   const pending = login.state === 'pending';
   const locked = !allowed('configure');
-  $('account-full-name').hidden = pending && !locked;
+  const showQr = pending && !locked;
+  dialog.dataset.view = showQr ? 'qr' : name ? 'signed-in' : 'signed-out';
+  $('account-heading').textContent = showQr ? 'Mit Brain anmelden' : 'Brain-Konto';
+  $('account-profile').hidden = showQr;
+  $('account-identity-label').hidden = !name;
   $('account-full-name').textContent = name || 'Nicht angemeldet';
-  $('account-environment').textContent = 'Brain · ' + environment;
-  $('account-login-details').hidden = !pending || locked;
-  $('account-code').textContent = pending && !locked ? login.code : '';
-  if (pending && !locked) {
+  $('account-environment').textContent = environment;
+  $('account-login-details').hidden = !showQr;
+  $('account-code').textContent = showQr ? login.code : '';
+  if (showQr) {
    setIcon($('account-qr'), deviceLoginQr(login.url));
    $('account-url').textContent = login.url.replace('https://', '');
    $('account-expiry').textContent = 'Gültig bis ' + new Date(login.expires * 1000).toLocaleTimeString('de-DE', {hour:'2-digit', minute:'2-digit'});
   }
   let message = feedback || login.message || '';
   if (submitting) message = 'Bitte warten …';
-  if (locked) message = online ? (state.capabilities.configure.reason || 'Kontowechsel gerade gesperrt.') : 'Verbindung zum Recorder unterbrochen.';
-  $('account-message').textContent = message;
+  if (locked) message = online ? [state.capabilities.configure.reason, 'Kontowechsel gesperrt.'].filter(Boolean).join(' ') : 'Verbindung zum Recorder unterbrochen.';
+  if ($('account-message').textContent !== message) $('account-message').textContent = message;
   action.disabled = submitting || locked;
   action.textContent = pending ? 'Anmeldung abbrechen' : name ? 'Abmelden' : 'Anmeldecode anzeigen';
  }

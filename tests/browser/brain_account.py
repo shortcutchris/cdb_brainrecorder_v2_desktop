@@ -48,6 +48,8 @@ def check_screen(browser, width, height, root):
     worker = Thread(target=server.serve_forever, daemon=True)
     worker.start()
     page = browser.new_page(viewport={'width':width, 'height':height}, has_touch=True)
+    if width == 1280:
+        page.add_init_script("localStorage.setItem('cdb-studio-theme', 'midnight')")
     try:
         page.goto(f'http://127.0.0.1:{server.server_port}')
         chip = page.locator('#account-shortcut')
@@ -61,6 +63,10 @@ def check_screen(browser, width, height, root):
         expect(page.locator('#account-code')).to_have_text('TEST-CODE')
         assert qr.evaluate('el => el.complete && el.naturalWidth > 0')
         assert qr.bounding_box()['width'] >= 312
+        body = page.locator('#account-dialog .dialog-body')
+        assert body.evaluate('el => el.scrollHeight <= el.clientHeight && el.scrollWidth <= el.clientWidth')
+        expect(page.locator('#account-environment')).to_have_text('Produktion' if width == 1280 else 'Staging')
+        expect(page.locator('#account-profile')).to_be_hidden()
         assert action.bounding_box()['y'] + action.bounding_box()['height'] <= height
         close.tap()
         chip.tap()
@@ -71,6 +77,11 @@ def check_screen(browser, width, height, root):
         action.tap()
         expect(chip).to_contain_text('Alexandra Mustername', timeout=12000)
         expect(action).to_have_text('Abmelden')
+        expect(page.locator('#account-full-name')).to_have_text('Alexandra Mustername')
+        expect(qr).to_be_hidden()
+        assert close.bounding_box()['height'] >= 48
+        dialog = page.locator('#account-dialog')
+        assert dialog.bounding_box()['height'] < height / 2
         close.tap()
 
         page.locator('#start-recorder').tap()
