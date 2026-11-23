@@ -1,4 +1,4 @@
-# NFC-Aufsteller · Recorder 0.5.97
+# NFC-Aufsteller · Recorder 0.5.98
 
 Stand 23.11.2026. Die optionale NFC-Laufzeit ist auf dem Recorder-Pi installiert:
 `python3-pyscard` 2.2.2-1, `pcscd` 2.3.3-1 und `libccid` 1.6.2-1;
@@ -40,8 +40,14 @@ abnehmen, NFC einschalten, 1,5 Sekunden leeres Lesefeld abwarten.
   Start muss genau dieser Aufsteller wieder erkannt werden; bis dahin ist die
   Starttaste gesperrt. Ein anderer Tag, NFC ausschalten, Abbrechen oder Fristablauf
   verwerfen den Startwunsch und einen dazugehörigen offenen Anmeldeversuch.
-- Ein stabiler Tag startet einmal. 1,5 Sekunden bestätigte Abwesenheit stoppen
-  ausschließlich die eigene Aufnahme-ID bzw. Live-Lease.
+- Ein stabiler Tag startet einmal. Seit 0.5.98 sind **Meeting beim Abnehmen
+  beenden** und **Talk beim Abnehmen beenden** getrennt einstellbar (zunächst ein).
+  Eingeschaltet stoppen 1,5 Sekunden bestätigte Abwesenheit ausschließlich die
+  eigene Aufnahme-ID bzw. Live-Lease. Ausgeschaltet läuft der Modus weiter, bis
+  er am Bildschirm beendet wird; ein anderer Aufsteller kann ihn nicht ersetzen.
+  Talk beendet das native Audio und schließt die zugehörige Backend-Sitzung.
+  Der Hinweis steht in der Statuszeile der jeweiligen Ansicht, außerhalb der
+  Aufnahme-Seitenleiste. [Prüfstand](acceptance-0.5.98.md).
 - Nach Abbrechen oder manuellem Stoppen den Aufsteller mindestens zwei Sekunden
   vollständig abnehmen, bevor er erneut aufgelegt wird. Auch das Einschalten von
   Direktstart oder ein Neustart löst bei bereits aufgelegtem Tag keinen Start aus.

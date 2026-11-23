@@ -218,6 +218,23 @@ class RoomTests(unittest.TestCase):
         self.assertFalse(self.app.nfc.direct_start['meeting'])
         self.assertTrue(self.app.nfc.direct_start['talk'])
 
+    def test_nfc_removal_setting_requires_idle_operator(self):
+        from services.app_activity import AppActivity
+        self.enable();self.login();self.app.nfc.stop_on_remove={'talk':True,'meeting':True}
+        body={'action':'stop-on-remove','mode':'meeting','enabled':False}
+        self.assertEqual(self.request('/api/nfc',body)[0],400)  # Operator still locked.
+        self.app.room.operator_until=time.monotonic()+100
+        for activity in (AppActivity(recording=True),AppActivity(recording=True,paused=True),AppActivity(live='active'),AppActivity(maintenance=True)):
+            with patch.object(self.app,'activity',return_value=activity),patch.object(self.app.engine,'start') as record,patch.object(self.app,'_start_device_live_locked') as voice:
+                for mode in ('talk','meeting'):
+                    with self.assertRaises(ValueError):self.app.nfc_start(mode)
+                self.assertEqual(self.request('/api/nfc',body)[0],400)
+                record.assert_not_called();voice.assert_not_called()
+        self.assertEqual(self.request('/api/nfc',body)[0],200)
+        self.assertFalse(self.app.nfc.stop_on_remove['meeting'])
+        self.assertTrue(self.app.nfc.stop_on_remove['talk'])
+
+
     def test_direct_nfc_meeting_after_cancel_and_removal_starts_only_once(self):
         self.enable();self.login();self.app.engine.configure({'setup_complete':True})
         nfc=self.app.nfc;nfc.enabled=True;nfc.tags={'meeting':'b'*64,'talk':'a'*64}
@@ -319,6 +336,24 @@ class RoomTests(unittest.TestCase):
         self.assertEqual(self.app.state()['timers']['items'],[])
         self.assertEqual(self.request('/api/timers',{'action':'cancel','id':row['id'],'revision':1})[0],400)
         self.assertEqual(json.loads(self.request('/api/lcd/timers')[1])['timers'],[])
+
+    def test_lcd_shows_current_account_countdown_without_private_labels(self):
+        self.enable();self.login()
+        row=self.app.action('/api/timers',{'action':'create','kind':'timer','seconds':120,'label':'Private customer discussion','request_id':'lcd-private-timer-test'})
+        def read():
+            status,body,_=self.request('/api/lcd/timers')
+            self.assertEqual(status,200)
+            result=json.loads(body)
+            self.assertNotIn('Private customer discussion',body.decode())
+            return result
+        result=read();self.assertEqual(result['total'],1)
+        item=result['timers'][0]
+        self.assertEqual(item['id'],row['id']);self.assertEqual(item['label'],'Timer')
+        self.assertEqual(item['state'],'scheduled');self.assertTrue(0<item['remaining_ms']<=120000)
+        self.login('bob');self.assertEqual(read()['timers'],[])
+        self.login(tenant='22222222-2222-2222-2222-222222222222');self.assertEqual(read()['total'],0)
+        self.login();self.assertEqual(read()['total'],1)
+        self.app.room_logout();self.assertEqual(read()['timers'],[])
 
     def test_offline_processing_waits_without_changing_owner_or_route(self):
         from services.cdb_integration import CdbBackend, CdbWaiting

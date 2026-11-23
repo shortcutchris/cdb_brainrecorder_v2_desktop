@@ -2,6 +2,15 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.98 – NFC-Abnehmen pro Modus einstellbar
+
+**Einstellungen → Audio → NFC-Aufsteller:** Talk und Meeting haben jeweils einen
+Schalter „Beenden beim Abnehmen“. Anfangs eingeschaltet; ausgeschaltet läuft der
+Modus bis zum Beenden am Bildschirm weiter. Der NFC-Hinweis steht nun in der
+Statuszeile von Aufnahme bzw. Gespräch und verschiebt die Aufnahmebedienung nicht. Das USB-Timerdisplay zeigt wieder die Timer des
+angemeldeten Kontos; ein zusätzlicher Einschalter ist nicht nötig.
+[Verhalten, Tests und Auslieferungsstand](docs/nfc/acceptance-0.5.98.md).
+
 ## 0.5.97 – Einstellbarer NFC-Direktstart
 
 Unter **Einstellungen → Audio → NFC-Aufsteller** lassen sich **Meeting direkt

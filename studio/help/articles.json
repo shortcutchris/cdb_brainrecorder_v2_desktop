@@ -150,7 +150,7 @@
       "Zum Anlernen genau einen Aufsteller auflegen und „Als Talk zuordnen“ oder „Als Meeting zuordnen“ wählen. Danach abnehmen und den anderen zuordnen.",
       "NFC einschalten. Einen bekannten Aufsteller auflegen. Ohne Brain-Anmeldung öffnet sich zunächst die Anmeldung.",
       "Den Aufsteller während der Anmeldung liegen lassen. Nach Anmeldung die Vorbereitung am Pi ausdrücklich bestätigen. Eine späte Anmeldung startet nie unbemerkt eine Aufnahme.",
-      "Abnehmen beendet nur den von diesem Aufsteller gestarteten Vorgang nach der vorgesehenen kurzen Verzögerung. Ein zuvor anders gestartetes Gespräch gehört dem Aufsteller nicht."
+      "Unter NFC-Aufsteller lassen sich Direktstart und Beenden beim Abnehmen für Talk und Meeting getrennt einstellen. Direktstart gilt nur bei bestehender Anmeldung ohne offene Vorbereitung. Beenden beim Abnehmen ist zunächst eingeschaltet: Nach etwa zwei Sekunden endet nur der von diesem Aufsteller gestartete Vorgang. Ausgeschaltet läuft er bis zum Beenden am Bildschirm weiter. Ein zuvor anders gestartetes Gespräch gehört dem Aufsteller nicht."
     ],
     "note": "Bei „NFC-Unterstützung nicht installiert“ fehlt die Systemeinrichtung. Das ist kein Fehler deiner Tags. Betreiber kontaktieren; ein App-Update allein installiert keine PC/SC-Dienste. Das Prüfen eines Lesers bestätigt noch nicht, dass beide Aufsteller angelernt sind."
   },

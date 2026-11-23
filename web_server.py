@@ -29,7 +29,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.97'
+VERSION = '0.5.98'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -1094,7 +1094,7 @@ class StudioHandler(Handler):
         # Serve a consistent account snapshot, including streamed files. A
         # concurrent logout cannot approve a file under the next room account.
         path = urlsplit(self.path).path
-        if path in ('/api/state', '/api/search') or path.startswith(('/api/sessions/', '/api/meetings/')):
+        if path in ('/api/state', '/api/search', '/api/lcd/timers') or path.startswith(('/api/sessions/', '/api/meetings/')):
             with self.server.app.control_lock:
                 return self.get_locked()
         return self.get_locked()
@@ -1139,11 +1139,9 @@ class StudioHandler(Handler):
                 self.respond({'error':'Nur lokal verfügbar.'},403);return
             from services.lcd_display import snapshot
             app=self.server.app
-            result = snapshot(app.schedules, app.clock_ready)
-            if app.room.enabled:
-                # Companion timer display is public in a shared room. Never send
-                # account-specific labels to an unattended peripheral.
-                result = result | {'total': 0, 'timers': []}
+            # Use the current account's timers, with generic labels on the shared
+            # peripheral. The control lock keeps account changes atomic with projection.
+            result = snapshot(app.schedules, app.clock_ready, private_labels=app.room.enabled)
             self.respond(result);return
         if path=='/help/verkabelung-r2.pdf':
             from services.local_portal import wiring_pdf

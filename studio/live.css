@@ -106,3 +106,7 @@ body[data-workspace="live-view"] #live-view.workspace-view{grid-column:2;grid-ro
 #live-mute::before,#live-end::before {content:""; background:currentColor; width:26px; height:26px; mask:center / contain no-repeat url('/assets/microphone.svg')}
 #live-end::before {mask-image:url('/assets/stop.svg')}
 #live-view #live-mute[aria-pressed=true] {background:var(--ink); color:var(--surface)}
+
+.live-status-line { display:flex; gap:12px; flex:0 0 20px; height:20px; min-height:20px; overflow:hidden; }
+.live-status-line > #live-notice { flex:1; min-width:0; }
+.live-status-line > #live-nfc-hint { flex:0 1 auto; }

@@ -26,6 +26,17 @@ class LCDTests(unittest.TestCase):
   for i in range(20):self.add(str(i)+'\n'+ 'ü'*75)
   result=snapshot(self.s,True);self.assertEqual(len(result['timers']),16);self.assertEqual(result['total'],20)
   self.assertNotIn('\n',result['timers'][0]['label']);self.assertLess(len(encode(result)),MAX_FRAME)
+ def test_owner_filter_precedes_limit_and_count(self):
+  account=['alice'];self.s.room_policy=lambda:(True,account[0])
+  for i in range(20):self.add('private-alice-'+str(i),seconds=10)
+  account[0]='bob';own=self.add('private-bob',seconds=120)
+  result=snapshot(self.s,True,private_labels=True)
+  self.assertEqual(result['total'],1);self.assertEqual(len(result['timers']),1)
+  self.assertEqual(result['timers'][0]['id'],own)
+  self.assertEqual(result['timers'][0]['label'],'Timer')
+  self.assertNotIn('private-',json.dumps(result))
+  account[0]=None
+  self.assertEqual(snapshot(self.s,True,private_labels=True)['timers'],[])
  def test_handshake_stale_ack_replay_and_reconnect(self):
   b=Bridge('Pi');nonce='a'*32
   self.assertIsNone(b.frame({},0))

@@ -247,6 +247,26 @@ class LiveTests(unittest.TestCase):
         self.live.end(lease);self.wait(lambda:not self.live.busy())
         self.assertTrue(native.closed);self.assertIsNone(self.live.native)
 
+    def test_nfc_talk_removal_closes_native_audio_and_backend_session(self):
+        from services.nfc_tokens import NfcTokens
+        from web_server import StudioApp
+        from unittest.mock import Mock
+        self.install_native();lease=self.reserve();self.live.start_native(lease)
+        self.wait(lambda:self.live.state=='listening');native=self.live.native
+        app=Mock();app.live=self.live
+        app.nfc_still_owned=lambda mode,identity:StudioApp.nfc_still_owned(app,mode,identity)
+        reader=Mock();reader.snapshot.return_value={'state':'absent'}
+        now=[10.];nfc=NfcTokens(self.root.name,reader,lambda:now[0])
+        nfc.enabled=True;nfc.owner=('talk',lease)
+        stop=lambda mode,identity:StudioApp.nfc_stop(app,mode,identity)
+        nfc.tick(Mock(),stop,app.nfc_still_owned)
+        self.assertFalse(native.closed)
+        now[0]+=1.5;nfc.tick(Mock(),stop,app.nfc_still_owned)
+        self.assertTrue(native.closed)
+        self.wait(lambda:not self.live.busy())
+        self.assertTrue(any(path==BASE+'/sessions/safe-handle/close' for path,_,_ in self.brain.calls))
+        self.assertIsNone(nfc.owner);self.assertIsNone(self.live.native)
+
     def test_listening_waits_for_actual_audio_connection_and_progress_is_public(self):
         self.install_native();gate=threading.Event();entered=threading.Event()
         def wait_connected(inner,timeout):entered.set();gate.wait(2)

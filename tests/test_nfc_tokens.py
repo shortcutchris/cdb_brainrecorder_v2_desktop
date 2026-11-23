@@ -69,6 +69,40 @@ class TokensTests(unittest.TestCase):
         n=NfcTokens(Path(self.tmp.name)/'fresh',self.reader)
         self.assertFalse(n.enabled);self.reader.start.assert_not_called()
         self.assertEqual(n.direct_start,{'talk':False,'meeting':False})
+        self.assertEqual(n.stop_on_remove,{'talk':True,'meeting':True})
+
+    def test_remove_to_stop_setting_persists_without_changing_other_mode_or_tags(self):
+        self.n.configure({'action':'stop-on-remove','mode':'meeting','enabled':False})
+        restored=NfcTokens(self.tmp.name,self.reader)
+        self.assertEqual(restored.stop_on_remove,{'talk':True,'meeting':False})
+        self.assertEqual(restored.tags,self.n.tags)
+        self.assertEqual(restored.direct_start,self.n.direct_start)
+
+    def test_disabled_removal_keeps_owner_until_manual_end_for_both_modes(self):
+        for mode in ('talk','meeting'):
+            with self.subTest(mode=mode):
+                self.n.owner=None;self.n.reset_edge();self.start.reset_mock();self.stop.reset_mock()
+                self.alive.return_value=True
+                self.n.configure({'action':'stop-on-remove','mode':mode,'enabled':False})
+                self.arm();self.place(mode);self.arm();self.tick('absent',seconds=30)
+                self.stop.assert_not_called();self.assertEqual(self.n.owner,(mode,'session-1'))
+                self.assertIn('Am Bildschirm beenden',self.n.public()['message'])
+                self.place('talk' if mode=='meeting' else 'meeting')
+                self.start.assert_called_once_with(mode)
+                self.alive.return_value=False;self.tick('absent');self.tick('absent',seconds=2)
+                self.assertIsNone(self.n.owner);self.stop.assert_not_called()
+                self.alive.return_value=True;self.place(mode)
+                self.assertEqual(self.start.call_count,2)
+
+    def test_remove_to_stop_failed_save_invalid_values_and_active_owner(self):
+        with patch('services.nfc_tokens.atomic_write',side_effect=OSError('disk full')):
+            with self.assertRaises(OSError):self.n.configure({'action':'stop-on-remove','mode':'talk','enabled':False})
+        self.assertTrue(self.n.stop_on_remove['talk'])
+        for value in ('false',0,None):
+            with self.assertRaises(ValueError):self.n.configure({'action':'stop-on-remove','mode':'talk','enabled':value})
+        self.arm();self.place('talk')
+        with self.assertRaises(ValueError):self.n.configure({'action':'stop-on-remove','mode':'talk','enabled':False})
+        self.arm();self.stop.assert_called_once_with('talk','session-1')
 
     def test_direct_start_persists_per_mode_and_rearms_only_after_removal(self):
         self.arm()
@@ -91,6 +125,7 @@ class TokensTests(unittest.TestCase):
         upgraded=NfcTokens(self.tmp.name,self.reader)
         self.assertTrue(upgraded.enabled);self.assertEqual(upgraded.tags,self.n.tags)
         self.assertEqual(upgraded.direct_start,{'talk':False,'meeting':False})
+        self.assertEqual(upgraded.stop_on_remove,{'talk':True,'meeting':True})
 
 
 class OwnershipTests(unittest.TestCase):

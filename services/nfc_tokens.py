@@ -72,6 +72,10 @@ class NfcTokens:
         choices = saved.get('direct_start', {})
         self.direct_start = {mode: isinstance(choices, dict) and choices.get(mode) is True
                              for mode in ('talk', 'meeting')}
+        stops = saved.get('stop_on_remove', {})
+        # Missing settings preserve the existing remove-to-stop behavior.
+        self.stop_on_remove = {mode: not (isinstance(stops, dict) and stops.get(mode) is False)
+                               for mode in ('talk', 'meeting')}
         self.reader = reader or ReaderProcess()
         self.clock = clock
         self.inspect_until = 0
@@ -88,14 +92,15 @@ class NfcTokens:
         self.empty_since = self.present_since = self.tag = None
 
     def save(self):
-        atomic_write(self.path, json.dumps({'enabled':self.enabled, 'tags':self.tags, 'direct_start':self.direct_start}))
+        atomic_write(self.path, json.dumps({'enabled':self.enabled, 'tags':self.tags,
+                                          'direct_start':self.direct_start, 'stop_on_remove':self.stop_on_remove}))
         self.path.chmod(0o600)
 
     def configure(self, body):
-        previous = dict(self.tags), self.enabled, dict(self.direct_start)
+        previous = dict(self.tags), self.enabled, dict(self.direct_start), dict(self.stop_on_remove)
         try: return self._configure(body)
         except Exception:
-            self.tags, self.enabled, self.direct_start = previous
+            self.tags, self.enabled, self.direct_start, self.stop_on_remove = previous
             self.reset_edge()
             raise
 
@@ -117,15 +122,16 @@ class NfcTokens:
             self.save()
             self.message = mode.title()+' zugeordnet. Aufsteller wieder abnehmen.'
             self.reset_edge()
-        elif action == 'direct-start':
+        elif action in ('direct-start', 'stop-on-remove'):
             mode = body.get('mode')
             if mode not in self.direct_start or type(body.get('enabled')) is not bool:
-                raise ValueError('Direktstart für Talk oder Meeting ein- oder ausschalten.')
+                raise ValueError('Aufsteller-Verhalten für Talk oder Meeting ein- oder ausschalten.')
             if self.owner: raise ValueError('Laufenden Modus zuerst beenden.')
-            self.direct_start[mode] = body['enabled']
+            choices = self.direct_start if action == 'direct-start' else self.stop_on_remove
+            choices[mode] = body['enabled']
             self.save()
             self.reset_edge()  # A settings change is never a placement event.
-            self.message = 'Startverhalten gespeichert. Aufsteller mindestens zwei Sekunden abnehmen.'
+            self.message = 'Aufsteller-Verhalten gespeichert. Aufsteller mindestens zwei Sekunden abnehmen.'
         elif action in ('on','off'):
             if action == 'on' and len(set(self.tags.values())) != 2:
                 raise ValueError('Zuerst zwei unterschiedliche Tags zuordnen.')
@@ -140,6 +146,7 @@ class NfcTokens:
         return {'enabled':self.enabled, 'state':self.status, 'message':self.message,
                 'assigned':{k:k in self.tags for k in ('talk','meeting')},
                 'direct_start':dict(self.direct_start),
+                'stop_on_remove':dict(self.stop_on_remove),
                 'active_mode':self.owner[0] if self.owner else None,
                 'can_enroll':not self.enabled and self.reader.snapshot().get('state') == 'present'}
 
@@ -170,6 +177,9 @@ class NfcTokens:
             if self.empty_since is None: self.empty_since = now
             if now-self.empty_since < 1.5: return
             if self.owner:
+                if not self.stop_on_remove[self.owner[0]]:
+                    self.message = self.owner[0].title()+' läuft weiter. Am Bildschirm beenden.'
+                    return
                 try: stop(*self.owner)
                 except Exception:
                     self.message = 'Beenden fehlgeschlagen. Bitte am Bildschirm stoppen.'
@@ -183,7 +193,8 @@ class NfcTokens:
         if tag != self.tag:
             self.tag, self.present_since = tag, now
         if self.owner:
-            self.message = self.owner[0].title()+' aktiv. Zum Beenden Aufsteller abnehmen.'
+            self.message = self.owner[0].title()+(' aktiv. Zum Beenden Aufsteller abnehmen.'
+                if self.stop_on_remove[self.owner[0]] else ' aktiv. Am Bildschirm beenden.')
             return
         if not self.armed:
             self.message = 'Zum erneuten Start Aufsteller mindestens zwei Sekunden abnehmen.'
