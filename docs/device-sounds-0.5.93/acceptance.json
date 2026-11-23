@@ -34,5 +34,21 @@
       "sha256": "b81b27d93e4df4611b7dcc6c6804f81285c67a321a259066247df2f3fa586fc2"
     }
   },
-  "image": "tracked allowlisted Python and Studio files; no dependencies or migration; clean export pending; no SD image built"
+  "image": {
+    "status": "prepared-not-boot-certified",
+    "source_files": 144,
+    "device_sounds_included": true,
+    "built": false,
+    "hardware_boot_certified": false
+  },
+  "release": {
+    "source_commit": "104c1d1d17002c34196decc956ce2a9ea5a9d944",
+    "release_id": "27f6925ee0a9f9de722dfca4573c0dedc2cfda0e27e1935e3efc35617341a55f",
+    "verified_files": 137,
+    "signature_verified": true,
+    "runtime": "pi-local-ai-py313",
+    "from_versions": [
+      "0.5.92"
+    ]
+  }
 }

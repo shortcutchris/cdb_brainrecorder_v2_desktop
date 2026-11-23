@@ -76,5 +76,9 @@ Die neue Datei `services/device_sounds.py` fällt unter die bestehende Positivli
 für App-Updates und Image-Quellen; auch die geänderten Studio-Dateien sind erfasst.
 Keine neuen Pakete, Dienste, Betriebssystemrechte oder Datenmigrationen. Persönliche
 Klangoptionen und Boot-Quittierungen werden nicht in ein Kunden-Image übernommen.
-Das signierte Update und das saubere Image-Baupaket werden nach dem Commit separat
-exportiert. Es wurde kein SD-Image gebaut oder auf Hardware boot-zertifiziert.
+Das signierte Update aus Commit `104c1d1d` wurde exportiert; Signatur und
+alle 137 App-Dateien sind geprüft. Das saubere Image-Baupaket enthält
+144 Quelldateien einschließlich der Geräteklänge. Die Pakete liegen
+lokal für die spätere Installation bereit. Es wurde kein SD-Image gebaut oder
+auf Hardware boot-zertifiziert. Auch ein zweiter Verbindungsversuch zum Pi blieb
+erfolglos; es wurde keine Installation oder Aktivierung am Gerät vorgenommen.
