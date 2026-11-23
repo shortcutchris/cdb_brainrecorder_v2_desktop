@@ -1,0 +1,36 @@
+{
+  "date": "2026-11-23",
+  "brand": "cdbPiOS",
+  "source_commit": "2a2bcccf1d00f80ceea12b06cf7f265028d85158",
+  "tests": {
+    "python_targeted_passed": 35,
+    "shell_syntax_passed": true,
+    "landscape_artwork_visually_reviewed": true,
+    "real_plymouth_render_test": false,
+    "hardware_boot_cycle": false
+  },
+  "pi": {
+    "recorder_version": "0.5.93",
+    "startup_sound_enabled": true,
+    "shutdown_sound_enabled": true,
+    "both_preview_playbacks_completed": true,
+    "listener_confirmation": false,
+    "boot_package_files_verified": 10,
+    "boot_package_path": "/home/bik/cdb-boot-brand",
+    "boot_preflight": "checked-no-changes",
+    "boot_theme_digest": "45e17d2b228feee6afe3780caf76aa0f8f45889309a28eb466860beadfee121d",
+    "boot_theme_active": "pix",
+    "boot_theme_installed": false,
+    "reason": "Remote account needs local sudo authentication for OS changes",
+    "desktop_rotation_changed": false,
+    "reboot_performed": false
+  },
+  "image_kit": {
+    "status": "prepared-not-boot-certified",
+    "source_files": 144,
+    "build_files_sha256_verified": 177,
+    "boot_brand_files": 10,
+    "built": false,
+    "hardware_boot_certified": false
+  }
+}

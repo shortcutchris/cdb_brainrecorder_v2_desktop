@@ -2,6 +2,15 @@
 
 Stand: 23.11.2026. Schreibweise vom Benutzer vorgegeben: **cdbPiOS**.
 
+**Auslieferungsstand:** Klangversion 0.5.93 ist auf dem Pi aktiv; beide
+Klangoptionen eingeschaltet und beide Vorschau-Ausgaben erfolgreich beendet.
+Das Bootpaket aus Commit `2a2bcccf` liegt unter `/home/bik/cdb-boot-brand/`;
+alle zehn Dateien sind nach Übertragung per SHA-256 geprüft. Die schreibfreie
+Vorprüfung auf dem Pi ist bestanden. Das aktive System-Theme ist weiterhin
+`pix`, da dem Fernzugang die Administratorrechte für diese OS-Änderung fehlen.
+Der Benutzer wurde um den untenstehenden einmaligen lokalen Schritt gebeten.
+[Prüfnachweis](acceptance.json).
+
 Der neue Startbildschirm zeigt das vorhandene CDB-Brain-Signet mit Mikrofon auf
 dunkelblauem Grund, den Produktnamen und **„cdbPiOS startet …“**. Ein kleiner
 Bernsteinpunkt pulsiert ohne erfundene Prozentangabe. Beim Ausschalten lautet der
