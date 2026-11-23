@@ -31,8 +31,12 @@ NFC-Aktivität bleibt unverändert.
   Vorbereitungsuhr offen. Anmeldung abgeschlossen, Start bei fehlendem Tag
   gesperrt und bei Wiederauflage desselben Tags freigegeben; kein Audiostart.
   1280 × 720 und 1024 × 600 geprüft. [Anzeige ohne Tag](login-missing-tag-1024.png).
-- Installation am Pi steht noch aus. Keine echte Microsoft-Anmeldung oder
-  Aufnahme ausgelöst.
+- Signiertes Paket auf dem ungenutzten Pi installiert; Studio und Kiosk laufen
+  mit 0.5.96. 150 ausgelieferte Dateien verifiziert, Aufnahmen, Einstellungen,
+  Raummodus und beide NFC-Zuordnungen unverändert.
+  [Installationsnachweis](096-deployment.json).
+- Image-Baupaket aus Commit `d6b5305` vorbereitet und alle 157 Quelldateien gegen
+  das Manifest geprüft. Kein SD-Image gebaut oder auf neuer Karte gebootet.
 
 ## Auslieferung und SD-Image
 
@@ -53,4 +57,7 @@ belegt kein Flattern und rekonstruiert nicht den früheren konkreten Abbruch.
 Die zusätzliche PC/SC-Abfrage im normalen Benutzerdienstkontext erkannte ebenfalls
 null Leser. Das Treiberprotokoll zeigte `LIBUSB_ERROR_TIMEOUT` und anschließend
 fehlgeschlagene Initialisierung beider Slots. Ein Ab-/Anstecken des Lesers wurde
-Chris vorgeschlagen. Keine pauschalen Berechtigungsänderungen vorgenommen.
+Chris vorgeschlagen und von ihm ausgeführt. Danach meldet der Pi wieder
+„Bereit für Talk oder Meeting“ mit korrekt leerem Lesefeld. Keine pauschalen
+Berechtigungsänderungen vorgenommen. Persönlicher Anmeldetest durch Chris steht
+noch aus; die automatische Prüfung hat keine echte Anmeldung/Audio gestartet.
