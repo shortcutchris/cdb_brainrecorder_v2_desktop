@@ -102,11 +102,17 @@ function renderState(){
 }
 function queueJobs(){const rows=new Map(state.sessions.filter(r=>r.local_job_id).map(r=>[r.local_job_id,r]));const jobs=state.jobs.filter(j=>rows.has(j.id)&&j.state!=='completed').map(j=>({...j,session:rows.get(j.id)}));for(const r of state.sessions)if(r.transcription_status==='failed'&&!r.local_job_id)jobs.push({id:'legacy-'+r.id,state:'failed',created:0,error:r.local_error,audio_file_bytes:r.audio_file_bytes,session:r});const order={recording:0,transcribing:1,summarizing:1,importing:2,queued:3,failed:4};return jobs.sort((a,b)=>(order[a.state]-order[b.state])||((a.queued_at||a.created)-(b.queued_at||b.created)))}
 let activeConfirmation=false;
-function confirmAction({title,message,accept='Löschen'}){
+function confirmAction({title,message,accept='Löschen',cancel='Abbrechen',tone='danger',summary=null}){
  if(activeConfirmation)return Promise.resolve(false);
  activeConfirmation=true;
  const dialog=$('app-confirm'),origin=document.activeElement;
  $('app-confirm-title').textContent=title;$('app-confirm-message').textContent=message;$('app-confirm-accept').textContent=accept;
+ $('app-confirm-cancel').textContent=cancel;
+ $('app-confirm-accept').className=tone==='primary'?'primary':'danger';
+ dialog.dataset.tone=tone==='primary'?'primary':'danger';
+ $('app-confirm-summary').hidden=!summary;
+ $('app-confirm-summary-title').textContent=summary?.title||'';
+ $('app-confirm-summary-detail').textContent=summary?.detail||'';
  return new Promise(resolve=>{
   let settled=false;
   function finish(accepted){
@@ -344,7 +350,7 @@ async function exportMeeting(){const m=models.get(selected);if(!m)return;const t
 $('draft-export').onclick=run(exportMeeting);
 $('draft-retry').onclick=run(()=>flush());
 $('draft-compare').onclick=run(async()=>{const m=models.get(selected);if(!m)return;const current=await api('/api/sessions/'+selected);$('conflict-local').value=m.values[field];$('conflict-server').value=current[field]||'';$('conflict').showModal();$('conflict-keep').onclick=run(async()=>{const key=field,value=m.values[key];await api('/api/sessions/'+m.id+'/save',{changes:{[key]:value},base:{[key]:current[key]||''}});m.base[key]=value;m.dirty.delete(key);clearDraft(m.id,key);notice('');$('conflict').close();renderSelected()});$('conflict-use-server').onclick=()=>{m.base[field]=current[field]||'';m.values[field]=current[field]||'';m.dirty.delete(field);clearDraft(m.id,field);$('conflict').close();renderSelected()}});
-for(const heading of document.querySelectorAll('.dialog-heading')){const b=document.createElement('button');b.className='dialog-stop danger';b.textContent='Aufnahme stoppen';b.hidden=true;b.onclick=()=>$('record').click();heading.insertBefore(b,heading.lastElementChild)}
+for(const heading of document.querySelectorAll('.dialog-heading')){if(heading.closest('#app-confirm'))continue;const b=document.createElement('button');b.className='dialog-stop danger';b.textContent='Aufnahme stoppen';b.hidden=true;b.onclick=()=>$('record').click();heading.insertBefore(b,heading.lastElementChild)}
 $('export').onclick=run(exportMeeting);$('download').onclick=run(exportMeeting);
 async function processMeeting(transcribeAgain=false){await flush();if(!selected)return;await api('/api/sessions/'+selected+'/process',{prompt:$('prompt').value,transcribe_again:transcribeAgain});$('more').close();await poll()}
 $('process').onclick=run(()=>processMeeting(false));$('retranscribe').onclick=run(()=>processMeeting(true));

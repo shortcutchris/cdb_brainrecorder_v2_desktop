@@ -1,0 +1,32 @@
+{
+  "version": "0.5.91",
+  "date": "2026-11-23",
+  "python_tests": 301,
+  "javascript_tests": 141,
+  "browser_viewports": [
+    [
+      1280,
+      720
+    ],
+    [
+      1024,
+      600
+    ]
+  ],
+  "default_account_required": true,
+  "active_paused_live_playback_suspend_logout": true,
+  "full_grace_after_activity": true,
+  "ambient_opt_in_tested": true,
+  "ambient_synthetic_child_process_verified": true,
+  "ambient_failed_release_keeps_ownership": true,
+  "synthetic_capture_save_logout": true,
+  "save_cancel_keeps_recording": true,
+  "save_dialog_light_and_cdb_theme_verified": true,
+  "idle_warning_and_stay_verified": true,
+  "pin_keyboard_checked": true,
+  "real_nfc_verified": false,
+  "real_room_signin_verified": false,
+  "room_sensitivity_verified": false,
+  "sd_image_built": false,
+  "physical_pi_installed": false
+}

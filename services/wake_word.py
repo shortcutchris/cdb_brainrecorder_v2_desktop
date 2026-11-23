@@ -30,6 +30,7 @@ class WakeWord:
         self.phrase = DEFAULT_PHRASE
         self.account = None
         self.process = None
+        self.activity_only = False
         self.stop_pending = False
         self.read_process = None
         self.read_buffer = b''
@@ -59,6 +60,7 @@ class WakeWord:
                 'word': phrase_spec(self.phrase)['label'], 'phrase': self.phrase,
                 'phrases': [{'id': key, 'label': spec['label']} for key, spec in PHRASES.items()],
                 'state': self.mode, 'message': self.message, 'detections': self.count,
+                'activity_only': self.activity_only, 'microphone_active': self.process is not None,
                 'recognized_for': max(0, round(self.recognized_until-self.clock(), 2)),
                 'testing': self.test_until > self.clock(),
                 'diagnostics': {'detector_starts': self.detector_starts,
@@ -135,7 +137,7 @@ class WakeWord:
         self.mode = 'waiting' if self.enabled or self.test_until else 'off'
         self.message = reason
 
-    def tick(self, *, account, reason, config, trigger):
+    def tick(self, *, account, reason, config, trigger, monitor=False, on_activity=None):
         if self.stop_pending:
             if self.clock() < self.cooldown: return
             try: self.suspend()
@@ -148,11 +150,15 @@ class WakeWord:
             # Explicit re-enable on account/environment change, never inherit consent.
             self.configure(False, None)
             self.message = 'Brain-Konto geändert oder abgemeldet. Bitte erneut einschalten.'
-        if not self.enabled and not testing:
+        monitor = bool(monitor and account)
+        activity_only = monitor and not self.enabled and not testing
+        if self.process and self.activity_only != activity_only:
+            self.suspend()
+        if not self.enabled and not testing and not monitor:
             if self.process: self.suspend()
             self.mode = 'off'
             return
-        if not self.runtime:
+        if not self.runtime and not activity_only:
             self.mode, self.message = 'error', 'Lokale Aktivierungswort-Erkennung fehlt. Bitte Laufzeit und Modell installieren.'
             return
         if reason:
@@ -163,13 +169,14 @@ class WakeWord:
         if not self.process:
             # The service may retain its pre-update working directory. Parent and
             # detector must import the same immutable release, also on fresh images.
-            self.process = subprocess.Popen(owned_command([sys.executable, '-u', '-m', 'services.wake_word', config['device'], self.phrase]),
+            self.activity_only = activity_only
+            self.process = subprocess.Popen(owned_command([sys.executable, '-u', '-m', 'services.wake_word', config['device'], '--room-activity' if activity_only else self.phrase]),
                 stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, start_new_session=True, bufsize=0,
                 cwd=str(Path(__file__).resolve().parents[1]))
             self.detector_starts += 1
             self.diagnostics = None
             self.diagnostic_at = None
-            self.mode, self.message = 'loading', 'Lokale Erkennung startet …'
+            self.mode, self.message = 'loading', 'Lokale Geräuscherkennung startet …' if activity_only else 'Lokale Erkennung startet …'
         if self.process.poll() is not None:
             self.suspend('Erkennung unterbrochen. Mikrofon und Laufzeit prüfen.')
             self.cooldown = self.clock()+10
@@ -201,13 +208,15 @@ class WakeWord:
                             self.diagnostic_history.append({'detector': self.detector_starts,
                                 'at_monotonic': round(self.clock(), 2), **values})
                             self.diagnostic_history = self.diagnostic_history[-16:]
-                if line in (b'ready', b'detected') or (line == b'alive' and self.mode in ('listening', 'testing')):
+                if line in (b'ready', b'detected') or (line == b'alive' and self.mode in ('listening', 'testing', 'monitoring')):
                     self.progress_at = self.clock()
                 if line == b'ready':
-                    self.mode = 'testing' if testing else 'listening'
+                    self.mode = 'monitoring' if activity_only else 'testing' if testing else 'listening'
                     word = phrase_spec(self.phrase)['label']
-                    self.message = f'Sage „{word}“ · Test ohne Cloud-Start.' if testing else f'Bereit für „{word}“ · Erkennung bleibt lokal.'
-                if line == b'detected':
+                    self.message = ('Raumgeräusche werden lokal erkannt · kein Ton wird gespeichert.' if activity_only else f'Sage „{word}“ · Test ohne Cloud-Start.' if testing else f'Bereit für „{word}“ · Erkennung bleibt lokal.')
+                if line == b'room-activity' and monitor and on_activity:
+                    on_activity()
+                if line == b'detected' and not activity_only:
                     self.count += 1
                     logging.info('Wake detected count=%d testing=%s',self.count,testing)
                     self.recognized_until = self.clock()+8
@@ -225,7 +234,10 @@ class WakeWord:
 def detect(capture_command=None, phrase=None):
     from services.wake_detectors import create_detector
     from services.live_audio import native_capture_command
-    model = create_detector(phrase or (sys.argv[2] if len(sys.argv)>2 else DEFAULT_PHRASE))
+    from services.room_activity import RoomActivity
+    selected = phrase or (sys.argv[2] if len(sys.argv)>2 else DEFAULT_PHRASE)
+    model = None if selected == '--room-activity' else create_detector(selected)
+    room_activity = RoomActivity()
     diagnostics = AudioDiagnostics()
     command = capture_command or native_capture_command({'device': sys.argv[1]})
     capture = subprocess.Popen(owned_command(command), stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
@@ -241,11 +253,12 @@ def detect(capture_command=None, phrase=None):
             if len(audio) != 1600: break
             if not ready:
                 print('ready', flush=True); ready = True
-            detected = model.feed(audio)
-            diagnostics.feed(audio, model.last_decision, model.onset.renewals,
+            if room_activity.feed(audio): print('room-activity', flush=True)
+            detected = model.feed(audio) if model else False
+            if model: diagnostics.feed(audio, model.last_decision, model.onset.renewals,
                              probability=getattr(model, 'last_probability', None),
                              cutoff=getattr(model, 'probability_cutoff', None))
-            if model.last_decision or time.monotonic() - last_progress >= 2:
+            if model and (model.last_decision or time.monotonic() - last_progress >= 2):
                 print('diagnostic ' + json.dumps(diagnostics.snapshot(), separators=(',', ':')), flush=True)
             if detected: print('detected', flush=True)
             if time.monotonic() - last_progress >= 2:

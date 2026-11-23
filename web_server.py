@@ -29,7 +29,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.90'
+VERSION = '0.5.91'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -292,7 +292,7 @@ class StudioApp:
                         self.clock_ready = result.returncode == 0 and result.stdout.strip() == 'yes'
                     except (OSError, subprocess.SubprocessError): self.clock_ready = False
                     next_clock = time.monotonic()+60
-                if (self.wake.enabled or self.wake.test_until or any(self.announcements.enabled.values())) and time.monotonic() >= next_output:
+                if (self.wake.enabled or self.wake.test_until or self.room.config.get('ambient_activity') or any(self.announcements.enabled.values())) and time.monotonic() >= next_output:
                     try:
                         output = subprocess.run(['pactl','-f','json','list','sink-inputs'],capture_output=True,text=True,timeout=2)
                         if output.returncode != 0: raise ValueError()
@@ -309,10 +309,11 @@ class StudioApp:
                     self.tick_alarm()
                     self.tick_announcements()
                     self.nfc.tick(self.nfc_start, self.nfc_stop, self.nfc_still_owned)
-                    self.tick_room()
                     reason = self.wake_reason()
                     self.wake.tick(account=self.wake_account(),reason=reason,
-                                   config=self.store.config(),trigger=self.wake_start)
+                                   config=self.store.config(),trigger=self.wake_start,
+                                   monitor=self.room.config.get('ambient_activity') is True, on_activity=self.room.touch)
+                    self.tick_room()
                     self.ambient_error = ''
             except Exception as error:
                 with self.control_lock:
@@ -521,6 +522,7 @@ class StudioApp:
             state['model_test'] = job | self.engine.result(self.model_test)
             self.finish_model_validation()
         state['room'] = self.room.public()
+        state['room']['ambient_state'] = self.wake.mode if state['room']['ambient_activity'] and state['room']['signed_in'] else 'off'
         state['sessions'] = [row for row in state['sessions'] if self.visible_session(row)]
         state['jobs'] = [job for job in state['jobs'] if self.room.can_read(self.store.folder(job['id']))]
         # Global worker strings can name a different account's meeting.
@@ -545,9 +547,9 @@ class StudioApp:
         if self.room.intent and self.room.intent['tag']:
             self.nfc.message = 'Aufsteller erkannt · Anmeldung und Start am Bildschirm bestätigen.'
         if self.room.enabled and self.room.account():
-            if self.activity().occupied:
-                self.room.touch()
-            elif self.room.idle_remaining() == 0:
+            playback = any(deadline > time.monotonic() for deadline in self.playback_leases.values())
+            self.room.observe_activity(self.activity(), playback)
+            if not self.room.idle_suspended and self.room.idle_remaining() == 0:
                 self.room_logout()
 
     def room_logout(self):
@@ -572,8 +574,10 @@ class StudioApp:
         elif action == 'configure':
             self.require('configure')
             if self.activity().pending: raise ValueError('Laufende Verarbeitung zuerst abschließen.')
+            self.wake.suspend('Geräteschutz wird angepasst.')
             self.room.configure(body)
-            self.room_logout()
+            self.room.operator_until = 0
+            self.room.touch()
         elif action == 'touch':
             self.room.touch()
         elif action == 'cancel':
@@ -595,6 +599,7 @@ class StudioApp:
             if intent['mode'] == 'meeting':
                 ident = self.action('/api/record/start', {})['id']
             else:
+                self.wake.suspend('Gespräch startet.')
                 ident = self._start_device_live_locked(self.room.account())
             if intent['tag']: self.nfc.owner = (intent['mode'], ident)
             self.room.cancel(); self.room.touch()
@@ -687,7 +692,13 @@ class StudioApp:
         subprocess.run(owned_command(['espeak-ng','-v','de','-s','145','-w',str(folder/'spoken.wav'),text]),
                        check=True,timeout=30,capture_output=True)
         with self.controller.lock:
-            ident=self.engine.enqueue(folder/'spoken.wav','Technischer Modelltest · künstliche Sprache',test_config=None if entries is None else {'whisper_model':entries['whisper']['path'],'summary_model':entries['ollama']['id'],'model_test':True})
+            previous_context = self.job_context
+            self.job_context = {'owner': {'technical': 'model-test'},
+                                'route': {'transcription':'local','summary':'local','binding':None}}
+            try:
+                ident=self.engine.enqueue(folder/'spoken.wav','Technischer Modelltest · künstliche Sprache',test_config=None if entries is None else {'whisper_model':entries['whisper']['path'],'summary_model':entries['ollama']['id'],'model_test':True})
+            finally:
+                self.job_context = previous_context
             if entries:atomic_write(folder/'pair.json',json.dumps({'id':ident,'entries':entries}))
             with self.store.db() as db:
                 db.execute('CREATE TABLE IF NOT EXISTS hidden_jobs (id TEXT PRIMARY KEY)')

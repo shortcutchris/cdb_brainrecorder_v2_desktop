@@ -229,6 +229,8 @@ class IntegrationTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory(); self.root = Path(self.temp.name)
         self.app = StudioApp(self.root / 'queue', self.root / 'db.sqlite', backend=Mock(), preview=True, settings_file=self.root / 'settings.ini')
         self.app.ambient_stop.set(); self.app.ambient_thread.join(3)
+        config=self.app.cdb.config()
+        self.app.cdb.write('session.json', {'server':config['server'], 'client_id':config['client_id'], 'identity':{'user_id':'test','client_id':'12345678-1234-1234-1234-123456789012'}, 'token':'synthetic','expires':time.time()+3600})
         pack(self.app.store.root); self.app.announcements.configure({'offline': True, 'timers': True})
         self.app.speakers.public = lambda: {'available': True, 'muted': False, 'volume': 30, 'selected': 'fake'}
     def tearDown(self): self.app.close(); self.temp.cleanup()

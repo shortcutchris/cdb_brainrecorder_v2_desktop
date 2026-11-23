@@ -2,7 +2,7 @@ const test=require('node:test'),assert=require('node:assert/strict'),vm=require(
 const source=fs.readFileSync('studio/app.js','utf8');
 function harness(){
  const nodes={},origin={isConnected:true,focus(){this.focused=true}};
- const el=id=>nodes[id]??={textContent:'',open:false,showModal(){this.open=true},close(){this.open=false},focus(){this.focused=true}};
+ const el=id=>nodes[id]??={textContent:'',dataset:{},open:false,showModal(){this.open=true},close(){this.open=false},focus(){this.focused=true}};
  const c={$:el,document:{activeElement:origin}};vm.createContext(c);vm.runInContext(source.slice(source.indexOf('let activeConfirmation='),source.indexOf('async function deleteMeeting(')),c);return {c,el,origin};
 }
 test('app confirmation presents text safely, focuses cancel and restores caller on cancel',async()=>{
@@ -19,6 +19,14 @@ test('only explicit accept resolves true, Escape and close cancel',async()=>{
 });
 test('a second request cannot overwrite an open confirmation target',async()=>{
  const {c,el}=harness();const first=c.confirmAction({title:'First',message:'Meeting A'});assert.equal(await c.confirmAction({title:'Second',message:'Meeting B'}),false);assert.equal(el('app-confirm-message').textContent,'Meeting A');el('app-confirm-cancel').onclick();await first;
+});
+test('save styling and account summary cannot leak into a later delete confirmation',async()=>{
+ const {c,el}=harness();const save=c.confirmAction({title:'Speichern?',message:'Test',accept:'Speichern & abmelden',cancel:'Zur Aufnahme',tone:'primary',summary:{title:'Konto',detail:'Nur deine Aufnahmen'}});
+ assert.equal(el('app-confirm-accept').className,'primary');assert.equal(el('app-confirm-summary').hidden,false);
+ el('app-confirm-cancel').onclick();assert.equal(await save,false);
+ const deletion=c.confirmAction({title:'Löschen?',message:'Endgültig'});
+ assert.equal(el('app-confirm-accept').className,'danger');assert.equal(el('app-confirm-cancel').textContent,'Abbrechen');assert.equal(el('app-confirm-summary').hidden,true);assert.equal(el('app-confirm-summary-detail').textContent,'');
+ el('app-confirm-cancel').onclick();await deletion;
 });
 test('all shipped web screens avoid native JS input dialogs and unload prompts',()=>{
  for(const name of fs.readdirSync('studio').filter(n=>/\.(js|html)$/.test(n))){const s=fs.readFileSync(path.join('studio',name),'utf8');assert.doesNotMatch(s,/\b(?:confirm|alert|prompt)\s*\(/,name);assert.doesNotMatch(s,/beforeunload|onbeforeunload/,name)}

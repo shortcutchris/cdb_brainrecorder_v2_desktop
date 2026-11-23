@@ -1,6 +1,6 @@
-"""Opt-in shared device policy. Ownership is durable; room consent is not.
+"""Default account-bound device policy. Ownership is durable; start consent is not.
 
-No personal content is migrated or assigned by enabling this mode. Callers
+No legacy personal content is migrated or assigned by this policy. Callers
 serialize transitions with StudioApp.control_lock. Files are additive sidecars.
 """
 import hashlib
@@ -20,10 +20,22 @@ class RoomMode:
             self.config = json.loads(self.path.read_text())
             if not isinstance(self.config, dict): raise ValueError()
         except FileNotFoundError:
-            self.config = {'enabled': False, 'idle_minutes': 5}
+            self.config = {'idle_minutes': 15}
         except (OSError, ValueError):
             # A damaged policy must not expose the personal device library.
-            self.config = {'enabled': True, 'idle_minutes': 5}
+            self.config = {'idle_minutes': 15, 'setup_locked': True}
+        # v2 is the product standard. An old opt-out cannot bypass account checks.
+        # Keep an explicitly configured timeout; unused personal devices get 15 min.
+        if self.config.get('enabled') is False:
+            self.config['idle_minutes'] = 15
+        minutes = self.config.get('idle_minutes', 15)
+        if type(minutes) is not int or not 2 <= minutes <= 60:
+            self.config['idle_minutes'] = 15
+        self.config.update(enabled=True, policy_version=2)
+        if not self.config.get('setup_locked'):
+            atomic_write(self.path, json.dumps(self.config)); self.path.chmod(0o600)
+        self.idle_suspended = False
+        self.idle_reason = ''
         self.intent = None
         self.login_owned = False
         self.last_touch = clock()
@@ -37,7 +49,7 @@ class RoomMode:
 
     @property
     def enabled(self):
-        return self.config.get('enabled') is True
+        return True
 
     def account(self):
         try:
@@ -47,10 +59,10 @@ class RoomMode:
         return {'server': session['server'], **{k: session['identity'][k] for k in ('user_id', 'client_id')}}
 
     def require_account(self):
-        if not self.account(): raise ValueError('Bitte zuerst mit Brain anmelden. Gastaufnahmen sind im Raummodus ausgeschaltet.')
+        if not self.account(): raise ValueError('Bitte zuerst mit Brain anmelden. Aufnahmen ohne Anmeldung sind ausgeschaltet.')
 
     def operator(self):
-        return not self.enabled or self.clock() < self.operator_until
+        return (not self.config.get('pin') and not self.config.get('setup_locked')) or self.clock() < self.operator_until
 
     def require_operator(self):
         if not self.operator(): raise ValueError('Geräteeinstellungen sind gesperrt. Zuerst Betreiber-PIN eingeben.')
@@ -71,17 +83,21 @@ class RoomMode:
 
     def configure(self, body):
         self.require_operator()
-        enabled, minutes = body.get('enabled'), body.get('idle_minutes', 5)
-        if type(enabled) is not bool or type(minutes) is not int or not 2 <= minutes <= 60:
-            raise ValueError('Modus und Abmeldefrist von 2 bis 60 Minuten wählen.')
-        config = self.config | {'enabled': enabled, 'idle_minutes': minutes}
+        if 'enabled' in body and body['enabled'] is not True:
+            raise ValueError('Anmeldung und Kontotrennung sind immer aktiv.')
+        minutes = body.get('idle_minutes', self.config.get('idle_minutes', 15))
+        if type(minutes) is not int or not 2 <= minutes <= 60:
+            raise ValueError('Abmeldefrist von 2 bis 60 Minuten wählen.')
+        ambient = body.get('ambient_activity', self.config.get('ambient_activity', False))
+        if type(ambient) is not bool: raise ValueError('Geräuscherkennung ein- oder ausschalten.')
+        config = self.config | {'enabled': True, 'idle_minutes': minutes, 'ambient_activity': ambient}
         pin = body.get('pin', '')
         if pin:
             if not isinstance(pin, str) or not pin.isdigit() or not 6 <= len(pin) <= 12:
                 raise ValueError('Betreiber-PIN mit 6 bis 12 Ziffern eingeben.')
             salt = secrets.token_bytes(16)
             config['pin'] = {'salt': salt.hex(), 'hash': hashlib.scrypt(pin.encode(), salt=salt, n=16384, r=8, p=1).hex()}
-        if enabled and not config.get('pin'): raise ValueError('Beim ersten Einschalten eine Betreiber-PIN festlegen.')
+        if not config.get('pin'): raise ValueError('Einmalig eine Betreiber-PIN für die Geräteeinstellungen festlegen.')
         atomic_write(self.path, json.dumps(config)); self.path.chmod(0o600)
         self.config = config
 
@@ -98,6 +114,8 @@ class RoomMode:
         self.operator_until = 0
         self.epoch = secrets.token_hex(16)
         self.observed_account = self.account()
+        self.idle_suspended = False
+        self.idle_reason = ''
         self.touch()
 
     def begin(self, mode, tag=None):
@@ -135,8 +153,25 @@ class RoomMode:
             intent['account'] = account
             self.touch()
 
+    def observe_activity(self, activity, playback=False):
+        """Activity, not silence or lack of screen touches, keeps a session open.
+
+        On the first idle observation grant the entire grace period again, even
+        if the device was busy for hours or the monitor was briefly delayed.
+        Background processing alone does not keep an unattended account open.
+        """
+        suspended = bool(activity.occupied or activity.paused or playback)
+        if suspended or self.idle_suspended:
+            self.touch()
+        self.idle_suspended = suspended
+        self.idle_reason = ('Aufnahme pausiert' if activity.paused else
+                            'Aufnahme läuft' if activity.recording else
+                            'Gespräch läuft' if activity.live_busy else
+                            'Wiedergabe läuft' if playback else
+                            'Gerät wird verwendet' if suspended else '')
+
     def idle_remaining(self):
-        return max(0, int(self.config.get('idle_minutes', 5) * 60 - (self.clock() - self.last_touch)))
+        return max(0, int(self.config.get('idle_minutes', 15) * 60 - (self.clock() - self.last_touch)))
 
     def public(self):
         intent = None
@@ -144,8 +179,10 @@ class RoomMode:
             intent = {k: self.intent[k] for k in ('id', 'mode')}
             intent['source'] = 'nfc' if self.intent['tag'] else 'touch'
         return {'enabled': self.enabled, 'signed_in': bool(self.account()), 'intent': intent,
-                'epoch': self.epoch, 'idle_minutes': self.config.get('idle_minutes', 5),
-                'idle_remaining': self.idle_remaining(), 'operator': self.operator(),
+                'epoch': self.epoch, 'idle_minutes': self.config.get('idle_minutes', 15),
+                'idle_remaining': self.idle_remaining(), 'idle_suspended': self.idle_suspended,
+                'idle_reason': self.idle_reason, 'warning_seconds': 60, 'operator': self.operator(),
+                'ambient_activity': self.config.get('ambient_activity') is True,
                 'has_pin': bool(self.config.get('pin'))}
 
     def owner(self, folder):

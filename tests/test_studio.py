@@ -15,12 +15,22 @@ class StudioTests(unittest.TestCase):
         self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name)
         QSettings.setDefaultFormat(QSettings.IniFormat);QSettings.setPath(QSettings.IniFormat,QSettings.UserScope,str(self.root/'settings'))
         self.app=StudioApp(self.root/'queue',self.root/'sessions.db',backend=Backend(),settings_file=self.root/'settings.ini')
+        self.sign_in_fixture()
         audio=self.root/'test.wav'
         with wave.open(str(audio),'wb') as w:w.setparams((1,2,16000,0,'NONE','none'));w.writeframes(b'\0\0'*16000)
         self.sid=self.app.repo.create('Bestand','2025-01-01',str(audio),notes='Alte Notizen')
         self.app.repo.update(self.sid,transcript_text='Altes Transkript',summary_text='Alte Zusammenfassung',transcription_status='completed')
+        ident=self.app.store.create('Bestand')
+        self.app.store.update(ident,state='completed')
+        self.app.repo.update(self.sid,local_job_id=ident)
         self.server=StudioServer(('127.0.0.1',0),self.app);self.thread=threading.Thread(target=self.server.serve_forever,daemon=True);self.thread.start()
         self.base='http://127.0.0.1:'+str(self.server.server_port)
+    def sign_in_fixture(self):
+        config=self.app.cdb.config()
+        self.app.cdb.write('session.json', {'server':config['server'], 'client_id':config['client_id'],
+            'identity':{'user_id':'fixture-user','client_id':'12345678-1234-1234-1234-123456789012','name':'Test User'},
+            'token':'synthetic-test','expires':time.time()+3600})
+
     def tearDown(self):self.server.shutdown();self.server.server_close();self.app.close();self.tmp.cleanup()
     def test_queue_reports_real_audio_sizes_for_existing_and_missing_files(self):
         self.app.ambient_stop.set();self.app.ambient_thread.join(3)
@@ -117,7 +127,7 @@ class StudioTests(unittest.TestCase):
         view=json.loads(data)
         self.assertEqual(view['installation']['state'], 'idle')
         self.assertEqual(set(view['brain']), {'server','signed_in','login'})
-        self.assertFalse(view['brain']['signed_in'])
+        self.assertTrue(view['brain']['signed_in'])
         for step in ('models','brain'):
             self.assertEqual(self.request('/api/onboarding/step', {'step':step})[0],200)
             self.assertEqual(json.loads(self.request('/api/onboarding')[1])['step'],step)
@@ -323,7 +333,6 @@ class StudioTests(unittest.TestCase):
         try:
             with patch.object(self.app.engine,'start',return_value='synthetic') as capture, \
                  patch.object(self.app.live,'reserve',return_value={'lease':'synthetic'}) as reserve, \
-                 patch.object(self.app.cdb,'read',return_value={'identity':{'user_id':'synthetic'}}), \
                  patch('services.wake_word.os.killpg',side_effect=PermissionError('private synthetic failure')) as signal:
                 for path in ('/api/record/start','/api/live/reserve'):
                     with self.subTest(path=path):
@@ -395,7 +404,7 @@ class StudioTests(unittest.TestCase):
 
     def test_live_and_recorder_share_server_side_interlock(self):
         area='11111111-1111-1111-1111-111111111111'
-        with patch.object(self.app.cdb,'read',return_value={'identity':{'user_id':'test'}}), patch.object(self.app.live,'_binding',return_value={'server':'https://staging.cdbos.de','user_id':'test','client_id':area}):
+        with patch.object(self.app.live,'_binding',return_value={'server':'https://staging.cdbos.de','user_id':'test','client_id':area}):
             self.app.engine.recorder.active={'id':'lock'}
             try:self.assertEqual(self.request('/api/live/reserve',{'area_ids':[area]})[0],400)
             finally:self.app.engine.recorder.active=None
@@ -453,8 +462,9 @@ class StudioTests(unittest.TestCase):
             self.assertEqual(self.request('/api/speakers/stop',{})[0],200)
 
     def test_cdb_endpoints_require_login_and_keep_local_default(self):
+        self.app.room_logout()
         self.assertEqual(self.request('/api/cdb/config',{'summary':'cdb'})[0],400)
-        self.assertEqual(self.request('/api/cdb/areas')[0],400)
+        self.assertEqual(self.request('/api/cdb/areas')[0],404)
         self.assertEqual(self.request('/api/cdb/send',{'session':self.sid,'area':'invalid'})[0],400)
         self.assertEqual(json.loads(self.request('/api/state')[1])['cdb']['config']['summary'],'local')
     def test_cloud_setup_does_not_require_unused_local_models(self):
@@ -463,9 +473,10 @@ class StudioTests(unittest.TestCase):
             setup=self.app.setup_state()
             self.assertTrue(setup['ready']);self.assertEqual(len(setup['checks']),2)
     def test_selected_cloud_without_login_blocks_new_recording(self):
+        self.app.room_logout()
         self.app.engine.configure({'setup_complete':True})
         with patch.object(self.app.cdb,'config',return_value={'transcription':'cdb','summary':'local'}):
-            rule=self.app.capabilities()['record'];self.assertFalse(rule['allowed']);self.assertIn('Microsoft',rule['reason'])
+            rule=self.app.capabilities()['record'];self.assertFalse(rule['allowed']);self.assertIn('Brain',rule['reason'])
 
     def test_account_change_is_rejected_before_wake_or_audio_side_effects(self):
         with patch.object(self.app.wake, 'configure') as wake_config, patch.object(self.app.wake, 'suspend') as suspend:
@@ -537,12 +548,15 @@ class StudioTests(unittest.TestCase):
 
     def test_explicit_settings_file_does_not_construct_native_preferences(self):
         with patch('settings.QSettings',side_effect=AssertionError('Native preferences must stay untouched')):
-            self.assertEqual(Path(self.app.settings_manager().settings.fileName()).resolve(),(self.root/'settings.ini').resolve())
+            prompt_file=Path(self.app.settings_manager().settings.fileName()).resolve()
+            self.assertEqual(prompt_file.parent,(self.app.store.root/'room-prompts').resolve())
             self.app.mutate_prompt({'action':'add','name':'Isoliert','text':'Nur Testdaten'})
             self.assertEqual(self.app.prompts()[-1]['name'],'Isoliert')
-        persisted=QSettings(str(self.root/'settings.ini'),QSettings.IniFormat)
+        persisted=QSettings(str(prompt_file),QSettings.IniFormat)
         self.assertIn('Nur Testdaten',persisted.value('custom_prompts'))
     def test_busy_text_protection_notes_allowed_and_engine_single_owner(self):
+        self.app.store.claim=lambda:None
+        self.app.store.update(self.app.repo.get_by_id(self.sid)['local_job_id'],state='summarizing')
         self.app.repo.update(self.sid,transcription_status='summarizing')
         self.assertEqual(self.request(f'/api/sessions/{self.sid}/save',{'changes':{'transcript_text':'Neu'},'base':{'transcript_text':'Altes Transkript'}})[0],409)
         self.assertEqual(self.request(f'/api/sessions/{self.sid}/save',{'changes':{'notes':'Parallel'},'base':{'notes':'Alte Notizen'}})[0],200)
@@ -677,6 +691,7 @@ class StudioTests(unittest.TestCase):
         with patch('meeting_recorder.processing.Worker.run',return_value=None):
             self.app=StudioApp(self.root/'queue',self.root/'sessions.db',backend=Backend(),settings_file=self.root/'settings.ini')
         self.server.app=self.app
+        self.sign_in_fixture()
         self.app.engine.configure({'setup_complete':True})
         self.assertEqual(self.app.model_test,ident)
         self.assertFalse(self.app.capabilities()['record']['allowed'])
@@ -734,6 +749,7 @@ class StudioTests(unittest.TestCase):
         with wave.open(str(pcm.with_name('audio.wav')),'rb') as audio:self.assertGreater(audio.getnframes(),0)
         self.app=StudioApp(self.root/'queue',self.root/'sessions.db',backend=Backend(),settings_file=self.root/'settings.ini')
         self.server.app=self.app
+        self.sign_in_fixture()
         row=self.app.session(captured['id'])
         self.assertEqual(row['local_job_id'],ident)
         self.assertEqual(row['notes'],'Während Aufnahme gespeichert')

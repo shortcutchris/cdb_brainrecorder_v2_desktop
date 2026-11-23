@@ -2,13 +2,15 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
-## 0.5.90 – Anmeldung und NFC im Raummodus
+## 0.5.91 – Anmeldung als Standard und Abmeldung nach Ruhe im Raum
 
-Unter **Einstellungen → Gerät & Verwaltung → Raummodus & Betreiber** lässt sich ein gemeinsam genutztes Raumgerät einrichten. Eine Betreiber-PIN schützt die Geräteeinstellungen. Talk und Meeting führen zunächst zur Brain-Anmeldung und anschließend zu einer ausdrücklichen Startbestätigung. Gastaufnahmen sind ausgeschaltet. **Fertig & abmelden** beendet nach Bestätigung die laufende Aufnahme beziehungsweise das Gespräch und gibt das Gerät für die nächste Person frei.
+Talk und Meeting erfordern jetzt immer ein Brain-Konto. Die zusätzliche Moduswahl entfällt. Unter **Einstellungen → Gerät & Verwaltung → Anmeldung & Geräteschutz** wird einmalig die Betreiber-PIN eingerichtet. Bestehende Aufnahmen bleiben unverändert; unzugeordneter Altbestand wird keinem Benutzer automatisch zugeteilt.
 
-Neue Raumaufnahmen sind an Konto, Firma und Brain-Umgebung gebunden. Alte persönliche Aufnahmen bleiben erhalten und werden im Raummodus nicht automatisch zugeordnet. Nach fünf Minuten Inaktivität wird mit Vorwarnung abgemeldet; die Frist ist einstellbar. Während Aufnahme, Pause und Gespräch läuft sie nicht ab. Aufnahmen mit fehlender Brain-Verbindung bleiben gespeichert und können erneut versucht oder ausdrücklich lokal verarbeitet werden.
+Während Aufnahme, Aufnahmepause, Gespräch und Wiedergabe bleibt die Sitzung offen. Danach beginnt die volle Ruhefrist neu: standardmäßig 15 Minuten, mit einer Minute Vorwarnung und **Angemeldet bleiben**. **Fertig & abmelden** öffnet den zum Studio-Theme passenden Abschlussdialog mit großen Touch-Tasten. **Zur Aufnahme** setzt die laufende Nutzung fort; **Speichern & abmelden** beendet sie nach erfolgreichem Sichern.
 
-Das Update schaltet bestehende persönliche Geräte nicht ungefragt um. Die Dateien kommen auch in den nächsten regulären SD-Image-Bau. [Bedienung, Datentrennung, Tests und Rückkehrregeln](docs/room-mode/README.md).
+Optional berücksichtigt der Pi Raumgeräusche: nur lokale Pegelauswertung im vorhandenen Mikrofonprozess, ohne Tondatei, Transkription oder Übertragung. Die Anzeige nennt das aktive Mikrofon. Wechselnde Geräusche verlängern die Ruhefrist, gleichmäßiges Rauschen wird weitgehend ausgeblendet. Bei Ausfall gilt die normale Frist. Die Erkennung ist kein sicherer Anwesenheitsnachweis; neue Geräte starten mit ausgeschalteter Geräuscherkennung. Auf dem Test-Pi wird sie auf ausdrücklichen Nutzerwunsch aktiviert.
+
+App-Updates und neue SD-Images enthalten dieselbe Kontotrennung. Bestehende explizite PINs und Abmeldefristen bleiben erhalten, bislang persönliche Geräte wechseln zur Anmeldung mit 15 Minuten Ruhefrist. Kein neues Laufzeitpaket oder Datenbankschema. [Bedienung, Prüfung und Installationsnachweise](docs/room-mode/README.md).
 
 ## 0.5.89 – Pi vor dem Umstellen herunterfahren
 

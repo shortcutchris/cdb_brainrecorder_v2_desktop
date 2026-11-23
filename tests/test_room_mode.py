@@ -7,7 +7,13 @@ from services.room_mode import RoomMode
 
 
 class RoomTests(unittest.TestCase):
-    setUp = test_studio.StudioTests.setUp
+    sign_in_fixture = test_studio.StudioTests.sign_in_fixture
+
+    def setUp(self):
+        test_studio.StudioTests.setUp(self)
+        ident=self.app.repo.get_by_id(self.sid)['local_job_id']
+        (self.app.store.folder(ident)/'room-owner.json').unlink()
+        self.app.room_logout()
     tearDown = test_studio.StudioTests.tearDown
     request = test_studio.StudioTests.request
 
@@ -33,9 +39,10 @@ class RoomTests(unittest.TestCase):
         row = next(row for row in self.app.repo.get_all() if row.get('local_job_id') == ident)
         return ident, row['id']
 
-    def test_opt_in_preserves_legacy_and_requires_pin(self):
-        self.assertFalse(self.app.room.enabled)
-        self.assertEqual(len(self.app.state()['sessions']),1)
+    def test_standard_preserves_legacy_and_requires_pin_for_protection(self):
+        self.assertTrue(self.app.room.enabled)
+        self.assertEqual(self.app.room.public()['idle_minutes'],15)
+        self.assertEqual(self.app.state()['sessions'],[])
         self.assertEqual(self.request('/api/room/configure',{'enabled':True})[0],400)
         self.enable()
         self.assertEqual(self.app.state()['sessions'],[])
@@ -62,7 +69,7 @@ class RoomTests(unittest.TestCase):
             self.assertNotEqual(self.request('/api/sessions/'+str(sid)+'/'+action,{})[0],200,action)
         self.app.room.operator_until = time.monotonic()+100
         self.assertNotEqual(self.request('/api/sessions/'+str(sid))[0],200)
-        self.app.room.configure({'enabled':False})
+        with self.assertRaises(ValueError):self.app.room.configure({'enabled':False})
         self.assertNotEqual(self.request('/api/sessions/'+str(sid))[0],200)
         self.login(); self.assertEqual(self.request('/api/sessions/'+str(sid))[0],200)
 
@@ -144,6 +151,10 @@ class RoomTests(unittest.TestCase):
             self.assertIsNotNone(self.app.room.account())
         now[0]+=301
         with patch.object(self.app,'activity',return_value=AppActivity()):self.app.tick_room()
+        self.assertIsNotNone(self.app.room.account())
+        self.assertEqual(self.app.room.idle_remaining(),300)
+        now[0]+=301
+        with patch.object(self.app,'activity',return_value=AppActivity()):self.app.tick_room()
         self.assertIsNone(self.app.room.account())
 
     def test_independent_pending_login_not_cancelled_by_nfc_intent(self):
@@ -178,9 +189,89 @@ class RoomTests(unittest.TestCase):
         self.app.room_logout();self.login('bob')
         self.assertEqual(self.request('/api/sessions/'+str(sid)+'/retry',{})[0],400)
 
+    def test_old_disabled_policy_becomes_standard_without_assigning_legacy(self):
+        self.app.room.path.write_text(json.dumps({'enabled':False,'idle_minutes':5}))
+        self.login()
+        upgraded=RoomMode(self.app.store.root,self.app.cdb)
+        self.assertTrue(upgraded.enabled)
+        self.assertEqual(upgraded.public()['idle_minutes'],15)
+        self.assertIsNone(upgraded.account())
+        self.assertFalse(upgraded.can_read())
+        self.assertIsNotNone(self.app.repo.get_by_id(self.sid))
+
+    def test_configured_pin_and_timeout_survive_upgrade_and_cannot_disable_login(self):
+        self.enable()
+        before=json.loads(self.app.room.path.read_text())
+        upgraded=RoomMode(self.app.store.root,self.app.cdb)
+        self.assertEqual(upgraded.config['pin'],before['pin'])
+        self.assertEqual(upgraded.public()['idle_minutes'],5)
+        upgraded.unlock('123456')
+        with self.assertRaises(ValueError):upgraded.configure({'enabled':False})
+        self.assertTrue(upgraded.enabled)
+
+    def test_noise_monitor_is_explicit_opt_in_and_persists(self):
+        self.assertFalse(self.app.room.public()['ambient_activity'])
+        self.enable();self.app.room.unlock('123456')
+        self.assertEqual(self.request('/api/room/configure',{'ambient_activity':True})[0],200)
+        self.assertTrue(self.app.room.public()['ambient_activity'])
+        restarted=RoomMode(self.app.store.root,self.app.cdb)
+        self.assertTrue(restarted.public()['ambient_activity'])
+        self.assertIsNone(restarted.account())
+
+    def test_setting_timeout_keeps_current_account(self):
+        self.enable();self.login()
+        self.app.room.unlock('123456')
+        self.assertEqual(self.request('/api/room/configure',{'idle_minutes':15})[0],200)
+        self.assertEqual(self.app.room.account()['user_id'],'alice')
+        self.assertEqual(self.app.room.public()['idle_minutes'],15)
+        self.assertFalse(self.app.room.operator())
+
+    def test_hour_long_meeting_pause_live_and_playback_keep_session_then_full_grace(self):
+        from services.app_activity import AppActivity
+        self.enable();self.login()
+        now=[100.0];self.app.room.clock=lambda:now[0];self.app.tick_room()
+        activities=[AppActivity(recording=True),AppActivity(recording=True,paused=True),
+                    AppActivity(live='connecting'),AppActivity(live='thinking'),AppActivity(live='closing')]
+        for activity in activities:
+            now[0]+=7200
+            with patch.object(self.app,'activity',return_value=activity):self.app.tick_room()
+            self.assertIsNotNone(self.app.room.account())
+            self.assertTrue(self.app.room.public()['idle_suspended'])
+        self.app.playback_leases['test-playback']=time.monotonic()+60
+        now[0]+=7200
+        with patch.object(self.app,'activity',return_value=AppActivity()):self.app.tick_room()
+        self.assertTrue(self.app.room.idle_suspended)
+        self.app.playback_leases.clear()
+        now[0]+=7200
+        with patch.object(self.app,'activity',return_value=AppActivity(pending=True)):self.app.tick_room()
+        self.assertEqual(self.app.room.idle_remaining(),300)
+        self.assertFalse(self.app.room.idle_suspended)
+        now[0]+=240
+        self.assertEqual(self.app.room.public()['idle_remaining'],60)
+        self.assertEqual(self.app.room.public()['warning_seconds'],60)
+        self.app.room.touch()
+        self.assertEqual(self.app.room.idle_remaining(),300)
+        now[0]+=301
+        with patch.object(self.app,'activity',return_value=AppActivity(pending=True)):self.app.tick_room()
+        self.assertIsNone(self.app.room.account())
+
+    def test_technical_model_setup_does_not_require_personal_signin(self):
+        self.app.ambient_stop.set();self.app.ambient_thread.join(3)
+        self.assertIsNone(self.app.room.account())
+        self.app.store.claim=lambda:None
+        def generate(*args,**kwargs):
+            path=self.app.store.root/'model-test'/'spoken.wav'
+            path.write_bytes((self.root/'test.wav').read_bytes())
+        with patch('web_server.shutil.which',return_value='/synthetic/espeak'),patch('web_server.subprocess.run',side_effect=generate):
+            result=self.app.start_model_test()
+        owner=self.app.room.owner(self.app.store.folder(result['id']))
+        self.assertEqual(owner,{'technical':'model-test'})
+        self.assertFalse(self.app.room.can_read(self.app.store.folder(result['id'])))
+        self.assertIsNone(self.app.job_context)
+
     def test_clean_install_files_allowlisted_and_no_private_schema_change(self):
         from fleet.releases import allowed
-        for path in ('services/room_mode.py','studio/room.js','studio/room.css'):
+        for path in ('services/room_mode.py','services/room_activity.py','studio/room.js','studio/room.css'):
             self.assertTrue(allowed(path))
         self.assertFalse(allowed('room-mode.json'))
         self.assertFalse(allowed('meetings/abc/room-owner.json'))

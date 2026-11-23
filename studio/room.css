@@ -2,11 +2,41 @@
 #room-dialog .dialog-body,#room-settings-dialog .dialog-body{padding:16px 0;display:grid;gap:12px}
 #room-dialog .dialog-actions,#room-settings-dialog .dialog-actions{display:flex;gap:12px;flex-wrap:wrap}
 #room-person{font-size:22px;font-weight:700}#room-message,#room-nfc{line-height:1.5}
-#room-finish{min-height:52px;margin-left:12px;white-space:nowrap}#room-options{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-#room-options label,#room-pin-label{display:grid;gap:8px}#room-options input[type=checkbox]{width:26px;height:26px}
+#room-finish{min-height:52px;margin-left:12px;white-space:nowrap}#room-options{display:grid;grid-template-columns:1fr;gap:12px}
+#room-options label,#room-pin-label{display:grid;gap:8px}
 #room-dialog button,#room-settings-dialog button,#room-idle button{min-height:52px}#room-pin{min-height:50px;font-size:22px}
 @media(max-height:650px){#room-dialog,#room-settings-dialog,#room-idle{padding:18px}#room-settings-dialog .dialog-body{padding:8px 0;gap:8px}#room-settings-dialog p{margin:4px 0}#room-finish{font-size:14px;padding:8px}}
 body.keyboard-open #room-settings-dialog{max-height:calc(100dvh - 260px)}
-#room-settings-dialog.with-keyboard .dialog-body>p,#room-settings-dialog.with-keyboard #room-options{display:none}
+#room-settings-dialog.with-keyboard .dialog-body>p,#room-settings-dialog.with-keyboard #room-minutes-label,#room-settings-dialog.with-keyboard .room-noise-choice,#room-settings-dialog.with-keyboard .room-noise-note{display:none}
 #room-settings-dialog.with-keyboard .dialog-actions{display:grid;grid-template-columns:1fr 1fr}
 #room-settings-dialog.with-keyboard .dialog-body{overflow:visible;flex:none}
+
+#room-options .room-noise-choice{display:flex;align-items:center;gap:12px}#room-noise{width:26px;height:26px;flex:none}.room-noise-note{font-size:14px;line-height:1.4;margin:0}#room-mic-status{font-size:13px;margin-left:12px}
+
+#room-settings-dialog:modal>.dialog-actions{display:grid;grid-template-columns:1fr 1fr;min-height:0;padding:12px 0}
+#room-settings-dialog:modal>.dialog-actions>button{width:100%;grid-column:auto}
+#room-settings-dialog:modal .dialog-body{gap:12px}
+#room-settings-dialog .dialog-body p,#room-settings-dialog label{margin:0}
+#room-settings-dialog input{margin:0}
+#room-settings-dialog .room-fields{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+#room-settings-dialog #room-noise{min-height:26px;height:26px;width:26px;margin:0}
+#room-settings-dialog.with-keyboard .room-fields{grid-template-columns:1fr}
+#room-settings-dialog [hidden]{display:none!important}
+#account-shortcut #room-mic-hint{font-size:10px;white-space:nowrap;color:var(--accent-text)}
+
+#room-idle{height:fit-content;min-height:0}
+#room-settings-dialog.with-keyboard[data-editing=minutes] #room-minutes-label{display:grid}
+#room-settings-dialog.with-keyboard[data-editing=minutes] #room-pin-label{display:none}
+
+/* The final save action shares the Pi controls and current theme. */
+#app-confirm:modal[data-tone=primary]{max-width:680px}
+#app-confirm[data-tone=primary] .dialog-heading{border-top:4px solid var(--accent)}
+#app-confirm[data-tone=primary] .confirm-body{padding:20px 24px 24px}
+#app-confirm[data-tone=primary] #app-confirm-message{font-size:16px;line-height:1.5}
+#app-confirm-summary{display:flex;align-items:center;gap:16px;margin-top:20px;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+#app-confirm-summary>img{width:28px;height:28px;filter:var(--icon-filter)}
+#app-confirm-summary strong{font-size:16px;line-height:1.4}
+#app-confirm-summary #app-confirm-summary-detail{font-size:14px;line-height:1.5;margin-top:4px}
+#app-confirm[data-tone=primary] #app-confirm-accept{font-weight:650}
+#app-confirm[data-tone=primary] #app-confirm-cancel{background:var(--surface);border:1px solid var(--line);color:var(--ink)}
+@media(max-height:650px){#app-confirm[data-tone=primary] .confirm-body{padding:16px 20px}#app-confirm-summary{margin-top:16px;padding:14px}}

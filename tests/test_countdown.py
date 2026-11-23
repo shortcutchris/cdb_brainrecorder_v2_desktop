@@ -84,6 +84,8 @@ class CountdownIntegrationTests(unittest.TestCase):
         self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name)
         self.app=StudioApp(self.root/'queue',self.root/'db',backend=Mock(),preview=True,settings_file=self.root/'settings.ini')
         self.app.ambient_stop.set();self.app.ambient_thread.join(3)
+        config=self.app.cdb.config()
+        self.app.cdb.write('session.json', {'server':config['server'], 'client_id':config['client_id'], 'identity':{'user_id':'test','client_id':'12345678-1234-1234-1234-123456789012'}, 'token':'synthetic','expires':time.time()+3600})
         pack(self.app.store.root);self.app.announcements.configure({'countdown':True})
         self.candidate={'id':'timer','revision':1,'end_at':time.monotonic()+6}
     def tearDown(self):self.app.close();self.tmp.cleanup()
