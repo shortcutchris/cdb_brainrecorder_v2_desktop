@@ -96,3 +96,10 @@ body[data-workspace="detail"] .editor-wrap>.editor-config{order:2;padding-bottom
  background:var(--panel);color:var(--ink);border:2px solid var(--accent);
  border-radius:12px;box-shadow:0 4px 18px #0003;pointer-events:none
 }
+
+/* Power control stays directly reachable on the Pi display. */
+#settings.workspace-view #management-page > .dialog-actions { grid-template-columns:repeat(3,minmax(0,1fr)); }
+#management-shutdown { color:var(--ink); border:1px solid var(--line); }
+#shutdown-status:modal { max-width:600px; height:fit-content; min-height:0; }
+#shutdown-status .confirm-body { padding:20px 24px; }
+#shutdown-status > .dialog-actions > button { grid-column:1/-1; }

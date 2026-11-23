@@ -20,7 +20,7 @@ passwd -l cdb
 # No common password, admin user or broad sudo grant in the shipped image.
 gpasswd -d cdb sudo || true
 rm -f /etc/sudoers.d/010_pi-nopasswd
-printf 'cdb ALL=(root) NOPASSWD: /usr/bin/systemctl reboot\n' > /etc/sudoers.d/cdb-reboot
+printf 'cdb ALL=(root) NOPASSWD: /usr/bin/systemctl reboot, /usr/bin/systemctl poweroff\n' > /etc/sudoers.d/cdb-reboot
 chmod 440 /etc/sudoers.d/cdb-reboot
 visudo -cf /etc/sudoers.d/cdb-reboot
 install -m 644 /opt/cdb/factory/cdb-network.service /opt/cdb/factory/cdb-factory-init.service /etc/systemd/system/

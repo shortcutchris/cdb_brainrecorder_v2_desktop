@@ -198,6 +198,34 @@ class StudioTests(unittest.TestCase):
                 self.assertEqual(self.request('/api/device/restart',{'confirm':True})[0],400)
                 self.assertFalse(any('systemd-run' in c.args[0] for c in run.call_args_list))
 
+    def test_local_shutdown_requires_csrf_explicit_confirmation_and_idle_device(self):
+        from services.app_activity import AppActivity
+        from unittest.mock import Mock
+        with patch('services.device_power.shutdown_method',return_value='logind'),patch.object(self.app.management,'boot_id',return_value='boot'),patch('services.device_management.subprocess.run',return_value=Mock(returncode=0)) as run:
+            self.assertEqual(self.request('/api/device/shutdown',{'confirm':True},{'X-CSRF-Token':'wrong'})[0],403)
+            for body in ({},{'confirm':False},{'confirm':'true'},{'confirm':1}):self.assertEqual(self.request('/api/device/shutdown',body)[0],400)
+            for activity in (AppActivity(recording=True),AppActivity(recording=True,paused=True),AppActivity(live='active'),AppActivity(pending=True),AppActivity(download=True),AppActivity(bluetooth=True)):
+                with patch.object(self.app,'activity',return_value=activity):
+                    self.assertEqual(self.request('/api/device/shutdown',{'confirm':True})[0],400)
+            self.app.playback_leases['browser-client']=time.monotonic()+30
+            self.assertEqual(self.request('/api/device/shutdown',{'confirm':True})[0],400)
+            self.app.playback_leases.clear()
+            self.app.schedules.create({'kind':'timer','seconds':30,'label':'Keep','request_id':'shutdown-lock'})
+            self.assertEqual(self.request('/api/device/shutdown',{'confirm':True})[0],400)
+            run.assert_not_called()
+
+    def test_local_shutdown_schedules_once_and_blocks_new_work(self):
+        from services.app_activity import AppActivity
+        from unittest.mock import Mock
+        with patch('services.device_power.shutdown_method',return_value='logind'),patch.object(self.app.management,'boot_id',return_value='boot'),patch.object(self.app,'activity',return_value=AppActivity()),patch('services.device_management.subprocess.run',return_value=Mock(returncode=0)) as run:
+            status,data,_=self.request('/api/device/shutdown',{'confirm':True})
+            self.assertEqual(status,200);self.assertTrue(json.loads(data)['scheduled'])
+            self.assertEqual(self.app.management.public()['power']['state'],'scheduled')
+            for path,body in [('/api/device/shutdown',{'confirm':True}),('/api/record/start',{}),('/api/live/reserve',{}),('/api/timers',{'action':'create'})]:
+                self.assertEqual(self.request(path,body)[0],400)
+            run.assert_called_once()
+            self.assertEqual(run.call_args.args[0][0],'systemd-run')
+
     def test_recognition_feedback_does_not_wait_for_controller_lock(self):
         self.app.wake.recognized_until=time.monotonic()+8
         locked=threading.Event();release=threading.Event()
