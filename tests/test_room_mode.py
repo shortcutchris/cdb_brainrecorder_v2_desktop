@@ -166,6 +166,75 @@ class RoomTests(unittest.TestCase):
             self.assertEqual(status,200,data);start.assert_called_once()
         self.assertEqual(nfc.owner,('meeting','capture-id'));self.assertIsNone(self.app.room.intent)
 
+    def test_configured_nfc_direct_start_uses_existing_meeting_and_voice_paths(self):
+        self.enable();self.login();self.app.engine.configure({'setup_complete':True})
+        nfc=self.app.nfc;nfc.direct_start={'talk':True,'meeting':True}
+        with patch.object(self.app.engine,'start',return_value='capture-id') as record, \
+             patch.object(self.app,'_start_device_live_locked',return_value='voice-id') as voice:
+            self.assertEqual(self.app.nfc_start('meeting'),'capture-id')
+            record.assert_called_once();voice.assert_not_called()
+            self.assertIsNone(self.app.room.intent)
+            self.assertEqual(self.app.nfc_start('talk'),'voice-id')
+            voice.assert_called_once_with(self.app.room.account())
+            self.assertIsNone(self.app.room.intent)
+
+    def test_nfc_direct_start_does_not_bypass_login_or_pending_preparation(self):
+        self.enable()
+        nfc=self.app.nfc;nfc.enabled=True;nfc.tag='a'*64
+        nfc.direct_start={'talk':True,'meeting':True}
+        with patch.object(self.app.engine,'start') as record, patch.object(self.app,'_start_device_live_locked') as voice:
+            with self.assertRaises(ValueError):self.app.nfc_start('meeting')
+            ident=self.app.room.intent['id']
+            self.login()
+            with self.assertRaises(ValueError):self.app.nfc_start('meeting')
+            self.assertEqual(self.app.room.intent['id'],ident)
+            record.assert_not_called();voice.assert_not_called()
+            self.app.room.cancel();nfc.direct_start['meeting']=False
+            with self.assertRaises(ValueError):self.app.nfc_start('meeting')
+            record.assert_not_called()
+
+    def test_direct_nfc_voice_failure_opens_preparation_without_retry(self):
+        self.enable();self.login()
+        nfc=self.app.nfc;nfc.tag='a'*64;nfc.direct_start['talk']=True
+        with patch.object(self.app,'_start_device_live_locked',side_effect=ValueError('Wissensbereiche auswählen.')) as start:
+            with self.assertRaises(ValueError):self.app.nfc_start('talk')
+            self.assertEqual(self.app.room.public()['intent']['message'],'Wissensbereiche auswählen.')
+            with self.assertRaises(ValueError):self.app.nfc_start('talk')
+            start.assert_called_once()
+
+    def test_direct_nfc_cannot_interrupt_activity_and_settings_require_idle_operator(self):
+        from services.app_activity import AppActivity
+        self.enable();self.login();self.app.nfc.direct_start={'talk':True,'meeting':True}
+        body={'action':'direct-start','mode':'meeting','enabled':False}
+        self.assertEqual(self.request('/api/nfc',body)[0],400)  # Operator still locked.
+        self.app.room.operator_until=time.monotonic()+100
+        for activity in (AppActivity(recording=True),AppActivity(recording=True,paused=True),AppActivity(live='active'),AppActivity(maintenance=True)):
+            with patch.object(self.app,'activity',return_value=activity),patch.object(self.app.engine,'start') as record,patch.object(self.app,'_start_device_live_locked') as voice:
+                for mode in ('talk','meeting'):
+                    with self.assertRaises(ValueError):self.app.nfc_start(mode)
+                self.assertEqual(self.request('/api/nfc',body)[0],400)
+                record.assert_not_called();voice.assert_not_called()
+        self.assertEqual(self.request('/api/nfc',body)[0],200)
+        self.assertFalse(self.app.nfc.direct_start['meeting'])
+        self.assertTrue(self.app.nfc.direct_start['talk'])
+
+    def test_direct_nfc_meeting_after_cancel_and_removal_starts_only_once(self):
+        self.enable();self.login();self.app.engine.configure({'setup_complete':True})
+        nfc=self.app.nfc;nfc.enabled=True;nfc.tags={'meeting':'b'*64,'talk':'a'*64}
+        nfc.direct_start={'talk':True,'meeting':True};now=[10.];nfc.clock=lambda:now[0]
+        nfc.reader=Mock();sample={'state':'present','tag':'b'*64}
+        nfc.reader.snapshot.side_effect=lambda:dict(sample)
+        self.app.room.begin('meeting','b'*64);self.app.room.cancel()
+        def tick():
+            now[0]+=.5;nfc.tick(self.app.nfc_start,self.app.nfc_stop,lambda *_:True)
+        with patch.object(self.app.engine,'start',return_value='capture-id') as start:
+            tick();tick();start.assert_not_called()
+            sample['state']='absent'
+            for _ in range(4):tick()
+            sample['state']='present'
+            for _ in range(10):tick()
+            start.assert_called_once();self.assertEqual(nfc.owner,('meeting','capture-id'))
+
     def test_logout_never_stops_active_or_paused_recording_even_if_confirmed(self):
         self.enable(); self.login()
         for paused in (False, True):

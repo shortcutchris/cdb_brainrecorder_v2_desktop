@@ -68,6 +68,29 @@ class TokensTests(unittest.TestCase):
     def test_factory_default_is_off_without_starting_reader(self):
         n=NfcTokens(Path(self.tmp.name)/'fresh',self.reader)
         self.assertFalse(n.enabled);self.reader.start.assert_not_called()
+        self.assertEqual(n.direct_start,{'talk':False,'meeting':False})
+
+    def test_direct_start_persists_per_mode_and_rearms_only_after_removal(self):
+        self.arm()
+        self.n.configure({'action':'direct-start','mode':'meeting','enabled':True})
+        self.assertFalse(self.n.armed)
+        self.place();self.start.assert_not_called()
+        self.assertEqual(NfcTokens(self.tmp.name,self.reader).direct_start,{'talk':False,'meeting':True})
+        self.assertEqual(NfcTokens(self.tmp.name,self.reader).tags,self.n.tags)
+        self.arm();self.place();self.start.assert_called_once()
+
+    def test_direct_start_failed_save_rolls_back_and_rejects_non_boolean(self):
+        with patch('services.nfc_tokens.atomic_write',side_effect=OSError('disk full')):
+            with self.assertRaises(OSError):self.n.configure({'action':'direct-start','mode':'talk','enabled':True})
+        self.assertFalse(self.n.direct_start['talk'])
+        for value in ('true',1,None):
+            with self.assertRaises(ValueError):self.n.configure({'action':'direct-start','mode':'talk','enabled':value})
+
+    def test_upgrade_preserves_tags_without_enabling_direct_start(self):
+        self.n.path.write_text(json.dumps({'enabled':True,'tags':self.n.tags}))
+        upgraded=NfcTokens(self.tmp.name,self.reader)
+        self.assertTrue(upgraded.enabled);self.assertEqual(upgraded.tags,self.n.tags)
+        self.assertEqual(upgraded.direct_start,{'talk':False,'meeting':False})
 
 
 class OwnershipTests(unittest.TestCase):

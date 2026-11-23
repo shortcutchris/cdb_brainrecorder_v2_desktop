@@ -69,6 +69,9 @@ class NfcTokens:
         self.tags = {k:v for k,v in tags.items()
                      if k in ('talk', 'meeting') and isinstance(v,str) and re.fullmatch('[0-9a-f]{64}',v)}
         self.enabled = saved.get('enabled') is True and len(self.tags) == 2 and len(set(self.tags.values())) == 2
+        choices = saved.get('direct_start', {})
+        self.direct_start = {mode: isinstance(choices, dict) and choices.get(mode) is True
+                             for mode in ('talk', 'meeting')}
         self.reader = reader or ReaderProcess()
         self.clock = clock
         self.inspect_until = 0
@@ -85,14 +88,14 @@ class NfcTokens:
         self.empty_since = self.present_since = self.tag = None
 
     def save(self):
-        atomic_write(self.path, json.dumps({'enabled':self.enabled, 'tags':self.tags}))
+        atomic_write(self.path, json.dumps({'enabled':self.enabled, 'tags':self.tags, 'direct_start':self.direct_start}))
         self.path.chmod(0o600)
 
     def configure(self, body):
-        previous = dict(self.tags), self.enabled
+        previous = dict(self.tags), self.enabled, dict(self.direct_start)
         try: return self._configure(body)
         except Exception:
-            self.tags, self.enabled = previous
+            self.tags, self.enabled, self.direct_start = previous
             self.reset_edge()
             raise
 
@@ -114,6 +117,15 @@ class NfcTokens:
             self.save()
             self.message = mode.title()+' zugeordnet. Aufsteller wieder abnehmen.'
             self.reset_edge()
+        elif action == 'direct-start':
+            mode = body.get('mode')
+            if mode not in self.direct_start or type(body.get('enabled')) is not bool:
+                raise ValueError('Direktstart für Talk oder Meeting ein- oder ausschalten.')
+            if self.owner: raise ValueError('Laufenden Modus zuerst beenden.')
+            self.direct_start[mode] = body['enabled']
+            self.save()
+            self.reset_edge()  # A settings change is never a placement event.
+            self.message = 'Startverhalten gespeichert. Aufsteller mindestens zwei Sekunden abnehmen.'
         elif action in ('on','off'):
             if action == 'on' and len(set(self.tags.values())) != 2:
                 raise ValueError('Zuerst zwei unterschiedliche Tags zuordnen.')
@@ -127,6 +139,7 @@ class NfcTokens:
     def public(self):
         return {'enabled':self.enabled, 'state':self.status, 'message':self.message,
                 'assigned':{k:k in self.tags for k in ('talk','meeting')},
+                'direct_start':dict(self.direct_start),
                 'active_mode':self.owner[0] if self.owner else None,
                 'can_enroll':not self.enabled and self.reader.snapshot().get('state') == 'present'}
 
@@ -173,7 +186,7 @@ class NfcTokens:
             self.message = self.owner[0].title()+' aktiv. Zum Beenden Aufsteller abnehmen.'
             return
         if not self.armed:
-            self.message = 'Zum Start zunächst alle Aufsteller abnehmen.'
+            self.message = 'Zum erneuten Start Aufsteller mindestens zwei Sekunden abnehmen.'
             return
         if self.present_since is None or now-self.present_since < .5: return
         self.armed = False

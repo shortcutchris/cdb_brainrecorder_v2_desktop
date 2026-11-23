@@ -134,7 +134,7 @@
    const talk=r.intent.mode==='talk';
    $('room-title').textContent=talk?'Gespräch vorbereiten':'Meeting vorbereiten';
    $('room-person').textContent=r.signed_in?'Weiter als '+state.cdb.identity.name+' · '+brainEnvironment(state.cdb.config.server):'Melde dich mit deinem Brain-Konto an.';
-   $('room-message').textContent=message||(r.signed_in?(talk?'Erst „Gespräch starten“ verbindet dein Mikrofon mit dem Brain.':'Erst „Aufnahme starten“ speichert die Meetingaufnahme.')+(r.ambient_activity?' Bis dahin wird nur der Geräuschpegel lokal ausgewertet.':''):'Ohne Internet ist keine neue Anmeldung möglich. Unter Betreiber → Netzwerk kannst du WLAN prüfen.');
+   $('room-message').textContent=message||r.intent.message||(r.signed_in?(talk?'Erst „Gespräch starten“ verbindet dein Mikrofon mit dem Brain.':'Erst „Aufnahme starten“ speichert die Meetingaufnahme.')+(r.ambient_activity?' Bis dahin wird nur der Geräuschpegel lokal ausgewertet.':''):'Ohne Internet ist keine neue Anmeldung möglich. Unter Betreiber → Netzwerk kannst du WLAN prüfen.');
    $('room-nfc').hidden=r.intent.source!=='nfc';
    const missingTag=r.intent.source==='nfc'&&!r.intent.tag_present;
    $('room-nfc').textContent=missingTag?'Die Anmeldung bleibt offen. Lege zum Start denselben Aufsteller wieder auf den Leser.':'Aufsteller erkannt. Erst deine Bestätigung startet Aufnahme oder Gespräch.';

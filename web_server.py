@@ -29,7 +29,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.96'
+VERSION = '0.5.97'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -180,21 +180,31 @@ class StudioApp:
         return lease
 
     def nfc_start(self, mode):
+        if mode not in ('talk', 'meeting'): raise ValueError('Talk oder Meeting wählen.')
         reason = self.wake_reason()
         if reason: raise ValueError(reason)
-        if self.room.enabled:
-            intent = self.room.intent
+        intent = self.room.intent
+        if self.room.enabled and (not self.room.account() or intent or not self.nfc.direct_start[mode]):
             # Replacing the same tag after a reader dropout must not cancel
             # its pending device login or silently extend its deadline.
             if not intent or intent['mode'] != mode or intent['tag'] != self.nfc.tag:
                 self.room.begin(mode, self.nfc.tag)
             raise ValueError('Am Bildschirm anmelden und den Start bestätigen.')
-        if mode == 'meeting':
-            return self.action('/api/record/start', {})['id']
-        account = self.wake_account()
-        if not account: raise ValueError('Für Talk zuerst beim Brain anmelden.')
-        self.wake.suspend('NFC-Gespräch startet.')
-        return self._start_device_live_locked(account)
+        try:
+            if mode == 'meeting':
+                identity = self.action('/api/record/start', {})['id']
+            else:
+                account = self.wake_account()
+                if not account: raise ValueError('Für Talk zuerst beim Brain anmelden.')
+                self.wake.suspend('NFC-Gespräch startet.')
+                identity = self._start_device_live_locked(account)
+        except ValueError as error:
+            if self.room.enabled:
+                self.room.begin(mode, self.nfc.tag)
+                self.room.intent['message'] = str(error)
+            raise
+        self.room.touch()
+        return identity
 
     def nfc_still_owned(self, mode, identity):
         if mode == 'meeting': return self.engine.recorder.status().get('id') == identity

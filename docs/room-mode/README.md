@@ -15,6 +15,12 @@ Die PIN wird lokal mit zufälligem Salt und scrypt gespeichert. Nach fünf falsc
 ## Am Gerät arbeiten
 
 - **Meeting aufzeichnen** oder **Mit dem Brain sprechen** antippen. Ein bekannter NFC-Aufsteller führt zum selben Ablauf.
+- Optional ab 0.5.97: In **Audio → NFC-Aufsteller** Direktstart getrennt für Talk
+  und Meeting einschalten. Ein bereits angemeldeter Benutzer startet dann durch
+  erneutes Aufstellen unmittelbar, solange keine Vorbereitung offen ist. Ohne
+  Anmeldung sowie bei offener Vorbereitung bleibt die Bildschirmbestätigung
+  erhalten. Ein bereits aufliegender Aufsteller startet bei Anmeldung nicht
+  nachträglich. Nach Abbrechen mindestens zwei Sekunden abnehmen und neu auflegen.
 - Ohne Anmeldung öffnet sich der bestehende Microsoft-Dialog mit QR-Code und Eingabecode. Dafür ist Internet nötig. Ein Aufsteller wählt ausschließlich den Modus und ist kein Ausweis.
 - Nach Anmeldung zeigt die Vorbereitung Name und Brain-Umgebung. **Aufnahme starten** beziehungsweise **Gespräch starten** startet die Aufnahme beziehungsweise die Audioübertragung für das Gespräch ausdrücklich. Eine eingeschaltete lokale Geräuscherkennung speichert bis dahin weiterhin keinen Ton. Bei Talk zuerst Gesprächswissen auswählen, falls noch keines gespeichert ist.
 - **Anderes Konto** öffnet dieselbe Speicher- und Abmeldebestätigung wie der Kontodialog. Danach die gewünschte Aktion mit dem anderen Konto erneut wählen.

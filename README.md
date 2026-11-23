@@ -2,6 +2,16 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.97 – Einstellbarer NFC-Direktstart
+
+Unter **Einstellungen → Audio → NFC-Aufsteller** lassen sich **Meeting direkt
+starten** und **Talk direkt starten** getrennt einschalten. Bei bestehender
+Anmeldung und ohne offene Vorbereitung genügt dann das Aufstellen: Meeting
+startet die Aufnahme, Talk das Gespräch mit den gespeicherten Wissensbereichen.
+Zum erneuten Start mindestens zwei Sekunden abnehmen. Bestehende und neue Geräte
+behalten ohne ausdrückliche Auswahl die Bildschirmbestätigung. [Details und
+Prüfstand](docs/nfc/acceptance-0.5.97.md).
+
 ## 0.5.96 – NFC-Anmeldung bleibt bei Lesepausen offen
 
 Eine unterbrochene Leserantwort oder das Abheben des Aufstellers schließt die

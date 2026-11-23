@@ -186,6 +186,7 @@ class RoomMode:
             intent = {k: self.intent[k] for k in ('id', 'mode')}
             intent['source'] = 'nfc' if self.intent['tag'] else 'touch'
             intent['tag_present'] = bool(self.intent['tag_present'])
+            intent['message'] = self.intent.get('message', '')
         return {'enabled': self.enabled, 'signed_in': bool(self.account()), 'intent': intent,
                 'epoch': self.epoch, 'idle_minutes': self.config.get('idle_minutes', 15),
                 'idle_remaining': self.idle_remaining(), 'idle_suspended': self.idle_suspended,

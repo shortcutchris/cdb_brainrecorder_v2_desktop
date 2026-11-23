@@ -1,4 +1,4 @@
-# NFC-Aufsteller · Recorder 0.5.96
+# NFC-Aufsteller · Recorder 0.5.97
 
 Stand 23.11.2026. Die optionale NFC-Laufzeit ist auf dem Recorder-Pi installiert:
 `python3-pyscard` 2.2.2-1, `pcscd` 2.3.3-1 und `libccid` 1.6.2-1;
@@ -24,7 +24,16 @@ abnehmen, NFC einschalten, 1,5 Sekunden leeres Lesefeld abwarten.
 - Talk nutzt das aktuelle Brain-Konto und die zuvor gespeicherten Wissensbereiche.
 - Meeting verwendet den bestehenden Record-Start und Record-Stop mit Speicherung
   und normaler nachgelagerter Verarbeitung. Kein zweiter Audio-Recorder.
-- Im standardmäßigen Raummodus führt ein Aufsteller zunächst zur Anmeldung und Vorbereitung. Ohne Anmeldung keine Gastaufnahme; Start am Display ausdrücklich bestätigen.
+- Ohne Anmeldung führt ein Aufsteller zunächst zur Anmeldung und Vorbereitung.
+  Ohne Anmeldung keine Gastaufnahme; nach dieser Anmeldung den Start am Display
+  bestätigen. Ein liegengebliebener Aufsteller startet nicht nachträglich Audio.
+- Seit 0.5.97: **Meeting direkt starten** und **Talk direkt starten** sind in den
+  NFC-Einstellungen getrennt wählbar. Bei bereits angemeldetem Benutzer und ohne
+  offene Vorbereitung startet Aufstellen den gewählten Modus unmittelbar.
+  Ohne Direktstart erscheint weiterhin die Startbestätigung. Neue und aktualisierte
+  Geräte aktivieren Direktstart nicht ungefragt. Beide Einstellungen bleiben über
+  Neustarts erhalten; ihre Änderung erfordert dieselbe Betreiberfreigabe wie die
+  übrigen NFC-Einstellungen. [Prüfstand](acceptance-0.5.97.md).
 - Ab 0.5.96 bleibt diese Vorbereitung bis zu fünf Minuten erhalten, auch wenn der
   Aufsteller kurz abgenommen wird oder der Leser aussetzt. Erneutes Auflegen
   desselben Aufstellers setzt weder Anmeldung noch Frist zurück. Zum bestätigten
@@ -33,6 +42,11 @@ abnehmen, NFC einschalten, 1,5 Sekunden leeres Lesefeld abwarten.
   verwerfen den Startwunsch und einen dazugehörigen offenen Anmeldeversuch.
 - Ein stabiler Tag startet einmal. 1,5 Sekunden bestätigte Abwesenheit stoppen
   ausschließlich die eigene Aufnahme-ID bzw. Live-Lease.
+- Nach Abbrechen oder manuellem Stoppen den Aufsteller mindestens zwei Sekunden
+  vollständig abnehmen, bevor er erneut aufgelegt wird. Auch das Einschalten von
+  Direktstart oder ein Neustart löst bei bereits aufgelegtem Tag keinen Start aus.
+- Fehlende Talk-Wissensbereiche oder andere Startvoraussetzungen führen zur
+  Vorbereitung mit Hinweis. Kein automatischer Wiederholungsversuch.
 - Manuelles Stoppen, Neustart mit gehaltenem Tag, unbekannte Tags und blockierter
   Start lösen keine automatischen Wiederholungen aus. Erst abnehmen und neu auflegen.
 - Ein Reader-/USB-Fehler ist keine Abwesenheit. Die Aufnahme bleibt erhalten;

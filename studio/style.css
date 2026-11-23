@@ -77,3 +77,9 @@ dialog .touch-keyboard .key-row button{min-height:44px;height:100%;margin:0;padd
 dialog .touch-keyboard .key-row:last-child button{font-size:14px}
 
 .nfc-banner { margin: .4rem 0; padding: .5rem .8rem; border: 1px solid currentColor; border-radius: .5rem; font-size: .85rem; }
+
+.nfc-start-options { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+.nfc-start-options > div { display: grid; gap: .5rem; padding: 1rem; border: 1px solid var(--line); border-radius: .75rem; }
+.nfc-start-options span { font-size: .9rem; }
+.nfc-start-options button { min-height: 56px; }
+.nfc-start-options button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent, #fff); }
