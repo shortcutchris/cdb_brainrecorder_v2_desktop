@@ -2,6 +2,12 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## Vorgemerkt: lokale Hilfe und Browser-Fernbedienung
+
+Konzept vom 23.11.2026: eine auf dem Pi gespeicherte, offline lesbare Hilfe mit einem späteren, ausdrücklich gekoppelten Fernbedienungsbereich. Der vorhandene Kiosk-Webserver bleibt lokal geschützt; die bisherige LAN-Bildschirmfreigabe bleibt nur lesend. [Vorschlag, Bestand und Umsetzungsschritte](docs/local-portal/README.md). Noch nicht umgesetzt oder auf dem Pi aktiviert.
+
+Die vereinfachte Brain-Anmeldung per QR-Code ohne Abtippen bleibt auf Nutzerwunsch zurückgestellt: [vorgemerkte Anmeldeidee](docs/cdb-integration/deferred-qr-login.md).
+
 ## cdbPiOS – eigener Startbildschirm
 
 CDB-Signet, „cdbPiOS startet …“ und passende Abschaltanzeige sind auf dem Pi als eigenes Plymouth-Theme installiert. Logo im Querformat und Startklang wurden nach einem Systemneustart direkt am Gerät bestätigt. Das native Hochkantbild des Touch Display 2 erhält vorgedrehte Grafiken für den quer eingebauten Bildschirm; Desktop- und Touch-Einstellungen bleiben erhalten. Vorhandene Geräte benötigen eine einmalige Installation mit Administratorrechten. Neue saubere Image-Baupakete enthalten die explizite Factory-Integration. [Vorschau, Installation, Rücknahme und Abnahmegrenzen](docs/boot-brand/README.md).
