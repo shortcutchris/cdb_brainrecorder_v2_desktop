@@ -47,10 +47,17 @@ Statuszeile: bei Meeting unter den Notizen, bei Talk über den Gesprächsbuttons
 
 ## Auslieferung
 
-Lokale Prüfungen abgeschlossen. Signiertes Pi-Update und sauberes Image-Baupaket
-werden aus diesem Commit erzeugt; der tatsächliche Auslieferungsnachweis wird
-nach Installation ergänzt. Keine Aufnahme und kein reales Voice-Gespräch werden
-für die Prüfung am Benutzergerät gestartet.
+Signierte Version 0.5.98 aus Commit `55c1917` am 23.11.2026 um 18:49 Uhr MEZ
+auf dem freien Pi installiert. 150 App-Dateien verifiziert, Kiosk neu gestartet,
+Einstellungen, Aufnahmebestand und NFC-Datei unverändert. Direktstart beider Modi
+bleibt ein; beide neuen Beenden-Optionen sind ein. Die vorherige Anmeldung endete
+beim App-Neustart wie vorgesehen. Hilfeportal und Steuerungsfreigabe erhalten.
+[Bereinigter Installationsnachweis](098-deployment.json).
+
+Das Image-Baupaket wurde aus demselben sauberen Commit erzeugt, 157 Quell-Hashes
+geprüft. Kein neues SD-Image gebaut oder gebootet. Am Benutzergerät wurde weder
+Aufnahme noch echtes Gespräch für den Test gestartet. Die sichtbare Timerabnahme
+nach erneuter Anmeldung ist beim Benutzer angefragt.
 
 ## Bestehendes Gerät und neue SD-Karte
 
