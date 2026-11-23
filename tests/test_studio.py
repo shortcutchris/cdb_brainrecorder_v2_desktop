@@ -485,7 +485,7 @@ class StudioTests(unittest.TestCase):
                 self.app.engine.recorder.paused = paused
                 try:
                     for url, body in [('/api/cdb/login', {}), ('/api/cdb/logout', {}),
-                                      ('/api/cdb/config', {'server':'https://cdbos.de'})]:
+                                      ('/api/cdb/config', {'server':'https://cdbos.de'}), ('/api/cdb/login/cancel', {})]:
                         self.assertEqual(self.request(url, body)[0], 400)
                 finally:
                     self.app.engine.recorder.active = None

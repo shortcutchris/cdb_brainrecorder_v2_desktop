@@ -1,13 +1,21 @@
 const test=require('node:test'),assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs');
 function harness(storage=new Map()){
  const nodes={},el=id=>nodes[id]??={hidden:false,dataset:{},textContent:'',open:false,querySelector:()=>el(id+'-actions'),showModal(){this.open=true},close(){this.open=false}},calls=[];
- const c={$:el,state:{version:'test',activity:{busy:false},management:{},recording:{},live:{},jobs:[],timers:{items:[]}},online:true,confirmAction:async()=>false,allowed:()=>true,document:{querySelector:()=>({content:'test'})},sessionStorage:{getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v)},location:{reload:()=>calls.push('reload'),search:''},URLSearchParams,history:{replaceState(){}},run:f=>f,flush:async()=>calls.push('saved'),api:async(path,body)=>calls.push([path,body]),poll:async()=>{},notice:()=>calls.push('notice'),renderState(){},showSettingsDetail(){}};
+ const c={$:el,state:{version:'test',activity:{busy:false},management:{},recording:{},live:{},jobs:[],timers:{items:[]}},online:true,confirmAction:async()=>false,allowed:()=>true,document:{querySelector:()=>({content:'test'})},sessionStorage:{getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v)},location:{reload:()=>calls.push('reload'),search:''},URLSearchParams,history:{replaceState(){}},run:f=>f,flushAllDrafts:async()=>calls.push('saved'),api:async(path,body)=>calls.push([path,body]),poll:async()=>{},notice:()=>calls.push('notice'),renderState(){},showSettingsDetail(){}};
  vm.createContext(c);vm.runInContext(fs.readFileSync('studio/management.js','utf8'),c);return {c,el,calls};
 }
-test('local restart needs a second tap and saves drafts before request',async()=>{const h=harness();await h.el('management-restart').onclick();assert.equal(h.calls.length,0);assert.match(h.el('management-restart').textContent,/Jetzt/);await h.el('management-restart').onclick();assert.equal(h.calls[0],'saved');assert.equal(h.calls[1][0],'/api/device/restart');assert.equal(h.calls[1][1].confirm,true);assert.equal(h.el('management-restart').disabled,true)});
-test('active work disables restart and cancels pending confirmation',async()=>{const h=harness();await h.el('management-restart').onclick();h.c.state.activity.busy=true;h.c.renderState();assert.equal(h.el('management-restart').disabled,true);assert.equal(h.el('management-restart').textContent,'Pi neu starten');h.c.state.activity.busy=false;h.c.state.timers.items=[{state:'scheduled'}];h.c.renderState();assert.equal(h.el('management-restart').disabled,true)});
+test('restart needs an explicit dialog confirmation and saves before request',async()=>{
+ const h=harness();await h.el('management-restart').onclick();assert.equal(h.calls.length,0);
+ h.c.confirmAction=async()=>true;await h.el('management-restart').onclick();assert.equal(h.calls[0],'saved');assert.equal(h.calls[1][0],'/api/device/restart');assert.equal(h.calls[1][1].confirm,true);assert.equal(h.el('management-restart').disabled,true);
+});
+test('restart cannot race shutdown or work beginning while confirmation is open',async()=>{
+ const h=harness();let answer;h.c.confirmAction=()=>new Promise(r=>answer=r);
+ const pending=h.el('management-restart').onclick();await h.el('management-shutdown').onclick();await h.el('management-restart').onclick();assert.equal(h.calls.length,0);
+ h.c.state.recording={id:'new'};answer(true);await assert.rejects(pending,/beschäftigt/);assert.equal(h.calls.some(Array.isArray),false);
+ h.c.renderState();assert.equal(h.el('management-restart').disabled,true);
+});
 test('version mismatch reloads only once even if next page still has stale HTML',async()=>{const storage=new Map();const a=harness(storage);a.c.state.version='new';a.c.renderState();a.c.renderState();await new Promise(setImmediate);assert.deepEqual(a.calls,['saved','reload']);const b=harness(storage);b.c.state.version='new';b.c.renderState();await new Promise(setImmediate);assert.equal(b.calls.length,0)});
-test('recording starting during draft save cancels automatic reload',async()=>{const h=harness();let done;h.c.flush=()=>new Promise(r=>done=r);h.c.state.version='new';h.c.renderState();h.c.state.recording={id:'recording'};done();await new Promise(setImmediate);assert.equal(h.calls.includes('reload'),false)});
+test('recording starting during draft save cancels automatic reload',async()=>{const h=harness();let done;h.c.flushAllDrafts=()=>new Promise(r=>done=r);h.c.state.version='new';h.c.renderState();h.c.state.recording={id:'recording'};done();await new Promise(setImmediate);assert.equal(h.calls.includes('reload'),false)});
 test('unavailable storage cannot create a reload loop',async()=>{const h=harness();h.c.sessionStorage.getItem=()=>{throw Error('blocked')};h.c.state.version='new';h.c.renderState();await new Promise(setImmediate);assert.equal(h.calls.includes('reload'),false)});
 test('shutdown cancel never sends a command; confirmation saves and locks repeated taps',async()=>{
  const h=harness();await h.el('management-shutdown').onclick();assert.equal(h.calls.length,0);
@@ -22,7 +30,7 @@ test('shutdown cancel never sends a command; confirmation saves and locks repeat
 test('work starting during confirmation or draft save cancels shutdown',async()=>{
  for(const stage of ['confirm','save']){const h=harness();let done;
   h.c.confirmAction=stage==='confirm'?()=>new Promise(r=>done=r):async()=>true;
-  if(stage==='save')h.c.flush=()=>new Promise(r=>done=r);
+  if(stage==='save')h.c.flushAllDrafts=()=>new Promise(r=>done=r);
   const pending=h.el('management-shutdown').onclick();await new Promise(setImmediate);h.c.state.recording={id:'active'};done(true);
   await assert.rejects(pending,/beschäftigt/);assert.equal(h.calls.some(c=>Array.isArray(c)&&c[0]==='/api/device/shutdown'),false);
  }

@@ -7,6 +7,7 @@
  const editable=el=>el instanceof HTMLTextAreaElement||el instanceof HTMLInputElement&&['text','password','search','url','email','tel'].includes(el.type);
  document.addEventListener('focusin',event=>{if(editable(event.target)){target=event.target;focusSettings(target);if(!panel.hidden)requestAnimationFrame(()=>target?.scrollIntoView({block:'nearest'}))}});
  function hide(){document.querySelectorAll('.keyboard-muted').forEach(x=>x.classList.remove('keyboard-muted'));panel.hidden=true;document.body.classList.remove('keyboard-open','editing-meeting');document.querySelectorAll('dialog').forEach(d=>d.classList.remove('with-keyboard'))}
+ window.hideStudioKeyboard=hide;
  function draw(){
   panel.replaceChildren();
   const rows=numeric?[['1','2','3','4','5','6','7','8','9','0'],['@','#','€','%','&','(',')','/',';',':','?'],['⇧','+','-','*','=','!','"',"'",'_','\\','§','⌫']]:[['q','w','e','r','t','z','u','i','o','p','ü'],['a','s','d','f','g','h','j','k','l','ö','ä'],['⇧','y','x','c','v','b','n','m',',','.','ß','⌫']];

@@ -29,7 +29,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.91'
+VERSION = '0.5.92'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -586,13 +586,9 @@ class StudioApp:
             self.require('configure')
             self.room.begin(body.get('mode'))
         elif action == 'finish':
-            if self.engine.recorder.active:
-                if body.get('confirm') is not True: raise ValueError('Aufnahme stoppen und abmelden bitte bestätigen.')
-                self.engine.stop(); self.controller.sync()
-            if self.live.busy():
-                if body.get('confirm') is not True: raise ValueError('Gespräch beenden und abmelden bitte bestätigen.')
-                self.live.end(self.live.lease)
-                return {'finishing': True}
+            # Logout never doubles as Stop, even for stale confirmed dialogs.
+            # action() holds the same lock as recording/Live start throughout.
+            self.require('configure')
             self.room_logout()
         elif action == 'start':
             intent = self.room.check_intent(body.get('id'), self.nfc)
@@ -721,13 +717,14 @@ class StudioApp:
                 self.room.touch()
                 if path == '/api/cdb/logout':
                     self.require('configure'); self.room_logout(); return self.cdb.public()
-                if path == '/api/cdb/login/cancel': self.room.cancel()
+                if path == '/api/cdb/login/cancel':
+                    self.require('configure'); self.room.cancel()
                 if path == '/api/cdb/login':
                     self.require('configure')
                     if self.room.account(): self.room_logout()
                     self.room.login_owned = bool(self.room.intent) and self.cdb.login.get('state') != 'pending'
             # Check before any wake, playback or account side effects.
-            if path in ('/api/cdb/login', '/api/cdb/logout', '/api/cdb/config'):
+            if path in ('/api/cdb/login', '/api/cdb/logout', '/api/cdb/login/cancel', '/api/cdb/config'):
                 self.require('configure')
             if path == '/api/cdb/login/cancel':
                 return self.cdb.cancel_login()

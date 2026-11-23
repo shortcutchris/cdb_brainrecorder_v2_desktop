@@ -113,11 +113,35 @@ class RoomTests(unittest.TestCase):
             self.assertEqual(status,200,data);start.assert_called_once()
         self.assertEqual(nfc.owner,('meeting','capture-id'));self.assertIsNone(self.app.room.intent)
 
-    def test_failed_stop_keeps_account_and_recording(self):
-        self.enable();self.login()
-        with patch.object(self.app.engine.recorder,'active','synthetic-id'), patch.object(self.app.engine,'stop',side_effect=ValueError('stop failed')):
-            self.assertEqual(self.request('/api/room/finish',{'confirm':True})[0],400)
-            self.assertIsNotNone(self.app.room.account())
+    def test_logout_never_stops_active_or_paused_recording_even_if_confirmed(self):
+        self.enable(); self.login()
+        for paused in (False, True):
+            with patch.object(self.app.engine.recorder, 'active', 'synthetic-id'), \
+                 patch.object(self.app.engine.recorder, 'paused', paused), \
+                 patch.object(self.app.engine, 'stop') as stop, \
+                 patch.object(self.app.wake, 'configure') as wake:
+                for path in ('/api/room/finish', '/api/cdb/logout'):
+                    for body in ({}, {'confirm': True}):
+                        self.assertEqual(self.request(path, body)[0], 400, (path, paused))
+                self.assertIsNotNone(self.app.room.account())
+                stop.assert_not_called(); wake.assert_not_called()
+
+    def test_logout_never_ends_live_during_connect_talk_or_close(self):
+        self.enable(); self.login()
+        for phase in ('connecting', 'active', 'closing'):
+            with patch.object(self.app.live, 'public', return_value={'state':phase,'busy':True}), \
+                 patch.object(self.app.live, 'end') as end:
+                for path in ('/api/room/finish', '/api/cdb/logout'):
+                    self.assertEqual(self.request(path, {'confirm':True})[0], 400)
+                self.assertIsNotNone(self.app.room.account()); end.assert_not_called()
+
+    def test_idle_logout_keeps_owned_meeting_and_requires_reauthentication(self):
+        self.enable(); self.login(); ident, sid = self.job()
+        self.assertEqual(self.request('/api/room/finish', {})[0], 200)
+        self.assertIsNone(self.app.room.account())
+        self.assertTrue((self.app.store.folder(ident)/'audio.wav').exists())
+        self.assertEqual(self.app.state()['sessions'], [])
+        self.login(); self.assertEqual(self.request('/api/sessions/'+str(sid))[0], 200)
 
     def test_restart_does_not_reuse_room_login_or_intent(self):
         self.enable();self.login();ident,sid=self.job();self.app.room.begin('meeting')

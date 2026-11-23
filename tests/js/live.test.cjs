@@ -2,7 +2,7 @@ const test=require('node:test'),assert=require('node:assert/strict'),vm=require(
 function harness(){
  const nodes={},events={},calls=[];
  const element=id=>nodes[id]??=({get id(){return id},set id(value){nodes[value]=this},hidden:false,disabled:false,open:false,value:'',dataset:{},style:{},children:[],classList:{toggle(){}},setAttribute(k,v){this[k]=v},append(...a){this.children.push(...a)},before(){},replaceChildren(...a){this.children=a},show(){this.open=true},close(){this.open=false},get innerHTML(){return''},set innerHTML(html){for(const m of html.matchAll(/id="([^"]+)"/g))element(m[1])}});
- const c={document:{createElement:t=>element('new'+Math.random()),body:{append(){},dataset:{},classList:{contains(){return false}}}},window:{addEventListener:(n,f)=>events[n]=f},$:element,state:{recording:{id:null},live:{state:'idle',busy:false,history:[]},cdb:{identity:{name:'Test'}}},online:true,csrf:'csrf',renderState(){},workspaceView(id){c.document.body.dataset.workspace=id;element(id).show()},leaveDraft:async()=>{},audio:{pause(){}},drawPageNumbers(){},run:fn=>fn,setInterval:()=>1,clearInterval(){},fetch:async()=>{},poll:async()=>{},openSettings:async()=>{},showSettingsDetail(){},api:async(path,body)=>{
+ const c={document:{querySelectorAll:()=>[],createElement:t=>element('new'+Math.random()),body:{append(){},dataset:{},classList:{contains(){return false}}}},window:{addEventListener:(n,f)=>events[n]=f},$:element,state:{recording:{id:null},live:{state:'idle',busy:false,history:[]},cdb:{identity:{name:'Test'}}},online:true,csrf:'csrf',renderState(){},workspaceView(id){c.document.body.dataset.workspace=id;element(id).show()},leaveDraft:async()=>{},audio:{pause(){}},drawPageNumbers(){},run:fn=>fn,setInterval:()=>1,clearInterval(){},fetch:async()=>{},poll:async()=>{},openSettings:async()=>{},showSettingsDetail(){},api:async(path,body)=>{
   calls.push([path,body]);
   if(path==='/api/live/setup')return {enabled:true,max_areas:8,areas:[{id:'area',label:'Staging'}],default_area:{id:'area'},audio:{available:true,microphone_label:'ReSpeaker',speaker_label:'Pi Lautsprecher'}};
   if(path==='/api/live/reserve'){c.state.live={state:'connecting',busy:true,history:[]};return{lease:'owner-lease'}};
@@ -153,4 +153,10 @@ test('failed or stale-account grid updates preserve the prior selection',async()
  assert.equal(home.selection().ids.join(','),'area');
  h.c.state.cdb.identity={name:'Anderes Konto'};
  await assert.rejects(home.apply('account',['new']),/neu öffnen/);assert.equal(home.selection(),null);
+});
+
+test('a remote live start closes a stale modal and reveals the active controls',()=>{
+ const h=harness();let closed=false,hidden=false;h.c.document.querySelectorAll=()=>[{close(){closed=true}}];h.c.window.hideStudioKeyboard=()=>{hidden=true};
+ h.c.document.body.dataset.workspace='settings';h.c.state.live={state:'connecting',busy:true,history:[]};h.c.renderState();
+ assert.equal(closed,true);assert.equal(hidden,true);assert.equal(h.c.document.body.dataset.workspace,'live-view');assert.equal(h.element('live-end').hidden,false);
 });

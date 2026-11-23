@@ -2,7 +2,7 @@
 (() => {
  let pending=false,error='';
  function render(){
-  const n=state?.nfc||{},busy=Boolean(state?.recording?.id||state?.live?.busy),locked=pending||!online||busy;
+  const n=state?.nfc||{},busy=Boolean(state?.recording?.id||state?.live?.busy),locked=pending||!allowed('configure')||busy;
   $('nfc-banner').hidden=!n.enabled;
   $('nfc-banner').textContent=n.enabled?'NFC · '+(n.message||'Bereitschaft prüfen.') : '';
   $('nfc-state').textContent=error||n.message||'NFC ausgeschaltet.';
@@ -15,6 +15,7 @@
   for(const mode of ['talk','meeting'])$('nfc-'+mode).disabled=locked||n.enabled||!n.can_enroll;
  }
  async function act(action,mode){
+  if(pending||!allowed('configure'))return;
   pending=true;error='';render();
   try{await api('/api/nfc',{action,...(mode?{mode}: {})});await poll()}
   catch(e){error=e.message}finally{pending=false;render()}

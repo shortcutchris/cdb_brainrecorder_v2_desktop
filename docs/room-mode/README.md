@@ -1,6 +1,6 @@
 # Anmeldung, NFC und automatische Abmeldung
 
-Stand: 23.11.2026 · Recorder Studio 0.5.91. Anmeldung und Kontotrennung sind der Standard. Es gibt keine auswählbare persönliche Betriebsart und keine Gastaufnahme. Der vorherige Installationsnachweis 0.5.90 bleibt in [deployment.json](deployment.json) erhalten; der neue Nachweis steht in [deployment-0.5.91.json](deployment-0.5.91.json).
+Stand: 23.11.2026 · Recorder Studio 0.5.92. Anmeldung und Kontotrennung sind der Standard. Es gibt keine auswählbare persönliche Betriebsart und keine Gastaufnahme. Der vorherige Installationsnachweis 0.5.90 bleibt in [deployment.json](deployment.json) erhalten; der neue Nachweis steht in [deployment-0.5.91.json](deployment-0.5.91.json).
 
 ## Einmalig einrichten
 
@@ -17,10 +17,11 @@ Die PIN wird lokal mit zufälligem Salt und scrypt gespeichert. Nach fünf falsc
 - **Meeting aufzeichnen** oder **Mit dem Brain sprechen** antippen. Ein bekannter NFC-Aufsteller führt zum selben Ablauf.
 - Ohne Anmeldung öffnet sich der bestehende Microsoft-Dialog mit QR-Code und Eingabecode. Dafür ist Internet nötig. Ein Aufsteller wählt ausschließlich den Modus und ist kein Ausweis.
 - Nach Anmeldung zeigt die Vorbereitung Name und Brain-Umgebung. **Aufnahme starten** beziehungsweise **Gespräch starten** startet die Aufnahme beziehungsweise die Audioübertragung für das Gespräch ausdrücklich. Eine eingeschaltete lokale Geräuscherkennung speichert bis dahin weiterhin keinen Ton. Bei Talk zuerst Gesprächswissen auswählen, falls noch keines gespeichert ist.
-- **Anderes Konto** meldet ab. Danach die gewünschte Aktion mit dem anderen Konto erneut wählen.
+- **Anderes Konto** öffnet dieselbe Speicher- und Abmeldebestätigung wie der Kontodialog. Danach die gewünschte Aktion mit dem anderen Konto erneut wählen.
 - Bei NFC den Aufsteller während der Anmeldung liegen lassen. Abnehmen, Wechsel, veraltete Leserantwort, Abbruch oder fünf Minuten Wartezeit verwerfen den Startwunsch. Eine spätere Anmeldung startet nie automatisch.
 - Nach einem bestätigten NFC-Start beendet das Abnehmen wie bisher nur die zugehörige Aktivität (1,5 Sekunden bestätigte Abwesenheit). Ein USB-/Leserausfall beendet keine laufende Aufnahme. Im Zweifel am Display stoppen.
-- **Fertig & abmelden** ist neben dem Konto erreichbar, auch während Aufnahme/Gespräch. Der Abschlussdialog folgt dem gewählten Studio-Theme. Bei einer Aufnahme bietet er **Zur Aufnahme** und **Speichern & abmelden**; er erklärt Speicherung, Kontobindung und die anschließende Abmeldung. Kein zusätzlicher Stoppen-Button im Dialogkopf. Erst erfolgreich stoppen/sichern beziehungsweise Audio freigeben, dann abmelden. Bei Fehlschlag bleibt das Konto angemeldet.
+- **Fertig & abmelden** ist neben dem Konto erreichbar. Seit 0.5.92 ist die Taste während Aufnahme, Pause, Gespräch und laufenden Geräteänderungen gesperrt. Zuerst **Aufnahme stoppen** beziehungsweise **Gespräch beenden**. Anschließend bietet der Abschlussdialog **Angemeldet bleiben** und **Speichern & abmelden**. Alle Abmeldeeinstiege sichern die Notizen; bei einem Fehler bleibt das Konto angemeldet und der lokale Entwurf erhalten. Eine veraltete Bestätigung stoppt niemals eine neue Aufnahme. Die explizite Abmeldekachel in der Ruhefristwarnung braucht keine zweite Bestätigung, sichert aber ebenfalls zuerst den Entwurf.
+
 - Während Aufnahme, Aufnahmepause, Gespräch (einschließlich Verbindungsaufbau und Beenden) und Wiedergabe wird nie wegen Inaktivität abgemeldet. Nach deren Ende beginnt die vollständige Ruhefrist neu. Standardmäßig sind es 15 Minuten; während der letzten Minute erscheint **Angemeldet bleiben**. Berührung oder Tastatureingabe startet die Frist neu. Reine Statusabfragen verlängern sie nicht; Hintergrundverarbeitung allein hält ein verlassenes Konto nicht offen.
 
 Ein Neustart des Geräts stellt keine alte persönliche Anmeldung wieder her. Das Anmeldekonto muss erneut bestätigt werden.
@@ -84,3 +85,5 @@ Noch vor Ort zu prüfen: Empfindlichkeit im tatsächlichen Meetingraum, echter N
 [Prüfnachweis 0.5.90](acceptance.json) · [Startbestätigung 1280×720](room-confirm-1280.png) · [Startbestätigung 1024×600](room-confirm-1024.png) · [PIN mit Tastatur 1024×600](room-pin-1024.png)
 
 [Prüfnachweis 0.5.91](acceptance-0.5.91.json) · [Speichern 1024×600](room-save-1024.png) · [Speichern 1280×720](room-save-1280.png) · [Abschluss im CDB-Design](room-finish-cdb-1024.png) · [Abmeldevorwarnung](room-idle-warning-1024.png) · [Einstellungen mit Tastatur](room-standard-pin-1024.png)
+
+Die aktuelle Aktionsprüfung und Touch-Dialoge sind unter [Abnahme 0.5.92](../touch-decisions-0.5.92/README.md) dokumentiert. Die Abnahme 0.5.91 oben beschreibt den damaligen, inzwischen ersetzten kombinierten Stoppen-/Abmeldeablauf.

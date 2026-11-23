@@ -2,11 +2,19 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.92 – Große Entscheidungen und sichere Aktionswechsel
+
+Einfache Entscheidungen verwenden zwei große Kacheln im gewählten Theme: Vorbereitung, Abmeldewarnung, Sitzung abschließen, Löschen, Wiedergabehinweis, Neustart und Herunterfahren. Formulare und Wissensauswahl behalten ihre passenden Aktionsleisten. Die Bildschirmtastatur wird vor Bestätigungen geschlossen.
+
+Während Aufnahme, Pause und Gespräch sind **Abmelden** und **Kontowechsel** gesperrt. Zuerst ausdrücklich **Aufnahme stoppen** beziehungsweise **Gespräch beenden**, danach **Fertig & abmelden**. Auch die Abmeldung im Kontofenster und „Anderes Konto“ sichern zuerst Notizen und fragen nach. Eine alte Bestätigung kann niemals eine neue Aufnahme beenden. Doppeltippen sendet laufende Tastenaktionen nicht erneut; Neustart und Herunterfahren prüfen vor dem Befehl erneut den Gerätestatus.
+
+Bestehende Geräte und neue Image-Baupakete erhalten dieselben Änderungen aus den vorhandenen App-Dateien; keine neuen Systempakete, Konfigurationsmigrationen oder Datenbankschemata. [Prüfmatrix aller Ansichten, Screenshots und Installation](docs/touch-decisions-0.5.92/README.md).
+
 ## 0.5.91 – Anmeldung als Standard und Abmeldung nach Ruhe im Raum
 
 Talk und Meeting erfordern jetzt immer ein Brain-Konto. Die zusätzliche Moduswahl entfällt. Unter **Einstellungen → Gerät & Verwaltung → Anmeldung & Geräteschutz** wird einmalig die Betreiber-PIN eingerichtet. Bestehende Aufnahmen bleiben unverändert; unzugeordneter Altbestand wird keinem Benutzer automatisch zugeteilt.
 
-Während Aufnahme, Aufnahmepause, Gespräch und Wiedergabe bleibt die Sitzung offen. Danach beginnt die volle Ruhefrist neu: standardmäßig 15 Minuten, mit einer Minute Vorwarnung und **Angemeldet bleiben**. **Fertig & abmelden** öffnet den zum Studio-Theme passenden Abschlussdialog mit großen Touch-Tasten. **Zur Aufnahme** setzt die laufende Nutzung fort; **Speichern & abmelden** beendet sie nach erfolgreichem Sichern.
+Während Aufnahme, Aufnahmepause, Gespräch und Wiedergabe bleibt die Sitzung offen. Danach beginnt die volle Ruhefrist neu: standardmäßig 15 Minuten, mit einer Minute Vorwarnung und **Angemeldet bleiben**. **Fertig & abmelden** öffnet den zum Studio-Theme passenden Abschlussdialog mit großen Touch-Tasten. Seit 0.5.92 muss eine Aufnahme oder ein Gespräch zuerst separat beendet werden; danach sichert **Speichern & abmelden** die Notizen und meldet ab.
 
 Optional berücksichtigt der Pi Raumgeräusche: nur lokale Pegelauswertung im vorhandenen Mikrofonprozess, ohne Tondatei, Transkription oder Übertragung. Die Anzeige nennt das aktive Mikrofon. Wechselnde Geräusche verlängern die Ruhefrist, gleichmäßiges Rauschen wird weitgehend ausgeblendet. Bei Ausfall gilt die normale Frist. Die Erkennung ist kein sicherer Anwesenheitsnachweis; neue Geräte starten mit ausgeschalteter Geräuscherkennung. Auf dem Test-Pi wird sie auf ausdrücklichen Nutzerwunsch aktiviert.
 

@@ -78,7 +78,7 @@ async function saveDefaultArea(id){
 for(const [id,key] of [['cdb-server','server'],['cdb-transcription','transcription'],['cdb-summary','summary']])$(id).onchange=run(async()=>{try{await api('/api/cdb/config',{[key]:$(id).value})}finally{await poll()}});
 $('cdb-login').onclick=run(async()=>{await api('/api/cdb/login',{});await poll()});
 $('cdb-cancel-login').onclick=run(async()=>{await api('/api/cdb/login/cancel',{});await poll()});
-$('cdb-logout').onclick=run(async()=>{await api('/api/cdb/logout',{});resetAreas('');await poll()});
+$('cdb-logout').onclick=run(async()=>{if(window.finishRoomSession){await window.finishRoomSession();return}await flush();await api('/api/cdb/logout',{});resetAreas('');await poll()});
 for(const id of ['cdb-areas-refresh','cdb-connection-refresh'])$(id).onclick=run(loadCdbAreas);
 for(const id of ['cdb-area','cdb-connection-area'])$(id).onchange=run(()=>saveDefaultArea(id));
 $('cdb-send-area').onchange=()=>{meetingTargetOverride=$('cdb-send-area').value||null;renderCdb()};

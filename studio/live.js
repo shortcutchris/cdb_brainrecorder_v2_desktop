@@ -16,6 +16,7 @@
  const areaLocked=()=>busy()||Boolean(state?.live?.history?.length);
  const maxAreas=()=>Math.min(8,Math.max(1,Number(setup?.max_areas)||8));
  const busy=()=>Boolean(state?.live?.busy)||starting||ending;
+ window.studioLiveBusy=busy;
  const post=(path,body={})=>api('/api/live/'+path,body);
  function note(message){$('live-notice').textContent=message||'';}
  function stopHeartbeat(){clearInterval(heartbeat);heartbeat=null;}
@@ -170,9 +171,15 @@
  $('live-sound').onclick=run(async()=>{if(soundSaving)return;soundSaving=true;try{const f=await post('preferences',{lease,search_sound:state?.live?.feedback?.search_sound===false});state.live.feedback=f;drawFeedback(f)}finally{soundSaving=false;drawFeedback(state?.live?.feedback)}});
  function renderLive(){
   const live=state?.live||{state:'idle',history:[]},active=busy(),history=Boolean(live.history?.length),recording=Boolean(state?.recording.id);rail.disabled=recording;
+  if(active&&document.body.dataset.workspace!=='live-view'){
+   window.hideStudioKeyboard?.();audio.pause();
+   if(typeof pauseMicrophoneAudio==='function')pauseMicrophoneAudio();
+   for(const dialog of document.querySelectorAll('dialog:modal'))dialog.close();
+   workspaceView('live-view');
+  }
   const owner=ownerKey();if(owner!==loadedOwner&&!active){loadedOwner=owner;setup=null;chosen.clear();requestedAreas=[];selectionInitialized=false;setupLoading=false;setupError='';loadSerial++;}
   view.dataset.active=String(active);$('live-setup').hidden=active||history;$('live-chat').hidden=!active&&!history;
-  $('live-start').hidden=active||history;$('live-end').hidden=!active;$('live-end').disabled=ending||live.state==='closing';
+  $('live-start').hidden=active||history;$('live-end').hidden=!active;$('live-end').disabled=!online||ending||live.state==='closing';
   $('live-mute').hidden=!active;$('live-mute').disabled=!online||muteSaving||(!lease&&live.owner_kind!=='device')||ending||live.state==='closing';$('live-mute').textContent=live.muted?'Mikro einschalten':'Mikro stumm';$('live-mute').setAttribute('aria-pressed',String(Boolean(live.muted)));
   $('live-refresh').hidden=active||history;$('live-audio-settings').hidden=active||history;$('live-new').hidden=active||!history;
   $('live-start').disabled=!online||recording||!setup?.enabled||savingSelection||setupLoading||!chosen.size||chosen.size>maxAreas()||!setup?.audio?.available;

@@ -30,7 +30,7 @@
 
   const login = c.login;
   const pending = login.state === 'pending';
-  const locked = !allowed('configure');
+  const locked = !allowed('configure') || recordingAction || Boolean(window.roomActionBusy?.()) || Boolean(window.studioLiveBusy?.());
   const showQr = pending && !locked;
   dialog.dataset.view = showQr ? 'qr' : name ? 'signed-in' : 'signed-out';
   $('account-heading').textContent = showQr ? 'Mit Brain anmelden' : 'Brain-Konto';
@@ -53,9 +53,10 @@
   action.textContent = pending ? 'Anmeldung abbrechen' : name ? 'Abmelden' : 'Anmeldecode anzeigen';
  }
  async function changeAccount() {
-  if (submitting || !allowed('configure')) return;
+  if (submitting || !allowed('configure') || recordingAction || window.roomActionBusy?.() || window.studioLiveBusy?.()) return;
   const c = state.cdb;
   const operation = c.login.state === 'pending' ? 'login/cancel' : c.identity ? 'logout' : 'login';
+  if(operation==='logout'&&window.finishRoomSession){try{await window.finishRoomSession()}catch(error){feedback=error.message;renderAccount()}return;}
   submitting = true;
   feedback = '';
   renderAccount();

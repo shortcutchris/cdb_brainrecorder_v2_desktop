@@ -2,10 +2,10 @@
 (() => {
  const panel = document.createElement('dialog'); panel.id='room-dialog';
  panel.setAttribute('aria-labelledby','room-title');
- panel.innerHTML=`<header class="dialog-heading"><h2 id="room-title">Meeting vorbereiten</h2><button id="room-close" aria-label="Abbrechen">Schließen</button></header>
-  <div class="dialog-body"><p id="room-person"></p><p id="room-message" role="status"></p>
-  <p id="room-nfc" hidden>Lass den Aufsteller liegen. Erst deine Bestätigung startet Aufnahme oder Gespräch.</p></div>
-  <footer class="dialog-actions"><button id="room-other">Anderes Konto</button><button id="room-knowledge">Gesprächswissen wählen</button><button id="room-login" class="primary">Mit Brain anmelden</button><button id="room-start" class="primary">Aufnahme starten</button></footer>`;
+ panel.innerHTML=`<header class="dialog-heading"><h2 id="room-title">Meeting vorbereiten</h2><button id="room-close" class="icon-button" aria-label="Abbrechen"><img src="/assets/x.svg" alt=""></button></header>
+  <div class="dialog-body"><div class="room-identity"><p id="room-person"></p><button id="room-other">Anderes Konto</button></div><p id="room-message" role="status"></p>
+  <p id="room-nfc" hidden>Lass den Aufsteller liegen. Erst deine Bestätigung startet Aufnahme oder Gespräch.</p><button id="room-knowledge">Gesprächswissen wählen</button></div>
+  <footer class="dialog-actions"><button id="room-back" aria-labelledby="room-back-label" aria-describedby="room-back-detail"><img src="/assets/x.svg" alt=""><strong id="room-back-label">Zurück</strong><small id="room-back-detail">Noch nichts starten.</small></button><button id="room-login" class="primary" aria-labelledby="room-login-label"><img src="/assets/user.svg" alt=""><strong id="room-login-label">Mit Brain anmelden</strong><small>Mit deinem Konto beginnen.</small></button><button id="room-start" class="primary" aria-labelledby="room-start-label" aria-describedby="room-start-detail"><img id="room-start-icon" src="/assets/record.svg" alt=""><strong id="room-start-label">Aufnahme starten</strong><small id="room-start-detail">Dieses Meeting aufzeichnen.</small></button></footer>`;
  document.body.append(panel);
  const end=document.createElement('button');end.id='room-finish';end.textContent='Fertig & abmelden';document.body.append(end);
  const settingsButton=document.createElement('button');settingsButton.id='room-settings';settingsButton.textContent='Anmeldung & Geräteschutz';
@@ -13,17 +13,22 @@
  const settings=document.createElement('dialog');settings.id='room-settings-dialog';settings.setAttribute('aria-labelledby','room-settings-title');
  settings.innerHTML=`<header class="dialog-heading"><h2 id="room-settings-title">Anmeldung & Geräteschutz</h2><button id="room-settings-close">Schließen</button></header>
   <div class="dialog-body"><p>Talk und Meeting beginnen mit deiner Brain-Anmeldung. Jede Person sieht nur ihre eigenen Aufnahmen. Während einer Aufnahme, einer Pause oder eines Gesprächs bleibst du angemeldet.</p>
-  <div id="room-options"><div class="room-fields"><label id="room-minutes-label">Ruhefrist (Minuten)<input id="room-minutes" type="number" min="2" max="60" value="15"></label><label id="room-pin-label">Betreiber-PIN <input id="room-pin" type="password" inputmode="numeric" autocomplete="off" maxlength="12" placeholder="6 bis 12 Ziffern"></label></div><label class="room-noise-choice" id="room-noise-choice"><input id="room-noise" type="checkbox"> Raumgeräusche berücksichtigen</label><p class="room-noise-note" id="room-noise-note">Mikrofon bleibt bei angemeldeter Sitzung aktiv. Nur lokale Pegelauswertung; kein Ton wird gespeichert oder übertragen. Geräusche können die Abmeldung hinauszögern.</p></div>
+  <div id="room-options"><div class="room-fields"><label id="room-minutes-label">Ruhefrist (Minuten)<input id="room-minutes" type="text" inputmode="numeric" maxlength="2" value="15"></label><label id="room-pin-label">Betreiber-PIN <input id="room-pin" type="password" inputmode="numeric" autocomplete="off" maxlength="12" placeholder="6 bis 12 Ziffern"></label></div><label class="room-noise-choice" id="room-noise-choice"><input id="room-noise" type="checkbox"> Raumgeräusche berücksichtigen</label><p class="room-noise-note" id="room-noise-note">Mikrofon bleibt bei angemeldeter Sitzung aktiv. Nur lokale Pegelauswertung; kein Ton wird gespeichert oder übertragen. Geräusche können die Abmeldung hinauszögern.</p></div>
   <p id="room-settings-message" role="status"></p></div><footer class="dialog-actions"><button id="room-pin-keys">Tastatur</button><button id="room-unlock" class="primary">Entsperren</button><button id="room-save" class="primary">Speichern</button></footer>`;
  document.body.append(settings);
  const micStatus=document.createElement('span');micStatus.id='room-mic-status';micStatus.setAttribute('role','status');end.after(micStatus);
  const micHint=document.createElement('small');micHint.id='room-mic-hint';$('account-shortcut').querySelector('span').append(micHint);
  const idle=document.createElement('dialog');idle.id='room-idle';idle.setAttribute('aria-labelledby','room-idle-title');
- idle.innerHTML='<h2 id="room-idle-title">Bist du noch da?</h2><p id="room-idle-message"></p><footer class="dialog-actions"><button id="room-idle-finish">Jetzt abmelden</button><button id="room-stay" class="primary" autofocus>Angemeldet bleiben</button></footer>';document.body.append(idle);
+ idle.innerHTML='<header class="dialog-heading"><h2 id="room-idle-title">Bist du noch da?</h2></header><div class="dialog-body"><p id="room-idle-message"></p></div><footer class="dialog-actions"><button id="room-idle-finish" aria-labelledby="room-idle-finish-label" aria-describedby="room-idle-finish-detail"><img src="/assets/house.svg" alt=""><strong id="room-idle-finish-label">Jetzt abmelden</strong><small id="room-idle-finish-detail">Gerät für die nächste Person freigeben.</small></button><button id="room-stay" class="primary" aria-labelledby="room-stay-label" aria-describedby="room-stay-detail" autofocus><img src="/assets/user.svg" alt=""><strong id="room-stay-label">Angemeldet bleiben</strong><small id="room-stay-detail"></small></button></footer>';document.body.append(idle);
  let busy=false,loginAttempt=null,epoch=null,touched=0,message='';
  const room=()=>state?.room;
  const post=async(name,body={})=>{const result=await api('/api/room/'+name,body);await poll();return result};
- window.beginRoom=async mode=>{if(busy)return;message='';await post('begin',{mode})};
+ window.roomActionBusy=()=>busy;
+ window.beginRoom=async mode=>{
+  if(busy||recordingAction||!allowed('configure'))return;
+  busy=true;message='';renderState();
+  try{await flush();await post('begin',{mode})}finally{busy=false;renderState()}
+ };
  function showSettings(){
   $('room-minutes').value=room()?.idle_minutes||15;$('room-noise').checked=room()?.ambient_activity||false;
   $('room-pin').value='';inputTarget='room-pin';settings.dataset.editing='pin';$('room-settings-message').textContent='';settings.showModal();render();
@@ -35,18 +40,19 @@
  $('room-pin-keys').onclick=()=>{$(inputTarget).focus();$('keyboard').click()};
  $('room-unlock').onclick=run(async()=>{await post('unlock',{pin:$('room-pin').value});$('room-pin').value='';if(document.body.classList.contains('keyboard-open'))$('keyboard').click();settings.close();await openSettings()});
  $('room-save').onclick=run(async()=>{
+  const changes={idle_minutes:Number($('room-minutes').value),ambient_activity:$('room-noise').checked,pin:$('room-pin').value};
   await flush();
-  await post('configure',{idle_minutes:Number($('room-minutes').value),ambient_activity:$('room-noise').checked,pin:$('room-pin').value});
+  await post('configure',changes);
   $('room-pin').value='';if(document.body.classList.contains('keyboard-open'))$('keyboard').click();settings.close();notice('Anmeldung & Geräteschutz gespeichert.');
  });
- async function cancel(){await post('cancel');panel.close();message=''}
- $('room-close').onclick=run(cancel);panel.oncancel=event=>{event.preventDefault();void cancel()};
+ async function cancel(){if(busy)return;await post('cancel');panel.close();message=''}
+ $('room-close').onclick=$('room-back').onclick=run(cancel);panel.oncancel=event=>{event.preventDefault();void cancel()};
  $('room-login').onclick=()=> $('account-shortcut').click();
- $('room-other').onclick=run(async()=>{await flush();await api('/api/room/finish',{});clearRoomDrafts();location.reload()});
+ $('room-other').onclick=run(()=>finish());
  $('room-knowledge').onclick=run(async()=>{const selection=await window.studioLiveHome.refresh();window.openStudioKnowledge(selection)});
  $('room-start').onclick=run(async()=>{
-  if(busy||!room()?.intent)return;
-  busy=true;message='Start wird vorbereitet …';render();
+  if(busy||recordingAction||!online||!allowed('configure')||!room()?.intent)return;
+  busy=true;message='Start wird vorbereitet …';renderState();
   try{
    await flush();audio.pause();
    if(room().intent.mode==='talk'){
@@ -59,27 +65,23 @@
    else workspaceView('live-view');
    await poll();message='';
   }catch(error){message=error.message;}
-  finally{busy=false;render()}
+  finally{busy=false;renderState()}
  });
- async function finish(){
-  if(busy)return;
-  const recording=Boolean(state.recording.id),live=Boolean(state.live.busy);
-  const title=recording?'Aufnahme speichern & abschließen?':live?'Gespräch abschließen?':'Sitzung abschließen?';
-  const message=recording?'Die Aufnahme wird gestoppt und mit deinen Notizen gespeichert. Die Verarbeitung kann danach weiterlaufen. Anschließend wirst du abgemeldet.':live?'Dein Gespräch wird beendet. Anschließend wirst du abgemeldet und das Gerät ist bereit für die nächste Person.':'Du wirst abgemeldet und das Gerät ist bereit für die nächste Person.';
-  if(!await confirmAction({title,message,tone:'primary',accept:recording?'Speichern & abmelden':live?'Beenden & abmelden':'Abmelden',cancel:recording?'Zur Aufnahme':live?'Zum Gespräch':'Angemeldet bleiben',summary:{title:'Deine Aufnahmen bleiben bei dir',detail:'Gespeicherte Aufnahmen und Notizen sind deinem Brain-Konto zugeordnet.'}}))return;
-  busy=true;
+ function logoutBlocked(){return !online||recordingAction||Boolean(state?.recording?.id)||Boolean(state?.live?.busy)||Boolean(window.studioLiveBusy?.())||!allowed('configure')}
+ async function finish(skipConfirmation=false){
+  if(busy||logoutBlocked())return;
+  busy=true;renderState();
   try{
-   await flush();audio.pause();
-   let result=await api('/api/room/finish',{confirm:true});
-   for(let count=0;result.finishing&&count<40;count++){
-    await new Promise(resolve=>setTimeout(resolve,500));
-    result=await api('/api/room/finish',{confirm:true});
-   }
-   if(result.finishing)throw Error('Das Gespräch wird noch beendet. Dein Konto bleibt angemeldet. Bitte erneut versuchen.');
+   if(skipConfirmation!==true&&!await confirmAction({title:'Sitzung abschließen?',message:'Deine Notizen werden gespeichert. Danach wirst du abgemeldet und das Gerät ist bereit für die nächste Person.',tone:'primary',accept:'Speichern & abmelden',cancel:'Angemeldet bleiben',acceptDetail:'Gerät für die nächste Person freigeben.',cancelDetail:'Mit deinem Konto weiterarbeiten.',acceptIcon:'house',cancelIcon:'user',summary:{title:'Deine Aufnahmen bleiben bei dir',detail:'Gespeicherte Aufnahmen und Notizen sind deinem Brain-Konto zugeordnet.'}}))return;
+   await flushAllDrafts();
+   if(logoutBlocked())throw Error('Aufnahme, Gespräch oder laufenden Vorgang zuerst beenden. Du bleibst angemeldet.');
+   audio.pause();
+   await api('/api/room/finish',{});
    clearRoomDrafts();location.reload();
-  }finally{busy=false}
+  }finally{busy=false;renderState()}
  }
- end.onclick=run(finish);$('room-idle-finish').onclick=run(finish);
+ window.finishRoomSession=finish;
+ end.onclick=run(()=>finish());$('room-idle-finish').onclick=run(()=>finish(true));
  $('room-stay').onclick=run(async()=>{await post('touch');idle.close()});
  function clearRoomDrafts(){
   for(const storage of [localStorage,sessionStorage]){
@@ -105,11 +107,13 @@
  function render(){
   const r=room();if(!r){end.hidden=true;return}
   end.hidden=!r.enabled||!r.signed_in;
+  end.disabled=busy||logoutBlocked();
+  for(const id of ['room-idle-finish','room-stay'])$(id).disabled=busy||!online;
   micStatus.hidden=!r.signed_in||!r.ambient_activity||state.activity.busy;
   micHint.hidden=micStatus.hidden;micHint.textContent=['listening','testing','monitoring'].includes(r.ambient_state)?'Mikrofon: Geräuschpegel':'Pegelprüfung wartet';micHint.title='Nur lokale Pegelauswertung; kein Ton wird gespeichert oder übertragen.';
   micStatus.textContent=['listening','testing','monitoring'].includes(r.ambient_state)?'Mikrofon aktiv · nur Geräuschpegel':r.ambient_state==='error'?'Geräuscherkennung fehlt · Ruhefrist gilt':'Geräuscherkennung wartet · Ruhefrist gilt';
   const startFooter=$('start-status')?.parentElement;if(startFooter&&micStatus.parentElement!==startFooter)startFooter.append(micStatus);
-  end.title=r.idle_suspended?r.idle_reason+' · keine automatische Abmeldung':'Sitzung beenden und Gerät für die nächste Person freigeben';
+  end.title=end.disabled?'Aufnahme, Gespräch oder laufenden Vorgang zuerst beenden.':'Sitzung beenden und Gerät für die nächste Person freigeben';
   // Put this beside the existing account control on every workspace.
   if(!end.hidden&&$('account-shortcut').parentElement!==document.body)$('account-shortcut').after(end);
   if(settings.open){
@@ -118,11 +122,13 @@
   }
   if(!r.enabled){if(panel.open)panel.close();return}
   if(!state.recording.id&&!state.live.busy){
-   $('start-recorder').disabled=!online||busy;$('start-live').disabled=!online||busy;
-   $('record').disabled=!online||busy;
+   const preparingBlocked=!online||busy||recordingAction||!allowed('configure');
+   $('start-recorder').disabled=$('start-live').disabled=preparingBlocked;
+   if(!r.signed_in)$('record').disabled=preparingBlocked;else $('record').disabled||=preparingBlocked;
    if(!r.signed_in){$('hint-recorder').textContent='Anmelden und Aufnahme vorbereiten';$('hint-live').textContent='Anmelden und Gespräch vorbereiten';$('start-status').textContent='Bereit · Bitte mit Brain anmelden';}
    else $('hint-live').textContent='Gespräch am Pi vorbereiten';
   }
+  for(const id of ['room-close','room-back','room-other','room-login','room-knowledge'])$(id).disabled=busy||!online;
   if(r.intent){
    if(!panel.open)panel.showModal();
    const talk=r.intent.mode==='talk';
@@ -132,12 +138,12 @@
    $('room-nfc').hidden=r.intent.source!=='nfc';
    $('room-start').hidden=!r.signed_in;$('room-login').hidden=r.signed_in;
    $('room-other').hidden=!r.signed_in;$('room-knowledge').hidden=!r.signed_in||!talk;
-   $('room-start').textContent=talk?'Gespräch starten':'Aufnahme starten';$('room-start').disabled=busy||!online;
+   $('room-start-label').textContent=talk?'Gespräch starten':'Aufnahme starten';$('room-start-detail').textContent=talk?'Mit deinem Brain sprechen.':'Dieses Meeting aufzeichnen.';$('room-start-icon').src='/assets/'+(talk?'chat':'record')+'.svg';$('room-start').disabled=busy||!online||!allowed('configure');
    if(!r.signed_in&&loginAttempt!==r.intent.id){loginAttempt=r.intent.id;setTimeout(()=>$('account-shortcut').click(),0)}
    if(r.signed_in&&$('account-dialog').open)$('account-dialog').close();
   }else if(panel.open){panel.close();message='';if(loginAttempt&&$('account-dialog').open)$('account-dialog').close();loginAttempt=null}
   const warning=r.signed_in&&!state.activity.busy&&!r.idle_suspended&&r.idle_remaining<=(r.warning_seconds||60);
-  if(warning){$('room-idle-message').textContent='Du hast das Gerät eine Weile nicht verwendet. Abmeldung in '+r.idle_remaining+' Sekunden. Mit „Angemeldet bleiben“ beginnt die Ruhefrist neu. Deine Aufnahmen bleiben gespeichert.';if(!idle.open)idle.showModal()}
+  if(warning){$('room-idle-message').textContent='Automatische Abmeldung in '+r.idle_remaining+' Sekunden. Deine Aufnahmen bleiben gespeichert.';$('room-stay-detail').textContent='Weitere '+r.idle_minutes+' Minuten Ruhefrist.';if(!idle.open){window.hideStudioKeyboard?.();idle.showModal()}}
   else if(idle.open)idle.close();
  }
  const before=renderState;renderState=function(){before();render()};render();
