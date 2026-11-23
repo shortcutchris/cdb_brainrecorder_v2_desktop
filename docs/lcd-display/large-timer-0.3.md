@@ -59,17 +59,37 @@ die vorhandene 16-Bit-Ausgabe erhalten. Sie ersetzt keinen Hardwaretest.
   Datenfrist, neue Verbindung, ungültige Pakete und geleerte Timerliste.
 - Dieselbe LVGL-Oberfläche kompiliert und bei 1024 × 600 für Einzel-, Mehrfach-,
   Alarm- und Offlinezustand visuell geprüft.
-- Der vollständige ESP32-S3-Build wird über den vorhandenen Workflow mit
-  ESP-IDF 5.5.2 ausgeführt. Erst dessen erfolgreiche Artefakte dürfen zum Flashen
-  verwendet werden. Buildnachweis und Prüfsummen werden nach Abschluss ergänzt.
-- Bisher kein USB-Port geöffnet und kein Gerät geflasht. Die tatsächliche
-  Touchbedienung, Anzeigeausrichtung und Darstellung am Zusatzdisplay müssen nach
-  dem gezielten Firmwarewechsel am Gerät bestätigt werden.
+- Vollständiger ESP32-S3-Build mit ESP-IDF 5.5.2 erfolgreich:
+  [CI-Lauf 45235773704](https://github.com/shortcutchris/cdb_brainrecorder_v2_desktop/actions/runs/45235773704),
+  Quellstand `50162796614cb03053bd4d182024befbf84f9f4e`. Native Tests, simulierte
+  USB-Integration und Prüfung der Hardwarekonfiguration bestanden.
+- Das Anwendungsbild meldet 0.3.0, Projekt `cdb_lcd_usb`, IDF `v5.5.2` und ist
+  838.288 Bytes groß. Es passt in die bestehende 1-MiB-Anwendungspartition.
+  [Dateigrößen, Prüfsummen und aufgelöste Abhängigkeiten](large-timer-0.3/build-manifest.json).
+  Dieses erste Paket ist wegen der zusätzlich aufgelösten indirekten
+  Abhängigkeiten **nicht für den Firmwarewechsel freigegeben**.
+- Der gezielte, rein lesende Verbindungsversuch am angeschlossenen Pi-Display
+  (`read_mac`) erhielt keine Bootloaderantwort. Keine Flashdaten geschrieben;
+  der USB-Begleitdienst wurde danach wieder gestartet. Der Firmwarewechsel
+  benötigt den bestätigten BOOT/RESET-Ablauf des konkreten Geräts.
+- Die tatsächliche Touchbedienung, Anzeigeausrichtung und Darstellung am
+  Zusatzdisplay müssen nach dem gezielten Firmwarewechsel bestätigt werden.
 
 ## Auslieferung und Rücknahme
 
 USB-Protokoll `cdb.lcd/1`, Produktkennung, Speicherlayout, Displaytreiber und
-Abhängigkeiten bleiben unverändert. Neue Softwareversion der Firmware: 0.3.0.
+die bisherigen direkten Komponenten bleiben unverändert. Für einen zweiten
+Build werden auch die indirekten Komponenten ausdrücklich auf die Versionen
+der ersten Auflösung des erfolgreichen 0.2-Builds festgelegt
+([CI 39670925360](https://github.com/shortcutchris/cdb_brainrecorder_v2_desktop/actions/runs/39670925360)).
+Die Vorgaben stehen in `firmware/lcd-usb/main/idf_component.yml`; IDF bleibt 5.5.2.
+Der alte finale Lock wird nicht übernommen: Er enthält lokale CI-Pfade und
+stammt aus einem zweiten Auflösungslauf. Insbesondere war `cmake_utilities`
+zunächst 0.5.3, im finalen Lock zusätzlich 1.1.1. Eine erfolgreiche neue
+Auflösung und ein vollständiger Build mit den festen Vorgaben stehen noch aus.
+Der erste, ungeflashte 0.3-Build bleibt als nachweislich kompilierender Kandidat
+dokumentiert. Es wird keine binäre Reproduzierbarkeit behauptet. Firmwareversion:
+0.3.0. Ein erfolgreiches Kompilat ersetzt weiterhin keine Geräteprüfung.
 Die Anwendung benötigt ein separates Firmware-Update des Zusatzdisplays;
 ein Recorder-App-Update oder ein neues Pi-SD-Image allein verändert es nicht.
 Das Kundenimage übernimmt die bereits vorhandene Brücke und die passende
@@ -77,7 +97,9 @@ Recorder-Anwendung; kein automatisches Flashen beim Anstecken.
 
 Vor dem Schreiben Gerät und Port eindeutig zuordnen, Flashbestand sichern und
 den Begleitdienst freigeben. Die konkret erzeugten `flasher_args.json`,
-Partitionstabelle und Bootloader prüfen. Es gibt keine beabsichtigte Änderung
-dieser Komponenten; ihre binäre Übereinstimmung darf erst nach dem Build
-behauptet werden. Keine geratenen Offsets und kein pauschales Löschen des Flashs.
+Partitionstabelle und Bootloader prüfen. Das geprüfte Paket verwendet DIO,
+16 MB und 80 MHz; Anwendungsstart `0x10000`. Seine Partitionstabelle ist
+binär identisch mit dem archivierten 0.2-Build. Der Bootloader hat eine andere
+Prüfsumme und darf nicht als binär unverändert bezeichnet werden. Keine geratenen
+Offsets und kein pauschales Löschen des Flashs.
 Eine Rücknahme verwendet den gesicherten, zum selben Gerät gehörenden Stand.
