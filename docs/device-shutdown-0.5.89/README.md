@@ -35,4 +35,12 @@ Bei einer Ablehnung wird die Sperre gelöst und der Fehler angezeigt. Bleibt der
 - Browserprüfung mit synthetischen Daten bei 1280 × 720 und 1024 × 600: direkt erreichbare Taste, Abbrechen als Anfangsfokus, mindestens 56 Pixel hohe Aktionen, Bestätigungs- und Statusdialog. Angenommener Abschaltauftrag und Systemablehnung wurden im Browser simuliert.
 - Ein echter Poweroff wurde bei der Installation bewusst nicht ausgelöst. Der vollständige Hardware-Abschaltablauf bleibt beim ersten ausdrücklich gewünschten Herunterfahren zu prüfen.
 
-Der Installationsnachweis wird nach der Übertragung und Kontrolle am physischen Pi ergänzt.
+## Installation am Gehäuse-Pi
+
+Am 23.11.2026 um 12:47 Uhr MEZ wurde das signierte App-Paket aus Commit `4a390ba` installiert. Alle 132 Paketdateien wurden verifiziert. Die laufende API und die ausgelieferte Oberfläche melden 0.5.89. Konfiguration und Sitzungsbestand sind unverändert, die vorherige Version bleibt für eine Rückkehr erhalten. Recorder und Kiosk laufen, die Wartungssperre ist gelöst.
+
+Die neue Taste und der Bestätigungsdialog wurden direkt auf dem physischen 1280 × 720-Display im eingestellten dunklen CDB-Design kontrolliert. **Abbrechen** wurde am Pi betätigt; das Gerät bleibt eingeschaltet. Die installierte Berechtigungsprüfung meldet im tatsächlichen Benutzer-Dienstkontext `logind`, ohne einen Abschaltbefehl auszuführen. Es waren keine Änderungen an den Systemrechten dieses Pi nötig.
+
+Zusätzlich wurde ein sauberes SD-Baupaket mit 139 Quelldateien exportiert: neuer Abschalt-Worker und feste Factory-Freigabe sind enthalten. Dies ist ein geprüftes Baupaket, kein gebautes SD-Image.
+
+[Bereinigter Installationsnachweis](deployment.json)
