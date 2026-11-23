@@ -1,5 +1,11 @@
 # SD-Images bauen, testen und weiterentwickeln
 
+**cdbPiOS-Startbildschirm:** Neue Baupakete enthalten das eigene Boot-/Abschaltbild
+mit expliziter Plymouth-Installation und nativer Touch-Display-2-Ausrichtung.
+Das ist eine OS-Ergänzung zum App-Stand 0.5.93, kein durch App-Updates ausgeführtes
+Installationsskript. Noch kein mit dem Theme gebautes oder boot-zertifiziertes
+Image. [Paket, Tests und bestehende Geräte](../boot-brand/README.md).
+
 Bei der Hardwareabnahme eines neuen Pi mit interner Soundbar den [Links-rechts-Hörtest in Recorder Studio](../audio/soundbar.md) durchführen.
 
 Das Kunden-Image wird aus **Quellcode und Bauanleitung** erstellt. Es ist kein

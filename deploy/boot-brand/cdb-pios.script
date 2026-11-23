@@ -1,0 +1,52 @@
+# Native portrait panels use pre-rotated artwork. Kanshi remains untouched.
+Window.SetBackgroundTopColor(0, 0.0549, 0.1333);
+Window.SetBackgroundBottomColor(0, 0.0549, 0.1333);
+width = Window.GetWidth();
+height = Window.GetHeight();
+mode = "startup";
+if (Plymouth.GetMode() == "shutdown") mode = "shutdown";
+portrait = height > width;
+suffix = "-landscape.png";
+if (portrait) suffix = "-portrait.png";
+picture = Image(mode + suffix);
+scale = width / picture.GetWidth();
+if (height / picture.GetHeight() < scale) scale = height / picture.GetHeight();
+picture = picture.Scale(Math.Int(picture.GetWidth() * scale), Math.Int(picture.GetHeight() * scale));
+x = Window.GetX() + (width - picture.GetWidth()) / 2;
+y = Window.GetY() + (height - picture.GetHeight()) / 2;
+background = Sprite(picture);
+background.SetPosition(x, y, -100);
+
+# An indeterminate pulse, never a fabricated boot percentage.
+dot = Sprite(Image("dot.png").Scale(14 * scale, 14 * scale));
+dot_x = 640;
+dot_y = 565;
+if (portrait) {
+    dot_x = 565;
+    dot_y = 640;
+    # Installer substitutes the selected mounting direction below.
+    if (@ROTATION@ == 270) dot_x = 720 - 565;
+}
+dot.SetPosition(x + (dot_x - 7) * scale, y + (dot_y - 7) * scale, 10);
+angle = 0;
+fun refresh() {
+    global.angle += 0.06;
+    dot.SetOpacity(0.45 + 0.55 * (1 + Math.Cos(angle)) / 2);
+}
+Plymouth.SetRefreshFunction(refresh);
+
+# Keep recovery/password messages visible; Escape still exposes the boot log.
+message = Sprite();
+message.SetPosition(Window.GetX() + 16, Window.GetY() + 16, 1000);
+fun show_message(text) {
+    message.SetImage(Image.Text(text, 1, 1, 1));
+    message.SetOpacity(1);
+}
+fun hide_message(text) { message.SetOpacity(0); }
+fun password(prompt, bullets) { show_message(prompt + "  [" + bullets + "]"); }
+fun question(prompt, entry) { show_message(prompt + "  " + entry); }
+Plymouth.SetDisplayMessageFunction(show_message);
+Plymouth.SetHideMessageFunction(hide_message);
+Plymouth.SetDisplayPasswordFunction(password);
+Plymouth.SetDisplayQuestionFunction(question);
+Plymouth.SetDisplayNormalFunction(hide_message);

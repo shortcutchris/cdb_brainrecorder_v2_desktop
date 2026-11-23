@@ -1,8 +1,13 @@
 # Geräteklänge · 0.5.93
 
-Stand: 23.11.2026. Lokal fertiggestellt und geprüft. **Noch nicht auf dem Pi
-installiert**: Das Gerät war nach dem vom Benutzer ausgelösten Herunterfahren
-unter seiner bisherigen Adresse nicht erreichbar.
+Stand: 23.11.2026. **Auf dem Pi installiert.** Das Gerät war zunächst nicht
+erreichbar, ist inzwischen wieder gestartet. Das signierte Update wurde bei
+freiem, abgemeldetem Gerät installiert; Einstellungen, Raumregeln und
+Aufnahmeinventar sind unverändert. Beide Klangoptionen sind auf diesem Pi
+auf Benutzerwunsch eingeschaltet. Die Ausgabe beider Klangvorschauen wurde
+vom Audioprozess erfolgreich abgeschlossen. Ein tatsächlicher Boot-/Abschaltzyklus
+und die subjektive Hörprobe vor Ort stehen noch aus.
+[Installation](deployment.json) · [Ausgabeprüfung](sound-check.json).
 
 ## Bedienung
 
@@ -80,5 +85,7 @@ Das signierte Update aus Commit `104c1d1d` wurde exportiert; Signatur und
 alle 137 App-Dateien sind geprüft. Das saubere Image-Baupaket enthält
 144 Quelldateien einschließlich der Geräteklänge. Die Pakete liegen
 lokal für die spätere Installation bereit. Es wurde kein SD-Image gebaut oder
-auf Hardware boot-zertifiziert. Auch ein zweiter Verbindungsversuch zum Pi blieb
-erfolglos; es wurde keine Installation oder Aktivierung am Gerät vorgenommen.
+auf Hardware boot-zertifiziert. Die damaligen Verbindungsversuche blieben zunächst erfolglos. Nach dem
+erneuten Start wurde genau dieses signierte Paket installiert und geprüft.
+Die separate [cdbPiOS-Startbildschirm-Ergänzung](../boot-brand/README.md) betrifft
+das Betriebssystem und braucht einmalig Administratorrechte.

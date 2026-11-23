@@ -1,0 +1,20 @@
+{
+  "preferences": {
+    "startup": true,
+    "shutdown": true
+  },
+  "tests": {
+    "startup": {
+      "state": "completed",
+      "kind": "chime",
+      "message": "Audioausgabe beendet."
+    },
+    "shutdown": {
+      "state": "completed",
+      "kind": "chime",
+      "message": "Audioausgabe beendet."
+    }
+  },
+  "reboot_or_poweroff_performed": false,
+  "hardware_listening_confirmed": false
+}

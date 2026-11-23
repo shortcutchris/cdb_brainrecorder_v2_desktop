@@ -12,6 +12,7 @@ if python3 -c 'import json, sys; sys.exit(0 if json.load(open("/etc/cdb-factory-
     chown -R ollama:ollama /var/lib/ollama/models
 fi
 install -m 644 /opt/cdb/factory/70-cdb-respeaker.rules /etc/udev/rules.d/70-cdb-respeaker.rules
+python3 /opt/cdb/factory/boot-brand/install.py --image-build
 /opt/cdb/runtime/bin/pip freeze > /opt/cdb/factory/python-packages.txt
 dpkg-query -W > /opt/cdb/factory/os-packages.txt
 groupadd -f cdb-network

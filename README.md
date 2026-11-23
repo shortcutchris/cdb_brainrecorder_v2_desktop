@@ -2,11 +2,15 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
-## 0.5.93 – Start- und Abschiedsklang (vorbereitet)
+## cdbPiOS – eigener Startbildschirm (Systempaket vorbereitet)
+
+CDB-Signet, „cdbPiOS startet …“ und passende Abschaltanzeige sind als eigenes Plymouth-Theme vorbereitet. Das native Hochkantbild des Touch Display 2 erhält vorgedrehte Grafiken für den quer eingebauten Bildschirm; Desktop- und Touch-Einstellungen bleiben erhalten. Vorhandene Geräte benötigen eine einmalige Installation mit Administratorrechten. Neue saubere Image-Baupakete enthalten die explizite Factory-Integration. [Vorschau, Installation, Rücknahme und Abnahmegrenzen](docs/boot-brand/README.md).
+
+## 0.5.93 – Start- und Abschiedsklang
 
 Unter **Einstellungen → Audio → Lautsprecher → Start & Abschied** lassen sich zwei kurze, eigene Geräteklänge getrennt einschalten und vorhören. Der Startakkord erklingt einmal pro Einschalten, sobald die Oberfläche bereit und das Gerät frei ist. Der Abschied begleitet den bestätigten Beginn des Herunterfahrens; er ist keine Freigabe zum sofortigen Stromtrennen. Lautsprecherwahl, Lautstärke und Stummschaltung bleiben erhalten. Neue und aktualisierte Geräte bleiben zunächst stumm, bis die Optionen eingeschaltet werden.
 
-Lokale Prüfungen bestanden; Installation und Hörprobe am Pi stehen aus, da er nach dem Herunterfahren nicht erreichbar war. Beide Auslieferungswege übernehmen die vorhandene Laufzeit und die versionierten Dateien. [Bedienung, Klangproben und Prüfung](docs/device-sounds-0.5.93/README.md).
+Lokale Prüfungen bestanden; die Version ist inzwischen auf dem wieder erreichbaren Pi installiert. Beide Auslieferungswege übernehmen die vorhandene Laufzeit und die versionierten Dateien. [Bedienung, Klangproben und Prüfung](docs/device-sounds-0.5.93/README.md).
 
 ## 0.5.92 – Große Entscheidungen und sichere Aktionswechsel
 

@@ -20,6 +20,8 @@ class CustomerImageTests(unittest.TestCase):
             entries['services/device_sounds.py'] = '# local PCM device cues'
             entries['device-sounds.json'] = 'PRIVATE'
             entries['management/startup-sound.json'] = 'PRIVATE'
+            for name in builder.BOOT_FILES:
+                entries['deploy/boot-brand/' + name] = '# boot fixture'
             for name,value in entries.items():
                 path=source/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_text(value)
             key=root/'public.pem';key.write_bytes(Ed25519PrivateKey.generate().public_key().public_bytes(Encoding.PEM,PublicFormat.SubjectPublicKeyInfo))
@@ -48,6 +50,10 @@ class CustomerImageTests(unittest.TestCase):
             self.assertIn('services/device_sounds.py',result['source_files'])
             self.assertNotIn('device-sounds.json',result['source_files'])
             self.assertNotIn('management/startup-sound.json',result['source_files'])
+            self.assertIn('stage-brain/00-brain/files/factory/boot-brand/install.py', result['build_files'])
+            self.assertIn('stage-brain/00-brain/files/factory/boot-brand/assets/startup-portrait90.png', result['build_files'])
+            self.assertNotIn('deploy/boot-brand/install.py', result['source_files'])
+            self.assertIn('plymouth plymouth-themes initramfs-tools', (root/'kit/stage-brain/00-brain/00-packages').read_text())
             self.assertIn('services/lcd_bridge.py',result['source_files'])
             self.assertNotIn('firmware/lcd-usb/build/cdb_lcd_usb.bin',result['source_files'])
             self.assertNotIn('announcements-pack/timer.wav',result['source_files'])

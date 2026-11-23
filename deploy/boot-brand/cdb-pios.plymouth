@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=cdbPiOS
+Description=Corporate Digital Brain boot and shutdown
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/cdb-pios
+ScriptFile=/usr/share/plymouth/themes/cdb-pios/cdb-pios.script

@@ -12,6 +12,9 @@ from urllib.parse import urlsplit
 
 SOURCE = Path(__file__).resolve().parents[1]
 PIN = 'd346cd53562b3c6b4f94c9155175f814258c456d'
+BOOT_FILES = ('install.py', 'cdb-pios.plymouth', 'cdb-pios.script', 'assets/dot.png') + tuple(
+    f'assets/{mode}-{view}.png' for mode in ('startup', 'shutdown')
+    for view in ('landscape', 'portrait90', 'portrait270'))
 sys.path.insert(0, str(SOURCE))
 from fleet.releases import allowed
 
@@ -45,6 +48,15 @@ def prepare(output, public_key, server='https://cdblab.de/devices', country='DE'
     for src in (SOURCE / 'deploy/customer-image').iterdir():
         if str(src.relative_to(SOURCE)) in names and (src.suffix in ('.py','.service') or src.name == 'install-runtimes.sh'):
             shutil.copyfile(src, factory / src.name)
+    # OS branding is explicit factory content, never an executable app-update hook.
+    for relative in BOOT_FILES:
+        name = 'deploy/boot-brand/' + relative
+        src = SOURCE / name
+        if name not in names or src.is_symlink():
+            raise ValueError('Missing tracked boot-brand input: ' + name)
+        target = factory / 'boot-brand' / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(src, target)
     rule = SOURCE / 'config/udev/70-cdb-respeaker.rules'
     if rule.exists(): shutil.copyfile(rule, factory / rule.name)
     shutil.copyfile(SOURCE / 'scripts/audit_customer_rootfs.py', factory / 'audit_customer_rootfs.py')
@@ -60,7 +72,7 @@ def prepare(output, public_key, server='https://cdblab.de/devices', country='DE'
     stage = output / 'stage-brain'; step = stage / '00-brain'
     (stage / 'prerun.sh').write_text('#!/bin/bash\nif [ ! -d "${ROOTFS_DIR}" ]; then copy_previous; fi\n')
     (stage / 'EXPORT_IMAGE').write_text("IMG_SUFFIX='-brain'\n")
-    (step / '00-packages').write_text('python3-venv python3-pyscard pcscd libccid libportaudio2 libsndfile1 alsa-utils ffmpeg espeak-ng chromium labwc dbus-user-session pipewire pipewire-pulse wireplumber pulseaudio-utils libspa-0.2-bluetooth network-manager bluez libxcb-cursor0 libegl1 libopengl0 lightdm cmake build-essential curl git zstd\n')
+    (step / '00-packages').write_text('python3-venv python3-pyscard pcscd libccid libportaudio2 libsndfile1 alsa-utils ffmpeg espeak-ng chromium labwc dbus-user-session pipewire pipewire-pulse wireplumber pulseaudio-utils libspa-0.2-bluetooth network-manager bluez libxcb-cursor0 libegl1 libopengl0 lightdm plymouth plymouth-themes initramfs-tools cmake build-essential curl git zstd\n')
     (step / '00-run.sh').write_text('#!/bin/bash\nset -euo pipefail\ntest -n "${ROOTFS_DIR}" && test "${ROOTFS_DIR}" != /\nmkdir -p "${ROOTFS_DIR}/opt/cdb"\ncp -a files/source files/factory "${ROOTFS_DIR}/opt/cdb/"\ninstall -m 644 files/factory.json "${ROOTFS_DIR}/etc/cdb-factory-image.json"\ntouch "${ROOTFS_DIR}/.cdb-image-build"\n')
     shutil.copyfile(SOURCE / 'deploy/customer-image/01-run-chroot.sh', step / '01-run-chroot.sh')
     (step / '02-run.sh').write_text('#!/bin/bash\nset -euo pipefail\npython3 files/factory/audit_customer_rootfs.py "${ROOTFS_DIR}"\n')
