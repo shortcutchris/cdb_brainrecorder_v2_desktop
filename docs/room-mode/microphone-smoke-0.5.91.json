@@ -1,0 +1,14 @@
+{
+  "version": "0.5.91",
+  "test": "local-room-level-worker-physical-pi",
+  "seconds": 8,
+  "ready": true,
+  "heartbeats": 3,
+  "activity_events": 1,
+  "only_control_events": true,
+  "worker_stopped": true,
+  "audio_saved": false,
+  "audio_transmitted": false,
+  "human_presence_accuracy_tested": false,
+  "maintenance_released": true
+}

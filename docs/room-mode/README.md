@@ -1,6 +1,6 @@
 # Anmeldung, NFC und automatische Abmeldung
 
-Stand: 23.11.2026 · Recorder Studio 0.5.91. Anmeldung und Kontotrennung sind der Standard. Es gibt keine auswählbare persönliche Betriebsart und keine Gastaufnahme. Der vorherige Installationsnachweis 0.5.90 bleibt in [deployment.json](deployment.json) erhalten; der neue Nachweis wird als `deployment-0.5.91.json` abgelegt.
+Stand: 23.11.2026 · Recorder Studio 0.5.91. Anmeldung und Kontotrennung sind der Standard. Es gibt keine auswählbare persönliche Betriebsart und keine Gastaufnahme. Der vorherige Installationsnachweis 0.5.90 bleibt in [deployment.json](deployment.json) erhalten; der neue Nachweis steht in [deployment-0.5.91.json](deployment-0.5.91.json).
 
 ## Einmalig einrichten
 
@@ -72,6 +72,12 @@ Abmelden widerruft persönliche Bildschirmkopplungen und lokale Fernsteuerungsfr
 301 Python- und 141 JavaScript-Tests bestanden. Automatisierte Prüfung umfasst den frischen Standardbetrieb und Upgrade vom ausgeschalteten Modus, PIN-Erhalt, Ablehnung eines alten Deaktivierungsaufrufs, Kontentrennung, stundenlange Aufnahme/Pause/Gespräch, volle neue Ruhefrist nach Ende, Wiedergabe, Vorwarnung und Verlängerung, technische Einrichtung ohne persönliches Konto sowie Mikrofonfreigabe. Die Geräuscherkennung wird mit künstlichem PCM, Stille, gleichmäßigem Rauschen, Einzelimpuls und wechselnden Pegeln getestet. Zusätzlich läuft der echte Erkennungsprozess mit künstlicher Audioquelle, ohne Sprachmodell oder Mikrofonzugriff des Entwicklungsrechners.
 
 Browserprüfung: 1280×720 und 1024×600, Einstellungen, PIN mit Tastatur, Geräuschhinweis und Abmeldevorwarnung. Abschlussdialog in hellem und CDB-Theme geprüft: Zurück lässt die Aufnahme weiterlaufen, Speichern beendet die künstliche Aufnahme und meldet ab. Eine spätere Löschbestätigung erhält wieder ihre Warnfarbe und keine alten Kontohinweise. Künstliches Konto und künstliche Audioquelle; kein behaupteter echter Microsoft-Login.
+
+Installation: Signiertes Paket aus Commit `8901052`, 136 verifizierte App-Dateien. Am physischen Pi laufen Studio und Kiosk mit 0.5.91; die Anzeige wurde neu geladen. Aufnahmebestand und Audio-/Modell-/Netzwerkeinstellungen unverändert. Anmeldung ist Standard, Raumgeräusche aktiviert, Ruhefrist 15 Minuten. Eine Betreiber-PIN wurde nicht vorgegeben und muss vom Nutzer gesetzt werden.
+
+Ein achtsekündiger Test des neuen Pegelprozesses mit dem tatsächlichen Pi-Mikrofon lieferte Bereitschaft, drei Fortschrittsmeldungen und einen Aktivitätshinweis. Danach war der Prozess beendet und die Wartungssperre freigegeben. Es wurden ausschließlich diese Ereignisse ausgewertet, kein Ton gespeichert oder übertragen. Dies prüft den Mikrofonpfad, nicht die Zuverlässigkeit der Anwesenheitserkennung. [Bereinigter Messnachweis](microphone-smoke-0.5.91.json) · [Geräteeinstellungen am Pi](pi-policy-0.5.91.png).
+
+Das saubere Image-Baupaket wurde mit 143 Dateien vorbereitet; kein SD-Image gebaut oder auf einer neuen Karte gestartet.
 
 Noch vor Ort zu prüfen: Empfindlichkeit im tatsächlichen Meetingraum, echter NFC-Leser mit Talk/Meeting-Aufstellern, Microsoft-Anmeldung durch den Nutzer, tatsächlicher Netzwerkausfall und Talk mit echtem Mikrofon/Lautsprecher. Die automatische Abmeldung allein ist kein Anwesenheitsnachweis.
 

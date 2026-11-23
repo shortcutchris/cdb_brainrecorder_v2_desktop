@@ -28,5 +28,10 @@
   "real_room_signin_verified": false,
   "room_sensitivity_verified": false,
   "sd_image_built": false,
-  "physical_pi_installed": false
+  "physical_pi_installed": true,
+  "physical_pi_settings_dialog_verified": true,
+  "physical_microphone_worker_verified": true,
+  "app_package_files": 136,
+  "clean_image_kit_files": 143,
+  "image_kit_status": "prepared-not-boot-certified"
 }
