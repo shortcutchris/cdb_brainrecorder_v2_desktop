@@ -1,7 +1,7 @@
 {
   "version": "0.5.93",
   "date": "2026-11-23",
-  "status": "installed-preview-playback-passed-boot-cycle-pending",
+  "status": "installed-startup-verified-on-pi",
   "python_tests": 145,
   "javascript_tests": 152,
   "browser": {
@@ -21,11 +21,13 @@
   "pi": {
     "reachable_at_last_check": true,
     "installed": true,
-    "hardware_listening_test": false,
+    "hardware_listening_test": true,
     "real_power_cycle_test": false,
     "startup_enabled": true,
     "shutdown_enabled": true,
-    "preview_output_completed": true
+    "preview_output_completed": true,
+    "system_restart_test": true,
+    "startup_confirmed_by_user": true
   },
   "cues": {
     "startup": {

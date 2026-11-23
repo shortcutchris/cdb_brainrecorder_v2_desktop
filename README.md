@@ -2,9 +2,9 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
-## cdbPiOS – eigener Startbildschirm (Systempaket vorbereitet)
+## cdbPiOS – eigener Startbildschirm
 
-CDB-Signet, „cdbPiOS startet …“ und passende Abschaltanzeige sind als eigenes Plymouth-Theme vorbereitet. Das native Hochkantbild des Touch Display 2 erhält vorgedrehte Grafiken für den quer eingebauten Bildschirm; Desktop- und Touch-Einstellungen bleiben erhalten. Vorhandene Geräte benötigen eine einmalige Installation mit Administratorrechten. Neue saubere Image-Baupakete enthalten die explizite Factory-Integration. [Vorschau, Installation, Rücknahme und Abnahmegrenzen](docs/boot-brand/README.md).
+CDB-Signet, „cdbPiOS startet …“ und passende Abschaltanzeige sind auf dem Pi als eigenes Plymouth-Theme installiert. Logo im Querformat und Startklang wurden nach einem Systemneustart direkt am Gerät bestätigt. Das native Hochkantbild des Touch Display 2 erhält vorgedrehte Grafiken für den quer eingebauten Bildschirm; Desktop- und Touch-Einstellungen bleiben erhalten. Vorhandene Geräte benötigen eine einmalige Installation mit Administratorrechten. Neue saubere Image-Baupakete enthalten die explizite Factory-Integration. [Vorschau, Installation, Rücknahme und Abnahmegrenzen](docs/boot-brand/README.md).
 
 ## 0.5.93 – Start- und Abschiedsklang
 

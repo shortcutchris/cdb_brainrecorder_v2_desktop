@@ -2,13 +2,19 @@
 
 Stand: 23.11.2026. Schreibweise vom Benutzer vorgegeben: **cdbPiOS**.
 
-**Auslieferungsstand:** Klangversion 0.5.93 ist auf dem Pi aktiv; beide
-Klangoptionen eingeschaltet und beide Vorschau-Ausgaben erfolgreich beendet.
+**Auslieferungsstand:** Auf dem vorhandenen Pi installiert und durch einen echten
+Systemneustart geprüft. Der Benutzer hat das richtig ausgerichtete Logo im
+Querformat und den Startklang bestätigt. Recorder Studio 0.5.93 und der Kiosk
+sind nach dem Neustart aktiv, die Anwendung ist bereit und abgemeldet. Beide
+Klangoptionen sind weiterhin eingeschaltet; der Startklang wurde für die neue
+Boot-ID einmal ausgegeben. Keine fehlgeschlagenen Systemdienste.
+
 Das Bootpaket aus Commit `2a2bcccf` liegt unter `/home/bik/cdb-boot-brand/`;
-alle zehn Dateien sind nach Übertragung per SHA-256 geprüft. Die schreibfreie
-Vorprüfung auf dem Pi ist bestanden. Das aktive System-Theme ist weiterhin
-`pix`, da dem Fernzugang die Administratorrechte für diese OS-Änderung fehlen.
-Der Benutzer wurde um den untenstehenden einmaligen lokalen Schritt gebeten.
+alle zehn Dateien sind nach Übertragung per SHA-256 geprüft. Der Benutzer hat
+den einmaligen Administrationsschritt durchgeführt. Das aktive Theme heißt
+`cdb-pios`; die neuen Grafiken und das Skript sind in der Pi-5-initramfs enthalten.
+Die ursprünglichen Einstellungen liegen unter
+`/var/backups/cdb-boot/20261123T153533.156670Z`.
 [Prüfnachweis](acceptance.json).
 
 Der neue Startbildschirm zeigt das vorhandene CDB-Brain-Signet mit Mikrofon auf
@@ -40,8 +46,8 @@ in der [Klangdokumentation](../device-sounds-0.5.93/README.md) beschrieben.
 - Das neue Theme benutzt für native Hochkantflächen um 90° gegen den Uhrzeigersinn
   vorgedrehte Bilder; für tatsächlich querformatige Ausgänge normale Bilder.
   270° ist als alternative Einbaurichtung vorbereitet. Desktop und Touch werden
-  nicht ein zweites Mal gedreht. Der reale Kaltstart muss die Einbaurichtung
-  noch bestätigen.
+  nicht ein zweites Mal gedreht. Die Einbaurichtung wurde nach einem Systemneustart
+  vom Benutzer direkt am Gerät bestätigt.
 
 Der Installer ergänzt `logo.nologo` gegen die Kernel-Raspberry-Logos und
 `disable_splash=1` gegen den Firmware-Farbbildschirm. Er wählt das eigene
@@ -100,8 +106,9 @@ Installation, wiederholte Installation, Rücknahme, fehlgeschlagene initramfs,
 Verbot von verlinkter Bootkonfiguration, PNG-Größen, Auswahl beider Rotationen,
 getrennte App-/Factory-Auslieferung, Geräteklänge und Erststart. Das Shellskript
 und die Änderungen wurden auf Syntax/Whitespace geprüft. Die Vorschau wurde
-visuell kontrolliert. **Kein neues SD-Image gebaut; kein Kaltstart mit diesem
-Theme auf Hardware bestätigt.**
+visuell kontrolliert. **Der vorhandene Pi wurde erfolgreich neu gestartet; Logo und Startklang
+sind vom Benutzer bestätigt. Kein vollständiges Aus-/Einschalten getestet,
+kein neues SD-Image gebaut oder als Kunden-Image boot-zertifiziert.**
 
 ## Quellen
 

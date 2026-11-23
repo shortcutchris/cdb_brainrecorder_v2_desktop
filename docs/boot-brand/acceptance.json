@@ -6,24 +6,32 @@
     "python_targeted_passed": 35,
     "shell_syntax_passed": true,
     "landscape_artwork_visually_reviewed": true,
-    "real_plymouth_render_test": false,
-    "hardware_boot_cycle": false
+    "real_plymouth_render_test": true,
+    "hardware_boot_cycle": true,
+    "boot_cycle_type": "system-restart",
+    "cold_power_cycle": false
   },
   "pi": {
     "recorder_version": "0.5.93",
     "startup_sound_enabled": true,
     "shutdown_sound_enabled": true,
     "both_preview_playbacks_completed": true,
-    "listener_confirmation": false,
+    "listener_confirmation": true,
     "boot_package_files_verified": 10,
     "boot_package_path": "/home/bik/cdb-boot-brand",
-    "boot_preflight": "checked-no-changes",
+    "boot_preflight": "installed-and-restart-tested",
     "boot_theme_digest": "45e17d2b228feee6afe3780caf76aa0f8f45889309a28eb466860beadfee121d",
-    "boot_theme_active": "pix",
-    "boot_theme_installed": false,
-    "reason": "Remote account needs local sudo authentication for OS changes",
+    "boot_theme_active": "cdb-pios",
+    "boot_theme_installed": true,
     "desktop_rotation_changed": false,
-    "reboot_performed": false
+    "reboot_performed": true,
+    "user_confirmed_landscape_logo": true,
+    "user_confirmed_startup_chime": true,
+    "initramfs_theme_files_verified": true,
+    "application_ready_after_restart": true,
+    "signed_in_after_restart": false,
+    "system_failed_units": 0,
+    "backup": "/var/backups/cdb-boot/20261123T153533.156670Z"
   },
   "image_kit": {
     "status": "prepared-not-boot-certified",
@@ -32,5 +40,6 @@
     "boot_brand_files": 10,
     "built": false,
     "hardware_boot_certified": false
-  }
+  },
+  "verified_at": "2026-11-23T16:39:22.360303+01:00"
 }

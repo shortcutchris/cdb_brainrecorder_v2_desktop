@@ -5,8 +5,10 @@ erreichbar, ist inzwischen wieder gestartet. Das signierte Update wurde bei
 freiem, abgemeldetem Gerät installiert; Einstellungen, Raumregeln und
 Aufnahmeinventar sind unverändert. Beide Klangoptionen sind auf diesem Pi
 auf Benutzerwunsch eingeschaltet. Die Ausgabe beider Klangvorschauen wurde
-vom Audioprozess erfolgreich abgeschlossen. Ein tatsächlicher Boot-/Abschaltzyklus
-und die subjektive Hörprobe vor Ort stehen noch aus.
+vom Audioprozess erfolgreich abgeschlossen. Nach der cdbPiOS-Systeminstallation wurde der Pi neu gestartet. Die
+Startausgabe ist technisch bestätigt; der Benutzer hat Logo und Klang vor Ort
+als passend bestätigt. Ein vollständiges Ausschalten und Wiedereinschalten
+mit Prüfung des Abschiedstons steht noch aus.
 [Installation](deployment.json) · [Ausgabeprüfung](sound-check.json).
 
 ## Bedienung
@@ -74,8 +76,9 @@ Die Browservorschau wurde mit künstlichem Audiozustand bei 1024 × 600 und
 1280 × 720 geprüft: getrennte Schalter werden gespeichert, Vorhören löst keinen
 Abschaltauftrag aus, Touch-Tasten sind mindestens 56 Pixel hoch und passen auf
 den Bildschirm. Keine JavaScript-Fehler. Diese Prüfung öffnete weder Mikrofon
-noch Lautsprecher des Macs. Eine Hörprobe und ein tatsächlicher Start-/Abschaltzyklus
-am Pi stehen noch aus. [Prüfnachweis](acceptance.json).
+noch Lautsprecher des Macs. Der anschließende Systemneustart am Pi und der Startklang wurden technisch
+und vom Benutzer vor Ort bestätigt. Ein vollständiger Aus-/Einschaltzyklus
+mit Prüfung des Abschiedstons steht noch aus. [Prüfnachweis](acceptance.json).
 
 Die neue Datei `services/device_sounds.py` fällt unter die bestehende Positivliste
 für App-Updates und Image-Quellen; auch die geänderten Studio-Dateien sind erfasst.
