@@ -29,7 +29,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.93'
+VERSION = '0.5.94'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -126,6 +126,8 @@ class StudioApp:
         self.output_busy_until = 0
         from services.remote_control_transport import create_channel
         self.remote_channel = create_channel(self, start=not preview and backend is None)
+        from services.local_portal import LocalPortal
+        self.portal = LocalPortal(self, VERSION)
         self.ambient_thread = threading.Thread(target=self.ambient_loop, daemon=True)
         self.ambient_thread.start()
 
@@ -516,6 +518,7 @@ class StudioApp:
         state['capabilities'] = self.capabilities(state)
         state['activity'] = self.activity(state).public()
         state['remote_control'] = self.remote_channel.public()
+        state['portal'] = self.portal.public()
         state['management'] = self.management.public()
         state['first_start'] = self.first_start.public(state['management'])
         state['cdb'] = self.cdb.public()
@@ -723,10 +726,32 @@ class StudioApp:
             atomic_write(folder/'expected.txt',text)
         return {'id':ident}
 
-    def action(self, path, body):
+    def action(self, path, body, *, start_guard=None):
+        with self.control_lock:
+            try:
+                return self._action(path, body, start_guard=start_guard)
+            finally:
+                if path in ('/api/record/start', '/api/record/stop', '/api/record/control',
+                            '/api/live/reserve', '/api/live/end', '/api/live/mute'):
+                    if getattr(self, 'portal', None): self.portal.revision += 1
+
+    def _action(self, path, body, *, start_guard=None):
         # Lock order matches state(): controller before recorder.
         with self.control_lock, self.controller.lock, self.engine.recorder.lock:
             if self.closing:raise ValueError('Dienst wird beendet. Änderungen bitte kurz aufbewahren.')
+            if path.startswith('/api/portal/'):
+                if path == '/api/portal/revoke':
+                    self.portal.sessions.clear()
+                    return self.portal.public()
+                if path == '/api/portal/approve':
+                    return self.portal.approve(body.get('code'))
+                self.room.require_operator()
+                self.require('configure')
+                if path == '/api/portal/enable' and not body:
+                    return self.portal.enable()
+                if path == '/api/portal/disable' and not body:
+                    return self.portal.disable()
+                raise ValueError('Unbekannte Portalaktion.')
             if path == '/api/device/ready':
                 if body: raise ValueError('Keine Parameter erwartet.')
                 # UI readiness is public to local users, including before PIN
@@ -916,6 +941,7 @@ class StudioApp:
                 self.require('record')
                 if not self.store.config()['setup_complete']:raise ValueError('Bitte unter Einstellungen die Recorder-Einrichtung prüfen und abschließen.')
                 if self.engine.recorder.active:raise ValueError('Aufnahme läuft bereits.')
+                if start_guard is not None: start_guard()
                 self.cdb.invalidate_pending_login()
                 return {'id':self.engine.start('')}
             if path=='/api/record/control':
@@ -1022,8 +1048,11 @@ class StudioApp:
             raise KeyError('Unbekannte Aktion.')
 
     def close(self):
+        # Stop accepting LAN requests outside the lock used by request workers.
         with self.control_lock:
             self.closing=True
+        self.portal.close()
+        with self.control_lock:
             if hasattr(self, 'remote_channel'): self.remote_channel.close()
             self.ambient_stop.set()
             self.nfc.close()
@@ -1100,6 +1129,16 @@ class StudioHandler(Handler):
                 # account-specific labels to an unattended peripheral.
                 result = result | {'total': 0, 'timers': []}
             self.respond(result);return
+        if path=='/help/verkabelung-r2.pdf':
+            from services.local_portal import wiring_pdf
+            data = wiring_pdf()
+            self.send_response(200);self.headers_base('application/pdf',len(data));self.end_headers();self.wfile.write(data);return
+        if path=='/api/portal/info':
+            self.respond({'version': VERSION, 'secure': False, 'enabled': app.portal.enabled, 'control_url': app.portal.public()['control_url']});return
+        if path=='/api/portal/qr':
+            from services.local_portal import qr_svg
+            data = qr_svg(app.portal.public()['url'])
+            self.send_response(200);self.headers_base('image/svg+xml',len(data));self.end_headers();self.wfile.write(data);return
         if path=='/api/state':self.respond(self.server.app.state());return
         if path=='/api/bluetooth':
             self.server.app.bluetooth.start();self.respond(self.server.app.bluetooth.public());return
@@ -1242,6 +1281,7 @@ def main():
     logging.basicConfig(level=logging.INFO,format='%(asctime)s %(levelname)s %(message)s')
     app=StudioApp(args.root,args.database)
     server=StudioServer(('127.0.0.1',args.port),app);server.timeout=.5
+    app.portal.start()
     try:
         if json.loads(app.display_preferences.read_text()).get('enabled'): app.display.enable()
     except (OSError, ValueError): logging.warning('Externer Bildschirm bleibt ausgeschaltet.')

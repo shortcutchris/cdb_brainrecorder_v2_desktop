@@ -1,6 +1,6 @@
 # Wie die Brain-Systeme zusammenspielen
 
-Stand: 14. Oktober 2026, Recorder 0.5.44. Diese Übersicht beschreibt den hier
+Grundübersicht: 14. Oktober 2026; lokales Hilfeportal ergänzt am 23. November 2026 für Recorder 0.5.94. Diese Übersicht beschreibt den hier
 vorliegenden Code. Historische Entwürfe sind nicht automatisch produktive Funktionen.
 
 ![Architekturbild](brain-architecture.png)
@@ -46,11 +46,14 @@ Chatverläufe, Knowledge Areas oder persönlichen Brain-Tokens. Aufnahme,
 Gespräch und andere belegte Ressourcen verhindern einen Wartungsstart.
 Die Geräteberechtigung und die persönliche Microsoft-Anmeldung sind getrennt.
 
+**Lokale Hilfe und persönliche Browser-Fernbedienung ab 0.5.94:** Port 8091 liefert nur allgemeine Offline-Anleitungen, Bilder und Verkabelungs-PDF. Die optional aktivierte Steuerung auf 8443 verwendet ein geräteeigenes TLS-Zertifikat, bestätigt auf dem Pi. Kurzlebige Codes koppeln einen Browser an die aktuelle Brain-Sitzung; Neustart, Kontowechsel und Widerruf löschen die Freigabe. Keine Aufnahmen, Transkripte oder Anmeldetokens werden über diesen Zugang ausgeliefert. Beide Bedienwege verwenden denselben Aktionsschutz und Aufnahmeprozess. [Details und Abnahme](../local-portal/README.md).
+
 ## Was „Remote Controller“ hier bedeutet
 
 | Baustein | Aufgabe | Grenze |
 | --- | --- | --- |
 | Studio im Kiosk | Aufnahme, Gespräch, Einstellungen und lokale Steuerung | Lokaler Dienst; nicht öffentlich ins Internet stellen |
+| Lokaler persönlicher Browserzugang | Aufnahme und Talk am Pi bedienen | HTTPS, Kopplung am Pi, aktuelle Brain-Anmeldung; keine Verwaltung oder Bibliothek |
 | Geräteportal | Diagnose, Neustart und signierte App-Versionen | Keine beliebige Shell, kein Zugriff auf Gesprächsinhalte |
 | Gekoppelter Browser-Empfänger | Vollständigen aktuellen Gesprächsverlauf anzeigen | Nur lesend, kein Mikrofon und keine Gerätesteuerung |
 | Mira-Server auf dem Infrastrukturhost | Separater Sender-/Empfänger-Prototyp | Im aktuellen Recorder nicht als öffentliches HTTPS-Relay integriert |

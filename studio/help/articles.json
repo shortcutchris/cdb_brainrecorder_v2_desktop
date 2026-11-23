@@ -1,0 +1,299 @@
+[
+  {
+    "id": "start",
+    "title": "In fünf Schritten starten",
+    "category": "ERSTE SCHRITTE",
+    "intro": "Dein Recorder verbindet Gespräche und Meetings mit deinem Brain.",
+    "steps": [
+      "Gerät aufstellen, Mikrofon und Lautsprecher freihalten. Bei bereits montiertem Gerät die internen Kabel nicht neu stecken. USB-C-Netzteil anschließen und auf den Start von cdbPiOS warten.",
+      "Bei der ersten Einrichtung Netzwerk, Mikrofon und Lautsprecher prüfen. Unter Einstellungen → Gerät & Verwaltung → WLAN & Einrichtung kannst du die Netzwerkverbindung später ändern.",
+      "Oben rechts „Brain anmelden“ wählen. QR-Code mit dem Handy scannen, den angezeigten Code bei Microsoft eingeben und dein Firmenkonto bestätigen.",
+      "„Mit dem Brain sprechen“ oder „Meeting aufzeichnen“ wählen. Die Vorbereitung zeigt dein Konto und die Brain-Umgebung. Den Start ausdrücklich bestätigen.",
+      "Zum Abschluss erst Aufnahme stoppen oder Gespräch beenden, dann „Fertig & abmelden“. Deine gespeicherten Aufnahmen bleiben deinem Konto zugeordnet."
+    ],
+    "image": "images/ablauf.svg",
+    "links": [
+      {
+        "label": "Anmeldung im Detail",
+        "url": "#anmelden"
+      },
+      {
+        "label": "Verkabelungsanleitung öffnen",
+        "url": "#kabel"
+      }
+    ]
+  },
+  {
+    "id": "kabel",
+    "title": "Aufbau & Verkabelung",
+    "category": "HARDWARE",
+    "intro": "Für Raspberry Pi 5, 7-Zoll Touch Display 2, Waveshare-USB-Board (C), G341-Verteiler und Verlängerungen.",
+    "steps": [
+      "Vor jedem Umstecken sauber herunterfahren, USB-C-Netzteil abziehen und weitere möglicherweise speisende Verbindungen trennen. Herunterfahren allein schaltet die 5-V-Pins nicht stromlos.",
+      "GPIO-Strom und Daten getrennt betrachten: Display und USB-Board brauchen je ein Stromkabel. Bild und Touch laufen über DSI; das USB-Board kommuniziert über PCIe.",
+      "Display: Standard–Mini-Displaykabel, breites 15-poliges Ende am Display, schmales 22-poliges Ende am vorgesehenen CAM/DISP-Port. Den bereits funktionierenden Port beibehalten.",
+      "Display-Bügel beidseitig kurz nach außen schieben, Kabel gerade einsetzen, Bügel schließen. Kontakte zeigen von der Display-Rückseite weg. Am Pi den Bügel beidseitig anheben und wieder absenken; Kontakte zeigen zu USB/Ethernet. Sockel nicht abhebeln.",
+      "Original-Display-Stromkabel: Rot an physischen Pin 2 (+5 V), Schwarz an Pin 6 (Masse), mittlere Position bleibt frei über Pin 4. Am gedrehten Verteiler und Kabelende die Pin-Nummern neu bestimmen.",
+      "USB-Board: Originalkabel und Platinenbeschriftung abgleichen. G341 und Verlängerungen ohne Versatz aufstecken. Die vollständige Anleitung unten zeigt die getrennten Abgänge und die PCIe-Verriegelungen.",
+      "Kabel ohne Zug, harte Knicke oder Kontakt zu Schrauben führen. Erst offen in Etappen testen, dann geschlossen prüfen. Ein längeres PCIe-Kabel ist nicht allein wegen seiner passenden Stecker freigegeben."
+    ],
+    "note": "Die PDF ist die vollständige Aufbauanleitung R2 vom 27.10.2026. Ihre offenen Prüfpunkte sind historisch, keine aktuelle Freigabe jedes Zubehörkabels. Die interne Soundbar wurde später am 12.11. erfolgreich geprüft; dafür das bestehende, erprobte Bootprofil beibehalten. Keine funktionierende PCIe-Konfiguration nach alten Beispielen umstellen.",
+    "image": "images/verbindungen.svg",
+    "links": [
+      {
+        "label": "Vollständige Verkabelung R2 · PDF auf diesem Pi",
+        "url": "./verkabelung-r2.pdf"
+      },
+      {
+        "label": "Soundbar und Mikrofon prüfen",
+        "url": "#audio"
+      },
+      {
+        "label": "Hersteller: Touch Display 2 (Internet)",
+        "url": "https://www.raspberrypi.com/documentation/accessories/touch-display-2.html"
+      }
+    ],
+    "source": "Projektanleitung R2; Display-Anschluss am 23.11.2026 mit der Raspberry-Pi-Dokumentation abgeglichen. Herstellerlinks benötigen Internet, die PDF nicht."
+  },
+  {
+    "id": "anmelden",
+    "title": "Anmelden & gemeinsam nutzen",
+    "category": "BRAIN-KONTO",
+    "intro": "Jede Person verwendet ihr eigenes Brain-Konto. Gastaufnahmen sind ausgeschaltet.",
+    "steps": [
+      "Oben rechts „Brain anmelden“ öffnen. Achte auf die richtige Umgebung: Produktion oder Staging.",
+      "QR-Code scannen oder die Microsoft-Adresse öffnen. Den Code vom Pi eingeben. Anmeldung und gegebenenfalls zusätzliche Kontobestätigung auf dem Handy abschließen.",
+      "Warten, bis der Pi deinen Namen zeigt. Ein QR-Code allein meldet dich noch nicht an. Wenn ein Code abläuft, die Anmeldung am Pi erneut starten.",
+      "Nach Talk oder Meeting zuerst stoppen. Danach „Fertig & abmelden“ und „Speichern & abmelden“ wählen. Notizen werden vorher gesichert."
+    ],
+    "paragraphs": [
+      "Während Aufnahme, Pause und Gespräch sind Abmelden und Kontowechsel gesperrt. Ein Neustart meldet niemanden automatisch wieder an. Zum neuen Anmelden ist Internet erforderlich.",
+      "Die Betreiber-PIN schützt Geräteeinstellungen. Sie ersetzt keine Brain-Anmeldung und gibt keinen Zugriff auf fremde Meetings."
+    ]
+  },
+  {
+    "id": "talk",
+    "title": "Mit dem Brain sprechen",
+    "category": "TALK",
+    "intro": "Mikrofon und Lautsprecher des Pi führen das Gespräch. Talk braucht eine funktionierende Brain-Verbindung.",
+    "steps": [
+      "Anmelden und „Gesprächswissen“ öffnen. Gewünschte Wissensbereiche auswählen, mit „Übernehmen“ speichern.",
+      "„Mit dem Brain sprechen“ wählen und die Vorbereitung bestätigen. Während „Verbindung wird aufgebaut“ warten; nicht mehrfach starten.",
+      "Normal mit dem Pi sprechen. Die Anzeige zeigt Zuhören, Verarbeitung oder Antwort. Du kannst das Mikrofon im Gespräch ausdrücklich stummschalten und wieder freigeben.",
+      "„Gespräch beenden“ wählen. Erst danach eine Meetingaufnahme oder Geräteeinrichtung starten."
+    ],
+    "note": "Eine lokale Transkriptions- oder Zusammenfassungsfunktion macht Talk nicht automatisch offline verfügbar. Bei fehlender Online-Verbindung wird kein Ersatzgespräch gestartet."
+  },
+  {
+    "id": "meeting",
+    "title": "Ein Meeting aufzeichnen",
+    "category": "MEETING",
+    "intro": "Die Aufnahme wird auf dem Pi gespeichert. Was danach mit ihr geschieht, bestimmst du über die Verarbeitung.",
+    "steps": [
+      "Vor Beginn mit den Beteiligten klären, dass aufgezeichnet wird. Mit dem eigenen Brain-Konto anmelden.",
+      "„Meeting aufzeichnen“ wählen. In der Vorbereitung Konto und Umgebung prüfen und „Aufnahme starten“ bestätigen.",
+      "Während der Aufnahme zeigt die Zeit die Laufdauer. „Pause“ unterbricht, „Weiter“ setzt fort. „Mikrofon stumm“ ist eine eigene Aktion.",
+      "Notizen während der Aufnahme ergänzen. Nur die aktuelle Aufnahme bedienen; Einstellungen, Kontowechsel und konkurrierende Gespräche sind in dieser Zeit eingeschränkt.",
+      "„Stopp“ wählen. Der Pi speichert das Meeting und reiht es zur Transkription ein. Den tatsächlichen Fortschritt siehst du in der Warteschlange.",
+      "Nach Abschluss in der Bibliothek Transkript und Zusammenfassung prüfen. Bei Bedarf über die Meetingaktionen exportieren oder ausdrücklich ins Brain übertragen."
+    ],
+    "note": "Eine Aufnahmepause hält deine Anmeldung offen. Auch eine unterbrochene Fernbedienungsverbindung beendet die Aufnahme nicht.",
+    "image": "images/ablauf.svg"
+  },
+  {
+    "id": "verarbeitung",
+    "title": "Lokal oder über Brain verarbeiten",
+    "category": "KI & WARTESCHLANGE",
+    "intro": "Transkription und Zusammenfassung lassen sich unabhängig voneinander konfigurieren.",
+    "steps": [
+      "Einstellungen → KI & Modelle öffnen. Für Transkription und Zusammenfassung jeweils „Auf dem Pi“ oder „Über Brain“ auswählen.",
+      "Lokale Modelle zuerst herunterladen, testen und ausdrücklich aktivieren. Mit installierten Modellen kann die Verarbeitung ohne Internet laufen.",
+      "Bei Brain-Verarbeitung werden die dafür nötigen Audio- bzw. Textdaten an die gewählte Brain-Umgebung übertragen. Es gibt keinen stillen Wechsel zwischen lokaler und Brain-Verarbeitung.",
+      "Warteschlange öffnen: Dateigröße, Verarbeitungsphase und Fehler ansehen. Ein gespeichertes Meeting bleibt auch dann erhalten, wenn die Verarbeitung wartet.",
+      "Bei „Anmeldung erforderlich“ mit dem zum Meeting gehörenden Konto anmelden und erneut prüfen. Einen Fehler zuerst lesen; danach gezielt wiederholen."
+    ],
+    "paragraphs": [
+      "Die Verarbeitungswahl wird beim Aufnahmestart dem Auftrag zugeordnet. Ein späterer Wechsel der Einstellung leitet bestehende Aufträge nicht einfach um.",
+      "Auch für lokale Aufnahmen ist eine persönliche Anmeldung nötig. Bereits zugeordnete Verarbeitung kann offline fortgesetzt werden; nach Abmeldung lässt sich ohne Internet kein neues Konto anmelden."
+    ],
+    "links": [
+      {
+        "label": "Fehler eingrenzen",
+        "url": "#probleme"
+      }
+    ]
+  },
+  {
+    "id": "bibliothek",
+    "title": "Ergebnisse, Notizen & Export",
+    "category": "DEINE MEETINGS",
+    "intro": "Die Bibliothek zeigt die für dein Konto zugänglichen Meetings.",
+    "steps": [
+      "Bibliothek öffnen, Meeting auswählen und Aufnahme, Transkript oder Zusammenfassung prüfen.",
+      "Notizen oder Titel bearbeiten. Vor einem Wechsel auf Speichermeldungen achten; bei einem Konflikt den Entwurf erhalten und die Fassungen vergleichen.",
+      "„Meetingdetails“ → „Meeting exportieren“ verwenden, wenn du eine lokale Datei brauchst.",
+      "„Ins Brain übertragen …“ ist eine gesonderte Aktion. Zielbereich prüfen und den Versand ausdrücklich bestätigen.",
+      "„Meeting löschen …“ fragt noch einmal nach. Laufende Aufnahme oder Verarbeitung zuerst abschließen."
+    ],
+    "paragraphs": [
+      "„Angenommen“ bei einer Übertragung heißt noch nicht, dass Brain das Dokument bereits vollständig verarbeitet hat. Den Übertragungsstatus prüfen.",
+      "Die Fernbedienung im Hilfeportal stellt weder Audio noch Transkripte oder die Bibliothek bereit. Für diese Inhalte verwende das angemeldete Pi-Display."
+    ]
+  },
+  {
+    "id": "nfc",
+    "title": "NFC-Aufsteller: Talk & Meeting",
+    "category": "ZUBEHÖR",
+    "intro": "Die Aufsteller wählen einen Modus. Sie sind kein persönlicher Anmeldeausweis.",
+    "steps": [
+      "Den unterstützten USB-NFC-Leser anschließen. Einstellungen → Audio → NFC-Aufsteller → „Leser prüfen“ öffnen.",
+      "Zum Anlernen genau einen Aufsteller auflegen und „Als Talk zuordnen“ oder „Als Meeting zuordnen“ wählen. Danach abnehmen und den anderen zuordnen.",
+      "NFC einschalten. Einen bekannten Aufsteller auflegen. Ohne Brain-Anmeldung öffnet sich zunächst die Anmeldung.",
+      "Den Aufsteller während der Anmeldung liegen lassen. Nach Anmeldung die Vorbereitung am Pi ausdrücklich bestätigen. Eine späte Anmeldung startet nie unbemerkt eine Aufnahme.",
+      "Abnehmen beendet nur den von diesem Aufsteller gestarteten Vorgang nach der vorgesehenen kurzen Verzögerung. Ein zuvor anders gestartetes Gespräch gehört dem Aufsteller nicht."
+    ],
+    "note": "Bei „NFC-Unterstützung nicht installiert“ fehlt die Systemeinrichtung. Das ist kein Fehler deiner Tags. Betreiber kontaktieren; ein App-Update allein installiert keine PC/SC-Dienste. Das Prüfen eines Lesers bestätigt noch nicht, dass beide Aufsteller angelernt sind."
+  },
+  {
+    "id": "audio",
+    "title": "Mikrofon, Soundbar & Rufwort",
+    "category": "AUDIO",
+    "intro": "Mikrofoneingang und Lautsprecherausgang sind getrennte Einstellungen.",
+    "steps": [
+      "Laufende Aufnahme oder Unterhaltung abschließen. Unter Einstellungen → Audio das Mikrofon auswählen, Eingangspegel ansehen und eine bewusste Testaufnahme durchführen.",
+      "Unter Lautsprecher „Geräte aktualisieren“ wählen. Bei unserem internen Aufbau ist „188A Analog Stereo“ die Soundbar. Der reSpeaker hat einen eigenen Ausgang.",
+      "Lautstärke und Stummschaltung prüfen. „Testton am Pi“ abspielen: zuerst links einen tieferen, dann rechts einen höheren Ton hören. Eine Erfolgsmeldung allein ersetzt den Hörtest nicht.",
+      "Für das Aktivierungswort zuerst anmelden und Gesprächswissen speichern. Unter Audio → Aktivierungswort das gewünschte Rufwort wählen und einschalten.",
+      "„Start & Abschied“ bei den Lautsprechern öffnet die optionalen Geräteklänge. Beide lassen sich getrennt einschalten und vorhören."
+    ],
+    "paragraphs": [
+      "Der Startklang läuft einmal pro Systemstart, wenn die Oberfläche bereit ist. Der Abschiedsklang begleitet das Herunterfahren; er bedeutet nicht, dass der Strom bereits abgezogen werden darf.",
+      "Das Aktivierungswort wartet während Aufnahme, Tests oder belegter Audioausgabe. Ein ausgeschaltetes oder gesperrtes Rufwort ist kein Beleg für ein defektes Mikrofon."
+    ]
+  },
+  {
+    "id": "ruhe",
+    "title": "Automatische Abmeldung",
+    "category": "GETEILTES GERÄT",
+    "intro": "Die Ruhefrist gilt nach der Nutzung. Ein laufendes Meeting soll dich nicht abmelden.",
+    "steps": [
+      "Während Aufnahme, Pause, Gespräch und Wiedergabe bleibt die Sitzung offen.",
+      "Nach Ende dieser Nutzung beginnt die volle Ruhefrist neu. Standard sind 15 Minuten und eine Minute Vorwarnung.",
+      "Bei „Bist du noch da?“ entweder „Angemeldet bleiben“ oder „Jetzt abmelden“ wählen.",
+      "Optional kann der Betreiber Raumgeräusche berücksichtigen lassen. Das Mikrofon bleibt dafür aktiv, wertet den Pegel lokal aus und speichert oder überträgt dafür keinen Ton."
+    ],
+    "note": "Geräusche sind kein sicherer Anwesenheitsnachweis. Bei Ausfall der Erkennung gilt die normale Frist. Eine offen gelassene Fernbedienungsseite verlängert die Anmeldung nicht von selbst."
+  },
+  {
+    "id": "netz",
+    "title": "Netzwerk, Umstellen & Ausschalten",
+    "category": "IM ALLTAG",
+    "intro": "Die Hilfe braucht kein Internet, aber eine erreichbare Verbindung zwischen deinem Browser und dem Pi.",
+    "steps": [
+      "Pi und Browser ins gleiche lokale Netzwerk bringen. Bei getrenntem Gast-WLAN ist der Pi möglicherweise absichtlich nicht erreichbar.",
+      "Am Pi unter Einstellungen → Hilfe & Fernzugriff den QR-Code scannen. Falls der Gerätename nicht aufgelöst wird, die dort gezeigte IP-Adresse verwenden.",
+      "Zum WLAN-Wechsel Einstellungen → Gerät & Verwaltung → WLAN & Einrichtung öffnen. Ein Netzwechsel trennt die bisherige Browser-Verbindung.",
+      "Vor dem Umstellen Aufnahme, Gespräch und Wiedergabe beenden. Verarbeitung, Übertragungen und aktive Timer abschließen.",
+      "„Pi herunterfahren“ wählen und bestätigen. Bis zum vollständigen Herunterfahren warten, dann das Netzteil abziehen.",
+      "Nach dem Umstellen einschalten, Netzwerk prüfen und erneut anmelden. Eine neue IP-Adresse wird nach dem Start im Hilfezugang angezeigt."
+    ],
+    "note": "Bei „Pi fährt herunter“ nicht sofort den Strom abziehen. Falls das Herunterfahren fehlschlägt, die angezeigte Meldung prüfen. Browser-Fernbedienung bietet bewusst keinen Ausschaltknopf."
+  },
+  {
+    "id": "fernzugriff",
+    "title": "Browser verbinden & bedienen",
+    "category": "FERNBEDIENUNG",
+    "intro": "Freigabe am Pi, Bedienung im Browser. Die bisherige reine Bildschirmfreigabe bleibt getrennt.",
+    "steps": [
+      "Am Pi unter Einstellungen → Hilfe & Fernzugriff die Fernbedienung einschalten. Dafür müssen die Geräteeinstellungen freigegeben und das Gerät frei sein.",
+      "Im Browser „Status & Fernbedienung“ und den verschlüsselten Zugang öffnen. Beim ersten Besuch das geräteeigene Zertifikat mit der Anzeige direkt am Pi vergleichen.",
+      "Am Pi mit Brain anmelden. Im Browser einen Namen eingeben und „Kopplungscode anfordern“ wählen.",
+      "Den sechsstelligen Code innerhalb von zwei Minuten am Pi eingeben und „Code bestätigen“ wählen.",
+      "Der Browser zeigt den bestätigten Status und die gerade erlaubten Aktionen. Talk verwendet das bereits am Pi gewählte Gesprächswissen.",
+      "Zum Beenden nur dieses Browsers „Browser entkoppeln“ verwenden. Am Pi entzieht „Browser entkoppeln“ allen Browsern die Freigabe."
+    ],
+    "paragraphs": [
+      "Die Freigabe endet bei Abmeldung, Kontowechsel, Neustart, ausdrücklichem Widerruf oder spätestens nach zwei Stunden. Ein länger als zehn Minuten inaktiver Browser muss erneut gekoppelt werden.",
+      "Ein verlorener Kontakt beendet keine Aufnahme. Bei „Ergebnis unklar“ zuerst den Status am Pi prüfen. Ein Auftrag wird nicht automatisch wiederholt. Die Hilfe bleibt ohne Kopplung lesbar."
+    ],
+    "links": [
+      {
+        "label": "Jetzt Status & Fernbedienung öffnen",
+        "url": "#remote"
+      }
+    ]
+  },
+  {
+    "id": "vertrauen",
+    "title": "Das lokale Zertifikat prüfen",
+    "category": "FERNBEDIENUNG",
+    "intro": "Für die lokale Fernbedienung erzeugt jeder Pi sein eigenes Zertifikat. Es gibt keinen gemeinsamen privaten Schlüssel im Installationspaket.",
+    "steps": [
+      "Direkt am Pi Einstellungen → Hilfe & Fernzugriff öffnen und „Zertifikat dieses Pi vergleichen“ aufklappen.",
+      "Im Browser die Zertifikatsdetails des verschlüsselten Zugangs öffnen. Der genaue Menüname unterscheidet sich je nach Browser.",
+      "Den SHA-256-Fingerabdruck vollständig mit der Anzeige am Pi vergleichen. Die Hilfe-Seite über HTTP ist keine vertrauenswürdige Quelle für diesen Vergleich.",
+      "Nur bei Übereinstimmung dieses konkrete Zertifikat für den lokalen Zugriff bestätigen. Niemals die allgemeine Zertifikatsprüfung oder den Browserschutz abschalten.",
+      "Wenn dein Browser keine gezielte Freigabe erlaubt, den Betreiber um Einrichtung des Gerätevertrauens bitten. Bis dahin helfen die lokale HTTP-Anleitung und die Bedienung am Pi weiter."
+    ],
+    "note": "Die erstmalige Vertrauensbestätigung ist eine Grenze dieses rein lokalen Zugangs. Wenn der Browser später unerwartet einen anderen Fingerabdruck zeigt, erneut direkt am Pi prüfen. Nach Netzwerkänderungen bevorzugt den Gerätenamen verwenden."
+  },
+  {
+    "id": "probleme",
+    "title": "Wenn etwas nicht funktioniert",
+    "category": "FEHLERHILFE",
+    "intro": "Gehe vom sichtbaren Symptom aus. Eine vorhandene Aufnahme nicht löschen, um einen Verarbeitungsfehler zu lösen.",
+    "steps": [
+      "Kein Ton: Lautsprecherausgang, Lautstärke und Stummschaltung prüfen. Soundbar und reSpeaker nicht verwechseln; danach den Links-rechts-Test am Pi hören.",
+      "Keine Aufnahme: Brain-Anmeldung, Geräteeinrichtung, freien Speicher und aktuelle Aktivität prüfen. Ein Gespräch oder Mikrofontest muss zuerst beendet sein.",
+      "Verarbeitung wartet: Fehlermeldung in der Warteschlange lesen. Bei Brain-Verarbeitung Netzwerk und das zugeordnete Konto prüfen; bei lokaler Verarbeitung installierte, aktivierte Modelle.",
+      "USB-Leser fehlt: „Leser prüfen“ verwenden. Fehlende NFC-Unterstützung vom Betreiber installieren lassen. Erst danach Tags zuordnen.",
+      "Portal nicht erreichbar: Geräteadresse direkt am Pi ablesen. Gleiches WLAN/LAN, mögliche Gastnetz-Trennung und aktuelle IP prüfen. Nach einem Umzug kann sich die IP ändern.",
+      "Fernbedienung zeigt alte Daten: Verbindung erneut prüfen. Bei Abmeldung oder Ablauf neu koppeln. Weiterhin laufende Aufnahme am Pi bedienen.",
+      "Offenes Gehäuse funktioniert, geschlossenes nicht: ausgeschaltet und vom Netzteil getrennt nach Zug, Knicken, Klemmstellen und blockierter Kühlung schauen."
+    ],
+    "links": [
+      {
+        "label": "Ausführliche Verkabelung und Hardware-Fehlersuche · PDF",
+        "url": "./verkabelung-r2.pdf"
+      }
+    ]
+  },
+  {
+    "id": "betreiber",
+    "title": "Geräteschutz & Wartung",
+    "category": "FÜR BETREIBER",
+    "intro": "Geräteverwaltung und persönliche Brain-Anmeldung haben unterschiedliche Aufgaben.",
+    "steps": [
+      "Unter Einstellungen → Gerät & Verwaltung → Anmeldung & Geräteschutz eine eigene Betreiber-PIN einrichten. PIN nicht am Gehäuse veröffentlichen.",
+      "Diagnose und Versionsstand prüfen. Signierte App-Updates bewahren Aufnahmen, Modelle und Geräteeinstellungen; Systempakete können eine getrennte Einrichtung benötigen.",
+      "Updates, Neustarts oder Netzwerkänderungen nur durchführen, wenn Aufnahme, Gespräch und weitere belegte Arbeiten abgeschlossen sind.",
+      "Fernbedienung nur bei Bedarf einschalten. Persönliche Freigaben enden beim Abmelden; unbekannte Browser am Pi entkoppeln.",
+      "Bei einer neuen SD-Karte den Erststart-Assistenten durchlaufen. Eine Kopie mit persönlichen Zugangsdaten oder vorhandenen Meetings ist keine geeignete Kundeninstallation."
+    ],
+    "paragraphs": [
+      "Über dieses Portal sind keine beliebigen Befehle, keine SSH-Sitzung und keine komplette Fernansicht des Desktops verfügbar. Für technische Wartung bleibt der vorhandene Verwaltungsweg zuständig."
+    ]
+  },
+  {
+    "id": "quellen",
+    "title": "Stand & Quellen",
+    "category": "DOKUMENTATION",
+    "intro": "Hilfestand 23.11.2026 für Recorder Studio 0.5.94.",
+    "paragraphs": [
+      "Diese Hilfe wird mit der Anwendung auf dem Pi ausgeliefert. Die angezeigte App-Version steht am Seitenende. Anleitungen, Suche, Abbildungen und Verkabelungs-PDF benötigen keine Verbindung zu einem externen Server.",
+      "Grundlage: die Bedienung des aktuellen Recorder-Repositorys, dokumentierte Geräteprüfungen zu Raummodus, Touchdialogen, Audio und cdbPiOS sowie die Verkabelungsanleitung R2 des Gehäuseprojekts.",
+      "Die R2-PDF ist unverändert als historische Detailquelle enthalten. Ihre offenen Tests sind nicht pauschal als erledigt markiert. Die später bestätigte Soundbar-Einrichtung ist im Audio-Kapitel beschrieben. Beide Gehäuse-Frontvarianten verwenden denselben grundsätzlichen elektrischen Anschluss.",
+      "Die schematischen Abbildungen dieser Hilfe erläutern den Ablauf. Sie sind keine maßstäblichen Steckerzeichnungen. Die QR-Erzeugung verwendet Project Nayuki, MIT-Lizenz."
+    ],
+    "links": [
+      {
+        "label": "Raspberry Pi Touch Display 2 – aktuelle Herstelleranleitung (Internet)",
+        "url": "https://www.raspberrypi.com/documentation/accessories/touch-display-2.html"
+      },
+      {
+        "label": "Waveshare USB-Board (C) – Herstellerunterlagen (Internet)",
+        "url": "https://www.waveshare.com/wiki/PCIe_TO_USB_3.2_Gen1_Board_%28C%29"
+      }
+    ]
+  }
+]

@@ -17,6 +17,12 @@ nicht benötigt und bleiben unangetastet.
 [Systemübersicht und Architektur](../architecture/README.md) ·
 [Erststart-Assistent ab 0.5.77](../erststart-0.5.77.md) · [Erststart im Image 0.5.44](../first-start-0.5.44/README.md)
 
+## Hilfeportal ab App 0.5.94
+
+Die versionierten Dateien unter `services/local_portal.py`, `services/vendor/`, `studio/help/` und `studio/local-portal.*` werden über die bestehenden Positivlisten sowohl ins App-Update als auch ins Image-Baupaket übernommen. Die Verkabelungs-PDF liegt integritätsgeprüft in einem JSON-Asset, damit auch der bereits installierte Update-Prüfer die neue Anleitung akzeptiert. Keine Erweiterung seiner Dateityp-Freigabe nötig. Die bestehende `cryptography`-Laufzeit wird weiterverwendet.
+
+Frische Geräte starten nur die allgemeine Hilfe auf Port 8091; persönliche Fernbedienung bleibt ausgeschaltet. Der private TLS-Schlüssel entsteht erst beim Einschalten auf dem jeweiligen Pi. Keine Zertifikate, Schlüssel oder Kopplungen werden aus einem benutzten Gerät übernommen. [Details und Prüfstand](../local-portal/README.md).
+
 ## Was jede Weiterentwicklung berücksichtigen muss
 
 Diese Regel gilt für alle künftigen Änderungen und ist zusätzlich in

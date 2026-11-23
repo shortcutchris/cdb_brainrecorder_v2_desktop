@@ -1,121 +1,117 @@
-# Vorschlag: cdbPiOS Hilfe und Fernbedienung im lokalen Netz
+# cdbPiOS – Hilfe und Fernbedienung im lokalen Netz
 
-Stand: 23.11.2026. Anlass: Nutzer wünscht eine vollständige Hilfe direkt auf
-dem Pi und erwägt die Bedienung des Pi über einen Browser im gleichen Netz.
-**Konzept zur Besprechung; noch keine neue Weboberfläche oder Fernsteuerung
-implementiert, kein Netzwerkzugang am Gerät verändert.**
-
+Stand: 23.11.2026, App **0.5.94**. Umsetzung im Repository; aktuelle
+Auslieferungsabnahme siehe [Prüfprotokoll](acceptance-0.5.94.md).
 Die [Anmeldeidee ohne Abtippen](../cdb-integration/deferred-qr-login.md)
-bleibt ausdrücklich zurückgestellt.
+bleibt zurückgestellt.
 
-## Was der aktuelle Code bereits kann
+## Benutzen
 
-| Bestand | Beleg und Grenze |
-| --- | --- |
-| Python-Webserver mit Kiosk-Oberfläche | `web_server.py`: `StudioServer` erlaubt ausschließlich `127.0.0.1`; Standardport 8088. Kein frei erreichbares LAN-Bedienpanel. |
-| Optionaler Browser-Empfänger | `services/remote_display.py`, `studio/receiver/`: Port 8090, nach Einschalten und Kopplung aktuelles Gespräch nur lesend; HTTP im vertrauten LAN. Keine Steuerrechte. |
-| Interne Fernsteuerungslogik | `services/remote_control.py`, `services/remote_control_transport.py`: CDB-Kanal für persönliche Mobile-Steuerung. Letzter dokumentierter Verbundstand hat offene Server-/Mobile-Abnahme; kein Nachweis aktueller Verfügbarkeit durch diese Prüfung. |
-| Geräteverwaltung | Diagnose, signierte Updates und feste Wartungsaktionen über einen separaten Verwaltungsdienst; keine allgemeine persönliche Fernbedienung. |
+1. Am Pi **Einstellungen → Hilfe & Fernzugriff** öffnen. Dort stehen die
+   individuelle Adresse, alternative IP-Adressen und ein QR-Code.
+2. Handy, Tablet oder Laptop mit demselben erreichbaren Netz verbinden und die
+   Adresse öffnen: `http://<Gerätename>.local:8091/`. Gastnetze können den Zugriff
+   sperren. Bei fehlender Namensauflösung die angezeigte IP verwenden.
+3. Hilfe, Suche, Bilder und die komplette Verkabelungs-PDF sind ohne Anmeldung
+   und Internet verfügbar. „Hilfe auf diesem Pi lesen“ öffnet dieselben Inhalte
+   lokal mit Bildschirmtastatur. „Zurück zum Recorder“ kehrt zur Bedienung zurück.
+4. Für Steuerung am Pi **Fernbedienung einschalten**. Im Browser **Status &
+   Fernbedienung → Verschlüsselten Zugang öffnen** wählen.
+5. Das geräteeigene Zertifikat zuerst vergleichen (unten). Danach am Pi beim
+   Brain anmelden, im Browser einen Namen und Kopplungscode anfordern. Den
+   sechsstelligen Code innerhalb von zwei Minuten am Pi eingeben und bestätigen.
+6. Große Tasten steuern Meeting-Aufnahme, Pause, Fortsetzen, Stummschaltung und
+   Stoppen sowie Talk-Start, Ende und Stummschaltung. Talk verwendet die zuvor
+   auf dem Pi ausgewählten Wissensbereiche. Ton kommt weiterhin ausschließlich
+   vom Mikrofon und Lautsprecher des Pi.
 
-Architektur und Grenzen: [Übersicht](../architecture/README.md),
-[Mobile-Implementierung](../remote-control/IMPLEMENTATION-63.md).
+Abmeldung/Kontowechsel, Neustart, „Browser entkoppeln“ oder Ausschalten der
+Fernbedienung widerrufen Freigaben. Nach zwei Stunden endet eine Freigabe auch
+bei offenem Browser; nach zehn Minuten ohne Browserkontakt ebenfalls. Eine
+unterbrochene Verbindung **stoppt keine Aufnahme**. Browserabfragen verlängern
+nicht die Anmelde-Ruhefrist am Pi. Eine echte Bedienaktion zählt als Aktivität.
+Keine Gastaufnahme und kein Herunterfahren/Neustarten über dieses Bedienpanel.
 
-## Vorgeschlagener Einstieg
+## Zertifikat einmal richtig prüfen
 
-Am Pi erscheint **Hilfe & Fernzugriff** mit der tatsächlichen Geräteadresse
-und einem QR-Code. Nach Öffnen auf Laptop, Tablet oder Handy gibt es drei
-klar benannte Bereiche: **Hilfe**, **Gerätestatus**, **Fernbedienung**.
+Die Steuerung verwendet HTTPS auf **8443**, mit einem ausschließlich auf diesem
+Pi erzeugten Zertifikat. Deshalb kennt der Browser dessen Aussteller beim
+allerersten Besuch nicht. Unter **Zertifikat dieses Pi vergleichen** zeigt der
+Pi den SHA-256-Fingerabdruck. Im Zertifikatsdialog des Browsers denselben
+Fingerabdruck prüfen und nur dieses konkrete Zertifikat zulassen. Keine globale
+Abschaltung der Zertifikatsprüfung oder Browsersicherheit vornehmen.
 
-Die Adresse verwendet den individuellen Gerätenamen; eine aktuelle IP-Adresse
-dient als Alternative, falls die Namensauflösung im Netz nicht funktioniert.
-Hostname, Port und HTTPS-Zugang sind vor Umsetzung festzulegen und zu testen.
-Es gibt noch keinen neuen aufrufbaren Hilfe-Link.
+Die öffentliche HTTP-Hilfe ist keine Vertrauensquelle für den Fingerabdruck;
+der Vergleich erfolgt direkt am Pi. In verwalteten Firmennetzen sollte die IT
+das gerätespezifische Zertifikat vertrauenswürdig hinterlegen. Kann der Browser
+keine geprüfte Ausnahme zulassen, bleibt die Hilfe nutzbar; die Fernbedienung
+wird nicht auf unverschlüsseltes HTTP zurückgestuft.
 
-Die Hilfe liegt vollständig auf dem Gerät: Texte, Bilder, Suche und nötige
-Schriften benötigen kein Internet. Pi und Browser müssen dasselbe erreichbare
-lokale Netz nutzen; ein getrenntes Gast-WLAN kann den Zugang verhindern.
-Die Hilfeseiten passen sich auch kleinen Handybildschirmen an. Das eigentliche
-Pi-Bedienpanel bleibt für 1280 × 720 und 1024 × 600 mit Touch ausgelegt.
+Hostname bevorzugen. Die bei der ersten Aktivierung bekannten IP-Adressen sind
+zusätzlich im Zertifikat enthalten. Nach einem Netzwechsel kann sich eine IP
+ändern; dann den Hostnamen verwenden. Die Adresse im Pi-Menü wird beim App-Start
+ermittelt. Keine Router-Portfreigabe und kein öffentlicher Internetzugang nötig.
 
-## Inhalt der vollständigen Hilfe
+## Hilfeinhalte und Pflege
 
-- Erste Schritte: Aufbau, Verkabelung, Stromversorgung, Einschalten, Netzwerk,
-  Brain-Anmeldung und Gerätezuordnung. Hardware-Anleitungen aus den jeweiligen
-  Projekten übernehmen und gegen den tatsächlichen Aufbau prüfen.
-- Talk: Wissen auswählen, Gespräch beginnen/beenden, Mikrofon stummschalten,
-  Aktivierungswort und Bedeutung der Statusanzeigen.
-- Meeting: Aufnahme beginnen, pausieren, stoppen, Notizen sichern;
-  lokale bzw. CDB-Verarbeitung, Warteschlange, Transkript und Zusammenfassung.
-- Geteiltes Gerät: Anmeldung erforderlich, NFC-Verhalten, Abschluss/Abmeldung,
-  Ruhefrist und optionale Raumgeräuscherkennung ohne Speicherung.
-- Alltag: Lautsprecher und Mikrofon, WLAN-Wechsel, sauber herunterfahren,
-  Umstellen, Start-/Abschiedsklang sowie Bedeutung der lokalen/offline Funktionen.
-- Hilfe bei Problemen: kein Ton, keine Aufnahme, Anmeldung fehlgeschlagen,
-  Verarbeitung wartet, Netzwerk nicht erreichbar; verständliche erste Schritte.
-- Betreiberbereich: Diagnose, Version, Aktualisierung, Gerätekopplung,
-  Berechtigungen und Rücknahme einer Browser-Freigabe.
+16 Themen: Einstieg, Verkabelung, Anmeldung, Talk, Meeting, Verarbeitung,
+Bibliothek, NFC, Audio, automatische Abmeldung, Netz/Umstellen, Fernbedienung,
+Zertifikat, Fehlerhilfe, Betreiber und Quellen. Texte und Zeichnungen liegen in
+`studio/help/`; keine Webfonts oder externen Skripte. Suche arbeitet lokal.
+Alle Hilfethemen lassen sich auch über den Browser drucken.
 
-Versionsstand sichtbar machen; Hilfe mit jeder Funktionsänderung aktualisieren
-und zusammen mit der passenden App-Version ausliefern. Generische Hilfe kann
-ohne Brain-Anmeldung lesbar sein; sie enthält keine persönlichen Gerätedaten,
-Aufnahmen, Kontonamen oder Zugangsdaten.
+Die originale **Verkabelungsanleitung R2 vom 27.10.2026** wurde bytegleich aus
+`pi-studio-files-public/docs/pi-studio/reviews/2026-10-27-wiring` übernommen.
+Dateiname und SHA-256 stehen in `studio/help/downloads.json`. Das Portal prüft
+sie beim Dekodieren und liefert sie als `verkabelung-r2.pdf` aus. Die historische
+Anleitung kennzeichnet offene Kabeltests weiterhin als offen; der spätere
+Soundbar-Stand vom 12.11. ist im Audioartikel gesondert erläutert. Keine
+automatische Änderung der funktionierenden PCIe-/Audio-/GPIO-Konfiguration.
 
-## Fernbedienung als zweiter Schritt
+Bei Funktionsänderungen Artikel, Suchbegriffe, Quellen/Stand, Anleitung und
+Tests im selben Release aktualisieren. Aktuelle Geräte-/Benutzerdaten gehören
+nicht in die öffentliche Hilfe. Das separate Pi Studio bleibt die CAD- und
+Druckdateianwendung.
 
-Der Browser stellt eine Kopplungsanfrage. Am Pi wird das konkrete Gerät mit
-einem kurzlebigen Code bestätigt. Eine Browser-Freigabe ist getrennt von der
-Brain-Anmeldung und erlaubt keine Gastaufnahme. Sie gilt nur für die aktuelle
-berechtigte Pi-Sitzung; Abmeldung, Kontowechsel, Widerruf und Neustart machen
-sie ungültig. Bereits lesend gekoppelte Empfänger erhalten keine Steuerrechte.
+## Umsetzung und Grenzen
 
-Erster vorgeschlagener Umfang: tatsächlichen Aufnahme-/Gesprächsstatus sehen,
-Aufnahme starten/pausieren/stoppen, Gespräch starten/beenden und stummschalten.
-Mikrofon und Lautsprecher bleiben am Pi; kein Audio vom Browser und kein
-automatischer Zugriff auf die Aufnahmebibliothek. Warteschlangenstatus nur
-kontogebunden und ohne fremde Titel oder Inhalte anzeigen.
+- Kiosk/API bleiben ausschließlich auf `127.0.0.1:8088`. Die bisherige lesende
+  Bildschirmfreigabe 8090 und der CDB-Steuerkanal sind eigenständige Funktionen.
+- `services/local_portal.py`: begrenzte HTTP-Hilfe und optionaler TLS-Listener.
+  Nur private IPv4-Absender und passende lokale Hosts; keine Durchleitung der
+  Kiosk-API, Bibliothek, Audiodateien, Transkripte, Accountnamen oder Tokens.
+- Cookies `Secure`, `HttpOnly`, `SameSite=Strict`, `__Host-`-Präfix;
+  schreibende Anfragen zusätzlich exakte Origin, CSRF und begrenztes JSON.
+  Strenge Ressourcenrichtlinie, kein Einbetten, keine Browser-Audiofreigabe.
+- Kopplung und Befehle unter gemeinsamem Studio-Steuerlock. Bindung an Konto,
+  Anmeldegeneration und Raumsitzung. Start erhält nach eventuell langsamer
+  Mikrofonfreigabe nochmals Ablauf-/Kontoprüfung.
+- Zustandsgebundene Tickets gelten 15 Sekunden nach Serveruhr. Auch ein lokales
+  Pause/Weiter oder Stumm/An mit gleichem Endzustand macht alte Aufträge ungültig.
+  Ein alter Stop-Auftrag darf keine inzwischen neue Aufnahme beenden.
+- Auftragskennung und Ergebnis werden vor Ausführung im Arbeitsspeicher
+  vermerkt. Duplikate führen nichts erneut aus, veränderte Duplikate scheitern.
+  Nach Neustart sind alle Sitzungen widerrufen. Der Browser wiederholt einen
+  unklaren Auftrag nie automatisch, sondern fragt den tatsächlichen Status ab.
+- Aufnahmebefehle laufen auf dem bestehenden langlebigen Aufnahme-Thread;
+  das Ende einer HTTP-Anfrage beendet nicht den Audioprozess.
+- Rate-Limits, maximal acht Freigaben/Anfragen, maximal 20 parallele Verbindungen,
+  begrenzte Requestgrößen und Verbindungs-Timeouts. Keine allgemeine Shell,
+  Dateiverwaltung, Fernwartung oder Desktopfreigabe.
+- Zertifikat und privater Schlüssel unter `local-portal/` im Datenverzeichnis;
+  Zugriffsrechte 0600. Einstellungen werden gespeichert, Sitzungen/Codes nicht.
+  Bei TLS-Startfehlern bleibt die lokale Gerätebedienung verfügbar.
 
-Pi-Touch und Browser bedienen dieselben Python-Aktionen. Die vorhandenen
-Kontoprüfungen und Aktivitätssperren gelten auch dort. Ein ausdrückliches
-Stoppen beendet nur die zugehörige aktuelle Sitzung. Doppelklicks, verspätete
-Aufträge und parallele Bedienung dürfen keine zweite Aufnahme erzeugen oder
-eine inzwischen andere Sitzung beenden. Erfolg erst nach Bestätigung des Pi.
+## Update und frisches Image
 
-Bei Verbindungsabbruch läuft eine bestehende Aufnahme am Pi weiter; der Browser
-kennzeichnet seinen Status als veraltet und holt ihn nach Wiederverbindung neu.
-Eine offen gelassene Browserseite oder ihr Heartbeat hält die Anmeldung nicht
-künstlich offen. Die bestehenden Regeln für laufende Meetings bleiben erhalten.
+App-Dateien einschließlich Offline-PDF sind von den **bestehenden** Release-
+und Image-Positivlisten abgedeckt. Die PDF liegt als JSON-Nutzlast vor, da der
+bereits installierte Update-Prüfer keine freien PDF-Dateien zulässt. Kein
+Austausch des Prüfers oder nachträgliches Aufweichen seiner Regeln nötig.
+Die vorhandene `cryptography`-Abhängigkeit der Audio-Laufzeit genügt. QR-Code:
+vendorte MIT-Bibliothek Nayuki; genaue Herkunft in `services/vendor/README.md`.
 
-Wartung, Neustart und Herunterfahren wären ein gesonderter Betreiberbereich
-mit eigener Freigabe und Bestätigung. Die vorhandenen Sperren bei laufenden
-Arbeiten bleiben wirksam. Kein beliebiger Desktop- oder Shell-Zugang.
-
-## Technische Leitplanken für die Umsetzung
-
-- Den Kiosk-Dienst auf 8088 nicht einfach für alle Netzwerkschnittstellen öffnen
-  und nicht seine komplette API oder `/api/state` an das LAN durchreichen.
-- Eigenen begrenzten Zugang für Hilfe und gekoppelte Befehle entwerfen. Bestehende
-  Aktionslogik wiederverwenden; keine zweite Aufnahme-Engine und keine ungeprüften
-  angeblich bereits authentifizierten Aufträge an die interne Steuerung übergeben.
-- Für schreibenden Zugriff vor Freigabe einen funktionierenden verschlüsselten
-  Zugang einschließlich Zertifikats-/Vertrauensmodell festlegen. Die bestehende
-  HTTP-Anzeige allein ist dafür nicht ausreichend. Offline-Nutzung und Zugriff
-  vom Handy müssen damit vereinbar sein; kein stillschweigender Cloud-Zwang.
-- Eigene zeitlich begrenzte Browser-Sitzungen mit Widerruf, begrenzten
-  Kopplungsversuchen sowie Herkunfts-, Host- und CSRF-Prüfungen. Keine Tokens in
-  URLs, Logs oder Hilfedateien. Keine Router-Portfreigabe ins öffentliche Internet.
-
-## Sinnvolle Reihenfolge und Abnahme
-
-1. Hilfeportal mit bebilderten Abläufen, lokaler Suche, Adresse/QR am Pi und
-   eindeutiger App-Version. Keine Steuer-API in dieser ersten Stufe öffnen.
-2. Geschützten Status und gekoppelte Fernbedienung nach abgestimmtem Umfang
-   ergänzen; optional später Betreiberfunktionen.
-3. Offline-Hilfe, mehrere Geräte im Netz, unbekannten/abgelaufenen Browser,
-   Konto-/Umgebungswechsel, parallele Pi-/Browser-Aktionen, Verbindungsabbruch
-   und Wiederverbindung prüfen. Laufende Aufnahme darf nicht verloren gehen.
-
-Dieses Konzept ändert keine App-Datei, Freigabe oder SD-Image-Konfiguration.
-Bei Umsetzung müssen Hilfe-Assets in die App-/Image-Positivliste, bestehende
-Geräte und frische Images denselben Umfang erhalten und neue Netzwerk-/HTTPS-
-Einrichtung gegebenenfalls als eigene Systemmigration getestet werden.
-Hilfedaten sind versioniert; persönliche Kopplungen gehören nie ins Image.
+Bei frischer Installation startet nur die öffentliche Hilfe. Steuerung bleibt
+bis zur bewussten Aktivierung aus. Jedes Gerät erzeugt seinen eigenen Schlüssel;
+Kundenprofile, Schlüssel und Sitzungen sind keine Build-Eingaben.
+Ein geprüftes Baupaket ist **kein gebautes oder hardwaregetestetes SD-Image**.

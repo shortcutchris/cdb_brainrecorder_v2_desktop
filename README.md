@@ -2,9 +2,9 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
-## Vorgemerkt: lokale Hilfe und Browser-Fernbedienung
+## 0.5.94 – Hilfe direkt vom Pi und gekoppelte Browser-Fernbedienung
 
-Konzept vom 23.11.2026: eine auf dem Pi gespeicherte, offline lesbare Hilfe mit einem späteren, ausdrücklich gekoppelten Fernbedienungsbereich. Der vorhandene Kiosk-Webserver bleibt lokal geschützt; die bisherige LAN-Bildschirmfreigabe bleibt nur lesend. [Vorschlag, Bestand und Umsetzungsschritte](docs/local-portal/README.md). Noch nicht umgesetzt oder auf dem Pi aktiviert.
+Unter **Einstellungen → Hilfe & Fernzugriff** stehen Geräteadresse, QR-Code und eine vollständig lokale Hilfe mit Suche und Verkabelungs-PDF bereit. Hilfe: Port 8091. Die getrennte HTTPS-Fernbedienung auf 8443 wird am Pi eingeschaltet und pro Browser mit einem kurzlebigen Code bestätigt. Sie steuert Aufnahme und Talk am Pi; Anmeldung und Aktivitätssperren bleiben verbindlich. [Bedienung, Vertrauensmodell, Tests und Auslieferungsstand](docs/local-portal/README.md).
 
 Die vereinfachte Brain-Anmeldung per QR-Code ohne Abtippen bleibt auf Nutzerwunsch zurückgestellt: [vorgemerkte Anmeldeidee](docs/cdb-integration/deferred-qr-login.md).
 
