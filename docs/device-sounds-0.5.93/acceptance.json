@@ -1,0 +1,38 @@
+{
+  "version": "0.5.93",
+  "date": "2026-11-23",
+  "status": "local-tested-not-installed",
+  "python_tests": 145,
+  "javascript_tests": 152,
+  "browser": {
+    "viewports": [
+      "1024x600",
+      "1280x720"
+    ],
+    "themes": [
+      "blue",
+      "cdb"
+    ],
+    "synthetic_audio": true,
+    "console_errors": 0,
+    "preferences_persisted": true,
+    "farewell_preview_does_not_poweroff": true
+  },
+  "pi": {
+    "reachable_at_last_check": false,
+    "installed": false,
+    "hardware_listening_test": false,
+    "real_power_cycle_test": false
+  },
+  "cues": {
+    "startup": {
+      "seconds": 1.2,
+      "sha256": "ac53111924f495148fcf9dba0dafdac07c7178881459f10b4af4c8abd9b6bb07"
+    },
+    "shutdown": {
+      "seconds": 0.7,
+      "sha256": "b81b27d93e4df4611b7dcc6c6804f81285c67a321a259066247df2f3fa586fc2"
+    }
+  },
+  "image": "tracked allowlisted Python and Studio files; no dependencies or migration; clean export pending; no SD image built"
+}

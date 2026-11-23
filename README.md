@@ -2,6 +2,12 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.93 – Start- und Abschiedsklang (vorbereitet)
+
+Unter **Einstellungen → Audio → Lautsprecher → Start & Abschied** lassen sich zwei kurze, eigene Geräteklänge getrennt einschalten und vorhören. Der Startakkord erklingt einmal pro Einschalten, sobald die Oberfläche bereit und das Gerät frei ist. Der Abschied begleitet den bestätigten Beginn des Herunterfahrens; er ist keine Freigabe zum sofortigen Stromtrennen. Lautsprecherwahl, Lautstärke und Stummschaltung bleiben erhalten. Neue und aktualisierte Geräte bleiben zunächst stumm, bis die Optionen eingeschaltet werden.
+
+Lokale Prüfungen bestanden; Installation und Hörprobe am Pi stehen aus, da er nach dem Herunterfahren nicht erreichbar war. Beide Auslieferungswege übernehmen die vorhandene Laufzeit und die versionierten Dateien. [Bedienung, Klangproben und Prüfung](docs/device-sounds-0.5.93/README.md).
+
 ## 0.5.92 – Große Entscheidungen und sichere Aktionswechsel
 
 Einfache Entscheidungen verwenden zwei große Kacheln im gewählten Theme: Vorbereitung, Abmeldewarnung, Sitzung abschließen, Löschen, Wiedergabehinweis, Neustart und Herunterfahren. Formulare und Wissensauswahl behalten ihre passenden Aktionsleisten. Die Bildschirmtastatur wird vor Bestätigungen geschlossen.

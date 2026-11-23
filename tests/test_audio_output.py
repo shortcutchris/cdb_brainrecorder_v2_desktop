@@ -79,6 +79,16 @@ class SpeakersTests(unittest.TestCase):
             self.assertEqual(self.output.stop_test()['state'],'cancelled')
             fake.terminate.assert_called_once()
 
+    def test_device_cue_uses_existing_output_and_bounded_process(self):
+        process=Mock();process.wait.return_value=0
+        with patch('services.audio_output.subprocess.Popen',return_value=process):
+            self.output.start_chime('startup');self.output.thread.join(3)
+        self.assertEqual(self.output.test_status()['kind'],'chime')
+        self.assertEqual(self.output.test_status()['state'],'completed')
+        process.wait.assert_called_once_with(timeout=2)
+        with wave.open(str(self.root/'speaker-test.wav')) as wav:
+            self.assertEqual(wav.getnframes(),28800)
+
 
 class AlarmDurationTests(unittest.TestCase):
     def test_alarm_repeats_for_one_minute_preview_stays_short(self):

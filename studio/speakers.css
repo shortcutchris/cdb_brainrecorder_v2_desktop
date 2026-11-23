@@ -20,3 +20,13 @@
 @media(max-width:850px){#settings #speaker-page .audio-layout{grid-template-columns:minmax(0,1fr)}}
 
 #settings.workspace-view #speaker-page>.dialog-actions button{width:208px;min-width:208px;max-width:208px;flex:0 0 208px}
+
+.device-sound-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.device-sound-cards>.settings-card{display:flex;flex-direction:column;padding:24px}
+.device-sound-cards img{width:36px;height:36px;filter:var(--icon-filter)}
+.device-sound-cards h3{margin:16px 0 0}
+.device-sound-cards p{flex:1;line-height:1.5}
+.device-sound-actions{display:grid;gap:12px;margin-top:12px}
+.device-sound-actions button{min-height:60px;width:100%;white-space:normal}
+.device-sound-actions button[aria-pressed=true]{background:var(--accent);color:var(--on-accent)}
+@media(max-height:650px){.device-sound-cards>.settings-card{padding:16px}.device-sound-cards h3{margin:10px 0 0}.device-sound-cards img{width:26px;height:26px}.device-sound-cards p{margin:10px 0}.device-sound-actions{gap:8px;margin-top:4px}.device-sound-actions button{min-height:56px}}

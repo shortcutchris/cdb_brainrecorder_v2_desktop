@@ -134,12 +134,18 @@ class AudioOutput:
     def start_announcement(self, clip):
         return self.start_test(announcement=clip)
 
+    def start_chime(self, kind):
+        return self.start_test(chime=kind)
+
     def start_countdown(self, clip, end_at):
         if not math.isfinite(end_at) or not 5 <= end_at - time.monotonic() <= 7:
             raise ValueError('Countdown-Startzeit verpasst.')
         return self.start_test(announcement=clip, countdown_end=end_at)
 
-    def start_test(self, tone=None, *, alarm=False, announcement=None, countdown_end=None):
+    def start_test(self, tone=None, *, alarm=False, announcement=None, countdown_end=None, chime=None):
+        if chime is not None:
+            from services.device_sounds import cue
+            announcement = cue(chime)
         if announcement is not None:
             from services.announcements import validate_wav
             validate_wav(announcement)
@@ -156,9 +162,11 @@ class AudioOutput:
             if state['muted'] or state['volume'] == 0:
                 raise ValueError('Stummschaltung aufheben und Lautstärke erhöhen.')
             self.cancelled = False
-            kind = 'alarm' if alarm else 'announcement' if announcement is not None else 'test'
+            kind = 'chime' if chime is not None else 'alarm' if alarm else 'announcement' if announcement is not None else 'test'
             self.test = {'state': 'running', 'kind': kind, 'message': 'Lokale Ansage am Pi.' if announcement is not None else 'Alarmton am Pi.' if tone else 'Testton am Pi: erst links, dann rechts.', 'device': state['selected']}
-            self.thread = threading.Thread(target=self._play, args=(state['selected'], tone, 60 if alarm else 3, announcement, countdown_end), daemon=True)
+            if chime is not None:
+                self.test['message'] = 'Startklang am Pi.' if chime == 'startup' else 'Abschiedsklang am Pi. Das Gerät bleibt eingeschaltet.'
+            self.thread = threading.Thread(target=self._play, args=(state['selected'], tone, 60 if alarm else 3, announcement, countdown_end, 2 if chime is not None else None), daemon=True)
             self.thread.start()
             return self.test_status()
 
@@ -187,7 +195,7 @@ class AudioOutput:
             except ProcessLookupError: pass
             process.wait(timeout=2)
 
-    def _play(self, device, tone=None, seconds=3, announcement=None, countdown_end=None):
+    def _play(self, device, tone=None, seconds=3, announcement=None, countdown_end=None, max_seconds=None):
         process = None
         released = True
         outcome = 'failed'
@@ -216,6 +224,8 @@ class AudioOutput:
                 self.process = process
                 released = False
             timeout = max(.001, countdown_end - time.monotonic()) if countdown_end is not None else seconds + (15 if announcement else 0) + 5
+            if max_seconds is not None:
+                timeout = max_seconds
             code = process.wait(timeout=timeout)
             released = True
             outcome = 'completed' if code == 0 else 'failed'

@@ -4,6 +4,7 @@ from pathlib import Path
 import subprocess
 import time
 from fleet.common import read,save
+from services.device_sounds import play_shutdown
 
 LOGIN_MANAGER=['/usr/bin/busctl','call','org.freedesktop.login1','/org/freedesktop/login1','org.freedesktop.login1.Manager']
 
@@ -35,6 +36,12 @@ def execute_shutdown(root,command,method,runner=subprocess.run,boot=None):
               'sudo':['/usr/bin/sudo','-n','/usr/bin/systemctl','poweroff']}
     try:
         if method not in commands:raise ValueError('Unknown shutdown method')
+        # Audio errors cannot hold up poweroff. The wake detector has already
+        # released the microphone when this maintenance lease was acquired.
+        play_shutdown(root.parent)
+        # The optional sound must not bridge an expired or revoked lease.
+        current=read(marker,{})
+        if current.get('command')!=command or current.get('boot')!=boot or current.get('expires',0)<=time.time():return False
         save(power,{'command':command,'boot':boot,'state':'requested','expires':lease['expires']})
         result=runner(commands[method],capture_output=True,timeout=15)
         if result.returncode:raise ValueError('System rejected shutdown')

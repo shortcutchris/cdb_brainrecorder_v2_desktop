@@ -29,7 +29,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.92'
+VERSION = '0.5.93'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -82,6 +82,9 @@ class StudioApp:
         self.closing = False
         from services.audio_output import AudioOutput
         self.speakers = AudioOutput(self.store.root)
+        from services.device_sounds import DeviceSounds
+        self.device_sounds = DeviceSounds(self.store.root)
+        self.device_sounds_hardware = not preview and backend is None
         from services.announcements import Announcements
         self.announcements = Announcements(self.store.root)
         self.announcement_playing = False
@@ -228,6 +231,20 @@ class StudioApp:
             self.speakers.start_announcement(clip)
             self.announcement_playing = True
 
+    def tick_device_sounds(self):
+        if not self.device_sounds.take_startup():
+            return
+        # No delayed welcome after recording, login, maintenance or another
+        # activity. Failure to play a decorative cue leaves the app usable.
+        if not self.device_sounds_hardware or not self.speech_allowed():
+            return
+        try:
+            self.wake.suspend('Startklang läuft.')
+            self.speakers.start_chime('startup')
+            self.announcement_playing = True
+        except ValueError:
+            pass
+
     def stop_countdown(self):
         import time
         if self.countdown is not None:
@@ -308,6 +325,7 @@ class StudioApp:
                     self.tick_countdown()
                     self.tick_alarm()
                     self.tick_announcements()
+                    self.tick_device_sounds()
                     self.nfc.tick(self.nfc_start, self.nfc_stop, self.nfc_still_owned)
                     reason = self.wake_reason()
                     self.wake.tick(account=self.wake_account(),reason=reason,
@@ -505,6 +523,7 @@ class StudioApp:
         state['model_results'] = self.model_checks.results()
         state['speaker_test'] = self.speakers.test_status()
         state['announcements'] = self.announcements.public()
+        state['device_sounds'] = self.device_sounds.public()
         state['respeaker'] = self.respeaker.public()
         state['live'] = self.live.public()
         state['display'] = self.display.status()
@@ -708,6 +727,13 @@ class StudioApp:
         # Lock order matches state(): controller before recorder.
         with self.control_lock, self.controller.lock, self.engine.recorder.lock:
             if self.closing:raise ValueError('Dienst wird beendet. Änderungen bitte kurz aufbewahren.')
+            if path == '/api/device/ready':
+                if body: raise ValueError('Keine Parameter erwartet.')
+                # UI readiness is public to local users, including before PIN
+                # unlock. It does not count as activity or prolong their session.
+                if self.device_sounds_hardware:
+                    self.device_sounds.ready(self.management.boot_id())
+                return {'ok': True}
             if self.management.busy():raise ValueError('Gerät wird gewartet. Bitte kurz warten.')
             if self.first_start.busy:raise ValueError('Netzwerk wird eingerichtet. Bitte kurz warten.')
             self.room_guard(path)
@@ -768,6 +794,18 @@ class StudioApp:
                 if body: raise ValueError('Keine Parameter erwartet.')
                 self.announcements.reload()
                 return self.announcements.public()
+            if path == '/api/device/sounds':
+                self.require('configure')
+                return self.device_sounds.configure(body)
+            if path == '/api/device/sounds/test':
+                self.require('configure')
+                from services.device_sounds import KINDS
+                if set(body) != {'kind'} or body.get('kind') not in KINDS:
+                    raise ValueError('Unbekannter Geräteklang.')
+                self.wake.suspend('Geräteklang wird vorgespielt.')
+                result = self.speakers.start_chime(body['kind'])
+                self.announcement_playing = True
+                return result
             if path == '/api/announcements':
                 self.require('configure')
                 return self.announcements.configure(body)

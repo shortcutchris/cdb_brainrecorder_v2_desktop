@@ -30,3 +30,16 @@ test('countdown has its own pack gate and can be disabled after pack loss',()=>{
  state.recording={id:'recording',paused:true};assert.equal(ctx.announcementControls(state,true,false).countdown,false);
  state.recording.id=null;state.capabilities.configure.allowed=false;assert.equal(ctx.announcementControls(state,true,false).countdown,false);
 });
+
+test('device sounds keep preferences separate from audible previews and obey all activity locks',()=>{
+ const state=s(),output=d();
+ assert.equal(ctx.deviceSoundControls(state,output,true,false).toggle,true);
+ for(const data of [null,{...output,available:false},{...output,muted:true},{...output,volume:0}]){
+  const c=ctx.deviceSoundControls(state,data,true,false);assert.equal(c.toggle,true);assert.equal(c.preview,false);
+ }
+ for(const [online,busy] of [[false,false],[true,true]]){const c=ctx.deviceSoundControls(state,output,online,busy);assert.equal(c.toggle,false);assert.equal(c.preview,false)}
+ state.recording={id:'active',paused:true};state.speaker_test.state='running';
+ for(const value of Object.values(ctx.deviceSoundControls(state,output,true,false)))assert.equal(value,false);
+ state.recording.id=null;state.capabilities.configure.allowed=false;
+ const c=ctx.deviceSoundControls(state,output,true,false);assert.equal(c.toggle,false);assert.equal(c.preview,false);assert.equal(c.stop,true);
+});

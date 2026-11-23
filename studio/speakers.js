@@ -24,8 +24,30 @@ function renderAnnouncements(){
  $('announcements-stop').disabled=!c.stop;
  $('announcements-reload').disabled=!c.reload;
 }
+function deviceSoundControls(s,output,connected,busy){
+ const locked=!connected||busy||Boolean(s?.recording?.id)||s?.capabilities?.configure?.allowed!==true;
+ return {toggle:!locked,preview:!locked&&Boolean(output?.available)&&!output.muted&&output.volume>0,
+  stop:connected&&!busy&&!s?.recording?.id&&s?.speaker_test?.state==='running'};
+}
+function renderDeviceSounds(){
+ const controls=deviceSoundControls(state,speakerData,online,speakerBusy);
+ for(const kind of ['startup','shutdown']){
+  const button=$('device-sound-'+kind),enabled=state?.device_sounds?.[kind]===true;
+  button.disabled=!controls.toggle;button.setAttribute('aria-pressed',String(enabled));button.textContent=enabled?'Eingeschaltet · ausschalten':'Ausgeschaltet · einschalten';
+  $('device-sound-preview-'+kind).disabled=!controls.preview;
+ }
+ $('device-sound-stop').disabled=!controls.stop;
+ $('device-sound-status').textContent=speakerError||(!online?'Verbindung zum Pi unterbrochen.':state?.speaker_test?.state==='running'?state.speaker_test.message:!speakerData?.available?'Zum Vorhören einen Lautsprecher anschließen und auswählen.':speakerData.muted||speakerData.volume===0?'Dein Pi ist stumm. Lautstärke unter „Lautsprecher & Lautstärke“ ändern.':'Vorhören schaltet den Pi nicht aus. Der Startklang gilt ab dem nächsten Einschalten.');
+}
+let deviceReadyToken='',deviceReadyPending=false,deviceReadyRetryAt=0;
+function signalDeviceReady(){
+ const token=state?.csrf;
+ if(!online||!token||token===deviceReadyToken||deviceReadyPending||Date.now()<deviceReadyRetryAt)return;
+ deviceReadyPending=true;
+ api('/api/device/ready',{}).then(()=>{deviceReadyToken=token}).catch(()=>{deviceReadyRetryAt=Date.now()+5000}).finally(()=>{deviceReadyPending=false});
+}
 function renderSpeakers(){
- renderAnnouncements();
+ renderAnnouncements();renderDeviceSounds();
  const d=speakerData,c=speakerControls(d,state,online,speakerBusy),test=state?.speaker_test||d?.test||{};
  const selected=d?.selected||'',entries=d?.devices||[];
  const options=entries.map(x=>[x.id,x.label]);
@@ -71,12 +93,20 @@ $('speaker-mute').onclick=()=>speakerAction('/api/speakers',{muted:!speakerData.
 $('speaker-test').onclick=()=>speakerAction(state?.speaker_test?.state==='running'?'/api/speakers/stop':'/api/speakers/test',{});
 $('speaker-refresh').onclick=()=>loadSpeakers(true);
 const beforeSpeakerDetail=showSettingsDetail;
-showSettingsDetail=function(page){beforeSpeakerDetail(page);if(page==='speaker-page')loadSpeakers(true)};
+showSettingsDetail=function(page){beforeSpeakerDetail(page);if(['speaker-page','device-sounds-page'].includes(page))loadSpeakers(true)};
 const beforeSpeakerState=renderState;
-renderState=function(){beforeSpeakerState();renderSpeakers();if(!$('speaker-page').hidden&&$('settings').open&&$('settings').dataset.overview!=='true')loadSpeakers()};
+renderState=function(){beforeSpeakerState();renderSpeakers();signalDeviceReady();if((!$('speaker-page').hidden||!$('device-sounds-page').hidden)&&$('settings').open&&$('settings').dataset.overview!=='true')loadSpeakers()};
 
 $('audio-announcements').onclick=()=>showSettingsDetail('announcements-page');
 $('speaker-announcements').onclick=()=>showSettingsDetail('announcements-page');
 for(const key of ['offline','timers','connecting','countdown'])$('announcements-'+key).onclick=()=>speakerAction('/api/announcements',{[key]:!state?.announcements?.[key]});
 $('announcements-stop').onclick=()=>speakerAction('/api/speakers/stop',{});
 $('announcements-reload').onclick=()=>speakerAction('/api/announcements/reload',{});
+
+$('speaker-device-sounds').onclick=()=>showSettingsDetail('device-sounds-page');
+$('device-sound-output').onclick=()=>showSettingsDetail('speaker-page');
+$('device-sound-stop').onclick=()=>speakerAction('/api/speakers/stop',{});
+for(const kind of ['startup','shutdown']){
+ $('device-sound-'+kind).onclick=()=>speakerAction('/api/device/sounds',{[kind]:!state?.device_sounds?.[kind]});
+ $('device-sound-preview-'+kind).onclick=()=>speakerAction('/api/device/sounds/test',{kind});
+}

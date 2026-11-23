@@ -25,6 +25,29 @@ class StudioTests(unittest.TestCase):
         self.app.repo.update(self.sid,local_job_id=ident)
         self.server=StudioServer(('127.0.0.1',0),self.app);self.thread=threading.Thread(target=self.server.serve_forever,daemon=True);self.thread.start()
         self.base='http://127.0.0.1:'+str(self.server.server_port)
+    def test_device_sound_preferences_and_preview_use_operator_and_activity_guards(self):
+        self.app.ambient_stop.set(); self.app.ambient_thread.join(3)
+        self.assertEqual(self.request('/api/device/sounds',{'startup':True},{'X-CSRF-Token':'bad'})[0],403)
+        self.assertEqual(self.request('/api/device/sounds',{'startup':True})[0],200)
+        self.assertTrue(self.app.state()['device_sounds']['startup'])
+        with patch.object(self.app.speakers,'start_chime',return_value={'state':'running'}) as play:
+            self.assertEqual(self.request('/api/device/sounds/test',{'kind':'shutdown'})[0],200)
+            play.assert_called_once_with('shutdown')
+            self.assertEqual(self.request('/api/device/sounds/test',{'kind':'bad'})[0],400)
+            with patch.object(self.app.room,'require_operator',side_effect=ValueError('PIN')):
+                self.assertEqual(self.request('/api/device/sounds',{'shutdown':True})[0],400)
+                self.assertEqual(self.request('/api/device/sounds/test',{'kind':'startup'})[0],400)
+                self.assertEqual(self.request('/api/device/ready',{})[0],200)
+            from services.app_activity import AppActivity
+            for activity in [AppActivity(recording=True),AppActivity(recording=True,paused=True),AppActivity(live='active')]:
+                with patch.object(self.app,'activity',return_value=activity):
+                    self.assertEqual(self.request('/api/device/sounds',{'startup':False})[0],400)
+                    self.assertEqual(self.request('/api/device/sounds/test',{'kind':'startup'})[0],400)
+            self.assertEqual(play.call_count,1)
+        with patch.object(self.app.room,'touch') as touch,patch.object(self.app.device_sounds,'ready') as ready:
+            self.assertEqual(self.request('/api/device/ready',{})[0],200)
+            touch.assert_not_called();ready.assert_not_called()  # synthetic backend
+
     def sign_in_fixture(self):
         config=self.app.cdb.config()
         self.app.cdb.write('session.json', {'server':config['server'], 'client_id':config['client_id'],
