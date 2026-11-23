@@ -59,15 +59,18 @@ die vorhandene 16-Bit-Ausgabe erhalten. Sie ersetzt keinen Hardwaretest.
   Datenfrist, neue Verbindung, ungültige Pakete und geleerte Timerliste.
 - Dieselbe LVGL-Oberfläche kompiliert und bei 1024 × 600 für Einzel-, Mehrfach-,
   Alarm- und Offlinezustand visuell geprüft.
-- Vollständiger ESP32-S3-Build mit ESP-IDF 5.5.2 erfolgreich:
-  [CI-Lauf 45235773704](https://github.com/shortcutchris/cdb_brainrecorder_v2_desktop/actions/runs/45235773704),
-  Quellstand `50162796614cb03053bd4d182024befbf84f9f4e`. Native Tests, simulierte
-  USB-Integration und Prüfung der Hardwarekonfiguration bestanden.
+- Finaler Firmwarekandidat vollständig mit ESP-IDF 5.5.2 gebaut:
+  [CI-Lauf 45237756791](https://github.com/shortcutchris/cdb_brainrecorder_v2_desktop/actions/runs/45237756791),
+  Quellstand `96b6cb85f216a063f3b2b49e8cfd94a75de7f3b4`. Native Tests,
+  simulierte USB-Integration und Prüfung der Hardwarekonfiguration bestanden.
 - Das Anwendungsbild meldet 0.3.0, Projekt `cdb_lcd_usb`, IDF `v5.5.2` und ist
-  838.288 Bytes groß. Es passt in die bestehende 1-MiB-Anwendungspartition.
-  [Dateigrößen, Prüfsummen und aufgelöste Abhängigkeiten](large-timer-0.3/build-manifest.json).
-  Dieses erste Paket ist wegen der zusätzlich aufgelösten indirekten
-  Abhängigkeiten **nicht für den Firmwarewechsel freigegeben**.
+  838.224 Bytes groß. Es passt in die bestehende 1-MiB-Anwendungspartition.
+  [Dateigrößen, Prüfsummen, Abhängigkeiten und Grenzen](large-timer-0.3/build-manifest.json).
+  SHA-256 der Anwendung:
+  `6e02112557c498f6cd40c3b4db07e6f20db493af1656f3293a5095dced8d3242`.
+- Der erste ebenfalls erfolgreiche
+  [CI-Lauf 45235773704](https://github.com/shortcutchris/cdb_brainrecorder_v2_desktop/actions/runs/45235773704)
+  wird durch diesen Kandidaten ersetzt. Keiner der beiden wurde bislang geflasht.
 - Der gezielte, rein lesende Verbindungsversuch am angeschlossenen Pi-Display
   (`read_mac`) erhielt keine Bootloaderantwort. Keine Flashdaten geschrieben;
   der USB-Begleitdienst wurde danach wieder gestartet. Der Firmwarewechsel
@@ -78,28 +81,63 @@ die vorhandene 16-Bit-Ausgabe erhalten. Sie ersetzt keinen Hardwaretest.
 ## Auslieferung und Rücknahme
 
 USB-Protokoll `cdb.lcd/1`, Produktkennung, Speicherlayout, Displaytreiber und
-die bisherigen direkten Komponenten bleiben unverändert. Für einen zweiten
-Build werden auch die indirekten Komponenten ausdrücklich auf die Versionen
-der ersten Auflösung des erfolgreichen 0.2-Builds festgelegt
+die bisherigen direkten Komponenten bleiben unverändert. Firmwareversion: 0.3.0.
+Die erste Abhängigkeitsauflösung des finalen Builds stimmt bei allen 16 Einträgen
+mit `firmware/lcd-usb/main/idf_component.yml` überein. Diese Vorgaben stammen aus
+der ersten Auflösung des erfolgreichen 0.2-Builds
 ([CI 39670925360](https://github.com/shortcutchris/cdb_brainrecorder_v2_desktop/actions/runs/39670925360)).
-Die Vorgaben stehen in `firmware/lcd-usb/main/idf_component.yml`; IDF bleibt 5.5.2.
-Der alte finale Lock wird nicht übernommen: Er enthält lokale CI-Pfade und
-stammt aus einem zweiten Auflösungslauf. Insbesondere war `cmake_utilities`
-zunächst 0.5.3, im finalen Lock zusätzlich 1.1.1. Eine erfolgreiche neue
-Auflösung und ein vollständiger Build mit den festen Vorgaben stehen noch aus.
-Der erste, ungeflashte 0.3-Build bleibt als nachweislich kompilierender Kandidat
-dokumentiert. Es wird keine binäre Reproduzierbarkeit behauptet. Firmwareversion:
-0.3.0. Ein erfolgreiches Kompilat ersetzt weiterhin keine Geräteprüfung.
+IDF bleibt 5.5.2. Der alte finale Lock wurde wegen lokaler CI-Pfade und eines
+zweiten Auflösungslaufs nicht als Buildbasis übernommen.
+
+Auch der neue Build führt nach Einlesen der Kconfig erneut eine Auflösung durch.
+Dabei stehen die lokalen Versionen und zusätzliche Registry-Versionen im
+Protokoll. Im finalen Lock bleiben diese vier Abweichungen von den Vorgaben:
+
+| Komponente | Vorgabe / erste Auflösung | Finaler Lock |
+| --- | --- | --- |
+| cmake_utilities | 0.5.3 | 1.4.1 |
+| freetype | 2.14.3~1 | 2.15.0 |
+| libpng | 1.6.58~2 | 1.6.59~1 |
+| zlib | 1.3.2~1 | 1.4.0 |
+
+Button 4.2.2 und Decoder 0.4.3 bleiben gegenüber 0.2 erhalten; QOI wird nicht
+mehr aufgelöst. Der Decoder und Freetype des LVGL-Adapters sowie LVGL-Freetype,
+LibPNG, LodePNG und LibJPEG-Turbo sind laut erzeugter `sdkconfig` deaktiviert.
+Die entsprechenden statischen Bibliotheken werden dennoch kompiliert; daraus
+folgt keine vollständige Abwesenheit ihres Codes im endgültigen Binärbild.
+Es wird weder identische Abhängigkeitsauflösung noch binäre Reproduzierbarkeit
+behauptet. Der vollständige Build ist erfolgreich, eine konkrete Inkompatibilität
+wurde nicht festgestellt. Das ersetzt weiterhin keine Geräteprüfung.
+
 Die Anwendung benötigt ein separates Firmware-Update des Zusatzdisplays;
 ein Recorder-App-Update oder ein neues Pi-SD-Image allein verändert es nicht.
 Das Kundenimage übernimmt die bereits vorhandene Brücke und die passende
 Recorder-Anwendung; kein automatisches Flashen beim Anstecken.
 
-Vor dem Schreiben Gerät und Port eindeutig zuordnen, Flashbestand sichern und
-den Begleitdienst freigeben. Die konkret erzeugten `flasher_args.json`,
-Partitionstabelle und Bootloader prüfen. Das geprüfte Paket verwendet DIO,
-16 MB und 80 MHz; Anwendungsstart `0x10000`. Seine Partitionstabelle ist
-binär identisch mit dem archivierten 0.2-Build. Der Bootloader hat eine andere
-Prüfsumme und darf nicht als binär unverändert bezeichnet werden. Keine geratenen
-Offsets und kein pauschales Löschen des Flashs.
-Eine Rücknahme verwendet den gesicherten, zum selben Gerät gehörenden Stand.
+Für ein gezieltes Update nur der Anwendung ist die Übereinstimmung mit dem
+archivierten 0.2-Build belegt: IDF `v5.5.2`, DIO, 16 MB, 80 MHz sowie eine binär
+identische Partitionstabelle. Die Factory-Anwendung beginnt bei `0x10000` und
+hat 1 MiB. Der neu gebaute Bootloader hat eine andere Prüfsumme.
+
+Vor dem Schreiben Gerät und Port eindeutig zuordnen und den Bootloaderzugang
+bestätigen. Die tatsächliche Partitionstabelle und Bootdaten des angeschlossenen
+Geräts lesen und mit dem Archiv abgleichen; anschließend die gesamte
+1-MiB-Anwendungspartition sowie Boot- und Partitionsdaten sichern. Erst danach
+ist das Schreiben von ausschließlich `cdb_lcd_usb.bin` an `0x10000` vorgesehen.
+Bootloader, Partitionstabelle, NVS und PHY-Daten bleiben erhalten. Der begleitende
+USB-Dienst wird für den Zugriff gestoppt und anschließend wiederhergestellt;
+keine laufende Aufnahme oder Unterhaltung unterbrechen. Kein pauschales Löschen
+des Flashs. Eine Rücknahme nutzt den gesicherten Stand desselben Geräts.
+
+Die tatsächliche Gerätekompatibilität, der Firmwarewechsel und die anschließende
+Touch-/Anzeigeprüfung sind noch offen. Ein Archivvergleich ist keine bereits
+bestandene Prüfung des angeschlossenen Geräts.
+
+Der finale Kandidat liegt inzwischen auch auf dem Pi unter
+`/tmp/cdb-lcd-update-0.3.0-96b6cb8/` bereit. Anwendung, Partitionstabelle und
+Flashargumente wurden nach der Übertragung erneut gegen die Prüfsummen im
+Manifest geprüft. Keine Flashdaten geschrieben. Der Nutzer wurde um den
+manuellen Downloadmodus gebeten: Nur das Zusatzdisplay vom USB trennen, dessen
+BOOT-Taste beim Wiedereinstecken halten und danach loslassen. Nach dem Update
+kann RESET nötig sein. Quelle:
+[Waveshare USB Download Precautions](https://docs.waveshare.com/ESP32-S3-Touch-LCD-5/Instructions-For-Use).

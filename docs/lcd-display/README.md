@@ -1,4 +1,16 @@
-# LCD Remote Display · USB-Prototyp 0.2
+# LCD Remote Display · USB-Timeranzeige
+
+**Aktueller Stand: 23.11.2026.** Das CDB-Zusatzdisplay ist inzwischen am Pi
+angeschlossen; der Begleitdienst läuft. Recorder 0.5.98 liefert auch im Raummodus
+die Timer des angemeldeten Kontos mit allgemeinen Bezeichnungen. Ein eigener
+Einschalter pro Timer ist nicht nötig. [Korrektur und Nachweis](../nfc/timer-display-0.5.98.md).
+
+Die neue [Firmware 0.3 mit automatischer Siebensegment-Großansicht](large-timer-0.3.md)
+ist vorbereitet; sie ist noch nicht auf das Display geschrieben. Auch die
+[große Touchansicht in Recorder Studio 0.5.99](../timers-0.5.99/README.md) ist ein
+separates Update. Tatsächlichen Installations- und Prüfstand in diesen Nachweisen
+beachten. Die folgenden Angaben zur Vorbereitung 0.2 beschreiben den Stand vom
+21. Oktober und sind kein aktueller Hinweis auf fehlende Hardware.
 
 21.10.2026. Zielgerät: Waveshare ESP32-S3-Touch-LCD-5B, SKU 28151,
 1024 × 600, Touch. Hardwareprojekt `device-fdb89fd08b3a454a` im

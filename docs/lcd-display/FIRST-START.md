@@ -1,5 +1,11 @@
 # LCD-Timerdisplay: Vorbereitung und erster Start
 
+Historische Erstinstallationsanleitung vom 21.10.2026. Das Display ist inzwischen
+angeschlossen und der Begleitdienst läuft. Für die aktuelle Großansicht und das
+gezielte Update bitte den [Stand zu Firmware 0.3](large-timer-0.3.md) verwenden.
+Die damalige Warteanweisung unten bezieht sich auf die noch ausstehende Lieferung
+am 21. Oktober, nicht auf den jetzigen Updateauftrag.
+
 Auftrag vom **21. Oktober 2026**: Software auf dem Pi vorbereiten. Chris erwartet
 das Display am **22. Oktober** und meldet sich nach dessen Ankunft. **Heute kein
 Display flashen und keine Hardwareabnahme behaupten.** Kein automatisches Flashen

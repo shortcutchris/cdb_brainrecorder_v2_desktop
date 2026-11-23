@@ -1,10 +1,15 @@
 {
   "version": "0.3.0",
-  "source_commit": "50162796614cb03053bd4d182024befbf84f9f4e",
-  "ci_url": "https://github.com/shortcutchris/cdb_brainrecorder_v2_desktop/actions/runs/45235773704",
+  "source_commit": "96b6cb85f216a063f3b2b49e8cfd94a75de7f3b4",
+  "ci_url": "https://github.com/shortcutchris/cdb_brainrecorder_v2_desktop/actions/runs/45237756791",
   "ci_conclusion": "success",
   "app_descriptor": {
     "version": "0.3.0",
+    "project": "cdb_lcd_usb",
+    "idf": "v5.5.2"
+  },
+  "archived_0_2_descriptor": {
+    "version": "0.2.0",
     "project": "cdb_lcd_usb",
     "idf": "v5.5.2"
   },
@@ -46,12 +51,12 @@
   },
   "files": {
     "build/cdb_lcd_usb.bin": {
-      "bytes": 838288,
-      "sha256": "03e50286c93d795443240b3ebf91a05675d7dfb87cab47b31ef4ed44bbf54c0d"
+      "bytes": 838224,
+      "sha256": "6e02112557c498f6cd40c3b4db07e6f20db493af1656f3293a5095dced8d3242"
     },
     "build/bootloader/bootloader.bin": {
       "bytes": 22496,
-      "sha256": "ad36b863bd21f9a770eea3eb771a72a90594d5552cd994654d3f202af5614a29"
+      "sha256": "c02279eac029c275d17b4e8238d8dd1cc4e96cf7d4908faead4abd57020214d3"
     },
     "build/partition_table/partition-table.bin": {
       "bytes": 3072,
@@ -62,19 +67,153 @@
       "sha256": "dfeb5c7b39ba3b71f7c666e663879bfedd375198f5ca2165cb9d07c5bfa04d69"
     },
     "dependencies.lock": {
-      "bytes": 6150,
-      "sha256": "b7db13467ae44bbcc6bb9c4708e39d206e41910691dfd8b29def57b1ef4e6258"
+      "bytes": 5840,
+      "sha256": "2794f7991c59a0df956f9c74ecc92e654aab934241ff166aeb69e4a21eacfaf1"
+    },
+    "diagnostics/sdkconfig": {
+      "bytes": 93242,
+      "sha256": "64815f23053f4d29410a68e775edac865ea0fc674f41cad3c6f536b8186c67aa"
     }
   },
   "partition_table_matches_0_2_build": true,
   "bootloader_matches_0_2_build": false,
   "firmware_flashed": false,
-  "resolved_dependencies": {
-    "espressif/button": "4.2.3",
+  "hardware_acceptance": "pending",
+  "requested_dependency_versions": {
+    "lvgl/lvgl": "9.6.0~1",
+    "espressif/esp_lvgl_adapter": "0.5.2",
+    "espressif/esp_lcd_touch_gt911": "1.1.3",
+    "espressif/esp_tinyusb": "3.0.0",
+    "espressif/button": "4.2.2",
+    "espressif/cmake_utilities": "0.5.3",
+    "espressif/esp_lcd_touch": "1.2.1",
+    "espressif/esp_lv_decoder": "0.4.3",
+    "espressif/esp_lv_fs": "1.0.1",
+    "espressif/esp_mmap_assets": "2.0.1",
+    "espressif/esp_new_jpeg": "1.0.2",
+    "espressif/freetype": "2.14.3~1",
+    "espressif/knob": "1.1.0",
+    "espressif/libpng": "1.6.58~2",
+    "espressif/zlib": "1.3.2~1",
+    "idf": "5.5.2"
+  },
+  "initial_resolution_matches_all_pins": true,
+  "resolution_passes": [
+    {
+      "espressif/button": [
+        "4.2.2"
+      ],
+      "espressif/cmake_utilities": [
+        "0.5.3"
+      ],
+      "espressif/esp_lcd_touch": [
+        "1.2.1"
+      ],
+      "espressif/esp_lcd_touch_gt911": [
+        "1.1.3"
+      ],
+      "espressif/esp_lv_decoder": [
+        "0.4.3"
+      ],
+      "espressif/esp_lv_fs": [
+        "1.0.1"
+      ],
+      "espressif/esp_lvgl_adapter": [
+        "0.5.2"
+      ],
+      "espressif/esp_mmap_assets": [
+        "2.0.1"
+      ],
+      "espressif/esp_new_jpeg": [
+        "1.0.2"
+      ],
+      "espressif/esp_tinyusb": [
+        "3.0.0"
+      ],
+      "espressif/freetype": [
+        "2.14.3~1"
+      ],
+      "espressif/knob": [
+        "1.1.0"
+      ],
+      "espressif/libpng": [
+        "1.6.58~2"
+      ],
+      "espressif/zlib": [
+        "1.3.2~1"
+      ],
+      "lvgl/lvgl": [
+        "9.6.0~1"
+      ],
+      "idf": [
+        "5.5.2"
+      ]
+    },
+    {
+      "espressif/button": [
+        "4.2.2"
+      ],
+      "espressif/cmake_utilities": [
+        "0.5.3",
+        "1.4.1"
+      ],
+      "espressif/esp_lcd_touch": [
+        "1.2.1"
+      ],
+      "espressif/esp_lcd_touch_gt911": [
+        "1.1.3"
+      ],
+      "espressif/esp_lv_decoder": [
+        "0.4.3"
+      ],
+      "espressif/esp_lv_fs": [
+        "1.0.1"
+      ],
+      "espressif/esp_lvgl_adapter": [
+        "0.5.2"
+      ],
+      "espressif/esp_mmap_assets": [
+        "2.0.1",
+        "2.0.1"
+      ],
+      "espressif/esp_new_jpeg": [
+        "1.0.2",
+        "1.0.2"
+      ],
+      "espressif/esp_tinyusb": [
+        "3.0.0"
+      ],
+      "espressif/freetype": [
+        "2.14.3~1",
+        "2.15.0"
+      ],
+      "espressif/knob": [
+        "1.1.0",
+        "1.1.0"
+      ],
+      "espressif/libpng": [
+        "1.6.58~2",
+        "1.6.59~1"
+      ],
+      "espressif/zlib": [
+        "1.3.2~1",
+        "1.4.0"
+      ],
+      "lvgl/lvgl": [
+        "9.6.0~1",
+        "9.6.0~1"
+      ],
+      "idf": [
+        "5.5.2"
+      ]
+    }
+  ],
+  "final_lock_dependencies": {
+    "espressif/button": "4.2.2",
     "espressif/cmake_utilities": "1.4.1",
     "espressif/esp_lcd_touch": "1.2.1",
     "espressif/esp_lcd_touch_gt911": "1.1.3",
-    "espressif/esp_lv_decoder": "0.5.1",
+    "espressif/esp_lv_decoder": "0.4.3",
     "espressif/esp_lv_fs": "1.0.1",
     "espressif/esp_lvgl_adapter": "0.5.2",
     "espressif/esp_mmap_assets": "2.0.1",
@@ -83,40 +222,60 @@
     "espressif/freetype": "2.15.0",
     "espressif/knob": "1.1.0",
     "espressif/libpng": "1.6.59~1",
-    "espressif/qoi": "0.20260529.0",
     "espressif/zlib": "1.4.0",
     "idf": "5.5.2",
     "lvgl/lvgl": "9.6.0~1"
   },
-  "dependency_changes_from_0_2_artifact": {
-    "espressif/button": {
-      "previous": "4.2.2",
-      "current": "4.2.3"
-    },
+  "final_lock_differences_from_pins": {
     "espressif/cmake_utilities": {
-      "previous": "1.1.1",
-      "current": "1.4.1"
-    },
-    "espressif/esp_lv_decoder": {
-      "previous": "0.4.3",
-      "current": "0.5.1"
+      "requested": "0.5.3",
+      "final_lock": "1.4.1"
     },
     "espressif/freetype": {
-      "previous": "2.14.3~1",
-      "current": "2.15.0"
+      "requested": "2.14.3~1",
+      "final_lock": "2.15.0"
     },
     "espressif/libpng": {
-      "previous": "1.6.58~2",
-      "current": "1.6.59~1"
-    },
-    "espressif/qoi": {
-      "previous": null,
-      "current": "0.20260529.0"
+      "requested": "1.6.58~2",
+      "final_lock": "1.6.59~1"
     },
     "espressif/zlib": {
-      "previous": "1.3.2~1",
-      "current": "1.4.0"
+      "requested": "1.3.2~1",
+      "final_lock": "1.4.0"
     }
   },
-  "direct_dependencies_unchanged": true
+  "disabled_rendering_features": [
+    "ESP_LVGL_ADAPTER_ENABLE_DECODER",
+    "ESP_LVGL_ADAPTER_ENABLE_FREETYPE",
+    "LV_USE_FREETYPE",
+    "LV_USE_LIBPNG",
+    "LV_USE_LODEPNG",
+    "LV_USE_LIBJPEG_TURBO"
+  ],
+  "dependency_limit": "Static dependency libraries were still compiled. Disabled LVGL features do not prove those libraries are entirely absent from the linked application. No claim of binary reproducibility.",
+  "app_only_update": {
+    "archive_compatibility_verified": true,
+    "device_compatibility_verified": false,
+    "offset": "0x10000",
+    "partition_bytes": 1048576,
+    "write_files": [
+      "build/cdb_lcd_usb.bin"
+    ],
+    "preserve": [
+      "bootloader",
+      "partition_table",
+      "nvs",
+      "phy_init"
+    ],
+    "required_before_write": [
+      "Identify the actual ESP32-S3 display and enter its bootloader.",
+      "Read and compare device partition table and boot data with the archived device build.",
+      "Back up the complete 1 MiB application partition and boot/partition data.",
+      "Confirm idle device before stopping its bridge; restore bridge after update."
+    ]
+  },
+  "supersedes": {
+    "source_commit": "50162796614cb03053bd4d182024befbf84f9f4e",
+    "ci_run": 45235773704
+  }
 }

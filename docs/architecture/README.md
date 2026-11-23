@@ -124,11 +124,16 @@ nötig; inkompatible App-Pakete werden abgewiesen. Die verbindliche
 
 `services/announcements.py` verwaltet feste, geprüfte WAV-Clips und separate Opt-ins. `StudioApp` entscheidet unter den vorhandenen Gerätesperren über Ausgabe; `AudioOutput` besitzt den Wiedergabeprozess bis zum bestätigten Ende. Phonon wird ausschließlich vom optionalen Vorbereitungswerkzeug auf einem anderen Rechner verwendet. Kein zweiter Mikrofonpfad, keine Runtime-Synthese. [Verhalten und Installation](../local-announcements/README.md).
 
-## USB-Timerdisplay (0.5.70 auf dem Test-Pi, Hardwareabnahme offen)
+## USB-Timerdisplay
 
 Der optionale `cdb-lcd-display.service` läuft getrennt vom Recorder. Er liest nur
 `/api/lcd/timers` über Loopback und öffnet ausschließlich einen anhand der
 USB-Metadaten erkannten CDB-Timerdisplay-Port. Keine Mikrofon-, Audio- oder
 Timer-Schreibbefehle; keine neue Option pro Timer. Firmware und Begleitdienst
-werden einmal separat eingerichtet. Details, Ausfälle, Installation und offene
-Hardwareabnahme: [LCD-Display](../lcd-display/README.md).
+werden separat eingerichtet. Der angeschlossene Pi läuft mit 0.5.98; die
+Kontofilterung im Raummodus wurde damit korrigiert. Die automatische
+Siebensegment-Großansicht gehört zur separaten Display-Firmware 0.3.0 und ist
+vorbereitet, aber noch nicht auf die Hardware geschrieben. App 0.5.99 ergänzt
+unabhängig davon das große Timerfenster auf dem Pi-Touchscreen.
+Details, Ausfälle, Installation und tatsächlicher Hardware-Prüfstand:
+[LCD-Display](../lcd-display/README.md) und [Pi-Timeransicht](../timers-0.5.99/README.md).

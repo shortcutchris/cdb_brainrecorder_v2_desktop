@@ -5,6 +5,9 @@ committet und gepusht. Das signierte App-Paket liegt auch auf dem Pi bereit.
 **Noch nicht installiert:** Der Updateschutz hat den ersten Installationsversuch
 wegen eines weiterhin offenen, bereits abgelaufenen Timers abgewiesen.
 Der Pi läuft unverändert mit 0.5.98. Nutzer wurde um Bestätigung des Alarms gebeten.
+Bei der letzten Prüfung war das Konto inzwischen abgemeldet; der offene Alarm
+ist weiterhin gespeichert. Zum Bestätigen am Pi gegebenenfalls erneut anmelden.
+Keine Timerdaten geändert oder der Updateschutz umgangen.
 
 ## Bedienung am Pi
 
