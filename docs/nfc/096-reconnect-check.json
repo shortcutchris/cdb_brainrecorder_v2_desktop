@@ -1,0 +1,18 @@
+{
+  "version": "0.5.96",
+  "samples": 13,
+  "duration_seconds": 60,
+  "changes": [
+    {
+      "seconds": 0,
+      "signed_in": false,
+      "intent_mode": "meeting",
+      "tag_present": true,
+      "login": "pending",
+      "nfc_state": "present",
+      "nfc_message": "Aufsteller erkannt \u00b7 Anmeldung und Start am Bildschirm best\u00e4tigen.",
+      "recording": false,
+      "live": false
+    }
+  ]
+}

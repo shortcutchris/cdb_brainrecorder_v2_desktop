@@ -59,5 +59,10 @@ null Leser. Das Treiberprotokoll zeigte `LIBUSB_ERROR_TIMEOUT` und anschließend
 fehlgeschlagene Initialisierung beider Slots. Ein Ab-/Anstecken des Lesers wurde
 Chris vorgeschlagen und von ihm ausgeführt. Danach meldet der Pi wieder
 „Bereit für Talk oder Meeting“ mit korrekt leerem Lesefeld. Keine pauschalen
-Berechtigungsänderungen vorgenommen. Persönlicher Anmeldetest durch Chris steht
-noch aus; die automatische Prüfung hat keine echte Anmeldung/Audio gestartet.
+Berechtigungsänderungen vorgenommen. Chris hat anschließend den Meeting-
+Aufsteller aufgelegt: In 13 Abfragen über 60 Sekunden blieben Tagpräsenz,
+Meeting-Vorbereitung und offener Anmeldevorgang stabil; keine Audioaufnahme.
+[Bereinigte Statusmessung](096-reconnect-check.json). Chris bestätigt anschließend ausdrücklich: „Anmeldung klappt, Dialog bleibt
+offen“. Damit ist der persönliche Anmeldeablauf am realen Gerät durch den
+Benutzer bestätigt. Die automatische Prüfung hat keine echte Anmeldung oder
+Audio gestartet; eine vollständige Talk-/Meeting-Audioabnahme ist davon getrennt.
