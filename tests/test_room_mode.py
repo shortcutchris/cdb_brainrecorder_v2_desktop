@@ -78,7 +78,7 @@ class RoomTests(unittest.TestCase):
         self.login(tenant='87654321-1234-1234-1234-123456789012')
         self.assertNotEqual(self.request('/api/sessions/'+str(sid))[0],200)
 
-    def test_nfc_login_never_starts_capture_and_removal_cancels(self):
+    def test_nfc_login_survives_removal_but_start_requires_same_tag(self):
         self.enable()
         nfc=self.app.nfc;nfc.enabled=True;nfc.tag='a'*64
         nfc.reader=Mock();nfc.reader.snapshot.return_value={'state':'present','tag':nfc.tag}
@@ -88,11 +88,17 @@ class RoomTests(unittest.TestCase):
             start.assert_not_called()
             nfc.reader.snapshot.return_value={'state':'absent'}
             self.app.room.reconcile(nfc)
-            self.assertIsNone(self.app.room.intent)
+            self.assertEqual(self.app.room.intent['id'],intent)
+            self.assertFalse(self.app.room.public()['intent']['tag_present'])
             self.assertEqual(self.request('/api/room/start',{'id':intent})[0],400)
             start.assert_not_called()
+            nfc.reader.snapshot.return_value={'state':'present','tag':nfc.tag}
+            self.app.room.reconcile(nfc)
+            self.assertTrue(self.app.room.public()['intent']['tag_present'])
+            self.assertEqual(self.app.room.check_intent(intent,nfc)['id'],intent)
+            start.assert_not_called()
 
-    def test_intent_rejects_expiry_error_and_account_change(self):
+    def test_intent_rejects_expiry_and_account_change(self):
         self.enable();self.login()
         now=[100.0];self.app.room.clock=lambda:now[0]
         self.app.room.begin('meeting');ident=self.app.room.intent['id']
@@ -102,7 +108,54 @@ class RoomTests(unittest.TestCase):
         self.assertEqual(self.request('/api/room/start',{'id':ident})[0],400)
         nfc=self.app.nfc;nfc.enabled=True;nfc.reader=Mock();nfc.reader.snapshot.return_value={'state':'error'}
         self.app.room.begin('talk','a'*64);self.app.room.reconcile(nfc)
-        self.assertIsNone(self.app.room.intent)
+        self.assertIsNotNone(self.app.room.intent)
+        self.assertEqual(self.request('/api/room/start',{'id':self.app.room.intent['id']})[0],400)
+
+    def test_pending_nfc_login_survives_reader_errors_and_same_tag_retrigger(self):
+        self.enable()
+        now=[100.0];self.app.room.clock=lambda:now[0]
+        nfc=self.app.nfc;nfc.enabled=True;nfc.tag='a'*64;nfc.reader=Mock()
+        self.app.room.begin('meeting',nfc.tag)
+        self.app.room.login_owned=True
+        self.app.cdb.login={'state':'pending'}
+        intent=dict(self.app.room.intent)
+        with patch.object(self.app.cdb,'invalidate_pending_login') as cancel, \
+             patch.object(self.app.engine,'start') as start:
+            for state in ('absent','error','absent'):
+                now[0]+=30
+                nfc.reader.snapshot.return_value={'state':state}
+                self.app.tick_room()
+                self.assertEqual(self.app.room.intent['id'],intent['id'])
+                self.assertEqual(self.app.cdb.login['state'],'pending')
+            nfc.reader.snapshot.return_value={'state':'present','tag':nfc.tag}
+            with self.assertRaises(ValueError):self.app.nfc_start('meeting')
+            self.assertEqual(self.app.room.intent['id'],intent['id'])
+            self.assertEqual(self.app.room.intent['deadline'],intent['deadline'])
+            self.app.room.reconcile(nfc)
+            cancel.assert_not_called();start.assert_not_called()
+            self.login();self.app.room.reconcile(nfc)
+            self.assertEqual(self.app.room.check_intent(intent['id'],nfc)['mode'],'meeting')
+            start.assert_not_called()
+
+    def test_pending_nfc_login_cancels_on_replacement_disable_expiry_or_explicit_cancel(self):
+        self.enable()
+        now=[100.0];self.app.room.clock=lambda:now[0]
+        nfc=self.app.nfc;nfc.reader=Mock()
+        for cause in ('replacement','disabled','expired','cancel'):
+            with self.subTest(cause=cause), patch.object(self.app.cdb,'invalidate_pending_login') as cancel:
+                nfc.enabled=True
+                self.app.room.begin('meeting','a'*64)
+                self.app.room.login_owned=True
+                ident=self.app.room.intent['id']
+                nfc.reader.snapshot.return_value={'state':'absent'}
+                if cause=='replacement':nfc.reader.snapshot.return_value={'state':'present','tag':'b'*64}
+                elif cause=='disabled':nfc.enabled=False
+                elif cause=='expired':now[0]+=301
+                else:self.app.room.cancel()
+                self.app.room.reconcile(nfc)
+                self.assertIsNone(self.app.room.intent)
+                cancel.assert_called_once()
+                self.assertEqual(self.request('/api/room/start',{'id':ident})[0],400)
 
     def test_explicit_start_then_nfc_owns_only_that_capture(self):
         self.enable();self.login();self.app.engine.configure({'setup_complete':True})

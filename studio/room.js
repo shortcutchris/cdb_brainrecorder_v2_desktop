@@ -136,9 +136,11 @@
    $('room-person').textContent=r.signed_in?'Weiter als '+state.cdb.identity.name+' · '+brainEnvironment(state.cdb.config.server):'Melde dich mit deinem Brain-Konto an.';
    $('room-message').textContent=message||(r.signed_in?(talk?'Erst „Gespräch starten“ verbindet dein Mikrofon mit dem Brain.':'Erst „Aufnahme starten“ speichert die Meetingaufnahme.')+(r.ambient_activity?' Bis dahin wird nur der Geräuschpegel lokal ausgewertet.':''):'Ohne Internet ist keine neue Anmeldung möglich. Unter Betreiber → Netzwerk kannst du WLAN prüfen.');
    $('room-nfc').hidden=r.intent.source!=='nfc';
+   const missingTag=r.intent.source==='nfc'&&!r.intent.tag_present;
+   $('room-nfc').textContent=missingTag?'Die Anmeldung bleibt offen. Lege zum Start denselben Aufsteller wieder auf den Leser.':'Aufsteller erkannt. Erst deine Bestätigung startet Aufnahme oder Gespräch.';
    $('room-start').hidden=!r.signed_in;$('room-login').hidden=r.signed_in;
    $('room-other').hidden=!r.signed_in;$('room-knowledge').hidden=!r.signed_in||!talk;
-   $('room-start-label').textContent=talk?'Gespräch starten':'Aufnahme starten';$('room-start-detail').textContent=talk?'Mit deinem Brain sprechen.':'Dieses Meeting aufzeichnen.';$('room-start-icon').src='/assets/'+(talk?'chat':'record')+'.svg';$('room-start').disabled=busy||!online||!allowed('configure');
+   $('room-start-label').textContent=talk?'Gespräch starten':'Aufnahme starten';$('room-start-detail').textContent=talk?'Mit deinem Brain sprechen.':'Dieses Meeting aufzeichnen.';$('room-start-icon').src='/assets/'+(talk?'chat':'record')+'.svg';$('room-start').disabled=busy||!online||!allowed('configure')||missingTag;
    if(!r.signed_in&&loginAttempt!==r.intent.id){loginAttempt=r.intent.id;setTimeout(()=>$('account-shortcut').click(),0)}
    if(r.signed_in&&$('account-dialog').open)$('account-dialog').close();
   }else if(panel.open){panel.close();message='';if(loginAttempt&&$('account-dialog').open)$('account-dialog').close();loginAttempt=null}

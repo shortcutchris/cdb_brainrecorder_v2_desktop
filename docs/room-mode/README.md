@@ -18,7 +18,12 @@ Die PIN wird lokal mit zufälligem Salt und scrypt gespeichert. Nach fünf falsc
 - Ohne Anmeldung öffnet sich der bestehende Microsoft-Dialog mit QR-Code und Eingabecode. Dafür ist Internet nötig. Ein Aufsteller wählt ausschließlich den Modus und ist kein Ausweis.
 - Nach Anmeldung zeigt die Vorbereitung Name und Brain-Umgebung. **Aufnahme starten** beziehungsweise **Gespräch starten** startet die Aufnahme beziehungsweise die Audioübertragung für das Gespräch ausdrücklich. Eine eingeschaltete lokale Geräuscherkennung speichert bis dahin weiterhin keinen Ton. Bei Talk zuerst Gesprächswissen auswählen, falls noch keines gespeichert ist.
 - **Anderes Konto** öffnet dieselbe Speicher- und Abmeldebestätigung wie der Kontodialog. Danach die gewünschte Aktion mit dem anderen Konto erneut wählen.
-- Bei NFC den Aufsteller während der Anmeldung liegen lassen. Abnehmen, Wechsel, veraltete Leserantwort, Abbruch oder fünf Minuten Wartezeit verwerfen den Startwunsch. Eine spätere Anmeldung startet nie automatisch.
+- Bei NFC bleibt die Vorbereitung seit 0.5.96 bis zu fünf Minuten offen, auch bei
+  kurz abgenommenem Aufsteller oder unterbrochener Leserantwort. Zum Start muss
+  derselbe Aufsteller wieder erkannt werden. Erneutes Auflegen setzt weder den
+  Anmeldeversuch noch die Frist zurück. Wechsel zu einem anderen Tag, NFC
+  ausschalten, Abbruch oder fünf Minuten Wartezeit verwerfen den Startwunsch.
+  Eine spätere Anmeldung startet nie automatisch.
 - Nach einem bestätigten NFC-Start beendet das Abnehmen wie bisher nur die zugehörige Aktivität (1,5 Sekunden bestätigte Abwesenheit). Ein USB-/Leserausfall beendet keine laufende Aufnahme. Im Zweifel am Display stoppen.
 - **Fertig & abmelden** ist neben dem Konto erreichbar. Seit 0.5.92 ist die Taste während Aufnahme, Pause, Gespräch und laufenden Geräteänderungen gesperrt. Zuerst **Aufnahme stoppen** beziehungsweise **Gespräch beenden**. Anschließend bietet der Abschlussdialog **Angemeldet bleiben** und **Speichern & abmelden**. Alle Abmeldeeinstiege sichern die Notizen; bei einem Fehler bleibt das Konto angemeldet und der lokale Entwurf erhalten. Eine veraltete Bestätigung stoppt niemals eine neue Aufnahme. Die explizite Abmeldekachel in der Ruhefristwarnung braucht keine zweite Bestätigung, sichert aber ebenfalls zuerst den Entwurf.
 

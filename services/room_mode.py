@@ -122,7 +122,8 @@ class RoomMode:
         if mode not in ('talk', 'meeting'): raise ValueError('Talk oder Meeting wählen.')
         self.cancel(); self.touch()
         self.intent = {'id': secrets.token_urlsafe(20), 'mode': mode, 'tag': tag,
-                       'account': self.account(), 'deadline': self.clock() + 300}
+                       'account': self.account(), 'deadline': self.clock() + 300,
+                       'tag_present': False}
         return self.public()
 
     def check_intent(self, ident, nfc):
@@ -131,6 +132,8 @@ class RoomMode:
             raise ValueError('Startwunsch abgelaufen. Bitte Talk oder Meeting erneut wählen.')
         self.require_account()
         if self.intent['account'] != self.account(): raise ValueError('Konto hat sich geändert. Bitte erneut wählen.')
+        if self.intent['tag'] and not self.intent['tag_present']:
+            raise ValueError('Zum Start bitte denselben Aufsteller wieder auflegen und die Erkennung abwarten.')
         return dict(self.intent)
 
     def reconcile(self, nfc):
@@ -142,11 +145,15 @@ class RoomMode:
             self.touch()
         intent = self.intent
         if not intent: return
-        valid_tag = True
+        changed_tag = False
         if intent['tag']:
             sample = nfc.reader.snapshot()
-            valid_tag = nfc.enabled and sample.get('state') == 'present' and sample.get('tag') == intent['tag']
-        if (self.clock() >= intent['deadline'] or not valid_tag or
+            intent['tag_present'] = nfc.enabled and sample.get('state') == 'present' and sample.get('tag') == intent['tag']
+            # The login handoff survives a lifted tag or interrupted reader.
+            # A different tag/disabled NFC still invalidates the old request;
+            # check_intent rechecks fresh presence before any audio can start.
+            changed_tag = not nfc.enabled or (sample.get('state') == 'present' and sample.get('tag') != intent['tag'])
+        if (self.clock() >= intent['deadline'] or changed_tag or
                 (intent['account'] is not None and intent['account'] != account)):
             self.cancel()
         elif account and intent['account'] is None:
@@ -178,6 +185,7 @@ class RoomMode:
         if self.intent:
             intent = {k: self.intent[k] for k in ('id', 'mode')}
             intent['source'] = 'nfc' if self.intent['tag'] else 'touch'
+            intent['tag_present'] = bool(self.intent['tag_present'])
         return {'enabled': self.enabled, 'signed_in': bool(self.account()), 'intent': intent,
                 'epoch': self.epoch, 'idle_minutes': self.config.get('idle_minutes', 15),
                 'idle_remaining': self.idle_remaining(), 'idle_suspended': self.idle_suspended,

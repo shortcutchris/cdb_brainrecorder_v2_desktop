@@ -2,6 +2,15 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.96 – NFC-Anmeldung bleibt bei Lesepausen offen
+
+Eine unterbrochene Leserantwort oder das Abheben des Aufstellers schließt die
+Anmeldung nicht mehr sofort. Die Vorbereitung bleibt bis zu fünf Minuten offen;
+erneutes Auflegen desselben Aufstellers erzeugt keinen neuen Anmeldeversuch.
+Zum Start muss der passende Aufsteller erkannt sein, anschließend ausdrücklich
+**Aufnahme starten** oder **Gespräch starten** antippen. Kein automatischer
+Audiostart nach Anmeldung. [Tests und Auslieferungsstand](docs/nfc/acceptance-0.5.96.md).
+
 ## 0.5.95 – Rocketek mit kontaktloser Schnittstelle
 
 Der Rocketek AK9567 meldet Kontaktkarten- und kontaktlosen Leser getrennt. Recorder Studio wählt jetzt die eindeutig als „Contactless“ bezeichnete Schnittstelle; mehrdeutige Geräte werden weiterhin abgewiesen. Ein Schnittstellenausfall gilt nicht als Entfernen eines Aufstellers. [Einrichtung und aktueller Hardware-Prüfstand](docs/nfc/README.md).

@@ -29,7 +29,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.95'
+VERSION = '0.5.96'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -183,7 +183,11 @@ class StudioApp:
         reason = self.wake_reason()
         if reason: raise ValueError(reason)
         if self.room.enabled:
-            self.room.begin(mode, self.nfc.tag)
+            intent = self.room.intent
+            # Replacing the same tag after a reader dropout must not cancel
+            # its pending device login or silently extend its deadline.
+            if not intent or intent['mode'] != mode or intent['tag'] != self.nfc.tag:
+                self.room.begin(mode, self.nfc.tag)
             raise ValueError('Am Bildschirm anmelden und den Start bestätigen.')
         if mode == 'meeting':
             return self.action('/api/record/start', {})['id']
@@ -566,8 +570,10 @@ class StudioApp:
 
     def tick_room(self):
         self.room.reconcile(self.nfc)
-        if self.room.intent and self.room.intent['tag']:
-            self.nfc.message = 'Aufsteller erkannt · Anmeldung und Start am Bildschirm bestätigen.'
+        if self.room.intent and self.room.intent['tag'] and self.nfc.status != 'error':
+            self.nfc.message = ('Aufsteller erkannt · Anmeldung und Start am Bildschirm bestätigen.'
+                                if self.room.intent['tag_present'] else
+                                'Anmeldung bleibt offen · Zum Start denselben Aufsteller wieder auflegen.')
         if self.room.enabled and self.room.account():
             playback = any(deadline > time.monotonic() for deadline in self.playback_leases.values())
             self.room.observe_activity(self.activity(), playback)

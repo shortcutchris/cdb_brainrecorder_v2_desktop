@@ -1,4 +1,4 @@
-# NFC-Aufsteller · Recorder 0.5.95
+# NFC-Aufsteller · Recorder 0.5.96
 
 Stand 23.11.2026. Die optionale NFC-Laufzeit ist auf dem Recorder-Pi installiert:
 `python3-pyscard` 2.2.2-1, `pcscd` 2.3.3-1 und `libccid` 1.6.2-1;
@@ -25,6 +25,12 @@ abnehmen, NFC einschalten, 1,5 Sekunden leeres Lesefeld abwarten.
 - Meeting verwendet den bestehenden Record-Start und Record-Stop mit Speicherung
   und normaler nachgelagerter Verarbeitung. Kein zweiter Audio-Recorder.
 - Im standardmäßigen Raummodus führt ein Aufsteller zunächst zur Anmeldung und Vorbereitung. Ohne Anmeldung keine Gastaufnahme; Start am Display ausdrücklich bestätigen.
+- Ab 0.5.96 bleibt diese Vorbereitung bis zu fünf Minuten erhalten, auch wenn der
+  Aufsteller kurz abgenommen wird oder der Leser aussetzt. Erneutes Auflegen
+  desselben Aufstellers setzt weder Anmeldung noch Frist zurück. Zum bestätigten
+  Start muss genau dieser Aufsteller wieder erkannt werden; bis dahin ist die
+  Starttaste gesperrt. Ein anderer Tag, NFC ausschalten, Abbrechen oder Fristablauf
+  verwerfen den Startwunsch und einen dazugehörigen offenen Anmeldeversuch.
 - Ein stabiler Tag startet einmal. 1,5 Sekunden bestätigte Abwesenheit stoppen
   ausschließlich die eigene Aufnahme-ID bzw. Live-Lease.
 - Manuelles Stoppen, Neustart mit gehaltenem Tag, unbekannte Tags und blockierter
@@ -70,6 +76,11 @@ Bei Bedarf reguläres Code-Rollback auf die zuletzt geprüfte Version. Die lokal
 den Leser benötigt. Keine Kundenaufnahmen oder Einstellungen löschen.
 
 ## Technische Grenzen und Abnahme
+
+0.5.96 behebt den vorzeitigen Dialogabbruch bei fehlender Leserantwort während
+der Anmeldung. [Korrektur, Tests und Auslieferungsstand](acceptance-0.5.96.md).
+Keine zusätzlichen Systempakete oder Konfigurationsänderungen; App-Updates und
+neue Image-Baupakete übernehmen die bereits freigegebenen Dateien.
 
 Zusatzprüfung 0.5.95: 55 gezielte Tests bestanden (Reader, NFC-Zustandsautomat,
 Raummodus/-aktivität, Kunden-Image). Auswahl bleibt bei Reihenfolgenwechsel
