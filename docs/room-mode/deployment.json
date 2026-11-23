@@ -1,0 +1,22 @@
+{
+  "version": "0.5.90",
+  "previous_version": "0.5.89",
+  "source_commit": "987314a127ec7d0f75dda4bda2bd3de59b96284c",
+  "release": "165b254acd74faf32dd4f459d1e83ab38764509f37c8cf8a9b8344a818514ab3",
+  "installed_at": "2026-11-23T12:46:23.418758+00:00",
+  "signature_verified": true,
+  "files_verified": 135,
+  "settings_preserved": true,
+  "session_inventory_preserved": true,
+  "recording_active_during_update": false,
+  "services_active": true,
+  "kiosk_restarted": true,
+  "rollback_directory_retained": true,
+  "maintenance_released": true,
+  "http_version_and_room_assets_verified": true,
+  "room_mode_enabled": false,
+  "brain_account_preserved": true,
+  "poweroff_executed": false,
+  "sd_image_built": false,
+  "physical_pi_settings_dialog_verified": true
+}

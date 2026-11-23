@@ -1,6 +1,6 @@
 # Raummodus: Anmeldung, NFC und Offline-Bedienung
 
-Stand: 23.11.2026 · Recorder Studio 0.5.90. Implementiert; Installationsnachweis folgt separat in diesem Ordner. Gastaufnahmen sind im Raummodus ausgeschaltet. Der persönliche Betriebsmodus bleibt der Werksstandard.
+Stand: 23.11.2026 · Recorder Studio 0.5.90. Um 13:46 Uhr (Europe/Berlin) auf dem Pi installiert; siehe [Installationsnachweis](deployment.json). Gastaufnahmen sind im Raummodus ausgeschaltet. Der persönliche Betriebsmodus bleibt der Werksstandard.
 
 ## Einmalig einrichten
 
@@ -62,6 +62,8 @@ Abmelden widerruft persönliche Bildschirmkopplungen und lokale Fernsteuerungsfr
 Automatisiert geprüft: frischer persönlicher Start, bewusstes Einschalten mit PIN, Erhalt des Altbestands, Konten-/Firmentrennung aller Dateipfade und Mutationen, Neustart, veraltete/abgenommene NFC-Absicht, Startbestätigung, fehlgeschlagener Stopp, Leerlauffrist inklusive Pause/Live, PIN-Sperre, Timer-/Publikationsfilter und Brain-Wartezustand. Insgesamt bestanden 194 Python-Tests und 140 JavaScript-Tests einschließlich der bestehenden Aufnahme-, NFC-, Geräte-, Cloud- und Fernsteuerungsprüfungen.
 
 Browserprüfung mit synthetischem Konto und synthetischer Audioquelle: 1280×720 und 1024×600; Startbestätigung, Aufnahme, Stoppen & Abmelden, neutraler Bildschirm und Betreiber-PIN mit Bildschirmtastatur. Die Microsoft-Anmeldung wird dabei nicht als echte Kontoabnahme ausgegeben.
+
+Auf dem physischen Pi wurde die neue Version im laufenden Dienst sowie der Weg Einstellungen → Gerät & Verwaltung → Raummodus & Betreiber am 1280×720-Display geprüft. Der Einrichtungsdialog öffnet korrekt; der Raummodus blieb bewusst ausgeschaltet. Bestehendes Brain-Konto, Einstellungen und Aufnahmeinventar wurden nach dem Update als unverändert geprüft. Das signierte App-Paket umfasst 135 Dateien; zusätzlich wurde ein sauberes Image-Baupaket mit 142 Dateien vorbereitet. Ein SD-Image wurde nicht gebaut oder gestartet.
 
 Noch vor Ort zu prüfen: echter NFC-Leser mit Talk/Meeting-Aufstellern, Microsoft-Anmeldung durch den Nutzer, tatsächlicher Netzwerkausfall und Talk mit echtem Mikrofon/Lautsprecher. Dafür keine bestehende persönliche Aufnahme oder Konfiguration ungefragt verändern.
 

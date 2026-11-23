@@ -17,5 +17,12 @@
   "pin_keyboard_checked": true,
   "real_nfc_verified": false,
   "real_room_signin_verified": false,
-  "sd_image_built": false
+  "sd_image_built": false,
+  "physical_pi_installed": true,
+  "physical_pi_settings_dialog_verified": true,
+  "existing_brain_account_preserved": true,
+  "room_mode_enabled_on_pi": false,
+  "app_package_files": 135,
+  "clean_image_kit_files": 142,
+  "image_kit_status": "prepared-not-boot-certified"
 }
