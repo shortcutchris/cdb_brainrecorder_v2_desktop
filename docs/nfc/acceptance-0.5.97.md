@@ -33,8 +33,20 @@ Meeting- und Talk-Aufsteller und anschließend eine Einstellung dafür.
   startete über den tatsächlichen Aufnahmeprozess ausschließlich künstliches PCM;
   keine Vorbereitung offen, genau die NFC-Aufnahme als Besitzer zugeordnet.
   Aufnahme anschließend gestoppt. [Einstellungen 1024 × 600](direct-start-1024.png).
-- Installation und Einschalten beider Optionen auf Chris' Pi stehen noch aus.
-  Kein echtes Mikrofon oder Voice-Backend für diese Prüfung verwendet.
+- Einstellungen im echten Browser bei 1024 × 600 und 1280 × 720 geprüft:
+  beide Schalter sichtbar, 56 Pixel hoch und nach Speichern aktiv.
+- Signierte 0.5.97 aus `cc2c7a2` auf dem freien Pi installiert, 150 Dateien
+  verifiziert, Kiosk neu gestartet. Aufnahmebestand, bestehende Einstellungen
+  und Tag-Zuordnungen erhalten. Die persönliche Anmeldung endet wie vorgesehen
+  beim App-Neustart; Chris wurde vorher darauf hingewiesen.
+  [Installation](097-deployment.json).
+- Auf ausdrücklichen Wunsch beide Direktstart-Optionen über die normale API
+  eingeschaltet. Gespeicherte Werte und unveränderte Tags geprüft; Leser bereit,
+  kein Audio aktiv. [Geräteeinstellung](097-configuration.json).
+- Neues Image-Baupaket vorbereitet, 157 Quell-Hashes verifiziert. Kein neues
+  SD-Image gebaut oder gebootet.
+- Kein echtes Mikrofon oder Voice-Backend für diese Prüfung verwendet. Der
+  persönliche Direktstart von Talk/Meeting vor Ort bleibt separat zu erproben.
 
 ## Update und neue SD-Karte
 

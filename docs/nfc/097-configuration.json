@@ -1,0 +1,14 @@
+{
+  "version": "0.5.97",
+  "direct_start": {
+    "talk": true,
+    "meeting": true
+  },
+  "tags_preserved": true,
+  "nfc_enabled_preserved": true,
+  "stored_values_verified": true,
+  "nfc_state": "absent",
+  "recording": false,
+  "live": false,
+  "signed_in": false
+}
