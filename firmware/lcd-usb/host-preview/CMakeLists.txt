@@ -1,0 +1,21 @@
+cmake_minimum_required(VERSION 3.16)
+project(cdb_lcd_ui_preview C CXX)
+set(LVGL_ROOT "" CACHE PATH "Path to the existing LVGL 9.6.0 source checkout")
+set(CJSON_ROOT "" CACHE PATH "Path containing cJSON.c and cJSON.h")
+if(NOT EXISTS "${LVGL_ROOT}/CMakeLists.txt" OR NOT EXISTS "${CJSON_ROOT}/cJSON.c")
+    message(FATAL_ERROR "Set LVGL_ROOT and CJSON_ROOT; this preview does not download dependencies")
+endif()
+set(LV_BUILD_CONF_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lv_conf.h CACHE PATH "" FORCE)
+set(CONFIG_LV_BUILD_DEMOS OFF CACHE BOOL "" FORCE)
+set(CONFIG_LV_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(CONFIG_LV_USE_THORVG_INTERNAL OFF CACHE BOOL "" FORCE)
+set(CONFIG_LV_USE_THORVG OFF CACHE BOOL "" FORCE)
+add_subdirectory(${LVGL_ROOT} lvgl)
+set(FIRMWARE ${CMAKE_CURRENT_SOURCE_DIR}/..)
+add_executable(preview main.c
+    ${FIRMWARE}/main/display_ui.c ${FIRMWARE}/main/timer_view.c ${FIRMWARE}/main/protocol.c
+    ${FIRMWARE}/main/fonts/cdb_text_20.c ${FIRMWARE}/main/fonts/cdb_text_24.c
+    ${FIRMWARE}/main/fonts/cdb_text_32.c ${CJSON_ROOT}/cJSON.c)
+target_include_directories(preview PRIVATE ${FIRMWARE}/main ${CJSON_ROOT})
+target_compile_definitions(preview PRIVATE LV_LVGL_H_INCLUDE_SIMPLE)
+target_link_libraries(preview PRIVATE lvgl)

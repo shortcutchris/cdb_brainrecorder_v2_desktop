@@ -9,8 +9,8 @@ function harness(){
 }
 test('ringing alarm stays actionable during live and never claims it must wait for the conversation',()=>{
  const {c,el}=harness();c.state.live={busy:true};c.state.timers={items:[{id:'test',label:'Tee',state:'due',sound:'attempted'}],ringing_id:'test'};
- c.renderState();assert.match(el('alarm-detail').textContent,/Alarm läuft/);assert.equal(el('alarm-ack').disabled,false);assert.equal(el('alarm-snooze').disabled,false);
- c.state.timers.ringing_id=null;c.state.timers.items[0].sound='failed';c.renderState();assert.match(el('alarm-detail').textContent,/Lautsprecher nicht erreichbar/);
+ c.renderState();assert.match(el('alarm-detail').textContent,/Alarm läuft/);let opened;c.window={openTimerFocus:id=>opened=id};el('alarm-open').onclick();assert.equal(opened,'test');
+ c.state.timers.ringing_id=null;c.state.timers.items[0].sound='failed';c.renderState();assert.match(el('alarm-detail').textContent,/Alarmton fehlgeschlagen/);
 });
 test('only a pending alarm waits for recording; a previously played alarm is not promised again',()=>{
  const {c,el}=harness();c.state.recording={id:'record'};c.state.timers={items:[{id:'test',label:'Tee',state:'due',sound:'pending'}]};

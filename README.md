@@ -2,6 +2,14 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.99 – Timer mit großer Touchansicht
+
+Den laufenden Timer oben rechts antippen: große Restzeit, **Minimieren** und
+**Timer beenden**. Beim Ablauf öffnet sich die Alarmansicht automatisch mit
+**+5 Minuten** und **Alarm stoppen**. Auch erledigte Timer lassen sich über ihren
+Eintrag erneut ansehen. Aufnahme und Talk laufen beim Öffnen oder Schließen weiter.
+[Bedienung, Prüfungen und Installationsstand](docs/timers-0.5.99/README.md).
+
 ## 0.5.98 – NFC-Abnehmen pro Modus einstellbar
 
 **Einstellungen → Audio → NFC-Aufsteller:** Talk und Meeting haben jeweils einen

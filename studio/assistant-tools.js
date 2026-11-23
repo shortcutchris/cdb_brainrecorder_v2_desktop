@@ -10,8 +10,8 @@
  <label>Alarmton<div class="timer-tone"><select id="timer-tone"><option value="bell">Glocke</option><option value="chime">Klangspiel</option><option value="pulse">Sanfter Puls</option><option value="silent">Lautlos</option></select><button id="timer-tone-test" type="button">Anhören</button></div></label>
  <div class="tools-info"><strong>Bleibt auch ohne Browser aktiv</strong><p>Alarm bis zu 60 Sekunden · jederzeit stoppbar. Auch im Gespräch hörbar; bei Aufnahmen danach.</p><p id="timer-clock"></p></div></div>
  <div class="tools-column"><div class="tools-list-heading"><h3>Deine Einträge</h3><button id="timer-history" aria-pressed="false">Verlauf</button></div><div id="timer-list"></div><p id="timer-message" role="status"></p></div></section>
- <footer class="tools-footer"><span>Gerätetimer · für alle am Pi sichtbar<br><span id="timer-voice">Sprachsteuerung wird beim Gesprächsstart geprüft.</span></span><nav id="timer-pages" class="direct-pages" aria-label="Timerseiten"></nav><button class="primary" id="timer-create">Timer starten</button></footer>`;document.body.append(view);
- const alarm=document.createElement('section');alarm.id='timer-alarm';alarm.hidden=true;alarm.setAttribute('aria-label','Fälliger Timer');alarm.innerHTML='<div><strong id="alarm-title" role="alert"></strong><small id="alarm-detail"></small></div><button id="alarm-snooze">+5 Min.</button><button id="alarm-ack">Alarm stoppen</button>';document.body.append(alarm);
+ <footer class="tools-footer"><span>Timer für dein angemeldetes Konto<br><span id="timer-voice">Sprachsteuerung wird beim Gesprächsstart geprüft.</span></span><nav id="timer-pages" class="direct-pages" aria-label="Timerseiten"></nav><button class="primary" id="timer-create">Timer starten</button></footer>`;document.body.append(view);
+ const alarm=document.createElement('section');alarm.id='timer-alarm';alarm.hidden=true;alarm.setAttribute('aria-label','Fälliger Timer');alarm.innerHTML='<button id="alarm-open" aria-haspopup="dialog"><span><strong id="alarm-title" role="alert"></strong><small id="alarm-detail"></small></span><span>Groß anzeigen ↗</span></button>';document.body.append(alarm);
  const prevWorkspace=workspaceView;
  workspaceView=function(id=null){prevWorkspace(id);if(id!=='timers-view'&&view.open)view.close();rail.classList.toggle('active',id==='timers-view')};
  rail.onclick=run(async()=>{if(rail.disabled)return;await leaveDraft();audio.pause();workspaceView('timers-view');renderTools()});
@@ -44,7 +44,7 @@
   }finally{creating=false;renderTools()}
  });
  async function change(item,action){if(item)await mutate({action,id:item.id,revision:item.revision})}
- $('alarm-ack').onclick=run(()=>change(alarmItem,'ack'));$('alarm-snooze').onclick=run(()=>change(alarmItem,'snooze'));
+ $('alarm-open').onclick=()=>window.openTimerFocus?.(alarmItem?.id);
  function duration(seconds){return Math.floor(seconds/3600).toString().padStart(2,'0')+':'+Math.floor(seconds%3600/60).toString().padStart(2,'0')+':'+(seconds%60).toString().padStart(2,'0')}
  function renderTools(){
   const locked=Boolean(state?.recording?.id)||Boolean(state?.live?.busy);rail.disabled=!online||locked;
@@ -52,7 +52,7 @@
   const items=state?.timers?.items||[],due=items.filter(i=>i.state==='due'||i.state==='missed');alarmItem=due[0];
   $('timer-badge').hidden=!due.length;$('timer-badge').textContent=due.length;
   alarm.hidden=!alarmItem;document.body.classList.toggle('has-timer-alarm',Boolean(alarmItem));
-  if(alarmItem){$('alarm-title').textContent=alarmItem.label;$('alarm-detail').textContent=(due.length>1?due.length+' fällig · ':'')+(alarmItem.state==='missed'?'Während Abwesenheit fällig':state?.timers?.ringing_id===alarmItem.id?'Alarm läuft · bis zu 60 Sekunden':alarmItem.sound==='failed'?'Lautsprecher nicht erreichbar':state?.recording?.id&&alarmItem.sound==='pending'?'Ton nach der Aufnahme':alarmItem.sound==='pending'?'Alarm wartet auf freie Audioausgabe':'Zeit ist um');$('alarm-ack').disabled=!online;$('alarm-snooze').disabled=!online}
+  if(alarmItem){$('alarm-title').textContent=alarmItem.label;$('alarm-detail').textContent=(due.length>1?due.length+' fällig · ':'')+(alarmItem.state==='missed'?'Während Abwesenheit fällig':state?.timers?.ringing_id===alarmItem.id?'Alarm läuft · bis zu 60 Sekunden':alarmItem.tone==='silent'?'Lautlos':alarmItem.sound==='failed'?'Alarmton fehlgeschlagen':state?.recording?.id&&alarmItem.sound==='pending'?'Ton nach der Aufnahme':alarmItem.sound==='pending'?'Alarm wartet auf freie Audioausgabe':'Zeit ist um')}
   $('timer-tone-test').disabled=!online||locked||$('timer-tone').value==='silent'||state?.speaker_test?.state==='running';
   $('timer-voice').textContent=state?.timers?.voice_available?'Sprachsteuerung im aktuellen Gespräch verbunden.':'Sprachsteuerung wird beim Gesprächsstart geprüft.';
   $('timer-create').disabled=!online||creating||locked||(kind==='reminder'&&!state?.timers?.clock_ready);
@@ -64,7 +64,7 @@
   if(signature!==key){signature=key;const list=$('timer-list');list.replaceChildren();
    for(const item of rows.slice(page*3,page*3+3)){
     const row=document.createElement('article');row.className='timer-row';const copy=document.createElement('div'),title=document.createElement('strong'),detail=document.createElement('span');title.textContent=item.label;
-    detail.dataset.timerId=item.id;detail.textContent=item.state==='scheduled'?(item.kind==='timer'?duration(item.remaining):new Date(item.due*1000).toLocaleString('de-DE',{timeZone:'Europe/Berlin',dateStyle:'short',timeStyle:'short'})):({due:'Jetzt fällig',missed:'Verpasst',done:'Erledigt',cancelled:'Abgebrochen'}[item.state]);detail.textContent+=' · '+(toneName[item.tone]||'Glocke');copy.append(title,detail);row.append(copy);
+    detail.dataset.timerId=item.id;detail.textContent=item.state==='scheduled'?(item.kind==='timer'?duration(item.remaining):new Date(item.due*1000).toLocaleString('de-DE',{timeZone:'Europe/Berlin',dateStyle:'short',timeStyle:'short'})):({due:'Jetzt fällig',missed:'Verpasst',done:'Erledigt',cancelled:'Abgebrochen'}[item.state]);detail.textContent+=' · '+(toneName[item.tone]||'Glocke');copy.append(title,detail);const open=document.createElement('button');open.className='timer-row-open';open.setAttribute('aria-label',item.label+' groß anzeigen');open.setAttribute('aria-haspopup','dialog');open.append(copy);open.onclick=()=>window.openTimerFocus?.(item.id);row.append(open);
     if(!history){const b=document.createElement('button');b.textContent=item.state==='scheduled'?'Abbrechen':'Erledigt';b.disabled=!online;b.onclick=run(()=>change(item,item.state==='scheduled'?'cancel':'ack'));row.append(b)}list.append(row);
    }
    if(!rows.length){const empty=document.createElement('p');empty.className='tools-info';empty.textContent=history?'Noch keine erledigten Einträge.':'Noch keine Timer. Links kannst du einen starten.';list.append(empty)}

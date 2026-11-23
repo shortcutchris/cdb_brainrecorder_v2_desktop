@@ -24,6 +24,8 @@ jobs:
           cc -std=c11 -fsanitize=address,undefined -c /opt/esp/idf/components/json/cJSON/cJSON.c -o /tmp/lcd-cjson.o
           cc -std=c11 -Wall -Wextra -Werror -fsanitize=address,undefined -I /opt/esp/idf/components/json/cJSON firmware/lcd-usb/test_protocol.c firmware/lcd-usb/main/protocol.c /tmp/lcd-cjson.o -lm -o /tmp/lcd-protocol-test
           /tmp/lcd-protocol-test
+          cc -std=c11 -Wall -Wextra -Werror -fsanitize=address,undefined -I /opt/esp/idf/components/json/cJSON firmware/lcd-usb/test_timer_view.c firmware/lcd-usb/main/timer_view.c firmware/lcd-usb/main/protocol.c /tmp/lcd-cjson.o -lm -o /tmp/lcd-timer-view-test
+          /tmp/lcd-timer-view-test
       - name: Companion integration over simulated USB
         run: |
           python3 -m venv /tmp/lcd-test-env

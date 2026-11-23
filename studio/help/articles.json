@@ -275,6 +275,20 @@
     ]
   },
   {
+    "id": "timer",
+    "title": "Timer groß anzeigen und beenden",
+    "category": "BEDIENUNG",
+    "intro": "Timer laufen auf dem Pi weiter, auch wenn du ihre große Ansicht schließt.",
+    "steps": [
+      "Oben rechts auf den laufenden Timer tippen. Die große Ansicht zeigt die Restzeit. „Minimieren“ kehrt zur vorherigen Ansicht zurück; „Timer beenden“ stoppt nur diesen Timer.",
+      "Beim Ablauf öffnet sich die Alarmansicht automatisch. „Alarm stoppen“ bestätigt den Timer und beendet seinen Ton. „+5 Minuten“ startet ihn für weitere fünf Minuten.",
+      "Das Kreuz minimiert auch einen Alarm, ohne ihn zu bestätigen. Der Alarmhinweis bleibt anklickbar. Während eines anderen Bestätigungs- oder Anmeldedialogs wartet die große Alarmansicht, bis der Dialog geschlossen ist.",
+      "Unter Timer & Erinnerungen kannst du den Titel eines laufenden oder erledigten Eintrags antippen und ihn wieder groß anzeigen.",
+      "Eine laufende Aufnahme oder ein Gespräch wird dadurch nicht beendet. Während der Aufnahme wartet ein hörbarer Alarm; lautlose Timer bleiben lautlos. Bei einer Fehlermeldung die Verbindung und den unter Audio gewählten Lautsprecher prüfen.",
+      "Das zusätzliche USB-Timerdisplay übernimmt die Timer automatisch. Die neue Einzelansicht in Siebensegmentoptik benötigt die passende Displayfirmware; ein Update von Recorder Studio allein ersetzt diese nicht."
+    ]
+  },
+  {
     "id": "quellen",
     "title": "Stand & Quellen",
     "category": "DOKUMENTATION",

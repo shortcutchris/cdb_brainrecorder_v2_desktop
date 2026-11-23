@@ -18,6 +18,8 @@ class CustomerImageTests(unittest.TestCase):
             entries['services/queued_whisper.py'] = '# local queue progress'
             entries['services/device_power.py'] = '# fixed shutdown worker'
             entries['services/device_sounds.py'] = '# local PCM device cues'
+            entries['studio/timer-focus.js'] = '// large timer interaction'
+            entries['studio/timer-focus.css'] = '/* touch timer layout */'
             entries['device-sounds.json'] = 'PRIVATE'
             entries['management/startup-sound.json'] = 'PRIVATE'
             for name in builder.BOOT_FILES:
@@ -53,6 +55,8 @@ class CustomerImageTests(unittest.TestCase):
             self.assertIn('services/queued_whisper.py',result['source_files'])
             self.assertIn('services/device_power.py',result['source_files'])
             self.assertIn('services/device_sounds.py',result['source_files'])
+            self.assertIn('studio/timer-focus.js',result['source_files'])
+            self.assertIn('studio/timer-focus.css',result['source_files'])
             self.assertNotIn('device-sounds.json',result['source_files'])
             self.assertNotIn('management/startup-sound.json',result['source_files'])
             self.assertIn('stage-brain/00-brain/files/factory/boot-brand/install.py', result['build_files'])

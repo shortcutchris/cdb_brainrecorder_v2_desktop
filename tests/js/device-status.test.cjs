@@ -43,3 +43,11 @@ test('unchanged fast wake polls do not mutate feedback while real changes still 
  assert.ok(writes>0);assert.equal(el('wake-feedback').hidden,false);assert.equal(el('wake-rail-led').dataset.state,'recognized');
  now+=10000;await c.tick();assert.equal(el('wake-feedback').hidden,true);
 });
+
+
+test('compact timer opens its large view even while the timer workspace is locked',()=>{
+ const {c,el}=harness();let opened;c.window={openTimerFocus:id=>opened=id};
+ c.state.timers.items=[{id:'tea',label:'Tee',state:'scheduled',remaining:65}];
+ el('timers-open').disabled=true;c.renderState();
+ assert.equal(el('timer-running').disabled,false);el('timer-running').onclick();assert.equal(opened,'tea');
+});
