@@ -159,8 +159,9 @@ Unter **Einstellungen → Audio → Mikrofon** startest du die fünfsekündige P
 Optionale USB-NFC-Steuerung mit getrennten, lokal zugeordneten Tags. Auflegen
 startet den bestehenden Gesprächs- oder Aufnahmepfad; bestätigtes Abnehmen beendet
 nur die eigene Sitzung. USB-Ausfälle beenden keine Aufnahme. Werkseitig aus,
-Wake Word bleibt erhalten. 125 gezielte Tests bestanden; echte Leser-/Tag- und
-Pi-Abnahme sowie Installation stehen aus.
+Wake Word bleibt erhalten. Historische Basisprüfung: 125 gezielte Tests.
+Die Laufzeitinstallation und Rocketek-/Tag-Erkennung wurden inzwischen mit
+0.5.95 am Pi bestätigt; vollständiges Anlernen und Talk-/Meeting-Abnahme folgen.
 [Einrichtung, Laufzeitmigration und Grenzen](docs/nfc/README.md).
 
 ## 0.5.70 – USB-Timerdisplay vorbereiten

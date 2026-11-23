@@ -1,0 +1,57 @@
+{
+  "checked_at": "2026-11-23T16:57:31.321101+00:00",
+  "version": "0.5.95",
+  "source_commit": "a5d3ccf6",
+  "action": "/api/nfc inspect",
+  "reader_name": "Alcor Link AK9567 [Contactless Card Reader] 01 00",
+  "reader_name_verified_by": "PC/SC enumeration in regular user service context before update; USB interface 1 names Contactless Card Reader",
+  "polls": [
+    {
+      "offset_seconds": 1.1,
+      "enabled": false,
+      "state": "present",
+      "message": "Tag erkannt. Talk oder Meeting zuordnen.",
+      "assigned": {
+        "talk": false,
+        "meeting": false
+      },
+      "active_mode": null,
+      "can_enroll": true
+    },
+    {
+      "offset_seconds": 2.2,
+      "enabled": false,
+      "state": "present",
+      "message": "Tag erkannt. Talk oder Meeting zuordnen.",
+      "assigned": {
+        "talk": false,
+        "meeting": false
+      },
+      "active_mode": null,
+      "can_enroll": true
+    },
+    {
+      "offset_seconds": 3.3,
+      "enabled": false,
+      "state": "present",
+      "message": "Tag erkannt. Talk oder Meeting zuordnen.",
+      "assigned": {
+        "talk": false,
+        "meeting": false
+      },
+      "active_mode": null,
+      "can_enroll": true
+    }
+  ],
+  "packages": [
+    "libccid: install ok installed 1.6.2-1",
+    "pcscd: install ok installed 2.3.3-1",
+    "python3-pyscard: install ok installed 2.2.2-1"
+  ],
+  "pcscd_socket": "active",
+  "tag_enrollment_performed": false,
+  "nfc_activation_performed": false,
+  "uid_or_hash_recorded": false,
+  "recording_started": false,
+  "reader_ready": true
+}

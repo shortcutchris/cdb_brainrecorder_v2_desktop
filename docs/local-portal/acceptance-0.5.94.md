@@ -66,3 +66,7 @@ Nutzerbefehl auf dem betreuenden Mac vorbereitet und Nutzer informiert.
 **Installation und PC/SC-Erkennung noch nicht bestätigt.** Danach „Leser prüfen“
 testen und bei zwei logischen CCID-Slots den kontaktlosen Leser gezielt prüfen.
 Das Portal-Update installiert keine OS-NFC-Pakete und aktiviert keine Tags.
+
+Nachtrag 23.11.2026: Installation anschließend vom Nutzer bestätigt. Die
+Doppelschnittstelle des Rocketek wurde mit 0.5.95 korrigiert; Leser und
+aufgelegter Tag erfolgreich geprüft. [Aktueller NFC-Stand](../nfc/acceptance-0.5.95.md).
