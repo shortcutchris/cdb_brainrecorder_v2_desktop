@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-23",
+  "version": "0.5.94",
+  "http_help_assets_and_pdf_verified": true,
+  "pdf_sha256_verified": true,
+  "tls_ipv4_verified": "TLS certificate and hostname verified",
+  "tls_hostname_verified": "TLS certificate and hostname verified",
+  "logged_out_pairing": "rejected",
+  "private_http_api": "unavailable",
+  "control_enabled_after_update": true,
+  "approved_controllers": 0,
+  "isolated_linux_tests": 3,
+  "physical_kiosk_screenshot_checked": true,
+  "real_personal_pairing_completed": false,
+  "actual_room_audio_recorded_for_test": false
+}

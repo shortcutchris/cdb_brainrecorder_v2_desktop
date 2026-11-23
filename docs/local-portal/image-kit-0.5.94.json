@@ -1,0 +1,13 @@
+{
+  "date": "2026-11-23",
+  "version": "0.5.94",
+  "source_commit": "a624e61a324f34daff7041121621fe6185d3e989",
+  "status": "prepared-not-boot-certified",
+  "source_files": 157,
+  "all_source_hashes_verified": true,
+  "offline_models_configured": true,
+  "portal_assets_included": true,
+  "private_portal_keys_and_settings_excluded": true,
+  "sd_image_built": false,
+  "hardware_boot_certified": false
+}
