@@ -29,7 +29,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.88'
+VERSION = '0.5.89'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -609,6 +609,9 @@ class StudioApp:
             if path == '/api/device/restart':
                 if body.get('confirm') is not True:raise ValueError('Neustart bitte bestätigen.')
                 return self.management.restart_device(self,VERSION)
+            if path == '/api/device/shutdown':
+                if body.get('confirm') is not True:raise ValueError('Herunterfahren bitte bestätigen.')
+                return self.management.shutdown_device(self,VERSION)
             if path.startswith('/api/remote-control/'):
                 if path != '/api/remote-control/revoke': self.require('configure')
                 return self.remote_channel.enqueue(path.removeprefix('/api/remote-control/'), body)

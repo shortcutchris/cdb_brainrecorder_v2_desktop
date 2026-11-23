@@ -1,0 +1,29 @@
+{
+  "version": "0.5.89",
+  "previous_version": "0.5.88",
+  "source_commit": "4a390baf08e51cf4c8b536e1521d38fd64d825dd",
+  "release": "d167d8f97f0d5722b1dd0613e62aa5afbba9c03897b34cbeff295fb0138e8e50",
+  "installed_at": "2026-11-23T11:47:46.258378+00:00",
+  "signature_verified": true,
+  "files_verified": 132,
+  "settings_preserved": true,
+  "session_inventory_preserved": true,
+  "recording_active_during_update": false,
+  "services_active": true,
+  "kiosk_restarted": true,
+  "rollback_directory_retained": true,
+  "maintenance_released": true,
+  "http_version_and_shutdown_button_verified": true,
+  "poweroff_executed": false,
+  "sd_image_built": false,
+  "physical_display_checked": true,
+  "physical_display_pixels": [
+    1280,
+    720
+  ],
+  "physical_shutdown_confirmation_cancelled": true,
+  "permission_preflight": "logind",
+  "existing_pi_system_permissions_changed": false,
+  "clean_image_kit_exported": true,
+  "clean_image_kit_source_files": 139
+}

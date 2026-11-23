@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import secrets
 import subprocess
+import sys
 import uuid
 import time
 from fleet.common import read, save
@@ -51,7 +52,33 @@ class DeviceManagement:
         state=read(self.root/'public.json',{'state':'unconfigured','message':'Geräteverwaltung noch nicht eingerichtet.'})
         if state.get('state')=='connected' and time.time()-state.get('last_seen',0)>100:
             state=state|{'state':'offline','message':'Verbindung zur Geräteverwaltung unterbrochen.'}
-        return state|{'maintenance':self.busy()}
+        from services.device_power import power_status
+        return state|{'maintenance':self.busy(),'power':power_status(self.root,self.boot_id())}
+
+    def shutdown_device(self,app,version,runner=None):
+        runner=runner or subprocess.run
+        boot=self.boot_id()
+        if getattr(app,'preview',False) or not boot:
+            raise ValueError('Herunterfahren nur direkt am eingerichteten Pi verfügbar.')
+        from services.device_power import shutdown_method
+        method=shutdown_method(runner)
+        command=str(uuid.uuid4())
+        self.prepare(app,command,version)
+        save(self.marker,{'command':command,'expires':time.time()+60,'boot':boot})
+        power=self.root/'power.json'
+        save(power,{'command':command,'boot':boot,'state':'scheduled','expires':time.time()+60})
+        try:
+            result=runner(['systemd-run','--user','--collect','--on-active=2',
+                '--unit=cdb-recorder-poweroff-'+command,
+                '--working-directory='+str(Path(__file__).resolve().parents[1]),
+                sys.executable,'-m','services.device_power','--root',str(self.root),
+                '--command',command,'--method',method],capture_output=True,timeout=5)
+            if result.returncode:raise ValueError('Herunterfahren konnte nicht vorbereitet werden.')
+        except Exception:
+            save(power,{'command':command,'boot':boot,'state':'failed'})
+            self.release(command)
+            raise
+        return {'scheduled':True,'command':command}
 
     def enroll(self,code):
         if self.busy():raise ValueError('Gerät wird gewartet.')

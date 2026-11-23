@@ -2,6 +2,12 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.89 – Pi vor dem Umstellen herunterfahren
+
+Unter **Einstellungen → Gerät & Verwaltung → Pi herunterfahren** lässt sich der ganze Pi sauber ausschalten. Ein eigener Dialog fragt nach der Bestätigung. Laufende oder pausierte Aufnahmen, Gespräche, Wiedergabe, Verarbeitung, Übertragungen und aktive Timer sperren das Herunterfahren. Gespeicherte Aufnahmen und Einstellungen bleiben erhalten. Erst nach dem vollständigen Herunterfahren den Strom abziehen.
+
+Das App-Update enthält die neue Bedienung und den festen Abschaltbefehl. Bestehende Geräte nutzen ihre vorhandene Systemfreigabe; das nächste SD-Image enthält zusätzlich die eng begrenzte Poweroff-Freigabe. Für diese Änderung wird kein neues Image gebaut. [Bedienung, Prüfung und Installation](docs/device-shutdown-0.5.89/README.md).
+
 ## 0.5.88 – Kontodialog auf dem Touchdisplay
 
 Beim Anmelden stehen QR-Code und Microsoft-Eingabecode nebeneinander. Im angemeldeten Zustand zeigt der Dialog den vollständigen Namen. Die Umgebung steht in beiden Ansichten oben im Kopf. Die Darstellung nutzt das gewählte Studio-Design und kommt mit dem regulären App-Update sowie mit dem nächsten SD-Image auf den Pi.
