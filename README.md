@@ -2,6 +2,14 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.90 – Anmeldung und NFC im Raummodus
+
+Unter **Einstellungen → Gerät & Verwaltung → Raummodus & Betreiber** lässt sich ein gemeinsam genutztes Raumgerät einrichten. Eine Betreiber-PIN schützt die Geräteeinstellungen. Talk und Meeting führen zunächst zur Brain-Anmeldung und anschließend zu einer ausdrücklichen Startbestätigung. Gastaufnahmen sind ausgeschaltet. **Fertig & abmelden** beendet nach Bestätigung die laufende Aufnahme beziehungsweise das Gespräch und gibt das Gerät für die nächste Person frei.
+
+Neue Raumaufnahmen sind an Konto, Firma und Brain-Umgebung gebunden. Alte persönliche Aufnahmen bleiben erhalten und werden im Raummodus nicht automatisch zugeordnet. Nach fünf Minuten Inaktivität wird mit Vorwarnung abgemeldet; die Frist ist einstellbar. Während Aufnahme, Pause und Gespräch läuft sie nicht ab. Aufnahmen mit fehlender Brain-Verbindung bleiben gespeichert und können erneut versucht oder ausdrücklich lokal verarbeitet werden.
+
+Das Update schaltet bestehende persönliche Geräte nicht ungefragt um. Die Dateien kommen auch in den nächsten regulären SD-Image-Bau. [Bedienung, Datentrennung, Tests und Rückkehrregeln](docs/room-mode/README.md).
+
 ## 0.5.89 – Pi vor dem Umstellen herunterfahren
 
 Unter **Einstellungen → Gerät & Verwaltung → Pi herunterfahren** lässt sich der ganze Pi sauber ausschalten. Ein eigener Dialog fragt nach der Bestätigung. Laufende oder pausierte Aufnahmen, Gespräche, Wiedergabe, Verarbeitung, Übertragungen und aktive Timer sperren das Herunterfahren. Gespeicherte Aufnahmen und Einstellungen bleiben erhalten. Erst nach dem vollständigen Herunterfahren den Strom abziehen.

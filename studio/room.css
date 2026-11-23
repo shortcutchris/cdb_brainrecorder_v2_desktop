@@ -1,0 +1,12 @@
+#room-dialog,#room-settings-dialog,#room-idle{width:min(800px,calc(100vw - 48px));max-height:calc(100dvh - 32px);padding:24px;border-radius:18px;overflow:auto}
+#room-dialog .dialog-body,#room-settings-dialog .dialog-body{padding:16px 0;display:grid;gap:12px}
+#room-dialog .dialog-actions,#room-settings-dialog .dialog-actions{display:flex;gap:12px;flex-wrap:wrap}
+#room-person{font-size:22px;font-weight:700}#room-message,#room-nfc{line-height:1.5}
+#room-finish{min-height:52px;margin-left:12px;white-space:nowrap}#room-options{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+#room-options label,#room-pin-label{display:grid;gap:8px}#room-options input[type=checkbox]{width:26px;height:26px}
+#room-dialog button,#room-settings-dialog button,#room-idle button{min-height:52px}#room-pin{min-height:50px;font-size:22px}
+@media(max-height:650px){#room-dialog,#room-settings-dialog,#room-idle{padding:18px}#room-settings-dialog .dialog-body{padding:8px 0;gap:8px}#room-settings-dialog p{margin:4px 0}#room-finish{font-size:14px;padding:8px}}
+body.keyboard-open #room-settings-dialog{max-height:calc(100dvh - 260px)}
+#room-settings-dialog.with-keyboard .dialog-body>p,#room-settings-dialog.with-keyboard #room-options{display:none}
+#room-settings-dialog.with-keyboard .dialog-actions{display:grid;grid-template-columns:1fr 1fr}
+#room-settings-dialog.with-keyboard .dialog-body{overflow:visible;flex:none}

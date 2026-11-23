@@ -78,7 +78,7 @@ class OwnershipTests(unittest.TestCase):
         app.action.assert_not_called();app.live.end.assert_not_called()
     def test_meeting_uses_existing_start_and_stop(self):
         from web_server import StudioApp
-        app=Mock();app.wake_reason.return_value='';app.action.return_value={'id':'same-engine'}
+        app=Mock();app.room.enabled=False;app.wake_reason.return_value='';app.action.return_value={'id':'same-engine'}
         self.assertEqual(StudioApp.nfc_start(app,'meeting'),'same-engine')
         app.action.assert_called_once_with('/api/record/start',{})
         app.nfc_still_owned.return_value=True;StudioApp.nfc_stop(app,'meeting','same-engine')

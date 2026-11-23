@@ -392,6 +392,7 @@ class UnavailableChannel:
     def enqueue(self, action, body):
         raise ValueError('Fernbedienung nicht verfügbar. Gerätespeicher prüfen.')
     def close(self): pass
+    def _sync_account(self): pass
 
 
 def create_channel(app, **kwargs):

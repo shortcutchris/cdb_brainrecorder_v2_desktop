@@ -71,6 +71,11 @@ class Schedules:
             return self._create(db, body)
 
     def _create(self, db, body):
+        if hasattr(self, 'room_policy'):
+            enabled, account = self.room_policy()
+            if enabled:
+                if not account: raise ValueError('Zuerst mit Brain anmelden.')
+                body = body | {'_room_owner': account}
         kind, label, request = body.get('kind'), body.get('label', ''), body.get('request_id')
         if kind not in ('timer','reminder'): raise ValueError('Timer oder Erinnerung wählen.')
         if not isinstance(label, str) or not 1 <= len(label.strip()) <= 80: raise ValueError('Titel mit 1–80 Zeichen eingeben.')
@@ -104,6 +109,7 @@ class Schedules:
     def _change(self, db, body):
         row = db.execute('SELECT * FROM schedules WHERE id=?',(body.get('id'),)).fetchone()
         if not row: raise ValueError('Eintrag fehlt.')
+        if not self.visible(row): raise ValueError('Eintrag fehlt oder gehört zu einem anderen Konto.')
         if type(body.get('revision')) is not int or row['revision'] != body['revision']:
             raise ValueError('Eintrag wurde geändert. Bitte aktualisieren.')
         action = body.get('action')
@@ -120,6 +126,16 @@ class Schedules:
     def remaining(self, row):
         if row['kind']=='timer' and row['boot']==self.boot: return row['deadline']-self.elapsed()
         return row['due']-self.wall()
+
+    def visible(self, row):
+        if not hasattr(self, 'room_policy'): return True
+        enabled, account = self.room_policy()
+        owner = json.loads(row['payload']).get('_room_owner')
+        return owner == account if owner else not enabled
+
+    def visible_ids(self):
+        with self.db() as db:
+            return {row['id'] for row in db.execute('SELECT * FROM schedules') if self.visible(row)}
 
     def tick(self, clock_ready=True):
         with self.lock, self.db() as db:
@@ -198,8 +214,8 @@ class Schedules:
                     created=self._create(db,body)
                     result={'ok':True,'id':created['id'],'label':args['label'],'tone':args['tone'],'message':'Auf dem Pi gespeichert.'}
                 elif name=='list_schedules' and not args:
-                    rows=db.execute("SELECT id,kind,label,due,state,revision,tone FROM schedules WHERE state IN ('scheduled','due','missed') ORDER BY due LIMIT 100").fetchall()
-                    result={'ok':True,'items':[dict(r) for r in rows]}
+                    rows=db.execute("SELECT * FROM schedules WHERE state IN ('scheduled','due','missed') ORDER BY due LIMIT 100").fetchall()
+                    result={'ok':True,'items':[{k:r[k] for k in ('id','kind','label','due','state','revision','tone')} for r in rows if self.visible(r)]}
                 elif name in ('cancel_schedule','acknowledge_alarm','snooze_alarm') and set(args)=={'id','revision'}:
                     self._change(db,{**args,'action':{'cancel_schedule':'cancel','acknowledge_alarm':'ack','snooze_alarm':'snooze'}[name]})
                     result={'ok':True,'id':args['id']}

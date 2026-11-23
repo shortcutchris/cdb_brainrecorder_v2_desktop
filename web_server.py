@@ -29,7 +29,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.89'
+VERSION = '0.5.90'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -41,6 +41,9 @@ class Conflict(ValueError): pass
 class StudioApp:
     def __init__(self, root, database, backend=None, command_factory=None, preview=False, settings_file=None):
         self.cdb = CdbService(root)
+        from services.room_mode import RoomMode
+        self.room = RoomMode(root, self.cdb)
+        self.job_context = None
         self.cdb_backend = CdbBackend(self.cdb) if backend is None else None
         self.repo = SessionRepository(str(database))
         # PipeWire may retain the ALSA device after wake listening stops. Use
@@ -53,9 +56,13 @@ class StudioApp:
         if self.cdb_backend:self.cdb_backend.store = self.store
         create = self.store.create
         def create_bound(title):
-            snapshot = self.cdb.snapshot()
+            snapshot = self.job_context['route'] if self.job_context else self.cdb.snapshot()
+            owner = self.job_context['owner'] if self.job_context else (self.room.account() if self.room.enabled else None)
+            if self.room.enabled and owner is None:
+                self.room.require_account()
             ident = create(title)
             atomic_write(self.store.folder(ident)/'cdb-request.json',json.dumps(snapshot))
+            if owner is not None: self.room.bind(self.store.folder(ident), owner)
             return ident
         self.store.create = create_bound
         self.cdb.thread(self.cdb.run)
@@ -106,6 +113,7 @@ class StudioApp:
         self.nfc = NfcTokens(self.store.root)
         self.wake = WakeWord(self.store.root)
         self.schedules = Schedules(self.store.root)
+        self.schedules.room_policy = lambda: (self.room.enabled, self.room.account())
         self.live.device_executor = lambda scope, request: self.schedules.execute_tool(scope, request, self.clock_ready)
         self.playback_leases = {}
         self.ambient_stop = threading.Event()
@@ -169,6 +177,9 @@ class StudioApp:
     def nfc_start(self, mode):
         reason = self.wake_reason()
         if reason: raise ValueError(reason)
+        if self.room.enabled:
+            self.room.begin(mode, self.nfc.tag)
+            raise ValueError('Am Bildschirm anmelden und den Start bestätigen.')
         if mode == 'meeting':
             return self.action('/api/record/start', {})['id']
         account = self.wake_account()
@@ -298,6 +309,7 @@ class StudioApp:
                     self.tick_alarm()
                     self.tick_announcements()
                     self.nfc.tick(self.nfc_start, self.nfc_stop, self.nfc_still_owned)
+                    self.tick_room()
                     reason = self.wake_reason()
                     self.wake.tick(account=self.wake_account(),reason=reason,
                                    config=self.store.config(),trigger=self.wake_start)
@@ -357,7 +369,7 @@ class StudioApp:
         state = state or self.engine.state()
         cdb_config=self.cdb.config()
         signed_in=bool(self.cdb.read('session.json',{}).get('identity'))
-        needs_login='cdb' in (cdb_config['transcription'],cdb_config['summary']) and not signed_in
+        needs_login=(self.room.enabled or 'cdb' in (cdb_config['transcription'],cdb_config['summary'])) and not signed_in
         return self.activity(state).capabilities(
             low_disk=self.store.free_mb()<state['config'].get('min_free_mb',1024), needs_login=needs_login,
             setup_complete=state['config']['setup_complete'], brain_signed_in=signed_in)
@@ -450,12 +462,13 @@ class StudioApp:
         return None
 
     def state(self):
-        with self.controller.lock:
+        with self.control_lock, self.controller.lock:
             self.controller.sync()
             state = self.engine.state()
             state['microphone_test'] = self.microphone_progress(state['microphone_test'])
             for job in state['jobs']:
                 folder = self.store.folder(job['id'])
+                job['waiting_for_brain'] = job['state'] == 'failed' and (folder/'brain-wait.json').exists()
                 job['audio_file_bytes'] = self.audio_file_bytes(folder/'audio.wav', folder/'audio.pcm', folder/'audio.import.wav')
                 if job['state'] == 'transcribing' and self.cdb_backend:
                     job['whisper_progress'] = self.cdb_backend.local.progress_for(job['id'])
@@ -497,6 +510,9 @@ class StudioApp:
         state['wake'] = self.wake.public()
         state['nfc'] = self.nfc.public()
         state['timers'] = {'items': self.schedules.items(), 'ringing_id': self.alarm_id, 'clock_ready': self.clock_ready, 'voice_available': bool(self.live.public().get('device_tools'))}
+        visible_timers = self.schedules.visible_ids()
+        state['timers']['items'] = [item for item in state['timers']['items'] if item['id'] in visible_timers]
+        if self.alarm_id not in visible_timers: state['timers']['ringing_id'] = None
         state['bluetooth'] = self.bluetooth.public()
         state.update(csrf=self.csrf, version=VERSION, preview=self.preview,
             namespace=hashlib.sha256(str(self.store.root).encode()).hexdigest()[:16])
@@ -504,16 +520,110 @@ class StudioApp:
             job = self.store.get(self.model_test)
             state['model_test'] = job | self.engine.result(self.model_test)
             self.finish_model_validation()
+        state['room'] = self.room.public()
+        state['sessions'] = [row for row in state['sessions'] if self.visible_session(row)]
+        state['jobs'] = [job for job in state['jobs'] if self.room.can_read(self.store.folder(job['id']))]
+        # Global worker strings can name a different account's meeting.
+        if self.room.enabled:
+            state['namespace'] += ':' + self.room.epoch
+            state['progress'] = ''
+            for job in state['jobs']: job['processing_detail'] = ''
+            state['cdb']['progress'] = ''
+            if not self.room.operator():
+                state['model_results'] = []; state.pop('model_test', None)
+            if not self.room.account():
+                state['live'] = {'state':'idle','busy':False,'muted':True,'history':[],'areas':[]}
+                state['timers']['items'] = []
         return state
+
+    def visible_session(self, row):
+        ident = row.get('local_job_id')
+        return self.room.can_read(self.store.folder(ident) if ident else None)
+
+    def tick_room(self):
+        self.room.reconcile(self.nfc)
+        if self.room.intent and self.room.intent['tag']:
+            self.nfc.message = 'Aufsteller erkannt · Anmeldung und Start am Bildschirm bestätigen.'
+        if self.room.enabled and self.room.account():
+            if self.activity().occupied:
+                self.room.touch()
+            elif self.room.idle_remaining() == 0:
+                self.room_logout()
+
+    def room_logout(self):
+        """Only after capture/live has stopped successfully; never delete meetings."""
+        if self.engine.recorder.active or self.live.busy():
+            raise ValueError('Aufnahme oder Gespräch zuerst erfolgreich beenden.')
+        self.wake.configure(False, None)
+        self.display.revoke()
+        self.cdb.logout()
+        self.live.clear()
+        self.live.restored_binding = None
+        self.remote_channel._sync_account()
+        self.room.reset()
+        self.nfc.reset_edge()
+        self.playback_leases.clear()
+        self.csrf = secrets.token_urlsafe(32)
+
+    def room_action(self, path, body):
+        action = path.removeprefix('/api/room/')
+        if action == 'unlock':
+            self.room.unlock(body.get('pin'))
+        elif action == 'configure':
+            self.require('configure')
+            if self.activity().pending: raise ValueError('Laufende Verarbeitung zuerst abschließen.')
+            self.room.configure(body)
+            self.room_logout()
+        elif action == 'touch':
+            self.room.touch()
+        elif action == 'cancel':
+            self.room.cancel()
+        elif action == 'begin':
+            self.require('configure')
+            self.room.begin(body.get('mode'))
+        elif action == 'finish':
+            if self.engine.recorder.active:
+                if body.get('confirm') is not True: raise ValueError('Aufnahme stoppen und abmelden bitte bestätigen.')
+                self.engine.stop(); self.controller.sync()
+            if self.live.busy():
+                if body.get('confirm') is not True: raise ValueError('Gespräch beenden und abmelden bitte bestätigen.')
+                self.live.end(self.live.lease)
+                return {'finishing': True}
+            self.room_logout()
+        elif action == 'start':
+            intent = self.room.check_intent(body.get('id'), self.nfc)
+            if intent['mode'] == 'meeting':
+                ident = self.action('/api/record/start', {})['id']
+            else:
+                ident = self._start_device_live_locked(self.room.account())
+            if intent['tag']: self.nfc.owner = (intent['mode'], ident)
+            self.room.cancel(); self.room.touch()
+            return {'id': ident, 'mode': intent['mode']}
+        else: raise KeyError('Unbekannte Raumaktion.')
+        return self.room.public()
+
+    def room_guard(self, path):
+        if not self.room.enabled: return
+        # Only these operations are available to room users. Other device changes
+        # require a short-lived operator unlock; it grants no content access.
+        user_paths = ('/api/room/', '/api/record/', '/api/live/', '/api/sessions/')
+        user_exact = {'/api/cdb/login', '/api/cdb/login/cancel', '/api/cdb/logout',
+                      '/api/cdb/area', '/api/cdb/send', '/api/playback', '/api/timers'}
+        if not path.startswith(user_paths) and path not in user_exact:
+            self.room.require_operator()
+        if path.startswith(('/api/record/', '/api/live/', '/api/sessions/')) or path in ('/api/cdb/area','/api/cdb/send','/api/timers'):
+            self.room.require_account()
 
     def session(self, sid):
         with self.controller.lock:
             self.controller.sync()
             row = self.repo.get_by_id(sid)
         if not row: raise KeyError('Meeting fehlt.')
+        if not self.visible_session(row): raise KeyError('Meeting fehlt oder gehört zu einem anderen Konto.')
         return row
 
     def save(self, sid, changes, base):
+        self.session(sid)
         if not isinstance(changes,dict) or not changes or set(changes)-set(FIELDS):
             raise ValueError('Ungültige Textfelder.')
         if not isinstance(base,dict) or set(changes)-set(base): raise ValueError('Textbasis fehlt.')
@@ -535,6 +645,11 @@ class StudioApp:
         return self.session(sid)
 
     def settings_manager(self):
+        if self.room.enabled:
+            from PySide6.QtCore import QSettings
+            key = hashlib.sha256(json.dumps(self.room.account(), sort_keys=True).encode()).hexdigest()
+            directory = self.store.root/'room-prompts'; directory.mkdir(mode=0o700, exist_ok=True)
+            return SettingsManager(QSettings(str(directory/(key+'.ini')), QSettings.IniFormat))
         if self.settings_file:
             from PySide6.QtCore import QSettings
             return SettingsManager(QSettings(str(self.settings_file),QSettings.IniFormat))
@@ -588,6 +703,18 @@ class StudioApp:
             if self.closing:raise ValueError('Dienst wird beendet. Änderungen bitte kurz aufbewahren.')
             if self.management.busy():raise ValueError('Gerät wird gewartet. Bitte kurz warten.')
             if self.first_start.busy:raise ValueError('Netzwerk wird eingerichtet. Bitte kurz warten.')
+            self.room_guard(path)
+            if path.startswith('/api/room/'):
+                return self.room_action(path, body)
+            if self.room.enabled:
+                self.room.touch()
+                if path == '/api/cdb/logout':
+                    self.require('configure'); self.room_logout(); return self.cdb.public()
+                if path == '/api/cdb/login/cancel': self.room.cancel()
+                if path == '/api/cdb/login':
+                    self.require('configure')
+                    if self.room.account(): self.room_logout()
+                    self.room.login_owned = bool(self.room.intent) and self.cdb.login.get('state') != 'pending'
             # Check before any wake, playback or account side effects.
             if path in ('/api/cdb/login', '/api/cdb/logout', '/api/cdb/config'):
                 self.require('configure')
@@ -816,11 +943,29 @@ class StudioApp:
             if len(parts)==4 and parts[:2]==['api','sessions']:
                 sid=int(parts[2]);session=self.session(sid)
                 if parts[3]=='save':return self.save(sid,body.get('changes'),body.get('base'))
+                if parts[3]=='local-process':
+                    self.require('process')
+                    if body.get('confirm') is not True: raise ValueError('Lokale Verarbeitung bitte bestätigen.')
+                    catalog = self.models.catalog(); config = self.store.config()
+                    asr = next((m for m in catalog['asr'] if m['path'] == config['whisper_model']), {})
+                    llm = next((m for m in catalog['llm'] if m['id'] == config['summary_model']), {})
+                    if not (catalog['whisper_runtime'] and catalog['ollama'] and asr.get('tested') and asr.get('installed') and llm.get('tested') and llm.get('installed')):
+                        raise ValueError('Lokale Sprachmodelle zuerst installieren, testen und auswählen.')
+                    folder = self.store.folder(session['local_job_id']) if session.get('local_job_id') else None
+                    self.job_context = {'owner':self.room.owner(folder) if folder else None,
+                                        'route':{'transcription':'local','summary':'local','binding':None}}
+                    try: return {'id':self.controller.process(sid)}
+                    finally: self.job_context = None
                 if parts[3]=='process':
                     self.require('process')
                     prompt=next((p for p in self.prompts() if p['id']==body.get('prompt')),None)
                     if not prompt:raise ValueError('Prompt fehlt.')
-                    return {'id':self.controller.process(sid,prompt['prompt_text'],reuse_transcript=not body.get('transcribe_again',False))}
+                    old = session.get('local_job_id')
+                    folder = self.store.folder(old) if old else None
+                    self.job_context = {'owner': self.room.owner(folder) if folder else None,
+                                        'route': json.loads((folder/'cdb-request.json').read_text()) if folder and (folder/'cdb-request.json').exists() else self.cdb.snapshot()}
+                    try: return {'id':self.controller.process(sid,prompt['prompt_text'],reuse_transcript=not body.get('transcribe_again',False))}
+                    finally: self.job_context = None
                 if parts[3]=='retry':
                     self.require('process')
                     if session.get('local_job_id'):self.engine.retry(session['local_job_id']);return {'ok':True}
@@ -855,8 +1000,27 @@ class StudioApp:
 
 class StudioHandler(Handler):
     def get(self):
+        # Serve a consistent account snapshot, including streamed files. A
+        # concurrent logout cannot approve a file under the next room account.
+        path = urlsplit(self.path).path
+        if path in ('/api/state', '/api/search') or path.startswith(('/api/sessions/', '/api/meetings/')):
+            with self.server.app.control_lock:
+                return self.get_locked()
+        return self.get_locked()
+
+    def get_locked(self):
         if not self.authorized():return
         path=urlsplit(self.path).path
+        app = self.server.app
+        if path.startswith('/api/meetings/'):
+            ident = path.strip('/').split('/')[2]
+            if not app.room.can_read(app.store.folder(ident)):
+                raise KeyError('Meeting fehlt oder gehört zu einem anderen Konto.')
+        if app.room.enabled:
+            if path in ('/api/live/activity', '/api/live/setup', '/api/cdb/areas'):
+                app.room.require_account()
+            if path in ('/api/microphone/audio', '/api/bluetooth', '/api/diagnostics'):
+                app.room.require_operator()
         if path=='/api/management/health':
             app=self.server.app
             if not app.management.authorized(self.headers.get('Authorization','')):
@@ -884,7 +1048,12 @@ class StudioHandler(Handler):
                 self.respond({'error':'Nur lokal verfügbar.'},403);return
             from services.lcd_display import snapshot
             app=self.server.app
-            self.respond(snapshot(app.schedules, app.clock_ready));return
+            result = snapshot(app.schedules, app.clock_ready)
+            if app.room.enabled:
+                # Companion timer display is public in a shared room. Never send
+                # account-specific labels to an unattended peripheral.
+                result = result | {'total': 0, 'timers': []}
+            self.respond(result);return
         if path=='/api/state':self.respond(self.server.app.state());return
         if path=='/api/bluetooth':
             self.server.app.bluetooth.start();self.respond(self.server.app.bluetooth.public());return
@@ -897,7 +1066,7 @@ class StudioHandler(Handler):
         if path=='/api/search':
             from urllib.parse import parse_qs
             query=parse_qs(urlsplit(self.path).query).get('q',[''])[0][:1000]
-            self.respond([{k:r[k] for k in ('id','title','recorded_at')} for r in self.server.app.repo.get_all(query)]);return
+            self.respond([{k:r[k] for k in ('id','title','recorded_at')} for r in app.repo.get_all(query) if app.visible_session(r)]);return
         if path.startswith('/api/sessions/'):
             parts=path.strip('/').split('/')
             if len(parts) not in (3,4):raise KeyError('Unbekannte Datei.')
@@ -995,7 +1164,7 @@ class StudioHandler(Handler):
             if not isinstance(body,dict):raise ValueError('JSON-Objekt erwartet.')
             path = urlsplit(self.path).path
             app = self.server.app
-            if path == '/api/record/start':
+            if path in ('/api/record/start', '/api/room/start'):
                 # Linux delivers PDEATHSIG when the spawning thread exits. An
                 # HTTP handler can finish while the microphone is still needed.
                 result = app.recording_owner.submit(app.action, path, body).result()

@@ -34,6 +34,10 @@ UUID = re.compile(r'^[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$')
 class CdbFailure(ValueError):
     pass
 
+class CdbWaiting(CdbFailure):
+    """Recording is safe; authentication or connectivity needs attention."""
+    pass
+
 def structure_stream(response):
     """Read the CDB keepalive stream; only a terminal result is usable."""
     event='';data=[];total=0;deadline=time.monotonic()+180
@@ -75,9 +79,11 @@ class Transport:
                 try:code=json.loads(e.read(65536)).get('error','')
                 except (ValueError,OSError):code=''
                 raise CdbFailure(code if code in ('authorization_pending','slow_down','expired_token','authorization_declined') else 'Microsoft-Anmeldung abgelehnt. Firmenfreigabe und App-Konfiguration prüfen.') from None
-            raise CdbFailure({401:'Bitte erneut bei Microsoft anmelden.',403:'Keine Berechtigung für diese CDB-Aktion.',409:'Übertragung unklar oder bereits vorhanden. Nicht blind erneut senden.',429:'CDB ausgelastet. Später erneut versuchen.'}.get(e.code,f'CDB-Anfrage fehlgeschlagen (HTTP {e.code}).')) from None
+            error = CdbWaiting if e.code in (401,429,502,503,504) else CdbFailure
+            raise error({401:'Brain-Anmeldung abgelaufen. Bitte erneut anmelden.',403:'Keine Berechtigung für diese CDB-Aktion.',409:'Übertragung unklar oder bereits vorhanden. Nicht blind erneut senden.',429:'Brain ausgelastet. Später erneut versuchen.'}.get(e.code,f'Brain nicht verfügbar (HTTP {e.code}).')) from None
         except CdbFailure:raise
-        except (OSError,ValueError):raise CdbFailure('CDB nicht erreichbar oder Antwort ungültig.') from None
+        except OSError:raise CdbWaiting('Brain nicht erreichbar. Netzwerk prüfen und erneut versuchen.') from None
+        except ValueError:raise CdbFailure('Brain-Antwort ungültig.') from None
 
     def upload(self, server, token, path, client_id, filename, stopping):
         boundary='cdb'+secrets.token_hex(16)
@@ -167,15 +173,15 @@ class CdbService:
         identity = session.get('identity') or {}
         if (session.get('server') != config['server'] or session.get('client_id') != config['client_id']
                 or not identity.get('user_id') or not UUID.fullmatch(identity.get('client_id') or '')):
-            raise CdbFailure('Bitte zuerst mit Microsoft anmelden.')
+            raise CdbWaiting('Bitte zuerst mit Microsoft anmelden.')
         return session
 
     def session(self,binding=None):
         with self.lock:
             c=self.config();s=self.stored_session(c)
-            if binding and binding!={'server':s['server'],**{k:s['identity'][k] for k in ('user_id','client_id')}}:raise CdbFailure('Auftrag gehört zu einem anderen Firmenkonto. Passendes Konto anmelden.')
+            if binding and binding!={'server':s['server'],**{k:s['identity'][k] for k in ('user_id','client_id')}}:raise CdbWaiting('Auftrag gehört zu einem anderen Firmenkonto. Passendes Konto anmelden.')
             if s['expires']<time.time()+60:
-                if not s.get('refresh'):raise CdbFailure('Bitte erneut mit Microsoft anmelden.')
+                if not s.get('refresh'):raise CdbWaiting('Brain-Anmeldung abgelaufen. Bitte erneut anmelden.')
                 r=self.transport.request(AUTH+'token',{'client_id':s['client_id'],'scope':SCOPE,'grant_type':'refresh_token','refresh_token':s['refresh']},form=True)
                 s=self.save_token(r,c,s)
             return s
@@ -220,8 +226,9 @@ class CdbService:
         # snapshot without waiting on the token-refresh network lock. This is
         # presentation only; authenticated actions still use session(binding).
         s=self.read('session.json',{});identity=s.get('identity');login=dict(self.login)
+        binding={'server':s.get('server'),**{k:(identity or {}).get(k) for k in ('user_id','client_id')}}
         with self.db() as db:
-            jobs=[{'id':r[0],'title':json.loads(r[1])['title'],'state':r[2],'error':r[3]} for r in db.execute('SELECT id,payload,state,error FROM publications ORDER BY rowid DESC LIMIT 30')]
+            jobs=[{'id':r[0],'title':json.loads(r[1])['title'],'state':r[2],'error':r[3]} for r in db.execute('SELECT id,payload,state,error FROM publications ORDER BY rowid DESC') if identity and json.loads(r[1]).get('binding') == binding][:30]
         destination=self.read('destination.json',{})
         binding={'server':s.get('server'),**{k:(identity or {}).get(k) for k in ('user_id','client_id')}}
         if destination.get('binding')!=binding:destination={}
@@ -262,8 +269,13 @@ class CdbService:
             ident=uuid.uuid4().hex;db.execute('INSERT INTO publications VALUES(?,?,?,?,?,?)',(ident,fingerprint,json.dumps(payload),'queued','', ''))
         return {'id':ident}
     def publication_once(self):
+        try:
+            session = self.stored_session(self.config())
+            binding = {'server':session['server'], **{k:session['identity'][k] for k in ('user_id','client_id')}}
+        except CdbFailure: return
         with self.db() as db:
-            db.execute('BEGIN IMMEDIATE');r=db.execute("SELECT id,payload FROM publications WHERE state IN ('queued','accepted') ORDER BY rowid LIMIT 1").fetchone()
+            db.execute('BEGIN IMMEDIATE')
+            r = next((row for row in db.execute("SELECT id,payload FROM publications WHERE state IN ('queued','accepted') ORDER BY rowid") if json.loads(row[1]).get('binding') == binding), None)
             if not r:return
             ident,payload=r[0],json.loads(r[1]);old=db.execute('SELECT state,receipt FROM publications WHERE id=?',(ident,)).fetchone()
         try:
@@ -294,12 +306,31 @@ class CdbService:
     def close(self):
         self.stopping.set();self.generation+=1
 
+def waiting_recording(method):
+    """Release the shared worker when Brain cannot be reached; explicit retry only."""
+    import functools
+    @functools.wraps(method)
+    def run(self, *args, **kwargs):
+        folder = args[0] if method.__name__ == 'transcribe' else None
+        if folder is None and self.store:
+            jobs = [j for j in self.store.list() if j['state'] == 'summarizing']
+            if len(jobs) == 1: folder = self.store.folder(jobs[0]['id'])
+        marker = folder/'brain-wait.json' if isinstance(folder, Path) else None
+        if marker: marker.unlink(missing_ok=True)
+        try: return method(self, *args, **kwargs)
+        except CdbWaiting as error:
+            if marker: atomic_write(marker, json.dumps({'reason':str(error)}))
+            raise CdbWaiting('Aufnahme gespeichert · wartet auf Brain. '+str(error)) from None
+    return run
+
+
 class CdbBackend:
     def __init__(self,service):
         self.service=service;self.stopping=service.stopping;self.local=QueuedWhisper(self.stopping);self.store=None
     def route(self,folder,c):
         p=folder/'cdb-request.json'
         return json.loads(p.read_text()) if p.exists() and not c.get('model_test') else {'transcription':'local','summary':'local'}
+    @waiting_recording
     def transcribe(self,folder,c):
         self.service.progress=''
         route=self.route(folder,c)
@@ -355,6 +386,7 @@ class CdbBackend:
                 raise CdbFailure('CDB-Transkription fehlgeschlagen. Erneut versuchen startet einen neuen Serverauftrag.')
             if self.stopping.wait(5):raise Interrupted()
         raise Interrupted()
+    @waiting_recording
     def generate(self,text,c,merge=False):
         from settings import MEETING_PROMPT
         if not c.get("prompt"):c["prompt"] = MEETING_PROMPT

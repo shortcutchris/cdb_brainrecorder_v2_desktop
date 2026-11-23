@@ -1,0 +1,21 @@
+{
+  "version": "0.5.90",
+  "date": "2026-11-23",
+  "python_tests": 194,
+  "javascript_tests": 140,
+  "browser_viewports": [
+    [
+      1280,
+      720
+    ],
+    [
+      1024,
+      600
+    ]
+  ],
+  "synthetic_capture_start_stop_logout": true,
+  "pin_keyboard_checked": true,
+  "real_nfc_verified": false,
+  "real_room_signin_verified": false,
+  "sd_image_built": false
+}

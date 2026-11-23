@@ -21,9 +21,9 @@ function bindRule(id,key,extra=false){const el=$(id);el.disabled=!allowed(key)||
 async function leaveDraft(){try{await flush()}catch(_){notice('Entwurf bleibt auf diesem Gerät erhalten. Du kannst weiter navigieren und ihn lokal sichern.')}}
 function run(fn){return async(...args)=>{try{await fn(...args)}catch(error){notice(error.message)}}}
 function draftKey(id,key){return 'recorder:'+namespace+':'+id+':'+key}
-function storeDraft(model,key){try{localStorage.setItem(draftKey(model.id,key),JSON.stringify({value:model.values[key],base:model.base[key]}))}catch(_){notice('Lokaler Entwurfsspeicher nicht verfügbar. Bitte Änderungen zeitnah speichern.')}}
-function clearDraft(id,key){try{localStorage.removeItem(draftKey(id,key))}catch(_){} }
-function makeModel(row){const model={id:row.id,row,base:{},values:{},textPositions:{},dirty:new Set(),saving:null,failed:false,savedAt:null};for(const key of fields){model.base[key]=row[key]||'';model.values[key]=row[key]||'';try{const draft=JSON.parse(localStorage.getItem(draftKey(row.id,key))||'null');if(draft&&typeof draft.value==='string'&&draft.value!==model.values[key]){model.values[key]=draft.value;model.base[key]=draft.base;model.dirty.add(key);notice('Ein ungespeicherter Entwurf wurde wiederhergestellt. Er bleibt bis zum erfolgreichen Speichern erhalten.')}}catch(_){}}models.set(row.id,model);return model}
+function storeDraft(model,key){try{(typeof state!=='undefined'&&state?.room?.enabled?sessionStorage:localStorage).setItem(draftKey(model.id,key),JSON.stringify({value:model.values[key],base:model.base[key]}))}catch(_){notice('Lokaler Entwurfsspeicher nicht verfügbar. Bitte Änderungen zeitnah speichern.')}}
+function clearDraft(id,key){try{(typeof state!=='undefined'&&state?.room?.enabled?sessionStorage:localStorage).removeItem(draftKey(id,key))}catch(_){} }
+function makeModel(row){const model={id:row.id,row,base:{},values:{},textPositions:{},dirty:new Set(),saving:null,failed:false,savedAt:null};for(const key of fields){model.base[key]=row[key]||'';model.values[key]=row[key]||'';try{const draft=JSON.parse((typeof state!=='undefined'&&state?.room?.enabled?sessionStorage:localStorage).getItem(draftKey(row.id,key))||'null');if(draft&&typeof draft.value==='string'&&draft.value!==model.values[key]){model.values[key]=draft.value;model.base[key]=draft.base;model.dirty.add(key);notice('Ein ungespeicherter Entwurf wurde wiederhergestellt. Er bleibt bis zum erfolgreichen Speichern erhalten.')}}catch(_){}}models.set(row.id,model);return model}
 async function flush(model=models.get(selected)){
  if(!model)return true;
  if(!online&&model.dirty.size)throw new Error('Offline · Entwurf bleibt lokal erhalten.');
@@ -210,6 +210,12 @@ function renderQueue(){
    actions=document.createElement('div');actions.className='queue-row-actions';
    const remove=document.createElement('button');remove.className='queue-delete';remove.title='Meeting löschen';remove.setAttribute('aria-label','„'+job.session.title+'“ löschen');remove.append(icon('trash'));
    remove.disabled=!online||Boolean(state.recording.id)||Boolean(state.activity?.busy);remove.onclick=run(()=>deleteMeeting(job.session.id,job.session.title));actions.append(action,remove);
+   if(job.waiting_for_brain){
+    action.textContent='Erneut prüfen';
+    const local=document.createElement('button');local.textContent='Lokal verarbeiten';local.disabled=!allowed('process');
+    local.onclick=run(async()=>{if(await confirmAction({title:'Auf dem Pi verarbeiten?',message:'Diese Aufnahme wird mit den eingerichteten lokalen Modellen transkribiert und zusammengefasst. Die ursprüngliche Aufnahme bleibt erhalten.',accept:'Lokal verarbeiten'})){await api('/api/sessions/'+job.session.id+'/local-process',{confirm:true});await poll()}});
+    actions.append(local);
+   }
   }
   row.append(title,size,status,progress,actions);queueNodes.set(job.id,{size,label,bar,detail});$('queue-panel').append(row);
  }
@@ -218,7 +224,7 @@ function renderQueue(){
 }
 async function poll(){
  if(pollRunning)return;pollRunning=true;
- try{const s=await api('/api/state');state=s;online=true;lastStateAt=Date.now();csrf=s.csrf;namespace=s.namespace;renderState();const newRecordingId=pendingRecordingId||s.recording.id;const recordingRow=newRecordingId&&s.sessions.find(r=>r.local_job_id===newRecordingId);if(recordingRow&&observedRecordingId!==newRecordingId){observedRecordingId=newRecordingId;pendingRecordingId=null;field='notes';for(const d of document.querySelectorAll('dialog[open]'))d.close();workspaceView();await selectMeeting(recordingRow.id,null)}else if(s.recording.id&&(document.body.dataset.workspace!=='recorder'||field!=='notes')){field='notes';for(const d of document.querySelectorAll('dialog[open]'))d.close();await selectMeeting(recordingRow.id,null)}else if(selected!==null){const id=selected,row=await api('/api/sessions/'+id);if(id===selected){const model=models.get(id);mergeRow(model,row);renderSelected()}}}
+ try{const s=await api('/api/state');if(window.resetRoomView?.(s))return;state=s;online=true;lastStateAt=Date.now();csrf=s.csrf;namespace=s.namespace;renderState();const newRecordingId=pendingRecordingId||s.recording.id;const recordingRow=newRecordingId&&s.sessions.find(r=>r.local_job_id===newRecordingId);if(recordingRow&&observedRecordingId!==newRecordingId){observedRecordingId=newRecordingId;pendingRecordingId=null;field='notes';for(const d of document.querySelectorAll('dialog[open]'))d.close();workspaceView();await selectMeeting(recordingRow.id,null)}else if(s.recording.id&&(document.body.dataset.workspace!=='recorder'||field!=='notes')){field='notes';for(const d of document.querySelectorAll('dialog[open]'))d.close();await selectMeeting(recordingRow.id,null)}else if(selected!==null){const id=selected,row=await api('/api/sessions/'+id);if(id===selected){const model=models.get(id);mergeRow(model,row);renderSelected()}}}
  catch(error){online=false;queueSignature='';if(state){renderState();renderSelected()}$('phase').textContent='Verbindung unterbrochen · Entwürfe bleiben lokal';$('record').disabled=true;for(const id of ['delete','retranscribe','process','finish-setup','probe-start','asr-install','llm-install','model-test','binary-save'])$(id).disabled=true;for(const b of document.querySelectorAll('.dialog-stop'))b.disabled=true;if(!state)notice(error.message)}finally{pollRunning=false}
 }
 let queueReceiptTimer;

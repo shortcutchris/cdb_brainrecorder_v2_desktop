@@ -1,71 +1,68 @@
 # Raummodus: Anmeldung, NFC und Offline-Bedienung
 
-Stand: 23.11.2026, untersucht an Recorder Studio 0.5.89. **Bedienkonzept, noch nicht implementiert oder auf den Pi ausgerollt.**
+Stand: 23.11.2026 · Recorder Studio 0.5.90. Implementiert; Installationsnachweis folgt separat in diesem Ordner. Gastaufnahmen sind im Raummodus ausgeschaltet. Der persönliche Betriebsmodus bleibt der Werksstandard.
 
-Verbindliche Nutzerentscheidung: Im gemeinsam genutzten Raummodus ist eine Anmeldung erforderlich. Gastaufnahmen bleiben zunächst ausgeschaltet. Ein Talk-/Meeting-Aufsteller wählt eine Aktion; seine Kennung ist kein Nachweis einer Benutzeridentität.
+## Einmalig einrichten
 
-## Aktueller Stand
+1. Mikrofon, Lautsprecher, Verarbeitungsmodelle und Netzwerk wie bisher einrichten.
+2. Einstellungen → Gerät & Verwaltung → **Raummodus & Betreiber** öffnen.
+3. „Gemeinsam genutztes Raumgerät“ aktivieren, eine Betreiber-PIN mit 6–12 Ziffern setzen und die Abmeldefrist wählen (Standard 5 Minuten, 2–60 Minuten möglich).
+4. **Speichern & abmelden** tippen. Die bisherige Brain-Sitzung wird beendet. Aufnahmen werden nicht gelöscht.
+5. Einstellungen sind danach mit der Betreiber-PIN für fünf Minuten entsperrbar. Eine PIN berechtigt nicht zum Lesen fremder Meetings. Bei Abmeldung verfällt auch die Betreiberfreigabe.
 
-- `StudioApp.nfc_start()` meldet bei Talk ohne Konto „Für Talk zuerst beim Brain anmelden.“ Es öffnet keinen geführten Anmeldeablauf.
-- NFC-Meeting verwendet den bestehenden Aufnahmestart. Bei gewählter Brain-Verarbeitung ist ein gespeichertes Konto nötig. Bei rein lokaler Verarbeitung ist eine Anmeldung bisher keine grundsätzliche Voraussetzung.
-- Nach einem gesperrten NFC-Start muss der Aufsteller entfernt und erneut aufgelegt werden. Ein liegen gebliebener Aufsteller löst keinen späteren Start aus.
-- Der Kontodialog bietet bereits QR-Code, Microsoft-Eingabecode und Abmelden. Kontowechsel während Aufnahme/Pause oder Live-Gespräch sind gesperrt.
-- Die lokale Bibliothek, Suche und Meetingdateien sind gerätebezogen. Cloud-Verarbeitungsaufträge sind bereits an Konto und Firmenumgebung gebunden; diese Bindung ersetzt keine Zugriffstrennung der lokalen Bibliothek.
-- 13 vorhandene NFC- und Anmeldesperren-Tests wurden bei der Untersuchung erfolgreich ausgeführt. Dies ist keine neue Abnahme eines physischen NFC-Lesers.
+Die PIN wird lokal mit zufälligem Salt und scrypt gespeichert. Nach fünf falschen Versuchen folgt eine Minute Wartezeit. Eine vergessene PIN erfordert betreute Wiederherstellung am Gerät; es gibt keinen allgemeinen Standardcode. Dies schützt die Bedienoberfläche und API, nicht gegen einen Administrator mit Zugriff auf Betriebssystem und Datenträger.
 
-## Vorgeschlagener Ablauf am Gerät
+## Am Gerät arbeiten
 
-### Niemand angemeldet
+- **Meeting aufzeichnen** oder **Mit dem Brain sprechen** antippen. Ein bekannter NFC-Aufsteller führt zum selben Ablauf.
+- Ohne Anmeldung öffnet sich der bestehende Microsoft-Dialog mit QR-Code und Eingabecode. Dafür ist Internet nötig. Ein Aufsteller wählt ausschließlich den Modus und ist kein Ausweis.
+- Nach Anmeldung zeigt die Vorbereitung Name und Brain-Umgebung. **Aufnahme starten** beziehungsweise **Gespräch starten** schaltet das Mikrofon ausdrücklich ein. Bei Talk zuerst Gesprächswissen auswählen, falls noch keines gespeichert ist.
+- **Anderes Konto** meldet ab. Danach die gewünschte Aktion mit dem anderen Konto erneut wählen.
+- Bei NFC den Aufsteller während der Anmeldung liegen lassen. Abnehmen, Wechsel, veraltete Leserantwort, Abbruch oder fünf Minuten Wartezeit verwerfen den Startwunsch. Eine spätere Anmeldung startet nie automatisch.
+- Nach einem bestätigten NFC-Start beendet das Abnehmen wie bisher nur die zugehörige Aktivität (1,5 Sekunden bestätigte Abwesenheit). Ein USB-/Leserausfall beendet keine laufende Aufnahme. Im Zweifel am Display stoppen.
+- **Fertig & abmelden** ist neben dem Konto erreichbar, auch während Aufnahme/Gespräch. Der Dialog nennt die laufende Aktivität. Erst erfolgreich stoppen/sichern beziehungsweise Audio freigeben, dann abmelden. Bei Fehlschlag bleibt das Konto angemeldet.
+- Nach Inaktivität gibt es 30 Sekunden Vorwarnung und **Angemeldet bleiben**. Aufnahme, Pause und aktive Gespräche verhindern die automatische Abmeldung. Statusabfragen des Browsers verlängern die Sitzung nicht.
 
-Die Startseite zeigt „Mit Brain anmelden“, Talk und Meeting als Einstiege sowie den Verbindungsstatus. Persönliche Aufnahmen, Titel, Wissensbereiche und Gesprächsverläufe sind nicht sichtbar. Das Betätigen eines Einstiegs öffnet die dazu passende Anmeldung; es startet noch kein Mikrofon.
+Ein Neustart des Raumgeräts stellt keine alte persönliche Anmeldung wieder her. Das Anmeldekonto muss erneut bestätigt werden.
 
-### Talk oder Meeting auflegen
+## Wenn die Verbindung fehlt
 
-1. Bekannten Aufsteller erkennen und groß „Talk erkannt“ bzw. „Meeting erkannt“ anzeigen.
-2. Ohne Konto den vorhandenen QR-Anmeldedialog öffnen: „Melde dich an, um dein Gespräch/deine Aufnahme zu starten. Lass den Aufsteller liegen.“
-3. Nach erfolgreicher Anmeldung Name und Firmenumgebung zeigen. Bei Talk die gültige Wissensauswahl des Kontos laden; wenn keine Auswahl vorliegt, direkt zur Auswahl führen.
-4. Mit „Gespräch starten“ bzw. „Aufnahme starten“ ausdrücklich fortsetzen. Während einer möglicherweise längeren Anmeldung beginnt keine Aufnahme automatisch.
-5. Die gestartete Aktivität übernimmt der bestehende Recorder-/Live-Dienst. Aufsteller abnehmen beendet wie bisher nach bestätigter Abwesenheit nur die von diesem Aufsteller gestartete Aktivität.
-
-Ist schon jemand angemeldet, zeigt der Einstieg vor dem Start „Weiter als [Name]“ und „Anderes Konto“. So ist erkennbar, unter welchem Konto die neue Sitzung läuft. Ein NFC-Aufsteller kann kein anderes Benutzerkonto übernehmen.
-
-Die Startabsicht besitzt eine eindeutige Kennung und einen begrenzten Gültigkeitszeitraum. Abbrechen, Abnehmen, Kontowechsel, Geräte-Neustart und ein veralteter Leserzustand verwerfen sie. Eine verspätete Anmeldung oder wiederkehrende Internetverbindung startet keine Aufnahme. Ein dadurch angelegter Anmeldeversuch wird beim Abbrechen invalidiert; ein unabhängig begonnener Kontodialog darf nicht versehentlich übernommen werden.
-
-### Sitzung beenden und Gerät weitergeben
-
-- „Fertig & abmelden“ ist vom normalen Betrieb aus direkt erreichbar.
-- Läuft noch eine Aufnahme oder ein Gespräch, erklärt die Bestätigung konkret „Aufnahme stoppen und abmelden“ bzw. „Gespräch beenden und abmelden“. Erst nach erfolgreichem Beenden und Sichern wird abgemeldet.
-- Nur den Aufsteller abzunehmen meldet nicht sofort ab: Ergebnisse und nächste Schritte bleiben für die aktuelle Person erreichbar.
-- Nach dem Abmelden wird wieder die neutrale Startseite gezeigt. Verläufe, Entwürfe, Wissensauswahl und gekoppelte persönliche Anzeigen werden aus der sichtbaren Sitzung entfernt; Aufnahmen werden nicht gelöscht.
-- Vorschlag: konfigurierbare automatische Abmeldung nach Inaktivität mit sichtbarer Vorwarnung. Keine automatische Abmeldung während Aufnahme, Pause oder aktivem Gespräch. Die genaue Frist ist noch festzulegen.
-
-## Fehlendes Internet
-
-| Zustand | Verhalten im Raummodus |
+| Situation | Verhalten |
 | --- | --- |
-| Kein Konto und keine Verbindung | Anmeldung ist nicht möglich. WLAN-Einstieg und „Erneut prüfen“ anbieten; keine Gastaufnahme und kein Talk. |
-| Bereits bestehende bestätigte Sitzung, Internet fällt aus | Konto bleibt zugeordnet. Meeting kann bei erfüllten lokalen Aufnahmevoraussetzungen weiterlaufen bzw. starten. Keine neue Identität aus einer NFC-Kennung ableiten. |
-| Aufnahme läuft, Internet fällt aus | Lokal weiter aufnehmen. Deutlich „Aufnahme läuft · lokal gespeichert“ anzeigen; keinen Fehler über die laufende Aufnahme suggerieren. |
-| Meeting beendet, Brain nicht erreichbar | „Aufnahme gespeichert · wartet auf Brain“. Wahlweise explizit lokal verarbeiten, wenn beide benötigten lokalen Modelle betriebsbereit sind. Keine stille Änderung der gespeicherten Verarbeitungsvorgabe. |
-| Talk ohne erreichbaren Brain-Dienst | Erklären, dass das Gespräch eine Verbindung benötigt; WLAN/erneut prüfen anbieten. Offline-Transkription bedeutet keine Offline-Verfügbarkeit des Brain-Gesprächs. |
-| Während der Wartezeit abgemeldet | Aufnahme und Auftrag behalten ihre ursprüngliche Kontozuordnung. Lokale Verarbeitung kann unabhängig laufen. Weitere authentifizierte Cloud-Schritte warten auf dasselbe Konto. Ein bereits angenommener Serverauftrag kann dort weiterlaufen; neue lokale API-Zugriffe benötigen wieder eine passende Anmeldung. |
+| Noch niemand angemeldet | Kein Aufnahmestart. Internet wiederherstellen, ggf. Betreiber → WLAN & Einrichtung, dann erneut anmelden. |
+| Bestätigte Sitzung verliert Internet | Meeting kann lokal aufgenommen werden; laufende Aufnahme bleibt bestehen. |
+| Aufnahme gespeichert, Brain nicht erreichbar oder Anmeldung abgelaufen | Warteschlange: „Aufnahme gespeichert · wartet auf Brain“ mit konkretem Grund. **Erneut prüfen** startet den bestehenden Wiederanlauf. |
+| Lokale Modelle verfügbar | **Lokal verarbeiten** verlangt eine eigene Bestätigung. Nur installierte, getestete und ausgewählte lokale Modelle werden akzeptiert. Die neue Verarbeitung wird der ursprünglichen Aufnahme und ihrem Konto zugeordnet. |
+| Abmeldung während Hintergrundverarbeitung | Lokale Verarbeitung darf weiterlaufen. Cloud-Schritte prüfen stets das gespeicherte ursprüngliche Konto; keine Übernahme durch den nächsten Benutzer. |
+| Talk offline | Keine lokale Talk-Ersatzfunktion. Verbindung/Anmeldung prüfen und Gespräch erneut ausdrücklich starten. |
 
-„Sitzung abgelaufen“, „kein Netzwerk“, „Brain nicht erreichbar“, „Modell fehlt“ und „Mikrofon fehlt“ benötigen unterschiedliche, konkrete nächste Schritte. Eine neue Anmeldung benötigt Internet; das bloße Wiederherstellen eines alten Benutzernamens darf keine neue Raum-Sitzung eröffnen.
+Es gibt keine automatische Umstellung der KI-Anbieter und keine automatische erneute Audioübertragung. Unklar quittierte Uploads behalten die vorhandene Abgleichlogik; ein bereits angenommener Serverauftrag kann dort weiterlaufen. Die lokale Warteschlange verwendet technisch weiterhin den wiederholbaren Zustand `failed` für unterbrochene Cloud-Schritte; `brain-wait.json` unterscheidet das Warten vom eigentlichen Verarbeitungsfehler.
 
-## Voraussetzung: Trennung der Daten nach Konto
+## Kontotrennung und Altbestand
 
-Vor Freigabe des Raummodus müssen lokale Aufnahmen, Texte, Aufgaben, Exporte, Audioabrufe, Suche, Warteschlange, Übertragungen und Browserentwürfe dem jeweiligen Konto/Firmenkontext zugeordnet und auf dem Server geprüft werden. Nur Zeilen in der Oberfläche auszublenden reicht dafür nicht aus.
+Neue Raumjobs erhalten vor dem Start eine private `room-owner.json` mit Server, Benutzer und Firmenkennung. Liste, Suche, Details, Änderungen, Löschen, Wiederholen, Neuverarbeitung, Audio, Peaks und Exporte prüfen dieselbe Zuordnung. Dies gilt auch für die geerbten `/api/meetings/*`-Routen. Eigentümermarkierungen bleiben auch nach dem Ausschalten des Raummodus wirksam.
 
-Bestehende Aufnahmen ohne eindeutige Zuordnung werden erhalten und nicht automatisch dem nächsten angemeldeten Benutzer zugeschlagen. Eine administrative Zuordnung bzw. ein ausdrücklich freigegebener Altbestand ist separat zu entwerfen. Abmelden muss persönliche Bildschirmkopplungen und Sitzungsdaten berücksichtigen. Geräteverwaltung und Netzwerkeinrichtung benötigen einen definierten Betreiberzugang; eine Administrations-PIN ersetzt keine Firmenanmeldung und berechtigt nicht automatisch zu persönlichen Meetinginhalten.
+Bestehende Aufnahmen ohne solche Zuordnung bleiben unverändert. Im Raummodus sind sie verborgen; sie werden niemals dem nächsten angemeldeten Benutzer zugeschlagen. Eine nachträgliche administrative Eigentümerzuweisung ist nicht Teil dieses Releases. Der bisherige persönliche Modus zeigt weiterhin den persönlichen Altbestand.
 
-Der neue Modus wird bewusst als Geräteoption eingeführt. Das bestehende persönliche Gerät wird durch ein Update nicht ungefragt auf Raumbetrieb umgestellt.
+Brain-Übertragungen werden nach ihrer vorhandenen Kontobindung gefiltert. Wartende Übertragungen eines abgemeldeten Kontos blockieren nicht die Übertragungen des aktuell angemeldeten Kontos. Timer erhalten ebenfalls eine Eigentümerbindung. Der öffentlich sichtbare LCD-Timer-Begleiter bekommt im Raummodus zunächst keine persönlichen Timer. Eigene Promptvorlagen liegen dort getrennt pro Konto. Browserentwürfe des Raummodus bleiben nur im Sitzungsspeicher und werden bei Abmeldung entfernt. Gespeicherte Aufnahmen bleiben erhalten.
 
-## Reihenfolge der Umsetzung und Abnahme
+Abmelden widerruft persönliche Bildschirmkopplungen und lokale Fernsteuerungsfreigaben. Der sichtbare Gesprächsverlauf wird geleert; bei einer späteren Anmeldung desselben Kontos kann dessen gespeicherter Verlauf wiederhergestellt werden. Allgemeine Geräteeinstellungen und Modelle bleiben bestehen.
 
-1. Kontozuordnung, Zugriffsschutz und Umgang mit vorhandenen Aufnahmen festlegen und implementieren; bei bestehenden Geräten und leerem Erststart prüfen.
-2. Gemeinsamen Ablauf für Touch und NFC bauen: Anmeldung, gewünschte Aktion fortsetzen, Abbruch und eindeutige Statusanzeige.
-3. Verständliche Offline-Zustände, gespeicherte Auftragsbindung und geführten Wiedereinstieg nach Anmeldung ergänzen.
-4. Sitzung beenden, Betreiberzugang und automatische Abmeldung ergänzen; 1280 × 720 und 1024 × 600 mit Touch prüfen.
-5. Mit echtem NFC-Leser vor Ort abnehmen: Talk/Meeting, unbekannter Tag, langsame/abgebrochene Anmeldung, Tagwechsel, Abnehmen vor Loginabschluss, USB-Ausfall, Netzwerkverlust, Kontowechsel, ausstehende Verarbeitung und Neustart mit aufgelegtem Tag.
+## Installation, Datenformat und Rückkehr
 
-Die Umsetzung benötigt ein eigenes Release einschließlich Datenmigration und Rollback-Bewertung. App-Update und neues SD-Image müssen dieselben Regeln und Werkseinstellungen enthalten. Dieses Konzept ändert keine laufende Pi-Konfiguration und erzeugt keine Druck- oder Image-Dateien.
+- Keine neuen Laufzeitpakete und keine Änderung der bestehenden SQLite-Tabellenschemata.
+- Ergänzende private Dateien: `room-mode.json`, `meetings/<id>/room-owner.json`, `meetings/<id>/brain-wait.json`, `room-prompts/<Kontoschlüssel>.ini`. Timerbindung liegt im bereits vorhandenen JSON-Payload.
+- `services/room_mode.py`, `studio/room.js`, `studio/room.css` und die angepassten vorhandenen Dateien sind durch die bestehenden App-/Image-Freigabelisten abgedeckt. Runtime-Dateien, PIN, Konten und Meetings gelangen nicht ins Release oder Factory-Image.
+- Beim Update bleibt der Raummodus ausgeschaltet, sofern er nicht schon ausdrücklich eingerichtet wurde. Das aktuelle Pi-Profil und der gesamte Altbestand werden erhalten.
+- Code-Rollback ist während der Installation zulässig, solange noch keine Raumdaten erzeugt wurden. **Nach Nutzung des Raummodus nicht auf eine Version vor 0.5.90 zurückgehen:** Ältere Software kennt die Eigentümermarkierungen nicht. Eine Wiederherstellung muss eine Version mit denselben Zugriffsprüfungen verwenden oder bei gesperrtem Zugriff administrativ erfolgen. Das Löschen der Modus-Konfiguration ersetzt diese Prüfung nicht.
+- Ein exportiertes Image-Baupaket ist kein gebautes oder auf Hardware gestartetes SD-Image.
+
+## Abnahme
+
+Automatisiert geprüft: frischer persönlicher Start, bewusstes Einschalten mit PIN, Erhalt des Altbestands, Konten-/Firmentrennung aller Dateipfade und Mutationen, Neustart, veraltete/abgenommene NFC-Absicht, Startbestätigung, fehlgeschlagener Stopp, Leerlauffrist inklusive Pause/Live, PIN-Sperre, Timer-/Publikationsfilter und Brain-Wartezustand. Insgesamt bestanden 194 Python-Tests und 140 JavaScript-Tests einschließlich der bestehenden Aufnahme-, NFC-, Geräte-, Cloud- und Fernsteuerungsprüfungen.
+
+Browserprüfung mit synthetischem Konto und synthetischer Audioquelle: 1280×720 und 1024×600; Startbestätigung, Aufnahme, Stoppen & Abmelden, neutraler Bildschirm und Betreiber-PIN mit Bildschirmtastatur. Die Microsoft-Anmeldung wird dabei nicht als echte Kontoabnahme ausgegeben.
+
+Noch vor Ort zu prüfen: echter NFC-Leser mit Talk/Meeting-Aufstellern, Microsoft-Anmeldung durch den Nutzer, tatsächlicher Netzwerkausfall und Talk mit echtem Mikrofon/Lautsprecher. Dafür keine bestehende persönliche Aufnahme oder Konfiguration ungefragt verändern.
+
+[Startbestätigung 1280×720](room-confirm-1280.png) · [Startbestätigung 1024×600](room-confirm-1024.png) · [PIN mit Tastatur 1024×600](room-pin-1024.png)

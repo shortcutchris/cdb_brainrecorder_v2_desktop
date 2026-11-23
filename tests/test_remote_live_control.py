@@ -77,6 +77,7 @@ class RemoteTests(unittest.TestCase):
         app.model_test = None
         app.store = SimpleNamespace(free_mb=lambda: 10000)
         app.cdb = Brain()
+        app.room = SimpleNamespace(enabled=False)
         app.closing = False
         app.clock_ready = True
         app.alarm_id = None
