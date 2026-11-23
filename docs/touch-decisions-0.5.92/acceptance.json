@@ -30,5 +30,12 @@
   "real_microsoft_login": false,
   "real_nfc_or_bluetooth_pairing": false,
   "sd_image_built": false,
-  "physical_pi_installed": false
+  "physical_pi_installed": true,
+  "physical_pi_dialog_verified": true,
+  "physical_pi_home_restored": true,
+  "app_package_files": 136,
+  "clean_image_kit_files": 143,
+  "settings_preserved": true,
+  "session_inventory_preserved": true,
+  "room_policy_preserved": true
 }

@@ -53,4 +53,8 @@ Diese Matrix beschreibt Code-/Zustandsprüfung; sie behauptet keine erneute real
 
 Alle Änderungen liegen in bereits zugelassenen App-Dateien und werden automatisch in signierte Aktualisierung und sauberes Image-Baupaket übernommen. Keine neue Abhängigkeit, kein Schemawechsel und keine Änderung der vorhandenen Pi-Einstellungen. Die vorhandene Ruhefrist, PIN und Geräuscherkennung bleiben erhalten. Bild- und Prüfnachweise sind ausschließlich Repository-Dokumentation und werden nicht auf den Pi kopiert.
 
-Installation: noch ausstehend. Der bereinigte Nachweis wird nach erfolgreicher Installation ergänzt.
+Installiert am 23.11.2026 um 15:26 Uhr (Berlin) aus Commit `df176c5`: 136 App-Dateien signiert geprüft, Studio und Kiosk aktiv mit 0.5.92. Vorher kein angemeldeter Benutzer und keine aktive Aufnahme/Verarbeitung. Datenbank-/Audiodatei-Inventar, Audio-/Modellkonfiguration und Raumrichtlinie vor/nach Installation unverändert; Wartungssperre freigegeben. Ruhefrist bleibt 15 Minuten, Geräuscherkennung bleibt aktiviert, bisher nicht gesetzte Betreiber-PIN unverändert.
+
+Physisches Display 1280 × 720: Startseite → Einstellungen → Geräteverwaltung → große Abschaltbestätigung → „Eingeschaltet lassen“ → Startseite. Kein Poweroff/Neustart ausgeführt. [Installationsnachweis](deployment.json) · [Dialog am echten Pi](pi-dialog-1280.png) · [Zurück auf der Startseite](pi-home-1280.png).
+
+Ein sauberes Image-Baupaket mit 143 Dateien wurde vorbereitet. Es ist kein gebautes oder hardwaregeprüftes SD-Image.
