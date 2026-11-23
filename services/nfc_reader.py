@@ -1,16 +1,34 @@
 """Isolated optional system-Python worker. Emits hashes, never raw card IDs."""
 import hashlib
 import json
+import re
 import time
 
 
-def sample():
+def select_reader(devices):
+    """A dual-interface USB device can expose contact and contactless readers.
+
+    Prefer a single explicitly labelled contactless interface. Never guess a
+    slot number or the first entry of an ambiguous reader list.
+    """
+    if len(devices) == 1:
+        return devices[0]
+    contactless = [reader for reader in devices
+                   if re.search(r'\bcontactless\b', str(reader), re.IGNORECASE)]
+    return contactless[0] if len(contactless) == 1 else None
+
+
+def sample(selection=None):
     from smartcard.System import readers
     from smartcard.Exceptions import NoCardException
     devices = readers()
-    if len(devices) != 1:
-        return {'state':'error','message':'Bitte genau einen NFC-Leser anschließen.'}
-    reader = devices[0]
+    reader = select_reader(devices)
+    if reader is None:
+        return {'state':'error','message':'Kein NFC-Leser erkannt. USB-Verbindung prüfen.' if not devices else 'Mehrere mögliche NFC-Leser erkannt. Bitte nur einen anschließen.'}
+    if selection is not None:
+        if selection.get('name') and selection['name'] != str(reader):
+            return {'state':'error','message':'Kontaktloser Leser nicht mehr verfügbar. Am Bildschirm stoppen.'}
+        selection['name'] = str(reader)
     connection = reader.createConnection()
     try:
         connection.connect()
@@ -21,7 +39,8 @@ def sample():
     except NoCardException:
         # Re-enumerate: a USB disconnection is not evidence of an empty field.
         current = readers()
-        if len(current) == 1 and str(current[0]) == str(reader):
+        selected = select_reader(current)
+        if selected is not None and str(selected) == str(reader):
             return {'state':'absent'}
         return {'state':'error','message':'Leserverbindung unterbrochen. Am Bildschirm stoppen.'}
     finally:
@@ -30,8 +49,9 @@ def sample():
 
 
 def main():
+    selection = {}
     while True:
-        try: value = sample()
+        try: value = sample(selection)
         except ImportError: value = {'state':'error','message':'NFC-Unterstützung ist auf diesem Pi noch nicht installiert.'}
         except Exception: value = {'state':'error','message':'NFC-Leser nicht verfügbar. Laufenden Modus am Bildschirm beenden.'}
         print(json.dumps(value),flush=True)

@@ -2,6 +2,10 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.95 – Rocketek mit kontaktloser Schnittstelle
+
+Der Rocketek AK9567 meldet Kontaktkarten- und kontaktlosen Leser getrennt. Recorder Studio wählt jetzt die eindeutig als „Contactless“ bezeichnete Schnittstelle; mehrdeutige Geräte werden weiterhin abgewiesen. Ein Schnittstellenausfall gilt nicht als Entfernen eines Aufstellers. [Einrichtung und aktueller Hardware-Prüfstand](docs/nfc/README.md).
+
 ## 0.5.94 – Hilfe direkt vom Pi und gekoppelte Browser-Fernbedienung
 
 Unter **Einstellungen → Hilfe & Fernzugriff** stehen Geräteadresse, QR-Code und eine vollständig lokale Hilfe mit Suche und Verkabelungs-PDF bereit. Hilfe: Port 8091. Die getrennte HTTPS-Fernbedienung auf 8443 wird am Pi eingeschaltet und pro Browser mit einem kurzlebigen Code bestätigt. Sie steuert Aufnahme und Talk am Pi; Anmeldung und Aktivitätssperren bleiben verbindlich. [Bedienung, Vertrauensmodell, Tests und Auslieferungsstand](docs/local-portal/README.md).
