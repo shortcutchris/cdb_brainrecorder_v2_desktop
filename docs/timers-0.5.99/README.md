@@ -29,6 +29,8 @@ Alarmtöne, Ansagen und Ruhe während Aufnahmen bleiben erhalten.
 
 ![Alarmansicht im CDB-Theme](alarm-1024.png)
 
+![Timeranlage bei 1024 × 600](workspace-1024.png)
+
 ## Prüfungen
 
 - 160 JavaScript-Tests bestanden: automatische Öffnung, Minimieren, Snooze,
@@ -41,6 +43,9 @@ Alarmtöne, Ansagen und Ruhe während Aufnahmen bleiben erhalten.
   laufenden Timer öffnen/minimieren/beenden, Ablauf, Verlängern, Quittieren,
   Wiederöffnen aus dem Verlauf. Beim Quittieren lief die Aufnahme unverändert weiter.
   Eine vorher offene Bildschirmtastatur verschwand korrekt. Helle und CDB-Ansicht.
+  Die Zeiteinheit hat auch als Touch-Auswahl ausreichend Breite; alle Eingaben
+  passen bei 1024 × 600 auf die Seite. Auf größeren Displays bleiben zusätzliche
+  Hinweise bei Bedarf scrollbar.
 - Reale Touch-, Lautsprecher- und Zusatzdisplayprüfung wird getrennt dokumentiert;
   die lokale Vorschau verwendet künstliche Audiodaten und keine Geräteaufnahme.
 
