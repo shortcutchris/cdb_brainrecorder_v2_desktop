@@ -5,11 +5,11 @@ angeschlossen; der Begleitdienst läuft. Recorder 0.5.98 liefert auch im Raummod
 die Timer des angemeldeten Kontos mit allgemeinen Bezeichnungen. Ein eigener
 Einschalter pro Timer ist nicht nötig. [Korrektur und Nachweis](../nfc/timer-display-0.5.98.md).
 
-[Firmware 0.3](large-timer-0.3.md) wurde am 24.11. auf das Zusatzdisplay geschrieben;
-die USB-Kennung wird am Pi wieder erkannt. Die neue [Firmware 0.4 mit großer Uhr ohne
-Timer](idle-clock-0.4.md) ergänzt die automatische Großansicht. Für den jeweils tatsächlichen
-Build- und Installationsstand den zugehörigen Nachweis beachten. Die Angaben zur
-Vorbereitung 0.2 unten sind historisch.
+[Firmware 0.4 mit großer Uhr ohne Timer](idle-clock-0.4.md) wurde am 24.11. auf
+das Zusatzdisplay geschrieben und vollständig zurückgelesen. Die große Uhr wurde
+direkt am Gerät bestätigt; Recorder 0.5.102 liefert die Ortszeit des Pi.
+Timer behalten Vorrang. [Firmware 0.3](large-timer-0.3.md) ist der vorherige Stand.
+Die Angaben zur Vorbereitung 0.2 unten sind historisch.
 
 21.10.2026. Zielgerät: Waveshare ESP32-S3-Touch-LCD-5B, SKU 28151,
 1024 × 600, Touch. Hardwareprojekt `device-fdb89fd08b3a454a` im

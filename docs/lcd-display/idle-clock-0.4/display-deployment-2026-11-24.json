@@ -1,0 +1,22 @@
+{
+  "installed_at": "2026-11-24T10:31:19.025741+00:00",
+  "version": "0.4.0",
+  "previous_version": "0.3.0",
+  "source_commit": "c01df2c9cb7bd19c261d1b3ff64b06405b1d0b64",
+  "app_sha256": "82ef0725a9d7d5504a9dbb89c31af0fb68b97859906e82639c516d6e30bf4c2f",
+  "backup_verified": true,
+  "backup_sha256": "b7ee9d5ed58547ed93af8e33e4be26b927a213f11477226f68d0a28d55dbfe0e",
+  "backup_directory": "/home/bik/.local/state/cdb-display-backups/20261124T103009Z-clock",
+  "bootloader_partition_nvs_phy_preserved": true,
+  "application_readback_verified": true,
+  "app_only_offset": "0x10000",
+  "firmware_written": true,
+  "normal_usb_returned": true,
+  "hardware_visual_touch_confirmed": false,
+  "services_active": true,
+  "companion_has_display_port_open": true,
+  "maintenance_released": true,
+  "clock_ready": true,
+  "hardware_clock_visible_user_confirmed": true,
+  "manual_reset_completed": true
+}

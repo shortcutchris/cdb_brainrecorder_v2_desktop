@@ -43,5 +43,7 @@
   ],
   "lcd_clock_source_verified": true,
   "lcd_clock_timezone": "Europe/Berlin",
-  "display_firmware_pending_boot": true
+  "display_firmware_pending_boot": false,
+  "display_firmware_version": "0.4.0",
+  "hardware_clock_visible_user_confirmed": true
 }

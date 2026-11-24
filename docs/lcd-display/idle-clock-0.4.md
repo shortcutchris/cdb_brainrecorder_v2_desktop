@@ -61,25 +61,34 @@ Sauberes Image-Baupaket aus `c01df2c9cb7bd19c261d1b3ff64b06405b1d0b64`
 mit 162 Quelldateien erstellt und sämtliche Build-Prüfsummen geprüft.
 Das ist kein gebautes oder auf Hardware gebootetes SD-Image.
 
-Die Uhr wird erst mit der separat zu installierenden Display-Firmware sichtbar.
+## Display-Installation am 24. November 2026
 
-## Display-Update vorbereitet, BOOT noch ausstehend
+Firmware **0.4.0** wurde um **11:31 Uhr (Europe/Berlin)** auf das eindeutig
+zugeordnete ESP32-S3-Zusatzdisplay geschrieben. Zuvor wurden der installierte
+Stand 0.3.0, Bootloader und Partitionstabelle geprüft und 1.114.112 Bytes
+(Bootdaten sowie gesamte Anwendungspartition) privat auf dem Pi gesichert.
 
-Die neue Anwendung und ein geprüftes Skript für Sicherung, gezieltes Schreiben
-und Rücklesen liegen privat auf dem Pi unter
-`~/.local/share/cdb-lcd/update-0.4.0-c01df2c/`. Die Dateiprüfsumme und der interne
-ESP32-S3-Image-Hash sind gültig. Es wurde noch keine Display-Firmware geschrieben.
-Der normale Display-Port ist weiterhin vorhanden; die vorhandene 0.3-Firmware
-kann mit dem aktualisierten Begleitdienst weiterhin Timer anzeigen.
+Nur die Anwendung ab `0x10000` wurde ersetzt. Anschließend wurde der gesamte
+Bereich erneut ausgelesen: alle 839.456 Anwendungsbytes stimmen mit dem geprüften
+Build überein; die ersten 64 KiB einschließlich Bootloader, Partitionstabelle,
+NVS und PHY sind unverändert.
+[Installationsnachweis](idle-clock-0.4/display-deployment-2026-11-24.json).
 
-Für die Fortsetzung: nur das USB-Kabel des Zusatzdisplays abziehen, BOOT gedrückt
-halten, USB wieder am Pi einstecken, BOOT loslassen. Der Pi bleibt eingeschaltet.
-Nach dem bestätigten Firmware-Update gegebenenfalls kurz RESET drücken.
-[Herstelleranleitung zum USB-Download](https://docs.waveshare.com/ESP32-S3-Touch-LCD-5/Instructions-For-Use#%EF%B8%8F-usb-download-precautions-important).
+Nach kurzem RESET kehrte die normale CDB-USB-Kennung zurück. Recorder und
+USB-Begleitdienst laufen; der Begleitdienst hält den richtigen Display-Port offen,
+der Zeitabgleich ist gültig und die Wartungssperre ist aufgehoben.
+**Chris hat die große Uhr direkt am Zusatzdisplay bestätigt.**
 
-Vor Schreiben prüft das Skript die aktuelle Anwendung 0.3, Bootloader und
-Partitionstabelle des eindeutig zugeordneten Displays. Es sichert die ersten
-64 KiB und die gesamte 1-MiB-Anwendungspartition privat, schreibt nur die neue
-Anwendung und vergleicht danach alle geschriebenen Bytes sowie den unveränderten
-64-KiB-Vorbereich. Der Begleitdienst wird anschließend wieder gestartet.
-Am echten Display bleiben Uhranzeige, Timerwechsel und Touch nach dem Update zu prüfen.
+Der Wechsel Uhr → Timer → Uhr, Alarmvorrang und Touchauswahl sind in der
+Host-Vorschau bzw. den nativen Tests geprüft. Eine erneute vollständige
+Timer-/Touch-Abnahme auf der Hardware wurde in diesem Update nicht durchgeführt.
+
+Updateartefakte und Prüfskript liegen privat auf dem Pi unter
+`~/.local/share/cdb-lcd/update-0.4.0-c01df2c/`; die Rückfallsicherung unter
+`~/.local/state/cdb-display-backups/20261124T103009Z-clock/`.
+Keine Rohsicherung oder Firmware-Binärdatei wird in Git aufgenommen.
+
+Bei einem späteren Firmwarewechsel: nur das USB-Kabel des Zusatzdisplays
+abziehen, BOOT halten, USB wieder einstecken und BOOT loslassen. Nach dem
+abgeschlossenen Schreiben gegebenenfalls kurz RESET drücken.
+[Herstelleranleitung zum USB-Download](https://docs.waveshare.com/ESP32-S3-Touch-LCD-5/Instructions-For-Use).
