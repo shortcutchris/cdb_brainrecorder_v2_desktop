@@ -1,0 +1,14 @@
+{
+  "version": "0.5.103",
+  "source_commit": "4cdbd8daeb116888258065df875820a6c2a4aa93",
+  "javascript_tests_passed": 170,
+  "python_tests_passed": 101,
+  "signature_verified": true,
+  "update_files_verified": 156,
+  "image_recipe_files_verified": 163,
+  "modal_asset_in_update_and_image": true,
+  "manifest_sha256": "276f13d30b6fa0ac81148988eb312658ed545c5a8114610d16c9b36fcdbfd9de",
+  "sd_image_built": false,
+  "hardware_deployed": false,
+  "deployment_pending_reason": "Unbestätigter Timer-Alarm; Entscheidung des Benutzers ausstehend."
+}
