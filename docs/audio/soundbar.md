@@ -75,3 +75,21 @@ Ein Neustart ist damit nur ein vorübergehender Wiederanlauf. Als nächste
 Diagnose sind FPC-Verbindung, Boardversorgung und der externe Controller samt
 Treiber zu prüfen. Die Grundursache bleibt offen. Das Zusatzdisplay hängt an
 einem anderen USB-Controller und bleibt dabei erreichbar.
+
+## Nachprüfung am 24. November, nach der UI-Abnahme von 0.5.104
+
+Zwei getrennte Prüfungen von USB/PCIe und Audio-Ansteuerung bestätigen den
+Controllerausfall von 09:40:26 Uhr. PipeWire/WirePlumber liefen seit 09:23 Uhr ohne
+Dienstneustart weiter. Die Soundbar fehlt auf USB-, ALSA- und PipeWire-Ebene.
+Der später angelegte UI-Testtimer lief korrekt ab, konnte jedoch keinen Alarmton
+ausgeben. Um 13:26:17 Uhr wurde über die normale Lautsprecherkonfiguration der
+reSpeaker als Ausgang gespeichert; das war kein automatischer App-Fallback.
+Ein verfügbarer reSpeaker-Ausgang belegt keine Ausgabe über die USB-Soundbar.
+
+Das Gerät ist verschraubt. Ein zunächst als erfolgt gemeldetes Umstecken wurde
+vom Nutzer ausdrücklich korrigiert; ein Vergleichstest direkt am Pi hat nicht
+stattgefunden. Ein gezieltes Neubinden nur des externen VIA-Controllers wurde
+vorbereitet, nach Aktivitätsprüfung aber durch die erforderliche
+Administrator-Passwortbestätigung vor Ausführung gestoppt. Kein Reset, kein
+Neustart, kein neues Release und keine Lautsprecheränderung durch diese Prüfung.
+Details und Grenzen: [Bedien- und Hardwareprüfung](../ui-acceptance-0.5.104/README.md).
