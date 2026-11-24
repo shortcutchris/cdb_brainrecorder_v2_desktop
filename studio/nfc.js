@@ -22,6 +22,7 @@
    button.disabled=locked||!online;
    button.setAttribute('aria-pressed',String(direct));
    button.textContent=direct?'Direktstart ein':'Direktstart aus';
+   const description=$('nfc-description-'+mode);if(description)description.textContent=direct?'Angemeldet: Aufstellen startet '+(mode==='meeting'?'die Aufnahme.':'das Gespräch.'):'Aufstellen öffnet die Vorbereitung. Du startest am Bildschirm.';
    const stop=$('nfc-stop-'+mode),automatic=n.stop_on_remove?.[mode]!==false;
    stop.disabled=locked||!online;
    stop.setAttribute('aria-pressed',String(automatic));

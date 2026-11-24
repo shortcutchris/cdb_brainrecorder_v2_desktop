@@ -84,7 +84,11 @@
  picker.querySelector('#picker-search').oninput=()=>{page=0;drawPicker()};
  function drawPicker(){
   if(!source)return;const height=picker.querySelector('.dialog-body').clientHeight;if(height>0)pageSize=Math.max(1,Math.min(4,Math.floor((height-24)/72)));if(source.disabled||!isVisible(selectButtons.get(source))){picker.close();return}
-  const query=picker.querySelector('#picker-search').value.trim().toLocaleLowerCase('de');
+  const compact=source.options.length>=2&&source.options.length<=6&&[...source.options].every(o=>o.textContent.length<=65);
+  picker.classList.toggle('compact-picker',compact);
+  picker.querySelector('.dialog-search').hidden=compact;picker.querySelector('.dialog-actions').hidden=compact;picker.querySelector('#picker-keyboard').hidden=compact;
+  if(compact){pageSize=6;page=0}
+  const query=compact?'':picker.querySelector('#picker-search').value.trim().toLocaleLowerCase('de');
   const options=[...source.options].filter(o=>!query||o.textContent.toLocaleLowerCase('de').includes(query)),pages=Math.max(1,Math.ceil(options.length/pageSize));page=Math.min(page,pages-1);
   const body=picker.querySelector('.dialog-body');body.replaceChildren();
   for(const option of options.slice(page*pageSize,(page+1)*pageSize)){

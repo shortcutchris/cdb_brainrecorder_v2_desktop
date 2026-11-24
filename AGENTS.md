@@ -26,3 +26,14 @@ these sizes over smartphone layouts. Check main navigation, modal actions and
 keyboard-visible input before deploying UI changes. Recorder Studio on the Pi
 and Pi Studio (the 3D design/download application) are separate deployments;
 verify the running version and physical kiosk display when asked to update the Pi.
+
+## Mandatory Pi touch interaction rules
+
+Follow [docs/PI-TOUCH-RULES.md](docs/PI-TOUCH-RULES.md) for every UI change.
+Two-choice decisions use large action tiles; forms have a fixed 56px action footer.
+Short selectors (2–6 short choices) show direct tiles. Numeric fields use a numeric
+pad. Timer, account, keyboard, warnings and stop controls must never overlap.
+Variable content must remain scrollable or be split into task panels. Explain
+blocked actions visibly and preserve backend action guards. Check 1280×720 and
+1024×600, light/CDB, keyboard, timers, recording/pause, Talk and error states before
+shipping. Document evidence and limits; a local fixture is not hardware acceptance.

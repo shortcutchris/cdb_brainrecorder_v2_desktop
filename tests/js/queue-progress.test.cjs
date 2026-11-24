@@ -26,6 +26,20 @@ test('deleting from queue confirms the target row and preserves a different sele
  assert.equal(calls[0],'/api/sessions/7/delete');assert.equal(c.selected,99);assert.equal(c.models.has(99),true);assert.equal(c.models.has(7),false);
 });
 
+test('missing audio checks the file without retrying and enables retry when restored',async()=>{
+ const {c,nodes}=harness(),calls=[];
+ c.state.sessions=[{id:7,local_job_id:'a',title:'Fehlende Datei'}];
+ c.state.jobs=[{id:'a',state:'failed',updated:0,audio_file_bytes:null}];
+ c.flush=async()=>{};c.poll=async()=>calls.push('poll');c.api=async path=>calls.push(path);
+ c.renderQueue();const action=nodes['queue-panel'].children[1].children[4].children[0];
+ assert.equal(action.textContent,'Datei prüfen');await action.onclick();
+ assert.deepEqual(calls,['poll']);assert.match(nodes['queue-feedback'].textContent,/fehlt weiterhin/);
+ c.state.jobs[0].audio_file_bytes=100;c.renderQueue();
+ const retry=nodes['queue-panel'].children[1].children[4].children[0];
+ assert.notEqual(action,retry);assert.equal(retry.textContent,'Wiederholen');
+ await retry.onclick();assert.ok(calls.includes('/api/sessions/7/retry'));
+});
+
 test('Whisper reports file bytes and only declares success after installation',()=>{
  const {c,nodes}=harness();
  const d=c.state.installation={state:'running',backend:'whisper',model:'medium',completed:0,total:2000,message:'Download wird vorbereitet …'};

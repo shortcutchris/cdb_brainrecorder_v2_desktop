@@ -146,6 +146,7 @@
     "category": "ZUBEHÖR",
     "intro": "Die Aufsteller wählen einen Modus. Sie sind kein persönlicher Anmeldeausweis.",
     "steps": [
+      "Einstellungen → Zubehör → NFC-Aufsteller öffnen. Unter „Aufsteller einrichten“ den Leser und die Zuordnung prüfen; unter „Verhalten“ Direktstart und Beenden beim Abnehmen für Talk und Meeting getrennt einstellen.",
       "Den unterstützten USB-NFC-Leser anschließen. Einstellungen → Audio → NFC-Aufsteller → „Leser prüfen“ öffnen.",
       "Zum Anlernen genau einen Aufsteller auflegen und „Als Talk zuordnen“ oder „Als Meeting zuordnen“ wählen. Danach abnehmen und den anderen zuordnen.",
       "NFC einschalten. Einen bekannten Aufsteller auflegen. Ohne Brain-Anmeldung öffnet sich zunächst die Anmeldung.",
@@ -281,19 +282,34 @@
     "category": "BEDIENUNG",
     "intro": "Timer laufen auf dem Pi weiter, auch wenn du ihre große Ansicht schließt.",
     "steps": [
-      "Oben rechts auf den laufenden Timer tippen. Die große Ansicht zeigt die Restzeit. „Minimieren“ kehrt zur vorherigen Ansicht zurück; „Timer beenden“ stoppt nur diesen Timer.",
+      "In der Timerzeile unter dem Kopfbereich auf „Groß anzeigen“ tippen. Konto und Abmelden bleiben darüber frei. Die große Ansicht zeigt die Restzeit. „Minimieren“ kehrt zurück; „Timer beenden“ stoppt nur diesen Timer. Bei mehreren Timern zeigt die Zeile deren zusätzliche Anzahl.",
       "Beim Ablauf öffnet sich die Alarmansicht automatisch. „Alarm stoppen“ bestätigt den Timer und beendet seinen Ton. „+5 Minuten“ startet ihn für weitere fünf Minuten.",
       "Das Kreuz minimiert auch einen Alarm, ohne ihn zu bestätigen. Der Alarmhinweis bleibt anklickbar. Während eines anderen Bestätigungs- oder Anmeldedialogs wartet die große Alarmansicht, bis der Dialog geschlossen ist.",
       "Unter Timer & Erinnerungen kannst du den Titel eines laufenden oder erledigten Eintrags antippen und ihn wieder groß anzeigen.",
       "Eine laufende Aufnahme oder ein Gespräch wird dadurch nicht beendet. Während der Aufnahme wartet ein hörbarer Alarm; lautlose Timer bleiben lautlos. Bei einer Fehlermeldung die Verbindung und den unter Audio gewählten Lautsprecher prüfen.",
-      "Das zusätzliche USB-Timerdisplay übernimmt die Timer automatisch. Die neue Einzelansicht in Siebensegmentoptik benötigt die passende Displayfirmware; ein Update von Recorder Studio allein ersetzt diese nicht."
+      "Das zusätzliche USB-Timerdisplay übernimmt die Timer automatisch. Die neue Einzelansicht in Siebensegmentoptik benötigt die passende Displayfirmware; ein Update von Recorder Studio allein ersetzt diese nicht.",
+      "Unter Einstellungen → Zubehör → USB-Timerdisplay steht die USB-Erkennung. „Erkannt“ bestätigt das angeschlossene Gerät, nicht den angezeigten Inhalt: Den laufenden Timer zusätzlich auf dem Display prüfen."
+    ]
+  },
+  {
+    "id": "bedienung",
+    "title": "Große Schaltflächen und Gerätestatus",
+    "category": "BEDIENUNG",
+    "intro": "Die Oberfläche ist für die Touchdisplays am Pi ausgelegt.",
+    "steps": [
+      "Kurze Auswahlen erscheinen direkt als große Kacheln. Der Haken zeigt die aktuelle Auswahl. Für lange Listen bleiben Suche und Seiten verfügbar.",
+      "Ziffernfelder wie Betreiber-PIN oder Timerdauer erhalten einen großen Ziffernblock. „Fertig“ schließt die Tastatur; Speichern ist eine eigene Aktion.",
+      "Unter Einstellungen → Gerätestatus stehen Version, Speicher und Verbindungen. Audio unter Einstellungen → Audio mit dem Mikrofontest und Testton prüfen.",
+      "Unter Gerät & Verwaltung stehen Neustart und Ausschalten als große Kacheln. Kopplung und Wartung findest du unter „Einrichten & warten“. Laufende Vorgänge müssen zuvor beendet werden.",
+      "Bibliothekseinträge nennen Dauer, Verarbeitungsstand und eine bestätigte Brain-Übertragung. „Lokal gespeichert“ allein bestätigt keine Übertragung.",
+      "Bei fehlender Audiodatei in der Warteschlange „Datei prüfen“ wählen. Ist sie weiter weg, aus einer Sicherung wiederherstellen oder den Eintrag bewusst löschen."
     ]
   },
   {
     "id": "quellen",
     "title": "Stand & Quellen",
     "category": "DOKUMENTATION",
-    "intro": "Hilfestand 23.11.2026 für Recorder Studio 0.5.94.",
+    "intro": "Hilfestand 24.11.2026 für Recorder Studio 0.5.101.",
     "paragraphs": [
       "Diese Hilfe wird mit der Anwendung auf dem Pi ausgeliefert. Die angezeigte App-Version steht am Seitenende. Anleitungen, Suche, Abbildungen und Verkabelungs-PDF benötigen keine Verbindung zu einem externen Server.",
       "Grundlage: die Bedienung des aktuellen Recorder-Repositorys, dokumentierte Geräteprüfungen zu Raummodus, Touchdialogen, Audio und cdbPiOS sowie die Verkabelungsanleitung R2 des Gehäuseprojekts.",

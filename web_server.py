@@ -29,7 +29,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.100'
+VERSION = '0.5.101'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -544,6 +544,8 @@ class StudioApp:
         state['respeaker'] = self.respeaker.public()
         state['live'] = self.live.public()
         state['display'] = self.display.status()
+        from services.device_health import lcd_usb_status
+        state['lcd_status'] = lcd_usb_status()
         state['wake'] = self.wake.public()
         state['nfc'] = self.nfc.public()
         state['timers'] = {'items': self.schedules.items(), 'ringing_id': self.alarm_id, 'clock_ready': self.clock_ready, 'voice_available': bool(self.live.public().get('device_tools'))}
@@ -1165,7 +1167,14 @@ class StudioHandler(Handler):
         if path=='/api/search':
             from urllib.parse import parse_qs
             query=parse_qs(urlsplit(self.path).query).get('q',[''])[0][:1000]
-            self.respond([{k:r[k] for k in ('id','title','recorded_at')} for r in app.repo.get_all(query) if app.visible_session(r)]);return
+            publications=app.cdb.public()['publications']
+            rows=[]
+            for row in app.repo.get_all(query):
+                if not app.visible_session(row):continue
+                transfers=[p['state'] for p in publications if p.get('session_id')==row['id']]
+                status='completed' if 'completed' in transfers else 'pending' if any(s in ('queued','accepted','sending') for s in transfers) else 'failed' if transfers else 'unknown'
+                rows.append({k:row.get(k) for k in ('id','title','recorded_at','duration_sec','transcription_status')} | {'transfer_status':status})
+            self.respond(rows);return
         if path.startswith('/api/sessions/'):
             parts=path.strip('/').split('/')
             if len(parts) not in (3,4):raise KeyError('Unbekannte Datei.')

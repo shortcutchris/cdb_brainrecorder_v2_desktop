@@ -155,7 +155,7 @@
  function drawFeedback(f){
   const cue=cuePresentation(f);$('live-cue').dataset.mode=cue.mode;feedbackText('live-cue-label',cue.label);
   const ready=!busy()&&!state?.live?.history?.length;
-  const p=ready?{title:setupLoading?'Bereiche werden geladen …':'Bereit für dein Gespräch',detail:setupError?'Verbindung prüfen und aktualisieren.':'Wähle oben dein Gesprächswissen.',mode:'idle',bars:[]}:feedbackPresentation(online?f:{unavailable:true});
+  const p=ready?{title:setupLoading?'Bereiche werden geladen …':!online||setupError||!setup?.enabled||!setup?.audio?.available?'Noch nicht bereit':'Bereit für dein Gespräch',detail:!online?'Verbindung zum Pi wird wiederhergestellt.':setupError?'Verbindung prüfen und aktualisieren.':!setup?.enabled?'Brain-Anmeldung und Verbindung prüfen.':!setup?.audio?.available?'Mikrofon und Lautsprecher unter Audioeinstellungen prüfen.':'Wähle oben dein Gesprächswissen.',mode:'idle',bars:[]}:feedbackPresentation(online?f:{unavailable:true});
   $('live-wave').style.visibility=ready?'hidden':'visible';$('live-sound').style.visibility=ready?'hidden':'visible';feedbackText('live-feedback-title',p.title);feedbackText('live-feedback-detail',p.detail);$('live-feedback').dataset.mode=p.mode;
   $('live-wave').setAttribute('aria-label',p.mode==='speaking'?'Pegel der Antwort':'Mikrofonpegel');
   for(let i=0;i<16;i++){const v=Number(p.bars?.[i]);$('live-bar-'+i).style.transform='scaleY('+(.04+.96*(Number.isFinite(v)?Math.min(1,Math.max(0,v)):0))+')'}

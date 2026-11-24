@@ -8,6 +8,8 @@ Die großen Entscheidungskacheln sind eine gute und inzwischen konsistente Grund
 
 [Visueller Bericht mit allen geprüften Ansichten](report.html) · [Messungen der Bedienelemente](measurements.json) · [Timer-Kollision](timer-overlap-1024.json)
 
+**Nachtrag:** Umsetzung A01–A08 in [0.5.101](../pi-touch-0.5.101/README.md); der folgende Bericht beschreibt weiterhin den historischen Ausgangsstand.
+
 ## Umfang und Nachweis
 
 Geprüft wurde die echte Weboberfläche aus dem Repository in zwei lokalen Prüfkopien, primär bei **1280 × 720**, zusätzlich bei **1024 × 600**, mit hellem Design und CDB-Design. Alle Screenshots stammen aus diesem Audit. Die Hauptansichten und wesentlichen Dialoge wurden durchgeklickt, eine synthetische Aufnahme gestartet, pausiert und beendet, ein lautloser Timer bis zum Ablauf geprüft und die Abmeldevorwarnung ausgelöst.

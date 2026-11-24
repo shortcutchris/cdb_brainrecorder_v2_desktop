@@ -228,7 +228,7 @@ class CdbService:
         s=self.read('session.json',{});identity=s.get('identity');login=dict(self.login)
         binding={'server':s.get('server'),**{k:(identity or {}).get(k) for k in ('user_id','client_id')}}
         with self.db() as db:
-            jobs=[{'id':r[0],'title':json.loads(r[1])['title'],'state':r[2],'error':r[3]} for r in db.execute('SELECT id,payload,state,error FROM publications ORDER BY rowid DESC') if identity and json.loads(r[1]).get('binding') == binding][:30]
+            jobs=[{'id':r[0],'title':json.loads(r[1])['title'],'state':r[2],'error':r[3],'session_id':json.loads(r[1]).get('local_session_id')} for r in db.execute('SELECT id,payload,state,error FROM publications ORDER BY rowid DESC') if identity and json.loads(r[1]).get('binding') == binding][:30]
         destination=self.read('destination.json',{})
         binding={'server':s.get('server'),**{k:(identity or {}).get(k) for k in ('user_id','client_id')}}
         if destination.get('binding')!=binding:destination={}
@@ -263,6 +263,8 @@ class CdbService:
         if not text or len(text)>1_000_000:raise CdbFailure('Kein Text oder Inhalt zu groß.')
         payload={'binding':binding,'area':a,'client':client,'title':row['title'],'content':text}
         fingerprint=hashlib.sha256(json.dumps(payload,sort_keys=True).encode()).hexdigest()
+        # Local association is not sent to Brain and must not change deduplication.
+        payload['local_session_id']=row.get('id')
         with self.db() as db:
             existing=db.execute('SELECT id FROM publications WHERE fingerprint=?',(fingerprint,)).fetchone()
             if existing:return {'id':existing[0]}

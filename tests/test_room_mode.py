@@ -58,6 +58,12 @@ class RoomTests(unittest.TestCase):
         ident, sid = self.job()
         self.assertEqual(len(self.app.state()['sessions']),1)
         self.assertEqual(self.request('/api/sessions/'+str(sid))[0],200)
+        library=json.loads(self.request('/api/search?q=Private')[1])
+        self.assertEqual(library[0]['id'],sid)
+        self.assertEqual(library[0]['transfer_status'],'unknown')
+        self.assertIn('duration_sec',library[0])
+        with patch.object(self.app.cdb,'public',return_value={'publications':[{'session_id':sid,'state':'completed'}]}):
+            self.assertEqual(json.loads(self.request('/api/search?q=Private')[1])[0]['transfer_status'],'completed')
         self.app.room_logout(); self.login('bob')
         state = self.app.state()
         self.assertEqual(state['sessions'],[]); self.assertEqual(state['jobs'],[])

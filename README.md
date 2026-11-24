@@ -2,7 +2,11 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
-Aktuelle Oberflächenprüfung: [UI-/Touch-Audit vom 24.11.2026](docs/ui-audit-2026-11-24/README.md) mit Screenshots, Timer-Überlagerung, Layoutbefunden und priorisierten Verbesserungsvorschlägen. Auditstand 0.5.100; die dokumentierten Korrekturen sind noch nicht umgesetzt.
+Verbindliche [Pi-Touch-Bedienregeln](docs/PI-TOUCH-RULES.md). Die Befunde A01–A08 aus dem [UI-Audit](docs/ui-audit-2026-11-24/README.md) sind in 0.5.101 umgesetzt. [Änderungen, Prüfungen und Installationsstand](docs/pi-touch-0.5.101/README.md).
+
+## 0.5.101 – Große Touchaktionen und freie Timerzeile
+
+Timer reservieren unter dem Kopfbereich Platz, auch während Aufnahme und Talk. Kurze Auswahlen stehen direkt als Kacheln bereit; Ziffernfelder haben einen Ziffernblock. NFC trennt Einrichtung und Verhalten. Lautsprecher und Modellwahl bleiben scrollbar mit festen Aktionen. Zubehör und Gerätestatus haben eigene Übersichten; Neustart und Ausschalten große Kacheln. Bibliothek und Warteschlange benennen Status und fehlende Dateien klarer.
 
 ## 0.5.100 – Neustart direkt in den Einstellungen
 

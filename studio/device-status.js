@@ -1,7 +1,7 @@
 /* Lightweight device feedback, independent of slow model/account setup. */
 (() => {
  const feedback=document.createElement('section');feedback.id='wake-feedback';feedback.hidden=true;feedback.setAttribute('role','status');feedback.setAttribute('aria-live','polite');feedback.innerHTML='<i aria-hidden="true"></i><div><strong id="wake-feedback-title">Aktivierungswort erkannt</strong><span id="wake-feedback-detail"></span></div>';document.body.append(feedback);
- const running=document.createElement('button');running.id='timer-running';running.hidden=true;running.type='button';running.innerHTML='<span id="running-timer-label"></span><strong id="running-timer-time"></strong>';running.onclick=()=>window.openTimerFocus?.(running.dataset.focusTimerId);document.body.append(running);
+ const running=document.createElement('button');running.id='timer-running';running.hidden=true;running.type='button';running.innerHTML='<span id="running-timer-label"></span><strong id="running-timer-time"></strong><span class="timer-expand">Groß anzeigen ↗</span>';running.onclick=()=>window.openTimerFocus?.(running.dataset.focusTimerId);document.body.append(running);
  const led=document.createElement('i');led.id='wake-rail-led';led.setAttribute('aria-hidden','true');$('live-open').append(led);
  const timerLabel=document.createElement('small');timerLabel.id='timer-countdown';$('timers-open').append(timerLabel);
  let fetching=false,lastWake=null,lastDetection=null,lastInstance=null,recognizedUntil=0;

@@ -190,6 +190,9 @@ class CdbTests(unittest.TestCase):
         first=self.c.enqueue(self.row,AREA);self.assertEqual(first,self.c.enqueue(self.row,AREA));self.c.publication_once()
         self.assertEqual(self.c.public()['publications'][0]['state'],'completed')
         writes=[b for u,b in self.transport.sent if u.endswith('/ingest')];self.assertEqual(len(writes),1);self.assertFalse(writes[0]['auto_verify_tl1']);self.assertEqual(writes[0]['origin'],'ai_generated')
+        self.assertEqual(self.c.public()['publications'][0]['session_id'],self.row['id'])
+        self.assertNotIn('local_session_id',writes[0])
+        self.assertEqual(first,self.c.enqueue(self.row|{'id':999},AREA))
     def test_response_loss_never_repeats_ingest(self):
         self.c.enqueue(self.row,AREA);self.transport.fail_write=True;self.c.publication_once();self.c.publication_once()
         self.assertEqual(self.c.public()['publications'][0]['state'],'uncertain')
