@@ -1,0 +1,14 @@
+{
+  "installed_at": "2026-11-24T08:38:43.089179+00:00",
+  "previous_version": "0.2.0",
+  "version": "0.3.0",
+  "app_sha256": "6e02112557c498f6cd40c3b4db07e6f20db493af1656f3293a5095dced8d3242",
+  "source_commit": "96b6cb85f216a063f3b2b49e8cfd94a75de7f3b4",
+  "backup_verified": true,
+  "bootloader_partition_nvs_phy_preserved": true,
+  "application_readback_verified": true,
+  "app_only_offset": "0x10000",
+  "firmware_written": true,
+  "display_restarted": false,
+  "hardware_visual_touch_confirmed": false
+}

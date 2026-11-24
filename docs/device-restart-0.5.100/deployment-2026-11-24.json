@@ -1,0 +1,42 @@
+{
+  "version": "0.5.100",
+  "previous_version": "0.5.99",
+  "source_commit": "99a0577030602636873d11a870b823c91aa5ba07",
+  "release": "0d0c16160611390c2e3217d1a0929d1ea6a162e4097ca87c0e6863f2efcdd87f",
+  "installed_at": "2026-11-24T08:39:55.917239+00:00",
+  "signature_verified": true,
+  "files_verified": 152,
+  "settings_preserved": true,
+  "session_inventory_preserved": true,
+  "nfc_assignments_preserved": true,
+  "room_policy_preserved": true,
+  "recording_active_during_update": false,
+  "services_active": true,
+  "kiosk_restarted": true,
+  "rollback_directory_retained": true,
+  "maintenance_released": true,
+  "http_version_and_restart_button_verified": true,
+  "account_required_by_default": true,
+  "previous_personal_login_ended": true,
+  "ambient_activity_enabled": true,
+  "idle_minutes": 15,
+  "operator_pin_present": false,
+  "help_portal_available": true,
+  "control_enabled": true,
+  "nfc_direct_start": {
+    "talk": true,
+    "meeting": true
+  },
+  "nfc_stop_on_remove": {
+    "talk": true,
+    "meeting": true
+  },
+  "lcd_timers_while_signed_out": 0,
+  "poweroff_executed": false,
+  "sd_image_built": false,
+  "imagekit_source_files": 159,
+  "imagekit_hashes_verified": true,
+  "imagekit_source_commit": "99a0577030602636873d11a870b823c91aa5ba07",
+  "physical_kiosk_start_view_verified": true,
+  "physical_restart_button_used": false
+}

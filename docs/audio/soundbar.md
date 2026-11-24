@@ -49,15 +49,29 @@ zeigt: Soundbar `0020:0b21` beim Boot am 23.11. um 16:42 Uhr erkannt; um
 und einen Timeout bei `configure endpoint`. Danach verschwinden der interne
 Hub und die Soundbar. Das liegt vor dem App-Update auf 0.5.99 am 24. November.
 
-Aktuell ist der VL805/806 noch per PCI sichtbar, aber `lsusb` enthält weder den
+Bei dieser ersten Prüfung ist der VL805/806 noch per PCI sichtbar, aber `lsusb` enthält weder den
 internen Hub noch die Soundbar. PipeWire bietet nur den separat angeschlossenen
 reSpeaker. Die gespeicherte Auswahl bleibt die 188A; `/api/speakers` meldet
 `available=false`. Keine automatische Umleitung auf den reSpeaker vorgenommen.
 Das Bootprofil enthält weiterhin externes PCIe, 100 ms Resetverzögerung und Gen1.
 `get_throttled` liefert aktuell `0x0`; das erklärt die Ursache des USB-Hängers nicht.
 
-Nächster Wiederanlaufschritt ist ein geordneter Neustart des freien Pi, wie beim
-bereits dokumentierten Ereignis vom 12. November. Anschließend USB-Erkennung,
-Audioausgang und hörbaren Test getrennt bestätigen. Bei erneuten Ausfällen
-FPC-Verbindung, Boardversorgung und Treiber untersuchen. Noch kein Neustart oder
-neuer Hörtest für dieses Ereignis durchgeführt; die Grundursache bleibt offen.
+Chris hat den Pi anschließend selbst aus- und wieder eingeschaltet. Danach
+waren interner Hub und 188A wieder vorhanden; die gespeicherte Soundbar war
+verfügbar und als Standard ausgewählt. Am 24.11. um **09:40:26 Uhr** tritt beim
+erneuten Audiotest derselbe Fehler wieder auf: `HC died`, Timeout beim
+`configure endpoint`, danach `Not enough bandwidth for altsetting 1`,
+`usb_set_interface failed (-62)` und Abmeldung von Hub und Soundbar.
+
+Der Links-/Rechts-Abspielprozess auf Recorder 0.5.100 meldete zwar `completed`,
+aber eine hörbare Ausgabe wurde nicht bestätigt. Der folgende Glockentest
+wurde mit „Gewählter Lautsprecher nicht verbunden“ abgelehnt. Lautsprecherwahl
+und Lautstärke wurden nicht geändert. Kein Umleiten auf den reSpeaker.
+`get_throttled=0x0`; das schließt ein Problem der Erweiterungsboardversorgung
+oder PCIe-Verbindung nicht aus. Die Bandbreitenmeldung allein beweist keine
+reale Überlastung des Busses.
+
+Ein Neustart ist damit nur ein vorübergehender Wiederanlauf. Als nächste
+Diagnose sind FPC-Verbindung, Boardversorgung und der externe Controller samt
+Treiber zu prüfen. Die Grundursache bleibt offen. Das Zusatzdisplay hängt an
+einem anderen USB-Controller und bleibt dabei erreichbar.

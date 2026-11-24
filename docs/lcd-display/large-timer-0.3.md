@@ -70,7 +70,8 @@ die vorhandene 16-Bit-Ausgabe erhalten. Sie ersetzt keinen Hardwaretest.
   `6e02112557c498f6cd40c3b4db07e6f20db493af1656f3293a5095dced8d3242`.
 - Der erste ebenfalls erfolgreiche
   [CI-Lauf 45235773704](https://github.com/shortcutchris/cdb_brainrecorder_v2_desktop/actions/runs/45235773704)
-  wird durch diesen Kandidaten ersetzt. Keiner der beiden wurde bislang geflasht.
+  wird durch diesen Kandidaten ersetzt. Der finale Kandidat wurde am 24.11.
+  installiert und auf dem Gerät vollständig zurückgelesen (siehe unten).
 - Der gezielte, rein lesende Verbindungsversuch am angeschlossenen Pi-Display
   (`read_mac`) erhielt keine Bootloaderantwort. Keine Flashdaten geschrieben;
   der USB-Begleitdienst wurde danach wieder gestartet. Der Firmwarewechsel
@@ -129,15 +130,28 @@ USB-Dienst wird für den Zugriff gestoppt und anschließend wiederhergestellt;
 keine laufende Aufnahme oder Unterhaltung unterbrechen. Kein pauschales Löschen
 des Flashs. Eine Rücknahme nutzt den gesicherten Stand desselben Geräts.
 
-Die tatsächliche Gerätekompatibilität, der Firmwarewechsel und die anschließende
-Touch-/Anzeigeprüfung sind noch offen. Ein Archivvergleich ist keine bereits
-bestandene Prüfung des angeschlossenen Geräts.
+## Installation am 24. November 2026
 
-Der finale Kandidat liegt inzwischen auch auf dem Pi unter
-`/tmp/cdb-lcd-update-0.3.0-96b6cb8/` bereit. Anwendung, Partitionstabelle und
-Flashargumente wurden nach der Übertragung erneut gegen die Prüfsummen im
-Manifest geprüft. Keine Flashdaten geschrieben. Der Nutzer wurde um den
-manuellen Downloadmodus gebeten: Nur das Zusatzdisplay vom USB trennen, dessen
-BOOT-Taste beim Wiedereinstecken halten und danach loslassen. Nach dem Update
-kann RESET nötig sein. Quelle:
+Nach dem von Chris ausgelösten BOOT-Modus eindeutig das angeschlossene
+ESP32-S3-Display identifiziert: Revision 0.2, 16 MB Flash, 8 MB PSRAM. Bootloader,
+Partitionstabelle und alte Anwendung entsprechen exakt dem archivierten 0.2.0.
+Vor dem Schreiben wurden 1.114.112 Bytes ab Adresse null privat auf dem Pi
+gesichert (Bootdaten einschließlich NVS/PHY plus gesamte Anwendungspartition).
+SHA-256 der Sicherung:
+`3df006799a21d9e9321b10e14b30d3539f06e301248ba1f6daa019f15a9331d4`.
+
+Nur die Anwendung an `0x10000` wurde auf 0.3.0 aktualisiert. Anschließend
+denselben Bereich vollständig zurückgelesen: Anwendung bytegleich mit dem
+freigegebenen Kandidaten; die ersten 64 KiB mit Bootloader, Partitionstabelle,
+NVS und PHY unverändert. [Installationsnachweis](large-timer-0.3/deployment-2026-11-24.json).
+Der Begleitdienst ist wieder gestartet. Ein softwareseitiger Reset beließ das
+Display im USB-Downloadmodus; Chris wurde um einmaliges kurzes Drücken von
+RESET gebeten. Normaler Anwendungsstart, Verbindung sowie Anzeige und Touch
+sind deshalb noch zu bestätigen. Die erfolgreiche Flashprüfung allein belegt
+noch keine funktionierende Anzeige.
+
+Kandidat und Protokolle liegen dauerhaft außerhalb des Repos auf dem Pi unter
+`~/.local/share/cdb-lcd/update-0.3.0-96b6cb8/`; die private Sicherung unter
+`~/.local/state/cdb-display-backups/20261124T083042Z/`.
+Quelle für BOOT beim USB-Anstecken und den anschließenden RESET:
 [Waveshare USB Download Precautions](https://docs.waveshare.com/ESP32-S3-Touch-LCD-5/Instructions-For-Use).
