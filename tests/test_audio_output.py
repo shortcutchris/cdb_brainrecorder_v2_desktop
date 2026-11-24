@@ -66,6 +66,28 @@ class SpeakersTests(unittest.TestCase):
             self.output.start_test();self.output.thread.join(2)
             self.assertEqual(self.output.test_status()['state'],'failed')
             self.assertEqual(popen.call_args.args[0][:2],['paplay','--device=usb-speaker'])
+    def test_successful_player_exit_does_not_hide_a_usb_disconnect(self):
+        fake=Mock();fake.poll.return_value=0
+        def disconnect(**_):
+            self.sink['name']='unrelated-output'
+            return 0
+        fake.wait.side_effect=disconnect
+        with patch('services.audio_output.subprocess.Popen',return_value=fake):
+            self.output.start_test();self.output.thread.join(3)
+        result=self.output.test_status()
+        self.assertEqual(result['state'],'failed')
+        self.assertIn('getrennt',result['message'])
+        self.assertEqual(result['device'],'usb-speaker')
+
+    def test_missing_selected_sink_overwrites_previous_success_with_failure(self):
+        self.output.configure({'device':'usb-speaker'})
+        self.output.test={'state':'completed','message':'old success'}
+        self.sink['name']='unrelated-output'
+        with self.assertRaises(ValueError):self.output.start_test()
+        result=self.output.test_status()
+        self.assertEqual(result['state'],'failed')
+        self.assertEqual(result['error'],'output_missing')
+        self.assertNotEqual(result['message'],'old success')
     def test_running_tone_blocks_changes_and_stop_cancels_process(self):
         import threading
         ended=threading.Event();started=threading.Event()

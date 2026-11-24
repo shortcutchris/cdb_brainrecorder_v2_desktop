@@ -1,5 +1,14 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.105 – USB-Soundbar wiederherstellen und gezielt prüfen
+
+Audio → Lautsprecher bietet eine gesicherte USB-Wiederherstellung mit großen
+Entscheidungskacheln. Sie benötigt einmalig den begrenzten Systemhelfer.
+Verschwindet der Ausgang während der Wiedergabe, wird kein Erfolg mehr gemeldet.
+Eine getrennte Diagnose prüft Testtöne, Start/Stopp und Timer. Die Hardwareursache
+ist bis zur Geräteprüfung offen.
+[Einrichtung, Testplan und Grenzen](docs/audio/usb-recovery-0.5.105.md).
+
 ## 0.5.104 – App-Updates ohne erneute Anmeldung
 
 Ein kontrolliertes App-Update erhält das angemeldete Brain-Konto und die restliche

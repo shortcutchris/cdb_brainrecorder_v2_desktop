@@ -15,6 +15,8 @@ PIN = 'd346cd53562b3c6b4f94c9155175f814258c456d'
 BOOT_FILES = ('install.py', 'cdb-pios.plymouth', 'cdb-pios.script', 'assets/dot.png') + tuple(
     f'assets/{mode}-{view}.png' for mode in ('startup', 'shutdown')
     for view in ('landscape', 'portrait90', 'portrait270'))
+USB_AUDIO_FILES = ('scripts/install-usb-audio-recovery.sh',
+                   'deploy/usb-audio-recovery/cdb-usb-audio-recover.py')
 sys.path.insert(0, str(SOURCE))
 from fleet.releases import allowed
 
@@ -55,6 +57,15 @@ def prepare(output, public_key, server='https://cdblab.de/devices', country='DE'
         if name not in names or src.is_symlink():
             raise ValueError('Missing tracked boot-brand input: ' + name)
         target = factory / 'boot-brand' / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(src, target)
+    # A narrowly scoped OS privilege is installed only by the explicit factory
+    # step or the one-time administrator installer, never by an app update.
+    for name in USB_AUDIO_FILES:
+        src = SOURCE / name
+        if name not in names or src.is_symlink():
+            raise ValueError('Missing tracked USB-audio factory input: ' + name)
+        target = factory / 'usb-audio-recovery' / name
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(src, target)
     rule = SOURCE / 'config/udev/70-cdb-respeaker.rules'

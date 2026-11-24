@@ -24,6 +24,7 @@ rm -f /etc/sudoers.d/010_pi-nopasswd
 printf 'cdb ALL=(root) NOPASSWD: /usr/bin/systemctl reboot, /usr/bin/systemctl poweroff\n' > /etc/sudoers.d/cdb-reboot
 chmod 440 /etc/sudoers.d/cdb-reboot
 visudo -cf /etc/sudoers.d/cdb-reboot
+bash /opt/cdb/factory/usb-audio-recovery/scripts/install-usb-audio-recovery.sh cdb
 install -m 644 /opt/cdb/factory/cdb-network.service /opt/cdb/factory/cdb-factory-init.service /etc/systemd/system/
 install -m 644 /opt/cdb/factory/cdb-recorder-studio.service /opt/cdb/factory/cdb-recorder-agent.service /etc/systemd/user/
 systemctl enable cdb-network.service cdb-factory-init.service

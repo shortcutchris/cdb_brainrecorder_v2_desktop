@@ -178,12 +178,14 @@
       "Laufende Aufnahme oder Unterhaltung abschließen. Unter Einstellungen → Audio das Mikrofon auswählen, Eingangspegel ansehen und eine bewusste Testaufnahme durchführen.",
       "Unter Lautsprecher „Geräte aktualisieren“ wählen. Bei unserem internen Aufbau ist „188A Analog Stereo“ die Soundbar. Der reSpeaker hat einen eigenen Ausgang.",
       "Lautstärke und Stummschaltung prüfen. „Testton am Pi“ abspielen: zuerst links einen tieferen, dann rechts einen höheren Ton hören. Eine Erfolgsmeldung allein ersetzt den Hörtest nicht.",
+      "Fehlt die interne Soundbar trotz eingestecktem Kabel, unter Lautsprecher „USB-Audio wiederherstellen“ wählen und bestätigen. Zuvor Aufnahmen, Gespräche, Timer, Wiedergabe und Verarbeitung abschließen. Der Pi bleibt eingeschaltet. Danach Geräte aktualisieren, bei Bedarf 188A auswählen und den Testton hören.",
       "Für das Aktivierungswort zuerst anmelden und Gesprächswissen speichern. Unter Audio → Aktivierungswort das gewünschte Rufwort wählen und einschalten.",
       "„Start & Abschied“ bei den Lautsprechern öffnet die optionalen Geräteklänge. Beide lassen sich getrennt einschalten und vorhören."
     ],
     "paragraphs": [
       "Der Startklang läuft einmal pro Systemstart, wenn die Oberfläche bereit ist. Der Abschiedsklang begleitet das Herunterfahren; er bedeutet nicht, dass der Strom bereits abgezogen werden darf.",
-      "Das Aktivierungswort wartet während Aufnahme, Tests oder belegter Audioausgabe. Ein ausgeschaltetes oder gesperrtes Rufwort ist kein Beleg für ein defektes Mikrofon."
+      "Das Aktivierungswort wartet während Aufnahme, Tests oder belegter Audioausgabe. Ein ausgeschaltetes oder gesperrtes Rufwort ist kein Beleg für ein defektes Mikrofon.",
+      "USB-Wiederherstellung ist nur nach einmaliger Einrichtung durch den Betreiber und an der unterstützten internen Erweiterung verfügbar. Bei weiteren Geräten an dieser Erweiterung bleibt sie gesperrt. Wiederholte Ausfälle müssen geprüft werden; die Wiederherstellung bestätigt keine dauerhaft behobene Hardwareursache."
     ]
   },
   {

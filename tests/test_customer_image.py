@@ -18,12 +18,15 @@ class CustomerImageTests(unittest.TestCase):
             entries['services/queued_whisper.py'] = '# local queue progress'
             entries['services/device_power.py'] = '# fixed shutdown worker'
             entries['services/device_sounds.py'] = '# local PCM device cues'
+            entries['services/usb_audio_recovery.py'] = '# explicit guarded USB recovery'
             entries['studio/timer-focus.js'] = '// large timer interaction'
             entries['studio/timer-focus.css'] = '/* touch timer layout */'
             entries['device-sounds.json'] = 'PRIVATE'
             entries['management/startup-sound.json'] = 'PRIVATE'
             for name in builder.BOOT_FILES:
                 entries['deploy/boot-brand/' + name] = '# boot fixture'
+            for name in builder.USB_AUDIO_FILES:
+                entries[name] = '# USB-audio factory fixture'
             for name,value in entries.items():
                 path=source/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_text(value)
             key=root/'public.pem';key.write_bytes(Ed25519PrivateKey.generate().public_key().public_bytes(Encoding.PEM,PublicFormat.SubjectPublicKeyInfo))
@@ -55,6 +58,11 @@ class CustomerImageTests(unittest.TestCase):
             self.assertIn('services/queued_whisper.py',result['source_files'])
             self.assertIn('services/device_power.py',result['source_files'])
             self.assertIn('services/device_sounds.py',result['source_files'])
+            self.assertIn('services/usb_audio_recovery.py',result['source_files'])
+            for name in builder.USB_AUDIO_FILES:
+                self.assertNotIn(name, result['source_files'])
+                self.assertIn('stage-brain/00-brain/files/factory/usb-audio-recovery/' + name,
+                              result['build_files'])
             self.assertIn('studio/timer-focus.js',result['source_files'])
             self.assertIn('studio/timer-focus.css',result['source_files'])
             self.assertNotIn('device-sounds.json',result['source_files'])

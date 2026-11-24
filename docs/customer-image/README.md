@@ -1,5 +1,11 @@
 # SD-Images bauen, testen und weiterentwickeln
 
+**0.5.105:** Der USB-Audio-Helfer wird explizit im Factoryteil eingerichtet,
+mit genau zwei freigegebenen Root-Kommandos. Bestehende Geräte benötigen den
+einmaligen Administrator-Installer; App-Updates erweitern keine Systemrechte.
+Das Diagnosewerkzeug bleibt separat. Kein neues SD-Image gebaut.
+[Details](../audio/usb-recovery-0.5.105.md).
+
 **0.5.104:** Die Update-Sitzungsübergabe wird als normales App-Modul aus der
 bestehenden Allowlist mitgeliefert. Frische Images enthalten keine Sitzungsdaten
 oder Übergaben; Anmeldung ist erforderlich. Keine Runtime- oder OS-Änderung.

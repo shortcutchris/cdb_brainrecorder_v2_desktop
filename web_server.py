@@ -29,7 +29,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.104'
+VERSION = '0.5.105'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -82,6 +82,8 @@ class StudioApp:
         self.closing = False
         from services.audio_output import AudioOutput
         self.speakers = AudioOutput(self.store.root)
+        from services.usb_audio_recovery import UsbAudioRecovery
+        self.usb_recovery = UsbAudioRecovery()
         from services.device_sounds import DeviceSounds
         self.device_sounds = DeviceSounds(self.store.root)
         self.device_sounds_hardware = not preview and backend is None
@@ -310,7 +312,9 @@ class StudioApp:
                         if clip is None: self.speakers.start_alarm(item.get('tone','bell'))
                         else: self.speakers.start_alarm(item.get('tone','bell'), announcement=clip)
                         self.alarm_id = item['id']
-                    except ValueError: self.schedules.sound_result(item['id'],'failed')
+                    except ValueError as error:
+                        logging.warning('timer_audio_start_failed: %s', error)
+                        self.schedules.sound_result(item['id'],'failed')
                     break
 
     def ambient_loop(self):
@@ -392,7 +396,7 @@ class StudioApp:
         from services.app_activity import AppActivity
         state = state or self.engine.state()
         live = self.live.public() if hasattr(self, 'live') else {'state':'idle','busy':False}
-        return AppActivity(maintenance=self.management.busy() or self.first_start.busy, recording=bool(state['recording']['id']), paused=state['recording'].get('paused',False),
+        return AppActivity(maintenance=self.management.busy() or self.first_start.busy or self.usb_recovery.running, recording=bool(state['recording']['id']), paused=state['recording'].get('paused',False),
             live=live['state'], live_reserved=live['busy'], microphone_test=state['microphone_test']['state']=='running',
             speaker_test=self.speakers.test_status()['state']=='running', alarm=bool(self.alarm_id),
             bluetooth=include_bluetooth and self.bluetooth.busy(),
@@ -813,6 +817,10 @@ class StudioApp:
             if path == '/api/device/restart':
                 if body.get('confirm') is not True:raise ValueError('Neustart bitte bestätigen.')
                 return self.management.restart_device(self,VERSION)
+            if path == '/api/speakers/recover':
+                if set(body) != {'confirm'} or body.get('confirm') is not True:
+                    raise ValueError('USB-Wiederherstellung bitte bestätigen.')
+                return self.usb_recovery.start(self, VERSION)
             if path == '/api/device/shutdown':
                 if body.get('confirm') is not True:raise ValueError('Herunterfahren bitte bestätigen.')
                 return self.management.shutdown_device(self,VERSION)
@@ -1158,7 +1166,26 @@ class StudioHandler(Handler):
         if path=='/api/state':self.respond(self.server.app.state());return
         if path=='/api/bluetooth':
             self.server.app.bluetooth.start();self.respond(self.server.app.bluetooth.public());return
-        if path=='/api/speakers':self.respond(self.server.app.speakers.public());return
+        if path=='/api/speakers/diagnostic-status':
+            app = self.server.app
+            with app.control_lock, app.controller.lock, app.engine.recorder.lock, app.speakers.lock:
+                app.room.require_operator()
+                activity = app.activity()
+                self.respond({'csrf': app.csrf, 'preview': app.preview,
+                    'signed_in': bool(app.room.account()), 'account_epoch': app.room.epoch,
+                    'activity': activity.public(), 'pending_processing': activity.pending,
+                    'playback_active': any(t > time.monotonic() for t in app.playback_leases.values()),
+                    'output_busy': app.speakers.test_status()['state'] == 'running',
+                    'output_cooldown_active': app.output_busy_until > time.monotonic(),
+                    'pending_login': app.cdb.login.get('state') == 'pending',
+                    'pending_intent': bool(app.room.intent),
+                    'open_timer_count': sum(i['state'] in ('scheduled','due','missed') for i in app.schedules.items()),
+                    'ringing_id': app.alarm_id, 'countdown_active': app.countdown is not None,
+                    'speakers': app.speakers.public()})
+            return
+        if path=='/api/speakers':
+            app = self.server.app
+            self.respond(app.speakers.public() | {'recovery': app.usb_recovery.public()});return
         if path=='/api/cdb/areas':
             try:self.respond(self.server.app.cdb.areas())
             except ValueError as e:self.respond({'error':str(e)},400)

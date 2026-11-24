@@ -475,6 +475,39 @@ class StudioTests(unittest.TestCase):
             native.assert_called_once_with('test')
         self.assertEqual(self.request('/')[2]['Permissions-Policy'],'microphone=(), camera=()')
 
+    def test_usb_recovery_endpoint_requires_csrf_operator_and_exact_confirmation(self):
+        with patch.object(self.app.usb_recovery,'start',return_value={'state':'running'}) as start:
+            self.assertEqual(self.request('/api/speakers/recover',{'confirm':True},{'X-CSRF-Token':'bad'})[0],403)
+            for body in ({}, {'confirm':False}, {'confirm':1}, {'confirm':True,'controller':'other'}):
+                self.assertEqual(self.request('/api/speakers/recover',body)[0],400)
+            with patch.object(self.app.room,'require_operator',side_effect=ValueError('PIN')):
+                self.assertEqual(self.request('/api/speakers/recover',{'confirm':True})[0],400)
+            start.assert_not_called()
+            self.assertEqual(self.request('/api/speakers/recover',{'confirm':True})[0],200)
+            start.assert_called_once()
+
+    def test_usb_recovery_busy_remains_an_activity_guard_after_lease_expiry(self):
+        self.app.usb_recovery.running=True
+        try:
+            self.assertTrue(self.app.activity().maintenance)
+            for path,body in (('/api/record/start',{}),('/api/speakers/test',{}),
+                              ('/api/speakers',{'volume':50}),('/api/cdb/logout',{})):
+                self.assertEqual(self.request(path,body)[0],400,path)
+        finally:self.app.usb_recovery.running=False
+
+    def test_audio_diagnostic_status_protects_access_and_omits_account_content(self):
+        with patch.object(self.app.room,'require_operator',side_effect=ValueError('PIN')):
+            self.assertEqual(self.request('/api/speakers/diagnostic-status')[0],404)
+        self.app.playback_leases['private-foreign-id']=time.monotonic()+60
+        with patch.object(self.app.schedules,'items',return_value=[{'id':'private-timer','state':'scheduled','title':'Private title'}]):
+            status,body,_=self.request('/api/speakers/diagnostic-status')
+        self.assertEqual(status,200)
+        data=json.loads(body)
+        self.assertTrue(data['signed_in']);self.assertTrue(data['playback_active'])
+        self.assertEqual(data['open_timer_count'],1)
+        for private in ('Private title','private-foreign-id','private-timer','Test User','synthetic-test'):
+            self.assertNotIn(private,body.decode() if isinstance(body,bytes) else body)
+
     def test_speaker_routes_are_protected_and_recording_interlocked(self):
         with patch.object(self.app.speakers,'public',return_value={'devices':[]}), patch.object(self.app.speakers,'configure',return_value={'ok':True}) as configure:
             self.assertEqual(self.request('/api/speakers')[0],200)

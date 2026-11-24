@@ -5,6 +5,7 @@ by paplay on the Pi, never by the remote browser.
 """
 import array
 import json
+import logging
 import math
 from pathlib import Path
 import shutil
@@ -158,8 +159,12 @@ class AudioOutput:
                 raise ValueError('Audioausgabe läuft bereits.')
             state = self.public()
             if not state['available']:
+                self.test = {'state': 'failed', 'message': state['message'],
+                             'device': state['selected'], 'error': 'output_missing'}
                 raise ValueError(state['message'])
             if state['muted'] or state['volume'] == 0:
+                self.test = {'state': 'failed', 'message': 'Stummschaltung aufheben und Lautstärke erhöhen.',
+                             'device': state['selected'], 'error': 'output_muted'}
                 raise ValueError('Stummschaltung aufheben und Lautstärke erhöhen.')
             self.cancelled = False
             kind = 'chime' if chime is not None else 'alarm' if alarm else 'announcement' if announcement is not None else 'test'
@@ -199,6 +204,7 @@ class AudioOutput:
         process = None
         released = True
         outcome = 'failed'
+        failure = 'Audioausgabe fehlgeschlagen. Ausgang prüfen.'
         try:
             path = self.root / 'speaker-test.wav'
             if tone is None:
@@ -229,6 +235,13 @@ class AudioOutput:
             code = process.wait(timeout=timeout)
             released = True
             outcome = 'completed' if code == 0 else 'failed'
+            # Some USB failures still let paplay exit zero. Never call that a
+            # successful device test if its output disappeared meanwhile.
+            if code == 0 and not self.cancelled:
+                present = any(d['id'] == device for d in self.public().get('devices', []))
+                if not present:
+                    outcome = 'failed'
+                    failure = 'Der Audioausgang wurde während der Wiedergabe getrennt. USB-Audio prüfen.'
         except (OSError, subprocess.SubprocessError) as error:
             if process is not None:
                 try:
@@ -244,7 +257,9 @@ class AudioOutput:
                 if released:
                     self.process = None
                     self.test = dict(self.test, state='cancelled' if self.cancelled else outcome,
-                                     message='Audioausgabe beendet.' if self.cancelled or outcome == 'completed' else 'Audioausgabe fehlgeschlagen. Ausgang prüfen.')
+                                     message='Audioausgabe beendet.' if self.cancelled or outcome == 'completed' else failure)
+                    if not self.cancelled and outcome == 'failed':
+                        logging.warning('audio_playback_failed: %s', failure)
                 else:
                     # Keep the device busy and retain the child for a retry.
                     self.test = dict(self.test, state='running', message='Audioausgabe wird noch beendet. Bitte erneut stoppen.')

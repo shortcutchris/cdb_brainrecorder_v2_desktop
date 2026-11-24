@@ -7,6 +7,12 @@ function speakerControls(data,s,connected,busy){
  return {running,locked,usable,select:!locked&&Boolean(data?.devices?.length),volume:!locked&&usable,
   test:running?!busy&&connected&&!s?.recording.id:!locked&&usable&&!data.muted&&data.volume>0};
 }
+function recoveryControls(data,s,connected,busy){
+ const r=data?.recovery||{};
+ const occupied=!connected||busy||Boolean(s?.recording?.id)||s?.capabilities?.configure?.allowed!==true||Boolean(s?.live?.busy)||Boolean(s?.timers?.items?.some(i=>['scheduled','due'].includes(i.state)))||Boolean(s?.jobs?.some(j=>['queued','importing','transcribing','summarizing'].includes(j.state)))||Boolean(s?.cdb?.publications?.some(j=>['queued','accepted','sending'].includes(j.state)));
+ return {allowed:!occupied&&!r.running&&r.available===true,
+  message:r.running?r.message:occupied?'Während laufender Vorgänge gesperrt. Timer und Wiedergabe zuerst beenden.':r.message||r.reason||'USB-Wiederherstellung auf diesem Pi noch nicht eingerichtet.'};
+}
 function announcementControls(s,connected,busy){
  const a=s?.announcements||{};
  const locked=!connected||busy||Boolean(s?.recording?.id)||s?.capabilities?.configure?.allowed===false;
@@ -49,6 +55,10 @@ function signalDeviceReady(){
 function renderSpeakers(){
  renderAnnouncements();renderDeviceSounds();
  const d=speakerData,c=speakerControls(d,state,online,speakerBusy),test=state?.speaker_test||d?.test||{};
+ const recovery=recoveryControls(d,state,online,speakerBusy);
+ $('speaker-recover').disabled=!recovery.allowed;
+ $('speaker-recover').textContent=d?.recovery?.running?'USB wird neu verbunden …':'USB-Audio wiederherstellen';
+ $('speaker-recovery-status').textContent=recovery.message;
  const selected=d?.selected||'',entries=d?.devices||[];
  const options=entries.map(x=>[x.id,x.label]);
  if(!entries.some(x=>x.id===selected))options.unshift([selected,d?.devices?.length?'Gewählter Ausgang nicht verbunden':'Kein Lautsprecher erkannt']);
@@ -92,6 +102,12 @@ $('speaker-louder').onclick=()=>speakerAction('/api/speakers',{volume:Math.min(1
 $('speaker-mute').onclick=()=>speakerAction('/api/speakers',{muted:!speakerData.muted});
 $('speaker-test').onclick=()=>speakerAction(state?.speaker_test?.state==='running'?'/api/speakers/stop':'/api/speakers/test',{});
 $('speaker-refresh').onclick=()=>loadSpeakers(true);
+$('speaker-recover').onclick=run(async()=>{
+ if(!recoveryControls(speakerData,state,online,speakerBusy).allowed)return;
+ if(!await confirmAction({title:'USB-Audio wiederherstellen?',tone:'primary',message:'Die interne USB-Erweiterung wird kurz neu verbunden. Der Pi bleibt eingeschaltet und deine Anmeldung bleibt erhalten. Danach den Testton prüfen.',accept:'USB neu verbinden',cancel:'Zurück',acceptDetail:'Nur die interne Audio-Erweiterung.',cancelDetail:'Nichts verändern.',acceptIcon:'arrow-clockwise',cancelIcon:'speaker-high'}))return;
+ if(!recoveryControls(speakerData,state,online,speakerBusy).allowed)throw Error('Das Gerät ist inzwischen beschäftigt. Bitte den laufenden Vorgang zuerst beenden.');
+ await speakerAction('/api/speakers/recover',{confirm:true});
+});
 const beforeSpeakerDetail=showSettingsDetail;
 showSettingsDetail=function(page){beforeSpeakerDetail(page);if(['speaker-page','device-sounds-page'].includes(page))loadSpeakers(true)};
 const beforeSpeakerState=renderState;

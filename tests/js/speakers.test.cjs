@@ -1,6 +1,19 @@
 const test=require('node:test'),assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs');
 const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('studio/speakers.js','utf8').split('function renderSpeakers')[0],ctx);
 const s=()=>({recording:{id:null},capabilities:{configure:{allowed:true}},speaker_test:{state:'idle'}}),d=()=>({available:true,devices:[{id:'usb'}],volume:50,muted:false});
+test('USB recovery needs an installed eligible helper and remains blocked during other work',()=>{
+ const data={...d(),recovery:{available:true,running:false}},state=s();
+ assert.equal(ctx.recoveryControls(data,state,true,false).allowed,true);
+ for(const value of [undefined,{}, {available:false}, {available:true,running:true}])
+  assert.equal(ctx.recoveryControls({...data,recovery:value},state,true,false).allowed,false);
+ for(const [connected,busy] of [[false,false],[true,true]])
+  assert.equal(ctx.recoveryControls(data,state,connected,busy).allowed,false);
+ for(const override of [{recording:{id:'active'}},{recording:{id:'active',paused:true}},
+  {capabilities:{configure:{allowed:false}}},{live:{busy:true}},
+  {timers:{items:[{state:'scheduled'}]}},{timers:{items:[{state:'due'}]}},
+  {jobs:[{state:'transcribing'}]},{cdb:{publications:[{state:'sending'}]}}])
+  assert.equal(ctx.recoveryControls(data,{...state,...override},true,false).allowed,false);
+});
 test('recording blocks every speaker mutation, including tone stop',()=>{const state=s();state.recording.id='active';for(const key of ['select','volume','test'])assert.equal(ctx.speakerControls(d(),state,true,false)[key],false)});
 test('missing output and offline cannot play a test tone',()=>{assert.equal(ctx.speakerControls({...d(),available:false},s(),true,false).test,false);assert.equal(ctx.speakerControls(d(),s(),false,false).test,false)});
 test('muted or silent speakers keep volume available but block tests',()=>{for(const data of [{...d(),muted:true},{...d(),volume:0}]){const c=ctx.speakerControls(data,s(),true,false);assert.equal(c.volume,true);assert.equal(c.test,false)}});

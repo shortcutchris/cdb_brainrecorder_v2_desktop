@@ -16,6 +16,11 @@
   const links=document.createElement('div');links.className='sound-links';
   links.append($('speaker-announcements'),$('speaker-device-sounds'));
   $('speaker-page').querySelector('.audio-input-column').append(links);
+  const recovery=$('speaker-recover').closest('.settings-card');
+  recovery.classList.add('usb-recovery-card');
+  recovery.querySelector('strong').remove();
+  recovery.prepend($('speaker-recover'));
+  test.append(recovery);
   const details=document.createElement('details');details.innerHTML='<summary>Wiedergabe & Aufnahme</summary>';
   for(const card of [...status.querySelectorAll('.settings-card')])if(card.textContent.trim())details.append(card);
   test.append(details);status.remove();

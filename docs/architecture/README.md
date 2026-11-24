@@ -1,5 +1,11 @@
 # Wie die Brain-Systeme zusammenspielen
 
+**USB-Audio ab 0.5.105:** Der Webdienst reserviert die bestehende Wartungsgrenze,
+ein separat installierter Root-Helfer validiert den konkreten Controller und die
+USB-Topologie erneut. Erfolg benötigt USB-Gerät und PipeWire-Ausgang. Keine
+automatischen Resets und keine Root-Installer in App-Updates.
+[Grenzen und Testplan](../audio/usb-recovery-0.5.105.md).
+
 **App-Update ab 0.5.104:** Die lokale Geräteverwaltung kann unter Wartungsschutz
 das bestehende Brain-Konto einmalig für 120 Sekunden übergeben, gebunden an
 denselben Linux-Start und die bisherige Ruhefrist. Systemneustart meldet weiterhin
