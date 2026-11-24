@@ -332,7 +332,11 @@ class Diagnostic:
         until = self.clock() + seconds
         while self.clock() < until:
             self.check(own_allowed=own_allowed)
-            self.sleep(min(.4, until-self.clock()))
+            # Real API checks consume time. If the final check crosses the
+            # deadline, never pass a negative duration to time.sleep().
+            remaining = until-self.clock()
+            if remaining > 0:
+                self.sleep(min(.4, remaining))
 
     def finish_audio(self, *, require_completed=False):
         until = self.clock() + 10
@@ -524,8 +528,11 @@ class Diagnostic:
             self.event('abort', reason=str(error))
         except KeyboardInterrupt:
             self.report.update(result='interrupted', reason='operator_interrupt')
-        except Exception:
-            self.report.update(result='aborted', reason='unexpected_error')
+        except Exception as error:
+            # Include only the class, never exception text with API/account data.
+            self.report.update(result='aborted', reason='unexpected_error',
+                               error_type=type(error).__name__)
+            self.event('abort', reason='unexpected_error', error_type=type(error).__name__)
         finally:
             if run and (self.own_audio or self.timer_labels):
                 if not self.cleanup():

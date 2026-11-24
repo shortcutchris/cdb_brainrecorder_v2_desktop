@@ -23,6 +23,8 @@ class Clock:
         return self.now
 
     def sleep(self, seconds):
+        if seconds < 0:
+            raise ValueError('sleep length must be non-negative')
         self.now += seconds
 
 
@@ -166,6 +168,24 @@ class UsbAudioDiagnosticTests(unittest.TestCase):
         text = json.dumps(report)
         for secret in (api.csrf, api.epoch, 'PRIVATE_ACCOUNT_NAME', 'Private client meeting', SINK):
             self.assertNotIn(secret, text)
+
+    def test_observation_check_can_finish_after_its_deadline(self):
+        diagnostic, api, clock = self.make()
+        api.hook = lambda *_: clock.sleep(.6)
+        with patch.object(diagnostic, 'sleep', wraps=clock.sleep) as sleep:
+            diagnostic.observe(1)
+        self.assertGreaterEqual(clock.now, 101)
+        sleep.assert_not_called()
+        self.assertEqual(api.mutations, [])
+
+    def test_unexpected_failure_reports_class_without_sensitive_message(self):
+        diagnostic, api, _ = self.make()
+        api.hook = Mock(side_effect=ValueError(api.csrf))
+        report = diagnostic.execute(True)
+        self.assertEqual(report['error_type'], 'ValueError')
+        self.assertEqual(report['result'], 'aborted')
+        self.assertNotIn(api.csrf, json.dumps(report))
+        self.assertEqual(api.mutations, [])
 
     def test_every_global_blocker_and_missing_safety_field_fails_closed(self):
         cases = {'signed_in': False, 'preview': True, 'pending_processing': True, 'output_cooldown_active': True,
