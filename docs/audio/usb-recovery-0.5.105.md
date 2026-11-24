@@ -154,6 +154,38 @@ bei 1280 × 720 und 1024 × 600 in hellem und CDB-Design geprüft. Die Aktion is
 direkt sichtbar; der Dialog bietet zwei große Kacheln. Abbrechen startet keine
 Wiederherstellung. Dies ersetzt keinen Fingertest am Pi.
 
-Geräte-/Hörtest und Installationsnachweis folgen nach dem Administrator-Setup.
-Bis dahin keine Behauptung einer wiederhergestellten oder dauerhaft stabilen
-Soundbar. Wiederanlauf ist kein Nachweis behobener Hardwareursache.
+### Installation und physische Anzeige
+
+0.5.105 wurde am 24.11.2026 um 14:11 MEZ auf dem Recorder-Pi installiert:
+Quellstand `c4e367ce06b8a02f126204e83a979dfe4bb3aa80`, signiertes Paket
+`f5699e92d56fe5ed88b3da79b55499b4947ecce43c0156c457c6af54c6a3d0a4`.
+158 App-Dateien verifiziert. Einstellungen, NFC-Zuordnungen, Raumpolicy und
+Aufnahmebestand unverändert. App und Kiosk neu gestartet; Boot-ID unverändert,
+Zusatzdisplaydienst unverändert, Wartungssperre freigegeben. Vor der Installation
+war niemand mehr angemeldet; daher kein neuer Live-Nachweis der Kontoübergabe.
+
+Die Lautsprecherseite wurde über einen privaten Bildschirmzugriff auf dem
+tatsächlichen Pi-Kiosk geöffnet. Der neue Knopf ist sichtbar und gesperrt mit
+Einrichtungshinweis. Der ausgewählte Ausgang ist weiterhin reSpeaker (40 %);
+die interne 188A fehlt. Kein Testton an einen anderen Ausgang als vermeintlichen
+Soundbar-Erfolg ausgegeben. Screenshots bleiben im privaten Arbeitsartefakt
+`output/usb-audio-20261124`; keine privaten Bildschirmkopien im Repository.
+
+Der neue Image-Bausatz wurde aus dem sauberen Commit exportiert: 165 Quelldateien,
+200 Integritätseinträge, Factory-Helfer enthalten und aus dem App-Update
+ausgeschlossen. Kein SD-Image gebaut oder auf Hardware gestartet.
+
+### Noch offen
+
+Der Administrator-Installer liegt geprüft auf dem Pi bereit, wurde aber noch
+nicht ausgeführt. `sudo -n` erlaubt keine zusätzliche Systemeinrichtung.
+Die automatische Terminal-Bedienung wurde vom Computer-Use-Schutz abgelehnt;
+der Nutzer erhielt den konkreten Befehl zur eigenen Eingabe. Keine Umgehung,
+kein USB-Reset und keine Kernelparameteränderung ausgeführt.
+
+Die Diagnose-Vorprüfung um 14:12 MEZ brach vor Klangausgabe korrekt mit
+`sign_in_required` ab. Dabei USB-/ALSA-Befund bestätigt: 188A fehlt,
+NFC/reSpeaker/Zusatzdisplay vorhanden. Für die komplette echte Timer-Testreihe
+sind erst Einrichtung, Wiederherstellung und Anmeldung erforderlich. Kein
+bestandener Hardware- oder Hörtest behauptet. Wiederanlauf allein wäre zudem
+kein Nachweis einer behobenen Hardwareursache.
