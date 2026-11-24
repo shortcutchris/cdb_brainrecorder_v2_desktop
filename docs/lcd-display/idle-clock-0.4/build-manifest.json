@@ -1,0 +1,67 @@
+{
+  "version": "0.4.0",
+  "source_commit": "c01df2c9cb7bd19c261d1b3ff64b06405b1d0b64",
+  "ci_url": "https://github.com/shortcutchris/cdb_brainrecorder_v2_desktop/actions/runs/45373390089",
+  "ci_conclusion": "success",
+  "app_descriptor": {
+    "version": "0.4.0",
+    "project": "cdb_lcd_usb",
+    "idf": "v5.5.2"
+  },
+  "app_sha256": "82ef0725a9d7d5504a9dbb89c31af0fb68b97859906e82639c516d6e30bf4c2f",
+  "files": {
+    "dependencies.lock": {
+      "bytes": 5840,
+      "sha256": "2794f7991c59a0df956f9c74ecc92e654aab934241ff166aeb69e4a21eacfaf1"
+    },
+    "build/flasher_args.json": {
+      "bytes": 915,
+      "sha256": "dfeb5c7b39ba3b71f7c666e663879bfedd375198f5ca2165cb9d07c5bfa04d69"
+    },
+    "build/cdb_lcd_usb.bin": {
+      "bytes": 839456,
+      "sha256": "82ef0725a9d7d5504a9dbb89c31af0fb68b97859906e82639c516d6e30bf4c2f"
+    },
+    "build/partition_table/partition-table.bin": {
+      "bytes": 3072,
+      "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"
+    },
+    "build/bootloader/bootloader.bin": {
+      "bytes": 22496,
+      "sha256": "77a4fbaff6540c64079b66dd691993302f9d73bb7d5518f376678c1c9ac8f9ce"
+    }
+  },
+  "app_bytes": 839456,
+  "app_partition_bytes": 1048576,
+  "app_only_offset": "0x10000",
+  "partition_table_matches_0_3": true,
+  "flash_settings": {
+    "flash_mode": "dio",
+    "flash_size": "16MB",
+    "flash_freq": "80m"
+  },
+  "final_lock_dependencies": {
+    "espressif/button": "4.2.2",
+    "espressif/cmake_utilities": "1.4.1",
+    "espressif/esp_lcd_touch": "1.2.1",
+    "espressif/esp_lcd_touch_gt911": "1.1.3",
+    "espressif/esp_lv_decoder": "0.4.3",
+    "espressif/esp_lv_fs": "1.0.1",
+    "espressif/esp_lvgl_adapter": "0.5.2",
+    "espressif/esp_mmap_assets": "2.0.1",
+    "espressif/esp_new_jpeg": "1.0.2",
+    "espressif/esp_tinyusb": "3.0.0",
+    "espressif/freetype": "2.15.0",
+    "espressif/knob": "1.1.0",
+    "espressif/libpng": "1.6.59~1",
+    "espressif/zlib": "1.4.0",
+    "idf": "5.5.2",
+    "lvgl/lvgl": "9.6.0~1"
+  },
+  "final_lock_matches_0_3": true,
+  "native_sanitizer_tests_passed": true,
+  "simulated_usb_test_passed": true,
+  "hardware_configuration_check_passed": true,
+  "firmware_written": false,
+  "hardware_visual_touch_confirmed": false
+}
