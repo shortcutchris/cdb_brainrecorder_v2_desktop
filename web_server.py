@@ -29,7 +29,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '0.5.103'
+VERSION = '0.5.104'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -1255,7 +1255,7 @@ class StudioHandler(Handler):
                 if not 0<size<1024:raise ValueError('Ungültige Anfrage.')
                 body=json.loads(self.rfile.read(size))
                 with app.control_lock, app.controller.lock, app.engine.recorder.lock:
-                    result=app.management.prepare(app,body.get('command'),VERSION) if self.path.endswith('/prepare') else app.management.release(body.get('command'))
+                    result=app.management.prepare(app,body.get('command'),VERSION,preserve_login=True) if self.path.endswith('/prepare') else app.management.release(body.get('command'))
                 self.respond(result)
             except (ValueError,TypeError):self.respond({'error':'Gerät beschäftigt oder Anfrage ungültig.'},409)
             return

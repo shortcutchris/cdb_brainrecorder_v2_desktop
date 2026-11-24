@@ -1,5 +1,10 @@
 # SD-Images bauen, testen und weiterentwickeln
 
+**0.5.104:** Die Update-Sitzungsübergabe wird als normales App-Modul aus der
+bestehenden Allowlist mitgeliefert. Frische Images enthalten keine Sitzungsdaten
+oder Übergaben; Anmeldung ist erforderlich. Keine Runtime- oder OS-Änderung.
+[Details und Abnahme](../update-session-0.5.104/README.md).
+
 **cdbPiOS-Startbildschirm:** Neue Baupakete enthalten das eigene Boot-/Abschaltbild
 mit expliziter Plymouth-Installation und nativer Touch-Display-2-Ausrichtung.
 Das ist eine OS-Ergänzung zum App-Stand 0.5.93, kein durch App-Updates ausgeführtes

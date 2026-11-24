@@ -1,5 +1,11 @@
 # Wie die Brain-Systeme zusammenspielen
 
+**App-Update ab 0.5.104:** Die lokale Geräteverwaltung kann unter Wartungsschutz
+das bestehende Brain-Konto einmalig für 120 Sekunden übergeben, gebunden an
+denselben Linux-Start und die bisherige Ruhefrist. Systemneustart meldet weiterhin
+ab. Keine Zugangsdatenkopie, keine erneuerte Betreiberfreigabe oder automatische
+Aufnahme. [Details](../update-session-0.5.104/README.md).
+
 Grundübersicht: 14. Oktober 2026; lokales Hilfeportal ergänzt am 23. November 2026 für Recorder 0.5.94. Diese Übersicht beschreibt den hier
 vorliegenden Code. Historische Entwürfe sind nicht automatisch produktive Funktionen.
 

@@ -1,5 +1,18 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 0.5.104 – App-Updates ohne erneute Anmeldung
+
+Ein kontrolliertes App-Update erhält das angemeldete Brain-Konto und die restliche
+Ruhefrist. Ausschalten, Pi-Neustart, normale Abmeldung und Kontowechsel bleiben
+unverändert. Die einmalige Übergabe gilt höchstens zwei Minuten auf demselben
+laufenden Pi; sie kopiert keine Zugangsdaten und verlängert keine Tokenlaufzeit.
+Betreiberfreigabe und Startvorbereitung werden nicht übernommen.
+
+Enthalten sind die [Dialog- und Timerverbesserungen aus 0.5.103](docs/ui-audit-0.5.103/README.md):
+Außentippen schließt Dialoge über ihren sicheren Abbruchweg. Die Timereinstellung
+hat zwei feste Seiten mit dauerhaft erreichbarer Starttaste.
+[Prüfung und Pi-Installation](docs/update-session-0.5.104/README.md).
+
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
 Verbindliche [Pi-Touch-Bedienregeln](docs/PI-TOUCH-RULES.md). Die Befunde A01–A08 aus dem [UI-Audit](docs/ui-audit-2026-11-24/README.md) sind in 0.5.101 umgesetzt. [Änderungen, Prüfungen und Installationsstand](docs/pi-touch-0.5.101/README.md).

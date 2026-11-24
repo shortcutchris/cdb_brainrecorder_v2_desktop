@@ -29,7 +29,7 @@ class DeviceManagement:
         same_boot=not boot or boot==self.boot_id()
         return transaction or (same_boot and marker.get('expires',0)>time.time())
 
-    def prepare(self,app,command,version):
+    def prepare(self,app,command,version,*,preserve_login=False):
         # Caller holds control/controller/recorder locks. All mutating paths and
         # wake starts consult this same marker, including after an app restart.
         if not isinstance(command,str) or len(command)!=36:raise ValueError('Auftragskennung fehlt.')
@@ -39,13 +39,27 @@ class DeviceManagement:
         if any(t>time.monotonic() for t in app.playback_leases.values()):raise ValueError('Wiedergabe läuft.')
         with app.cdb.db() as db:
             if db.execute("SELECT 1 FROM publications WHERE state IN ('queued','accepted','sending') LIMIT 1").fetchone():raise ValueError('Übertragung läuft.')
+        if preserve_login and (app.room.intent or app.cdb.login.get('state') == 'pending'):
+            raise ValueError('Anmeldung oder Startvorbereitung zuerst abschließen.')
         save(self.marker,{'command':command,'expires':time.time()+600})
+        from services.update_session import issue, discard
+        try:
+            if preserve_login:
+                issue(self.root.parent,command,app.room.account(),app.room.epoch,app.room.idle_remaining())
+            else:
+                discard(self.root.parent)
+        except OSError:
+            self.marker.unlink(missing_ok=True)
+            raise ValueError('Sitzungsübergabe konnte nicht vorbereitet werden.')
         app.wake.suspend('Gerät wird gewartet.')
         return {'ready':True,'version':version}
 
     def release(self,command):
         marker=read(self.marker,{})
-        if marker.get('command')==command:self.marker.unlink(missing_ok=True)
+        if marker.get('command')==command:
+            from services.update_session import discard
+            discard(self.root.parent)
+            self.marker.unlink(missing_ok=True)
         return {'ok':True}
 
     def public(self):

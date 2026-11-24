@@ -44,8 +44,14 @@ class RoomMode:
         self.pin_after = 0
         self.epoch = secrets.token_hex(16)
         self.observed_account = None
-        if self.enabled:
-            cdb.logout()  # A reboot never silently signs the next room user in.
+        from services.update_session import consume
+        resumed = consume(root, self.account(), self.config.get('idle_minutes', 15), clock=clock)
+        if resumed:
+            self.epoch = resumed['epoch']
+            self.observed_account = self.account()
+            self.last_touch = clock() - (self.config.get('idle_minutes', 15) * 60 - resumed['remaining'])
+        else:
+            cdb.logout()  # Only a one-use, same-boot update handoff may retain login.
 
     @property
     def enabled(self):
@@ -110,6 +116,8 @@ class RoomMode:
         self.intent = None
 
     def reset(self):
+        from services.update_session import discard
+        discard(self.path.parent)
         self.cancel()
         self.operator_until = 0
         self.epoch = secrets.token_hex(16)
@@ -167,6 +175,11 @@ class RoomMode:
         if the device was busy for hours or the monitor was briefly delayed.
         Background processing alone does not keep an unattended account open.
         """
+        # Installing software is not evidence that the person is still present.
+        if activity.maintenance:
+            self.idle_suspended = False
+            self.idle_reason = ''
+            return
         suspended = bool(activity.occupied or activity.paused or playback)
         if suspended or self.idle_suspended:
             self.touch()

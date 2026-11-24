@@ -67,7 +67,7 @@
       "Nach Talk oder Meeting zuerst stoppen. Danach „Fertig & abmelden“ und „Speichern & abmelden“ wählen. Notizen werden vorher gesichert."
     ],
     "paragraphs": [
-      "Während Aufnahme, Pause und Gespräch sind Abmelden und Kontowechsel gesperrt. Ein Neustart meldet niemanden automatisch wieder an. Zum neuen Anmelden ist Internet erforderlich.",
+      "Während Aufnahme, Pause und Gespräch sind Abmelden und Kontowechsel gesperrt. Ein Pi-Neustart meldet niemanden automatisch wieder an. Bei einem kontrollierten App-Update bleibt deine bestehende Anmeldung erhalten, solange sie noch gültig ist; die Ruhefrist läuft weiter. Zum neuen Anmelden ist Internet erforderlich.",
       "Die Betreiber-PIN schützt Geräteeinstellungen. Sie ersetzt keine Brain-Anmeldung und gibt keinen Zugriff auf fremde Meetings."
     ]
   },
