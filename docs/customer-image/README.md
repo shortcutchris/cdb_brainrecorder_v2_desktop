@@ -22,8 +22,7 @@ oder Übergaben; Anmeldung ist erforderlich. Keine Runtime- oder OS-Änderung.
 **cdbPiOS-Startbildschirm:** Neue Baupakete enthalten das eigene Boot-/Abschaltbild
 mit expliziter Plymouth-Installation und nativer Touch-Display-2-Ausrichtung.
 Das ist eine OS-Ergänzung zum App-Stand 0.5.93, kein durch App-Updates ausgeführtes
-Installationsskript. Noch kein mit dem Theme gebautes oder boot-zertifiziertes
-Image. [Paket, Tests und bestehende Geräte](../boot-brand/README.md).
+Installationsskript. Im Image 1.0.0-rc1 enthalten; dessen Hardware-Erststart ist noch offen. [Paket, Tests und bestehende Geräte](../boot-brand/README.md).
 
 Bei der Hardwareabnahme eines neuen Pi mit interner Soundbar den [Links-rechts-Hörtest in Recorder Studio](../audio/soundbar.md) durchführen.
 
@@ -31,7 +30,7 @@ Das Kunden-Image wird aus **Quellcode und Bauanleitung** erstellt. Es ist kein
 Abbild eines benutzten Pi. Der laufende Pi und seine SD-Karte werden zum Bauen
 nicht benötigt und bleiben unangetastet.
 
-**Aktueller Testkandidat:** [SD-Image 0.5.77 mit WLAN-Assistent und Offline-Modellen](build-0.5.77/README.md). [Früherer Build 0.5.44](build-0.5.44/README.md).
+**Aktueller Testkandidat:** [SD-Image 1.0.0-rc1 mit Offline-Modellen und Zusatzdisplay](build-1.0.0-rc1/README.md). [Früherer Build 0.5.77](build-0.5.77/README.md).
 
 [Systemübersicht und Architektur](../architecture/README.md) ·
 [Erststart-Assistent ab 0.5.77](../erststart-0.5.77.md) · [Erststart im Image 0.5.44](../first-start-0.5.44/README.md)

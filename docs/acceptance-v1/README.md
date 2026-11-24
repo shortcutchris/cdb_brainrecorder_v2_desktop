@@ -1,46 +1,71 @@
 # Version 1 – Endabnahme
 
-Stand: 24. November 2026. **Abnahme läuft; noch keine endgültige Freigabe.**
-Kandidat: `1.0.0-rc1`. Bestehendes Gehäuse-Gerät: `0.5.105` vor Beginn der Abnahme.
+Stand: **24. November 2026 · Kandidat 1.0.0-rc1**. Noch keine endgültige V1-Freigabe.
+Quellstand: `01d81078794942dc5255e4ab221b9e8c59a02502`.
+[Bereinigte Ergebnisse](results-2026-11-24.json) · [Sichtprüfung](views-2026-11-24.md) · [SD-Image](../customer-image/build-1.0.0-rc1/README.md).
 
-## Vorgehen
+## Bestanden
 
-1. Vollständige Python-/JavaScript-Regression und LCD-Protokolltests.
-2. Alle Hauptansichten, Einstellungen und Dialoge mit synthetischem Konto bei
-   1280×720 und 1024×600 prüfen; Tastatur, große Aktionen, Statuswechsel und
-   gegenseitige Aktionssperren erfassen. Eine solche Prüfung ist keine
-   Hardware- oder Cloudabnahme.
-3. Tatsächlicher Pi: Aufnahme, Pause, lokale Verarbeitung, Timer/Alarme,
-   Audiogeräte, NFC, Konto/Raummodus, Neustart und Zusatzdisplay prüfen.
-4. Sauberes, signiertes App-Paket und frisches Offline-Image aus dem
-   festgehaltenen Quellcommit erstellen. Keine Kundendaten, Konten oder
-   Geräteschlüssel aus dem laufenden Gerät kopieren.
-5. Export offline prüfen. Danach Erststart mit der vom Benutzer bestätigten
-   zweiten SD-Karte (mindestens 32 GB). Die bisherige Installation bleibt erhalten.
+- **797 Python- und 171 JavaScript-Tests**; zusätzlich serieller PTY-Integrationstest.
+  Native LCD-Protokoll- und Timeransicht-Tests mit Address-/UndefinedBehavior-Sanitizer.
+- **Update am vorhandenen Pi von 0.5.105 auf 1.0.0-rc1**: Signatur und 158
+  Paketdateien geprüft. App, Kiosk und LCD-Dienst danach aktiv. Anmeldung,
+  Einstellungen, Aufnahmeninventar, NFC-Zuordnungen und Raummodus erhalten.
+  Wartung beendet; kein Neustart und keine Änderung der Bootkonfiguration.
+- **Echtes Zusatzdisplay**: Uhr → ein großer Countdown → zwei Timer → Alarm →
+  wieder Uhr. 115 von 115 gesendeten Zuständen bestätigt; alle Wechsel vom
+  Benutzer am Display bestätigt. Nur drei eigene Testtimer erzeugt, beendet und
+  quittiert. Danach keine sichtbaren Timer und Begleitdienst wieder aktiv.
+- **Neues SD-Image gebaut und offline geprüft**: FAT/ext4, 165 Quelldateien,
+  Bootdateien, Dienste, Modelle und Kundendatenfreiheit. Komprimiertes Archiv
+  fehlerfrei. ARM64-Runtime und leere Profilinitialisierung zusätzlich ohne
+  Netzwerk ausgeführt; LCD-Pythonlaufzeit importierbar.
+- Hauptansichten, Einstellungen und relevante Dialoge in einer isolierten
+  UI-Prüfkopie dokumentiert. Aufnahme-/Pausen-/Talk-Sperren, große
+  Entscheidungsflächen, Außentipp-Abbruch und Bildschirmtastatur geprüft.
 
-## Bisherige Befunde und Korrekturen
+## Während der Abnahme korrigiert
 
-- Das Image lieferte den LCD-Code, aber keinen aktivierten Begleitdienst und
-  keine serielle Laufzeit. Factory-Einrichtung ergänzt; normale App-Updates
-  installieren keine OS-Komponenten.
-- PC/SC wird im Image ausdrücklich über seinen Socket aktiviert.
-- Opt-in-Profil für die vorhandene PCIe-USB-Platine ergänzt: PCIe aktiv,
-  Reset-Verzögerung 100 ms, Gen 1. Ausschließlich in frischem Factory-Root;
-  widersprüchliche vorhandene Profile werden abgelehnt.
-- Fernbedienungs-Tests erhielten die im echten Studio vorhandene
-  USB-Wiederherstellungsinstanz. Sie prüfen jetzt zusätzlich, dass diese
-  Wartungsaktion einen Gesprächsstart blockiert.
+Das bisherige Image lieferte LCD-Code, aber keinen aktivierten Begleitdienst und
+keine serielle Laufzeit. Die Factory-Einrichtung enthält jetzt beides, pyserial
+3.5, die Gruppe `dialout` und einen aktivierten PC/SC-Socket.
 
-## Offene Freigabepunkte
+Das ausdrücklich gewählte Profil `--pcie-usb-board` übernimmt für frische Images
+PCIe, 100 ms Reset-Verzögerung und Gen 1. Widersprüchliche vorhandene Bootprofile
+werden abgelehnt. Das ist **kein Nachweis**, dass der sporadische VIA-Ausfall
+behoben wurde. App-Updates verändern diese OS-Komponenten nicht.
 
-- Sporadischer Ausfall des VIA-USB-Controllers ist weiterhin nicht abschließend
-  erklärt. Zwei vorherige Timer-Belastungsläufe bestanden und wurden vom Nutzer
-  hörbar bestätigt; ein USB-Neubinden hatte den ausgefallenen Controller nicht
-  wiederhergestellt, ein Neustart schon. Nicht als dauerhaft behoben behandeln.
-- Aktuelles Geräteprofil enthält kein aktiviertes Sprachansagen-Paket. Diesen
-  Zustand von normalen Alarm- und Startklängen unterscheiden.
-- Image-Build, Offlineprüfung, echter Erststart und aktuelle Sicht-/Funktions-
-  abnahme werden nach ihrer Durchführung mit Nachweisen ergänzt.
+Der Remote-Control-Testaufbau bildet nun die USB-Wiederherstellung des echten
+Studios ab und prüft zusätzlich, dass währenddessen kein Gespräch startet.
 
-Private Bilder und Rohprotokolle bleiben außerhalb Git unter dem Arbeitsordner
-`output/v1-acceptance-20261124/`; hier werden nur bereinigte Ergebnisse abgelegt.
+## Noch offene Freigabepunkte
+
+1. **Zweite SD-Karte booten**: Karte ab 32 GB ist laut Benutzer vorhanden.
+   Erststart, WLAN, Displayausrichtung, Audiogeräte, Offline-Transkription und
+   Zusammenfassung sowie Neustart mit erhaltener Einrichtung prüfen.
+2. **Direkte Kiosk-Abnahme nach Update**: Der Benutzer hat den Pi nach dem
+   erfolgreichen Update ausgeschaltet. Deshalb ist die anschließende direkte
+   Sichtprüfung des physischen Displays noch offen. Das ist kein beobachteter
+   App- oder Netzwerkabsturz.
+3. **NFC-Hardware**: Der Rocketek kann aktuell nicht angeschlossen werden.
+   Talk/Meeting-Aufstellen und Abnehmen deshalb nicht erneut physisch abgenommen.
+4. **USB-Langzeitstabilität**: Frühere Belastungstests mit Timeralarmen bestanden
+   und wurden hörbar bestätigt. Der vorherige VIA-Controller-Ausfall mit
+   USB-Zeitüberschreitungen ist trotzdem nicht abschließend erklärt.
+5. **Externe Funktionen**: Kein neuer vollständiger Cloud-Talk-, Brain-Upload-,
+   Handy-Kopplungs- oder Aktivierungswort-Hardwaretest in diesem Durchlauf.
+   Automatisierte Tests und synthetische UI-Zustände ersetzen diese nicht.
+
+Das aktuelle Geräteprofil enthält kein aktiviertes Sprachansagen-Paket. Das ist
+getrennt von den vorhandenen Timer-, Start- und Abschiedsklängen zu behandeln.
+Neustart/Herunterfahren wurden in der Prüfkopie bis zur Bestätigung kontrolliert;
+ein echter Stromzyklus war in diesem Durchlauf nicht Teil eines gesteuerten Tests.
+
+## Nachweise und Datenschutz
+
+Screenshots mit synthetischem Prüfkonto und Rohprotokolle liegen außerhalb Git im
+Arbeitsordner `output/v1-acceptance-20261124/`; die Galerie heißt `index.html`.
+Image, signiertes App-Paket und Bauprotokolle liegen lokal unter
+`/Users/chris/Developer/cdb-images/1.0.0-rc1-20261124/`.
+Keine Kundenanmeldung, Aufnahmen, WLAN-Schlüssel oder privaten Signierschlüssel
+wurden in das Image übernommen. Die vorhandene SD-Karte wurde nicht beschrieben.

@@ -1,0 +1,81 @@
+{
+  "date": "2026-11-24",
+  "version": "1.0.0-rc1",
+  "source_commit": "01d81078794942dc5255e4ab221b9e8c59a02502",
+  "release_status": "candidate_not_final",
+  "automated": {
+    "python": {
+      "passed": 797,
+      "failed": 0
+    },
+    "javascript": {
+      "passed": 171,
+      "failed": 0
+    },
+    "lcd_pty_integration": "passed",
+    "lcd_c_protocol_asan_ubsan": "passed",
+    "lcd_c_view_asan_ubsan": "passed"
+  },
+  "deployment": {
+    "previous_version": "0.5.105",
+    "version_verified": true,
+    "signature_verified": true,
+    "files_verified": 158,
+    "services_active_after_update": true,
+    "login_preserved": true,
+    "settings_preserved": true,
+    "session_inventory_preserved": true,
+    "nfc_assignments_preserved": true,
+    "room_policy_preserved": true,
+    "boot_unchanged": true,
+    "maintenance_released": true,
+    "release_hash": "93ae636484fb5928b72188893912e1ff7862f9a81d0a753bde383bae42718cce"
+  },
+  "lcd_hardware": {
+    "test_timers_created": 3,
+    "bound": 1,
+    "snapshots_sent": 115,
+    "snapshots_acknowledged": 115,
+    "snapshots_by_visible_timer_count": {
+      "0": 14,
+      "1": 72,
+      "2": 29
+    },
+    "alarm_seen": true,
+    "remaining_visible_timers": 0,
+    "companion_service_restored": true,
+    "user_visual_confirmation": "Alle Wechsel werden korrekt angezeigt",
+    "sequence": [
+      "clock",
+      "one_large_countdown",
+      "two_timers",
+      "alarm",
+      "clock"
+    ]
+  },
+  "image": {
+    "compressed_bytes": 5551114068,
+    "uncompressed_bytes": 11651776512,
+    "compressed_sha256": "9f6ab2ea29ac449bc196b216c6ae0bd1d145e935418523bc4b6db81340977436",
+    "uncompressed_sha256": "4a7c1a04c2737b64a02677f9e5c89a9b1b3fa9629dbc2a7762de0684516d3560",
+    "pi_gen_commit": "d346cd53562b3c6b4f94c9155175f814258c456d",
+    "source_files_verified": 165,
+    "xz_integrity": "passed",
+    "filesystem_and_source_audit": "passed",
+    "customer_data_audit": "clean",
+    "offline_models_included": true,
+    "pcie_usb_board_profile": true,
+    "runtime_imports": "passed_without_network",
+    "fresh_profile_initializer": "passed_without_network",
+    "physical_sd_boot": "not_tested",
+    "public_release_key_sha256": "8ea3e5260389013e2f21973c3a029ba82842e03e720aa9398daa66e27dbe4590"
+  },
+  "limitations": [
+    "NFC reader unavailable: physical Talk/Meeting acceptance postponed by user.",
+    "Intermittent VIA USB controller failure not conclusively resolved; prior audible load tests passed.",
+    "Physical kiosk verification pending: user confirmed intentionally powering off the Pi after successful deployment.",
+    "No new end-to-end cloud Talk, Brain transfer, phone pairing or wake-word hardware acceptance in this run.",
+    "Model weights and runtime verified in image; new SD inference/boot acceptance pending.",
+    "Optional speech announcement package absent in current device profile; ordinary alarm and startup sounds are separate."
+  ]
+}
