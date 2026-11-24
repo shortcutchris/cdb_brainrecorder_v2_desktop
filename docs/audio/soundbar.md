@@ -39,3 +39,25 @@ Auf dem ersten Gerät liegt außerdem **Bibliothek → Lautsprechertest – link
 | 188A ist sichtbar, aber der Test bleibt stumm | Auswahl, Stummschaltung und Lautstärke prüfen. Nach dem Versuch USB-Erkennung und Kernelprotokoll erneut prüfen. Ein abgeschlossener Abspielprozess allein belegt keine hörbare Ausgabe. |
 
 **Abnahme vom 12. November 2026:** Auf Recorder Studio 0.5.71 wurden die fehlenden Clientprogramme installiert. Nach einem geordneten Neustart erkannte Studio Soundbar und reSpeaker getrennt. Die 188A blieb intern angeschlossen. Der Test erreichte ihren USB-Wiedergabestrom, und Chris bestätigte beide Kanäle am Gehäuse.
+
+## Erneuter Controllerausfall am 23. November
+
+Am 24.11.2026 bei der Nachfrage zum Klangtest erneut lesend geprüft. Der Kernel
+zeigt: Soundbar `0020:0b21` beim Boot am 23.11. um 16:42 Uhr erkannt; um
+**18:58:35 Uhr (Europe/Berlin)** meldet der externe Controller `0001:01:00.0`
+`xHCI host controller not responding, assume dead`, `HC died; cleaning up`
+und einen Timeout bei `configure endpoint`. Danach verschwinden der interne
+Hub und die Soundbar. Das liegt vor dem App-Update auf 0.5.99 am 24. November.
+
+Aktuell ist der VL805/806 noch per PCI sichtbar, aber `lsusb` enthält weder den
+internen Hub noch die Soundbar. PipeWire bietet nur den separat angeschlossenen
+reSpeaker. Die gespeicherte Auswahl bleibt die 188A; `/api/speakers` meldet
+`available=false`. Keine automatische Umleitung auf den reSpeaker vorgenommen.
+Das Bootprofil enthält weiterhin externes PCIe, 100 ms Resetverzögerung und Gen1.
+`get_throttled` liefert aktuell `0x0`; das erklärt die Ursache des USB-Hängers nicht.
+
+Nächster Wiederanlaufschritt ist ein geordneter Neustart des freien Pi, wie beim
+bereits dokumentierten Ereignis vom 12. November. Anschließend USB-Erkennung,
+Audioausgang und hörbaren Test getrennt bestätigen. Bei erneuten Ausfällen
+FPC-Verbindung, Boardversorgung und Treiber untersuchen. Noch kein Neustart oder
+neuer Hörtest für dieses Ereignis durchgeführt; die Grundursache bleibt offen.
