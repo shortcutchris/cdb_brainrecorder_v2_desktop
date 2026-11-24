@@ -175,17 +175,100 @@ Der neue Image-Bausatz wurde aus dem sauberen Commit exportiert: 165 Quelldateie
 200 Integritätseinträge, Factory-Helfer enthalten und aus dem App-Update
 ausgeschlossen. Kein SD-Image gebaut oder auf Hardware gestartet.
 
-### Noch offen
+### Einrichtung, Wiederherstellungsversuch und Neustart
 
-Der Administrator-Installer liegt geprüft auf dem Pi bereit, wurde aber noch
-nicht ausgeführt. `sudo -n` erlaubt keine zusätzliche Systemeinrichtung.
-Die automatische Terminal-Bedienung wurde vom Computer-Use-Schutz abgelehnt;
-der Nutzer erhielt den konkreten Befehl zur eigenen Eingabe. Keine Umgehung,
-kein USB-Reset und keine Kernelparameteränderung ausgeführt.
+Der Nutzer hat den Administrator-Installer anschließend selbst ausgeführt.
+Root-Eigentümer, enge sudo-Regel und Helferinhalt wurden verifiziert
+(SHA-256 `8ef152d6d0203c9e89c7486dfd64f19259fba06dfd25986edeeb927e50ce5970`).
+Die Vorprüfung um 14:12 MEZ hatte noch korrekt mit `sign_in_required`
+abgebrochen; sie ist kein bestandener Klangtest.
 
-Die Diagnose-Vorprüfung um 14:12 MEZ brach vor Klangausgabe korrekt mit
-`sign_in_required` ab. Dabei USB-/ALSA-Befund bestätigt: 188A fehlt,
-NFC/reSpeaker/Zusatzdisplay vorhanden. Für die komplette echte Timer-Testreihe
-sind erst Einrichtung, Wiederherstellung und Anmeldung erforderlich. Kein
-bestandener Hardware- oder Hörtest behauptet. Wiederanlauf allein wäre zudem
-kein Nachweis einer behobenen Hardwareursache.
+Um **14:17 MEZ** wurde einmal über die normale, aktivitätsgeschützte
+Wiederherstellungs-API versucht, den bereits ausgefallenen Controller neu zu
+binden. Das schlug fehl: `Unable to change power state from D3cold to D0,
+device inaccessible`, anschließend `Host controller not accessible` und
+Fehler `-19`. Der abschließende Sicherheitsversuch des Helfers konnte ebenfalls
+nicht binden. Die Oberfläche meldete den notwendigen Geräteneustart; die
+Wartungssperre wurde freigegeben. Keine automatische Resetschleife.
+
+Danach waren PCI-Konfigurationswerte ungültig (Header `7f`, Linkbreite `63`),
+obwohl sysfs noch die gespeicherte Gerätekennung enthielt. `power/control=on`
+und aktiver Runtime-Status waren bereits gesetzt. **D3cold ist hier kein Beweis
+für eine absichtliche Energiesparabschaltung**: Bei unlesbarer Konfiguration
+kann der PCI-Kern diesen Zustand ebenfalls annehmen. Ob die PCI-Verbindung
+bereits vor dem Unbind vollständig unlesbar war, wurde nicht erfasst.
+[PCI-Zustandsprüfung](https://github.com/raspberrypi/linux/blob/stable_20261103/drivers/pci/pci.c),
+[xHCI-Initialisierung](https://github.com/raspberrypi/linux/blob/stable_20261103/drivers/usb/host/xhci.c).
+
+Der reguläre, autorisierte Neustart über die Gerätefunktion um **14:19 MEZ**
+stellte Hub und 188A wieder her. Anschließend wurde gezielt die interne 188A
+mit 40 % und ohne Stummschaltung ausgewählt; der zuvor gespeicherte reSpeaker
+war nicht die gewünschte interne Soundbar. Der Nutzer meldete sich erneut an.
+Keine Änderung an Kernelparametern, Firmware, Ansagen oder Verkabelung.
+
+### Echte Testläufe und Hörabnahme
+
+Alle Zeiten am 24.11.2026, Europe/Berlin. App bleibt **0.5.105 / c4e367c**;
+das separat gestartete Diagnosewerkzeug wurde auf **955c163** korrigiert.
+
+| Lauf | Ergebnis | Dauer |
+| --- | --- | --- |
+| 14:21:09–14:22:03 | Diagnose abgebrochen, Soundbar blieb vorhanden | 54,520 s |
+| 14:23:25–14:25:17 | Vollständige Reihe bestanden | 112,228 s |
+| 14:26:07–14:27:59 | Vollständige Wiederholung bestanden | 111,562 s |
+| 14:30:01–14:31:45 | 90 s überwachte Tonpause, vollständiger Stereotest, weitere 10 s Beobachtung bestanden | 104,011 s |
+
+Der erste Abbruch war ein Fehler im Diagnosewerkzeug: Eine reale API-Abfrage
+konnte die Wartefrist überschreiten und eine negative Schlafdauer verursachen.
+Die Wartezeit wird jetzt nach der Abfrage erneut geprüft. Zwei zusätzliche
+Regressionstests decken die Latenz und die datensparsame Fehlerausgabe ab;
+**23 Diagnoseprüfungen bestanden**. Dieser Abbruch wird nicht als bestandene
+Timerreihe und nicht als USB-Ausfall gewertet.
+
+Die zwei vollständigen Reihen umfassen zusammen **sechs echte Timeralarme**,
+zweimal alle drei Alarmklänge, zwölf Start-/Stoppzyklen, warme Wiederaufnahme,
+Wiederaufnahme nach sieben Sekunden Ruhe und zwei parallele Startversuche je
+Reihe. Jeweils genau ein paralleler Start wurde angenommen, der andere normal
+gesperrt. Alle eigenen Timer wurden quittiert. In den gefilterten
+Kernelbefunden aller vier Läufe gab es keine neuen USB-Fehler oder Abmeldungen.
+Die 188A blieb verfügbar und ausgewählt. Der Nutzer bestätigte ausdrücklich:
+**Testtöne und Timeralarme waren aus der eingebauten Soundbar hörbar.** Diese
+Hörbestätigung gilt für die Testreihe, nicht als getrennte Kanal- oder
+Langzeitabnahme jedes einzelnen Tons.
+
+Das lokale Sprachpaket fehlt bzw. ist nicht gültig; `ready` und
+`countdown_ready` sind false, alle Ansageschalter sind aus. Deshalb wurden
+**gesprochene Ansagen und Countdown nicht am echten Gerät getestet**.
+Einstellungen unverändert belassen. Kein Live-Cloudgespräch und keine
+Mikrofonaufnahme für diese Prüfung angelegt.
+
+Am tatsächlichen 1280×720-Pi-Kiosk nachgeprüft: 188A verbunden, 40 %, neuer
+Wiederherstellungsbutton verfügbar, eigener Dialog mit zwei großen Kacheln.
+„Zurück“ schließt ohne Reset. Der erledigte Timer zeigt eine große
+Schließen-Kachel. Private Bildschirmnachweise und vollständige Laufberichte
+liegen im Arbeitsartefakt `output/usb-audio-20261124`, nicht in Git.
+
+Abschlusszustand: App, Kiosk und Zusatzdisplaydienst aktiv, angemeldet,
+aufnahmebereit, kein offener Timer oder Alarm, Stereotest abgeschlossen.
+Bereinigte Messdaten: [Abnahmeprotokoll](usb-recovery-0.5.105-acceptance.json).
+
+### Verbleibende Grenze und nächster Fehlerfall
+
+**Betrieb wiederhergestellt, dauerhafte Ursache nicht behoben oder bewiesen.**
+Die Testreihe hat den früheren Controllerabsturz nicht reproduziert. Sie
+entlastet weder Boardversorgung noch PCIe-Kabel, Controllerfirmware oder
+Treiber vollständig. Der Wiederherstellungsbutton hilft nur, wenn der
+Controller noch neu initialisiert werden kann; bei unzugänglichem PCI-Gerät
+bleibt der reguläre Neustart notwendig.
+
+Bei erneutem Ausfall zuerst USB-/PCI-/Kernelzustand sichern, bevor ein Reset
+ausgeführt wird. Keine wiederholten Tontests bei verschwundener 188A. Für die
+weitere Eingrenzung ist ein kontrollierter Vergleich der internen Boardkette
+(Versorgung und FPC) bzw. ein späterer Direktanschluss hilfreich. Das ist am
+derzeit verschlossenen Gehäuse noch nicht erfolgt. Keine unbewiesene
+Kernel-/Firmwareänderung als dauerhaften Fix ausrollen.
+
+Die Diagnosekorrektur und diese Abnahme ändern weder App-Paket noch
+Systemrechte oder Image-Rezept. Das bereits dokumentierte Factory-Setup für
+0.5.105 bleibt erforderlich; weiterhin kein neu gebautes oder bootgeprüftes
+SD-Image.

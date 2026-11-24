@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "date": "2026-11-24",
+  "timezone": "Europe/Berlin",
+  "app_version": "0.5.105",
+  "app_commit": "c4e367ce06b8a02f126204e83a979dfe4bb3aa80",
+  "diagnostic_commit": "955c163",
+  "hardware": {
+    "pi": "Raspberry Pi 5",
+    "usb_board": "Waveshare PCIe TO USB 3.2 Gen1 Board (C)",
+    "controller_id": "1106:3483",
+    "soundbar_id": "0020:0b21"
+  },
+  "recovery": {
+    "helper_installed": true,
+    "guarded_rebind_result": "failed_pci_inaccessible",
+    "regular_reboot_restored_soundbar": true,
+    "permanent_root_cause_fixed": false
+  },
+  "runs": [
+    {
+      "artifact_name": "run-baseline-1.json",
+      "started_at": "2026-11-24T13:21:09.104+00:00",
+      "finished_at": "2026-11-24T13:22:03.624+00:00",
+      "elapsed_seconds": 54.52,
+      "result": "aborted",
+      "reason": "unexpected_error",
+      "timer_alarms_acknowledged": 0,
+      "start_stop_cycles_started": 6,
+      "concurrent_start_results": [],
+      "soundbar_present_in_every_snapshot": true,
+      "new_filtered_kernel_event_count": 0
+    },
+    {
+      "artifact_name": "run-baseline-2.json",
+      "started_at": "2026-11-24T13:23:25.582+00:00",
+      "finished_at": "2026-11-24T13:25:17.810+00:00",
+      "elapsed_seconds": 112.228,
+      "result": "passed_software_checks",
+      "reason": null,
+      "timer_alarms_acknowledged": 3,
+      "start_stop_cycles_started": 6,
+      "concurrent_start_results": [
+        {
+          "accepted": 1,
+          "blocked": 1,
+          "http_statuses": [
+            200,
+            400
+          ]
+        }
+      ],
+      "soundbar_present_in_every_snapshot": true,
+      "new_filtered_kernel_event_count": 0
+    },
+    {
+      "artifact_name": "run-baseline-3.json",
+      "started_at": "2026-11-24T13:26:07.735+00:00",
+      "finished_at": "2026-11-24T13:27:59.296+00:00",
+      "elapsed_seconds": 111.562,
+      "result": "passed_software_checks",
+      "reason": null,
+      "timer_alarms_acknowledged": 3,
+      "start_stop_cycles_started": 6,
+      "concurrent_start_results": [
+        {
+          "accepted": 1,
+          "blocked": 1,
+          "http_statuses": [
+            200,
+            400
+          ]
+        }
+      ],
+      "soundbar_present_in_every_snapshot": true,
+      "new_filtered_kernel_event_count": 0
+    },
+    {
+      "artifact_name": "run-idle-90.json",
+      "started_at": "2026-11-24T13:30:01.254+00:00",
+      "finished_at": "2026-11-24T13:31:45.265+00:00",
+      "elapsed_seconds": 104.011,
+      "result": "passed_software_checks",
+      "reason": null,
+      "timer_alarms_acknowledged": 0,
+      "start_stop_cycles_started": 0,
+      "concurrent_start_results": [],
+      "soundbar_present_in_every_snapshot": true,
+      "new_filtered_kernel_event_count": 0
+    }
+  ],
+  "human_acceptance": {
+    "embedded_soundbar_heard": true,
+    "scope": "User confirmed test tones and timer alarms from the embedded soundbar; not a per-tone/channel or long-term certification."
+  },
+  "not_tested": [
+    "spoken countdown and timer announcements: speech pack unavailable, switches off",
+    "direct Pi USB connection: enclosure closed",
+    "cloud Talk session",
+    "microphone recording",
+    "long-term unattended reliability"
+  ],
+  "final_state": {
+    "soundbar_available": true,
+    "selected_188a": true,
+    "volume_percent": 40,
+    "muted": false,
+    "activity": "idle",
+    "open_timer_count": 0,
+    "ringing": false,
+    "studio_active": true,
+    "kiosk_active": true,
+    "lcd_service_active": true
+  },
+  "image_impact": "Diagnostic correction and documentation only; no new app release or image build. Existing 0.5.105 factory setup remains required."
+}

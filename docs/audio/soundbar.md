@@ -93,3 +93,25 @@ vorbereitet, nach Aktivitätsprüfung aber durch die erforderliche
 Administrator-Passwortbestätigung vor Ausführung gestoppt. Kein Reset, kein
 Neustart, kein neues Release und keine Lautsprecheränderung durch diese Prüfung.
 Details und Grenzen: [Bedien- und Hardwareprüfung](../ui-acceptance-0.5.104/README.md).
+
+## Wiederanlauf und Timer-Testreihe am 24. November mit 0.5.105
+
+Die Einrichtung für **Einstellungen → Audio → Lautsprecher → USB-Audio
+wiederherstellen** ist auf dem Pi installiert. Der erste gezielte
+Wiederherstellungsversuch um 14:17 MEZ scheiterte, weil der PCI-Controller nicht
+mehr ansprechbar war. Ein regulärer Neustart um 14:19 MEZ brachte die interne
+188A zurück. Danach wurde sie wieder als Ausgang mit 40 % ausgewählt.
+
+Zwei vollständige Testreihen mit zusammen sechs echten Timeralarmen,
+wiederholten Start-/Stoppwechseln, allen drei Alarmklängen und konkurrierenden
+Startanfragen bestanden. Auch ein Stereotest nach 90 Sekunden Tonpause bestand.
+Kein neuer USB-Ausfall während der Läufe. Der Nutzer bestätigte die hörbare
+Ausgabe aus der eingebauten Soundbar. Lokale Sprachansagen und gesprochener
+Countdown waren mangels gültigem Sprachpaket nicht verfügbar und wurden nicht
+als getestet gewertet.
+
+Der Betrieb funktioniert wieder. **Ein dauerhafter Fix für den sporadischen
+Controllerabsturz ist noch nicht nachgewiesen.** Der neue Button ersetzt den
+Neustart nicht, wenn auch die PCI-Verbindung unzugänglich ist. Das vollständige
+[Diagnose- und Abnahmeprotokoll](usb-recovery-0.5.105.md) trennt Wiederanlauf,
+Softwaretests, Hörbestätigung und offene Hardwareursache.
