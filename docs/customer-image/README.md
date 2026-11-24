@@ -1,5 +1,13 @@
 # SD-Images bauen, testen und weiterentwickeln
 
+**1.0.0-rc1, Endabnahme:** Das Factory-Image richtet jetzt auch den USB-LCD-
+Begleitdienst mit eigener, auf pyserial 3.5 fixierter Laufzeit, `dialout` und
+aktiviertem PC/SC-Socket ein. `--pcie-usb-board` übernimmt ausdrücklich das auf
+dem Gehäuse-Pi verwendete Gen-1-Profil; generische Images bleiben unverändert.
+Das ist kein Nachweis einer Behebung des sporadischen USB-Controller-Ausfalls.
+Bestehende Geräte behalten ihre Einrichtung; ein App-Update ändert diese
+OS-Dienste und Bootparameter nicht. [Endabnahme](../acceptance-v1/README.md).
+
 **0.5.105:** Der USB-Audio-Helfer wird explizit im Factoryteil eingerichtet,
 mit genau zwei freigegebenen Root-Kommandos. Bestehende Geräte benötigen den
 einmaligen Administrator-Installer; App-Updates erweitern keine Systemrechte.

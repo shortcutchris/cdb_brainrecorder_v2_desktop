@@ -21,7 +21,7 @@ sys.path.insert(0, str(SOURCE))
 from fleet.releases import allowed
 
 
-def prepare(output, public_key, server='https://cdblab.de/devices', country='DE', offline_models=False):
+def prepare(output, public_key, server='https://cdblab.de/devices', country='DE', offline_models=False, pcie_usb_board=False):
     from cryptography.hazmat.primitives.serialization import load_pem_public_key
     from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
     key = Path(public_key).read_bytes()
@@ -73,13 +73,13 @@ def prepare(output, public_key, server='https://cdblab.de/devices', country='DE'
     shutil.copyfile(SOURCE / 'scripts/audit_customer_rootfs.py', factory / 'audit_customer_rootfs.py')
     shutil.copyfile(SOURCE / 'kiosk.sh', factory / 'kiosk.sh'); (factory / 'kiosk.sh').chmod(0o755)
     (factory / 'release-public.pem').write_bytes(key)
-    metadata = {'offline_models': offline_models, 'version': version, 'server': server, 'country': country, 'pi_gen_commit': PIN,
+    metadata = {'offline_models': offline_models, 'pcie_usb_board': pcie_usb_board, 'version': version, 'server': server, 'country': country, 'pi_gen_commit': PIN,
                 'source_commit': subprocess.check_output(['git','rev-parse','HEAD'],cwd=SOURCE).decode().strip(),
                 'source_files': files, 'public_key_sha256': hashlib.sha256(key).hexdigest(),
                 'status': 'prepared-not-boot-certified'}
     (output / 'manifest.json').write_text(json.dumps(metadata, indent=2)+'\n')
     (factory / 'source-manifest.json').write_text(json.dumps(metadata, indent=2)+'\n')
-    (output / 'stage-brain/00-brain/files/factory.json').write_text(json.dumps({'offline_models':offline_models,'version':version,'server':server,'source_commit':metadata['source_commit'],'pi_gen_commit':PIN}))
+    (output / 'stage-brain/00-brain/files/factory.json').write_text(json.dumps({'offline_models':offline_models,'pcie_usb_board':pcie_usb_board,'version':version,'server':server,'source_commit':metadata['source_commit'],'pi_gen_commit':PIN}))
     stage = output / 'stage-brain'; step = stage / '00-brain'
     (stage / 'prerun.sh').write_text('#!/bin/bash\nif [ ! -d "${ROOTFS_DIR}" ]; then copy_previous; fi\n')
     (stage / 'EXPORT_IMAGE').write_text("IMG_SUFFIX='-brain'\n")
@@ -132,6 +132,6 @@ fi
     return metadata
 
 if __name__ == '__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',required=True);p.add_argument('--public-key',required=True);p.add_argument('--server',default='https://cdblab.de/devices');p.add_argument('--country',default='DE');p.add_argument('--offline-models', action='store_true', help='Include verified Whisper Medium and Qwen3 4B Instruct weights');a=p.parse_args()
-    metadata=prepare(a.output,a.public_key,a.server,a.country,a.offline_models)
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',required=True);p.add_argument('--public-key',required=True);p.add_argument('--server',default='https://cdblab.de/devices');p.add_argument('--country',default='DE');p.add_argument('--offline-models', action='store_true', help='Include verified Whisper Medium and Qwen3 4B Instruct weights');p.add_argument('--pcie-usb-board', action='store_true', help='Enable the Pi 5 external PCIe USB board with the existing Gen 1 profile');a=p.parse_args()
+    metadata=prepare(a.output,a.public_key,a.server,a.country,a.offline_models,a.pcie_usb_board)
     print(json.dumps({'output':a.output,'version':metadata['version'],'files':len(metadata['source_files']),'status':metadata['status']}))

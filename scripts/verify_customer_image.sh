@@ -42,6 +42,11 @@ for name,expected in manifest['source_files'].items():
     assert hashlib.sha256((root/'opt/cdb/source'/path).read_bytes()).hexdigest()==expected, name
 if config.get('offline_models') != manifest.get('offline_models'):
     raise ValueError('Model profile mismatch')
+if config.get('pcie_usb_board') != manifest.get('pcie_usb_board'):
+    raise ValueError('Hardware profile mismatch')
+if config.get('pcie_usb_board'):
+    boot = root.parent/'boot/config.txt'
+    assert 'dtparam=pciex1_gen=1' in boot.read_text()
 if config.get('offline_models'):
     import runpy
     runpy.run_path(sys.argv[2])['bundle'](root)
@@ -51,7 +56,7 @@ test -s "$workspace/boot/config.txt"
 test -s "$workspace/boot/cmdline.txt"
 test -s "$workspace/boot/kernel_2712.img"
 test -s "$workspace/boot/bcm2712-rpi-5-b.dtb"
-for file in opt/cdb/runtime/bin/python opt/cdb/source/web_server.py opt/cdb/source/studio/welcome.html usr/bin/labwc-pi usr/bin/chromium usr/bin/paplay usr/bin/parec usr/bin/nmcli; do
+for file in opt/cdb/runtime/bin/python opt/cdb/lcd-runtime/bin/python opt/cdb/source/web_server.py opt/cdb/source/studio/welcome.html usr/bin/labwc-pi usr/bin/chromium usr/bin/paplay usr/bin/parec usr/bin/nmcli; do
   # Absolute symlinks belong to the target root, not the host root.
   test -e "$workspace/root/$file" || test -L "$workspace/root/$file"
 done
@@ -59,6 +64,10 @@ test -f "$workspace/root/etc/lightdm/lightdm.conf.d/90-cdb.conf"
 test -L "$workspace/root/etc/systemd/system/multi-user.target.wants/cdb-factory-init.service"
 test -L "$workspace/root/etc/systemd/system/multi-user.target.wants/cdb-network.service"
 test -L "$workspace/root/etc/systemd/user/default.target.wants/cdb-recorder-studio.service"
+test -L "$workspace/root/etc/systemd/user/default.target.wants/cdb-lcd-display.service"
+test -L "$workspace/root/etc/systemd/system/sockets.target.wants/pcscd.socket"
+grep -Eq '^dialout:[^:]*:[^:]*:([^,]*,)*cdb(,|$)' "$workspace/root/etc/group"
+grep -Fxq 'pyserial==3.5' "$workspace/root/opt/cdb/factory/lcd-python-packages.txt"
 if [[ -L "$workspace/root/etc/systemd/system/multi-user.target.wants/ssh.service" ]]; then
   echo 'SSH unexpectedly enabled'; exit 1
 fi

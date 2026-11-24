@@ -6,6 +6,11 @@ test "$(dpkg --print-architecture)" = arm64
 cd /opt/cdb/source
 python3 -m venv /opt/cdb/runtime
 /opt/cdb/runtime/bin/pip install --only-binary=:all: -r requirements.txt cryptography==50.0.2 -r requirements-wake.txt
+# Keep serial support separate from the application runtime, as on upgraded Pis.
+python3 -m venv /opt/cdb/lcd-runtime
+/opt/cdb/lcd-runtime/bin/pip install --only-binary=:all: pyserial==3.5
+/opt/cdb/lcd-runtime/bin/pip freeze > /opt/cdb/factory/lcd-python-packages.txt
+python3 /opt/cdb/factory/hardware_profile.py
 bash /opt/cdb/factory/install-runtimes.sh
 if python3 -c 'import json, sys; sys.exit(0 if json.load(open("/etc/cdb-factory-image.json"))["offline_models"] else 1)'; then
     python3 /opt/cdb/factory/factory_models.py / --download
@@ -16,7 +21,7 @@ python3 /opt/cdb/factory/boot-brand/install.py --image-build
 /opt/cdb/runtime/bin/pip freeze > /opt/cdb/factory/python-packages.txt
 dpkg-query -W > /opt/cdb/factory/os-packages.txt
 groupadd -f cdb-network
-usermod -aG cdb-network,audio,video,render,bluetooth cdb
+usermod -aG cdb-network,audio,video,render,bluetooth,dialout cdb
 passwd -l cdb
 # No common password, admin user or broad sudo grant in the shipped image.
 gpasswd -d cdb sudo || true
@@ -26,9 +31,9 @@ chmod 440 /etc/sudoers.d/cdb-reboot
 visudo -cf /etc/sudoers.d/cdb-reboot
 bash /opt/cdb/factory/usb-audio-recovery/scripts/install-usb-audio-recovery.sh cdb
 install -m 644 /opt/cdb/factory/cdb-network.service /opt/cdb/factory/cdb-factory-init.service /etc/systemd/system/
-install -m 644 /opt/cdb/factory/cdb-recorder-studio.service /opt/cdb/factory/cdb-recorder-agent.service /etc/systemd/user/
-systemctl enable cdb-network.service cdb-factory-init.service
-systemctl --global enable cdb-recorder-studio.service cdb-recorder-agent.service
+install -m 644 /opt/cdb/factory/cdb-recorder-studio.service /opt/cdb/factory/cdb-recorder-agent.service /opt/cdb/factory/cdb-lcd-display.service /etc/systemd/user/
+systemctl enable cdb-network.service cdb-factory-init.service pcscd.socket
+systemctl --global enable cdb-recorder-studio.service cdb-recorder-agent.service cdb-lcd-display.service
 systemctl disable ssh.service || true
 mkdir -p /etc/systemd/system/lightdm.service.d
 printf '[Unit]\nRequires=cdb-factory-init.service\nAfter=cdb-factory-init.service\n' > /etc/systemd/system/lightdm.service.d/10-cdb-factory.conf

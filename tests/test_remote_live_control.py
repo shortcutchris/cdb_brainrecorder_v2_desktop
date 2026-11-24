@@ -71,6 +71,7 @@ class RemoteTests(unittest.TestCase):
         app.engine.state = lambda: self.engine_state
         app.management = SimpleNamespace(busy=lambda: False)
         app.first_start = SimpleNamespace(busy=False)
+        app.usb_recovery = SimpleNamespace(running=False)
         app.speakers = SimpleNamespace(test_status=lambda: {'state': 'idle'})
         app.bluetooth = SimpleNamespace(busy=lambda: False)
         app.model_checks = SimpleNamespace(public=lambda: {'state': 'idle'})
@@ -180,6 +181,7 @@ class RemoteTests(unittest.TestCase):
             ('speaker', lambda: setattr(self.app.speakers, 'test_status', lambda: {'state': 'running'})),
             ('bluetooth', lambda: setattr(self.app.bluetooth, 'busy', lambda: True)),
             ('maintenance', lambda: setattr(self.app.management, 'busy', lambda: True)),
+            ('usb-recovery', lambda: setattr(self.app.usb_recovery, 'running', True)),
             ('onboarding', lambda: setattr(self.app.first_start, 'busy', True)),
             ('alarm', lambda: setattr(self.app, 'alarm_id', 'alarm')),
             ('playback', lambda: self.app.playback_leases.update(player=time.monotonic()+60)),
@@ -194,6 +196,7 @@ class RemoteTests(unittest.TestCase):
                 self.app.speakers.test_status = lambda: {'state': 'idle'}
                 self.app.bluetooth.busy = lambda: False
                 self.app.management.busy = lambda: False
+                self.app.usb_recovery.running = False
                 self.app.first_start.busy = False
                 self.app.alarm_id = None
                 self.app.playback_leases.clear()

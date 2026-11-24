@@ -16,6 +16,8 @@ class CustomerImageTests(unittest.TestCase):
             root=Path(folder);source=root/'source';source.mkdir()
             entries={'services/local_portal.py':'# LAN portal', 'studio/local-portal.js':'// pairing', 'studio/help/index.html':'offline manual', 'studio/help/articles.json':'[]', 'studio/help/downloads.json':'{}', 'studio/help/images/icon.svg':'<svg/>', 'services/vendor/qrcodegen.py':'# QR', 'local-portal/private.pem':'PRIVATE', 'local-portal/settings.json':'PRIVATE', 'services/nfc_tokens.py':'# state machine', 'services/nfc_reader.py':'# isolated worker', 'studio/nfc.js':'// setup', 'nfc-tokens.json':'PRIVATE', 'services/lcd_display.py':'# projection', 'services/lcd_bridge.py':'# optional companion', 'firmware/lcd-usb/build/cdb_lcd_usb.bin':'DISPLAY FIRMWARE', 'services/announcements.py':'# fixed speech', 'announcements-pack/timer.wav':'PRIVATE', 'announcements.json':'PRIVATE', 'requirements-wake.txt':'pymicro-wakeword==2.5.0', 'services/wake_detectors.py':'# engines', 'services/remote_control.py':'# domain', 'services/remote_control_transport.py':'# outgoing', 'studio/remote-control.js':'// UI', 'studio/remote-control.css':'/* UI */', 'remote-control/connection.json':'PRIVATE', 'remote-control/receipts.sqlite3':'PRIVATE', 'web_server.py':"VERSION = '0.5.44'",'data/sessions.db':'PRIVATE','studio/welcome.html':'Hello','fleet/__init__.py':'','deploy/customer-image/network_service.py':'# network','deploy/customer-image/factory_models.py':'# model seeding','deploy/customer-image/01-run-chroot.sh':'#!/bin/bash\n','kiosk.sh':'#!/bin/bash\n','scripts/audit_customer_rootfs.py':'# audit','credential.json':'PRIVATE','release-private.pem':'PRIVATE'}
             entries['services/queued_whisper.py'] = '# local queue progress'
+            for name in ('cdb-lcd-display.service', 'hardware_profile.py'):
+                entries['deploy/customer-image/' + name] = (builder.SOURCE / 'deploy/customer-image' / name).read_text()
             entries['services/device_power.py'] = '# fixed shutdown worker'
             entries['services/device_sounds.py'] = '# local PCM device cues'
             entries['services/usb_audio_recovery.py'] = '# explicit guarded USB recovery'
@@ -37,11 +39,17 @@ class CustomerImageTests(unittest.TestCase):
                 result=builder.prepare(root/'kit',key)
             self.assertFalse(result['offline_models'])
             with patch.object(builder,'SOURCE',source),patch.object(builder.subprocess,'check_output',side_effect=git):
-                offline=builder.prepare(root/'offline',key,offline_models=True)
+                offline=builder.prepare(root/'offline',key,offline_models=True,pcie_usb_board=True)
             files=root/'offline/stage-brain/00-brain/files'
             self.assertTrue(offline['offline_models'])
+            self.assertFalse(result['pcie_usb_board'])
+            self.assertTrue(offline['pcie_usb_board'])
             import json
             self.assertTrue(json.loads((files/'factory.json').read_bytes())['offline_models'])
+            self.assertTrue(json.loads((files/'factory.json').read_bytes())['pcie_usb_board'])
+            self.assertIn('ExecStart=/opt/cdb/lcd-runtime/bin/python -m services.lcd_bridge',
+                          (files/'factory/cdb-lcd-display.service').read_text())
+            self.assertIn('stage-brain/00-brain/files/factory/hardware_profile.py', offline['build_files'])
             self.assertIn('stage-brain/00-brain/files/factory/factory_models.py',offline['build_files'])
             self.assertIn('requirements-wake.txt',result['source_files'])
             self.assertIn('services/wake_detectors.py',result['source_files'])
@@ -99,6 +107,33 @@ class CustomerImageTests(unittest.TestCase):
             with self.assertRaises(ValueError):audit.audit(root)
             wifi.unlink();(root/'etc/machine-id').write_text('shared-identity')
             with self.assertRaises(ValueError):audit.audit(root)
+
+    def test_hardware_profile_is_opt_in_factory_only_and_idempotent(self):
+        import json
+        hardware = module('factory_hardware', 'deploy/customer-image/hardware_profile.py')
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            boot = root/'boot/firmware/config.txt'
+            boot.parent.mkdir(parents=True)
+            boot.write_text('[all]\ndtoverlay=vc4-kms-v3d\n')
+            config = root/'etc/cdb-factory-image.json'
+            config.parent.mkdir()
+            config.write_text(json.dumps({'pcie_usb_board': True}))
+            with self.assertRaisesRegex(ValueError, 'fresh factory'):
+                hardware.install(root)
+            (root/'.cdb-image-build').touch()
+            config.write_text('{}')
+            original = boot.read_text()
+            self.assertFalse(hardware.install(root))
+            self.assertEqual(boot.read_text(), original)
+            config.write_text(json.dumps({'pcie_usb_board': True}))
+            self.assertTrue(hardware.install(root))
+            self.assertFalse(hardware.install(root))
+            self.assertEqual(boot.read_text().count('dtparam=pciex1_gen=1'), 1)
+            self.assertTrue(boot.read_text().endswith('[all]\n'))
+            boot.write_text(original + 'dtparam=pciex1_gen=3\n')
+            with self.assertRaisesRegex(ValueError, 'requires review'):
+                hardware.install(root)
 
     def test_offline_model_is_available_without_copying_weights_or_overwriting_preferences(self):
         with tempfile.TemporaryDirectory() as folder:
