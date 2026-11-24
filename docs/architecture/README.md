@@ -130,8 +130,8 @@ Der optionale `cdb-lcd-display.service` läuft getrennt vom Recorder. Er liest n
 `/api/lcd/timers` über Loopback und öffnet ausschließlich einen anhand der
 USB-Metadaten erkannten CDB-Timerdisplay-Port. Keine Mikrofon-, Audio- oder
 Timer-Schreibbefehle; keine neue Option pro Timer. Firmware und Begleitdienst
-werden separat eingerichtet. Der angeschlossene Pi läuft mit 0.5.98; die
-Kontofilterung im Raummodus wurde damit korrigiert. Die automatische
+werden separat eingerichtet. Der angeschlossene Pi läuft seit 24.11. mit 0.5.99;
+die Kontofilterung im Raummodus wurde bereits in 0.5.98 korrigiert. Die automatische
 Siebensegment-Großansicht gehört zur separaten Display-Firmware 0.3.0 und ist
 vorbereitet, aber noch nicht auf die Hardware geschrieben. App 0.5.99 ergänzt
 unabhängig davon das große Timerfenster auf dem Pi-Touchscreen.

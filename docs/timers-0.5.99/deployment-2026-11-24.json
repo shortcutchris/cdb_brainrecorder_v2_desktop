@@ -1,0 +1,52 @@
+{
+  "version": "0.5.99",
+  "previous_version": "0.5.98",
+  "source_commit": "120f02be54b143660aaaed9d8961fb37d3f09cb6",
+  "release": "83dc81dedc80730b9d1b757a88fef24c96b7dac2ef59410912f7cde60bf8235c",
+  "installed_at": "2026-11-24T07:42:15.418086+00:00",
+  "signature_verified": true,
+  "files_verified": 152,
+  "settings_preserved": true,
+  "session_inventory_preserved": true,
+  "nfc_assignments_preserved": true,
+  "room_policy_preserved": true,
+  "recording_active_during_update": false,
+  "services_active": true,
+  "kiosk_restarted": true,
+  "rollback_directory_retained": true,
+  "maintenance_released": true,
+  "http_version_and_timer_assets_verified": true,
+  "account_required_by_default": true,
+  "previous_personal_login_ended": true,
+  "ambient_activity_enabled": true,
+  "idle_minutes": 15,
+  "operator_pin_present": false,
+  "help_portal_available": true,
+  "control_enabled": true,
+  "nfc_direct_start": {
+    "talk": true,
+    "meeting": true
+  },
+  "nfc_stop_on_remove": {
+    "talk": true,
+    "meeting": true
+  },
+  "lcd_timers_while_signed_out": 0,
+  "poweroff_executed": false,
+  "sd_image_built": false,
+  "authorized_old_failed_alarm_acknowledged": true,
+  "timer_database_backup_before_ack": true,
+  "real_kiosk_screenshot_reviewed": true,
+  "kiosk_resolution": [
+    1280,
+    720
+  ],
+  "timer_assets_http_hashes_match": true,
+  "lcd_bridge_active": true,
+  "display_firmware_0_3_installed": false,
+  "display_download_mode_pending": true,
+  "selected_soundbar_detected": false,
+  "physical_sound_test": "pending: selected USB soundbar absent",
+  "physical_timer_modal_test": "pending: user login required",
+  "synthetic_timer_ui_tests": "passed before deployment"
+}

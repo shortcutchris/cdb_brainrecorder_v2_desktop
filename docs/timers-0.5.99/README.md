@@ -1,13 +1,27 @@
 # Große Timeransicht · Recorder Studio 0.5.99
 
-23. November 2026. Implementierung und lokale Prüfung abgeschlossen,
-committet und gepusht. Das signierte App-Paket liegt auch auf dem Pi bereit.
-**Noch nicht installiert:** Der Updateschutz hat den ersten Installationsversuch
-wegen eines weiterhin offenen, bereits abgelaufenen Timers abgewiesen.
-Der Pi läuft unverändert mit 0.5.98. Nutzer wurde um Bestätigung des Alarms gebeten.
-Bei der letzten Prüfung war das Konto inzwischen abgemeldet; der offene Alarm
-ist weiterhin gespeichert. Zum Bestätigen am Pi gegebenenfalls erneut anmelden.
-Keine Timerdaten geändert oder der Updateschutz umgangen.
+**Installiert am 24. November 2026 um 08:42 Uhr (Europe/Berlin).**
+Recorder Studio und Kiosk laufen mit 0.5.99. Die Implementierung wurde am
+23. November lokal geprüft, committet und gepusht.
+
+Der erste Installationsversuch wurde durch einen offenen, bereits abgelaufenen
+Timer blockiert. Chris hat am 24. November ausdrücklich freigegeben, genau diesen
+alten Alarm zu bestätigen und danach zu installieren. Vor der Bestätigung wurde
+die Timerdatenbank außerhalb des Repositorys gesichert. Anschließend lief das
+Update mit dem unveränderten Wartungsschutz durch. Kein laufender Timer,
+keine Aufnahme und kein Gespräch wurden unterbrochen.
+
+[Bereinigter Installationsnachweis](deployment-2026-11-24.json).
+152 App-Dateien und die Signatur geprüft; Einstellungen, Aufnahmenbestand,
+Raumregeln und NFC-Zuordnungen erhalten. App, Kiosk und Zusatzdisplay-Dienst aktiv.
+Die neuen Timerdateien werden per HTTP unverändert ausgeliefert. Der reale
+Pi-Bildschirm wurde bei 1280 × 720 nach dem Neustart geprüft:
+[Startansicht am Pi](kiosk-installed-1280.png).
+
+**Noch offen:** tatsächliche Timerbedienung nach Brain-Anmeldung, Hörprobe mit
+der weiterhin nicht erkannten USB-Soundbar und das separate Firmwareupdate des
+Zusatzdisplays. Die Timerfenster selbst wurden bisher lokal mit synthetischen
+Daten geprüft. Die Startansicht am Pi ist kein Nachweis eines echten Alarmtests.
 
 ## Bedienung am Pi
 
@@ -77,6 +91,7 @@ Ein Image-Baupaket ist kein gebautes oder auf Hardware geprüftes SD-Image.
 - Der Kiosk wurde bei 1280 × 720 per Bildschirmaufnahme geprüft. Dabei entdeckter
   Zeilenumbruch in der Zeiteinheit wurde in der neuen Oberfläche korrigiert.
   Die neue Alarmansicht wurde bislang im lokalen Browser, nicht im echten Kiosk,
+  geprüft. Die Startansicht wurde nach der Installation auch am echten Kiosk
   geprüft. Eine tatsächliche Hörprobe bleibt offen.
 - Der Zusatzdisplay-Dienst ist aktiv und das Gerät über seine eindeutige
   CDB-USB-Kennung erreichbar. Ein einzelner, lesender Bootloader-Verbindungsversuch
