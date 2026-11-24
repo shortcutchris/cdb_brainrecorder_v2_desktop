@@ -1,0 +1,20 @@
+{
+  "version": "0.5.101",
+  "source_commit": "c070928a4cd17a841d5b5a3a87bf6d65db8ec2b3",
+  "release_id": "849682541aa106b7329d3c4da8d19155f6a73f527c5f4edf4382be5960c5d45f",
+  "signed_files": 155,
+  "image_source_files": 162,
+  "required_files_verified": [
+    "studio/ui-rules.js",
+    "studio/ui-rules.css",
+    "services/device_health.py",
+    "studio/help/articles.json",
+    "studio/keyboard.js",
+    "web_server.py"
+  ],
+  "all_build_hashes_verified": true,
+  "image_built": false,
+  "hardware_boot_certified": false,
+  "js_tests": 161,
+  "python_tests": 137
+}

@@ -54,4 +54,24 @@ Alle Änderungen liegen in den bestehenden Positivlisten (`studio/`, `services/`
 neuen Dateien enthalten. Keine Betriebssysteminstallation und kein Firmware-Update
 notwendig. Ein Baupaket ist kein gebautes oder boot-zertifiziertes SD-Image.
 
-Installation und bereinigte Abnahmedaten werden nach der Geräteprüfung ergänzt.
+## Installation auf dem Recorder-Pi
+
+Am **24. November 2026 um 10:44 Uhr (Europe/Berlin)** wurde das signierte Update
+von 0.5.100 auf **0.5.101** installiert. Code-Commit:
+`c070928a4cd17a841d5b5a3a87bf6d65db8ec2b3`.
+
+- Signatur und alle 155 Paketdateien geprüft; Anwendung und Kiosk aktiv.
+- Aktualisierung im freien Zustand. Aufnahmebestand, Einstellungen,
+  NFC-Zuordnungen und Raummodus unverändert; alter Programmstand als Rückfall erhalten.
+- Hilfe erreichbar, Wartungssperre wieder aufgehoben, Touch-Dateien werden ausgeliefert.
+- Das physische Pi-Display nach dem Kiosk-Neustart mit 1280×720 kontrolliert:
+  Startseite sichtbar, Anmeldung und Hauptaktionen frei, keine sichtbare Fehlermeldung.
+- Das Zusatzdisplay wird über seine USB-Kennung erkannt. Dies ist kein erneuter
+  Test des Bildinhalts oder der akustischen Ausgabe.
+- Sauberes Image-Baupaket mit 162 Quelldateien und geprüften Datei-Prüfsummen erstellt.
+  Es wurde kein SD-Image gebaut und kein neuer SD-Boot abgenommen.
+
+Details: [Installationsnachweis](deployment-2026-11-24.json),
+[Paketprüfung](package-check.json).
+
+![Physisches Pi-Display nach dem Update](pi-kiosk-after-update.png)
