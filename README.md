@@ -2,6 +2,14 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+## 0.5.100 – Neustart direkt in den Einstellungen
+
+Unter **Einstellungen → Gerät & Verwaltung** stehen **Pi neu starten** und
+**Pi herunterfahren** direkt nebeneinander. Der Neustart benötigt weiterhin die
+große Bestätigung und bleibt während belegter Vorgänge gesperrt. Alle fünf
+Bedienflächen passen auch auf das 1024 × 600 große Pi-Display.
+[Änderung, Prüfung und Installationsstand](docs/device-restart-0.5.100/README.md).
+
 ## 0.5.99 – Timer mit großer Touchansicht
 
 Den laufenden Timer oben rechts antippen: große Restzeit, **Minimieren** und

@@ -56,7 +56,7 @@
  const restartBlocked=powerBlocked();
  $('management-restart').disabled=restartPending||restarting||restartBlocked||shutdownPending||Boolean(shutdownCommand);
  $('management-shutdown').disabled=restartPending||restarting||restartBlocked||shutdownPending||Boolean(shutdownCommand);
- $('management-shutdown').title=restartBlocked?'Aufnahme, Gespräch, Wiedergabe, Verarbeitung oder Timer zuerst beenden.':'';
+ $('management-restart').title=$('management-shutdown').title=restartBlocked?'Aufnahme, Gespräch, Wiedergabe, Verarbeitung oder Timer zuerst beenden.':'';
  $('management-reload').disabled=Boolean(state?.recording?.id)||Boolean(state?.live?.busy);
  const m=state?.management||{},connected=m.state==='connected',paired=connected||m.state==='pairing'||m.state==='offline'||m.state==='hardware-changed';if(state?.version&&loadedVersion&&state.version!==loadedVersion&&!state.activity?.busy&&!m.maintenance){reloadUpdatedVersion();}
  $('management-state').textContent=m.maintenance?'Wartung läuft':m.message||'Noch nicht verbunden';$('management-name').textContent=m.name||'';$('management-server').textContent=m.server||'';$('management-code').disabled=paired||m.maintenance;$('management-pair').disabled=!online||paired||Boolean(state?.activity?.busy);}

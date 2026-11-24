@@ -194,6 +194,7 @@
       "Am Pi unter Einstellungen → Hilfe & Fernzugriff den QR-Code scannen. Falls der Gerätename nicht aufgelöst wird, die dort gezeigte IP-Adresse verwenden.",
       "Zum WLAN-Wechsel Einstellungen → Gerät & Verwaltung → WLAN & Einrichtung öffnen. Ein Netzwechsel trennt die bisherige Browser-Verbindung.",
       "Vor dem Umstellen Aufnahme, Gespräch und Wiedergabe beenden. Verarbeitung, Übertragungen und aktive Timer abschließen.",
+      "Für einen Neustart Einstellungen → Gerät & Verwaltung → Pi neu starten wählen und bestätigen. Der Pi fährt herunter und startet selbst wieder. Aufnahmen und Einstellungen bleiben erhalten; danach erneut anmelden.",
       "„Pi herunterfahren“ wählen und bestätigen. Bis zum vollständigen Herunterfahren warten, dann das Netzteil abziehen.",
       "Nach dem Umstellen einschalten, Netzwerk prüfen und erneut anmelden. Eine neue IP-Adresse wird nach dem Start im Hilfezugang angezeigt."
     ],
