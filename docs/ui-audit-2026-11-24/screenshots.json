@@ -1,0 +1,314 @@
+[
+  {
+    "image": "screenshots/01-start-1280.jpg",
+    "title": "Startseite",
+    "health": "Gut",
+    "note": "Zwei große Hauptaktionen, klare Touchziele. Ohne laufenden Timer ist die Kopfzeile geordnet."
+  },
+  {
+    "image": "screenshots/03-settings-1280.jpg",
+    "title": "Einstellungen · Übersicht",
+    "health": "Gut",
+    "note": "Große Bereichskacheln und passende Gruppierung als gute Grundlage."
+  },
+  {
+    "image": "screenshots/04-device-1024.jpg",
+    "title": "Geräteverwaltung",
+    "health": "Verbessern",
+    "note": "Fünf Aktionen in einer Reihe. Alltagsbedienung und Einrichtung trennen; Hierarchie schärfen. A07."
+  },
+  {
+    "image": "screenshots/04-device-1280.jpg",
+    "title": "Geräteverwaltung",
+    "health": "Verbessern",
+    "note": "Fünf Aktionen in einer Reihe. Alltagsbedienung und Einrichtung trennen; Hierarchie schärfen. A07."
+  },
+  {
+    "image": "screenshots/05-restart-1024.jpg",
+    "title": "Neustart bestätigen",
+    "health": "Gut",
+    "note": "Zwei große Entscheidungskacheln; Neustart nicht ausgeführt."
+  },
+  {
+    "image": "screenshots/06-room-settings-1024.jpg",
+    "title": "Anmeldung & Geräteschutz",
+    "health": "Brauchbar",
+    "note": "Einstellungen passen auf den kleinen Bildschirm. PIN-Eingabe benötigt ein einfacheres Eingabemuster."
+  },
+  {
+    "image": "screenshots/07-room-keyboard-1024.jpg",
+    "title": "PIN mit Tastatur",
+    "health": "Verbessern",
+    "note": "Ziffern-PIN öffnet eine allgemeine Symboltastatur. Großen Ziffernblock verwenden. A05."
+  },
+  {
+    "image": "screenshots/08-audio-overview-1024.jpg",
+    "title": "Audio · Übersicht",
+    "health": "Gut",
+    "note": "Gut treffbare Kacheln. NFC ist auffindbar, könnte langfristig zu Zubehör gehören."
+  },
+  {
+    "image": "screenshots/09-nfc-1024.jpg",
+    "title": "NFC-Aufsteller",
+    "health": "Kritisch",
+    "note": "Unterer Inhalt abgeschnitten; Status und Einrichtungshinweise fehlen im sichtbaren Bereich. A02."
+  },
+  {
+    "image": "screenshots/09-nfc-1280.jpg",
+    "title": "NFC-Aufsteller",
+    "health": "Kritisch",
+    "note": "Unterer Inhalt abgeschnitten; Status und Einrichtungshinweise fehlen im sichtbaren Bereich. A02."
+  },
+  {
+    "image": "screenshots/10-microphone-1280.jpg",
+    "title": "Mikrofon",
+    "health": "Brauchbar",
+    "note": "Auswahl und Test getrennt dargestellt. Hardware auf diesem Prüfgerät nicht vorhanden; kein akustischer Nachweis."
+  },
+  {
+    "image": "screenshots/11-speaker-1280.jpg",
+    "title": "Lautsprecher",
+    "health": "Kritisch",
+    "note": "Ausgabestatus und weiterführende Klänge rutschen unter die sichtbare Fläche. Falsche Mikrofon-Testanweisung. A02/A06."
+  },
+  {
+    "image": "screenshots/12-wake-1280.jpg",
+    "title": "Aktivierungswort",
+    "health": "Verbessern",
+    "note": "Konto, Audio und Gesprächswissen sinnvoll zusammengeführt. Rufwortabhängige Hinweise statt allgemeinem KAI-Text verwenden."
+  },
+  {
+    "image": "screenshots/13-announcements-1280.jpg",
+    "title": "Lokale Ansagen",
+    "health": "Verbessern",
+    "note": "Untere Sprachpaketinformationen abgeschnitten; Optionen gleichmäßig aufteilen. A02."
+  },
+  {
+    "image": "screenshots/14-bluetooth-1280.jpg",
+    "title": "Bluetooth",
+    "health": "Begrenzt geprüft",
+    "note": "Leerer Hardwarezustand auf dem Mac. Aufbau sichtbar; echte Gerätesuche und Kopplung nicht getestet."
+  },
+  {
+    "image": "screenshots/15-prompts-1280.jpg",
+    "title": "Vorlagen",
+    "health": "Brauchbar",
+    "note": "Text und Vorlage sind getrennt; technische Prompt-Begriffe für Anwender verständlicher formulieren."
+  },
+  {
+    "image": "screenshots/16-design-1280.jpg",
+    "title": "Designauswahl",
+    "health": "Brauchbar",
+    "note": "Große Themenkarten. Auswahl und Bearbeitung besser voneinander trennen."
+  },
+  {
+    "image": "screenshots/17-theme-editor-1280.jpg",
+    "title": "Eigenes Design",
+    "health": "Brauchbar",
+    "note": "Formular mit normaler Aktionsleiste passend. Nativer Farbwähler nicht geöffnet; keine vollständige Kontrastprüfung."
+  },
+  {
+    "image": "screenshots/18-prepare-meeting-1280.jpg",
+    "title": "Meeting vorbereiten",
+    "health": "Gut",
+    "note": "Konto sichtbar, Start explizit, große Rückkehr- und Startkachel."
+  },
+  {
+    "image": "screenshots/19-recording-1280.jpg",
+    "title": "Laufende Aufnahme",
+    "health": "Gut",
+    "note": "Stopp prominent, Pause und Stumm erreichbar; konkurrierende Navigation gesperrt. Synthetisches Audio."
+  },
+  {
+    "image": "screenshots/20-account-recording-1280.jpg",
+    "title": "Konto während Aufnahme",
+    "health": "Gut",
+    "note": "Abmelden deaktiviert und Sperrgrund sichtbar; Aufnahme-Stopp bleibt erreichbar."
+  },
+  {
+    "image": "screenshots/21-paused-1024.jpg",
+    "title": "Pausierte Aufnahme",
+    "health": "Gut",
+    "note": "Pause klar bezeichnet; Abmelden und andere Bereiche bleiben gesperrt. Fortsetzen erreichbar."
+  },
+  {
+    "image": "screenshots/22-finish-1024.jpg",
+    "title": "Sitzung abschließen",
+    "health": "Gut",
+    "note": "Große, verständliche Entscheidungen mit Erklärung zum Erhalt der Aufnahmen."
+  },
+  {
+    "image": "screenshots/23-library-1024.jpg",
+    "title": "Bibliothek",
+    "health": "Verbessern",
+    "note": "Große Zeilen gut. Dauer, Verarbeitungsstand und Übertragungsstatus würden die Auswahl erleichtern. A08."
+  },
+  {
+    "image": "screenshots/24-meeting-actions-1024.jpg",
+    "title": "Meetingdetails",
+    "health": "Brauchbar",
+    "note": "Formular passt. Rohes ISO-Datum und technische Audioangaben nachrangig darstellen."
+  },
+  {
+    "image": "screenshots/25-delete-1024.jpg",
+    "title": "Meeting löschen",
+    "health": "Gut",
+    "note": "Eigene große Bestätigung, sicherer Fokus auf Behalten. Kein Meeting gelöscht."
+  },
+  {
+    "image": "screenshots/26-transfer-1024.jpg",
+    "title": "Ins Brain übertragen",
+    "health": "Verbessern",
+    "note": "Große leere Fläche unter normalen Buttons. Formularhöhe anpassen oder Abschluss als Entscheidungskacheln gestalten. A07."
+  },
+  {
+    "image": "screenshots/27-timer-1024.jpg",
+    "title": "Timer erstellen",
+    "health": "Brauchbar",
+    "note": "Dauer und Start gut erreichbar. Schnellwahl und kurze Auswahlfelder vereinfachen."
+  },
+  {
+    "image": "screenshots/28-four-options-two-pages-1024.jpg",
+    "title": "Alarmton auswählen",
+    "health": "Verbessern",
+    "note": "Vier Töne auf zwei Seiten; zweite Seite hat nur eine Option. Vier direkte Kacheln reichen. A04."
+  },
+  {
+    "image": "screenshots/29-timer-focus-1024.jpg",
+    "title": "Timer · Großansicht",
+    "health": "Gut",
+    "note": "Restzeit gut lesbar, zwei große Aktionen. Vorzeitiges Beenden nicht stärker gewichten als Weiterlaufen. A07."
+  },
+  {
+    "image": "screenshots/30-timer-due-1024.jpg",
+    "title": "Timer · abgelaufen",
+    "health": "Gut",
+    "note": "Große Bestätigung und Verlängerung; lautloser Zustand verständlich. Kein Klangtest."
+  },
+  {
+    "image": "screenshots/31-display-1024.jpg",
+    "title": "Gesprächsbildschirm",
+    "health": "Verbessern",
+    "note": "Kopplung nachvollziehbar. Begriff Bildschirm kann mit USB-Timerdisplay verwechselt werden. A08."
+  },
+  {
+    "image": "screenshots/32-queue-1280.jpg",
+    "title": "Warteschlange · fehlende Datei",
+    "health": "Verbessern",
+    "note": "Fehler lesbar. Wiederholen ohne verfügbare Datei ist keine ausreichende Lösung; klare nächste Aktion. A06."
+  },
+  {
+    "image": "screenshots/33-talk-idle-1280.jpg",
+    "title": "Talk · Fehlerzustand",
+    "health": "Verbessern",
+    "note": "Bereit-Überschrift widerspricht fehlenden Voraussetzungen. Fehlerzustand künstlich erzeugt. A06."
+  },
+  {
+    "image": "screenshots/34-talk-active-1280.jpg",
+    "title": "Talk · aktiv",
+    "health": "Gut, simuliert",
+    "note": "Große Mikrofon-/Ende-Aktionen, lesbare Gesprächsbeiträge. Zustand und Verlauf eingespeist; kein reales Online-Gespräch."
+  },
+  {
+    "image": "screenshots/35-ai-overview-1280.jpg",
+    "title": "KI & Modelle · Übersicht",
+    "health": "Gut",
+    "note": "Zwei große Funktionskacheln. Die jeweils aktive Verarbeitung ist auf einen Blick erkennbar."
+  },
+  {
+    "image": "screenshots/36-transcription-1024.jpg",
+    "title": "Transkriptionsmodell",
+    "health": "Auflösungsabhängig",
+    "note": "Bei 1280 gut lesbar, bei 1024 überlappen Modellinformationen und Aktivierungshinweis. A03."
+  },
+  {
+    "image": "screenshots/36-transcription-1280.jpg",
+    "title": "Transkriptionsmodell",
+    "health": "Auflösungsabhängig",
+    "note": "Bei 1280 gut lesbar, bei 1024 überlappen Modellinformationen und Aktivierungshinweis. A03."
+  },
+  {
+    "image": "screenshots/37-summary-model-1024.jpg",
+    "title": "Zusammenfassungsmodell",
+    "health": "Kritisch",
+    "note": "Überlagerte Texte und teilweise verdeckter Status bei 1024 × 600. A03."
+  },
+  {
+    "image": "screenshots/38-brain-settings-1024.jpg",
+    "title": "Brain-Konto",
+    "health": "Brauchbar",
+    "note": "Konto und Zielbereich getrennt. Mehrere gleich gewichtete Fußaktionen; Kopfzeile braucht Raum."
+  },
+  {
+    "image": "screenshots/39-transfers-1024.jpg",
+    "title": "Übertragungen · leer",
+    "health": "Brauchbar",
+    "note": "Leerer Zustand klar, aber Hinweis auf Seiten ohne Einträge unnötig. Kein echter Versand."
+  },
+  {
+    "image": "screenshots/40-help-remote-1024.jpg",
+    "title": "Hilfe & Fernzugriff",
+    "health": "Brauchbar",
+    "note": "QR und lokale Hilfe gut auffindbar. Browser-, Mobile- und Displaykopplung gemeinsam erklären. Kein Browser freigegeben."
+  },
+  {
+    "image": "screenshots/41-help-document-1024.jpg",
+    "title": "Lokales Hilfedokument",
+    "health": "Gut",
+    "note": "Hilfe am Pi lesbar, Suchfunktion und Rückkehr vorhanden. Alle Artikel nicht vollständig visuell abgenommen."
+  },
+  {
+    "image": "screenshots/42-idle-warning-1024.jpg",
+    "title": "Automatische Abmeldung",
+    "health": "Gut",
+    "note": "Zwei große Entscheidungen, gut sichtbare Restzeit; keine kleinen Footerbuttons mehr."
+  },
+  {
+    "image": "screenshots/43-mobile-remote-1024.jpg",
+    "title": "cdbMOBILE-Fernbedienung",
+    "health": "Begrenzt geprüft",
+    "note": "Layout geprüft; externe Verbindung in Prüfkopie gesperrt. Verbindungsstatus hier kein Befund über den echten Pi."
+  },
+  {
+    "image": "screenshots/44-diagnostics-1024.jpg",
+    "title": "Gerätediagnose",
+    "health": "Verbessern",
+    "note": "Diagnose zeigt vor allem Modelle. Gemeinsamen Gerätestatus mit Peripherie, Version und Speicher ergänzen. A08."
+  },
+  {
+    "image": "screenshots/46-network-form-1024.jpg",
+    "title": "WLAN-Eingabe",
+    "health": "Brauchbar",
+    "note": "Gut lesbares Zweispaltenformular; keine echten Zugangsdaten eingegeben oder Netzwerke verändert."
+  },
+  {
+    "image": "screenshots/47-network-keyboard-1024.jpg",
+    "title": "WLAN mit Tastatur",
+    "health": "Brauchbar",
+    "note": "Aktives Passwortfeld sichtbar, normale Tastatur vorhanden. Vollständige Ersteinrichtung nicht durchgeführt."
+  },
+  {
+    "image": "screenshots/48-speaker-1024.jpg",
+    "title": "Lautsprecher · kleines Display",
+    "health": "Kritisch",
+    "note": "420 px Platz für 960 px Inhalt, Scrollen gesperrt; Start & Abschied nicht normal erreichbar. A02."
+  },
+  {
+    "image": "screenshots/49-nfc-dark-1024.jpg",
+    "title": "NFC · CDB-Design",
+    "health": "Kritisch",
+    "note": "420 px Platz für 600 px Inhalt. Status unter der Fußleiste; Direktstart-Beschreibung widerspricht Aus-Zustand. A02/A06."
+  },
+  {
+    "image": "screenshots/50-timer-header-overlap-1024.jpg",
+    "title": "Minimierter Timer",
+    "health": "Kritisch",
+    "note": "Timer überlagert Konto und Fertig & abmelden bei beiden Auflösungen, auch nach Berührungsprüfung bestätigt. A01."
+  },
+  {
+    "image": "screenshots/50-timer-header-overlap-1280.jpg",
+    "title": "Minimierter Timer",
+    "health": "Kritisch",
+    "note": "Timer überlagert Konto und Fertig & abmelden bei beiden Auflösungen, auch nach Berührungsprüfung bestätigt. A01."
+  }
+]

@@ -2,6 +2,8 @@
 
 Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einrichten und am Gehäuse testen](docs/audio/soundbar.md).
 
+Aktuelle Oberflächenprüfung: [UI-/Touch-Audit vom 24.11.2026](docs/ui-audit-2026-11-24/README.md) mit Screenshots, Timer-Überlagerung, Layoutbefunden und priorisierten Verbesserungsvorschlägen. Auditstand 0.5.100; die dokumentierten Korrekturen sind noch nicht umgesetzt.
+
 ## 0.5.100 – Neustart direkt in den Einstellungen
 
 Unter **Einstellungen → Gerät & Verwaltung** stehen **Pi neu starten** und

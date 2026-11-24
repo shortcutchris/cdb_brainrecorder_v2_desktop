@@ -1,0 +1,26 @@
+[
+  {
+    "h": 64,
+    "id": "timer-running",
+    "topAtCenter": "timer-running",
+    "w": 300,
+    "x": 708,
+    "y": 8
+  },
+  {
+    "h": 48,
+    "id": "account-shortcut",
+    "topAtCenter": "timer-running",
+    "w": 173.875,
+    "x": 662.0546875,
+    "y": 11.5
+  },
+  {
+    "h": 52,
+    "id": "room-finish",
+    "topAtCenter": "timer-running",
+    "w": 136.0703125,
+    "x": 863.9296875,
+    "y": 9.5
+  }
+]

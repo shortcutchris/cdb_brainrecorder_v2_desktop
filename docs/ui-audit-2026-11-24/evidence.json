@@ -1,0 +1,53 @@
+{
+  "date": "2026-11-24",
+  "timezone": "Europe/Berlin",
+  "app_version": "0.5.100",
+  "source_commit": "c4133bd",
+  "environment": "Isolated local preview; synthetic account, PCM and meeting content",
+  "screenshots": 52,
+  "viewports": [
+    [
+      1280,
+      720
+    ],
+    [
+      1024,
+      600
+    ]
+  ],
+  "python_tests": {
+    "total": 46,
+    "passed": 46,
+    "modules": [
+      "test_app_activity",
+      "test_room_activity",
+      "test_room_mode"
+    ]
+  },
+  "javascript_tests": {
+    "total": 44,
+    "passed": 44,
+    "suites": [
+      "management",
+      "room-finish",
+      "assistant-tools",
+      "timer-focus",
+      "live"
+    ]
+  },
+  "measured_clipping_1024": {
+    "nfc": {
+      "clientHeight": 420,
+      "scrollHeight": 600,
+      "overflow": "hidden"
+    },
+    "speaker": {
+      "clientHeight": 420,
+      "scrollHeight": 960,
+      "overflow": "hidden"
+    }
+  },
+  "production_changed": false,
+  "app_code_changed": false,
+  "scope": "Audit and recommendations only; not all hardware/service states verified"
+}
