@@ -1,0 +1,66 @@
+{
+  "version": "0.5.104",
+  "previous_version": "0.5.102",
+  "source_commit": "07223e7fdffcbe35f206afa391d4292d63ffe068",
+  "release": "5e406068e83f4cbead73f62db92d5c924a050465f82bee18a0e5505631966d0b",
+  "installed_at": "2026-11-24T11:18:29.925319+00:00",
+  "signature_verified": true,
+  "files_verified": 157,
+  "settings_preserved": true,
+  "session_inventory_preserved": true,
+  "nfc_assignments_preserved": true,
+  "room_policy_preserved": true,
+  "recording_active_during_update": false,
+  "services_active": true,
+  "kiosk_restarted": true,
+  "lcd_companion_restarted": true,
+  "rollback_directory_retained": true,
+  "maintenance_released": true,
+  "http_version_and_touch_assets_verified": true,
+  "account_required_by_default": true,
+  "login_preserved": true,
+  "handoff_consumed": true,
+  "handoff_issued": true,
+  "ambient_activity_enabled": true,
+  "idle_minutes": 15,
+  "operator_pin_present": false,
+  "help_portal_available": true,
+  "control_enabled": true,
+  "nfc_direct_start": {
+    "talk": true,
+    "meeting": true
+  },
+  "nfc_stop_on_remove": {
+    "talk": true,
+    "meeting": true
+  },
+  "lcd_visible_timers": 0,
+  "lcd_usb_detected": true,
+  "poweroff_executed": false,
+  "sd_image_built": false,
+  "image_recipe_files_verified": 164,
+  "python_tests_passed": 147,
+  "javascript_tests_passed": 170,
+  "hardware_checks": {
+    "viewport": [
+      1280,
+      720
+    ],
+    "input": "VNC keyboard navigation after unreliable pointer mapping",
+    "account_dialog_escape_keeps_login": true,
+    "timer_setup_both_pages_visible": true,
+    "timer_history_pages_3_plus_1": true,
+    "physical_backdrop_tap_verified": false,
+    "physical_onscreen_keyboard_rechecked": false,
+    "new_audio_test_performed": false
+  },
+  "accidental_capture": {
+    "duration_seconds": 15,
+    "stopped_immediately": true,
+    "configured_cdb_processing_completed": true,
+    "content_not_read_for_testing": true,
+    "local_session_and_artifacts_removed": true,
+    "other_sessions_unchanged": true,
+    "remote_processing_retention_verified": false
+  }
+}

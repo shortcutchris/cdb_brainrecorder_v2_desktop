@@ -75,5 +75,8 @@ Aufnahmen, NFC-Zuordnung, Geräteschutz und Konfiguration bleiben erhalten.
 Das signierte Paket und ein sauberes SD-Image-Baupaket werden aus dem committeten
 Stand geprüft. Ein Baupaket ist kein gebautes oder hardwaregeprüftes SD-Image.
 
-Deployment-Stand: vorbereitet; der Pi meldete bei der Vorprüfung einen noch
-unbestätigten Timer-Alarm. Dieser wird nicht automatisch gelöscht oder bestätigt.
+Historischer Deployment-Stand von 0.5.103: vorbereitet; die Vorprüfung meldete
+einen unbestätigten Timer-Alarm. Nach ausdrücklicher Freigabe durch den Benutzer
+wurde dieser bestätigt und die Oberfläche am 24. November 2026 gemeinsam mit der
+Update-Sitzungsübergabe als **0.5.104** installiert. Geräteprüfung und Grenzen:
+[Abnahme 0.5.104](../update-session-0.5.104/README.md).
