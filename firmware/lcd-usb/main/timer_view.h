@@ -10,4 +10,5 @@ void lcd_view_select(lcd_view *view, const lcd_model *model, int slot);
 void lcd_view_next(lcd_view *view, const lcd_model *model);
 void lcd_view_back(lcd_view *view);
 lcd_time_state lcd_time_text(const lcd_model *model, int index, int64_t now, char *out, size_t size);
+bool lcd_clock_text(const lcd_model *model, int64_t now, char *out, size_t size);
 unsigned char lcd_digit_segments(char digit);

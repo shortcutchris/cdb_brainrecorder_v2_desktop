@@ -1,4 +1,4 @@
-import json,tempfile,unittest,threading,urllib.request,urllib.error
+import json,tempfile,unittest,threading,urllib.request,urllib.error,time
 from pathlib import Path
 from unittest.mock import Mock,patch
 from services.schedules import Schedules
@@ -50,6 +50,21 @@ class LCDTests(unittest.TestCase):
   b.receive(bound,4);self.assertFalse(b.bound)
 
 class LCDHttpTests(unittest.TestCase):
+ def test_companion_supplies_local_clock_only_when_trusted(self):
+  payload={'protocol':'cdb.lcd/1','type':'timers','total':0,'timers':[],
+           'clock_ready':True,'local_time_ms':1,'private':'must-not-leave-host'}
+  response=Mock();response.read.side_effect=lambda *_:json.dumps(payload).encode()
+  response.__enter__=Mock(return_value=response);response.__exit__=Mock(return_value=False)
+  opener=Mock();opener.open.return_value=response
+  local=time.struct_time((2026,11,24,23,59,59,1,328,0))
+  with patch('services.lcd_bridge.urllib.request.build_opener',return_value=opener), patch('services.lcd_bridge.time.time',return_value=100.75), patch('services.lcd_bridge.time.localtime',return_value=local):
+   result=fetch();self.assertEqual(result['local_time_ms'],86399750)
+   self.assertNotIn('private',result)
+   payload['clock_ready']=False;self.assertIsNone(fetch()['local_time_ms'])
+   payload['clock_ready']='yes';self.assertIsNone(fetch()['local_time_ms'])
+   payload['clock_ready']=True
+   with patch('services.lcd_bridge.time.localtime',return_value=time.struct_time((2026,11,25,0,0,0,2,329,0))):
+    self.assertEqual(fetch()['local_time_ms'],750)
  def test_minimal_route_retains_auth_and_never_reads_full_app_state(self):
   from web_server import StudioApp,StudioServer
   with tempfile.TemporaryDirectory() as folder:

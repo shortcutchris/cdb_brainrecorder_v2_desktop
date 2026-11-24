@@ -42,6 +42,13 @@ int lcd_accept(lcd_model *m,const char *json,int64_t now){
  if(!integer(root,"seq",1,2147483647,&seq)||seq<=m->sequence||!integer(root,"total",0,100,&total))goto done;
  cJSON *items=field(root,"timers");if(!cJSON_IsArray(items))goto done;
  int count=cJSON_GetArraySize(items);if(count>LCD_MAX_TIMERS||total<count)goto done;
+ // Clock is optional for older companions. Missing/unsynchronised time is unknown.
+ int64_t local_time=0;bool clock_valid=false;
+ cJSON *clock=field(root,"local_time_ms");
+ if(clock&&!cJSON_IsNull(clock)){
+  if(!integer(root,"local_time_ms",0,86399999,&local_time))goto done;
+  clock_valid=cJSON_IsTrue(field(root,"clock_ready"));
+ }
  // Parse transactionally: a malformed last item must not partially replace valid state.
  lcd_timer candidate[LCD_MAX_TIMERS]={0};
  for(int i=0;i<count;i++){
@@ -54,7 +61,8 @@ int lcd_accept(lcd_model *m,const char *json,int64_t now){
   t->revision=(int)revision;t->time_valid=cJSON_IsTrue(field(item,"time_valid"));
   for(int j=0;j<i;j++)if(!strcmp(candidate[j].id,t->id))goto done;
  }
- memcpy(m->timers,candidate,sizeof(candidate));m->count=count;m->total=(int)total;m->sequence=(uint32_t)seq;m->received_ms=now;m->fresh=true;result=2;
+ memcpy(m->timers,candidate,sizeof(candidate));m->count=count;m->total=(int)total;m->sequence=(uint32_t)seq;m->received_ms=now;m->fresh=true;
+ m->clock_valid=clock_valid;m->local_time_ms=local_time;result=2;
  done:cJSON_Delete(root);return result;
 }
 bool lcd_expired(const lcd_model *m,int64_t now){return m->bound&&(now<m->received_ms||now-m->received_ms>=3000);}

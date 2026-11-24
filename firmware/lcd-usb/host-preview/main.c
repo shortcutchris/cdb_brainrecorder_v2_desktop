@@ -22,11 +22,15 @@ int main(int argc,char **argv) {
  lv_display_set_color_format(display,LV_COLOR_FORMAT_XRGB8888);
  lv_display_set_buffers(display,buffer,NULL,sizeof(buffer),LV_DISPLAY_RENDER_MODE_FULL);
  lv_display_set_flush_cb(display,flush);lcd_ui_create();
+ lcd_model clock={.fresh=true,.bound=true,.clock_valid=true,.received_ms=100,.local_time_ms=14*3600000+35*60000};strcpy(clock.source,"Pi Recorder");
+ lcd_ui_render(&clock,100);save(display,"clock.ppm");
  lcd_model model={.fresh=true,.bound=true,.count=1,.total=1,.received_ms=100};strcpy(model.source,"Pi Recorder");
  for(int i=0;i<4;i++) {snprintf(model.timers[i].id,65,"timer-%d",i);snprintf(model.timers[i].label,321,"Timer %d",i+1);strcpy(model.timers[i].state,"scheduled");model.timers[i].time_valid=true;model.timers[i].remaining_ms=(15+i*10)*60000;}
  lcd_ui_render(&model,100);save(display,"single.ppm");
  model.count=model.total=4;lcd_ui_render(&model,100);save(display,"multiple.ppm");
  model.count=model.total=1;strcpy(model.timers[0].state,"due");model.timers[0].remaining_ms=0;lcd_ui_render(&model,100);save(display,"due.ppm");
+ lcd_ui_render(&clock,100);save(display,"clock-after-timer.ppm");
+ clock.clock_valid=false;lcd_ui_render(&clock,100);save(display,"clock-unknown.ppm");
  lcd_ui_render(&model,3100);save(display,"offline.ppm");
  return 0;
 }

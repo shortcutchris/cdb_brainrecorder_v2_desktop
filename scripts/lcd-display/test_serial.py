@@ -34,6 +34,7 @@ class SerialIntegration(unittest.TestCase):
    self.assertEqual(bind['type'],'bind');self.assertIsNone(receive(.3))
    ack=dict(bind,type='bound');send(ack);frame=receive();self.assertEqual(frame['type'],'snapshot')
    self.assertNotIn('must-never-be-sent',json.dumps(frame));self.assertEqual(frame['timers'][0]['label'],'Küche')
+   self.assertIs(type(frame['local_time_ms']),int);self.assertTrue(0<=frame['local_time_ms']<86400000)
    send(dict(ack,type='ack',seq=frame['seq']));mode['online']=False
    self.assertIsNone(receive(1.5))
    mode['online']=True;hello['nonce']='c'*32;send(hello);bind=receive();self.assertEqual(bind['nonce'],'c'*32)

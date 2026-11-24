@@ -132,8 +132,9 @@ USB-Metadaten erkannten CDB-Timerdisplay-Port. Keine Mikrofon-, Audio- oder
 Timer-Schreibbefehle; keine neue Option pro Timer. Firmware und Begleitdienst
 werden separat eingerichtet. Der angeschlossene Pi läuft seit 24.11. mit 0.5.99;
 die Kontofilterung im Raummodus wurde bereits in 0.5.98 korrigiert. Die automatische
-Siebensegment-Großansicht gehört zur separaten Display-Firmware 0.3.0 und ist
-vorbereitet, aber noch nicht auf die Hardware geschrieben. App 0.5.99 ergänzt
+Siebensegment-Großansicht gehört zur separaten Display-Firmware 0.3.0, die am 24.11.
+auf das Zusatzdisplay geschrieben wurde. Firmware 0.4.0 ergänzt mit dem Begleitdienst
+aus Recorder 0.5.102 eine große Uhr ohne sichtbare Timer; [Prüf- und Installationsstand](../lcd-display/idle-clock-0.4.md). App 0.5.99 ergänzt
 unabhängig davon das große Timerfenster auf dem Pi-Touchscreen.
 Details, Ausfälle, Installation und tatsächlicher Hardware-Prüfstand:
 [LCD-Display](../lcd-display/README.md) und [Pi-Timeransicht](../timers-0.5.99/README.md).

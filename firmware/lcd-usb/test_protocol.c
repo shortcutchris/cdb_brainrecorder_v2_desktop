@@ -19,5 +19,14 @@ int main(void){
  assert(lcd_accept(&m,clear,200)==2);assert(m.count==0);
  assert(lcd_accept(&m,"{} garbage",300)==0);assert(lcd_accept(&m,"{",300)==0);
  assert(lcd_accept(&m,"[[[[[[[[[[]]]]]]]]]]",300)==0);assert(m.sequence==2);
+ const char *clock="{" PREFIX "\"type\":\"snapshot\",\"seq\":3,\"total\":0,\"timers\":[],\"clock_ready\":true,\"local_time_ms\":86399750}";
+ assert(lcd_accept(&m,clock,400)==2);assert(m.clock_valid&&m.local_time_ms==86399750);
+ const char *bad_clock="{" PREFIX "\"type\":\"snapshot\",\"seq\":4,\"total\":0,\"timers\":[],\"clock_ready\":true,\"local_time_ms\":86400000}";
+ assert(lcd_accept(&m,bad_clock,500)==0);assert(m.received_ms==400&&m.sequence==3&&m.local_time_ms==86399750);
+ const char *unknown="{" PREFIX "\"type\":\"snapshot\",\"seq\":4,\"total\":0,\"timers\":[],\"clock_ready\":false,\"local_time_ms\":null}";
+ assert(lcd_accept(&m,unknown,600)==2);assert(!m.clock_valid);
+ lcd_reset(&m,"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");assert(lcd_accept(&m,bind,0)==1);assert(lcd_accept(&m,clock,400)==2);
+ const char *legacy="{" PREFIX "\"type\":\"snapshot\",\"seq\":4,\"total\":0,\"timers\":[],\"clock_ready\":true}";
+ assert(lcd_accept(&m,legacy,600)==2);assert(!m.clock_valid);
  puts("LCD protocol: handshake, replay, timeout, reconnect, atomic validation, removal passed");
 }

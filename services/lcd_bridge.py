@@ -50,7 +50,14 @@ def fetch(port=8088, token=''):
             type(item.get('time_valid')) is not bool): raise ValueError('Invalid timer')
         clean.append({k:item[k] for k in ('id','revision','state','remaining_ms','time_valid')} | {'label':label(item.get('label',''))})
     if type(result.get('total')) is not int or not len(clean)<=result['total']<=100: raise ValueError('Invalid total')
-    return {'timers':clean,'total':result['total'],'clock_ready':result.get('clock_ready') is True}
+    ready = result.get('clock_ready') is True
+    # Local wall time comes from this Pi, never from untrusted/private API fields.
+    # Resample each second so timezone and DST changes follow the host immediately.
+    stamp = time.time()
+    local = time.localtime(stamp)
+    local_ms = ((local.tm_hour * 60 + local.tm_min) * 60 + local.tm_sec) * 1000 + int((stamp % 1) * 1000)
+    return {'timers':clean,'total':result['total'],'clock_ready':ready,
+            'local_time_ms':local_ms if ready else None}
 
 
 def encode(message):

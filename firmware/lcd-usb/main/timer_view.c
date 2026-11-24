@@ -36,6 +36,13 @@ lcd_time_state lcd_time_text(const lcd_model *model, int index, int64_t now, cha
  if (!strcmp(timer->state,"missed")) return LCD_TIME_MISSED;
  return ms==0 ? LCD_TIME_WAITING : LCD_TIME_RUNNING;
 }
+bool lcd_clock_text(const lcd_model *model, int64_t now, char *out, size_t size) {
+ snprintf(out,size,"--:--");
+ if (!model->fresh || lcd_expired(model,now) || model->count || !model->clock_valid) return false;
+ int64_t minutes=((model->local_time_ms+now-model->received_ms)/60000)%1440;
+ snprintf(out,size,"%02" PRId64 ":%02" PRId64,minutes/60,minutes%60);
+ return true;
+}
 unsigned char lcd_digit_segments(char digit) {
  // a,b,c,d,e,f,g; punctuation is drawn separately.
  static const unsigned char masks[]={0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f};

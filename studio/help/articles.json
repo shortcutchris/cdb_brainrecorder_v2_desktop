@@ -141,6 +141,20 @@
     ]
   },
   {
+    "id": "timerdisplay",
+    "title": "Zusatzdisplay: Timer & Uhrzeit",
+    "category": "ZUBEHÖR",
+    "intro": "Das USB-Zusatzdisplay wechselt automatisch zwischen Uhrzeit und offenen Timern.",
+    "steps": [
+      "Das Zusatzdisplay per USB-Datenkabel anschließen. Unter Einstellungen → Zubehör lässt sich die USB-Erkennung prüfen.",
+      "Ohne sichtbare offene Timer zeigt Firmware 0.4 die Ortszeit des Pi groß als Siebensegmentanzeige im 24-Stunden-Format (HH:MM). Dafür ist keine Brain-Anmeldung nötig.",
+      "Ein Timer erscheint automatisch groß. Bei mehreren Timern eine Karte antippen; „Alle Timer“ führt zur Übersicht zurück.",
+      "Abgelaufene und verpasste Timer behalten Vorrang. Erst am Pi bestätigen oder beenden; danach erscheint wieder die Uhr.",
+      "Bei „Zeitabgleich am Pi ausstehend“ die Gerätezeit und Internetverbindung des Pi prüfen. Bei unterbrochener USB-Verbindung verschwinden die Zahlen nach drei Sekunden."
+    ],
+    "note": "Die Uhr benötigt Recorder 0.5.102 und Display-Firmware 0.4.0. Ein App-Update allein aktualisiert die Display-Firmware nicht. Im Raummodus bleiben fremde Timer verborgen; die Uhr zeigt keine persönlichen Daten."
+  },
+  {
     "id": "nfc",
     "title": "NFC-Aufsteller: Talk & Meeting",
     "category": "ZUBEHÖR",
@@ -309,7 +323,7 @@
     "id": "quellen",
     "title": "Stand & Quellen",
     "category": "DOKUMENTATION",
-    "intro": "Hilfestand 24.11.2026 für Recorder Studio 0.5.101.",
+    "intro": "Hilfestand 24.11.2026 für Recorder Studio 0.5.102.",
     "paragraphs": [
       "Diese Hilfe wird mit der Anwendung auf dem Pi ausgeliefert. Die angezeigte App-Version steht am Seitenende. Anleitungen, Suche, Abbildungen und Verkabelungs-PDF benötigen keine Verbindung zu einem externen Server.",
       "Grundlage: die Bedienung des aktuellen Recorder-Repositorys, dokumentierte Geräteprüfungen zu Raummodus, Touchdialogen, Audio und cdbPiOS sowie die Verkabelungsanleitung R2 des Gehäuseprojekts.",

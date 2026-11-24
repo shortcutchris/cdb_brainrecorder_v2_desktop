@@ -88,12 +88,14 @@ static const char *state_text(lcd_time_state state) {
 static void draw_digits(const char *value,uint32_t color) {
  if (!strcmp(last_value,value) && last_color==color) return;
  snprintf(last_value,sizeof(last_value),"%s",value);last_color=color;
- int count=(int)strlen(value)-2, gap=12, colon=26, width=count>6?80:112, height=200, thick=16;
- int x=(968-(count*width+2*colon+((int)strlen(value)-1)*gap))/2,y=100,digit=0,dot=0;
+ int colons=0;for (const char *c=value;*c;c++) if (*c==':') colons++;
+ int count=(int)strlen(value)-colons, gap=12, colon=26, width=count==4?150:count>6?80:112, height=count==4?220:200, thick=16;
+ int x=(968-(count*width+colons*colon+((int)strlen(value)-1)*gap))/2,y=count==4?94:100,digit=0,dot=0;
  for (int i=0;i<8;i++) for (int j=0;j<7;j++) visible(segments[i][j],false);
+ for (int i=0;i<4;i++) visible(dots[i],false);
  for (const char *c=value;*c;c++) {
   if (*c==':') {
-   for (int k=0;k<2;k++) {lv_obj_set_pos(dots[dot],x+(colon-thick)/2,y+height*(k+1)/3-thick/2);lv_obj_set_size(dots[dot],thick,thick);lv_obj_set_style_bg_color(dots[dot++],lv_color_hex(color),0);}
+   for (int k=0;k<2 && dot<4;k++) {lv_obj_set_pos(dots[dot],x+(colon-thick)/2,y+height*(k+1)/3-thick/2);lv_obj_set_size(dots[dot],thick,thick);visible(dots[dot],true);lv_obj_set_style_bg_color(dots[dot++],lv_color_hex(color),0);}
    x+=colon+gap;continue;
   }
   if (digit>=8) break;
@@ -114,7 +116,7 @@ void lcd_ui_render(const lcd_model *model,int64_t now) {
  snprintf(info,sizeof(info),"%s  |  %d Timer  |  %s%s",model->source,model->total,focus>=0?"Großansicht":"Übersicht",model->total>model->count?"  |  Weitere in der App":"");
  if (!model->count) snprintf(info,sizeof(info),"%s  |  Keine offenen Timer",model->source);
  else if (focus<0 && pages>1) snprintf(info,sizeof(info),"%s  |  %d Timer  |  Seite %d/%d%s",model->source,model->total,view.page+1,pages,model->total>model->count?"  |  Weitere in der App":"");
- lv_label_set_text(status,info);visible(focus_panel,focus>=0);
+ lv_label_set_text(status,info);visible(focus_panel,focus>=0 || !model->count);
  for (int slot=0;slot<4;slot++) {
   int index=view.page*4+slot;bool show=focus<0 && index<model->count;visible(cards[slot],show);if (!show) continue;
   char value[24];lcd_time_state state=lcd_time_text(model,index,now,value,sizeof(value));
@@ -126,6 +128,12 @@ void lcd_ui_render(const lcd_model *model,int64_t now) {
   char value[24];lcd_time_state state=lcd_time_text(model,focus,now,value,sizeof(value));
   lv_label_set_text(focus_title,model->timers[focus].label);lv_label_set_text(focus_state,state_text(state));
   lv_obj_set_style_text_color(focus_state,lv_color_hex(state_color(state)),0);draw_digits(value,state_color(state));
+ }
+ else if (!model->count) {
+  char value[24];bool ready=lcd_clock_text(model,now,value,sizeof(value));
+  lv_label_set_text(focus_title,"Uhrzeit");
+  lv_label_set_text(focus_state,ready?"Ortszeit des Pi  ·  24 Stunden":"Zeitabgleich am Pi ausstehend");
+  lv_obj_set_style_text_color(focus_state,lv_color_hex(MUTED),0);draw_digits(value,ready?CYAN:MUTED);
  }
  visible(next,pages>1 && focus<0);visible(back,focus>=0 && model->count>1);visible(help,model->count>1 && focus<0);
 }

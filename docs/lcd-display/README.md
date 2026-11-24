@@ -5,13 +5,11 @@ angeschlossen; der Begleitdienst läuft. Recorder 0.5.98 liefert auch im Raummod
 die Timer des angemeldeten Kontos mit allgemeinen Bezeichnungen. Ein eigener
 Einschalter pro Timer ist nicht nötig. [Korrektur und Nachweis](../nfc/timer-display-0.5.98.md).
 
-Die neue [Firmware 0.3 mit automatischer Siebensegment-Großansicht](large-timer-0.3.md)
-ist vorbereitet; sie ist noch nicht auf das Display geschrieben. Die
-[große Touchansicht in Recorder Studio 0.5.99](../timers-0.5.99/README.md) wurde
-am 24.11. auf dem Pi installiert. Das separate Zusatzdisplay-Update benötigt
-weiterhin den manuellen Downloadmodus. Tatsächlichen Prüfstand in diesen Nachweisen
-beachten. Die folgenden Angaben zur Vorbereitung 0.2 beschreiben den Stand vom
-21. Oktober und sind kein aktueller Hinweis auf fehlende Hardware.
+[Firmware 0.3](large-timer-0.3.md) wurde am 24.11. auf das Zusatzdisplay geschrieben;
+die USB-Kennung wird am Pi wieder erkannt. Die neue [Firmware 0.4 mit großer Uhr ohne
+Timer](idle-clock-0.4.md) ergänzt die automatische Großansicht. Für den jeweils tatsächlichen
+Build- und Installationsstand den zugehörigen Nachweis beachten. Die Angaben zur
+Vorbereitung 0.2 unten sind historisch.
 
 21.10.2026. Zielgerät: Waveshare ESP32-S3-Touch-LCD-5B, SKU 28151,
 1024 × 600, Touch. Hardwareprojekt `device-fdb89fd08b3a454a` im
@@ -33,7 +31,8 @@ der Boardrevision noch die Bild-/Touchfunktion.
 
 Nach einmaliger Installation des Begleitdienstes und der passenden Displayfirmware
 ist kein Schalter pro Timer nötig: USB anschließen, vorhandene Timer werden
-übernommen. Ohne Timer steht „Keine offenen Timer“ auf dem Display. Abziehen
+übernommen. Ab Firmware 0.4 mit Begleitdienst aus Recorder 0.5.102 erscheint ohne sichtbare
+Timer die große Uhrzeit (HH:MM). Frühere Versionen zeigen nur „Keine offenen Timer“. Abziehen
 ändert am Pi keine Timer; nach erneutem Anstecken folgt der aktuelle Gesamtstand.
 Der Dienst startet mit der Desktop-Benutzersitzung und wartet ohne Display.
 

@@ -4,6 +4,13 @@ Für den Aufbau eines neuen Pi mit Waveshare-USB-Board: [Interne Soundbar einric
 
 Verbindliche [Pi-Touch-Bedienregeln](docs/PI-TOUCH-RULES.md). Die Befunde A01–A08 aus dem [UI-Audit](docs/ui-audit-2026-11-24/README.md) sind in 0.5.101 umgesetzt. [Änderungen, Prüfungen und Installationsstand](docs/pi-touch-0.5.101/README.md).
 
+## 0.5.102 – Uhr auf dem USB-Zusatzdisplay
+
+Ohne offene sichtbare Timer zeigt die Display-Firmware 0.4.0 automatisch eine große
+Siebensegment-Uhr (HH:MM, Ortszeit des Pi). Timer und unbestätigte Alarme haben Vorrang.
+Der Begleitdienst liefert die Zeit nur bei gültigem Zeitabgleich; bei Verbindungsverlust
+verschwinden die Ziffern. [Vorbereitung, Prüfungen und Installationsstand](docs/lcd-display/idle-clock-0.4.md).
+
 ## 0.5.101 – Große Touchaktionen und freie Timerzeile
 
 Timer reservieren unter dem Kopfbereich Platz, auch während Aufnahme und Talk. Kurze Auswahlen stehen direkt als Kacheln bereit; Ziffernfelder haben einen Ziffernblock. NFC trennt Einrichtung und Verhalten. Lautsprecher und Modellwahl bleiben scrollbar mit festen Aktionen. Zubehör und Gerätestatus haben eigene Übersichten; Neustart und Ausschalten große Kacheln. Bibliothek und Warteschlange benennen Status und fehlende Dateien klarer.

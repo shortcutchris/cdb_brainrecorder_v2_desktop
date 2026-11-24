@@ -70,5 +70,16 @@ int main(void) {
     assert(lcd_digit_segments('0') == 0x3f);
     assert(lcd_digit_segments('-') == 0x40);
     assert(lcd_digit_segments('?') == 0);
+    model = fixture(0);model.clock_valid=true;model.local_time_ms=86399750;
+    assert(lcd_clock_text(&model,100,value,sizeof(value)) && !strcmp(value,"23:59"));
+    assert(lcd_clock_text(&model,350,value,sizeof(value)) && !strcmp(value,"00:00"));
+    assert(!lcd_clock_text(&model,3100,value,sizeof(value)) && !strcmp(value,"--:--"));
+    assert(!lcd_clock_text(&model,99,value,sizeof(value)));
+    model.local_time_ms=13*3600000+7*60000;
+    assert(lcd_clock_text(&model,100,value,sizeof(value)) && !strcmp(value,"13:07"));
+    model.count=1;strcpy(model.timers[0].state,"due");
+    assert(!lcd_clock_text(&model,100,value,sizeof(value))); // Alarm keeps priority.
+    model.count=0;model.clock_valid=false;
+    assert(!lcd_clock_text(&model,100,value,sizeof(value)) && !strcmp(value,"--:--"));
     puts("Timer view: automatic single timer, overview, touch focus, paging, status and timeout passed");
 }
