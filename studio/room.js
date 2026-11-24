@@ -35,6 +35,7 @@
  }
  settingsButton.onclick=showSettings;
  $('room-settings-close').onclick=()=>{if(document.body.classList.contains('keyboard-open'))$('keyboard').click();$('room-pin').value='';settings.close()};
+ settings.oncancel=event=>{event.preventDefault();$('room-settings-close').click()};
  let inputTarget='room-pin';
  for(const id of ['room-pin','room-minutes'])$(id).onfocus=()=>{inputTarget=id;settings.dataset.editing=id==='room-minutes'?'minutes':'pin'};
  $('room-pin-keys').onclick=()=>{$(inputTarget).focus();$('keyboard').click()};
@@ -46,7 +47,7 @@
   $('room-pin').value='';if(document.body.classList.contains('keyboard-open'))$('keyboard').click();settings.close();notice('Anmeldung & Geräteschutz gespeichert.');
  });
  async function cancel(){if(busy)return;await post('cancel');panel.close();message=''}
- $('room-close').onclick=$('room-back').onclick=run(cancel);panel.oncancel=event=>{event.preventDefault();void cancel()};
+ $('room-close').onclick=$('room-back').onclick=run(cancel);panel.oncancel=event=>{event.preventDefault();void run(cancel)()};
  $('room-login').onclick=()=> $('account-shortcut').click();
  $('room-other').onclick=run(()=>finish());
  $('room-knowledge').onclick=run(async()=>{const selection=await window.studioLiveHome.refresh();window.openStudioKnowledge(selection)});
@@ -83,6 +84,7 @@
  window.finishRoomSession=finish;
  end.onclick=run(()=>finish());$('room-idle-finish').onclick=run(()=>finish(true));
  $('room-stay').onclick=run(async()=>{await post('touch');idle.close()});
+ idle.oncancel=event=>{event.preventDefault();if(!busy)void $('room-stay').onclick()};
  function clearRoomDrafts(){
   for(const storage of [localStorage,sessionStorage]){
    for(const key of Object.keys(storage))if(key.startsWith('recorder:'+namespace+':'))storage.removeItem(key);

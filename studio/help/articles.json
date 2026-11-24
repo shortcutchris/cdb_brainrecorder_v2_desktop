@@ -292,13 +292,14 @@
   },
   {
     "id": "timer",
-    "title": "Timer groß anzeigen und beenden",
+    "title": "Timer einstellen, groß anzeigen und beenden",
     "category": "BEDIENUNG",
     "intro": "Timer laufen auf dem Pi weiter, auch wenn du ihre große Ansicht schließt.",
     "steps": [
+      "Zum Einstellen „Timer“ oder „Erinnerung“ wählen. Links wechseln „1 · Zeit“ und „2 · Titel & Klang“ zwischen den Einstellungen; die Eingaben bleiben erhalten. Unten stehen Titel, Zeit und Klang sowie die Starttaste immer bereit. Rechts blätterst du separat durch deine Einträge: zwei pro Seite auf 1024 × 600, drei auf 1280 × 720. Scrollen ist dafür nicht nötig.",
       "In der Timerzeile unter dem Kopfbereich auf „Groß anzeigen“ tippen. Konto und Abmelden bleiben darüber frei. Die große Ansicht zeigt die Restzeit. „Minimieren“ kehrt zurück; „Timer beenden“ stoppt nur diesen Timer. Bei mehreren Timern zeigt die Zeile deren zusätzliche Anzahl.",
       "Beim Ablauf öffnet sich die Alarmansicht automatisch. „Alarm stoppen“ bestätigt den Timer und beendet seinen Ton. „+5 Minuten“ startet ihn für weitere fünf Minuten.",
-      "Das Kreuz minimiert auch einen Alarm, ohne ihn zu bestätigen. Der Alarmhinweis bleibt anklickbar. Während eines anderen Bestätigungs- oder Anmeldedialogs wartet die große Alarmansicht, bis der Dialog geschlossen ist.",
+      "Das Kreuz oder ein Tippen außerhalb minimiert auch einen Alarm, ohne ihn zu bestätigen. Der Alarmhinweis bleibt anklickbar. Während eines anderen Bestätigungs- oder Anmeldedialogs wartet die große Alarmansicht, bis der Dialog geschlossen ist.",
       "Unter Timer & Erinnerungen kannst du den Titel eines laufenden oder erledigten Eintrags antippen und ihn wieder groß anzeigen.",
       "Eine laufende Aufnahme oder ein Gespräch wird dadurch nicht beendet. Während der Aufnahme wartet ein hörbarer Alarm; lautlose Timer bleiben lautlos. Bei einer Fehlermeldung die Verbindung und den unter Audio gewählten Lautsprecher prüfen.",
       "Das zusätzliche USB-Timerdisplay übernimmt die Timer automatisch. Die neue Einzelansicht in Siebensegmentoptik benötigt die passende Displayfirmware; ein Update von Recorder Studio allein ersetzt diese nicht.",
@@ -339,6 +340,19 @@
         "label": "Waveshare USB-Board (C) – Herstellerunterlagen (Internet)",
         "url": "https://www.waveshare.com/wiki/PCIe_TO_USB_3.2_Gen1_Board_%28C%29"
       }
+    ]
+  },
+  {
+    "id": "dialoge",
+    "title": "Dialoge durch Tippen außerhalb schließen",
+    "category": "BEDIENUNG",
+    "intro": "Tippe auf die abgedunkelte Fläche außerhalb eines Dialogs, um zur Anwendung zurückzukehren.",
+    "steps": [
+      "Beim Brain-Konto schließt sich nur die Anzeige. Du bleibst angemeldet.",
+      "Bestätigungen werden abgebrochen: Der Außentipp löscht keine Aufnahme, meldet dich nicht ab und schaltet den Pi nicht aus. Ein laufender Timer wird nur minimiert.",
+      "Bei „Bist du noch da?“ zählt der Außentipp als „Angemeldet bleiben“. Die Ruhefrist beginnt erneut.",
+      "Eingaben im Timer bleiben beim Seitenwechsel erhalten. Ein noch nicht gespeicherter Meetingtitel bleibt beim Schließen und Wiederöffnen der Details in derselben Sitzung erhalten; erst „Titel speichern“ übernimmt ihn dauerhaft.",
+      "Während eines geschützten Vorgangs, etwa beim Herunterfahren, bleibt der Dialog geöffnet. Die Vollseiten für Einstellungen, Timer, Recorder und Bibliothek werden durch einen Außentipp nicht verlassen."
     ]
   }
 ]

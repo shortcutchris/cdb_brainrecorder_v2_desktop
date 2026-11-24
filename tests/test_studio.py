@@ -179,6 +179,15 @@ class StudioTests(unittest.TestCase):
                 self.assertEqual(self.request('/api/remote-control/revoke', {})[0], 200)
         self.assertEqual(self.request('/api/remote-control/command', {'action': 'start'})[0], 400)
 
+    def test_modal_dismiss_asset_is_served_and_loaded(self):
+        status, html, _ = self.request('/')
+        self.assertEqual(status, 200)
+        self.assertIn(b'/modal-dismiss.js', html)
+        status, script, headers = self.request('/modal-dismiss.js')
+        self.assertEqual(status, 200)
+        self.assertIn(b'cancelable:true', script)
+        self.assertIn('javascript', headers['Content-Type'])
+
     def test_index_version_is_rendered_from_running_backend(self):
         with patch('web_server.VERSION', 'release-under-test'):
             for path in ('/', '/index.html'):

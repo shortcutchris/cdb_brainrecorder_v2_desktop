@@ -24,4 +24,12 @@ Gültig ab 24.11.2026 für Recorder Studio. Primär 1280 × 720, zusätzlich 102
 10. App-Update und frisches SD-Image bewerten. Regeln, Hilfe, Tests und Nachweise
     zusammen aktualisieren; produktive Aufnahmen und Konfiguration erhalten.
 
+11. Alle echten Modaldialoge nehmen einen Außentipp als Abbruch entgegen. Nur ein
+    vollständig außerhalb begonnener und beendeter Tipp zählt; kein Durchklicken,
+    kein Schließen beim Herausziehen. Bestehende `cancel`-Handler führen Aufräumen
+    und Sperren aus. Workspace-Vollseiten sind ausgeschlossen.
+12. Timer-Einstellungen sind feste Aufgaben-Seiten („Zeit“, „Titel & Klang“), keine
+    scrollende Spalte. Start und Zusammenfassung bleiben sichtbar. Eintragsseiten
+    haben einen eigenen Bereich. Mit Timer-/Alarmzeile und Tastatur prüfen.
+
 Grundlage: [Oberflächenprüfung vom 24.11.2026](ui-audit-2026-11-24/README.md).

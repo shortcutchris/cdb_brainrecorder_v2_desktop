@@ -82,6 +82,7 @@ $('cdb-logout').onclick=run(async()=>{if(window.finishRoomSession){await window.
 for(const id of ['cdb-areas-refresh','cdb-connection-refresh'])$(id).onclick=run(loadCdbAreas);
 for(const id of ['cdb-area','cdb-connection-area'])$(id).onchange=run(()=>saveDefaultArea(id));
 $('cdb-send-area').onchange=()=>{meetingTargetOverride=$('cdb-send-area').value||null;renderCdb()};
+$('cdb-transfer').oncancel=event=>{if(transferSending)event.preventDefault()};
 $('cdb-send-open').onclick=()=>{$('more').close();$('cdb-transfer').showModal();renderCdb()};
 $('cdb-send').onclick=run(async()=>{
  if(transferSending)return;

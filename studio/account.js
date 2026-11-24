@@ -81,7 +81,8 @@
   if (!state.cdb.identity && state.cdb.login.state !== 'pending') void changeAccount();
  };
  action.onclick = changeAccount;
- $('account-close').onclick = () => dialog.close();
+ $('account-close').onclick = () => {if(!submitting)dialog.close()};
+ dialog.oncancel = event => {if(submitting)event.preventDefault()};
  const previousRender = renderState;
  renderState = function() { previousRender(); renderAccount(); };
  new MutationObserver(placeButton).observe(document.body, {attributes:true, attributeFilter:['data-workspace','class']});

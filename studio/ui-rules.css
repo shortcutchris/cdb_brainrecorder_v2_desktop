@@ -107,8 +107,5 @@ dialog.with-keyboard:has(.numeric-pad){max-height:calc(100dvh - 296px)!important
 dialog .numeric-pad .key-row button{min-height:56px;font-size:24px}dialog .numeric-pad .key-row:last-child button{font-size:20px}
 body{--view-header:calc(var(--header-base) + var(--timer-space))}
 #touch-picker.compact-picker:modal:not(.with-keyboard){height:fit-content;min-height:0}
-#timers-view .tools-column{overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin!important;padding-right:8px}
-#timers-view .tools-column::-webkit-scrollbar{display:block!important;width:10px!important}
-#timers-view .tools-column::-webkit-scrollbar-thumb{background:var(--muted);border:3px solid var(--panel);border-radius:8px}
 #queue-region>#queue-feedback{flex:none;display:block;margin:0;padding:12px var(--view-inset);font-size:15px;line-height:22px;color:var(--accent-text);max-height:88px;overflow-y:auto;white-space:normal}
 #queue-region>#queue-feedback:empty{display:none}

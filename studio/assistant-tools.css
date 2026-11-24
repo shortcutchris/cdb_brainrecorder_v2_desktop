@@ -55,5 +55,41 @@
 #timers-view .duration-choice>input{flex:0 0 72px;width:72px}
 #timers-view .duration-choice>.touch-select{flex:1;min-width:130px;width:auto;font-size:16px;margin:0!important}
 #timers-view .duration-choice>.touch-select span{white-space:nowrap;overflow-wrap:normal}
-#timers-view .tools-column:first-child{overflow-y:auto;padding-bottom:4px;scrollbar-width:thin}
-@media(max-height:650px){#timers-view .tools-column:first-child{gap:8px}#timers-view .tools-info{display:none}#timers-view .tools-switch button,#timers-view .timer-presets button,#timers-view .duration-choice>button{margin:0!important}#timers-view .timer-tone>.touch-select{margin-block:4px!important}}
+
+/* Two fixed setup pages, with an independent page control for saved entries. */
+#timers-view .tools-column{overflow:hidden;padding:0;gap:12px}
+#timers-view .timer-editor{gap:14px}
+.timer-setup-pages{display:flex;gap:8px;flex:none}
+.timer-setup-pages button{flex:1;min-height:56px;font-size:16px}
+.timer-setup-pages [aria-current=page]{box-shadow:inset 0 -4px var(--accent);color:var(--accent-text)}
+#timer-time-panel,#timer-details-panel{min-height:0;display:flex;flex-direction:column;gap:14px}
+#timers-view [hidden]{display:none!important}
+#timers-view .timer-presets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+#timers-view .timer-presets button{height:56px;min-height:56px;margin:0!important}
+#timers-view #timer-clock,#timers-view .timer-explanation{font-size:13px;line-height:19px;color:var(--muted);margin:0}
+#timers-view #timer-clock:empty{display:none}
+#timers-view .timer-tone>.touch-select{margin-block:8px 0!important}
+#timers-view #timer-list{flex:1;min-height:0}
+#timers-view #timer-pages{min-height:56px;flex:none;justify-content:center}
+#timers-view #timer-pages:empty{display:none}
+.timer-start-summary{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.timer-start-summary strong,.timer-start-summary span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.timer-start-summary strong{font-size:16px}.timer-start-summary span{font-size:14px;color:var(--muted)}
+#timers-view.with-keyboard .timer-setup-pages,#timers-view.with-keyboard .timer-tone-field,#timers-view.with-keyboard .timer-explanation,#timers-view.with-keyboard #timer-clock,#timers-view.with-keyboard .timer-presets{display:none!important}
+#timers-view.with-keyboard #timer-duration{display:block}
+#timers-view.with-keyboard .tools-content{padding-block:6px}
+#timers-view.with-keyboard .tools-footer{height:68px;flex-basis:68px;padding-block:6px}
+@media(max-height:650px){
+ #timers-view .tools-content{padding-block:12px;gap:20px}
+ #timers-view .tools-column,#timers-view .timer-editor{gap:10px}
+ #timer-time-panel,#timer-details-panel{gap:10px}
+ #timers-view #timer-clock{font-size:12px;line-height:16px}
+ #timers-view .timer-row{height:76px;margin-bottom:8px}
+}
+/* Reserve the pager's own row even when a timer strip occupies the header. */
+#timers-view .timer-row{height:72px;padding:7px 10px;margin-bottom:8px}
+#timers-view .timer-row:last-child{margin-bottom:0}
+#timers-view .timer-row-open>div{gap:4px}
+#timers-view .timer-row button{min-height:56px}
+#timers-view .timer-row-open{height:56px}
+@media(max-height:650px){#timers-view .timer-explanation{display:none}}
