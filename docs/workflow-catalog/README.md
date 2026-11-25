@@ -124,7 +124,25 @@ Image-Export. Auf dem Server zusätzlich bestehende Voice-/Auth-/Chat-/Reconnect
 UI-Proben verwenden ausschließlich synthetische Daten auf 1024×600 und 1280×720.
 Sie sind kein Nachweis der physischen Touch-/Sprachabnahme.
 
-Rollout: zuerst TQS Staging mit v5 und natürlicher Sprachprobe; anschließend
-signiertes Pi-Update mit bestehendem Wartungsschutz. Produktionsfreigabe ist nicht
-Teil dieser Änderung. Der abschließende Installationsstand steht im Abnahmebeleg;
-solange kein erfolgreicher Beleg existiert, gilt rc7 als vorbereitet, nicht installiert.
+Am 25.11.2026 um 18:34 Uhr (Europe/Berlin) wurde rc7 auf dem Recorder-Pi
+installiert. Der Server läuft in Staging; eine Produktionsfreigabe ist nicht
+Teil dieser Änderung. Das signierte Paket prüfte 171 Dateien. Anmeldung,
+Einstellungen, Aufnahmen, Gesprächsergebnisse, NFC-Zuordnungen und Raummodus
+blieben erhalten. Kiosk und Zusatzdisplay-Dienst wurden ohne Systemneustart
+neu gestartet. Beleg: [deployment.json](deployment.json).
+
+Die vollständige Sprachprobe mit synthetischem Audio lief über echtes Staging,
+WebRTC und Gerätewerkzeuge: 36 erfolgreiche Aufträge, Ja/Nein/Abbrechen, alle drei
+Formate, eigene Retrospektive-Felder, Rückkehr ins freie Gespräch und direkt ein
+zweites Gespräch mit vorbereiteter Auswahl. Ein dabei zunächst gefundener
+Freigabefehler beim Gesprächsende wurde behoben; der ganze Ablauf danach wiederholt.
+Keine Raumaufnahme und keine unbeauftragte Veröffentlichung. Beleg:
+[acceptance.json](acceptance.json).
+
+145 lokale Python-, 171 JavaScript- und 199 gezielte Serverprüfungen sind
+bestanden, zusätzlich 68 Workflow-/Gesprächstests mit Python 3.13 direkt auf dem Pi
+und die vollständigen Server-CI-Läufe. Das physische 1280×720-Display wurde nach
+dem Update auf korrekte Startseitenanzeige geprüft. Die neuen Dialoge wurden mit
+synthetischen Daten im Browser auf beiden Displaygrößen geprüft; eine Bedienprobe
+mit dem Finger bleibt dem Nutzer. Das aktualisierte Image-Baupaket enthält 178
+Quelldateien; weiterhin kein neues gebautes oder bootgeprüftes SD-Image.

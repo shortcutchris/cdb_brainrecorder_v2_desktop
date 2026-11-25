@@ -1,0 +1,87 @@
+{
+  "tested_at": "2026-11-25T18:28:29.961255+01:00",
+  "version": "1.0.0-rc7",
+  "synthetic_audio": true,
+  "room_audio": false,
+  "server": "https://staging.cdbos.de",
+  "negotiated_version": 5,
+  "intro_checks": [
+    {
+      "mode": "brainstorming",
+      "waited_for_answer": true,
+      "question_spoken": true,
+      "reply": "Okay, dann gehen wir jetzt in den Brainstorming-Modus. Soll ich ihn dir erklären?"
+    },
+    {
+      "mode": "interview",
+      "waited_for_answer": true,
+      "question_spoken": true,
+      "reply": "Okay, dann gehen wir jetzt in den Interview-Modus. Soll ich ihn dir erklären?"
+    },
+    {
+      "mode": "retrospective",
+      "waited_for_answer": true,
+      "question_spoken": true,
+      "reply": "Okay, dann gehen wir jetzt in den Retrospektive-Modus. Soll ich ihn dir erklären?"
+    },
+    {
+      "mode": "free_talk",
+      "waited_for_answer": true,
+      "question_spoken": true,
+      "reply": "Okay, dann wechseln wir ins freie Gespräch. Soll ich dir diesen Modus erklären?"
+    },
+    {
+      "mode": "free_talk",
+      "waited_for_answer": true,
+      "question_spoken": true,
+      "reply": "Okay, dann wechseln wir ins freie Gespräch. Soll ich dir diesen Modus erklären?"
+    },
+    {
+      "mode": "interview",
+      "waited_for_answer": true,
+      "question_spoken": true,
+      "reply": "Okay, dann gehen wir jetzt in den Interview-Modus. Soll ich ihn dir erklären?"
+    }
+  ],
+  "catalog_format_with_own_result_fields": true,
+  "same_connection_preserved": true,
+  "previous_results_preserved": true,
+  "no_unrequested_publication": true,
+  "touch_preselection_same_intro_and_draft": true,
+  "released": true,
+  "close_transport_clean": true,
+  "production_recordings_config_timers_unchanged": true,
+  "passed": true,
+  "seconds": 365.74,
+  "source_commit": "7363e67eb5a60e71a654f5d656c391a16215f920",
+  "commands_count": 36,
+  "command_counts": {
+    "get_workshop": 15,
+    "list_workshop_formats": 6,
+    "request_workshop_mode": 6,
+    "answer_workshop_intro": 6,
+    "update_workshop_result": 3
+  },
+  "all_commands_ok": true,
+  "transport_error_count": 0,
+  "earlier_failure_fixed": {
+    "observation": "Immediate second conversation received session_active after accepted close",
+    "cause": "HTTP 202 is asynchronous, previous client released restart guard too early",
+    "verification": "Same full speech sequence and immediate second session now pass; unit regressions cover timeout and stale response"
+  },
+  "physical_display_check": {
+    "width": 1280,
+    "height": 720,
+    "home_rendered": true,
+    "signed_in_preserved": true,
+    "new_catalog_layout": "Checked in synthetic browser at 1024x600 and 1280x720; no physical finger test",
+    "personal_screenshot_committed": false
+  },
+  "staging_backend": {
+    "source_commit": "5ff49623f266a995db73ee82fd600d0db7f1b868",
+    "image": "crcdbstaging.azurecr.io/tqs:staging-5ff4962",
+    "revision": "tqs-backend-stg--r45662319757-1",
+    "ci": "https://github.com/BIK-GmbH/cdb_tqs/actions/runs/45658971978",
+    "deployment": "https://github.com/BIK-GmbH/cdb_tqs/actions/runs/45662319757"
+  }
+}

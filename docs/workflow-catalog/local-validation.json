@@ -1,6 +1,6 @@
 {
   "date": "2026-11-25",
-  "pi_python_tests": 142,
+  "pi_python_tests": 145,
   "pi_javascript_tests": 171,
   "tqs_targeted_tests": 199,
   "synthetic_ui": true,
@@ -41,6 +41,11 @@
   ],
   "known_fixture_errors": "Synthetic account intentionally has no real cloud credential or local audio devices; setup reports unavailable. No model/network call is made by format selection.",
   "installed": false,
-  "pi_python_313_isolated_workflow_tests": 31,
-  "source_commit": "67a2a07513b6f922c52f54b7e7f0274fcde32c47"
+  "pi_python_313_isolated_workflow_tests": 68,
+  "source_commit": "7363e67eb5a60e71a654f5d656c391a16215f920",
+  "close_confirmation_regressions": [
+    "restart blocked after HTTP 202 until remote closed",
+    "unconfirmed closure reported without auto-start",
+    "late close result cannot terminate new generation"
+  ]
 }
