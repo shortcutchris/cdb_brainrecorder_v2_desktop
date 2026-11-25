@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0-rc5",
+  "source_commit": "c8039178ab4e3fa93cad43c8ada412dd63cf3e21",
+  "status": "prepared-not-boot-certified",
+  "pi_gen_commit": "d346cd53562b3c6b4f94c9155175f814258c456d",
+  "public_key_sha256": "8ea3e5260389013e2f21973c3a029ba82842e03e720aa9398daa66e27dbe4590",
+  "pcie_usb_board": true,
+  "offline_models": false,
+  "source_file_count": 174,
+  "new_assets_included": true,
+  "private_workshop_database_excluded": true,
+  "sd_image_built": false
+}

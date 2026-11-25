@@ -103,3 +103,22 @@ Ansichten der isolierten Vorschau: [Chat 1024×600](screenshots/assets-chat-cdb-
 [Verbindungsfehler](screenshots/assets-error-1024.png).
 Die Seitennavigation blieb beim Wechsel von Seite 1 auf 2 an derselben Höhe:
 Ergebnisse y=428 bei 1024×600, Ziele y=521 bei 1280×720.
+
+## Auslieferung am 25.11.2026
+
+Um **15:38 Uhr MEZ** wurde rc5 aus Commit `c8039178` als signiertes Update
+mit Sequenz 110 installiert. Alle 167 Paketdateien wurden verifiziert. Die App
+und der Kiosk laufen, Anmeldung und bisherige Ruhefrist wurden übernommen.
+Aufnahmen, Einstellungen, NFC-Zuordnungen und Raumregeln blieben erhalten. Der
+Pi wurde nicht neu gestartet. Zusatzdisplay erkannt; sein Begleitdienst läuft.
+[Installationsbeleg](deployment-rc5.json).
+
+Der echte Pi-Bildschirm wurde anschließend geprüft: 1280×720, CDB-Design,
+Startseite und angemeldetes Konto sichtbar. Der persönliche Screenshot wird
+nicht ins Repository übernommen. Das ist ein Start-/Anzeigecheck; die neuen
+Auswahldialoge wurden in der isolierten Touch-Vorschau geprüft, nicht als
+vollständige manuelle Hardware-Touch-Abnahme ausgewiesen.
+
+Ein sauberes Image-Baupaket aus demselben Commit wurde exportiert: 174 Quelldateien,
+beide neue Touch-Assets enthalten, keine private Ergebnisdatenbank.
+[Exportnachweis](image-kit-rc5.json). Kein neues SD-Image gebaut.
