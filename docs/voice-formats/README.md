@@ -32,3 +32,22 @@ Die Touch-Auswahl bleibt möglich und verwendet denselben Einführungsschritt.
 Bestandsgeräte erhalten nur signierte Programmdateien. Anmeldung, Aufnahmen,
 Timer und Konfiguration werden erhalten. Neue Geräte erhalten die Programmdateien
 über die bestehende Image-Positivliste und eine leere private SQLite-Ablage.
+
+## Zwischenprüfung der echten Sprachverbindung
+
+Die erste natürliche Sprachprobe erkannte den Moduswunsch und sprach die Frage,
+löste aber noch keinen Geräteauftrag aus. Die Ursache war die fehlende explizite
+Weiterleitung durch das Sprachmodell. Die Korrektur liegt in TQS PR 2934:
+Moduswunsch und Ja/Nein/Abbrechen immer ans Backend geben; dort die aktuelle
+Auswahl lesen. Dies verändert keine Berechtigungen und interpretiert keine
+Transkripte über Schlüsselwörter.
+
+Die gezielte Gegenprobe am Pi (25.11.2026, 16:35 MEZ) bestand mit einem ausdrücklich
+formulierten Weiterleitungsauftrag: Brainstorming/Nein, Interview/Ja,
+freies Gespräch/Abbrechen, freies Gespräch/Nein, vorgewähltes Interview/Nein.
+Alle fünf Erklärungsfragen wurden gesprochen; vorher wurde kein Modus aktiviert.
+Die Verbindung blieb beim Wechsel bestehen, alte Ergebnisse und die normale
+Pi-Konfiguration blieben erhalten. Ein kurz fehlgeschlagener Abruf wurde ohne
+Doppelaktion überwunden. Kein Raumton, keine automatische Veröffentlichung.
+Diese Gegenprobe ersetzt noch nicht die Abnahme mit normalen Sprachsätzen nach
+der Serverkorrektur. Bis dahin bleibt auf dem normalen Pi die Version rc5 aktiv.
