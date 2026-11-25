@@ -139,6 +139,12 @@ Freigabefehler beim Gesprächsende wurde behoben; der ganze Ablauf danach wieder
 Keine Raumaufnahme und keine unbeauftragte Veröffentlichung. Beleg:
 [acceptance.json](acceptance.json).
 
+Zusätzliche Abnahme am selben Tag: [Retrospektive vollständig per Sprache bis
+zum Composer-Board](retrospective-composer.md). Alle fünf Ergebnisbereiche wurden
+auf Staging-Board 121 gespeichert, frisch zurückgelesen und mit dem gesprochenen
+Inhalt verglichen; der Agent bestätigte den gespeicherten Stand per Sprache.
+Testgrenzen und der korrigierte Rücklese-Prüfer sind dort ausdrücklich dokumentiert.
+
 145 lokale Python-, 171 JavaScript- und 199 gezielte Serverprüfungen sind
 bestanden, zusätzlich 68 Workflow-/Gesprächstests mit Python 3.13 direkt auf dem Pi
 und die vollständigen Server-CI-Läufe. Das physische 1280×720-Display wurde nach

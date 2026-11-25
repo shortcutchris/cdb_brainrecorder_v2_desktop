@@ -1,0 +1,125 @@
+{
+  "tested_at": "2026-11-25T18:54:56.034761+01:00",
+  "version": "1.0.0-rc7",
+  "source_directory": "7363e67e",
+  "server": "https://staging.cdbos.de",
+  "synthetic_audio": true,
+  "room_microphone_used": false,
+  "room_speaker_used": false,
+  "commands": [
+    {
+      "name": "get_workshop",
+      "ok": true,
+      "code": null,
+      "composer_state": "saved"
+    },
+    {
+      "name": "get_workshop",
+      "ok": true,
+      "code": null,
+      "composer_state": "saved"
+    }
+  ],
+  "spoken_inputs": [
+    "Ist die Retrospektive jetzt erfolgreich im Composer gespeichert? Prüfe bitte den gespeicherten Status."
+  ],
+  "replies": [
+    "Ja, der Rückblick ist erfolgreich als bearbeitbarer Ergebnisstand im Composer gespeichert. Er hat den Status gespeichert, Revision 10."
+  ],
+  "composer_calls": [
+    "read_board"
+  ],
+  "resumed_existing_board": true,
+  "original_report_sha256": "13cd3224ec860d1d114bec2787f3bfb7206b85b2ca39f0be7486500d5d35c1e6",
+  "expected_sections": {
+    "goal": "Rückblick auf den Teamworkshop am Montag im Test Projekt Alpha. Ziel: bessere Vorbereitung.",
+    "strengths": "Die Agenda war klar.\nAlle kamen zu Wort.",
+    "challenges": "Die Technikprüfung fehlte.\nDie Pause begann zu spät.",
+    "learnings": "Die Technik vorher prüfen.\nPuffer für Pausen einplanen.",
+    "actions": "Anna prüft die Technik bis Donnerstag.\nBen verschickt die Agenda bis Freitag."
+  },
+  "expected_titles": {
+    "goal": "Ziel und Zeitraum",
+    "strengths": "Was lief gut?",
+    "challenges": "Was war schwierig?",
+    "learnings": "Was lernen wir?",
+    "actions": "Vereinbarte Verbesserungen"
+  },
+  "workflow_version": 1,
+  "spoken_semantic_checks": {
+    "goal": true,
+    "strengths": true,
+    "challenges": true,
+    "learnings": true,
+    "actions": true
+  },
+  "board": {
+    "url": "https://composer-staging.cdbos.de/board/121",
+    "id": 121,
+    "revision": 10
+  },
+  "device_tools_version": 5,
+  "board_response_top_keys": [
+    "text"
+  ],
+  "readback_fields": {
+    "goal": {
+      "title": "Ziel und Zeitraum",
+      "node_id": "text-1795629121219-561a4e",
+      "frame_id": "frame-1795629122526-2a0212",
+      "text": "Rückblick auf den Teamworkshop am Montag im Test Projekt Alpha. Ziel: bessere Vorbereitung.",
+      "text_matches_ignoring_whitespace": true
+    },
+    "strengths": {
+      "title": "Was lief gut?",
+      "node_id": "text-1795629121561-b8f82f",
+      "frame_id": "frame-1795629122526-2a0212",
+      "text": "Die Agenda war klar. Alle kamen zu Wort.",
+      "text_matches_ignoring_whitespace": true
+    },
+    "challenges": {
+      "title": "Was war schwierig?",
+      "node_id": "text-1795629121820-289f9d",
+      "frame_id": "frame-1795629122526-2a0212",
+      "text": "Die Technikprüfung fehlte. Die Pause begann zu spät.",
+      "text_matches_ignoring_whitespace": true
+    },
+    "learnings": {
+      "title": "Was lernen wir?",
+      "node_id": "text-1795629122089-c814f4",
+      "frame_id": "frame-1795629122526-2a0212",
+      "text": "Die Technik vorher prüfen. Puffer für Pausen einplanen.",
+      "text_matches_ignoring_whitespace": true
+    },
+    "actions": {
+      "title": "Vereinbarte Verbesserungen",
+      "node_id": "text-1795629122303-7df2b2",
+      "frame_id": "frame-1795629122526-2a0212",
+      "text": "Anna prüft die Technik bis Donnerstag. Ben verschickt die Agenda bis Freitag.",
+      "text_matches_ignoring_whitespace": true
+    }
+  },
+  "readback_only_no_republication": true,
+  "agent_confirmed_saved": true,
+  "saved_reply": "Ja, der Rückblick ist erfolgreich als bearbeitbarer Ergebnisstand im Composer gespeichert. Er hat den Status gespeichert, Revision 10.",
+  "closed_cleanly": true,
+  "pi_config_recordings_timers_unchanged": true,
+  "passed": true,
+  "transcript": [
+    {
+      "role": "user",
+      "text": "Ist die Net Perspektive jetzt erfolgreich im Composer gespeichert Prüfe bitte Den gespeicherten Status"
+    },
+    {
+      "role": "assistant",
+      "text": "Ich prüfe das kurz, Moment."
+    },
+    {
+      "role": "assistant",
+      "text": "Ja, der Rückblick ist erfolgreich als bearbeitbarer Ergebnisstand im Composer gespeichert. Er hat den Status gespeichert, Revision 10."
+    }
+  ],
+  "temporary_credentials_removed": true,
+  "seconds": 59.21,
+  "runner_sha256": "a4b4ba8312c7a7c167a7794dd36dcda4ac1aa1836038f09c05d89a84e91c3830"
+}

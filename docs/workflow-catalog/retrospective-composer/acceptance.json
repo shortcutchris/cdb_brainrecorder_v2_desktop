@@ -1,0 +1,113 @@
+{
+  "status": "passed_with_documented_test_harness_correction",
+  "date": "2026-11-25",
+  "timezone": "Europe/Berlin",
+  "version": "1.0.0-rc7",
+  "app_source_commit": "7363e67eb5a60e71a654f5d656c391a16215f920",
+  "server": "https://staging.cdbos.de",
+  "workflow_id": "retrospective",
+  "workflow_version": 1,
+  "board": {
+    "url": "https://composer-staging.cdbos.de/board/121",
+    "id": 121,
+    "revision": 10
+  },
+  "scope": "Synthetic German audio through installed native Pi app, real Staging Voice/WebRTC, device tools and Composer MCP bridge. No room audio or visual board inspection.",
+  "publication": "All workflow mutations and publication requested by speech. Fresh readback and saved-status speech query resumed the same isolated test draft; no republishing.",
+  "evidence": {
+    "speech": "speech-run.json",
+    "fresh_readback_and_spoken_status": "readback-and-status.json",
+    "linked_original_sha256": "13cd3224ec860d1d114bec2787f3bfb7206b85b2ca39f0be7486500d5d35c1e6"
+  },
+  "checks": {
+    "introduction_waited_for_answer": true,
+    "all_five_contributions_manually_compared_with_local_sections": true,
+    "no_extra_decisions_or_assignees": true,
+    "all_five_sections_read_aloud_before_save": true,
+    "no_unrequested_save": true,
+    "single_board_five_editable_text_cards_one_frame": true,
+    "fresh_readback_all_titles_and_complete_text_match": true,
+    "anna_technology_thursday_ben_agenda_friday_preserved": true,
+    "readback_only_no_republication": true,
+    "agent_confirmed_saved": true,
+    "closed_cleanly": true,
+    "pi_config_recordings_timers_unchanged": true,
+    "temporary_credentials_removed": true
+  },
+  "readback_fields": {
+    "goal": {
+      "title": "Ziel und Zeitraum",
+      "node_id": "text-1795629121219-561a4e",
+      "frame_id": "frame-1795629122526-2a0212",
+      "text": "Rückblick auf den Teamworkshop am Montag im Test Projekt Alpha. Ziel: bessere Vorbereitung.",
+      "text_matches_ignoring_whitespace": true
+    },
+    "strengths": {
+      "title": "Was lief gut?",
+      "node_id": "text-1795629121561-b8f82f",
+      "frame_id": "frame-1795629122526-2a0212",
+      "text": "Die Agenda war klar. Alle kamen zu Wort.",
+      "text_matches_ignoring_whitespace": true
+    },
+    "challenges": {
+      "title": "Was war schwierig?",
+      "node_id": "text-1795629121820-289f9d",
+      "frame_id": "frame-1795629122526-2a0212",
+      "text": "Die Technikprüfung fehlte. Die Pause begann zu spät.",
+      "text_matches_ignoring_whitespace": true
+    },
+    "learnings": {
+      "title": "Was lernen wir?",
+      "node_id": "text-1795629122089-c814f4",
+      "frame_id": "frame-1795629122526-2a0212",
+      "text": "Die Technik vorher prüfen. Puffer für Pausen einplanen.",
+      "text_matches_ignoring_whitespace": true
+    },
+    "actions": {
+      "title": "Vereinbarte Verbesserungen",
+      "node_id": "text-1795629122303-7df2b2",
+      "frame_id": "frame-1795629122526-2a0212",
+      "text": "Anna prüft die Technik bis Donnerstag. Ben verschickt die Agenda bis Freitag.",
+      "text_matches_ignoring_whitespace": true
+    }
+  },
+  "saved_reply": "Ja, der Rückblick ist erfolgreich als bearbeitbarer Ergebnisstand im Composer gespeichert. Er hat den Status gespeichert, Revision 10.",
+  "attempts": [
+    {
+      "id": "run-1",
+      "result": "stopped_before_publication",
+      "finding": "Synthetic Nordstern was recognized as Nordstrand. Semantic check failed before any Composer call; no recognition-engine fix claimed."
+    },
+    {
+      "id": "run-2",
+      "result": "speech_and_publication_complete_readback_harness_failed",
+      "finding": "Board title/text mapping differs from local snapshot",
+      "correction": "Parser now validates actual data.text MCP board representation, not nonexistent card objects. Original failed report preserved."
+    },
+    {
+      "id": "readback-1",
+      "result": "passed",
+      "finding": "Fresh read_board of Board 121 plus spoken saved-status check; no duplicate board and no result changes."
+    }
+  ],
+  "offline_regression_tests": {
+    "suite": "tests.test_retrospective_voice_probe",
+    "count": 6,
+    "status": "passed"
+  },
+  "post_test_pi": {
+    "version": "1.0.0-rc7",
+    "signed_in": true,
+    "live": "idle",
+    "recording": false,
+    "maintenance": false
+  },
+  "image_and_update_impact": "None: test/docs-only; installed app unchanged, no release, deployment or SD image built.",
+  "limits": [
+    "No physical microphone/speaker or human listening test.",
+    "No multi-person room acoustics test.",
+    "No visual Composer browser/layout acceptance.",
+    "ASR may misrecognize names; semantic keywords alone do not prove correctness, full text manually reviewed.",
+    "Not a single uninterrupted green run: successful publication plus corrected read-only acceptance."
+  ]
+}

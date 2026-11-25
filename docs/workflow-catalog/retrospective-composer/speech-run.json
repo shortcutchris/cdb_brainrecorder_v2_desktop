@@ -1,0 +1,365 @@
+{
+  "tested_at": "2026-11-25T18:46:52.937903+01:00",
+  "version": "1.0.0-rc7",
+  "source_directory": "7363e67e",
+  "server": "https://staging.cdbos.de",
+  "synthetic_audio": true,
+  "room_microphone_used": false,
+  "room_speaker_used": false,
+  "commands": [
+    {
+      "name": "get_workshop",
+      "ok": true,
+      "code": null
+    },
+    {
+      "name": "list_workshop_formats",
+      "ok": true,
+      "code": null
+    },
+    {
+      "name": "request_workshop_mode",
+      "ok": true,
+      "code": null,
+      "format": "retrospective"
+    },
+    {
+      "name": "get_workshop",
+      "ok": true,
+      "code": null
+    },
+    {
+      "name": "answer_workshop_intro",
+      "ok": true,
+      "code": null,
+      "answer": "explain",
+      "composer_state": "local"
+    },
+    {
+      "name": "get_workshop",
+      "ok": true,
+      "code": null,
+      "composer_state": "local"
+    },
+    {
+      "name": "update_workshop_result",
+      "ok": true,
+      "code": null,
+      "section": "goal",
+      "composer_state": "local"
+    },
+    {
+      "name": "get_workshop",
+      "ok": true,
+      "code": null,
+      "composer_state": "local"
+    },
+    {
+      "name": "update_workshop_result",
+      "ok": true,
+      "code": null,
+      "section": "strengths",
+      "composer_state": "local"
+    },
+    {
+      "name": "set_workshop_phase",
+      "ok": true,
+      "code": null,
+      "phase": "reflecting",
+      "composer_state": "local"
+    },
+    {
+      "name": "get_workshop",
+      "ok": true,
+      "code": null,
+      "composer_state": "local"
+    },
+    {
+      "name": "update_workshop_result",
+      "ok": true,
+      "code": null,
+      "section": "challenges",
+      "composer_state": "local"
+    },
+    {
+      "name": "get_workshop",
+      "ok": true,
+      "code": null,
+      "composer_state": "local"
+    },
+    {
+      "name": "update_workshop_result",
+      "ok": true,
+      "code": null,
+      "section": "learnings",
+      "composer_state": "local"
+    },
+    {
+      "name": "set_workshop_phase",
+      "ok": true,
+      "code": null,
+      "phase": "learning",
+      "composer_state": "local"
+    },
+    {
+      "name": "get_workshop",
+      "ok": true,
+      "code": null,
+      "composer_state": "local"
+    },
+    {
+      "name": "update_workshop_result",
+      "ok": true,
+      "code": null,
+      "section": "actions",
+      "composer_state": "local"
+    },
+    {
+      "name": "set_workshop_phase",
+      "ok": true,
+      "code": null,
+      "phase": "improving",
+      "composer_state": "local"
+    },
+    {
+      "name": "get_workshop",
+      "ok": true,
+      "code": null,
+      "composer_state": "local"
+    },
+    {
+      "name": "set_workshop_phase",
+      "ok": true,
+      "code": null,
+      "phase": "closing",
+      "composer_state": "local"
+    },
+    {
+      "name": "save_workshop_to_composer",
+      "ok": true,
+      "code": null
+    },
+    {
+      "name": "get_workshop",
+      "ok": true,
+      "code": null,
+      "composer_state": "saving"
+    }
+  ],
+  "spoken_inputs": [
+    "Ich möchte jetzt eine Retrospektive starten.",
+    "Ja, bitte erkläre mir den Ablauf.",
+    "Wir blicken auf den Teamworkshop am Montag im Testprojekt Alpha zurück. Unser Ziel ist eine bessere Vorbereitung. Halte das als Ziel und Zeitraum fest.",
+    "Gut lief: Die Agenda war klar und alle kamen zu Wort. Halte beide Punkte unter Was lief gut fest.",
+    "Schwierig war: Die Technikprüfung fehlte und die Pause begann zu spät. Halte beide Punkte unter Was war schwierig fest.",
+    "Unsere Erkenntnisse sind: Wir müssen die Technik vorher prüfen und Puffer für Pausen einplanen. Halte beides unter Was lernen wir fest.",
+    "Wir vereinbaren verbindlich: Anna prüft die Technik bis Donnerstag. Ben verschickt die Agenda bis Freitag. Halte beide vereinbarten Verbesserungen mit Namen und Termin fest.",
+    "Die Retrospektive ist abgeschlossen. Setze die Phase auf Abschließen und lies alle fünf Ergebnisbereiche vor. Bitte noch nichts im Composer speichern.",
+    "Speichere diese Retrospektive jetzt als neues Board im Composer."
+  ],
+  "replies": [
+    "Okay, dann gehen wir jetzt in den Retrospektive-Modus. Soll ich ihn dir erklären?",
+    "Wir blicken gemeinsam zurück: Was lief gut, was war schwierig und was lernen wir daraus? Danach wählen wir konkrete Verbesserungen aus. Verantwortliche und Termine halten wir nur fest, wenn ihr sie bestätigt. Auf welchen Zeitraum oder welches Projekt möchtest du zurückblicken?",
+    "Ich habe notiert: Rückblick auf den Teamworkshop am Montag im Test Projekt Alpha; Ziel ist bessere Vorbereitung. Ist das so richtig festgehalten? Dann sammeln wir als Nächstes die Erfahrungen.",
+    "Ist festgehalten. Was war beim Teamworkshop schwierig?",
+    "Alles klar, ist festgehalten. Welche Erkenntnis ziehen wir daraus für die Vorbereitung?",
+    "Ist festgehalten. Welche konkrete Verbesserung möchten wir für den nächsten Workshop vereinbaren?",
+    "Ist festgehalten: Anna prüft die Technik bis Donnerstag, Ben verschickt die Agenda bis Freitag. Gibt es noch eine weitere Verbesserung, oder sollen wir die Retrospektive jetzt abschließen?",
+    "Ziel und Zeitraum: Rückblick auf den Teamworkshop am Montag im Test Projekt Alpha. Ziel ist eine bessere Vorbereitung. Was lief gut: Die Agenda war klar. Alle kamen zu Wort. Was war schwierig: Die Technikprüfung fehlte. Die Pause begann zu spät. Was lernen wir: Die Technik vorher prüfen. Puffer für Pausen einplanen. Vereinbarte Verbesserungen: Anna prüft die Technik bis Donnerstag. Ben verschickt die Agenda bis Freitag. Möchtest du noch etwas an den Ergebnissen ändern?",
+    "Die Retrospektive wird gerade als neues Composer-Board gespeichert. Die Speicherung ist noch nicht abgeschlossen."
+  ],
+  "composer_calls": [
+    "create_board",
+    "add_note",
+    "add_note",
+    "add_note",
+    "add_note",
+    "add_note",
+    "add_frame",
+    "read_board"
+  ],
+  "device_tools_version": 5,
+  "introduction_waited_for_answer": true,
+  "explanation": "Wir blicken gemeinsam zurück: Was lief gut, was war schwierig und was lernen wir daraus? Danach wählen wir konkrete Verbesserungen aus. Verantwortliche und Termine halten wir nur fest, wenn ihr sie bestätigt. Auf welchen Zeitraum oder welches Projekt möchtest du zurückblicken?",
+  "no_unrequested_save": true,
+  "expected_sections": {
+    "goal": "Rückblick auf den Teamworkshop am Montag im Test Projekt Alpha. Ziel: bessere Vorbereitung.",
+    "strengths": "Die Agenda war klar.\nAlle kamen zu Wort.",
+    "challenges": "Die Technikprüfung fehlte.\nDie Pause begann zu spät.",
+    "learnings": "Die Technik vorher prüfen.\nPuffer für Pausen einplanen.",
+    "actions": "Anna prüft die Technik bis Donnerstag.\nBen verschickt die Agenda bis Freitag."
+  },
+  "expected_titles": {
+    "goal": "Ziel und Zeitraum",
+    "strengths": "Was lief gut?",
+    "challenges": "Was war schwierig?",
+    "learnings": "Was lernen wir?",
+    "actions": "Vereinbarte Verbesserungen"
+  },
+  "workflow_version": 1,
+  "spoken_semantic_checks": {
+    "goal": true,
+    "strengths": true,
+    "challenges": true,
+    "learnings": true,
+    "actions": true
+  },
+  "board": {
+    "url": "https://composer-staging.cdbos.de/board/121",
+    "id": 121,
+    "revision": 10
+  },
+  "board_response_top_keys": [
+    "text"
+  ],
+  "readback_fields": {
+    "goal": {
+      "title": "Ziel und Zeitraum",
+      "matching_title_count": 0,
+      "exact_text_match": false
+    },
+    "strengths": {
+      "title": "Was lief gut?",
+      "matching_title_count": 0,
+      "exact_text_match": false
+    },
+    "challenges": {
+      "title": "Was war schwierig?",
+      "matching_title_count": 0,
+      "exact_text_match": false
+    },
+    "learnings": {
+      "title": "Was lernen wir?",
+      "matching_title_count": 0,
+      "exact_text_match": false
+    },
+    "actions": {
+      "title": "Vereinbarte Verbesserungen",
+      "matching_title_count": 0,
+      "exact_text_match": false
+    }
+  },
+  "passed": false,
+  "error": "Board title/text mapping differs from local snapshot",
+  "transcript": [
+    {
+      "role": "assistant",
+      "text": "Hallo, wie kann ich dir helfen?"
+    },
+    {
+      "role": "user",
+      "text": "Ich möchte jetzt eine Retrospektive starten"
+    },
+    {
+      "role": "assistant",
+      "text": "Okay, einen Moment."
+    },
+    {
+      "role": "assistant",
+      "text": "Okay, dann gehen wir jetzt in den Retrospektive-Modus. Soll ich ihn dir erklären?"
+    },
+    {
+      "role": "user",
+      "text": "Ja, bitte erkläre mir den Ablauf"
+    },
+    {
+      "role": "assistant",
+      "text": "Gern, ich schaue kurz nach."
+    },
+    {
+      "role": "assistant",
+      "text": "Wir blicken gemeinsam zurück: Was lief gut, was war schwierig und was lernen wir daraus? Danach wählen wir konkrete Verbesserungen aus. Verantwortliche und Termine halten wir nur fest, wenn ihr sie bestätigt. Auf welchen Zeitraum oder welches Projekt möchtest du zurückblicken?"
+    },
+    {
+      "role": "user",
+      "text": "Wir blicken auf den Teamworkshop am Montag im Test Projekt Alpha zurück. Unser Ziel ist eine bessere Vorbereitung Halte das fest Ziel und"
+    },
+    {
+      "role": "assistant",
+      "text": "Alles klar, ich nehme das auf."
+    },
+    {
+      "role": "user",
+      "text": "Zeitraum fest"
+    },
+    {
+      "role": "assistant",
+      "text": "Ich habe notiert: Rückblick auf den Teamworkshop am Montag im Test Projekt Alpha; Ziel ist bessere Vorbereitung. Ist das so richtig festgehalten? Dann sammeln wir als Nächstes die Erfahrungen."
+    },
+    {
+      "role": "user",
+      "text": "Gut, lief. Die Agenda war klar, und alle kamen zu Wort. Halte beide Punkte unter Was lief gut fest"
+    },
+    {
+      "role": "assistant",
+      "text": "Alles klar, ich notiere das."
+    },
+    {
+      "role": "assistant",
+      "text": "Ist festgehalten. Was war beim Teamworkshop schwierig?"
+    },
+    {
+      "role": "user",
+      "text": "Schwierig war, die Technikprüfung fehlte und die Pause begann zu spät. Halte beide Punkte unter Was war schwierig fest"
+    },
+    {
+      "role": "assistant",
+      "text": "Okay, ich halte das fest."
+    },
+    {
+      "role": "assistant",
+      "text": "Alles klar, ist festgehalten. Welche Erkenntnis ziehen wir daraus für die Vorbereitung?"
+    },
+    {
+      "role": "user",
+      "text": "Unsere Erkenntnisse sind: Wir müssen die Technik vorher prüfen und Puffer für Pausen einplanen. Halte beides unter Was lernen wir fest"
+    },
+    {
+      "role": "assistant",
+      "text": "[sigh] Ich halte das als Lernpunkte fest."
+    },
+    {
+      "role": "assistant",
+      "text": "Ist festgehalten. Welche konkrete Verbesserung möchten wir für den nächsten Workshop vereinbaren?"
+    },
+    {
+      "role": "user",
+      "text": "Wir vereinbaren verbindlich, Anna prüft die Technik bis Donnerstag, Ben verschickt die Agenda bis Freitag. Halte beide vereinbarten Verbesserungen mit Namen und Termin fest"
+    },
+    {
+      "role": "assistant",
+      "text": "Mache ich, einen Augenblick."
+    },
+    {
+      "role": "assistant",
+      "text": "Ist festgehalten: Anna prüft die Technik bis Donnerstag, Ben verschickt die Agenda bis Freitag. Gibt es noch eine weitere Verbesserung, oder sollen wir die Retrospektive jetzt abschließen?"
+    },
+    {
+      "role": "user",
+      "text": "Die Retrospektive ist abgeschlossen. Setze die Phase auf Abschließen und lies alle fünf Ergebnisbereiche vor. Bitte noch nichts im Composer speichern"
+    },
+    {
+      "role": "assistant",
+      "text": "Alles klar, ich schließe sie und lese dir dann alles vor."
+    },
+    {
+      "role": "assistant",
+      "text": "Ziel und Zeitraum: Rückblick auf den Teamworkshop am Montag im Test Projekt Alpha. Ziel ist eine bessere Vorbereitung. Was lief gut: Die Agenda war klar. Alle kamen zu Wort. Was war schwierig: Die Technikprüfung fehlte. Die Pause begann zu spät. Was lernen wir: Die Technik vorher prüfen. Puffer für Pausen einplanen. Vereinbarte Verbesserungen: Anna prüft die Technik bis Donnerstag. Ben verschickt die Agenda bis Freitag. Möchtest du noch etwas an den Ergebnissen ändern?"
+    },
+    {
+      "role": "user",
+      "text": "Speichere diese Retrospektive jetzt als neues Board im Composer"
+    },
+    {
+      "role": "assistant",
+      "text": "Okay, einen Moment."
+    },
+    {
+      "role": "assistant",
+      "text": "Die Retrospektive wird gerade als neues Composer-Board gespeichert. Die Speicherung ist noch nicht abgeschlossen."
+    }
+  ],
+  "temporary_credentials_removed": true,
+  "seconds": 323.92,
+  "runner_sha256": "aca96273622b0dcfda2e5c345b445e9aafac4e8cf0aa1dd356fcae4e4f077ca4"
+}
