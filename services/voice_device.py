@@ -74,6 +74,8 @@ class VoiceDevice:
                             # Explicit positive volume restores audible responses.
                             if target > 0: body['muted'] = False
                         actual = self.speakers.configure(body)
+                        if not actual['is_default']:
+                            raise ValueError('Pi-Audioausgang während der Änderung gewechselt. Gerätestatus prüfen.')
                         result = {'ok': True, 'volume_percent': actual['volume'], 'muted': actual['muted'],
                                   'audible': not actual['muted'] and actual['volume'] > 0,
                                   'message': 'Am Pi-Ausgang eingestellt und zurückgelesen.'}

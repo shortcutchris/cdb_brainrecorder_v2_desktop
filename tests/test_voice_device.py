@@ -117,6 +117,13 @@ class VoiceDeviceTests(unittest.TestCase):
         result = self.tool.execute(self.scope, self.request('set_device_volume', {'percent': 0}))
         self.assertFalse(result['ok'])
 
+    def test_system_default_change_during_write_is_not_confirmed(self):
+        original = self.speakers.configure
+        def changed_route(body):
+            return original(body) | {'is_default': False}
+        with patch.object(self.speakers, 'configure', side_effect=changed_route):
+            self.assertFalse(self.tool.execute(self.scope, self.request())['ok'])
+
     def test_status_never_mutates_or_reads_private_content(self):
         app = SimpleNamespace(
             speakers=self.speakers, store=SimpleNamespace(root=self.root, config=lambda: {'device': 'mic'}),
