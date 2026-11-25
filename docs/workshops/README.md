@@ -1,5 +1,8 @@
 # Geführte Gespräche und Composer · 1.0.0-rc4
 
+Ergänzung ab rc5: [Ergebniskarte im Chat und ausgewählte Dokumente in einer
+Brain Knowledge Area speichern](../workshop-assets/README.md).
+
 Stand 25.11.2026. Interview und Brainstorming sind ausdrücklich gewählte
 Talk-Formate. Das Gerät sammelt einen strukturierten Arbeitsstand; auf Wunsch
 entsteht daraus ein bearbeitbares Composer-Board. Keine automatische Aufnahme,

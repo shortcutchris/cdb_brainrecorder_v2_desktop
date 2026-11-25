@@ -44,7 +44,7 @@
   input.oninput=()=>{dirty=true;primary.textContent='Änderung übernehmen';primary.disabled=false;message('Noch nicht gespeichert. Andere Beiträge werden nicht überschrieben.');};
   pane.append(label,input);const transfer=text('p',row.composer.message);pane.append(transfer);
   if(row.composer.url){const a=text('a','Board im Composer öffnen ↗');a.href=row.composer.url;a.target='_blank';a.rel='noopener noreferrer';pane.append(a)}
-  const actions=document.createElement('div');actions.className='workshop-actions';const publish=button('In Composer speichern',async()=>{if(dirty){message('Bitte Textänderung zuerst übernehmen.');return}publish.disabled=true;try{await send({action:'save',id:row.id,revision:row.revision});await poll();await read()}catch(e){message(e.message)}});publish.disabled=['saving','uncertain'].includes(row.composer.state);actions.append(publish);
+  const actions=document.createElement('div');actions.className='workshop-actions';actions.append(button('Ergebnisse auswählen',async()=>{if(dirty){message('Bitte Textänderung zuerst übernehmen.');return}await window.studioWorkshopAssets.open(row.id)}));const publish=button('In Composer speichern',async()=>{if(dirty){message('Bitte Textänderung zuerst übernehmen.');return}publish.disabled=true;try{await send({action:'save',id:row.id,revision:row.revision});await poll();await read()}catch(e){message(e.message)}});publish.disabled=['saving','uncertain'].includes(row.composer.state);actions.append(publish);
   const active=Boolean(state?.live?.busy&&state.live.workshop_id===row.id);
   const control=button(active?'Gespräch pausieren':'Gespräch fortsetzen',async()=>{
    if(dirty){message('Bitte Textänderung zuerst übernehmen.');return}
@@ -56,7 +56,7 @@
  }
  open.onclick=run(async()=>{if(!state?.cdb?.identity){notice('Bitte zuerst am Brain anmelden.');return}if(state?.live?.workshop_id&&state.live.busy)await openResult(state.live.workshop_id);else{choose();dialog.showModal()}});
  dialog.addEventListener('cancel',e=>{if(dirty){e.preventDefault();message('Bitte deine Änderung zuerst übernehmen oder verwerfen.');back.textContent='Änderung verwerfen';back.onclick=()=>{dirty=false;close()}}});
- window.studioWorkshop={selected:()=>selected,clear:()=>{selected=null},open:()=>open.click()};
+ window.studioWorkshop={selected:()=>selected,clear:()=>{selected=null},open:()=>open.click(),inspect:async(id,key)=>{section=key||'goal';await openResult(id)}};
  const baseRender=renderState;renderState=function(){baseRender();const key=JSON.stringify([state?.cdb?.identity,state?.cdb?.config?.server]);if(ownerKey&&key!==ownerKey){selected=null;row=null;dirty=false;savedKey='';page=0;dialog.close()}ownerKey=key;
   if(state?.live?.busy&&state.live.workshop_id)selected=state.live.workshop_id;
   open.textContent=selected?'Ergebnis & Format':'Interview & Ideen';open.disabled=Boolean(state?.recording?.id);

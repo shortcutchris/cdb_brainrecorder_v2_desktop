@@ -1,5 +1,12 @@
 # Wie die Brain-Systeme zusammenspielen
 
+**Ergebnisauswahl ab 1.0.0-rc5:** Die Chat-Karte zeigt Metadaten des eigenen
+Arbeitsstands. Explizit ausgewählte Texte werden kontogebunden als unveränderlicher
+Snapshot einzelner Dokumente in die bestehende Übertragungswarteschlange übernommen.
+Document-Ingest liefert Belege; Gesprächswissen ist keine automatische Schreibfreigabe.
+Kein neues Server-Werkzeug und keine Übertragung des gesamten Chats.
+[Datenfluss und Prüfung](../workshop-assets/README.md).
+
 **Geführte Formate ab 1.0.0-rc4:** Gerätewerkzeuge v3 verbinden die lokale,
 kontogebundene Ergebnisablage mit der vorhandenen Composer-MCP-Brücke des BFF.
 Der Agent erhält nur vier begrenzte Werkzeuge und keine frei wählbaren Board-IDs.

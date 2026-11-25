@@ -9,6 +9,28 @@ from services.workshops import Workshops
 
 
 class WorkshopsTest(unittest.TestCase):
+    def test_brain_selection_uses_reviewed_revision_and_only_selected_text(self):
+        from unittest.mock import Mock
+        self.cdb.enqueue_artifacts = Mock(return_value={'ok': True})
+        self.store.edit(self.binding, self.row['id'], 1, section='ideas', text='Nur diese Idee')
+        result = self.store.save_brain(self.binding, self.row['id'], 2, ['ideas'], 'area')
+        self.assertTrue(result['ok'])
+        args = self.cdb.enqueue_artifacts.call_args.args
+        self.assertEqual(args[:2], (self.binding, 'area'))
+        self.assertEqual(args[2], [{'section': 'ideas', 'title': 'Synthetisches Interview · Ideen', 'content': '# Ideen\n\nNur diese Idee'}])
+        self.assertNotIn('Arbeitsweise verstehen', str(args[2]))
+        for revision, sections in [(1, ['ideas']), (2, []), (2, ['unknown']), (2, ['ideas','ideas']), (2, ['findings'])]:
+            with self.assertRaises(ValueError): self.store.save_brain(self.binding, self.row['id'], revision, sections, 'area')
+        self.assertEqual(self.cdb.enqueue_artifacts.call_count, 1)
+        self.current = None
+        with self.assertRaises(ValueError): self.store.save_brain(self.binding, self.row['id'], 2, ['ideas'], 'area')
+
+    def test_chat_metadata_exposes_asset_labels_but_not_result_text(self):
+        self.store.edit(self.binding, self.row['id'], 1, section='ideas', text='Privater Inhalt')
+        meta = self.store.list(self.binding)[0]
+        self.assertEqual([a['section'] for a in meta['artifacts']], ['goal', 'ideas'])
+        self.assertNotIn('Privater Inhalt', json.dumps(meta))
+
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)

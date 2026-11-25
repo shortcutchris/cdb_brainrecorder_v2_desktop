@@ -1,5 +1,13 @@
 # SD-Images bauen, testen und weiterentwickeln
 
+**1.0.0-rc5, ausgewählte Text-Ergebnisse:** `studio/workshop-assets.js/.css` und
+die aktualisierten Python-/Hilfe-Dateien gehören zur vorhandenen Positivliste.
+Keine neue Abhängigkeit, Factory-Regel oder Datenbankmigration. Neue Geräte
+starten mit leeren privaten Arbeitsständen und Übertragungsbelegen; Bestandsgeräte
+behalten Anmeldung und Daten. Der Export der Assets und der Ausschluss privater
+Ergebnisdaten sind getestet. Das rc1-Image enthält diese Funktion noch nicht.
+[Änderung und Nachweise](../workshop-assets/README.md).
+
 **1.0.0-rc4, geführte Formate:** Die vorhandene Positivliste übernimmt
 `services/workshops.py` und `studio/workshops.*`. SQLite ist bereits vorhanden;
 keine Runtime-, Root- oder Factory-Erweiterung. `workshops.sqlite3` wird erst beim

@@ -31,6 +31,15 @@ class StudioTests(unittest.TestCase):
         with patch.object(self.app.management,'busy',return_value=True):
             self.assertEqual(self.request('/api/workshops',body)[0],400)
         self.assertNotIn('sections',self.app.state()['workshops'][0])
+        save={'action':'brain-save','id':ident,'revision':3,'sections':['ideas'],'area_id':'22222222-2222-2222-2222-222222222222'}
+        with patch.object(self.app.workshops,'save_brain',return_value={'ok':True}) as enqueue:
+            self.assertEqual(self.request('/api/workshops',save,{'X-CSRF-Token':'bad'})[0],403)
+            with patch.object(self.app.live,'busy',return_value=True):
+                self.app.live.workshop_id=ident
+                self.assertEqual(self.request('/api/workshops',save)[0],400)
+            enqueue.assert_not_called()
+            self.assertEqual(self.request('/api/workshops',save)[0],200)
+            self.assertEqual(enqueue.call_args.args[3],['ideas'])
 
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name)

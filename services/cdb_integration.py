@@ -279,6 +279,57 @@ class CdbService:
             if existing:return {'id':existing[0]}
             ident=uuid.uuid4().hex;db.execute('INSERT INTO publications VALUES(?,?,?,?,?,?)',(ident,fingerprint,json.dumps(payload),'queued','', ''))
         return {'id':ident}
+
+    def enqueue_artifacts(self, binding, area_id, documents, workshop_id, revision):
+        """Queue only explicitly selected text assets, atomically and account-bound."""
+        if not isinstance(documents, list) or not 1 <= len(documents) <= 6:
+            raise CdbFailure('Mindestens ein Ergebnis auswählen.')
+        if not isinstance(workshop_id, str) or not UUID.fullmatch(workshop_id) or type(revision) is not int or revision < 1:
+            raise CdbFailure('Ungültiger Ergebnisstand.')
+        if any(not isinstance(d, dict) or set(d) != {'section', 'title', 'content'} or not all(isinstance(v, str) and v.strip() for v in d.values())
+               or len(d['title']) > 200 or len(d['content']) > 16000 for d in documents):
+            raise CdbFailure('Ungültiges Textdokument.')
+        generation = self.generation
+        session = self.session(binding)
+        area = next((a for a in self.areas(binding) if a['id'] == area_id), None)
+        if not area: raise CdbFailure('Zielbereich nicht mehr verfügbar.')
+        client = area['client_id'] or (session['identity']['client_id'] if area['global'] else None)
+        if not client or not UUID.fullmatch(client): raise CdbFailure('Zielmandant nicht bestätigt.')
+        jobs = []
+        with self.lock, self.db() as db:
+            if generation != self.generation: raise CdbFailure('Anmeldung hat sich geändert. Bitte Ziel neu wählen.')
+            self.session(binding)
+            for doc in documents:
+                payload = {'binding': binding, 'area': area, 'client': client,
+                           'title': doc['title'], 'content': doc['content'],
+                           'workshop_id': workshop_id, 'artifact_section': doc['section']}
+                # The same selected content in the same area is not sent twice,
+                # including when a later phase change increments the draft revision.
+                fingerprint_data = payload | {'area': area['id']}
+                fingerprint = hashlib.sha256(json.dumps(fingerprint_data, sort_keys=True).encode()).hexdigest()
+                payload['revision'] = revision
+                existing = db.execute('SELECT id FROM publications WHERE fingerprint=?', (fingerprint,)).fetchone()
+                ident = existing[0] if existing else uuid.uuid4().hex
+                if not existing:
+                    db.execute('INSERT INTO publications VALUES(?,?,?,?,?,?)', (ident, fingerprint, json.dumps(payload), 'queued', '', ''))
+                jobs.append({'section': doc['section'], 'id': ident})
+        return {'ok': True, 'jobs': jobs, 'area': area, 'revision': revision}
+
+    def artifact_publications(self, binding, workshop_id):
+        """Private local receipts, never arbitrary document links or credentials."""
+        session = self.stored_session(self.config())
+        current = {'server': session['server'], **{k: session['identity'][k] for k in ('user_id', 'client_id')}}
+        if current != binding: raise CdbFailure('Anmeldung hat sich geändert.')
+        out = []
+        with self.db() as db:
+            for ident, raw, state, receipt, error in db.execute('SELECT id,payload,state,receipt,error FROM publications ORDER BY rowid DESC'):
+                payload = json.loads(raw)
+                if payload.get('binding') != binding or payload.get('workshop_id') != workshop_id: continue
+                out.append({'id': ident, 'section': payload['artifact_section'], 'title': payload['title'],
+                            'revision': payload['revision'], 'area': payload['area'], 'state': state,
+                            'document_id': json.loads(receipt).get('document_id') if receipt else None, 'error': error})
+                if len(out) >= 100: break
+        return out
     def publication_once(self):
         try:
             session = self.stored_session(self.config())

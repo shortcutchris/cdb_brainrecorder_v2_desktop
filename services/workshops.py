@@ -72,11 +72,37 @@ class Workshops:
         if not binding: return []
         with self.lock, self.db() as db:
             rows = db.execute('SELECT data FROM drafts WHERE owner=? ORDER BY updated DESC LIMIT 50', (owner(binding),)).fetchall()
-        return [{k: v for k, v in json.loads(r[0]).items() if k != 'sections'} for r in rows]
+        return [self.metadata(json.loads(r[0])) for r in rows]
+
+    @staticmethod
+    def metadata(row):
+        return {k: v for k, v in row.items() if k != 'sections'} | {'artifacts': [
+            {'section': key, 'title': title, 'characters': len(row['sections'][key])}
+            for key, title in SECTIONS.items() if row['sections'][key].strip()]}
 
     def get(self, binding, ident):
         with self.lock, self.db() as db:
-            return self._get(db, binding, ident)
+            row = self._get(db, binding, ident)
+        publications = getattr(self.cdb, 'artifact_publications', lambda *a: [])
+        return row | {'brain': publications(binding, ident)}
+
+    def save_brain(self, binding, ident, revision, sections, area_id):
+        if (not isinstance(sections, list) or not 1 <= len(sections) <= len(SECTIONS)
+                or any(not isinstance(s, str) or s not in SECTIONS for s in sections)
+                or len(set(sections)) != len(sections)):
+            raise ValueError('Gewünschte Ergebnisse auswählen.')
+        with self.lock, self.db() as db:
+            row = self._get(db, binding, ident)
+            if type(revision) is not int or revision != row['revision']:
+                raise ValueError('Ergebnis wurde geändert. Bitte Auswahl erneut prüfen.')
+            if any(not row['sections'][s].strip() for s in sections):
+                raise ValueError('Leere Ergebnisse können nicht gespeichert werden.')
+            documents = [{'section': s, 'title': row['title'] + ' · ' + SECTIONS[s],
+                          'content': '# ' + SECTIONS[s] + '\n\n' + row['sections'][s].strip()}
+                         for s in SECTIONS if s in sections]
+        # A reviewed immutable snapshot may be queued while newer edits continue.
+        # No audio, chat transcript or unselected section enters the publication.
+        return self.cdb.enqueue_artifacts(binding, area_id, documents, ident, revision)
 
     def create(self, binding, kind, title, goal, minutes):
         if kind not in FORMATS or not isinstance(title, str) or not 1 <= len(title.strip()) <= 120:

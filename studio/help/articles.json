@@ -378,5 +378,22 @@
     ],
     "note": "Normales Talk und Meeting bleiben eigenständige Funktionen. Ein Gesprächsformat startet keine Meeting-Aufnahme. Composer benötigt Internet, deine persönliche Anmeldung und eine Freigabe für deinen Mandanten. Ergebnisse werden nicht automatisch geteilt.",
     "links": []
+  },
+  {
+    "id": "workshop-assets",
+    "title": "Gesprächsergebnisse im Brain speichern",
+    "category": "GESPRÄCHE",
+    "intro": "Nach Interview oder Brainstorming einzelne Ergebnisse prüfen und gezielt in einem Wissensbereich ablegen.",
+    "steps": [
+      "Im Chat zeigt Ergebnisse ansehen die tatsächlich vorhandenen Texte: Ziel, Fragen, Erkenntnisse, Ideen, bestätigte Entscheidungen und nächste Schritte. Über Lesen öffnest du den vollständigen Text, über Text bearbeiten den Editor.",
+      "Beende zuerst das Gespräch. Die Ergebnisauswahl öffnet sich dann auf der Talk-Seite, sofern kein anderer Dialog offen ist. Sonst nutze Ergebnisse ansehen oder Ergebnis & Format → Ergebnisse auswählen.",
+      "Wähle die gewünschten Kacheln aus. Anfangs sind alle gefüllten Bereiche ausgewählt. Vier Kacheln stehen pro Seite bereit. Chat, Ton und abgewählte Inhalte werden nicht übernommen. Die Seitennavigation bleibt unten direkt über den Abschlussaktionen, auch bei der Auswahl des Wissensbereichs.",
+      "Ziel wählen öffnet deine Wissensbereiche. Ein einzelner für dieses Gespräch gewählter Bereich wird vorausgewählt; bei mehreren Bereichen musst du genau ein Ziel wählen. Prüfe den angezeigten Zielnamen.",
+      "Tippe N Ergebnisse speichern. Jede Auswahl wird ein eigenes Textdokument mit Gesprächstitel und Bereich. Es gibt keinen automatischen Upload beim Gesprächsende.",
+      "Warte auf Im Brain gespeichert. Wird verarbeitet ist noch kein abgeschlossener Import. Den Dialog darfst du nach der Vormerkung schließen; über Brain-Status findest du die Belege wieder.",
+      "Bei geändertem Ergebnis die Auswahl neu prüfen. Bei fehlender Verbindung bleiben die Texte am Pi. Ein unklarer Empfang wird nicht blind erneut gesendet; prüfe die Hinweise und das Brain."
+    ],
+    "note": "Diese Funktion erzeugt strukturierte Textdokumente, keine Bilder, PDFs oder Präsentationen. KI-Inhalte bleiben prüfpflichtig. Composer-Boards werden separat auf ausdrücklichen Auftrag gespeichert. Die Ergebnisse bleiben deinem Konto zugeordnet.",
+    "links": []
   }
 ]

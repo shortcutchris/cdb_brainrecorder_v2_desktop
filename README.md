@@ -1,5 +1,12 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 1.0.0-rc5 – Ergebnisse auswählen und im Brain speichern
+
+Interview und Brainstorming zeigen ihre Text-Ergebnisse direkt als Karte im Chat.
+Nach Gesprächsende einzelne Inhalte prüfen, bearbeiten und als eigene Dokumente
+in einem gewählten Wissensbereich speichern. Sichtbare Übertragungsbelege statt
+automatischem Upload. [Bedienung und Prüfstand](docs/workshop-assets/README.md).
+
 ## 1.0.0-rc4 – Interviews, Brainstorming und Composer
 
 Im Talk-Bereich ein Gesprächsformat wählen, Ziel und Zeitrahmen festlegen und mit

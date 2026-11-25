@@ -29,7 +29,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '1.0.0-rc4'
+VERSION = '1.0.0-rc5'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -778,6 +778,10 @@ class StudioApp:
             return self.workshops.edit(binding, ident, body['revision'], section=body['section'], text=body['text'])
         if action == 'save' and set(body) == {'action', 'id', 'revision'}:
             return self.workshops.save(binding, ident, body['revision'])
+        if action == 'brain-save' and set(body) == {'action', 'id', 'revision', 'sections', 'area_id'}:
+            if self.live.busy() or self.engine.recorder.active:
+                raise ValueError('Gespräch oder Aufnahme zuerst beenden. Ergebnisse bleiben erhalten.')
+            return self.workshops.save_brain(binding, ident, body['revision'], body['sections'], body['area_id'])
         if action == 'pause' and set(body) == {'action', 'id', 'revision'}:
             if self.live.busy(): raise ValueError('Gespräch zuerst beenden, dann pausieren.')
             return self.workshops.edit(binding, ident, body['revision'], paused=True)

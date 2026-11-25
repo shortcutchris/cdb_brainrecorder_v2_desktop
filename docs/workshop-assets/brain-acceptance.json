@@ -1,0 +1,25 @@
+{
+  "tested_at": "2026-11-25T14:23:40.063151+00:00",
+  "synthetic_only": true,
+  "passed": true,
+  "area": "staging_playground",
+  "documents": [
+    {
+      "section": "next_steps",
+      "document_id": "28ea2c43-4bfe-46bf-8b4e-c63a0b9fa512",
+      "state": "completed",
+      "content_read_back": true,
+      "target_verified": true
+    },
+    {
+      "section": "ideas",
+      "document_id": "84742ed0-0a60-478a-b0b6-7b584dd2d1c2",
+      "state": "completed",
+      "content_read_back": true,
+      "target_verified": true
+    }
+  ],
+  "unselected_text_absent": true,
+  "repeat_deduplicated": true,
+  "temporary_login_removed": true
+}

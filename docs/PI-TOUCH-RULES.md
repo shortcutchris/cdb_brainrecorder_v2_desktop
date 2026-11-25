@@ -31,5 +31,9 @@ Gültig ab 24.11.2026 für Recorder Studio. Primär 1280 × 720, zusätzlich 102
 12. Timer-Einstellungen sind feste Aufgaben-Seiten („Zeit“, „Titel & Klang“), keine
     scrollende Spalte. Start und Zusammenfassung bleiben sichtbar. Eintragsseiten
     haben einen eigenen Bereich. Mit Timer-/Alarmzeile und Tastatur prüfen.
+13. Mehrseitige Auswahlen haben ihre Seitennavigation in einer festen unteren Zeile
+    direkt über den Abschlussaktionen. Bei kürzerem Inhalt auf der nächsten Seite
+    springen „Zurück“, Seitenzahl und „Weiter“ nicht nach oben. Das gilt auch für
+    Ergebnis- und Brain-Zielauswahl; bei eingeblendeter Tastatur hat die Eingabe Vorrang.
 
 Grundlage: [Oberflächenprüfung vom 24.11.2026](ui-audit-2026-11-24/README.md).

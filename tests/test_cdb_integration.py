@@ -27,6 +27,50 @@ class Transport:
         if url.endswith('/transcription-jobs/asr1'):return {'recording_id':RECORDING,'job_id':'asr1','status':'completed','result':{'text':'Testtranskript'}}
         raise AssertionError(url)
 class CdbTests(unittest.TestCase):
+    def test_selected_artifacts_are_durable_separate_documents_and_deduplicated(self):
+        binding={'server':DEFAULT['server'],'user_id':'user1','client_id':CLIENT}
+        docs=[{'section':'ideas','title':'Test · Ideen','content':'# Ideen\n\nIdee A'},
+              {'section':'next_steps','title':'Test · Schritte','content':'# Schritte\n\nAufgabe B'}]
+        first=self.c.enqueue_artifacts(binding,AREA,docs,RECORDING,3)
+        self.assertEqual(len(first['jobs']),2)
+        self.assertFalse(any(u.endswith('/ingest') for u,b in self.transport.sent))
+        repeated=self.c.enqueue_artifacts(binding,AREA,docs,RECORDING,4)
+        self.assertEqual(first['jobs'],repeated['jobs'])
+        renamed=[area | {'label':'Neuer Anzeigename'} for area in self.c.areas(binding)]
+        with patch.object(self.c,'areas',return_value=renamed):
+            self.assertEqual(first['jobs'],self.c.enqueue_artifacts(binding,AREA,docs,RECORDING,5)['jobs'])
+        self.c.publication_once();self.c.publication_once()
+        writes=[b for u,b in self.transport.sent if u.endswith('/ingest')]
+        self.assertEqual([w['content'] for w in writes],[d['content'] for d in docs])
+        self.assertTrue(all(w['origin']=='ai_generated' and w['auto_verify_tl1'] is False for w in writes))
+        receipts=self.c.artifact_publications(binding,RECORDING)
+        self.assertEqual(len(receipts),2)
+        self.assertTrue(all(r['state']=='completed' and r['area']['id']==AREA for r in receipts))
+        self.assertNotIn('content',receipts[0])
+        self.c.logout()
+        with self.assertRaises(CdbFailure):self.c.artifact_publications(binding,RECORDING)
+
+    def test_artifact_batch_checks_target_and_account_again_before_queueing(self):
+        binding={'server':DEFAULT['server'],'user_id':'user1','client_id':CLIENT}
+        docs=[{'section':'ideas','title':'Test','content':'Idee'}]
+        with self.assertRaises(CdbFailure):self.c.enqueue_artifacts(binding,DOC,docs,RECORDING,1)
+        original=self.c.areas
+        def switched(account):
+            rows=original(account);self.c.logout();return rows
+        self.c.areas=switched
+        with self.assertRaises(CdbFailure):self.c.enqueue_artifacts(binding,AREA,docs,RECORDING,1)
+        with self.c.db() as db:self.assertEqual(db.execute('SELECT COUNT(*) FROM publications').fetchone()[0],0)
+
+    def test_artifact_unknown_receipt_cannot_trigger_duplicate_send(self):
+        binding={'server':DEFAULT['server'],'user_id':'user1','client_id':CLIENT}
+        docs=[{'section':'ideas','title':'Test','content':'Idee'}]
+        first=self.c.enqueue_artifacts(binding,AREA,docs,RECORDING,1)
+        self.transport.fail_write=True;self.c.publication_once()
+        self.assertEqual(self.c.artifact_publications(binding,RECORDING)[0]['state'],'uncertain')
+        self.assertEqual(first['jobs'],self.c.enqueue_artifacts(binding,AREA,docs,RECORDING,1)['jobs'])
+        self.c.publication_once()
+        self.assertEqual(sum(u.endswith('/ingest') for u,b in self.transport.sent),1)
+
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name);self.transport=Transport();self.c=CdbService(self.root,self.transport)
         self.c.save_token({'access_token':'synthetic','refresh_token':'synthetic-refresh','expires_in':3600,'token_type':'Bearer'},DEFAULT)
