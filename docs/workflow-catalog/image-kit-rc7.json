@@ -1,6 +1,6 @@
 {
   "version": "1.0.0-rc7",
-  "source_commit": "c4f99e00caf6e612df2f53ecc42ac6d97801c5b8",
+  "source_commit": "67a2a07513b6f922c52f54b7e7f0274fcde32c47",
   "status": "prepared-not-boot-certified",
   "offline_models": true,
   "pcie_usb_board": true,

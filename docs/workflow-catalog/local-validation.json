@@ -42,5 +42,5 @@
   "known_fixture_errors": "Synthetic account intentionally has no real cloud credential or local audio devices; setup reports unavailable. No model/network call is made by format selection.",
   "installed": false,
   "pi_python_313_isolated_workflow_tests": 31,
-  "source_commit": "c4f99e00caf6e612df2f53ecc42ac6d97801c5b8"
+  "source_commit": "67a2a07513b6f922c52f54b7e7f0274fcde32c47"
 }

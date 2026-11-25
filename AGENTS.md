@@ -37,3 +37,20 @@ Variable content must remain scrollable or be split into task panels. Explain
 blocked actions visibly and preserve backend action guards. Check 1280×720 and
 1024×600, light/CDB, keyboard, timers, recording/pause, Talk and error states before
 shipping. Document evidence and limits; a local fixture is not hardware acceptance.
+
+## Conversation workflows
+
+New guided conversation formats belong in `services/workflow_definitions/` and
+must pass `services/workflow_catalog.py` validation. Read
+`docs/workflow-catalog/README.md` first. Do not add parallel hardcoded format lists
+to touch UI or voice tools. New executable capabilities still require reviewed
+code and permissions; a recipe can only narrow existing outputs.
+
+Keep IDs stable and increment the recipe version when changing its meaning or
+shape. Existing results retain their full pinned template. Exercise introduction,
+dynamic fields/phases, protocol compatibility and the two Pi display sizes.
+Repository recipes ship with a reviewed app release. Local proposals stay inert
+until their exact digest is approved and activated by the operator. Future agent
+authoring must enter through the proposal boundary, never an approval/activation
+voice tool. Preserve private catalog and result databases on updates and exclude
+them from clean images.
