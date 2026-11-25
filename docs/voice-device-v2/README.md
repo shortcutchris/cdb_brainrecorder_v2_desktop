@@ -74,9 +74,10 @@ Diese Ausbaustufen sind Ideen, keine bereits verfügbaren Befehle.
 
 ## Prüfung am 25.11.2026
 
-- 65 gezielte Pi-Tests: Audio, Auftragsbelege, Status-Datenschutz,
+- 66 gezielte Pi-Tests: Audio, Auftragsbelege, Status-Datenschutz,
   Gesprächs-/Kontoende, v1/v2-Aushandlung und vorhandene Timer.
 - 67 Studio-Integrationstests ohne Fehler.
+- 25 Update-/Image-Prüfungen; neue Quelldatei enthalten, private Belege ausgeschlossen.
 - 214 TQS-Tests: neuer Vertrag und bestehende Live-/Portal-Key-Szenarien.
 - Am echten Pi: ausgewählten Lautsprecher um einen Prozentpunkt reduziert,
   zurückgelesen, denselben Auftrag wiederholt (keine zweite Änderung), danach
@@ -86,3 +87,12 @@ Diese Ausbaustufen sind Ideen, keine bereits verfügbaren Befehle.
 Das laufende Pi-Studio wurde dabei nicht ersetzt (weiter 1.0.0-rc1). Die neue
 App-Version 1.0.0-rc2 ist für den gemeinsamen Rollout vorbereitet. Gesprochene
 Endabnahme nach TQS-Freigabe und Pi-Update noch offen. Kein neues SD-Image gebaut.
+
+Der neue Image-Bausatz mit 166 Quelldateien wurde aus dem sauberen Commit
+`51fbc54` exportiert und die neue Gerätefunktion bytegleich geprüft; das ist noch
+kein gebautes oder auf einer SD-Karte gestartetes Image.
+
+Rollout-Vorlagen: [TQS #2915](https://github.com/BIK-GmbH/cdb_tqs/pull/2915),
+[Nutzerhinweis webOS #2187](https://github.com/BIK-GmbH/cdb_webos/pull/2187).
+Die Pi-Konfiguration nutzt derzeit `staging.cdbos.de`. Noch kein Merge oder
+Deployment; die gemeinsame Server-Freigabe steht aus.
