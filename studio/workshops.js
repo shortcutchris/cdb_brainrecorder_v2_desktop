@@ -30,7 +30,7 @@
   const tabs=document.createElement('nav');tabs.className='workshop-tabs';tabs.setAttribute('aria-label','Formate oder Ergebnisse');
   for(const [id,label] of [['formats','Formate'],['results','Gespeicherte Ergebnisse']]){const b=button(label,()=>{collection=id;choose()});b.setAttribute('aria-pressed',String(collection===id));tabs.append(b)}body.append(tabs);
   if(collection==='formats'){
-   if(catalog().length>6){const search=field('Format suchen','workflow-search','input',query);search.maxLength=80;search.oninput=()=>{const caret=search.selectionStart;query=search.value;catalogPage=0;choose();$('workflow-search').focus();$('workflow-search').setSelectionRange(caret,caret)};$('workshop-keyboard').hidden=false;}
+   if(catalog().length>6){const search=field('Format suchen','workflow-search','input',query);search.maxLength=80;search.placeholder='Format suchen';search.parentElement.className='workshop-search';search.oninput=()=>{const caret=search.selectionStart;query=search.value;catalogPage=0;choose();$('workflow-search').focus();$('workflow-search').setSelectionRange(caret,caret)};$('workshop-keyboard').hidden=false;}
    const items=catalog().filter(r=>(r.name+' '+r.description+' '+r.voice_aliases.join(' ')).toLocaleLowerCase().includes(query.toLocaleLowerCase()));
    catalogPage=Math.min(catalogPage,Math.max(0,Math.ceil(items.length/2)-1));const tiles=document.createElement('div');tiles.className='workshop-tiles';
    for(const item of items.slice(catalogPage*2,catalogPage*2+2)){

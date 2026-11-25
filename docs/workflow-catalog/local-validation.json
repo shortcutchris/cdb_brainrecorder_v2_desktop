@@ -33,7 +33,9 @@
       "height": 600,
       "theme": "cdb",
       "checked": [
-        "eight-template search and pagination"
+        "eight-template search and pagination",
+        "full tile bounds within body",
+        "active Talk disables format switching with explanation"
       ]
     }
   ],
