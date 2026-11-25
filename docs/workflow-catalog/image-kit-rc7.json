@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0-rc7",
+  "source_commit": "c4f99e00caf6e612df2f53ecc42ac6d97801c5b8",
+  "status": "prepared-not-boot-certified",
+  "offline_models": true,
+  "pcie_usb_board": true,
+  "public_key_sha256": "8ea3e5260389013e2f21973c3a029ba82842e03e720aa9398daa66e27dbe4590",
+  "source_file_count": 178,
+  "workflow_files": [
+    "services/workflow_catalog.py",
+    "services/workflow_definitions/brainstorming.json",
+    "services/workflow_definitions/interview.json",
+    "services/workflow_definitions/retrospective.json"
+  ],
+  "image_built": false,
+  "boot_certified": false
+}
