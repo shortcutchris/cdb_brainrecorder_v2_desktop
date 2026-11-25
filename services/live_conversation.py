@@ -249,6 +249,7 @@ class LiveConversation:
             self.seen_transcripts = set()
             self.searches=SearchActivity(self.clock)
             self.workshop_id = workshop_id
+            self._mode_receipts = set()
             self.area_ids = list(area_ids)
             self.areas = []
             self.deadline = self.clock() + (120 if owner_kind == "device" else 25)
@@ -345,7 +346,7 @@ class LiveConversation:
             body = {'sdp':sdp,'area_ids':area_ids,'language':'de','client_request_id':str(uuid.uuid4())}
             if getattr(self, 'workshop_id', None) and caps.get('workshop_tools_v1') is not True:
                 raise CdbFailure('Geführte Formate sind im Brain noch nicht verfügbar.')
-            device_version = 3 if getattr(self, 'workshop_id', None) and caps.get('workshop_tools_v1') is True else 2 if caps.get('device_tools_v2') is True else 1 if caps.get('device_tools_v1') is True else 0
+            device_version = 4 if caps.get('workshop_voice_start_v1') is True else 3 if getattr(self, 'workshop_id', None) and caps.get('workshop_tools_v1') is True else 2 if caps.get('device_tools_v2') is True else 1 if caps.get('device_tools_v1') is True else 0
             device_key = secrets.token_urlsafe(32) if self.device_executor and device_version else None
             if device_key: body['device_tools']={'version':device_version,'key':device_key}
             self._startup(generation, 'Gespräch beim Brain starten')
@@ -686,13 +687,21 @@ class LiveConversation:
                 # End/logout cannot interleave a local action. Extended commands
                 # also require the negotiated capability, never a guessed tool.
                 from services.voice_device import NAMES as LOCAL_NAMES
-                from services.workshops import NAMES as WORKSHOP_NAMES
-                if request.get('name') in WORKSHOP_NAMES and self.device_tools_version < 3:
+                from services.workshops import NAMES as WORKSHOP_NAMES, FORMAT_NAMES
+                if request.get('name') in FORMAT_NAMES and self.device_tools_version < 4:
+                    result={'ok':False,'code':'device_tool_not_negotiated'}
+                elif request.get('name') in WORKSHOP_NAMES and self.device_tools_version < 3:
                     result={'ok':False,'code':'device_tool_not_negotiated'}
                 elif request.get('name') in LOCAL_NAMES and self.device_tools_version < 2:
                     result={'ok':False,'code':'device_tool_not_negotiated'}
                 else:
-                    result=self.device_executor({'binding':binding,'handle':handle,'workshop_id':getattr(self, 'workshop_id', None)},request)
+                    scope={'binding':binding,'handle':handle,'workshop_id':getattr(self, 'workshop_id', None)}
+                    if self.device_tools_version >= 4: scope['device_tools_version']=self.device_tools_version
+                    result=self.device_executor(scope,request)
+                    if (request.get('name') == 'answer_workshop_intro' and result.get('ok') is True
+                            and result.get('state') == 'started' and request['id'] not in self._mode_receipts):
+                        self.workshop_id=result['active_workshop_id']
+                        self._mode_receipts.add(request['id'])
             self.cdb.call(path,{'key':key,'id':request['id'],'result':result},binding=binding)
 
     def close(self):

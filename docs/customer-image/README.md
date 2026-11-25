@@ -1,5 +1,14 @@
 # SD-Images bauen, testen und weiterentwickeln
 
+**1.0.0-rc6, Gesprächsformate per Sprache:** Bestehende Python-/JS-/Hilfedateien
+werden über die vorhandene Positivliste exportiert. Keine neue Abhängigkeit,
+Root-Regel oder Factory-Änderung. `format_sessions` entsteht additiv in der
+privaten Arbeitsstand-Datenbank; bestehende Ergebnisse bleiben erhalten.
+Ein frisches Image startet mit leerer Ablage. Der Voice-Server muss v4 zuerst
+anbieten; ältere Server behalten den bisherigen Touch-Ablauf.
+[Änderung und Abnahme](../voice-formats/README.md). Ein vorbereitetes Baupaket
+ist kein neues gebautes oder bootgeprüftes SD-Image.
+
 **1.0.0-rc5, ausgewählte Text-Ergebnisse:** `studio/workshop-assets.js/.css` und
 die aktualisierten Python-/Hilfe-Dateien gehören zur vorhandenen Positivliste.
 Keine neue Abhängigkeit, Factory-Regel oder Datenbankmigration. Neue Geräte

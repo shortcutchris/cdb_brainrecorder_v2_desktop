@@ -14,12 +14,24 @@ import time
 import uuid
 from pathlib import Path
 
-NAMES = ('get_workshop', 'update_workshop_result', 'set_workshop_phase', 'save_workshop_to_composer')
+FORMAT_NAMES = ('request_workshop_mode', 'answer_workshop_intro')
+NAMES = ('get_workshop', 'update_workshop_result', 'set_workshop_phase', 'save_workshop_to_composer') + FORMAT_NAMES
 SECTIONS = {'goal': 'Ziel', 'questions': 'Fragen', 'findings': 'Erkenntnisse',
             'ideas': 'Ideen', 'decisions': 'Bestätigte Entscheidungen', 'next_steps': 'Nächste Schritte'}
 PHASES = ('opening', 'exploring', 'grouping', 'prioritizing', 'closing')
 PHASE_LABELS = ('Ankommen', 'Sammeln', 'Ordnen', 'Priorisieren', 'Abschließen')
 FORMATS = ('interview', 'brainstorming')
+MODE_COPY = {
+    'interview': ('Interview', 'Okay, dann gehen wir jetzt in den Interview-Modus. Soll ich ihn dir erklären?',
+                  'Ich stelle dir eine offene Frage nach der anderen, frage bei Bedarf nach und halte die wichtigsten Erkenntnisse fest. Am Ende prüfen wir das Ergebnis gemeinsam.',
+                  'Welches Thema möchtest du im Interview beleuchten?'),
+    'brainstorming': ('Brainstorming', 'Okay, dann gehen wir jetzt in den Brainstorming-Modus. Soll ich ihn dir erklären?',
+                     'Wir klären zuerst das Ziel und sammeln Ideen ohne frühe Bewertung. Danach ordnen und priorisieren wir sie gemeinsam und halten nächste Schritte fest.',
+                     'Zu welcher Frage oder Herausforderung möchtest du Ideen sammeln?'),
+    'free_talk': ('Freies Gespräch', 'Okay, dann wechseln wir ins freie Gespräch. Soll ich dir diesen Modus erklären?',
+                  'Wir sprechen ohne festen Ablauf. Du kannst Fragen stellen und jederzeit wieder ein Interview oder Brainstorming starten. Deine bisherigen Ergebnisse bleiben erhalten.',
+                  'Worüber möchtest du sprechen?'),
+}
 
 
 def owner(binding):
@@ -38,6 +50,8 @@ class Workshops:
             db.execute('CREATE TABLE IF NOT EXISTS drafts (id TEXT PRIMARY KEY, owner TEXT NOT NULL, data TEXT NOT NULL, updated REAL NOT NULL)')
             db.execute('CREATE TABLE IF NOT EXISTS receipts (id TEXT PRIMARY KEY, payload TEXT NOT NULL, result TEXT NOT NULL)')
             db.execute('CREATE TABLE IF NOT EXISTS writes (id TEXT PRIMARY KEY, state TEXT NOT NULL, data TEXT NOT NULL)')
+            db.execute('CREATE TABLE IF NOT EXISTS format_sessions (id TEXT PRIMARY KEY, data TEXT NOT NULL, updated REAL NOT NULL)')
+            db.execute('DELETE FROM format_sessions WHERE updated < ?', (time.time() - 86400,))
             for ident, raw in db.execute('SELECT id,data FROM drafts').fetchall():
                 row = json.loads(raw)
                 if row['composer']['state'] == 'saving':
@@ -104,17 +118,21 @@ class Workshops:
         # No audio, chat transcript or unselected section enters the publication.
         return self.cdb.enqueue_artifacts(binding, area_id, documents, ident, revision)
 
-    def create(self, binding, kind, title, goal, minutes):
+    @staticmethod
+    def _new_row(kind, title, goal, minutes):
         if kind not in FORMATS or not isinstance(title, str) or not 1 <= len(title.strip()) <= 120:
             raise ValueError('Format und Titel wählen (höchstens 120 Zeichen).')
         if not isinstance(goal, str) or not 1 <= len(goal.strip()) <= 2000 or type(minutes) is not int or not 5 <= minutes <= 20:
             raise ValueError('Ziel angeben und 5 bis 20 Minuten wählen. Ein Live-Gespräch dauert höchstens 20 Minuten.')
-        key = owner(binding)
-        if binding != self.account(): raise ValueError('Anmeldung hat sich geändert.')
-        row = {'id': str(uuid.uuid4()), 'format': kind, 'title': title.strip(), 'minutes': minutes,
+        return {'id': str(uuid.uuid4()), 'format': kind, 'title': title.strip(), 'minutes': minutes,
                'phase': 'opening', 'revision': 1, 'paused': False,
                'sections': {k: goal.strip() if k == 'goal' else '' for k in SECTIONS},
                'composer': {'state': 'local', 'board_id': None, 'url': None, 'revision': 0, 'message': 'Noch nicht an Composer gesendet.'}}
+
+    def create(self, binding, kind, title, goal, minutes):
+        key = owner(binding)
+        if binding != self.account(): raise ValueError('Anmeldung hat sich geändert.')
+        row = self._new_row(kind, title, goal, minutes)
         with self.lock, self.db() as db:
             db.execute('INSERT INTO drafts VALUES (?,?,?,?)', (row['id'], key, json.dumps(row), time.time()))
         return row
@@ -141,28 +159,53 @@ class Workshops:
     def execute(self, scope, request):
         """The live session supplies the binding and selected ID, never the model."""
         binding, ident = scope.get('binding'), scope.get('workshop_id')
-        if not ident: return {'ok': False, 'code': 'choose_workshop', 'message': 'Zuerst Interview oder Brainstorming am Pi wählen.'}
         name, args = request.get('name'), request.get('arguments')
+        if name in FORMAT_NAMES and scope.get('device_tools_version', 0) < 4:
+            return {'ok': False, 'code': 'device_tool_not_negotiated'}
         valid = isinstance(args, dict) and (
             name in ('get_workshop', 'save_workshop_to_composer') and not args or
             name == 'update_workshop_result' and set(args) == {'section', 'text', 'revision'} or
-            name == 'set_workshop_phase' and set(args) == {'phase', 'revision'})
+            name == 'set_workshop_phase' and set(args) == {'phase', 'revision'} or
+            name == 'request_workshop_mode' and set(args) == {'format'} and isinstance(args['format'], str) and args['format'] in MODE_COPY or
+            name == 'answer_workshop_intro' and set(args) == {'choice_id', 'answer'} and isinstance(args['choice_id'], str) and len(args['choice_id']) == 36 and isinstance(args['answer'], str) and args['answer'] in ('explain', 'skip', 'cancel'))
         if not valid: return {'ok': False, 'code': 'invalid_arguments'}
         expires = request.get('expires_at')
         if type(expires) not in (float, int) or not math.isfinite(expires) or expires <= time.time():
             return {'ok': False, 'code': 'expired'}
         request_id = request.get('id')
         if not isinstance(request_id, str) or not 16 <= len(request_id) <= 100: return {'ok': False, 'code': 'invalid_arguments'}
-        key = hashlib.sha256(json.dumps([scope, request_id], sort_keys=True).encode()).hexdigest()
+        voice = scope.get('device_tools_version', 0) >= 4
+        # A mode switch changes workshop_id. Receipts must remain bound to the
+        # account + connection, so replay cannot create a second draft.
+        receipt_scope = {k: scope.get(k) for k in ('binding', 'handle')} if voice else scope
+        key = hashlib.sha256(json.dumps([receipt_scope, request_id], sort_keys=True).encode()).hexdigest()
         payload = json.dumps(request, sort_keys=True)
         with self.lock:
-            try: row = self.get(binding, ident)
-            except ValueError: return {'ok': False, 'code': 'workshop_unavailable'}
+            if not binding or binding != self.account(): return {'ok': False, 'code': 'workshop_unavailable'}
             with self.db() as db:
                 previous = db.execute('SELECT payload,result FROM receipts WHERE id=?', (key,)).fetchone()
                 if previous:
                     if previous[0] != payload: return {'ok': False, 'code': 'request_conflict'}
                     return json.loads(previous[1])
+                if voice:
+                    if not isinstance(scope.get('handle'), str) or not scope['handle']:
+                        return {'ok': False, 'code': 'invalid_scope'}
+                    session_key = hashlib.sha256(json.dumps([owner(binding), scope['handle']]).encode()).hexdigest()
+                    raw = db.execute('SELECT data FROM format_sessions WHERE id=?', (session_key,)).fetchone()
+                    session = json.loads(raw[0]) if raw else {'active': ident, 'confirmed': not bool(ident), 'pending': None}
+                    if session['pending'] and session['pending']['expires_at'] <= time.time(): session['pending'] = None
+                    ident = session['active']
+                    if name in FORMAT_NAMES or name == 'get_workshop':
+                        try: result = self._mode_action(db, binding, session, name, args)
+                        except ValueError as exc: result = {'ok': False, 'code': 'workshop_unavailable', 'message': str(exc)}
+                        db.execute('INSERT OR REPLACE INTO format_sessions VALUES (?,?,?)', (session_key, json.dumps(session), time.time()))
+                        db.execute('INSERT INTO receipts VALUES (?,?,?)', (key, payload, json.dumps(result)))
+                        return result
+                    if session['pending'] or not session['confirmed']:
+                        return {'ok': False, 'code': 'intro_pending', 'message': 'Zuerst die Antwort auf die Erklärungsfrage abwarten.'}
+                if not ident: return {'ok': False, 'code': 'choose_workshop', 'message': 'Zuerst ein Gesprächsformat starten.'}
+                try: row = self._get(db, binding, ident)
+                except ValueError: return {'ok': False, 'code': 'workshop_unavailable'}
                 db.execute('INSERT INTO receipts VALUES (?,?,?)', (key, payload, json.dumps({'ok': False, 'code': 'result_unconfirmed'})))
             try:
                 if row['paused'] and name in ('update_workshop_result', 'set_workshop_phase'):
@@ -177,6 +220,44 @@ class Workshops:
             with self.db() as db:
                 db.execute('UPDATE receipts SET result=? WHERE id=?', (json.dumps(result), key))
             return result
+
+    def _mode_action(self, db, binding, session, name, args):
+        """Run format selection + receipt in one transaction, never remote writes."""
+        row = self._get(db, binding, session['active']) if session['active'] else None
+        if name == 'get_workshop':
+            return {'ok': True, 'workshop': row, 'active_workshop_id': session['active'],
+                    'format': row['format'] if row else 'free_talk', 'intro_required': not session['confirmed'],
+                    'pending_intro': session['pending']}
+        if name == 'request_workshop_mode':
+            mode = args['format']
+            session['pending'] = {'choice_id': str(uuid.uuid4()), 'format': mode,
+                                  'expires_at': time.time() + 300, 'announcement': MODE_COPY[mode][1]}
+            return {'ok': True, 'state': 'awaiting_explanation_answer', 'active_workshop_id': session['active'],
+                    **session['pending']}
+        pending = session['pending']
+        if not pending or args['choice_id'] != pending['choice_id']:
+            return {'ok': False, 'code': 'intro_expired', 'message': 'Bitte den gewünschten Modus erneut anfragen.'}
+        if args['answer'] == 'cancel':
+            session['pending'] = None
+            return {'ok': True, 'state': 'cancelled', 'active_workshop_id': session['active'],
+                    'message': 'Abgebrochen. Der bisherige Modus und die Ergebnisse bleiben erhalten.'}
+        mode = pending['format']
+        if mode == 'free_talk':
+            row = None
+        elif not row or row['format'] != mode:
+            row = self._new_row(mode, MODE_COPY[mode][0], 'Ziel gemeinsam klären.', 10)
+            db.execute('INSERT INTO drafts VALUES (?,?,?,?)', (row['id'], owner(binding), json.dumps(row), time.time()))
+        elif row['paused']:
+            row['paused'] = False
+            row['revision'] += 1
+            self._put(db, row)
+        session.update(active=row['id'] if row else None, confirmed=True, pending=None)
+        opening = MODE_COPY[mode][3]
+        if row and row['sections']['goal'] != 'Ziel gemeinsam klären.':
+            opening = 'Wir behalten dein bisheriges Ziel und die Ergebnisse bei. Wo möchtest du anknüpfen?'
+        return {'ok': True, 'state': 'started', 'format': mode, 'active_workshop_id': session['active'],
+                'workshop': row, 'explanation': MODE_COPY[mode][2] if args['answer'] == 'explain' else '',
+                'opening_question': opening}
 
     def save(self, binding, ident, revision):
         with self.lock, self.db() as db:

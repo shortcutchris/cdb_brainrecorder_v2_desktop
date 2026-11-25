@@ -137,3 +137,94 @@ class WorkshopsTest(unittest.TestCase):
         with self.assertRaises(ValueError): self.store.create(self.binding, 'interview', 'Test', 'Ziel', 60)
         with self.assertRaises(ValueError): self.store.edit(self.binding, self.row['id'], 1, section='ideas', text='x'*6001)
         self.assertNotIn('sections', self.store.list(self.binding)[0])
+
+class SpokenFormatsTest(unittest.TestCase):
+    call = WorkshopsTest.call
+
+    def setUp(self):
+        WorkshopsTest.setUp(self)
+        self.scope = {'binding': self.binding, 'handle': 'voice-session', 'workshop_id': None, 'device_tools_version': 4}
+        self.sequence = 0
+
+    def command(self, name, args=None, scope=None):
+        self.sequence += 1
+        return self.store.execute(scope or self.scope, {'id': f'format-command-{self.sequence:08}', 'name': name,
+            'arguments': args or {}, 'expires_at': time.time() + 60})
+
+    def test_intro_waits_and_yes_no_work_for_every_format(self):
+        for mode in ('interview', 'brainstorming', 'free_talk'):
+            for answer in ('explain', 'skip'):
+                before = len(self.store.list(self.binding))
+                pending = self.command('request_workshop_mode', {'format': mode})
+                self.assertEqual(pending['state'], 'awaiting_explanation_answer')
+                self.assertIn('Soll ich', pending['announcement'])
+                self.assertEqual(before, len(self.store.list(self.binding)))
+                self.assertEqual(self.command('update_workshop_result', {'section': 'ideas', 'text': 'Premature', 'revision': 1})['code'], 'intro_pending')
+                started = self.command('answer_workshop_intro', {'choice_id': pending['choice_id'], 'answer': answer})
+                self.assertEqual(started['state'], 'started')
+                self.assertEqual(started['format'], mode)
+                self.assertEqual(bool(started['explanation']), answer == 'explain')
+                self.assertTrue(started['opening_question'])
+                current = self.command('get_workshop')
+                self.assertEqual(current['active_workshop_id'], started['active_workshop_id'])
+                self.assertFalse(current['intro_required'])
+        self.assertFalse(self.calls); self.assertFalse(self.jobs)
+
+    def test_switch_cancel_expiry_and_account_isolation(self):
+        self.scope['workshop_id'] = self.row['id']
+        self.assertTrue(self.command('get_workshop')['intro_required'])
+        pending = self.command('request_workshop_mode', {'format': 'brainstorming'})
+        cancelled = self.command('answer_workshop_intro', {'choice_id': pending['choice_id'], 'answer': 'cancel'})
+        self.assertEqual(cancelled['active_workshop_id'], self.row['id'])
+        self.assertEqual(len(self.store.list(self.binding)), 1)
+        self.assertEqual(self.command('answer_workshop_intro', {'choice_id': pending['choice_id'], 'answer': 'skip'})['code'], 'intro_expired')
+        pending = self.command('request_workshop_mode', {'format': 'brainstorming'})
+        from unittest.mock import patch
+        with patch('services.workshops.time.time', return_value=time.time()+301):
+            self.assertEqual(self.command('answer_workshop_intro', {'choice_id': pending['choice_id'], 'answer': 'explain'})['code'], 'intro_expired')
+        self.current = self.binding | {'user_id': 'someone-else'}
+        self.assertFalse(self.command('get_workshop')['ok'])
+        self.current = self.binding
+        self.assertEqual(self.store.get(self.binding, self.row['id'])['sections']['goal'], 'Arbeitsweise verstehen')
+
+    def test_duplicate_confirmation_after_scope_change_and_restart_creates_no_duplicate(self):
+        pending = self.command('request_workshop_mode', {'format': 'brainstorming'})
+        req = {'id': 'one-confirmation-only', 'name': 'answer_workshop_intro',
+               'arguments': {'choice_id': pending['choice_id'], 'answer': 'skip'}, 'expires_at': time.time()+60}
+        first = self.store.execute(self.scope, req)
+        self.scope['workshop_id'] = first['active_workshop_id']
+        self.store = Workshops(self.tmp.name, self.cdb, lambda: self.current)
+        self.assertEqual(self.store.execute(self.scope, req), first)
+        self.assertEqual(len(self.store.list(self.binding)), 2)
+        self.assertFalse(self.command('answer_workshop_intro', req['arguments'], self.scope | {'handle': 'other-session'})['ok'])
+
+    def test_manual_format_reuses_existing_draft_and_requires_intro(self):
+        self.scope['workshop_id'] = self.row['id']
+        pending = self.command('request_workshop_mode', {'format': 'interview'})
+        started = self.command('answer_workshop_intro', {'choice_id': pending['choice_id'], 'answer': 'skip'})
+        self.assertEqual(started['active_workshop_id'], self.row['id'])
+        self.assertIn('anknüpfen', started['opening_question'])
+        self.assertEqual(len(self.store.list(self.binding)), 1)
+        free = self.command('request_workshop_mode', {'format': 'free_talk'})
+        self.command('answer_workshop_intro', {'choice_id': free['choice_id'], 'answer': 'skip'})
+        self.assertIsNone(self.command('get_workshop')['active_workshop_id'])
+        self.assertEqual(self.store.get(self.binding, self.row['id'])['sections'], self.row['sections'])
+
+    def test_old_protocol_and_invalid_inputs_cannot_start(self):
+        for version in (1, 2, 3):
+            self.assertEqual(self.command('request_workshop_mode', {'format': 'interview'}, self.scope | {'device_tools_version': version})['code'], 'device_tool_not_negotiated')
+        for args in ({'format': 'meeting'}, {'format': []}, {'format': 'brainstorming', 'board_id': 1}):
+            self.assertEqual(self.command('request_workshop_mode', args)['code'], 'invalid_arguments')
+
+
+    def test_additive_upgrade_and_clean_install_keep_private_results_separate(self):
+        with self.store.db() as db:
+            db.execute('DROP TABLE format_sessions')
+        upgraded = Workshops(self.tmp.name, self.cdb, lambda: self.current)
+        self.assertEqual(upgraded.get(self.binding, self.row['id'])['sections'], self.row['sections'])
+        with upgraded.db() as db:
+            self.assertEqual(db.execute('SELECT count(*) FROM format_sessions').fetchone()[0], 0)
+        with tempfile.TemporaryDirectory() as fresh:
+            clean = Workshops(fresh, self.cdb, lambda: self.current)
+            self.assertEqual(clean.list(self.binding), [])
+            self.assertEqual(clean.path.stat().st_mode & 0o777, 0o600)

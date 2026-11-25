@@ -368,9 +368,9 @@
     "category": "GESPRÄCHE",
     "intro": "KAI führt Interviews oder hilft beim Brainstorming. Der Arbeitsstand bleibt deinem Brain-Konto zugeordnet.",
     "steps": [
-      "Am Brain anmelden, Live-Gespräch öffnen und Interview & Ideen antippen. Interview oder Brainstorming wählen, Titel, Ziel und 5 bis 20 Minuten als Zeitrahmen festlegen. Der Zeitrahmen ist eine Moderationsvorgabe, kein zusätzlicher Timer.",
-      "Gespräch fortsetzen wählen, Gesprächswissen auswählen und Gespräch starten. Sage zum Beispiel: Führe ein Interview zu unserem Ziel. Stelle jeweils eine Frage und halte meine Antworten als Erkenntnisse fest.",
-      "Bei Brainstorming: Sammle zunächst Ideen, ordne sie danach und frage, welche wir weiterverfolgen. Entscheidungen, Verantwortliche und Termine müssen bestätigt sein.",
+      "Am Brain anmelden und ein Live-Gespräch starten. Sage: Starte Brainstorming, oder: Ich möchte ein Interview führen. KAI nennt den Modus und fragt: Soll ich ihn dir erklären?",
+      "Antworte Ja für eine kurze Erklärung mit anschließendem Start. Nein startet direkt ohne Erklärung. Abbrechen behält den bisherigen Modus. Mit Zurück zum freien Gespräch wechselst du wieder zurück; deine Ergebnisse bleiben erhalten.",
+      "Alternativ kannst du unter Interview & Ideen das Format, Titel, Ziel und 5 bis 20 Minuten vorwählen. Auch dann fragt KAI vor dem Einstieg nach der Erklärung. Der Zeitrahmen ist eine Moderationsvorgabe, kein zusätzlicher Timer. Entscheidungen, Verantwortliche und Termine werden gemeinsam bestätigt.",
       "Ergebnis & Format zeigt Ziel, Fragen, Erkenntnisse, Ideen, Entscheidungen und nächste Schritte. Du kannst Text selbst bearbeiten und übernehmen. Die Tastatur lässt sich direkt im Dialog öffnen.",
       "Gespräch pausieren beendet die aktive Sprachverbindung. Dein Ergebnis bleibt erhalten. Zum Fortsetzen den Arbeitsstand wieder auswählen und die Verbindung erneut starten.",
       "Sage Speichere das Ergebnis im Composer oder tippe In Composer speichern. Warte auf die Speicherbestätigung. Dann öffnet der Link das bearbeitbare Board; jeder weitere Speicherstand ergänzt neue Notizen mit Rahmen.",

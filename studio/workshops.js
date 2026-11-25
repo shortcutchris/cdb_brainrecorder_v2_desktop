@@ -58,7 +58,7 @@
  dialog.addEventListener('cancel',e=>{if(dirty){e.preventDefault();message('Bitte deine Änderung zuerst übernehmen oder verwerfen.');back.textContent='Änderung verwerfen';back.onclick=()=>{dirty=false;close()}}});
  window.studioWorkshop={selected:()=>selected,clear:()=>{selected=null},open:()=>open.click(),inspect:async(id,key)=>{section=key||'goal';await openResult(id)}};
  const baseRender=renderState;renderState=function(){baseRender();const key=JSON.stringify([state?.cdb?.identity,state?.cdb?.config?.server]);if(ownerKey&&key!==ownerKey){selected=null;row=null;dirty=false;savedKey='';page=0;dialog.close()}ownerKey=key;
-  if(state?.live?.busy&&state.live.workshop_id)selected=state.live.workshop_id;
+  if(state?.live?.busy&&(state.live.workshop_id||state.live.device_tools_version>=4))selected=state.live.workshop_id||null;
   open.textContent=selected?'Ergebnis & Format':'Interview & Ideen';open.disabled=Boolean(state?.recording?.id);
   const welcome=document.querySelector('.live-welcome h3');if(welcome)welcome.textContent=draft()?draft().title:'Worüber möchtest du sprechen?';
   const current=draft();const nextKey=current&&JSON.stringify([current.id,current.revision,current.composer]);if(dialog.open&&mode==='result'&&!dirty&&!fetching&&nextKey!==savedKey)read().catch(e=>message(e.message));

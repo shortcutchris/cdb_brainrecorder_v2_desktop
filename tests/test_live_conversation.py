@@ -349,7 +349,7 @@ class FeedbackConversationTests(unittest.TestCase):
 
     def test_negotiates_only_advertised_device_version(self):
         from unittest.mock import Mock
-        for caps, expected in [({},0),({'device_tools_v1':True},1),({'device_tools_v1':True,'device_tools_v2':True},2)]:
+        for caps, expected in [({},0),({'device_tools_v1':True},1),({'device_tools_v1':True,'device_tools_v2':True},2),({'workshop_tools_v1':True,'workshop_voice_start_v1':True},4)]:
             with self.subTest(caps=caps):
                 self.brain.calls=[]
                 original=Brain.call.__get__(self.brain,Brain)
@@ -468,3 +468,39 @@ class VoiceEndTests(unittest.TestCase):
                 self.live._transcript({'role':'user','delta':text})
                 self.live.transcript_turns['user']['received']=98
                 self.assertTrue(self.live._voice_end_requested())
+
+
+class SpokenModeLiveTests(unittest.TestCase):
+    setUp = LiveTests.setUp
+    tearDown = LiveTests.tearDown
+    reserve = LiveTests.reserve
+
+    def test_activation_updates_same_connection_and_replayed_old_ack_does_not_switch_back(self):
+        self.reserve()
+        self.live.handle = 'safe-handle'
+        self.live.device_key = 'private-device-key'
+        self.live.device_tools_version = 4
+        requests, answers, scopes = [], [], []
+        def call(path, body=None, binding=None):
+            if 'result' not in body: return {'requests': requests}
+            answers.append(body['result']); return {'ok': True}
+        def execute(scope, request):
+            scopes.append(scope)
+            return {'ok': True, 'state': 'started', 'active_workshop_id': request['target']}
+        self.brain.call = call
+        self.live.device_executor = execute
+        first = {'id': 'first-mode-request', 'name': 'answer_workshop_intro', 'target': 'draft-one'}
+        second = {'id': 'second-mode-request', 'name': 'answer_workshop_intro', 'target': None}
+        requests[:] = [first]
+        self.live._device_commands('safe-handle', self.live.binding)
+        self.assertEqual(self.live.workshop_id, 'draft-one')
+        self.assertEqual(scopes[-1]['device_tools_version'], 4)
+        requests[:] = [second, first]
+        self.live._device_commands('safe-handle', self.live.binding)
+        self.assertIsNone(self.live.workshop_id)
+        self.assertEqual(self.live.handle, 'safe-handle')
+        self.assertTrue(self.live.busy())
+        self.live.device_tools_version = 3
+        self.live._device_commands('safe-handle', self.live.binding)
+        self.assertEqual(answers[-1]['code'], 'device_tool_not_negotiated')
+        self.assertEqual(len(scopes), 3)

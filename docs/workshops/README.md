@@ -8,6 +8,27 @@ Talk-Formate. Das Gerät sammelt einen strukturierten Arbeitsstand; auf Wunsch
 entsteht daraus ein bearbeitbares Composer-Board. Keine automatische Aufnahme,
 kein ungefragtes Teilen und keine zweite Anmeldung oder technischen Service-Keys.
 
+## Per Sprache starten (ab 1.0.0-rc6)
+
+Am Brain anmelden und **Live-Gespräch** starten (oder den Talk-Aufsteller nutzen).
+In dieser aktiven Online-Verbindung kannst du sagen:
+
+- „Starte den Brainstorming-Modus.“
+- „Ich möchte ein Interview führen.“
+- „Zurück zum freien Gespräch.“
+
+KAI nennt den gewünschten Modus und fragt **„Soll ich ihn dir erklären?“**.
+Er wartet auf deine Antwort: **Ja** erklärt kurz und beginnt, **Nein** beginnt
+ohne Erklärung, **Abbrechen** behält den bisherigen Modus. Bei Unklarheit fragt
+er nach. Auch ein per Touch vorgewähltes Format bekommt diese Einführung.
+Ein Wechsel beendet die Sprachverbindung nicht. Alte Ergebnisse bleiben in der
+Format-Auswahl erhalten. Neue Sprachformate beginnen mit einem Zehn-Minuten-
+Moderationsrahmen und der gemeinsamen Zielklärung; es entsteht kein Timer.
+
+Die Frage gilt fünf Minuten in derselben angemeldeten Verbindung. Danach den
+Modus erneut anfragen. Die Worte starten kein ausgeschaltetes Mikrofon und
+keine Meeting-Aufnahme. Composer und Brain bleiben ausdrücklich zu speichern.
+
 ## Bedienung am Pi
 
 1. Brain anmelden → Live-Gespräch → **Interview & Ideen**.
@@ -45,8 +66,9 @@ automatische Projektzuordnung oder Schreibfreigabe für bestehende Boards.
 Die tatsächlichen Laufzeitregeln stehen im TQS-Modul
 `app/services/voice_live/workshop_tools.py`. Das ist die ausgehandelte
 Moderations-/Composer-Fähigkeit des Voice Agent; ein lokales Codex-SKILL.md wird
-vom Sprachmodell nicht automatisch geladen. Normales Talk bleibt bei
-Gerätewerkzeugen v2, ein ausgewähltes Format fordert ausdrücklich v3 an.
+vom Sprachmodell nicht automatisch geladen. Bei angekündigter `workshop_voice_start_v1`-Fähigkeit fordert der Pi v4 an, auch
+im freien Gespräch. Ältere Server bleiben bei v2 beziehungsweise v3 für ein
+vorgewähltes Format; dort ist weiterhin die Touch-Auswahl nötig.
 
 ## Grenzen und Ausfallschutz
 
@@ -169,3 +191,15 @@ ist erfolgreich; der bereite Backend-Stand ist `staging-e112242`, Revision
 der bereite BFF-Stand ist `staging-3f73972`, Deployment
 [45614743633](https://github.com/BIK-GmbH/cdb_webos/actions/runs/45614743633) erfolgreich.
 Produktionsumgebungen wurden nicht aktualisiert.
+
+## Sprachstart: Daten und Update
+
+Die zusätzliche Tabelle `format_sessions` in der privaten `workshops.sqlite3`
+hält nur die Verbindungszuordnung und die ausstehende Frage. Sie wird bei alten
+Installationen additiv angelegt; Arbeitsstände und Belege bleiben bestehen.
+Sitzungseinträge älter als einen Tag werden beim Start entfernt. Auswahl,
+Aktivierung und deren Beleg werden atomar gespeichert. Eine doppelte Bestätigung
+legt kein zweites Ergebnis an. Ein Formatwechsel veröffentlicht nichts.
+
+Der Server benötigt die v4-Werkzeuge zuerst. Normale Browser-Clients und v1–v3
+behalten ihre bisherigen Befehle. [Abnahme rc6](../voice-formats/README.md).
