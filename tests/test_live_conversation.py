@@ -24,6 +24,7 @@ class Brain:
             if self.block:self.block.wait(3)
             if self.fail:raise ValueError('secret provider error')
             return {'session_handle':'safe-handle','sdp_answer':'v=0\r\nanswer'}
+        if path==BASE+'/sessions/safe-handle' and body is None:return {'state':'closed'}
         return {}
 
 class LiveTests(unittest.TestCase):
@@ -177,6 +178,51 @@ class LiveTests(unittest.TestCase):
         self.assertEqual(len(files),1);self.assertEqual(files[0].stat().st_mode&0o777,0o600)
         self.live.clear();self.reserve();self.live._frame(generation,'transcript',{'role':'user','delta':'stale'})
         self.assertEqual(self.live.public()['history'],[])
+
+    def test_accepted_close_keeps_restart_guarded_until_remote_closed(self):
+        original=self.brain.call;released=threading.Event();polled=threading.Event()
+        def call(path,body=None,binding=None):
+            if path==BASE+'/sessions/safe-handle' and body is None:
+                polled.set()
+                return {'state':'closed' if released.is_set() else 'closing'}
+            return original(path,body,binding)
+        self.brain.call=call
+        lease=self.reserve();self.live.start(lease,'v=0\r\n')
+        self.wait(lambda:self.live.public()['state']=='listening')
+        self.live.end(lease);self.assertTrue(polled.wait(1))
+        self.assertEqual(self.live.public()['state'],'closing')
+        self.assertFalse(self.live.finished.is_set())
+        with self.assertRaises(ValueError):self.reserve()
+        released.set();self.wait(lambda:not self.live.busy())
+        self.assertEqual(self.live.public()['state'],'ended')
+        self.reserve()
+
+    def test_close_confirmation_timeout_is_visible_without_restarting(self):
+        from unittest.mock import patch
+        lease=self.reserve();self.live.start(lease,'v=0\r\n')
+        self.wait(lambda:self.live.public()['state']=='listening')
+        with patch('services.live_conversation.REMOTE_CLOSE_WAIT',0):
+            self.live.end(lease);self.wait(lambda:not self.live.busy())
+        self.assertEqual(self.live.public()['state'],'error')
+        self.assertIn('Freigabe durch das Brain',self.live.public()['error'])
+        self.assertEqual(sum(path==BASE+'/sessions' for path,_,_ in self.brain.calls),1)
+
+    def test_late_close_poll_cannot_end_new_generation(self):
+        original=self.brain.call;polled=threading.Event();release=threading.Event()
+        def call(path,body=None,binding=None):
+            if path==BASE+'/sessions/safe-handle' and body is None:
+                polled.set();release.wait(2);return {'state':'closed'}
+            return original(path,body,binding)
+        self.brain.call=call
+        lease=self.reserve();self.live.start(lease,'v=0\r\n')
+        self.wait(lambda:self.live.public()['state']=='listening')
+        generation=self.live.generation
+        self.live.end(lease);self.assertTrue(polled.wait(1))
+        self.live._frame(generation,'closed',{'reason':'user'})
+        self.reserve();new_generation=self.live.generation
+        release.set();time.sleep(.05)
+        self.assertEqual(self.live.generation,new_generation)
+        self.assertEqual(self.live.public()['state'],'connecting')
     def test_history_is_restored_only_for_matching_account_and_hidden_on_logout(self):
         lease=self.reserve();generation=self.live.generation
         self.live._frame(generation,'transcript',{'role':'user','delta':'Account scoped text'})

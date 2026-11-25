@@ -21,6 +21,7 @@ from services.http_connection import HTTPSHandler
 from services.cdb_integration import CdbFailure, USER_AGENT, UUID
 
 BASE = '/api/v1/tqs/voice-live'
+REMOTE_CLOSE_WAIT = 20
 HANDLE = re.compile(r'^[A-Za-z0-9_-]{1,128}$')
 # Whole user utterances only: recognize natural imperatives, never echoed
 # assistant promises ("ich beende ...") or a quoted/negated command.
@@ -441,12 +442,26 @@ class LiveConversation:
         return {'closing': True}
 
     def _end(self, generation, handle, binding):
+        error = ''
         try:
-            if handle: self.cdb.call(BASE + '/sessions/' + handle + '/close', {}, binding=binding)
-        except Exception: pass
+            if handle:
+                self.cdb.call(BASE + '/sessions/' + handle + '/close', {}, binding=binding)
+                # 202 accepts the request; it does not release the person's
+                # server slot. Keep restart guarded until closed is observed.
+                deadline = time.monotonic() + REMOTE_CLOSE_WAIT
+                while time.monotonic() < deadline:
+                    with self.lock:
+                        if generation != self.generation: return
+                    status = self.cdb.call(BASE + '/sessions/' + handle, binding=binding)
+                    if status.get('state') == 'closed': break
+                    if self.finished.wait(.5): return
+                else:
+                    raise TimeoutError('Remote session still closing')
+        except Exception:
+            error = 'Gespräch lokal beendet. Die Freigabe durch das Brain ist noch unbestätigt. Bitte kurz warten und erneut starten.'
         finally:
             with self.lock:
-                if generation == self.generation: self._finish('ended')
+                if generation == self.generation: self._finish('error' if error else 'ended', error)
 
     def clear(self):
         with self.lock:

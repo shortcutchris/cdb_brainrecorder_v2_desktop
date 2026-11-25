@@ -23,6 +23,12 @@ KAI ist vorbereitet, aber noch nicht als Sprachfunktion angeschlossen.
 Ein Format startet keine Aufnahme und gibt keine Daten automatisch frei.
 Zeitvorgaben sind Moderationshilfen, keine zusätzlichen Timer. Im selben Dialog
 zeigt **Gespeicherte Ergebnisse** die eigenen Arbeitsstände mit Vorlagenversion.
+Beim Beenden bleibt ein neues Gespräch gesperrt, bis das Brain die vorige Sitzung
+wirklich freigegeben hat. Mikrofon und Wiedergabe enden sofort. Eine lediglich
+angenommene Beenden-Anfrage (HTTP 202) zählt nicht als abgeschlossene Freigabe;
+fehlende Bestätigung wird sichtbar gemeldet, ohne automatisch eine neue Sitzung
+anzulegen. Dies behebt den beim Sprachtest beobachteten Konflikt bei schnellem
+Beenden und erneutem Starten.
 
 ## Neue Vorlage pflegen
 
