@@ -1,0 +1,15 @@
+{
+  "tested_at": "2026-11-25T12:47:23.818211+01:00",
+  "version": "1.0.0-rc3",
+  "synthetic_audio": true,
+  "room_audio": false,
+  "server": "https://staging.cdbos.de",
+  "negotiated_version": 2,
+  "blocked_during_live": true,
+  "released": true,
+  "close_transport_clean": true,
+  "production_recordings_config_timers_unchanged": true,
+  "passed": true,
+  "audio_restored": true,
+  "seconds": 24.99
+}

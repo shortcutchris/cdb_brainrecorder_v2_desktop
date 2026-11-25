@@ -115,6 +115,6 @@
     "Synthetic speech over real staging/WebRTC; no room audio captured.",
     "Isolated Pi data and view requests; physical speaker volume was changed and restored.",
     "No new acoustic confirmation or physical display observation from a person.",
-    "One close-route failure recorded; local Talk resources released."
+    "rc2 close response warning diagnosed as documented empty HTTP 202; corrected and reverified in rc3 (close-acceptance-rc3.json)."
   ]
 }

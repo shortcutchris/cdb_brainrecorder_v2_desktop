@@ -110,15 +110,6 @@ verwenden die gefilterte, weiterhin nur lesbare Projektion.
   ursprüngliche Lautstärke und Mute-Zustand wiederhergestellt. Isolierter Executor;
   keine Aufnahme, kein Ausgangswechsel und kein Neustart.
 
-Zum Zeitpunkt dieses Implementierungscommits läuft der Pi weiterhin mit 1.0.0-rc1.
-Die vollständige App-Version 1.0.0-rc2 enthält alle oben beschriebenen Befehle.
-Rollout und gesprochene Endabnahme folgen nach erfolgreicher Server-CI.
-Kein neues SD-Image gebaut; ein sauberer Image-Bausatz ist keine Bootabnahme.
-
-Rollout: [TQS #2915](https://github.com/BIK-GmbH/cdb_tqs/pull/2915),
-[Nutzerhinweis webOS #2187](https://github.com/BIK-GmbH/cdb_webos/pull/2187).
-Ziel ist die am Pi konfigurierte Umgebung `staging.cdbos.de`.
-
 ## Auslieferung und Sprachabnahme
 
 Die obige Aussage „vorbereitet“ beschreibt den Implementierungsstand vor dem
@@ -147,8 +138,21 @@ antwortet auf `POST .../sessions/{handle}/close` mit leerem HTTP 202. rc2 erwart
 JSON und meldete intern einen Fehler, obwohl die lokalen Ressourcen freigegeben
 wurden. rc3 akzeptiert genau diese dokumentierte Antwort. Leere Antworten anderer
 Routen bleiben ungültig. 105 CDB-/Live-/Geräte-/Update-/Image-Tests bestanden.
-rc3 wird anschließend als eigenes signiertes Update mit höherer Sequenz installiert.
+rc3 ist als eigenes signiertes Update mit Sequenz 108 auf dem Pi installiert.
+[Installationsnachweis rc3](deployment-rc3.json) und
+[erneute Sprach-/Abschlussprüfung](close-acceptance-rc3.json): echte Voice-Sitzung,
+Geräteauskunft und Gesprächsende erfolgreich, keine Transportwarnung, Anmeldung
+und Gerätekonfiguration weiterhin erhalten.
 
-Der saubere rc2-Bausatz enthält 169 verifizierte Quelldateien. Auch rc3 wird aus
-seinem sauberen Commit exportiert. Diese Bausätze enthalten keine Kundendaten,
+Der saubere rc3-Bausatz aus `5a62910` enthält 169 bytegleich verifizierte
+Quelldateien. Diese Bausätze enthalten keine Kundendaten,
 Anmeldungen oder privaten Signierschlüssel und sind noch keine gebooteten SD-Images.
+
+
+Aktueller Stand: Pi **1.0.0-rc3**, Quelle `5a62910`; zum Benutzen ein neues
+Talk-Gespräch starten. Die Befehle benötigen die vorhandene Online-Voice-Sitzung.
+Hörtest und Abschalten behalten ihre ausdrücklichen Bestätigungen am Display.
+Das neue Betriebssystem-Image mit SD-Bootabnahme bleibt Teil der V1-Endabnahme.
+
+Servernachweise: [TQS-Rollout](https://github.com/BIK-GmbH/cdb_tqs/actions/runs/45604927198),
+[webOS-Rollout](https://github.com/BIK-GmbH/cdb_webos/actions/runs/45606040776).
