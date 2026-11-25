@@ -1,5 +1,10 @@
 # Wie die Brain-Systeme zusammenspielen
 
+**Geführte Formate ab 1.0.0-rc4:** Gerätewerkzeuge v3 verbinden die lokale,
+kontogebundene Ergebnisablage mit der vorhandenen Composer-MCP-Brücke des BFF.
+Der Agent erhält nur vier begrenzte Werkzeuge und keine frei wählbaren Board-IDs.
+[Vertrag, Moderationsregeln und Datenfluss](../workshops/README.md).
+
 **Gerätebefehle v2 ab 1.0.0-rc2:** Lautstärke und reine Geräteauskunft sind
 zusätzliche ausgehandelte Voice-Werkzeuge. Hardwareversuch mit vorherigem
 unbestätigtem Beleg verhindert doppelte relative Änderungen bei Wiederholung.

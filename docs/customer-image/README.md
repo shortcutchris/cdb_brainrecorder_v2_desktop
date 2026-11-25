@@ -1,5 +1,12 @@
 # SD-Images bauen, testen und weiterentwickeln
 
+**1.0.0-rc4, geführte Formate:** Die vorhandene Positivliste übernimmt
+`services/workshops.py` und `studio/workshops.*`. SQLite ist bereits vorhanden;
+keine Runtime-, Root- oder Factory-Erweiterung. `workshops.sqlite3` wird erst beim
+Start leer angelegt und darf nie aus einem benutzten Pi ins Image gelangen.
+Ein Bestandsupdate ergänzt die separate Ablage, ohne vorhandene Datenbanken zu
+migrieren. Das rc1-SD-Image enthält diese Funktion noch nicht.
+
 **1.0.0-rc2, Gerätebefehle im Gespräch:** `services/voice_device.py` und die
 aktualisierte Talk-Hilfe werden mit den vorhandenen Positivlisten exportiert;
 keine neue OS-/Runtime-Komponente. Die Belegdatenbank entsteht leer auf dem

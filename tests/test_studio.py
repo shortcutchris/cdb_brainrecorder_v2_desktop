@@ -11,6 +11,27 @@ class Backend:
 
 
 class StudioTests(unittest.TestCase):
+    def test_workshop_routes_keep_account_activity_and_revision_guards(self):
+        body={'action':'create','format':'interview','title':'API-Test','goal':'Ziel klären','minutes':10}
+        self.assertEqual(self.request('/api/workshops',body,{'X-CSRF-Token':'bad'})[0],403)
+        status,data,_=self.request('/api/workshops',body)
+        self.assertEqual(status,200)
+        row=json.loads(data); ident=row['id']
+        edit={'action':'edit','id':ident,'revision':1,'section':'ideas','text':'Eigene Idee'}
+        self.assertEqual(self.request('/api/workshops',edit)[0],200)
+        self.assertEqual(self.request('/api/workshops',edit)[0],400)
+        self.assertEqual(self.request('/api/workshops',{'action':'read','id':[]})[0],400)
+        with patch.object(self.app,'wake_account',return_value=None):
+            self.assertEqual(self.request('/api/workshops',{'action':'read','id':ident})[0],400)
+        with patch.object(self.app.live,'busy',return_value=True):
+            self.assertEqual(self.request('/api/workshops',{**edit,'revision':2})[0],400)
+            self.app.live.workshop_id=ident
+            self.assertEqual(self.request('/api/workshops',{**edit,'revision':2})[0],200)
+            self.assertEqual(self.request('/api/workshops',{'action':'pause','id':ident,'revision':3})[0],400)
+        with patch.object(self.app.management,'busy',return_value=True):
+            self.assertEqual(self.request('/api/workshops',body)[0],400)
+        self.assertNotIn('sections',self.app.state()['workshops'][0])
+
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name)
         QSettings.setDefaultFormat(QSettings.IniFormat);QSettings.setPath(QSettings.IniFormat,QSettings.UserScope,str(self.root/'settings'))

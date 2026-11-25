@@ -105,7 +105,7 @@ class LiveConversation:
             if self.binding and self.cdb.generation != getattr(self, 'account_generation', None):
                 return {'state': 'closing' if self.state in ACTIVE else 'idle', 'busy': self.state in ACTIVE,
                         'error': '', 'muted': True, 'areas': [], 'history': [], 'model': 'CDB Voice One', 'started_at': None}
-            return {'end_reason': self.end_reason, 'device_tools': self.device_tools, 'device_tools_version': self.device_tools_version, 'state': self.state, 'busy': self.state in ACTIVE, 'error': self.error,
+            return {'workshop_id': getattr(self, 'workshop_id', None), 'end_reason': self.end_reason, 'device_tools': self.device_tools, 'device_tools_version': self.device_tools_version, 'state': self.state, 'busy': self.state in ACTIVE, 'error': self.error,
                     'muted': self.muted, 'areas': list(self.areas), 'history': [dict(h) for h in self.history],
                     'model': 'CDB Voice One', 'started_at': getattr(self, 'started_at', None),
                     'owner_kind': self.owner_kind, 'transport': 'pi' if self.audio_config else 'browser', 'feedback':self.feedback(),
@@ -180,7 +180,7 @@ class LiveConversation:
         self._restore(binding)
         maximum = caps.get('max_areas', 8)
         if not isinstance(maximum, int): maximum = 8
-        return {'enabled': caps.get('enabled') is True, 'max_areas': min(8, max(1, maximum)),
+        return {'workshop_tools': caps.get('workshop_tools_v1') is True, 'enabled': caps.get('enabled') is True, 'max_areas': min(8, max(1, maximum)),
                 'areas': areas, 'default_area': self.cdb.public().get('destination'),
                 'remembered_area_ids': self._remembered_areas(binding, areas), 'selection_account_key': self._selection_key(binding),
                 'model': 'CDB Voice One', 'audio': self.audio_setup()}
@@ -219,7 +219,7 @@ class LiveConversation:
                     self.state = 'ended'; break
                 except (ValueError, OSError): continue
 
-    def reserve(self, area_ids, *, owner_kind="browser", cached_binding=None):
+    def reserve(self, area_ids, *, owner_kind="browser", cached_binding=None, workshop_id=None):
         if not isinstance(area_ids, list) or not 1 <= len(area_ids) <= 8 or any(not isinstance(x, str) for x in area_ids) or len(set(area_ids)) != len(area_ids):
             raise ValueError('Bitte ein bis acht unterschiedliche Knowledge Areas wählen.')
         if any(not isinstance(x, str) or not UUID.fullmatch(x) for x in area_ids):
@@ -248,6 +248,7 @@ class LiveConversation:
             self.transcript_turns = {}
             self.seen_transcripts = set()
             self.searches=SearchActivity(self.clock)
+            self.workshop_id = workshop_id
             self.area_ids = list(area_ids)
             self.areas = []
             self.deadline = self.clock() + (120 if owner_kind == "device" else 25)
@@ -342,7 +343,9 @@ class LiveConversation:
                 if self.state == 'closing':
                     self._finish('ended'); return
             body = {'sdp':sdp,'area_ids':area_ids,'language':'de','client_request_id':str(uuid.uuid4())}
-            device_version = 2 if caps.get('device_tools_v2') is True else 1 if caps.get('device_tools_v1') is True else 0
+            if getattr(self, 'workshop_id', None) and caps.get('workshop_tools_v1') is not True:
+                raise CdbFailure('Geführte Formate sind im Brain noch nicht verfügbar.')
+            device_version = 3 if getattr(self, 'workshop_id', None) and caps.get('workshop_tools_v1') is True else 2 if caps.get('device_tools_v2') is True else 1 if caps.get('device_tools_v1') is True else 0
             device_key = secrets.token_urlsafe(32) if self.device_executor and device_version else None
             if device_key: body['device_tools']={'version':device_version,'key':device_key}
             self._startup(generation, 'Gespräch beim Brain starten')
@@ -683,10 +686,13 @@ class LiveConversation:
                 # End/logout cannot interleave a local action. Extended commands
                 # also require the negotiated capability, never a guessed tool.
                 from services.voice_device import NAMES as LOCAL_NAMES
-                if request.get('name') in LOCAL_NAMES and self.device_tools_version < 2:
+                from services.workshops import NAMES as WORKSHOP_NAMES
+                if request.get('name') in WORKSHOP_NAMES and self.device_tools_version < 3:
+                    result={'ok':False,'code':'device_tool_not_negotiated'}
+                elif request.get('name') in LOCAL_NAMES and self.device_tools_version < 2:
                     result={'ok':False,'code':'device_tool_not_negotiated'}
                 else:
-                    result=self.device_executor({'binding':binding,'handle':handle},request)
+                    result=self.device_executor({'binding':binding,'handle':handle,'workshop_id':getattr(self, 'workshop_id', None)},request)
             self.cdb.call(path,{'key':key,'id':request['id'],'result':result},binding=binding)
 
     def close(self):

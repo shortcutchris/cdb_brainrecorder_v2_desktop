@@ -18,6 +18,9 @@ class CustomerImageTests(unittest.TestCase):
             entries['services/queued_whisper.py'] = '# local queue progress'
             entries['services/voice_device.py'] = '# bounded local voice tools'
             entries['voice-device.sqlite3'] = 'PRIVATE RECEIPTS'
+            entries.update({'services/workshops.py':'# account-owned results',
+                            'studio/workshops.js':'// touch workflow', 'studio/workshops.css':'/* touch */',
+                            'workshops.sqlite3':'PRIVATE WORKSHOP RESULTS'})
             for name in ('cdb-lcd-display.service', 'hardware_profile.py'):
                 entries['deploy/customer-image/' + name] = (builder.SOURCE / 'deploy/customer-image' / name).read_text()
             entries['services/device_power.py'] = '# fixed shutdown worker'
@@ -57,6 +60,9 @@ class CustomerImageTests(unittest.TestCase):
             self.assertIn('services/wake_detectors.py',result['source_files'])
             self.assertIn('services/voice_device.py',result['source_files'])
             self.assertNotIn('voice-device.sqlite3',result['source_files'])
+            for name in ('services/workshops.py','studio/workshops.js','studio/workshops.css'):
+                self.assertIn(name,result['source_files'])
+            self.assertNotIn('workshops.sqlite3',result['source_files'])
             self.assertIn('services/announcements.py',result['source_files'])
             for name in ('services/nfc_tokens.py','services/nfc_reader.py','studio/nfc.js'): self.assertIn(name,result['source_files'])
             for name in entries:

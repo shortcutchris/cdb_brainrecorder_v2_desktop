@@ -1,5 +1,12 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 1.0.0-rc4 – Interviews, Brainstorming und Composer
+
+Im Talk-Bereich ein Gesprächsformat wählen, Ziel und Zeitrahmen festlegen und mit
+KAI arbeiten. Ergebnisse bleiben kontogebunden bearbeitbar am Pi; ausdrücklich
+angeforderte Composer-Speicherungen erzeugen ein eigenes Board mit Ergebnisständen.
+[Bedienung, Datenablage, Prüfstand und Grenzen](docs/workshops/README.md).
+
 ## 1.0.0-rc3 – Sauberer Gesprächsabschluss
 
 Enthält alle Gerätebefehle aus rc2. Die asynchrone Bestätigung beim Beenden eines

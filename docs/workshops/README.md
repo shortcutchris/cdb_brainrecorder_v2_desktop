@@ -1,0 +1,110 @@
+# Geführte Gespräche und Composer · 1.0.0-rc4
+
+Stand 25.11.2026. Interview und Brainstorming sind ausdrücklich gewählte
+Talk-Formate. Das Gerät sammelt einen strukturierten Arbeitsstand; auf Wunsch
+entsteht daraus ein bearbeitbares Composer-Board. Keine automatische Aufnahme,
+kein ungefragtes Teilen und keine zweite Anmeldung oder technischen Service-Keys.
+
+## Bedienung am Pi
+
+1. Brain anmelden → Live-Gespräch → **Interview & Ideen**.
+2. Format, Titel, Ziel und Zeitrahmen wählen. 5–20 Minuten sind eine
+   Moderationsvorgabe; kein zusätzlicher Timer wird gestartet. Die bestehende
+   20-Minuten-Grenze einer Live-Verbindung bleibt bestehen.
+3. **Gespräch fortsetzen** → Gesprächswissen wählen → **Gespräch starten**.
+   Beispiel: „Führe ein Interview zu diesem Ziel. Stelle eine Frage nach der
+   anderen und halte die Erkenntnisse fest.“
+4. Im Brainstorming erst Ideen sammeln, dann gruppieren, gemeinsam priorisieren
+   und bestätigte nächste Schritte festhalten. Vorschläge sind keine Beschlüsse.
+5. **Ergebnis & Format** öffnet Ziel, Fragen, Erkenntnisse, Ideen, Entscheidungen
+   und nächste Schritte. Text lässt sich am Touchscreen korrigieren.
+   **Tastatur** öffnet die große Bildschirmtastatur im Dialog. Änderungen bewusst
+   übernehmen oder verwerfen. Bei einem Versionskonflikt bleibt die Eingabe stehen.
+6. **Gespräch pausieren** beendet die Sprachverbindung und bewahrt das Ergebnis.
+   Zum Fortsetzen den Arbeitsstand auswählen und die Verbindung neu starten.
+7. „Speichere das Ergebnis im Composer“ oder **In Composer speichern**.
+   Erst „gespeichert“ bedeutet Erfolg; „angefordert“ ist noch kein Speicherbeleg.
+
+## Composer-Fähigkeit
+
+Die in CDB All geprüfte Schnittstelle ist der bestehende angemeldete
+`/api/v1/kb/voice/board-tools/call`-Zugang. Er führt dieselben MCP-Werkzeuge mit
+persönlichen Mandanten- und Board-Rechten aus. Der Pi verwendet nur `create_board`,
+`add_note` und `add_frame`. Keine frei vom Modell gewählten Zieladressen, Board-IDs,
+Freigaben, Löschungen oder Änderungen an fremden Notizen.
+
+Ein neues Gesprächsergebnis erzeugt ein eigenes Board mit dem Titel und einem
+kurzen Pi-Kennzeichen. Jeder spätere Speicherstand ergänzt neue Textnotizen in
+einem Rahmen; Bearbeitungen im Composer werden nicht überschrieben. Die zuvor
+gewählten Brain-Wissensbereiche begrenzen die Recherche, sie sind keine
+automatische Projektzuordnung oder Schreibfreigabe für bestehende Boards.
+
+Die tatsächlichen Laufzeitregeln stehen im TQS-Modul
+`app/services/voice_live/workshop_tools.py`. Das ist die ausgehandelte
+Moderations-/Composer-Fähigkeit des Voice Agent; ein lokales Codex-SKILL.md wird
+vom Sprachmodell nicht automatisch geladen. Normales Talk bleibt bei
+Gerätewerkzeugen v2, ein ausgewähltes Format fordert ausdrücklich v3 an.
+
+## Grenzen und Ausfallschutz
+
+- Ergebnisse sind an Server, Benutzer und Mandant gebunden. Nach Abmeldung sind
+  sie für den nächsten Benutzer weder sichtbar noch bearbeitbar.
+- Gleichzeitige Änderungen benötigen dieselbe Revision. Menschliche Korrekturen
+  werden nicht still durch einen älteren Agentenstand überschrieben.
+- Wiederholte Geräteaufträge haben dauerhafte Belege auf dem Pi; ein Auftrag
+  kann nicht zweimal dieselbe Änderung ausführen.
+- Ein unsicher bestätigter Composer-Schreibvorgang wird niemals automatisch
+  wiederholt. Der Arbeitsstand bleibt lokal, der Status verlangt eine Prüfung
+  im Composer. Es gibt absichtlich keine blinde Wiederholen-Schaltfläche.
+- Inhaltlich leere Bereiche werden nicht als Notiz veröffentlicht. Maximal
+  6.000 Zeichen je Bereich, insgesamt 12.000 Zeichen pro Ergebnis.
+- Die Formate sind online, da sie die bestehende Live-Verbindung verwenden.
+  Lokale Ergebnisbearbeitung funktioniert ohne aktive Sprachverbindung.
+  Offline-Meeting-Transkription bleibt eine separate Funktion.
+
+## Daten und Installation
+
+`workshops.sqlite3` liegt im privaten App-Datenverzeichnis mit Modus 0600. Es
+enthält bewusst gespeicherte Arbeitsstände, Gerätebelege und das Schreibjournal;
+keine Audioaufnahme. Bestehende Talk-Verlaufsregeln bleiben unverändert.
+Die Ergebnisablage bleibt bis zu einer gezielten Datenbereinigung erhalten;
+es gibt in dieser Iteration noch keine automatische Löschfrist oder Lösch-UI.
+Aufträge und Ergebnisbelege mit Text werden im TQS-Relay maximal 60 Sekunden
+aufbewahrt. Composer hat seine eigene reguläre Board-Ablage.
+
+Bestandsupdate: additive private Datenbank, keine Änderung bestehender
+Aufnahme-/Anmeldedatenbanken, keine neuen Pakete, Root-Rechte oder OS-Dienste.
+Die bestehenden Anmeldedaten, Audio-, NFC-, Timer- und Geräteeinstellungen müssen
+beim Update erhalten bleiben. Clean Install: vorhandene Positivliste exportiert
+die versionierten Module und Touch-Assets; eine leere Datenbank entsteht erst
+auf dem neuen Gerät. Keine persönlichen Ergebnisse gehören in ein Kundenimage.
+Ein exportiertes Baupaket ist weder ein gebautes noch ein bootgeprüftes SD-Image.
+
+## Prüfung
+
+Automatisiert: Eigentümer-/Umgebungstrennung, leere Installation und Neustart,
+Revisionen, Pausen, Belege, unterbrochene Composer-Antworten, Kontowechsel während
+Speicherung, API-/Aktivitätsschutz und Ausschluss privater Daten aus dem Image.
+TQS prüft v2/v3-Aushandlung und echte Gerätebelege sowie die vorhandenen
+Voice-Authentifizierungsgrenzen. Touch-Prüfung mit beiden Pi-Auflösungen und
+heller/CDB-Darstellung. Installation und Verbundtest werden separat belegt;
+eine lokale Vorschau ist kein Hardware-Nachweis.
+
+
+Bisherige technische Nachweise (vor Auslieferung): 122 bestehende Pi-Tests zu
+Studio/Voice sowie 13 Ergebnis-/API-Tests, 25 Paket-/Image-Tests und 171
+JavaScript-Tests bestanden. TQS: 211 gezielte Prüfungen einschließlich der
+bestehenden Live-, Reattach- und Portal-Key-Grenzen; webOS: 333 Changelog-Prüfungen.
+
+Isolierte Touch-Vorschau: [Talk 1024×600](screenshots/talk-1024.png),
+[Ergebnis mit Tastatur 1024×600](screenshots/keyboard-1024.png),
+[Interview im CDB-Design 1280×720](screenshots/interview-cdb-1280.png).
+Eingabe, Übernehmen, Verwerfen und Schließen außerhalb des Dialogs geprüft.
+Escape verwirft einen ungespeicherten Text nicht. Mindesthöhe der neuen Aktionen
+56 px, Formatkacheln 148 px; Bildschirmtastatur nutzt die bestehenden 44-px-Tasten.
+
+Composer-Integration am echten Pi mit separater Testablage: Board 117 auf
+Staging angelegt, synthetische Ziel-/Ideennotizen samt Rahmen geschrieben und
+über `read_board` zurückgelesen. Persönliche Daten verblieben auf dem Pi; die
+vorübergehende Test-Anmeldung wurde danach gelöscht. Keine vorhandenen Boards
+verändert. Sprachabnahme und signierte Installation werden nachgeliefert.

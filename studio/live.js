@@ -196,7 +196,7 @@
  async function startConversation(){
   if(state?.recording?.id||busy()||!online||savingSelection||setupLoading||!setup?.enabled||!chosen.size||chosen.size>maxAreas()||!setup?.audio?.available)return;const runId=++generation;requestedAreas=setup.areas.filter(a=>chosen.has(a.id));starting=true;chatPage=null;if(document.body.classList.contains('keyboard-open'))$('keyboard').click();audio.pause();if(typeof pauseMicrophoneAudio==='function')pauseMicrophoneAudio();note('Mikrofon und Lautsprecher werden am Pi verbunden …');renderLive();
   try{
-   const reserved=await post('reserve',{area_ids:[...chosen]});if(runId!==generation){await post('end',{lease:reserved.lease});return;}lease=reserved.lease;
+   const reserved=await post('reserve',{area_ids:[...chosen],workshop_id:window.studioWorkshop?.selected()||null});if(runId!==generation){await post('end',{lease:reserved.lease});return;}lease=reserved.lease;
    heartbeat=setInterval(()=>{if(runId===generation&&lease)post('pulse',{lease}).catch(()=>{if(runId===generation)finish().catch(()=>{})})},5000);
    await post('start-native',{lease});if(runId!==generation)return;starting=false;note('Sprich am Pi. Der Recorder bleibt während des Gesprächs gesperrt.');await poll();renderLive();
   }catch(e){if(runId===generation){await finish().catch(()=>{});note(e.message);}throw e;}
@@ -229,6 +229,11 @@
   },
   start:startConversation
  };
+ window.studioWorkshopLive={pause:finish,async prepare(){
+  if(busy()||state?.recording?.id)throw new Error('Bitte das laufende Gespräch zuerst beenden.');
+  if(state?.live?.history?.length){await post('clear');chatPage=null;await poll()}
+  return window.studioLiveHome.refresh();
+ }};
  $('live-end').onclick=run(finish);
  $('live-mute').onclick=run(async()=>{
   if($('live-mute').disabled||!busy())return;

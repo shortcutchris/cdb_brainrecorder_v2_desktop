@@ -361,5 +361,22 @@
       "Eingaben im Timer bleiben beim Seitenwechsel erhalten. Ein noch nicht gespeicherter Meetingtitel bleibt beim Schließen und Wiederöffnen der Details in derselben Sitzung erhalten; erst „Titel speichern“ übernimmt ihn dauerhaft.",
       "Während eines geschützten Vorgangs, etwa beim Herunterfahren, bleibt der Dialog geöffnet. Die Vollseiten für Einstellungen, Timer, Recorder und Bibliothek werden durch einen Außentipp nicht verlassen."
     ]
+  },
+  {
+    "id": "workshops",
+    "title": "Interviews, Ideen und Composer",
+    "category": "GESPRÄCHE",
+    "intro": "KAI führt Interviews oder hilft beim Brainstorming. Der Arbeitsstand bleibt deinem Brain-Konto zugeordnet.",
+    "steps": [
+      "Am Brain anmelden, Live-Gespräch öffnen und Interview & Ideen antippen. Interview oder Brainstorming wählen, Titel, Ziel und 5 bis 20 Minuten als Zeitrahmen festlegen. Der Zeitrahmen ist eine Moderationsvorgabe, kein zusätzlicher Timer.",
+      "Gespräch fortsetzen wählen, Gesprächswissen auswählen und Gespräch starten. Sage zum Beispiel: Führe ein Interview zu unserem Ziel. Stelle jeweils eine Frage und halte meine Antworten als Erkenntnisse fest.",
+      "Bei Brainstorming: Sammle zunächst Ideen, ordne sie danach und frage, welche wir weiterverfolgen. Entscheidungen, Verantwortliche und Termine müssen bestätigt sein.",
+      "Ergebnis & Format zeigt Ziel, Fragen, Erkenntnisse, Ideen, Entscheidungen und nächste Schritte. Du kannst Text selbst bearbeiten und übernehmen. Die Tastatur lässt sich direkt im Dialog öffnen.",
+      "Gespräch pausieren beendet die aktive Sprachverbindung. Dein Ergebnis bleibt erhalten. Zum Fortsetzen den Arbeitsstand wieder auswählen und die Verbindung erneut starten.",
+      "Sage Speichere das Ergebnis im Composer oder tippe In Composer speichern. Warte auf die Speicherbestätigung. Dann öffnet der Link das bearbeitbare Board; jeder weitere Speicherstand ergänzt neue Notizen mit Rahmen.",
+      "Falls die Übertragung nicht bestätigt wurde: Arbeitsstand am Pi behalten und das Composer-Board prüfen. Ein unklarer Schreibvorgang wird nicht automatisch wiederholt."
+    ],
+    "note": "Normales Talk und Meeting bleiben eigenständige Funktionen. Ein Gesprächsformat startet keine Meeting-Aufnahme. Composer benötigt Internet, deine persönliche Anmeldung und eine Freigabe für deinen Mandanten. Ergebnisse werden nicht automatisch geteilt.",
+    "links": []
   }
 ]

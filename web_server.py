@@ -29,7 +29,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '1.0.0-rc3'
+VERSION = '1.0.0-rc4'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -123,7 +123,10 @@ class StudioApp:
         from services.voice_actions import VoiceActions
         self.voice_actions = VoiceActions(self)
         self.voice_device = VoiceDevice(self.store.root, self.speakers, lambda: device_status(self), actions=self.voice_actions)
+        from services.workshops import Workshops, NAMES as WORKSHOP_NAMES
+        self.workshops = Workshops(self.store.root, self.cdb, self.wake_account)
         self.live.device_executor = lambda scope, request: (
+            self.workshops.execute(scope, request) if request.get('name') in WORKSHOP_NAMES else
             self.voice_device.execute(scope, request) if request.get('name') in VOICE_DEVICE_NAMES
             else self.schedules.execute_tool(scope, request, self.clock_ready))
         self.playback_leases = {}
@@ -558,6 +561,7 @@ class StudioApp:
         state['lcd_status'] = lcd_usb_status()
         self.voice_actions.observe(state)
         state['voice_ui'] = self.voice_actions.public()
+        state['workshops'] = self.workshops.list(self.wake_account())
         state['device_clock'] = {'ready': self.clock_ready, 'text': time.strftime('%H:%M') if self.clock_ready else '--:--'}
         state['wake'] = self.wake.public()
         state['nfc'] = self.nfc.public()
@@ -757,6 +761,28 @@ class StudioApp:
             atomic_write(folder/'expected.txt',text)
         return {'id':ident}
 
+    def workshop_action(self, body):
+        binding = self.wake_account()
+        if not binding: raise ValueError('Bitte zuerst am Brain anmelden.')
+        action = body.get('action')
+        if action != 'read': self.room.touch()
+        if action == 'create':
+            self.require('live')
+            if set(body) != {'action', 'format', 'title', 'goal', 'minutes'}: raise ValueError('Ungültiger Auftrag.')
+            return self.workshops.create(binding, body['format'], body['title'], body['goal'], body['minutes'])
+        ident = body.get('id')
+        if action == 'read' and set(body) == {'action', 'id'}: return self.workshops.get(binding, ident)
+        if self.live.busy() and ident != getattr(self.live, 'workshop_id', None):
+            raise ValueError('Nur das aktuelle Gesprächsergebnis kann während Talk bearbeitet werden.')
+        if action == 'edit' and set(body) == {'action', 'id', 'revision', 'section', 'text'}:
+            return self.workshops.edit(binding, ident, body['revision'], section=body['section'], text=body['text'])
+        if action == 'save' and set(body) == {'action', 'id', 'revision'}:
+            return self.workshops.save(binding, ident, body['revision'])
+        if action == 'pause' and set(body) == {'action', 'id', 'revision'}:
+            if self.live.busy(): raise ValueError('Gespräch zuerst beenden, dann pausieren.')
+            return self.workshops.edit(binding, ident, body['revision'], paused=True)
+        raise ValueError('Unbekannte Ergebnisaktion.')
+
     def action(self, path, body, *, start_guard=None):
         with self.control_lock:
             try:
@@ -795,6 +821,8 @@ class StudioApp:
             self.room_guard(path)
             if path.startswith('/api/room/'):
                 return self.room_action(path, body)
+            if path == '/api/workshops':
+                return self.workshop_action(body)
             if path == '/api/voice-ui/action':
                 if body.get('action') != 'shown': self.room.touch()
                 return self.voice_actions.touch(body)
@@ -945,7 +973,11 @@ class StudioApp:
                 if path=='/api/live/reserve':
                     self.require('live')
                     self.cdb.invalidate_pending_login()
-                    return self.live.reserve(body.get('area_ids'))
+                    workshop_id = body.get('workshop_id')
+                    if workshop_id:
+                        draft = self.workshops.get(self.wake_account(), workshop_id)
+                        if draft['paused']: self.workshops.edit(self.wake_account(), workshop_id, draft['revision'], paused=False)
+                    return self.live.reserve(body.get('area_ids'), workshop_id=workshop_id)
                 if path=='/api/live/areas':
                     self.require('configure');return self.live.remember_areas(body.get('area_ids'),body.get('account_key'))
                 if path=='/api/live/clear':
