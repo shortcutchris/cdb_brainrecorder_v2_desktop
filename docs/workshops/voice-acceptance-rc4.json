@@ -1,0 +1,119 @@
+{
+  "version": "1.0.0-rc4",
+  "source_commit": "3fe2285edb83894839abbc39196a4ca1c0a79457",
+  "environment": "staging",
+  "synthetic_audio": true,
+  "room_audio_captured": false,
+  "room_speaker_used": false,
+  "interview": {
+    "tested_at": "2026-11-25T13:43:36.565417+01:00",
+    "question_asked": true,
+    "composer": {
+      "board_id": 118,
+      "url": "https://composer-staging.cdbos.de/board/118",
+      "revision": 3,
+      "editable_notes_read_back": true
+    },
+    "tools": [
+      {
+        "name": "get_workshop",
+        "ok": true,
+        "section": null,
+        "composer_state": "local"
+      },
+      {
+        "name": "update_workshop_result",
+        "ok": true,
+        "section": "questions",
+        "composer_state": "local"
+      },
+      {
+        "name": "update_workshop_result",
+        "ok": true,
+        "section": "findings",
+        "composer_state": "local"
+      },
+      {
+        "name": "get_workshop",
+        "ok": true,
+        "section": null,
+        "composer_state": "local"
+      },
+      {
+        "name": "save_workshop_to_composer",
+        "ok": true,
+        "section": null,
+        "composer_state": null
+      },
+      {
+        "name": "get_workshop",
+        "ok": true,
+        "section": null,
+        "composer_state": "saved"
+      }
+    ]
+  },
+  "brainstorming": {
+    "tested_at": "2026-11-25T13:50:31.451496+01:00",
+    "passed": true,
+    "no_unrequested_save": true,
+    "ideas_kept_separate_from_decisions": true,
+    "composer": {
+      "board_id": 120,
+      "url": "https://composer-staging.cdbos.de/board/120",
+      "revision": 2,
+      "editable_notes_read_back": true
+    },
+    "tools": [
+      {
+        "name": "get_workshop",
+        "ok": true,
+        "section": null,
+        "composer_state": "local"
+      },
+      {
+        "name": "get_workshop",
+        "ok": true,
+        "section": null,
+        "composer_state": "local"
+      },
+      {
+        "name": "update_workshop_result",
+        "ok": true,
+        "section": "ideas",
+        "composer_state": "local"
+      },
+      {
+        "name": "get_workshop",
+        "ok": true,
+        "section": null,
+        "composer_state": "local"
+      },
+      {
+        "name": "save_workshop_to_composer",
+        "ok": true,
+        "section": null,
+        "composer_state": null
+      },
+      {
+        "name": "get_workshop",
+        "ok": true,
+        "section": null,
+        "composer_state": "saved"
+      }
+    ]
+  },
+  "device_tools_version": 3,
+  "conflicting_actions_blocked": true,
+  "live_released": true,
+  "close_transport_clean": true,
+  "production_recordings_settings_timers_unchanged": true,
+  "login_still_present": true,
+  "production_live_busy": false,
+  "temporary_test_logins_removed": true,
+  "test_limitations": [
+    "The first combined harness replayed synthetic input on its second connection; only its interview evidence is accepted. Brainstorming was retested in a separate fresh connection.",
+    "A repeated synthetic interview was stopped after an incompletely recognized sentence triggered a clarification. It is not counted as a passed run.",
+    "Synthetic WebRTC voice test, not a new human hearing test or full physical touch audit."
+  ]
+}

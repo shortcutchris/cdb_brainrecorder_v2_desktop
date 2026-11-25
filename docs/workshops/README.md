@@ -91,7 +91,7 @@ heller/CDB-Darstellung. Installation und Verbundtest werden separat belegt;
 eine lokale Vorschau ist kein Hardware-Nachweis.
 
 
-Bisherige technische Nachweise (vor Auslieferung): 122 bestehende Pi-Tests zu
+Technische Nachweise: 122 bestehende Pi-Tests zu
 Studio/Voice sowie 13 Ergebnis-/API-Tests, 25 Paket-/Image-Tests und 171
 JavaScript-Tests bestanden. TQS: 211 gezielte Prüfungen einschließlich der
 bestehenden Live-, Reattach- und Portal-Key-Grenzen; webOS: 333 Changelog-Prüfungen.
@@ -99,12 +99,70 @@ bestehenden Live-, Reattach- und Portal-Key-Grenzen; webOS: 333 Changelog-Prüfu
 Isolierte Touch-Vorschau: [Talk 1024×600](screenshots/talk-1024.png),
 [Ergebnis mit Tastatur 1024×600](screenshots/keyboard-1024.png),
 [Interview im CDB-Design 1280×720](screenshots/interview-cdb-1280.png).
+[Formatwahl 1024×600](screenshots/formats-final-1024.png) und
+[Formatwahl im CDB-Design 1280×720](screenshots/formats-final-cdb-1280.png).
 Eingabe, Übernehmen, Verwerfen und Schließen außerhalb des Dialogs geprüft.
 Escape verwirft einen ungespeicherten Text nicht. Mindesthöhe der neuen Aktionen
 56 px, Formatkacheln 148 px; Bildschirmtastatur nutzt die bestehenden 44-px-Tasten.
+Die Liste gespeicherter Formate verwendet Seiten: ein Eintrag bei 600 px Höhe,
+zwei bei 720 px. Ein simulierter unsicherer Composer-Schreibvorgang zeigt den
+Prüfhinweis und verhindert einen zweiten Versand; der Text bleibt erhalten.
 
 Composer-Integration am echten Pi mit separater Testablage: Board 117 auf
 Staging angelegt, synthetische Ziel-/Ideennotizen samt Rahmen geschrieben und
 über `read_board` zurückgelesen. Persönliche Daten verblieben auf dem Pi; die
 vorübergehende Test-Anmeldung wurde danach gelöscht. Keine vorhandenen Boards
-verändert. Sprachabnahme und signierte Installation werden nachgeliefert.
+verändert.
+
+Sprachabnahme am echten Pi mit der realen Staging-Verbindung und synthetischem
+Audio: Das Interview stellte eine Frage, übernahm eine Erkenntnis und speicherte
+auf gesprochenen Auftrag [Board 118](https://composer-staging.cdbos.de/board/118).
+Brainstorming wurde in einer getrennten Verbindung geprüft: Idee ergänzt,
+Entscheidungsbereich leer gelassen, ohne Auftrag nicht gespeichert, anschließend
+auf ausdrücklichen Sprachbefehl [Board 120](https://composer-staging.cdbos.de/board/120)
+erstellt. Beide Boards wurden über die Composer-Schnittstelle zurückgelesen;
+die letzte Statusabfrage des Agenten bestätigte jeweils `saved`.
+
+Version 3 der Gerätewerkzeuge wurde tatsächlich ausgehandelt. Während des
+Gesprächs waren konkurrierende Aufnahme-/Einstellungsaktionen gesperrt. Beide
+Verbindungen wurden sauber freigegeben; Aufnahmebestand, Einstellungen und Timer
+der regulären Pi-Anwendung blieben unverändert. Die Anmeldung bestand weiterhin.
+Die vorübergehenden Test-Anmeldedateien wurden entfernt. Es wurde weder Raumton
+aufgenommen noch ein erneuter menschlicher Hörtest durchgeführt.
+Beleg: [Sprachabnahme mit Grenzen der Testreihe](voice-acceptance-rc4.json).
+
+Bei der ersten kombinierten Testreihe spielte der Testeingang nach dem
+Verbindungswechsel alte synthetische Sätze erneut ab; daraus wird nur der davor
+abgeschlossene Interview-Test übernommen. Brainstorming wurde deshalb separat
+erneut erfolgreich geprüft. Ein weiterer synthetischer Interview-Versuch erkannte
+einen Satz unvollständig und fragte nach; dieser abgebrochene Versuch zählt nicht
+als bestandene Abnahme.
+
+## Auslieferung auf den Recorder-Pi
+
+Am 25.11.2026 um 13:29 Uhr MEZ wurde **1.0.0-rc4** aus Commit
+`3fe2285edb83894839abbc39196a4ca1c0a79457` als signiertes Update mit Sequenz 109
+installiert. 165 Paketdateien wurden geprüft. Anmeldung, Aufnahmen,
+Geräteeinstellungen, NFC-Zuordnungen und Raumregeln blieben erhalten. Studio und
+Zusatzdisplay-Dienst wurden neu gestartet, der Pi selbst nicht. Die Oberfläche
+lief danach wieder im CDB-Design bei 1280×720, weiterhin angemeldet.
+Beleg: [Installationsprüfung](deployment-rc4.json).
+
+Die neuen Dialoge wurden in einer isolierten Vorschau bei beiden Displaygrößen
+bedient; das tatsächliche Pi-Bild belegt den erfolgreichen App-Start. Daraus wird
+keine vollständige manuelle Touch-Abnahme am Gerät abgeleitet.
+
+Das vorbereitete Kundenimage-Baupaket enthält 172 versionierte Quelldateien und
+keine private Ergebnisdatenbank. Ein neues bootgeprüftes SD-Image ist damit noch
+nicht erstellt.
+
+Die Server-Ergänzung ist über [TQS #2916](https://github.com/BIK-GmbH/cdb_tqs/pull/2916)
+nach bestandener CI in Staging übernommen. Deployment
+[45615261771](https://github.com/BIK-GmbH/cdb_tqs/actions/runs/45615261771)
+ist erfolgreich; der bereite Backend-Stand ist `staging-e112242`, Revision
+`tqs-backend-stg--r45615261771-1`. Der angemeldete Pi bestätigt die neue Fähigkeit
+über seinen normalen Live-Einrichtungsweg. Die Hinweise für Benutzer sind mit
+[webOS #2189](https://github.com/BIK-GmbH/cdb_webos/pull/2189) übernommen;
+der bereite BFF-Stand ist `staging-3f73972`, Deployment
+[45614743633](https://github.com/BIK-GmbH/cdb_webos/actions/runs/45614743633) erfolgreich.
+Produktionsumgebungen wurden nicht aktualisiert.
