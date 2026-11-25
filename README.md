@@ -4,9 +4,10 @@
 
 Der Kandidat läuft auf dem Pi; ein sauberes SD-Image mit Offline-Modellen ist
 gebaut und offline geprüft. Die direkte Bedienprüfung vom 25.11. bestätigt
-Aufnahme, Pause, Stummschaltung, Timer und Dialogabbruch. Kleine Kalenderfelder,
-die LED-Freigabe des vorhandenen Mikrofons und weitere Hardware-/SD-Bootprüfungen
-sind noch offen. **Noch keine endgültige V1-Freigabe.**
+Aufnahme, Pause, Stummschaltung, Timer und Dialogabbruch. Die fehlende
+Mikrofon-LED-Freigabe ist inzwischen installiert und technisch geprüft.
+Kleine Kalenderfelder und weitere Hardware-/SD-Bootprüfungen sind noch offen.
+**Noch keine endgültige V1-Freigabe.**
 [Abnahme und Grenzen](docs/acceptance-v1/README.md).
 
 ## 0.5.105 – USB-Soundbar wiederherstellen und gezielt prüfen

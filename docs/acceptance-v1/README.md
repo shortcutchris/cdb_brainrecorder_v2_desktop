@@ -7,8 +7,9 @@ Quellstand: `01d81078794942dc5255e4ab221b9e8c59a02502`.
 **Fortsetzung am echten Pi:** [Bedien- und Hardwareprüfung vom 25.11.](hardware-2026-11-25.md)
 mit 25 zusätzlichen Bildschirmnachweisen. Aufnahme, Pause, Stummschaltung,
 Timeralarm, Bibliothek, Außentipp-Abbruch und Offline-Verarbeitung bestanden.
-Der kleine native Kalender und die fehlende ReSpeaker-LED-Zugriffsregel bleiben
-offen. Die vorhandene Installation und das SD-Image wurden dabei nicht ersetzt.
+Der kleine native Kalender bleibt offen. Die fehlende ReSpeaker-LED-Zugriffsregel
+ist nach der Administratorinstallation auf dem Pi technisch nachgeprüft und behoben.
+App-Paket und SD-Image wurden dabei nicht ersetzt.
 
 ## Bestanden
 
@@ -32,6 +33,12 @@ offen. Die vorhandene Installation und das SD-Image wurden dabei nicht ersetzt.
 
 ## Während der Abnahme korrigiert
 
+Auf dem vorhandenen Pi fehlte die ReSpeaker-USB-Zugriffsregel. Nach Installation
+der bereits versionierten Regel ist der Geräteknoten für die Gruppe `audio` mit
+Modus `0660` zugänglich. Ein kurzer Mikrofontest bestätigt die LED-Steuerzustände
+`idle → recording → idle`, ohne Fehler und ohne Neustart. Im Factory-Image ist
+diese Regel bereits enthalten; kein neues Image für diese Gerätereparatur nötig.
+
 Das bisherige Image lieferte LCD-Code, aber keinen aktivierten Begleitdienst und
 keine serielle Laufzeit. Die Factory-Einrichtung enthält jetzt beides, pyserial
 3.5, die Gruppe `dialout` und einen aktivierten PC/SC-Socket.
@@ -49,11 +56,9 @@ Studios ab und prüft zusätzlich, dass währenddessen kein Gespräch startet.
 1. **Zweite SD-Karte booten**: Karte ab 32 GB ist laut Benutzer vorhanden.
    Erststart, WLAN, Displayausrichtung, Audiogeräte, Offline-Transkription und
    Zusammenfassung sowie Neustart mit erhaltener Einrichtung prüfen.
-2. **Touch-Kalender und Mikrofon-LEDs**: Die direkte Kiosk-Prüfung wurde am 25.11.
+2. **Touch-Kalender**: Die direkte Kiosk-Prüfung wurde am 25.11.
    fortgesetzt. Die Kalender-/Uhrzeitfelder des Browsers sind für unsere großen
-   Touchziele zu klein. Die Mikrofonaufnahme funktioniert, die LED-Steuerung
-   scheitert an einer fehlenden udev-Regel. Die vorbereitete Reparatur benötigt
-   auf diesem Pi eine Administratorauthentifizierung; sie wurde noch nicht installiert.
+   Touchziele zu klein. Die separat festgestellte LED-Freigabe ist inzwischen behoben.
 3. **NFC-Hardware**: Seit 25.11. ist der Rocketek wieder angeschlossen und bereit;
    beide Zuordnungen und Direktstart-/Abnehmen-Einstellungen sind vorhanden.
    Talk/Meeting-Aufstellen und Abnehmen wurden noch nicht erneut physisch abgenommen.

@@ -36,10 +36,10 @@
     }
   },
   "respeaker_led": {
-    "connected": false,
-    "state": "error",
+    "connected": true,
+    "state": "idle",
     "hardware_muted": false,
-    "message": "ReSpeaker-LEDs nicht erreichbar. USB-Verbindung und Gerätezugriff prüfen."
+    "message": ""
   },
   "nfc": {
     "enabled": true,
@@ -104,12 +104,13 @@
     },
     {
       "id": "V1-02",
-      "state": "blocked_on_admin_authentication",
+      "state": "resolved",
       "title": "Missing existing-device ReSpeaker USB access rule",
       "microphone_capture_works": true,
       "repair_staged": true,
-      "installed": false,
-      "factory_image_rule_included": true
+      "installed": true,
+      "factory_image_rule_included": true,
+      "verified": true
     }
   ],
   "limitations": [
@@ -119,5 +120,29 @@
     "No new end-to-end Cloud Talk, Brain upload, browser/mobile pairing or wake-word acceptance.",
     "Second SD boot remains pending.",
     "Intermittent VIA USB controller failure not conclusively resolved."
-  ]
+  ],
+  "respeaker_led_repair": {
+    "date": "2026-11-25",
+    "before": {
+      "connected": false,
+      "state": "error",
+      "hardware_muted": false,
+      "message": "ReSpeaker-LEDs nicht erreichbar. USB-Verbindung und Gerätezugriff prüfen."
+    },
+    "rule_sha256": "fa7d7b4d4f6e3fa9f0fd696c65d5dae4f8d719e520c67065f71390bbf50eb28c",
+    "matches_tracked_rule": true,
+    "device_group": "audio",
+    "device_mode": "0660",
+    "device_readable": true,
+    "device_writable": true,
+    "probe_state": "completed",
+    "observed_led_states": [
+      "idle",
+      "recording",
+      "idle"
+    ],
+    "user_visual_confirmation": false,
+    "restart_required": false,
+    "processing_routes_preserved": true
+  }
 }
