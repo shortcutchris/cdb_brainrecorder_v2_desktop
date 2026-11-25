@@ -29,7 +29,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '1.0.0-rc6'
+VERSION = '1.0.0-rc7'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -562,6 +562,7 @@ class StudioApp:
         self.voice_actions.observe(state)
         state['voice_ui'] = self.voice_actions.public()
         state['workshops'] = self.workshops.list(self.wake_account())
+        state['workflow_catalog'] = self.workshops.catalog.list() if self.wake_account() else []
         state['device_clock'] = {'ready': self.clock_ready, 'text': time.strftime('%H:%M') if self.clock_ready else '--:--'}
         state['wake'] = self.wake.public()
         state['nfc'] = self.nfc.public()
@@ -765,6 +766,7 @@ class StudioApp:
         binding = self.wake_account()
         if not binding: raise ValueError('Bitte zuerst am Brain anmelden.')
         action = body.get('action')
+        if action == 'catalog' and set(body) == {'action'}: return self.workshops.catalog.list()
         if action != 'read': self.room.touch()
         if action == 'create':
             self.require('live')
@@ -981,7 +983,8 @@ class StudioApp:
                     if workshop_id:
                         draft = self.workshops.get(self.wake_account(), workshop_id)
                         if draft['paused']: self.workshops.edit(self.wake_account(), workshop_id, draft['revision'], paused=False)
-                    return self.live.reserve(body.get('area_ids'), workshop_id=workshop_id)
+                    return self.live.reserve(body.get('area_ids'), workshop_id=workshop_id,
+                                             workshop_requires_catalog=bool(workshop_id and (draft['format'] not in ('interview', 'brainstorming') or draft['workflow']['version'] != 1)))
                 if path=='/api/live/areas':
                     self.require('configure');return self.live.remember_areas(body.get('area_ids'),body.get('account_key'))
                 if path=='/api/live/clear':

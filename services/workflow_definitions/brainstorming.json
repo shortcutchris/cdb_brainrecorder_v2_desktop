@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "id": "brainstorming",
+  "version": 1,
+  "name": "Brainstorming",
+  "description": "Ideen sammeln, ordnen und nächste Schritte klären.",
+  "voice_aliases": [
+    "Brainstorming",
+    "Ideen sammeln"
+  ],
+  "explanation": "Wir klären zuerst das Ziel und sammeln Ideen ohne frühe Bewertung. Danach ordnen und priorisieren wir sie gemeinsam und halten nächste Schritte fest.",
+  "opening_question": "Zu welcher Frage oder Herausforderung möchtest du Ideen sammeln?",
+  "moderation": "Collect ideas without early judgement, group them, ask participants to prioritize and agree next steps.",
+  "default_minutes": 10,
+  "phases": [
+    {
+      "id": "opening",
+      "label": "Ankommen",
+      "instruction": "Ziel und Rahmen gemeinsam klären."
+    },
+    {
+      "id": "exploring",
+      "label": "Sammeln",
+      "instruction": "Beiträge und Erfahrungen ohne frühe Bewertung sammeln."
+    },
+    {
+      "id": "grouping",
+      "label": "Ordnen",
+      "instruction": "Gemeinsam Themen und Muster ordnen."
+    },
+    {
+      "id": "prioritizing",
+      "label": "Priorisieren",
+      "instruction": "Teilnehmende selbst priorisieren und Entscheidungen bestätigen lassen."
+    },
+    {
+      "id": "closing",
+      "label": "Abschließen",
+      "instruction": "Ergebnis überprüfen, Korrekturen ermöglichen und nach gewünschter Speicherung fragen."
+    }
+  ],
+  "sections": [
+    {
+      "id": "goal",
+      "label": "Ziel",
+      "hint": "Nur Beiträge der Beteiligten und ausdrücklich gekennzeichnete Vorschläge festhalten."
+    },
+    {
+      "id": "questions",
+      "label": "Fragen",
+      "hint": "Nur Beiträge der Beteiligten und ausdrücklich gekennzeichnete Vorschläge festhalten."
+    },
+    {
+      "id": "findings",
+      "label": "Erkenntnisse",
+      "hint": "Nur Beiträge der Beteiligten und ausdrücklich gekennzeichnete Vorschläge festhalten."
+    },
+    {
+      "id": "ideas",
+      "label": "Ideen",
+      "hint": "Nur Beiträge der Beteiligten und ausdrücklich gekennzeichnete Vorschläge festhalten."
+    },
+    {
+      "id": "decisions",
+      "label": "Bestätigte Entscheidungen",
+      "hint": "Nur Beiträge der Beteiligten und ausdrücklich gekennzeichnete Vorschläge festhalten."
+    },
+    {
+      "id": "next_steps",
+      "label": "Nächste Schritte",
+      "hint": "Nur Beiträge der Beteiligten und ausdrücklich gekennzeichnete Vorschläge festhalten."
+    }
+  ],
+  "outputs": [
+    "composer",
+    "brain"
+  ]
+}

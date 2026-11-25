@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-25",
+  "pi_python_tests": 142,
+  "pi_javascript_tests": 171,
+  "tqs_targeted_tests": 199,
+  "synthetic_ui": true,
+  "physical_device_acceptance": false,
+  "screens": [
+    {
+      "width": 1024,
+      "height": 600,
+      "theme": "light",
+      "checked": [
+        "format tiles",
+        "retrospective create",
+        "dynamic fields",
+        "result pagination",
+        "edit/save",
+        "keyboard"
+      ]
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "theme": "cdb",
+      "checked": [
+        "format tiles",
+        "pagination"
+      ]
+    },
+    {
+      "width": 1024,
+      "height": 600,
+      "theme": "cdb",
+      "checked": [
+        "eight-template search and pagination"
+      ]
+    }
+  ],
+  "known_fixture_errors": "Synthetic account intentionally has no real cloud credential or local audio devices; setup reports unavailable. No model/network call is made by format selection.",
+  "installed": false
+}

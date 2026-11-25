@@ -1,5 +1,11 @@
 # Geführte Gespräche und Composer · 1.0.0-rc4
 
+**Ab rc7:** Gesprächsformate werden aus dem gemeinsamen Workflow-Katalog geladen.
+Der Einstieg heißt **Gesprächsformate**; zusätzlich ist Retrospektive verfügbar.
+Phasen und Ergebnisfelder kommen aus der eingefrorenen Vorlage.
+[Aktuelle Bedienung und Erweiterung](../workflow-catalog/README.md).
+
+
 Ergänzung ab rc5: [Ergebniskarte im Chat und ausgewählte Dokumente in einer
 Brain Knowledge Area speichern](../workshop-assets/README.md).
 

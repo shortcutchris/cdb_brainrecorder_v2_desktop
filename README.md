@@ -1,5 +1,13 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 1.0.0-rc7 – Erweiterbare Gesprächsformate
+
+Interview, Brainstorming und Retrospektive kommen aus einem gemeinsamen, versionierten
+Katalog. Neue Vorlagen können geprüft ergänzt werden; Ergebnisse behalten ihren
+ursprünglichen Ablauf. Agentenentwürfe sind als inaktiver Übergabepunkt vorbereitet.
+[Bedienung, Betreiberweg und Prüfstand](docs/workflow-catalog/README.md).
+
+
 ## 1.0.0-rc5 – Ergebnisse auswählen und im Brain speichern
 
 Interview und Brainstorming zeigen ihre Text-Ergebnisse direkt als Karte im Chat.

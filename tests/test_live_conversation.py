@@ -349,7 +349,7 @@ class FeedbackConversationTests(unittest.TestCase):
 
     def test_negotiates_only_advertised_device_version(self):
         from unittest.mock import Mock
-        for caps, expected in [({},0),({'device_tools_v1':True},1),({'device_tools_v1':True,'device_tools_v2':True},2),({'workshop_tools_v1':True,'workshop_voice_start_v1':True},4)]:
+        for caps, expected in [({},0),({'device_tools_v1':True},1),({'device_tools_v1':True,'device_tools_v2':True},2),({'workshop_tools_v1':True,'workshop_voice_start_v1':True},4),({'workshop_tools_v1':True,'workshop_catalog_v1':True},5)]:
             with self.subTest(caps=caps):
                 self.brain.calls=[]
                 original=Brain.call.__get__(self.brain,Brain)
@@ -365,6 +365,15 @@ class FeedbackConversationTests(unittest.TestCase):
                 self.assertEqual(self.live.public()['device_tools_version'],expected)
                 self.live.end(lease);self.wait(lambda:not self.live.busy())
                 self.assertEqual(self.live.public()['device_tools_version'],0)
+
+    def test_new_workflow_refuses_an_old_server_before_opening_a_session(self):
+        original=Brain.call.__get__(self.brain,Brain)
+        self.brain.call=lambda path,body=None,binding=None: (original(path,body,binding) | {'workshop_tools_v1':True,'workshop_voice_start_v1':True}) if path.endswith('/capabilities') else original(path,body,binding)
+        lease=self.live.reserve([AREA],workshop_id='synthetic',workshop_requires_catalog=True)['lease']
+        self.live.start(lease,'v=0\r\noffer')
+        self.wait(lambda:self.live.state=='error')
+        self.assertFalse(any(path==BASE+'/sessions' for path,_,_ in self.brain.calls))
+        self.assertIn('Katalog',self.live.error)
 
     def test_search_replay_only_plays_once_and_preferences_survive(self):
         from unittest.mock import Mock

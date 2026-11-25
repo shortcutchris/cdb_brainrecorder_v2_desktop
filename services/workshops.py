@@ -14,24 +14,14 @@ import time
 import uuid
 from pathlib import Path
 
+from services.workflow_catalog import WorkflowCatalog, LEGACY_IDS, ID, labels, validate, digest
+
+CATALOG_NAMES = ('list_workshop_formats',)
 FORMAT_NAMES = ('request_workshop_mode', 'answer_workshop_intro')
-NAMES = ('get_workshop', 'update_workshop_result', 'set_workshop_phase', 'save_workshop_to_composer') + FORMAT_NAMES
-SECTIONS = {'goal': 'Ziel', 'questions': 'Fragen', 'findings': 'Erkenntnisse',
-            'ideas': 'Ideen', 'decisions': 'Bestätigte Entscheidungen', 'next_steps': 'Nächste Schritte'}
-PHASES = ('opening', 'exploring', 'grouping', 'prioritizing', 'closing')
-PHASE_LABELS = ('Ankommen', 'Sammeln', 'Ordnen', 'Priorisieren', 'Abschließen')
-FORMATS = ('interview', 'brainstorming')
-MODE_COPY = {
-    'interview': ('Interview', 'Okay, dann gehen wir jetzt in den Interview-Modus. Soll ich ihn dir erklären?',
-                  'Ich stelle dir eine offene Frage nach der anderen, frage bei Bedarf nach und halte die wichtigsten Erkenntnisse fest. Am Ende prüfen wir das Ergebnis gemeinsam.',
-                  'Welches Thema möchtest du im Interview beleuchten?'),
-    'brainstorming': ('Brainstorming', 'Okay, dann gehen wir jetzt in den Brainstorming-Modus. Soll ich ihn dir erklären?',
-                     'Wir klären zuerst das Ziel und sammeln Ideen ohne frühe Bewertung. Danach ordnen und priorisieren wir sie gemeinsam und halten nächste Schritte fest.',
-                     'Zu welcher Frage oder Herausforderung möchtest du Ideen sammeln?'),
-    'free_talk': ('Freies Gespräch', 'Okay, dann wechseln wir ins freie Gespräch. Soll ich dir diesen Modus erklären?',
-                  'Wir sprechen ohne festen Ablauf. Du kannst Fragen stellen und jederzeit wieder ein Interview oder Brainstorming starten. Deine bisherigen Ergebnisse bleiben erhalten.',
-                  'Worüber möchtest du sprechen?'),
-}
+NAMES = ('get_workshop', 'update_workshop_result', 'set_workshop_phase', 'save_workshop_to_composer') + FORMAT_NAMES + CATALOG_NAMES
+FREE_COPY = ('Okay, dann wechseln wir ins freie Gespräch. Soll ich dir diesen Modus erklären?',
+             'Wir sprechen ohne festen Ablauf. Du kannst Fragen stellen und jederzeit wieder einen Workflow starten. Deine bisherigen Ergebnisse bleiben erhalten.',
+             'Worüber möchtest du sprechen?')
 
 
 def owner(binding):
@@ -42,6 +32,7 @@ def owner(binding):
 
 class Workshops:
     def __init__(self, root, cdb, account, *, spawn=None):
+        self.catalog = WorkflowCatalog(root)
         self.path = Path(root) / 'workshops.sqlite3'
         self.cdb, self.account = cdb, account
         self.lock = threading.RLock()
@@ -54,10 +45,15 @@ class Workshops:
             db.execute('DELETE FROM format_sessions WHERE updated < ?', (time.time() - 86400,))
             for ident, raw in db.execute('SELECT id,data FROM drafts').fetchall():
                 row = json.loads(raw)
+                migrated = 'workflow' not in row
+                if migrated:
+                    row['workflow'] = self.catalog.builtins[row['format']]
+                    row['workflow_digest'] = digest(row['workflow'])
                 if row['composer']['state'] == 'saving':
                     row['composer']['state'] = 'uncertain'
                     row['composer']['message'] = 'Übertragung wurde unterbrochen. Bitte das Composer-Board prüfen; nicht erneut senden.'
-                    self._put(db, row)
+                    migrated = True
+                if migrated: self._put(db, row)
         self.path.chmod(0o600)
 
     @contextlib.contextmanager
@@ -90,9 +86,16 @@ class Workshops:
 
     @staticmethod
     def metadata(row):
-        return {k: v for k, v in row.items() if k != 'sections'} | {'artifacts': [
+        return {k: v for k, v in row.items() if k not in ('sections', 'workflow')} | {
+            'workflow': {k: row['workflow'][k] for k in ('id', 'version', 'name', 'outputs')}, 'artifacts': [
             {'section': key, 'title': title, 'characters': len(row['sections'][key])}
-            for key, title in SECTIONS.items() if row['sections'][key].strip()]}
+            for key, title in labels(row['workflow']).items() if row['sections'][key].strip()]}
+
+    @staticmethod
+    def voice_row(row):
+        # The approved recipe is transmitted separately, not duplicated with
+        # participant data. Keep even maximum Unicode results below relay limits.
+        return {k: v for k, v in row.items() if k not in ('workflow', 'workflow_digest')} if row else None
 
     def get(self, binding, ident):
         with self.lock, self.db() as db:
@@ -101,32 +104,35 @@ class Workshops:
         return row | {'brain': publications(binding, ident)}
 
     def save_brain(self, binding, ident, revision, sections, area_id):
-        if (not isinstance(sections, list) or not 1 <= len(sections) <= len(SECTIONS)
-                or any(not isinstance(s, str) or s not in SECTIONS for s in sections)
-                or len(set(sections)) != len(sections)):
+        if (not isinstance(sections, list) or not 1 <= len(sections) <= 8
+                or any(not isinstance(s, str) for s in sections) or len(set(sections)) != len(sections)):
             raise ValueError('Gewünschte Ergebnisse auswählen.')
         with self.lock, self.db() as db:
             row = self._get(db, binding, ident)
+            section_labels = labels(row['workflow'])
+            if 'brain' not in row['workflow']['outputs']: raise ValueError('Brain-Ausgabe ist für diesen Workflow nicht freigegeben.')
+            if any(s not in section_labels for s in sections): raise ValueError('Unbekannter Ergebnisbereich.')
             if type(revision) is not int or revision != row['revision']:
                 raise ValueError('Ergebnis wurde geändert. Bitte Auswahl erneut prüfen.')
             if any(not row['sections'][s].strip() for s in sections):
                 raise ValueError('Leere Ergebnisse können nicht gespeichert werden.')
-            documents = [{'section': s, 'title': row['title'] + ' · ' + SECTIONS[s],
-                          'content': '# ' + SECTIONS[s] + '\n\n' + row['sections'][s].strip()}
-                         for s in SECTIONS if s in sections]
+            documents = [{'section': s, 'title': row['title'] + ' · ' + section_labels[s],
+                          'content': '# ' + section_labels[s] + '\n\n' + row['sections'][s].strip()}
+                         for s in section_labels if s in sections]
         # A reviewed immutable snapshot may be queued while newer edits continue.
         # No audio, chat transcript or unselected section enters the publication.
         return self.cdb.enqueue_artifacts(binding, area_id, documents, ident, revision)
 
-    @staticmethod
-    def _new_row(kind, title, goal, minutes):
-        if kind not in FORMATS or not isinstance(title, str) or not 1 <= len(title.strip()) <= 120:
+    def _new_row(self, kind, title, goal, minutes, definition=None):
+        definition = validate(definition) if definition is not None else self.catalog.get(kind)
+        if definition['id'] != kind or not isinstance(title, str) or not 1 <= len(title.strip()) <= 120:
             raise ValueError('Format und Titel wählen (höchstens 120 Zeichen).')
         if not isinstance(goal, str) or not 1 <= len(goal.strip()) <= 2000 or type(minutes) is not int or not 5 <= minutes <= 20:
             raise ValueError('Ziel angeben und 5 bis 20 Minuten wählen. Ein Live-Gespräch dauert höchstens 20 Minuten.')
         return {'id': str(uuid.uuid4()), 'format': kind, 'title': title.strip(), 'minutes': minutes,
                'phase': 'opening', 'revision': 1, 'paused': False,
-               'sections': {k: goal.strip() if k == 'goal' else '' for k in SECTIONS},
+               'workflow': definition, 'workflow_digest': digest(definition),
+               'sections': {k: goal.strip() if k == 'goal' else '' for k in labels(definition)},
                'composer': {'state': 'local', 'board_id': None, 'url': None, 'revision': 0, 'message': 'Noch nicht an Composer gesendet.'}}
 
     def create(self, binding, kind, title, goal, minutes):
@@ -142,17 +148,21 @@ class Workshops:
             row = self._get(db, binding, ident)
             if type(revision) is not int or revision != row['revision']: raise ValueError('Ergebnis wurde inzwischen geändert. Bitte neu laden.')
             if section is not None:
-                if not isinstance(section, str) or section not in SECTIONS or not isinstance(text, str) or len(text) > 6000: raise ValueError('Ungültiger Ergebnistext.')
+                if not isinstance(section, str) or section not in labels(row['workflow']) or not isinstance(text, str) or len(text) > 6000: raise ValueError('Ungültiger Ergebnistext.')
                 if sum(len(v) for k,v in row['sections'].items() if k != section) + len(text) > 12000:
                     raise ValueError('Ergebnis ist zu lang. Bitte auf insgesamt 12.000 Zeichen verdichten.')
                 row['sections'][section] = text
             elif phase is not None:
-                if phase not in PHASES: raise ValueError('Unbekannte Phase.')
+                if phase not in labels(row['workflow'], 'phases'): raise ValueError('Unbekannte Phase.')
                 row['phase'] = phase
             elif type(paused) is bool:
                 row['paused'] = paused
             else: raise ValueError('Ungültige Änderung.')
             row['revision'] += 1
+            # The negotiated relay has a 128 KiB request limit. Reserve room
+            # for the 24 KiB recipe and envelope, including JSON Unicode escapes.
+            if len(json.dumps(self.voice_row(row))) > 96000:
+                raise ValueError('Ergebnis ist für die Sprachübertragung zu groß. Bitte kürzen.')
             self._put(db, row)
         return row
 
@@ -160,13 +170,15 @@ class Workshops:
         """The live session supplies the binding and selected ID, never the model."""
         binding, ident = scope.get('binding'), scope.get('workshop_id')
         name, args = request.get('name'), request.get('arguments')
+        if name in CATALOG_NAMES and scope.get('device_tools_version', 0) < 5:
+            return {'ok': False, 'code': 'device_tool_not_negotiated'}
         if name in FORMAT_NAMES and scope.get('device_tools_version', 0) < 4:
             return {'ok': False, 'code': 'device_tool_not_negotiated'}
         valid = isinstance(args, dict) and (
-            name in ('get_workshop', 'save_workshop_to_composer') and not args or
+            name in ('get_workshop', 'save_workshop_to_composer', 'list_workshop_formats') and not args or
             name == 'update_workshop_result' and set(args) == {'section', 'text', 'revision'} or
             name == 'set_workshop_phase' and set(args) == {'phase', 'revision'} or
-            name == 'request_workshop_mode' and set(args) == {'format'} and isinstance(args['format'], str) and args['format'] in MODE_COPY or
+            name == 'request_workshop_mode' and set(args) == {'format'} and isinstance(args['format'], str) and ID.fullmatch(args['format']) and (scope.get('device_tools_version', 0) >= 5 or args['format'] in (*LEGACY_IDS, 'free_talk')) or
             name == 'answer_workshop_intro' and set(args) == {'choice_id', 'answer'} and isinstance(args['choice_id'], str) and len(args['choice_id']) == 36 and isinstance(args['answer'], str) and args['answer'] in ('explain', 'skip', 'cancel'))
         if not valid: return {'ok': False, 'code': 'invalid_arguments'}
         expires = request.get('expires_at')
@@ -187,16 +199,18 @@ class Workshops:
                 if previous:
                     if previous[0] != payload: return {'ok': False, 'code': 'request_conflict'}
                     return json.loads(previous[1])
+                if voice and (not isinstance(scope.get('handle'), str) or not scope['handle']):
+                    return {'ok': False, 'code': 'invalid_scope'}
+                if name == 'list_workshop_formats':
+                    return {'ok': True, 'formats': self.catalog.list(), 'free_talk_available': True}
                 if voice:
-                    if not isinstance(scope.get('handle'), str) or not scope['handle']:
-                        return {'ok': False, 'code': 'invalid_scope'}
                     session_key = hashlib.sha256(json.dumps([owner(binding), scope['handle']]).encode()).hexdigest()
                     raw = db.execute('SELECT data FROM format_sessions WHERE id=?', (session_key,)).fetchone()
                     session = json.loads(raw[0]) if raw else {'active': ident, 'confirmed': not bool(ident), 'pending': None}
                     if session['pending'] and session['pending']['expires_at'] <= time.time(): session['pending'] = None
                     ident = session['active']
                     if name in FORMAT_NAMES or name == 'get_workshop':
-                        try: result = self._mode_action(db, binding, session, name, args)
+                        try: result = self._mode_action(db, binding, session, name, args, scope.get('device_tools_version', 0))
                         except ValueError as exc: result = {'ok': False, 'code': 'workshop_unavailable', 'message': str(exc)}
                         db.execute('INSERT OR REPLACE INTO format_sessions VALUES (?,?,?)', (session_key, json.dumps(session), time.time()))
                         db.execute('INSERT INTO receipts VALUES (?,?,?)', (key, payload, json.dumps(result)))
@@ -206,34 +220,43 @@ class Workshops:
                 if not ident: return {'ok': False, 'code': 'choose_workshop', 'message': 'Zuerst ein Gesprächsformat starten.'}
                 try: row = self._get(db, binding, ident)
                 except ValueError: return {'ok': False, 'code': 'workshop_unavailable'}
+                if scope.get('device_tools_version', 0) < 5 and (row['format'] not in LEGACY_IDS or row['workflow']['version'] != 1):
+                    return {'ok': False, 'code': 'catalog_not_negotiated'}
                 db.execute('INSERT INTO receipts VALUES (?,?,?)', (key, payload, json.dumps({'ok': False, 'code': 'result_unconfirmed'})))
             try:
                 if row['paused'] and name in ('update_workshop_result', 'set_workshop_phase'):
                     result = {'ok': False, 'code': 'workshop_paused'}
-                elif name == 'get_workshop': result = {'ok': True, 'workshop': row}
+                elif name == 'get_workshop': result = {'ok': True, 'workshop': self.voice_row(row)}
                 elif name == 'save_workshop_to_composer': result = self.save(binding, ident, row['revision'])
                 else:
                     fields = {'section': args['section'], 'text': args['text']} if name == 'update_workshop_result' else {'phase': args['phase']}
-                    result = {'ok': True, 'workshop': self.edit(binding, ident, args['revision'], **fields)}
+                    result = {'ok': True, 'workshop': self.voice_row(self.edit(binding, ident, args['revision'], **fields))}
             except ValueError as exc:
                 result = {'ok': False, 'code': 'workshop_conflict', 'message': str(exc)}
             with self.db() as db:
                 db.execute('UPDATE receipts SET result=? WHERE id=?', (json.dumps(result), key))
             return result
 
-    def _mode_action(self, db, binding, session, name, args):
+    def _mode_action(self, db, binding, session, name, args, version):
         """Run format selection + receipt in one transaction, never remote writes."""
         row = self._get(db, binding, session['active']) if session['active'] else None
+        if row and version < 5 and (row['format'] not in LEGACY_IDS or row['workflow']['version'] != 1):
+            return {'ok': False, 'code': 'catalog_not_negotiated', 'message': 'Dieser Workflow benötigt einen neueren Voice-Server.'}
         if name == 'get_workshop':
-            return {'ok': True, 'workshop': row, 'active_workshop_id': session['active'],
+            return {'ok': True, 'workshop': self.voice_row(row), 'active_workshop_id': session['active'],
                     'format': row['format'] if row else 'free_talk', 'intro_required': not session['confirmed'],
-                    'pending_intro': session['pending']}
+                    'pending_intro': {k:v for k,v in session['pending'].items() if k != 'workflow'} if session['pending'] else None,
+                    'approved_workflow': row['workflow'] if row else None}
         if name == 'request_workshop_mode':
             mode = args['format']
-            session['pending'] = {'choice_id': str(uuid.uuid4()), 'format': mode,
-                                  'expires_at': time.time() + 300, 'announcement': MODE_COPY[mode][1]}
+            definition = None if mode == 'free_talk' else (row['workflow'] if row and row['format'] == mode else self.catalog.get(mode))
+            if definition and version < 5 and definition['version'] != 1:
+                raise ValueError('Dieser Workflow benötigt einen neueren Voice-Server.')
+            session['pending'] = {'choice_id': str(uuid.uuid4()), 'format': mode, 'workflow': definition,
+                                  'expires_at': time.time() + 300, 'announcement': FREE_COPY[0] if definition is None else
+                                  'Okay, dann gehen wir jetzt in den ' + definition['name'] + '-Modus. Soll ich ihn dir erklären?'}
             return {'ok': True, 'state': 'awaiting_explanation_answer', 'active_workshop_id': session['active'],
-                    **session['pending']}
+                    **{k:v for k,v in session['pending'].items() if k != 'workflow'}}
         pending = session['pending']
         if not pending or args['choice_id'] != pending['choice_id']:
             return {'ok': False, 'code': 'intro_expired', 'message': 'Bitte den gewünschten Modus erneut anfragen.'}
@@ -242,26 +265,33 @@ class Workshops:
             return {'ok': True, 'state': 'cancelled', 'active_workshop_id': session['active'],
                     'message': 'Abgebrochen. Der bisherige Modus und die Ergebnisse bleiben erhalten.'}
         mode = pending['format']
+        definition = pending.get('workflow')
+        if mode != 'free_talk':
+            # Retiring a template blocks new starts, but not an existing pinned result.
+            if not row or row['format'] != mode: self.catalog.get(mode)
+            definition = definition or (row['workflow'] if row and row['format'] == mode else self.catalog.get(mode))
         if mode == 'free_talk':
             row = None
         elif not row or row['format'] != mode:
-            row = self._new_row(mode, MODE_COPY[mode][0], 'Ziel gemeinsam klären.', 10)
+            row = self._new_row(mode, definition['name'], 'Ziel gemeinsam klären.', definition['default_minutes'], definition)
             db.execute('INSERT INTO drafts VALUES (?,?,?,?)', (row['id'], owner(binding), json.dumps(row), time.time()))
         elif row['paused']:
             row['paused'] = False
             row['revision'] += 1
             self._put(db, row)
         session.update(active=row['id'] if row else None, confirmed=True, pending=None)
-        opening = MODE_COPY[mode][3]
+        opening = definition['opening_question'] if definition else FREE_COPY[2]
         if row and row['sections']['goal'] != 'Ziel gemeinsam klären.':
             opening = 'Wir behalten dein bisheriges Ziel und die Ergebnisse bei. Wo möchtest du anknüpfen?'
         return {'ok': True, 'state': 'started', 'format': mode, 'active_workshop_id': session['active'],
-                'workshop': row, 'explanation': MODE_COPY[mode][2] if args['answer'] == 'explain' else '',
+                'workshop': self.voice_row(row), 'approved_workflow': definition,
+                'explanation': (definition['explanation'] if definition else FREE_COPY[1]) if args['answer'] == 'explain' else '',
                 'opening_question': opening}
 
     def save(self, binding, ident, revision):
         with self.lock, self.db() as db:
             row = self._get(db, binding, ident)
+            if 'composer' not in row['workflow']['outputs']: raise ValueError('Composer-Ausgabe ist für diesen Workflow nicht freigegeben.')
             if type(revision) is not int or row['revision'] != revision: raise ValueError('Ergebnis geändert. Vor dem Senden neu laden.')
             if row['composer']['state'] in ('saving', 'uncertain'): return {'ok': False, 'code': row['composer']['state'], 'message': row['composer']['message']}
             if row['composer']['revision'] == revision: return {'ok': True, 'state': 'saved', 'url': row['composer']['url']}
@@ -303,7 +333,7 @@ class Workshops:
                 composer['url'] = host + '/board/' + str(data['board_id'])
                 self._composer_status(binding, ident, composer)
             notes = []
-            for index, (section, title) in enumerate(SECTIONS.items()):
+            for index, (section, title) in enumerate(labels(snapshot['workflow']).items()):
                 text = snapshot['sections'][section]
                 if not text.strip(): continue
                 data = call('add_note', {'board_id': composer['board_id'], 'kind': 'text', 'title': title,

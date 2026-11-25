@@ -11,6 +11,17 @@ class Backend:
 
 
 class StudioTests(unittest.TestCase):
+    def test_workflow_catalog_is_shared_but_authoring_is_not_an_http_action(self):
+        status,data,_=self.request('/api/workshops',{'action':'catalog'})
+        self.assertEqual(status,200)
+        ids={r['id'] for r in json.loads(data)}
+        self.assertEqual(ids,{r['id'] for r in self.app.state()['workflow_catalog']})
+        self.assertIn('retrospective',ids)
+        for action in ('propose','approve','activate','retire'):
+            self.assertEqual(self.request('/api/workshops',{'action':action})[0],400)
+        with patch.object(self.app,'wake_account',return_value=None):
+            self.assertEqual(self.request('/api/workshops',{'action':'catalog'})[0],400)
+
     def test_workshop_routes_keep_account_activity_and_revision_guards(self):
         body={'action':'create','format':'interview','title':'API-Test','goal':'Ziel klären','minutes':10}
         self.assertEqual(self.request('/api/workshops',body,{'X-CSRF-Token':'bad'})[0],403)

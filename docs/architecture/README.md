@@ -1,5 +1,11 @@
 # Wie die Brain-Systeme zusammenspielen
 
+**Workflow-Katalog ab 1.0.0-rc7:** Der Pi besitzt freigegebene deklarative Vorlagen
+für Touch und Voice v5. Jeder Arbeitsstand friert seine Version ein. TQS vermittelt
+begrenzte Geräteaufträge; neue Vorlagen geben keine zusätzlichen Werkzeugrechte.
+[Vertrag und Betreiberweg](../workflow-catalog/README.md).
+
+
 **Ergebnisauswahl ab 1.0.0-rc5:** Die Chat-Karte zeigt Metadaten des eigenen
 Arbeitsstands. Explizit ausgewählte Texte werden kontogebunden als unveränderlicher
 Snapshot einzelner Dokumente in die bestehende Übertragungswarteschlange übernommen.

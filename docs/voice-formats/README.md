@@ -1,5 +1,10 @@
 # Gesprächsformate per Sprache · 1.0.0-rc6
 
+**Fortsetzung in rc7:** Der [Workflow-Katalog](../workflow-catalog/README.md) übernimmt
+diese Einführung und den Routing-Fix. TQS PR 2937 enthält PR 2934; neue
+Installations-/Abnahmebelege werden bei rc7 geführt. Der folgende Stand ist
+die historische rc6-Übergabe, keine Anweisung zum parallelen Installieren.
+
 Stand 25.11.2026. Implementiert sind Interview, Brainstorming und Rückkehr ins freie Gespräch
 innerhalb einer aktiven Online-Talk-Verbindung. Nach Ankündigung
 wartet KAI auf Ja (erklären, dann beginnen), Nein (direkt beginnen) oder Abbrechen.

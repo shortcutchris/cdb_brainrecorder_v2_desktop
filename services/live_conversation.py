@@ -38,6 +38,10 @@ END_COMMAND = re.compile(
 ACTIVE = {'connecting', 'listening', 'thinking', 'speaking', 'reconnecting', 'closing'}
 
 
+class WorkflowCatalogUnavailable(CdbFailure):
+    """Local negotiation failure, safe to display without upstream details."""
+
+
 class LiveConversation:
     def __init__(self, cdb, root, clock=time.monotonic, events=None, audio_config=None, audio_factory=None):
         self.cdb = cdb
@@ -219,7 +223,7 @@ class LiveConversation:
                     self.state = 'ended'; break
                 except (ValueError, OSError): continue
 
-    def reserve(self, area_ids, *, owner_kind="browser", cached_binding=None, workshop_id=None):
+    def reserve(self, area_ids, *, owner_kind="browser", cached_binding=None, workshop_id=None, workshop_requires_catalog=False):
         if not isinstance(area_ids, list) or not 1 <= len(area_ids) <= 8 or any(not isinstance(x, str) for x in area_ids) or len(set(area_ids)) != len(area_ids):
             raise ValueError('Bitte ein bis acht unterschiedliche Knowledge Areas wählen.')
         if any(not isinstance(x, str) or not UUID.fullmatch(x) for x in area_ids):
@@ -249,6 +253,7 @@ class LiveConversation:
             self.seen_transcripts = set()
             self.searches=SearchActivity(self.clock)
             self.workshop_id = workshop_id
+            self.workshop_requires_catalog = workshop_requires_catalog
             self._mode_receipts = set()
             self.area_ids = list(area_ids)
             self.areas = []
@@ -346,7 +351,9 @@ class LiveConversation:
             body = {'sdp':sdp,'area_ids':area_ids,'language':'de','client_request_id':str(uuid.uuid4())}
             if getattr(self, 'workshop_id', None) and caps.get('workshop_tools_v1') is not True:
                 raise CdbFailure('Geführte Formate sind im Brain noch nicht verfügbar.')
-            device_version = 4 if caps.get('workshop_voice_start_v1') is True else 3 if getattr(self, 'workshop_id', None) and caps.get('workshop_tools_v1') is True else 2 if caps.get('device_tools_v2') is True else 1 if caps.get('device_tools_v1') is True else 0
+            device_version = 5 if caps.get('workshop_catalog_v1') is True else 4 if caps.get('workshop_voice_start_v1') is True else 3 if getattr(self, 'workshop_id', None) and caps.get('workshop_tools_v1') is True else 2 if caps.get('device_tools_v2') is True else 1 if caps.get('device_tools_v1') is True else 0
+            if getattr(self, 'workshop_requires_catalog', False) and device_version < 5:
+                raise WorkflowCatalogUnavailable('Dieser Workflow benötigt die neue Katalog-Unterstützung im Brain. Bitte die Serveraktualisierung abwarten.')
             device_key = secrets.token_urlsafe(32) if self.device_executor and device_version else None
             if device_key: body['device_tools']={'version':device_version,'key':device_key}
             self._startup(generation, 'Gespräch beim Brain starten')
@@ -389,13 +396,14 @@ class LiveConversation:
         except Exception as error:
             # Only expose a locally defined authorization category, never provider details.
             denied = isinstance(error, CdbFailure) and str(error) == 'Keine Berechtigung für diese CDB-Aktion.'
+            catalog_missing = isinstance(error, WorkflowCatalogUnavailable)
             if handle:
                 try: self.cdb.call(BASE + '/sessions/' + handle + '/close', {}, binding=binding)
                 except Exception: pass
             with self.lock:
                 if generation == self.generation:
                     cancelled = self.state == 'closing'
-                    self._finish('ended' if cancelled else 'error', '' if cancelled else 'Brain hat diese Bereichsauswahl nicht freigegeben. Andere Bereiche wählen oder Berechtigung prüfen.' if denied else 'Gespräch konnte nicht verbunden werden. Brain-Verbindung und Live-Freigabe prüfen.')
+                    self._finish('ended' if cancelled else 'error', '' if cancelled else str(error) if catalog_missing else 'Brain hat diese Bereichsauswahl nicht freigegeben. Andere Bereiche wählen oder Berechtigung prüfen.' if denied else 'Gespräch konnte nicht verbunden werden. Brain-Verbindung und Live-Freigabe prüfen.')
 
     def status(self, lease):
         with self.lock:
@@ -687,8 +695,10 @@ class LiveConversation:
                 # End/logout cannot interleave a local action. Extended commands
                 # also require the negotiated capability, never a guessed tool.
                 from services.voice_device import NAMES as LOCAL_NAMES
-                from services.workshops import NAMES as WORKSHOP_NAMES, FORMAT_NAMES
-                if request.get('name') in FORMAT_NAMES and self.device_tools_version < 4:
+                from services.workshops import NAMES as WORKSHOP_NAMES, FORMAT_NAMES, CATALOG_NAMES
+                if request.get('name') in CATALOG_NAMES and self.device_tools_version < 5:
+                    result={'ok':False,'code':'device_tool_not_negotiated'}
+                elif request.get('name') in FORMAT_NAMES and self.device_tools_version < 4:
                     result={'ok':False,'code':'device_tool_not_negotiated'}
                 elif request.get('name') in WORKSHOP_NAMES and self.device_tools_version < 3:
                     result={'ok':False,'code':'device_tool_not_negotiated'}

@@ -1,6 +1,6 @@
 /* Reviewed text assets: chat card, large selection tiles and explicit Brain filing. */
 (() => {
- const labels={goal:'Ziel',questions:'Fragen',findings:'Erkenntnisse',ideas:'Ideen',decisions:'Entscheidungen',next_steps:'Nächste Schritte'};
+ const labels=()=>Object.fromEntries((row?.workflow?.sections||[]).map(r=>[r.id,r.label]));
  const states={queued:'Wartet auf Übertragung',sending:'Wird übertragen',accepted:'Im Brain empfangen · wird verarbeitet',completed:'Im Brain gespeichert',completed_without_graph:'Im Brain gespeichert · ohne Wissensgraph',uncertain:'Empfang unklar · bitte im Brain prüfen',failed:'Verarbeitung fehlgeschlagen'};
  const dialog=document.createElement('dialog');dialog.id='workshop-assets';dialog.setAttribute('aria-labelledby','asset-heading');
  dialog.innerHTML='<header><div><h2 id="asset-heading"></h2><p id="asset-meta"></p></div><button id="asset-keyboard" hidden>Tastatur</button></header><section id="asset-body"></section><p id="asset-message" role="status"></p><div id="asset-pagination" hidden></div><footer><button id="asset-back">Schließen</button><button id="asset-next" class="primary"></button></footer>';
@@ -13,14 +13,14 @@
  const node=(tag,value)=>{const n=document.createElement(tag);n.textContent=value;return n};
  const message=value=>$('asset-message').textContent=value||'';
  const send=payload=>api('/api/workshops',payload);
- const available=()=>Object.keys(labels).filter(k=>row?.sections[k]?.trim());
+ const available=()=>Object.keys(labels()).filter(k=>row?.sections[k]?.trim());
  function button(label,fn){const b=node('button',label);b.onclick=run(fn);return b}
  function close(){window.hideStudioKeyboard?.();dialog.close();generation++;}
  function header(title,meta){$('asset-heading').textContent=title;$('asset-meta').textContent=meta;body.replaceChildren();$('asset-pagination').replaceChildren();$('asset-pagination').hidden=true;message('');dialog.dataset.mode=mode;next.hidden=false;next.disabled=false;back.textContent='Schließen';back.onclick=close;$('asset-keyboard').hidden=mode!=='target';}
  function pages(count,current,change){const container=$('asset-pagination');container.replaceChildren();container.hidden=count<=1;if(count<=1)return;const nav=document.createElement('nav');nav.className='asset-pages';nav.setAttribute('aria-label',mode==='target'?'Wissensbereichseiten':'Ergebnisseiten');const previous=button('Zurück',()=>change(current-1)),following=button('Weiter',()=>change(current+1));previous.disabled=current===0;following.disabled=current===count-1;nav.append(previous,node('span',`Seite ${current+1} von ${count}`),following);container.append(nav)}
  async function open(id){
   if(sending)return;const token=++generation;loading=true;mode='select';row=null;header('Ergebnisse werden geladen …','');next.hidden=true;if(!dialog.open)dialog.showModal();
-  try{const fresh=await send({action:'read',id});if(token!==generation)return;row=fresh;selected=new Set(available());page=0;areaId=null;jobs=[];drawSelection()}
+  try{const fresh=await send({action:'read',id});if(token!==generation)return;if(!fresh.workflow.outputs.includes('brain')){close();await window.studioWorkshop.inspect(id);return}row=fresh;selected=new Set(available());page=0;areaId=null;jobs=[];drawSelection()}
   catch(e){if(token===generation)message(e.message)}finally{if(token===generation)loading=false}
  }
  function drawSelection(){
@@ -29,9 +29,9 @@
   const items=available(),grid=document.createElement('div');grid.className='asset-grid';page=Math.min(page,Math.max(0,Math.ceil(items.length/4)-1));
   for(const key of items.slice(page*4,page*4+4)){
    const tile=document.createElement('article');tile.className='asset-tile';
-   const choose=button('',()=>{selected.has(key)?selected.delete(key):selected.add(key);drawSelection()});choose.className='asset-select';choose.setAttribute('aria-pressed',String(selected.has(key)));choose.setAttribute('aria-label',labels[key]+(selected.has(key)?' ausgewählt':' auswählen'));
-   choose.append(node('strong',(selected.has(key)?'✓ ':'')+labels[key]),node('span',row.sections[key]));
-   const read=button('Lesen',()=>{reading=key;drawReader()});read.setAttribute('aria-label',labels[key]+' lesen');tile.append(choose,read);grid.append(tile);
+   const choose=button('',()=>{selected.has(key)?selected.delete(key):selected.add(key);drawSelection()});choose.className='asset-select';choose.setAttribute('aria-pressed',String(selected.has(key)));choose.setAttribute('aria-label',labels()[key]+(selected.has(key)?' ausgewählt':' auswählen'));
+   choose.append(node('strong',(selected.has(key)?'✓ ':'')+labels()[key]),node('span',row.sections[key]));
+   const read=button('Lesen',()=>{reading=key;drawReader()});read.setAttribute('aria-label',labels()[key]+' lesen');tile.append(choose,read);grid.append(tile);
   }
   body.append(grid);pages(Math.ceil(items.length/4),page,p=>{page=p;drawSelection()});
   if(!items.length)body.append(node('p','Noch keine Texte vorhanden. Du kannst im Ergebnisdialog Inhalte ergänzen.'));
@@ -40,7 +40,7 @@
   if(state?.live?.busy||state?.recording?.id)message('Zum Speichern zuerst das Gespräch oder die Aufnahme beenden. Du kannst die Ergebnisse bereits lesen.');
  }
  function drawReader(){
-  mode='read';header(labels[reading],`${row.title} · Stand ${row.revision}`);
+  mode='read';header(labels()[reading],`${row.title} · Stand ${row.revision}`);
   const content=node('div',row.sections[reading]);content.className='asset-reader';body.append(content);
   back.textContent='Zur Auswahl';back.onclick=drawSelection;next.textContent='Text bearbeiten';next.onclick=run(async()=>{const id=row.id,key=reading;close();await window.studioWorkshop.inspect(id,key)});
  }
@@ -77,7 +77,7 @@
  function drawStatus(){
   mode='status';header('Ergebnisse im Brain',row.title+' · Übertragungsbelege');
   const list=document.createElement('div');list.className='asset-status-list';
-  for(const job of jobs){const receipt=(row.brain||[]).find(r=>r.id===job.id);const item=document.createElement('article');item.append(node('strong',labels[job.section]),node('span',receipt?states[receipt.state]||'Status unbekannt':'Status wird geladen …'));if(receipt)item.append(node('small',(receipt.area.label||receipt.area.name)+' · Stand '+receipt.revision+(receipt.error?' · '+receipt.error:'')));list.append(item)}
+  for(const job of jobs){const receipt=(row.brain||[]).find(r=>r.id===job.id);const item=document.createElement('article');item.append(node('strong',labels()[job.section]),node('span',receipt?states[receipt.state]||'Status unbekannt':'Status wird geladen …'));if(receipt)item.append(node('small',(receipt.area.label||receipt.area.name)+' · Stand '+receipt.revision+(receipt.error?' · '+receipt.error:'')));list.append(item)}
   body.append(list);next.textContent='Zur Ergebnisauswahl';next.onclick=drawSelection;
   const done=jobs.length&&jobs.every(j=>['completed','completed_without_graph'].includes(row.brain?.find(r=>r.id===j.id)?.state));
   message(done?'Alle ausgewählten Dokumente sind verarbeitet.':'Du kannst diesen Dialog schließen. Den aktuellen Status findest du später wieder bei den Ergebnissen.');

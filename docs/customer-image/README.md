@@ -1,5 +1,13 @@
 # SD-Images bauen, testen und weiterentwickeln
 
+**1.0.0-rc7, Workflow-Katalog:** `services/workflow_catalog.py` und die drei
+JSON-Vorlagen unter `services/workflow_definitions/` werden automatisch aus der
+vorhandenen Positivliste exportiert. Keine neue Runtime-/Root-/Factory-Komponente.
+Die private Katalogdatenbank bleibt ausgeschlossen; alte Ergebnisse erhalten
+additiv ihre Vorlagenversion. Sprachbetrieb neuer Formate benötigt zuerst TQS v5.
+[Vertrag, Prüfung und Grenzen](../workflow-catalog/README.md).
+
+
 **1.0.0-rc6, Gesprächsformate per Sprache:** Bestehende Python-/JS-/Hilfedateien
 werden über die vorhandene Positivliste exportiert. Keine neue Abhängigkeit,
 Root-Regel oder Factory-Änderung. `format_sessions` entsteht additiv in der

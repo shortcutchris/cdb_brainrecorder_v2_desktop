@@ -364,13 +364,13 @@
   },
   {
     "id": "workshops",
-    "title": "Interviews, Ideen und Composer",
+    "title": "Gesprächsformate und Composer",
     "category": "GESPRÄCHE",
-    "intro": "KAI führt Interviews oder hilft beim Brainstorming. Der Arbeitsstand bleibt deinem Brain-Konto zugeordnet.",
+    "intro": "KAI unterstützt Interview, Brainstorming und Retrospektive. Freigegebene Vorlagen bestimmen Ablauf und Ergebnisfelder. Begonnene Ergebnisse behalten ihre Vorlagenversion und bleiben deinem Brain-Konto zugeordnet.",
     "steps": [
-      "Am Brain anmelden und ein Live-Gespräch starten. Sage: Starte Brainstorming, oder: Ich möchte ein Interview führen. KAI nennt den Modus und fragt: Soll ich ihn dir erklären?",
+      "Am Brain anmelden und ein Live-Gespräch starten. Sage zum Beispiel: Starte Brainstorming, oder: Starte eine Retrospektive. KAI nennt den Modus und fragt: Soll ich ihn dir erklären?",
       "Antworte Ja für eine kurze Erklärung mit anschließendem Start. Nein startet direkt ohne Erklärung. Abbrechen behält den bisherigen Modus. Mit Zurück zum freien Gespräch wechselst du wieder zurück; deine Ergebnisse bleiben erhalten.",
-      "Alternativ kannst du unter Interview & Ideen das Format, Titel, Ziel und 5 bis 20 Minuten vorwählen. Auch dann fragt KAI vor dem Einstieg nach der Erklärung. Der Zeitrahmen ist eine Moderationsvorgabe, kein zusätzlicher Timer. Entscheidungen, Verantwortliche und Termine werden gemeinsam bestätigt.",
+      "Alternativ kannst du unter Gesprächsformate das Format, Titel, Ziel und 5 bis 20 Minuten vorwählen. Auch dann fragt KAI vor dem Einstieg nach der Erklärung. Der Zeitrahmen ist eine Moderationsvorgabe, kein zusätzlicher Timer. Entscheidungen, Verantwortliche und Termine werden gemeinsam bestätigt.",
       "Ergebnis & Format zeigt Ziel, Fragen, Erkenntnisse, Ideen, Entscheidungen und nächste Schritte. Du kannst Text selbst bearbeiten und übernehmen. Die Tastatur lässt sich direkt im Dialog öffnen.",
       "Gespräch pausieren beendet die aktive Sprachverbindung. Dein Ergebnis bleibt erhalten. Zum Fortsetzen den Arbeitsstand wieder auswählen und die Verbindung erneut starten.",
       "Sage Speichere das Ergebnis im Composer oder tippe In Composer speichern. Warte auf die Speicherbestätigung. Dann öffnet der Link das bearbeitbare Board; jeder weitere Speicherstand ergänzt neue Notizen mit Rahmen.",
@@ -383,7 +383,7 @@
     "id": "workshop-assets",
     "title": "Gesprächsergebnisse im Brain speichern",
     "category": "GESPRÄCHE",
-    "intro": "Nach Interview oder Brainstorming einzelne Ergebnisse prüfen und gezielt in einem Wissensbereich ablegen.",
+    "intro": "Nach einem Gesprächsformat einzelne Ergebnisse prüfen und gezielt in einem Wissensbereich ablegen.",
     "steps": [
       "Im Chat zeigt Ergebnisse ansehen die tatsächlich vorhandenen Texte: Ziel, Fragen, Erkenntnisse, Ideen, bestätigte Entscheidungen und nächste Schritte. Über Lesen öffnest du den vollständigen Text, über Text bearbeiten den Editor.",
       "Beende zuerst das Gespräch. Die Ergebnisauswahl öffnet sich dann auf der Talk-Seite, sofern kein anderer Dialog offen ist. Sonst nutze Ergebnisse ansehen oder Ergebnis & Format → Ergebnisse auswählen.",

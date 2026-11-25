@@ -19,3 +19,11 @@
 
 #workshop-dialog:not([data-mode=result]):not(.with-keyboard){height:fit-content;min-height:0}
 #workshop-body h3{font-size:18px;margin:4px 0}
+
+#workshop-pagination{padding:6px 24px;flex:none;border-top:1px solid var(--line)}
+#workshop-pagination[hidden]{display:none}
+#workshop-dialog[data-mode=choose]{height:min(620px,calc(100dvh - 32px))}
+#workshop-dialog[data-mode=choose] #workshop-body{flex:1}
+.workshop-tabs{display:flex;gap:12px;flex:none}.workshop-tabs button{flex:1}
+.workshop-section-pages{margin-top:auto}.workshop-section-pages .workshop-pages{flex-direction:row;flex-wrap:wrap;gap:6px}.workshop-section-pages button{flex:1}.workshop-section-pages span{order:-1;width:100%;text-align:center;font-size:14px}
+@media(max-height:650px){#workshop-dialog[data-mode=choose]{height:calc(100dvh - 32px)}.workshop-tabs button{min-height:56px}.workshop-tiles strong{font-size:22px}.workshop-tiles small{font-size:15px}}

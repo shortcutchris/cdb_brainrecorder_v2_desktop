@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "id": "interview",
+  "version": 1,
+  "name": "Interview",
+  "description": "KAI fragt nach und hält Antworten fest.",
+  "voice_aliases": [
+    "Interview",
+    "Interview führen"
+  ],
+  "explanation": "Ich stelle dir eine offene Frage nach der anderen, frage bei Bedarf nach und halte die wichtigsten Erkenntnisse fest. Am Ende prüfen wir das Ergebnis gemeinsam.",
+  "opening_question": "Welches Thema möchtest du im Interview beleuchten?",
+  "moderation": "Ask one open question at a time, listen, probe gently, summarize answers and ask for corrections.",
+  "default_minutes": 10,
+  "phases": [
+    {
+      "id": "opening",
+      "label": "Ankommen",
+      "instruction": "Ziel und Rahmen gemeinsam klären."
+    },
+    {
+      "id": "exploring",
+      "label": "Sammeln",
+      "instruction": "Beiträge und Erfahrungen ohne frühe Bewertung sammeln."
+    },
+    {
+      "id": "grouping",
+      "label": "Ordnen",
+      "instruction": "Gemeinsam Themen und Muster ordnen."
+    },
+    {
+      "id": "prioritizing",
+      "label": "Priorisieren",
+      "instruction": "Teilnehmende selbst priorisieren und Entscheidungen bestätigen lassen."
+    },
+    {
+      "id": "closing",
+      "label": "Abschließen",
+      "instruction": "Ergebnis überprüfen, Korrekturen ermöglichen und nach gewünschter Speicherung fragen."
+    }
+  ],
+  "sections": [
+    {
+      "id": "goal",
+      "label": "Ziel",
+      "hint": "Nur Beiträge der Beteiligten und ausdrücklich gekennzeichnete Vorschläge festhalten."
+    },
+    {
+      "id": "questions",
+      "label": "Fragen",
+      "hint": "Nur Beiträge der Beteiligten und ausdrücklich gekennzeichnete Vorschläge festhalten."
+    },
+    {
+      "id": "findings",
+      "label": "Erkenntnisse",
+      "hint": "Nur Beiträge der Beteiligten und ausdrücklich gekennzeichnete Vorschläge festhalten."
+    },
+    {
+      "id": "ideas",
+      "label": "Ideen",
+      "hint": "Nur Beiträge der Beteiligten und ausdrücklich gekennzeichnete Vorschläge festhalten."
+    },
+    {
+      "id": "decisions",
+      "label": "Bestätigte Entscheidungen",
+      "hint": "Nur Beiträge der Beteiligten und ausdrücklich gekennzeichnete Vorschläge festhalten."
+    },
+    {
+      "id": "next_steps",
+      "label": "Nächste Schritte",
+      "hint": "Nur Beiträge der Beteiligten und ausdrücklich gekennzeichnete Vorschläge festhalten."
+    }
+  ],
+  "outputs": [
+    "composer",
+    "brain"
+  ]
+}

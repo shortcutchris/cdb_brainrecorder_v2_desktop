@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "id": "retrospective",
+  "version": 1,
+  "name": "Retrospektive",
+  "description": "Gemeinsam zurückblicken, lernen und konkrete Verbesserungen vereinbaren.",
+  "voice_aliases": [
+    "Retrospektive",
+    "Rückblick",
+    "Retro"
+  ],
+  "explanation": "Wir blicken gemeinsam zurück: Was lief gut, was war schwierig und was lernen wir daraus? Danach wählen wir konkrete Verbesserungen aus. Verantwortliche und Termine halten wir nur fest, wenn ihr sie bestätigt.",
+  "opening_question": "Auf welchen Zeitraum oder welches Projekt möchtest du zurückblicken?",
+  "moderation": "Moderate a constructive retrospective. Ask one open question at a time, include different perspectives, avoid blame and separate observations from assumptions. Never invent consensus or owners.",
+  "default_minutes": 10,
+  "phases": [
+    {
+      "id": "opening",
+      "label": "Rückblick klären",
+      "instruction": "Zeitraum und Ziel gemeinsam festlegen."
+    },
+    {
+      "id": "reflecting",
+      "label": "Erfahrungen sammeln",
+      "instruction": "Positive und schwierige Erfahrungen sammeln, ohne Personen zu bewerten."
+    },
+    {
+      "id": "learning",
+      "label": "Erkenntnisse ordnen",
+      "instruction": "Muster und Ursachen gemeinsam herausarbeiten; Vermutungen als solche markieren."
+    },
+    {
+      "id": "improving",
+      "label": "Verbesserungen wählen",
+      "instruction": "Wenige Verbesserungen auswählen; Zuständigkeiten und Termine ausdrücklich bestätigen lassen."
+    },
+    {
+      "id": "closing",
+      "label": "Abschließen",
+      "instruction": "Erkenntnisse vorlesen und Änderungen zulassen. Fragen, ob Ergebnisse gespeichert werden sollen."
+    }
+  ],
+  "sections": [
+    {
+      "id": "goal",
+      "label": "Ziel und Zeitraum",
+      "hint": "Nur Beiträge der Beteiligten und ausdrücklich gekennzeichnete Vorschläge festhalten."
+    },
+    {
+      "id": "strengths",
+      "label": "Was lief gut?",
+      "hint": "Nur Beiträge der Beteiligten und ausdrücklich gekennzeichnete Vorschläge festhalten."
+    },
+    {
+      "id": "challenges",
+      "label": "Was war schwierig?",
+      "hint": "Nur Beiträge der Beteiligten und ausdrücklich gekennzeichnete Vorschläge festhalten."
+    },
+    {
+      "id": "learnings",
+      "label": "Was lernen wir?",
+      "hint": "Nur Beiträge der Beteiligten und ausdrücklich gekennzeichnete Vorschläge festhalten."
+    },
+    {
+      "id": "actions",
+      "label": "Vereinbarte Verbesserungen",
+      "hint": "Nur Beiträge der Beteiligten und ausdrücklich gekennzeichnete Vorschläge festhalten."
+    }
+  ],
+  "outputs": [
+    "composer",
+    "brain"
+  ]
+}
