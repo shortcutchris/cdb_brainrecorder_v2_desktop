@@ -25,6 +25,7 @@
   draw(item);$('timer-focus-close').focus();
  }
  window.openTimerFocus=open;
+ window.minimizeTimerFocus=minimize;
  $('timer-focus-close').onclick=minimize;
  dialog.oncancel=event=>{event.preventDefault();minimize()};
  function countdown(seconds){

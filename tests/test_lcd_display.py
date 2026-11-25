@@ -37,6 +37,12 @@ class LCDTests(unittest.TestCase):
   self.assertNotIn('private-',json.dumps(result))
   account[0]=None
   self.assertEqual(snapshot(self.s,True,private_labels=True)['timers'],[])
+ def test_focus_selects_timer_beyond_page_and_does_not_hide_other_alarm(self):
+  for i in range(20):self.add(str(i),seconds=10)
+  chosen=self.add('last',seconds=100)
+  self.assertEqual([t['id'] for t in snapshot(self.s,True,focus_id=chosen)['timers']],[chosen])
+  self.now+=11;self.s.tick()
+  self.assertEqual(snapshot(self.s,True,focus_id=chosen)['timers'][0]['state'],'due')
  def test_handshake_stale_ack_replay_and_reconnect(self):
   b=Bridge('Pi');nonce='a'*32
   self.assertIsNone(b.frame({},0))

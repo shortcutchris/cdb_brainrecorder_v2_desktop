@@ -1,5 +1,13 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 1.0.0-rc2 – Gerätebefehle im Gespräch
+
+Lautstärke und Geräteauskunft per Sprache; große Timer-/Uhransicht, lokale Hilfe,
+Meetingbereitschaft und geführte Abläufe für Hörtest und Umstellen. Hörtest,
+Gesprächsende und Ausschalten werden bewusst am Display bestätigt. Bestehende
+Anmeldung, Timer und Aktivitätssperren bleiben erhalten.
+[Bedienung, Prüfstand und Installation](docs/voice-device-v2/README.md).
+
 ## 1.0.0-rc1 – V1-Endabnahme läuft
 
 Der Kandidat läuft auf dem Pi; ein sauberes SD-Image mit Offline-Modellen ist

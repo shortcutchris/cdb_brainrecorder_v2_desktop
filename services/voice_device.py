@@ -13,15 +13,18 @@ import threading
 import time
 from pathlib import Path
 
-NAMES = ('set_device_volume', 'adjust_device_volume', 'set_device_mute', 'get_device_status')
+from services.voice_actions import ACTION_NAMES, valid_action
+
+NAMES = ('set_device_volume', 'adjust_device_volume', 'set_device_mute', 'get_device_status') + ACTION_NAMES
 UNCERTAIN = {'ok': False, 'code': 'device_result_unconfirmed',
              'instruction': 'Ergebnis unbestätigt. Nicht automatisch wiederholen; zuerst Gerätestatus abfragen.'}
 
 
 class VoiceDevice:
-    def __init__(self, root, speakers, status, *, wall=time.time):
+    def __init__(self, root, speakers, status, *, wall=time.time, actions=None):
         self.path = Path(root) / 'voice-device.sqlite3'
         self.speakers, self.status, self.wall = speakers, status, wall
+        self.actions = actions
         self.lock = threading.RLock()
         with self.db() as db:
             db.execute('CREATE TABLE IF NOT EXISTS receipts (key TEXT PRIMARY KEY, payload TEXT NOT NULL, result TEXT NOT NULL, created REAL NOT NULL)')
@@ -54,6 +57,8 @@ class VoiceDevice:
                     if name == 'adjust_device_volume' and args.get('delta') == 0: valid = False
                 elif name == 'set_device_mute':
                     valid = set(args) == {'muted'} and type(args['muted']) is bool
+                elif name in ACTION_NAMES:
+                    valid = valid_action(name, args)
                 else:
                     valid = name == 'get_device_status' and not args
                 if not valid: return {'ok': False, 'code': 'invalid_arguments'}
@@ -61,6 +66,9 @@ class VoiceDevice:
             try:
                 if name == 'get_device_status':
                     result = {'ok': True, **self.status()}
+                elif name in ACTION_NAMES:
+                    if self.actions is None: raise ValueError('Geräteansichten sind nicht verfügbar.')
+                    result = self.actions.request(scope, request)
                 else:
                     with self.speakers.lock:
                         state = self.speakers.public()

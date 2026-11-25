@@ -24,8 +24,8 @@ am Bildschirm oder mit einer erneuten positiven Lautstärke lässt sich das änd
 
 ## Grenzen und Wiederholungen
 
-Nur vier streng begrenzte Werkzeuge: `set_device_volume`, `adjust_device_volume`,
-`set_device_mute`, `get_device_status`. Kein beliebiger Befehl, Dateipfad,
+Die grundlegenden Werkzeuge: `set_device_volume`, `adjust_device_volume`,
+`set_device_mute`, `get_device_status`. Die geführten Ergänzungen stehen unten. Kein beliebiger Befehl, Dateipfad,
 Ausgangswechsel, Mikrofonwechsel, Neustart oder Abmelden. Die Lautstärke ist eine
 normale Gesprächsbedienung; die übrigen Einstellungs-/Betreibersperren bleiben.
 Ein laufender Testton/Alarm blockiert Änderungen wie bisher.
@@ -58,41 +58,63 @@ TQS muss v2 ausliefern, bevor diese Befehle im Gespräch auftauchen. BFF-Polling
 Quittungsroute bleiben unverändert. Alte v1-Pi-Sitzungen und normale/Portal-Clients
 bekommen die neuen Werkzeuge nicht. Keine Änderungen an Azure-Modellen nötig.
 
-## Sinnvolle nächste Ausbaustufen
+## Erweiterte Befehle (ebenfalls rc2)
 
-- „Zeig mir den Timer groß“ und „Zurück zur Uhr“: reine Anzeigeaktion am Pi und
-  Zusatzdisplay, ohne laufende Timer zu verändern.
-- „Prüfe den Lautsprecher“: kurzer angekündigter Testton, danach Rückfrage, ob er
-  tatsächlich hörbar war; nur wenn kein Meeting/Gespräch dadurch gestört wird.
-- „Ist das Gerät bereit fürs Meeting?“: Anmeldung, Platz, Mikrofon, Mute und
-  Ausgabe einzeln prüfen; Aufnahmebeginn bleibt eine eigene bewusste Aktion.
-- „Zeige die Hilfe zur Verkabelung“: passende lokale Hilfe öffnen.
-- „Für den Umzug vorbereiten“: erst sichere Abschlussübersicht, dann große
-  Bestätigung am Display für Abmelden/Herunterfahren. Kein spontaner Strombefehl.
+| Beispiel | Verhalten |
+|---|---|
+| „Zeig den Timer groß.“ | Öffnet den gewünschten sichtbaren Timer am Pi und wählt ihn für das USB-Display. Bei mehreren Timern fragt der Agent nach. |
+| „Zeig die Uhr / Zurück zur Uhr.“ | Große Uhr am Pi und Uhrdarstellung am USB-Display. Timer laufen weiter, fällige Alarme haben Vorrang. |
+| „Ist das Gerät bereit fürs Meeting?“ | Anmeldung, Mikrofon, Speicher, Einrichtung, Lautsprechereinstellung und Hardware-Mute als technische Momentaufnahme; kein Start einer Aufnahme. |
+| „Zeige die Hilfe zur Verkabelung.“ | Lokale Anleitung direkt im Dialog. Talk bleibt verbunden; Hilfe lässt sich wieder schließen. |
+| „Prüfe den Lautsprecher.“ | Große Auswahl: im Gespräch bleiben oder Gespräch beenden. Danach Testton ausdrücklich starten und „Ja, gehört“ / „Nein, nicht gehört“ wählen. |
+| „Für den Umzug vorbereiten.“ | Gespräch gezielt am Display beenden, laufende Vorgänge abschließen, dann separate Ausschaltbestätigung. Kein Herunterfahren durch den Sprachauftrag. |
 
-Diese Ausbaustufen sind Ideen, keine bereits verfügbaren Befehle.
+Zusätzliche Werkzeuge: `show_device_timer`, `show_device_clock`,
+`check_meeting_readiness`, `open_device_help`, `prepare_speaker_test`,
+`prepare_device_move`. Jede Eingabe ist begrenzt; Hilfe erlaubt ausschließlich
+bekannte lokale Themen. Der Auftrag bestätigt zunächst nur „Ansicht angefordert“,
+keine beobachtete Anzeige. Offene Anmelde-/Speicherdialoge werden nicht verdeckt.
+Unangezeigte Ansichtsaufträge verfallen nach zwei Minuten, geöffnete nach zehn.
+Kontowechsel/Abmeldung widerrufen sie. Die LCD-Auswahl gilt bis zum nächsten
+Anzeigebefehl, zur Abmeldung oder höchstens eine Stunde; Alarme bleiben vorrangig.
+
+Hörtest und Umzugsvorbereitung laufen nach einem ausdrücklich am Display
+beendeten Gespräch weiter. Eine alte Bestätigung kann niemals ein später
+gestartetes Gespräch beenden. Testtöne behalten die Betreiber- und Aktivitätssperren.
+Nur die tatsächliche Person kann den Hörtest bestätigen; eine andere oder
+unvollständige Testausgabe wird nicht als Bestätigung angenommen.
+
+Ansichten und temporäre Auswahl sind nur im Arbeitsspeicher, keine zusätzlichen
+Kundendaten im Image. Die neue UI verwendet große Entscheidungskacheln und einen
+festen Schließen-Button bei längeren Anleitungen. App-Update und Clean-Image
+enthalten `services/voice_actions.py` und `studio/voice-actions.{js,css}` automatisch.
+Keine neue Firmware für das USB-Display nötig: bestehende Uhr-/Einzeltimeransichten
+verwenden die gefilterte, weiterhin nur lesbare Projektion.
 
 ## Prüfung am 25.11.2026
 
-- 66 gezielte Pi-Tests: Audio, Auftragsbelege, Status-Datenschutz,
-  Gesprächs-/Kontoende, v1/v2-Aushandlung und vorhandene Timer.
-- 67 Studio-Integrationstests ohne Fehler.
-- 25 Update-/Image-Prüfungen; neue Quelldatei enthalten, private Belege ausgeschlossen.
-- 214 TQS-Tests: neuer Vertrag und bestehende Live-/Portal-Key-Szenarien.
+- 168 Pi-Tests gemeinsam bestanden: Audio, persistente Auftragsbelege, Status-Datenschutz,
+  geführte Geräteabläufe, Gesprächs-/Kontoende, Timer/LCD, Studio-HTTP sowie Update/Image.
+- 171 bestehende JavaScript-Prüfungen bestanden.
+- TQS: 37 erweiterte Gerätewerkzeug-Tests bestanden; zusätzlich wurden vor der
+  Erweiterung 214 Tests zu Gerätevertrag, Live, Reconnect und Portal-Keys geprüft.
+- Ansichten bei 1024×600 (hell) und 1280×720 (CDB) geprüft. Entscheidungskacheln
+  148 px hoch, feste Schließen-Aktion mindestens 56 px. Längere Hilfe bleibt
+  scrollbar und behält ihre Leseposition beim Statusabruf. Keine verdeckten Aktionen.
+- [Lautsprechertest, 1024×600](screenshots/speaker-1024.png),
+  [Umzugsvorbereitung, 1280×720](screenshots/move-1280.png),
+  [Verkabelungshilfe, 1024×600](screenshots/help-1024.png).
+  Diese Ansichten stammen aus einer isolierten UI-Vorschau, nicht vom physischen Pi.
 - Am echten Pi: ausgewählten Lautsprecher um einen Prozentpunkt reduziert,
   zurückgelesen, denselben Auftrag wiederholt (keine zweite Änderung), danach
-  ursprüngliche Lautstärke und Mute-Zustand wiederhergestellt. Keine Aufnahme,
-  kein Ausgangswechsel und kein Neustart; isolierte Testinstanz des Executors.
+  ursprüngliche Lautstärke und Mute-Zustand wiederhergestellt. Isolierter Executor;
+  keine Aufnahme, kein Ausgangswechsel und kein Neustart.
 
-Das laufende Pi-Studio wurde dabei nicht ersetzt (weiter 1.0.0-rc1). Die neue
-App-Version 1.0.0-rc2 ist für den gemeinsamen Rollout vorbereitet. Gesprochene
-Endabnahme nach TQS-Freigabe und Pi-Update noch offen. Kein neues SD-Image gebaut.
+Zum Zeitpunkt dieses Implementierungscommits läuft der Pi weiterhin mit 1.0.0-rc1.
+Die vollständige App-Version 1.0.0-rc2 enthält alle oben beschriebenen Befehle.
+Rollout und gesprochene Endabnahme folgen nach erfolgreicher Server-CI.
+Kein neues SD-Image gebaut; ein sauberer Image-Bausatz ist keine Bootabnahme.
 
-Der neue Image-Bausatz mit 166 Quelldateien wurde aus dem sauberen Commit
-`51fbc54` exportiert und die neue Gerätefunktion bytegleich geprüft; das ist noch
-kein gebautes oder auf einer SD-Karte gestartetes Image.
-
-Rollout-Vorlagen: [TQS #2915](https://github.com/BIK-GmbH/cdb_tqs/pull/2915),
+Rollout: [TQS #2915](https://github.com/BIK-GmbH/cdb_tqs/pull/2915),
 [Nutzerhinweis webOS #2187](https://github.com/BIK-GmbH/cdb_webos/pull/2187).
-Die Pi-Konfiguration nutzt derzeit `staging.cdbos.de`. Noch kein Merge oder
-Deployment; die gemeinsame Server-Freigabe steht aus.
+Ziel ist die am Pi konfigurierte Umgebung `staging.cdbos.de`.

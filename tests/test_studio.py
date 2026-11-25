@@ -188,6 +188,32 @@ class StudioTests(unittest.TestCase):
         self.assertIn(b'cancelable:true', script)
         self.assertIn('javascript', headers['Content-Type'])
 
+    def test_voice_views_are_account_bound_csrf_protected_and_not_power_commands(self):
+        self.app.ambient_stop.set(); self.app.ambient_thread.join(3)
+        req={'id':'voice-ui-test-000001','name':'prepare_device_move','arguments':{},'expires_at':time.time()+60}
+        self.assertTrue(self.app.voice_actions.request({},req)['ok'])
+        self.assertEqual(self.app.state()['voice_ui']['name'],'prepare_device_move')
+        body={'id':req['id'],'action':'shown'}
+        self.assertEqual(self.request('/api/voice-ui/action',body,{'X-CSRF-Token':'wrong'})[0],403)
+        self.assertEqual(self.request('/api/voice-ui/action',body)[0],200)
+        with patch.object(self.app.management,'shutdown_device') as power:
+            self.assertEqual(self.request('/api/voice-ui/action',body|{'action':'shutdown'})[0],400)
+            power.assert_not_called()
+        self.app.cdb.logout()
+        self.assertIsNone(self.app.state()['voice_ui'])
+        self.assertEqual(self.request('/api/voice-ui/action',body)[0],400)
+
+    def test_voice_assets_and_scoped_lcd_projection_are_in_regular_studio(self):
+        self.app.ambient_stop.set();self.app.ambient_thread.join(3)
+        for name in ('voice-actions.js','voice-actions.css'):
+            self.assertIn(name.encode(),self.request('/')[1]);self.assertEqual(self.request('/'+name)[0],200)
+        created=self.app.schedules.create({'kind':'timer','label':'Synthetic LCD','seconds':100,'request_id':'voice-ui-lcd-test'})
+        self.assertEqual(len(json.loads(self.request('/api/lcd/timers')[1])['timers']),1)
+        self.app.voice_actions.request({}, {'id':'voice-ui-clock-00001','name':'show_device_clock','arguments':{}})
+        self.assertEqual(json.loads(self.request('/api/lcd/timers')[1])['timers'],[])
+        self.assertEqual(self.app.schedules.items()[0]['state'],'scheduled')
+        self.app.schedules.change({'action':'cancel','id':created['id'],'revision':self.app.schedules.items()[0]['revision']})
+
     def test_index_version_is_rendered_from_running_backend(self):
         with patch('web_server.VERSION', 'release-under-test'):
             for path in ('/', '/index.html'):

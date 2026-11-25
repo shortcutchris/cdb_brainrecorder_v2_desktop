@@ -7,6 +7,7 @@ import array
 import json
 import logging
 import math
+import secrets
 from pathlib import Path
 import shutil
 import subprocess
@@ -170,7 +171,7 @@ class AudioOutput:
                 raise ValueError('Stummschaltung aufheben und Lautstärke erhöhen.')
             self.cancelled = False
             kind = 'chime' if chime is not None else 'alarm' if alarm else 'announcement' if announcement is not None else 'test'
-            self.test = {'state': 'running', 'kind': kind, 'message': 'Lokale Ansage am Pi.' if announcement is not None else 'Alarmton am Pi.' if tone else 'Testton am Pi: erst links, dann rechts.', 'device': state['selected']}
+            self.test = {'id': secrets.token_hex(12), 'state': 'running', 'kind': kind, 'message': 'Lokale Ansage am Pi.' if announcement is not None else 'Alarmton am Pi.' if tone else 'Testton am Pi: erst links, dann rechts.', 'device': state['selected']}
             if chime is not None:
                 self.test['message'] = 'Startklang am Pi.' if chime == 'startup' else 'Abschiedsklang am Pi. Das Gerät bleibt eingeschaltet.'
             self.thread = threading.Thread(target=self._play, args=(state['selected'], tone, 60 if alarm else 3, announcement, countdown_end, 2 if chime is not None else None), daemon=True)

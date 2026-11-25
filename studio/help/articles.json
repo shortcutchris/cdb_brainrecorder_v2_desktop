@@ -82,6 +82,9 @@
       "Normal mit dem Pi sprechen. Die Anzeige zeigt Zuhören, Verarbeitung oder Antwort. Du kannst das Mikrofon im Gespräch ausdrücklich stummschalten und wieder freigeben.",
       "Mit aktualisiertem Brain-Sprachdienst (Gerätebefehle v2) kannst du „Mach lauter“, „Mach leiser“ oder „Stelle die Lautstärke auf 40 Prozent“ sagen. Ohne Prozentangabe sind es jeweils zehn Prozentpunkte. „Lautsprecher stumm“ betrifft nur die Ausgabe; dann ist auch die Antwort nicht hörbar. Eine positive Lautstärke schaltet die Ausgabe wieder ein.",
       "„Wie ist der Gerätestatus?“ fragt Anmeldung, Audio, NFC, Zusatzdisplay und freien Speicher direkt am Pi ab. Erkannt heißt nicht vollständig getestet. Es werden dabei weder eine Testaufnahme noch ein Testton gestartet. Die neuen Befehle werden beim Beginn eines neuen Gesprächs mit dem Server ausgehandelt.",
+      "„Zeig den Timer groß“ oder „Zeig die Uhr“ öffnet die Anzeige am Pi und wählt die Darstellung für das USB-Zusatzdisplay. Bei mehreren Timern den gewünschten nennen. Fällige Alarme behalten Vorrang; Timer werden dadurch nicht beendet.",
+      "„Bereit fürs Meeting?“ zeigt eine technische Checkliste. „Hilfe zur Verkabelung“ öffnet die lokale Anleitung. Das Gespräch bleibt verbunden.",
+      "„Prüfe den Lautsprecher“ öffnet den geführten Hörtest: Gespräch bewusst am Display beenden, Testton starten und selbst bestätigen, ob er hörbar war. „Für den Umzug vorbereiten“ öffnet eine Abschlussübersicht; Ausschalten verlangt weiterhin die separate Bestätigung und ein freies Gerät.",
       "„Gespräch beenden“ wählen. Erst danach eine Meetingaufnahme oder Geräteeinrichtung starten."
     ],
     "note": "Eine lokale Transkriptions- oder Zusammenfassungsfunktion macht Talk nicht automatisch offline verfügbar. Bei fehlender Online-Verbindung wird kein Ersatzgespräch gestartet."

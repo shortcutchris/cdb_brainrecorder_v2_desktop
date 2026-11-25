@@ -1,0 +1,12 @@
+#voice-action:modal{width:min(960px,calc(100vw - 40px));height:fit-content;min-height:0;max-height:calc(100dvh - 32px);padding:0;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:24px;background:var(--surface);color:var(--ink);overflow:hidden}
+#voice-action::backdrop{background:#0009;backdrop-filter:blur(5px)}
+#voice-action header{padding:24px 28px 12px;flex:none}#voice-action h2{margin:6px 0;font-size:28px}#voice-action header small{color:var(--accent-text);font-weight:650}
+#voice-action-content{min-height:0;overflow:auto;padding:0 28px;font-size:19px;line-height:1.5}#voice-action-content p{margin:12px 0}#voice-action-content li{margin-bottom:14px}.voice-clock{font-size:clamp(90px,15vw,160px);font-variant-numeric:tabular-nums;text-align:center;color:var(--accent-text)}
+#voice-action-error{margin:0;padding:0 28px;color:var(--ink)}#voice-action-error:empty{display:none}
+#voice-action footer{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;padding:20px 28px 28px;flex:none}
+#voice-action footer button{min-height:148px;height:auto;margin:0;display:flex;flex-direction:column;justify-content:center;gap:12px;padding:20px;white-space:normal;text-align:center;border:1px solid var(--line);border-radius:20px;background:var(--panel);color:var(--ink)}
+#voice-action footer strong{font-size:25px}#voice-action footer small{font-size:16px;color:var(--muted)}#voice-action #voice-action-primary{background:var(--soft);border:2px solid var(--accent-text)}
+#voice-action footer:has(button[hidden]){grid-template-columns:1fr}#voice-action button[hidden]{display:none}
+#voice-action[data-kind=open_device_help] footer button,#voice-action[data-kind=check_meeting_readiness] footer button{min-height:56px}
+#voice-action[data-kind=open_device_help] footer small,#voice-action[data-kind=check_meeting_readiness] footer small{display:none}
+@media(max-height:650px){#voice-action header{padding:16px 20px 4px}#voice-action-content{padding:0 20px;font-size:17px}#voice-action footer{padding:14px 20px 20px}#voice-action footer strong{font-size:23px}}

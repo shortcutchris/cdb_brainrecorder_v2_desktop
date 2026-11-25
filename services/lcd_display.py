@@ -11,12 +11,16 @@ def label(value, limit=80):
     return ''.join(c for c in str(value) if not unicodedata.category(c).startswith('C'))[:limit]
 
 
-def snapshot(schedules, clock_ready, *, private_labels=False):
+def snapshot(schedules, clock_ready, *, private_labels=False, focus_id=None):
     # Use the scheduler's monotonic clock, not rounded browser seconds or SQL writes.
     with schedules.lock, schedules.db() as db:
         rows = db.execute("SELECT * FROM schedules WHERE state IN ('scheduled','due','missed') ORDER BY CASE state WHEN 'due' THEN 0 WHEN 'missed' THEN 1 ELSE 2 END,due").fetchall()
         # Filter before counting/paging; other accounts must not displace visible timers.
         rows = [row for row in rows if schedules.visible(row)]
+        # Selection precedes paging. Alarms always keep the full priority list.
+        if focus_id and not any(row['state'] in ('due', 'missed') for row in rows):
+            chosen = [row for row in rows if row['id'] == focus_id]
+            if chosen: rows = chosen
     timers = []
     for row in rows[:MAX_TIMERS]:
         terminal = row['state'] in ('due', 'missed')

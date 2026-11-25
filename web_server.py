@@ -120,7 +120,9 @@ class StudioApp:
         self.schedules = Schedules(self.store.root)
         self.schedules.room_policy = lambda: (self.room.enabled, self.room.account())
         from services.voice_device import VoiceDevice, device_status, NAMES as VOICE_DEVICE_NAMES
-        self.voice_device = VoiceDevice(self.store.root, self.speakers, lambda: device_status(self))
+        from services.voice_actions import VoiceActions
+        self.voice_actions = VoiceActions(self)
+        self.voice_device = VoiceDevice(self.store.root, self.speakers, lambda: device_status(self), actions=self.voice_actions)
         self.live.device_executor = lambda scope, request: (
             self.voice_device.execute(scope, request) if request.get('name') in VOICE_DEVICE_NAMES
             else self.schedules.execute_tool(scope, request, self.clock_ready))
@@ -554,6 +556,9 @@ class StudioApp:
         state['display'] = self.display.status()
         from services.device_health import lcd_usb_status
         state['lcd_status'] = lcd_usb_status()
+        self.voice_actions.observe(state)
+        state['voice_ui'] = self.voice_actions.public()
+        state['device_clock'] = {'ready': self.clock_ready, 'text': time.strftime('%H:%M') if self.clock_ready else '--:--'}
         state['wake'] = self.wake.public()
         state['nfc'] = self.nfc.public()
         state['timers'] = {'items': self.schedules.items(), 'ringing_id': self.alarm_id, 'clock_ready': self.clock_ready, 'voice_available': bool(self.live.public().get('device_tools'))}
@@ -655,12 +660,12 @@ class StudioApp:
         if not self.room.enabled: return
         # Only these operations are available to room users. Other device changes
         # require a short-lived operator unlock; it grants no content access.
-        user_paths = ('/api/room/', '/api/record/', '/api/live/', '/api/sessions/')
+        user_paths = ('/api/room/', '/api/record/', '/api/live/', '/api/sessions/', '/api/voice-ui/')
         user_exact = {'/api/cdb/login', '/api/cdb/login/cancel', '/api/cdb/logout',
                       '/api/cdb/area', '/api/cdb/send', '/api/playback', '/api/timers'}
         if not path.startswith(user_paths) and path not in user_exact:
             self.room.require_operator()
-        if path.startswith(('/api/record/', '/api/live/', '/api/sessions/')) or path in ('/api/cdb/area','/api/cdb/send','/api/timers'):
+        if path.startswith(('/api/record/', '/api/live/', '/api/sessions/', '/api/voice-ui/')) or path in ('/api/cdb/area','/api/cdb/send','/api/timers'):
             self.room.require_account()
 
     def session(self, sid):
@@ -790,6 +795,9 @@ class StudioApp:
             self.room_guard(path)
             if path.startswith('/api/room/'):
                 return self.room_action(path, body)
+            if path == '/api/voice-ui/action':
+                if body.get('action') != 'shown': self.room.touch()
+                return self.voice_actions.touch(body)
             if self.room.enabled:
                 self.room.touch()
                 if path == '/api/cdb/logout':
@@ -1155,7 +1163,7 @@ class StudioHandler(Handler):
             app=self.server.app
             # Use the current account's timers, with generic labels on the shared
             # peripheral. The control lock keeps account changes atomic with projection.
-            result = snapshot(app.schedules, app.clock_ready, private_labels=app.room.enabled)
+            result = app.voice_actions.project_lcd(snapshot(app.schedules, app.clock_ready, private_labels=app.room.enabled, focus_id=app.voice_actions.lcd_focus()))
             self.respond(result);return
         if path=='/help/verkabelung-r2.pdf':
             from services.local_portal import wiring_pdf
