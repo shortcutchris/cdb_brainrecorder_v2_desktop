@@ -1,8 +1,14 @@
 # Version 1 – Endabnahme
 
-Stand: **24. November 2026 · Kandidat 1.0.0-rc1**. Noch keine endgültige V1-Freigabe.
+Stand: **25. November 2026 · Kandidat 1.0.0-rc1**. Noch keine endgültige V1-Freigabe.
 Quellstand: `01d81078794942dc5255e4ab221b9e8c59a02502`.
 [Bereinigte Ergebnisse](results-2026-11-24.json) · [Sichtprüfung](views-2026-11-24.md) · [SD-Image](../customer-image/build-1.0.0-rc1/README.md).
+
+**Fortsetzung am echten Pi:** [Bedien- und Hardwareprüfung vom 25.11.](hardware-2026-11-25.md)
+mit 25 zusätzlichen Bildschirmnachweisen. Aufnahme, Pause, Stummschaltung,
+Timeralarm, Bibliothek, Außentipp-Abbruch und Offline-Verarbeitung bestanden.
+Der kleine native Kalender und die fehlende ReSpeaker-LED-Zugriffsregel bleiben
+offen. Die vorhandene Installation und das SD-Image wurden dabei nicht ersetzt.
 
 ## Bestanden
 
@@ -43,12 +49,14 @@ Studios ab und prüft zusätzlich, dass währenddessen kein Gespräch startet.
 1. **Zweite SD-Karte booten**: Karte ab 32 GB ist laut Benutzer vorhanden.
    Erststart, WLAN, Displayausrichtung, Audiogeräte, Offline-Transkription und
    Zusammenfassung sowie Neustart mit erhaltener Einrichtung prüfen.
-2. **Direkte Kiosk-Abnahme nach Update**: Der Benutzer hat den Pi nach dem
-   erfolgreichen Update ausgeschaltet. Deshalb ist die anschließende direkte
-   Sichtprüfung des physischen Displays noch offen. Das ist kein beobachteter
-   App- oder Netzwerkabsturz.
-3. **NFC-Hardware**: Der Rocketek kann aktuell nicht angeschlossen werden.
-   Talk/Meeting-Aufstellen und Abnehmen deshalb nicht erneut physisch abgenommen.
+2. **Touch-Kalender und Mikrofon-LEDs**: Die direkte Kiosk-Prüfung wurde am 25.11.
+   fortgesetzt. Die Kalender-/Uhrzeitfelder des Browsers sind für unsere großen
+   Touchziele zu klein. Die Mikrofonaufnahme funktioniert, die LED-Steuerung
+   scheitert an einer fehlenden udev-Regel. Die vorbereitete Reparatur benötigt
+   auf diesem Pi eine Administratorauthentifizierung; sie wurde noch nicht installiert.
+3. **NFC-Hardware**: Seit 25.11. ist der Rocketek wieder angeschlossen und bereit;
+   beide Zuordnungen und Direktstart-/Abnehmen-Einstellungen sind vorhanden.
+   Talk/Meeting-Aufstellen und Abnehmen wurden noch nicht erneut physisch abgenommen.
 4. **USB-Langzeitstabilität**: Frühere Belastungstests mit Timeralarmen bestanden
    und wurden hörbar bestätigt. Der vorherige VIA-Controller-Ausfall mit
    USB-Zeitüberschreitungen ist trotzdem nicht abschließend erklärt.
@@ -58,8 +66,9 @@ Studios ab und prüft zusätzlich, dass währenddessen kein Gespräch startet.
 
 Das aktuelle Geräteprofil enthält kein aktiviertes Sprachansagen-Paket. Das ist
 getrennt von den vorhandenen Timer-, Start- und Abschiedsklängen zu behandeln.
-Neustart/Herunterfahren wurden in der Prüfkopie bis zur Bestätigung kontrolliert;
-ein echter Stromzyklus war in diesem Durchlauf nicht Teil eines gesteuerten Tests.
+Neustart wurde zusätzlich am echten Pi bis zur Bestätigung kontrolliert und per
+Außentipp abgebrochen. Ein echter Stromzyklus war in diesem Durchlauf nicht Teil
+eines gesteuerten Tests.
 
 ## Nachweise und Datenschutz
 

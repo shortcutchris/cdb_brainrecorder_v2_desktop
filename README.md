@@ -1,5 +1,14 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 1.0.0-rc1 – V1-Endabnahme läuft
+
+Der Kandidat läuft auf dem Pi; ein sauberes SD-Image mit Offline-Modellen ist
+gebaut und offline geprüft. Die direkte Bedienprüfung vom 25.11. bestätigt
+Aufnahme, Pause, Stummschaltung, Timer und Dialogabbruch. Kleine Kalenderfelder,
+die LED-Freigabe des vorhandenen Mikrofons und weitere Hardware-/SD-Bootprüfungen
+sind noch offen. **Noch keine endgültige V1-Freigabe.**
+[Abnahme und Grenzen](docs/acceptance-v1/README.md).
+
 ## 0.5.105 – USB-Soundbar wiederherstellen und gezielt prüfen
 
 Audio → Lautsprecher bietet eine gesicherte USB-Wiederherstellung mit großen

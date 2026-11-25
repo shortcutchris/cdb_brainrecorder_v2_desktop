@@ -1,0 +1,123 @@
+{
+  "date": "2026-11-25",
+  "version": "1.0.0-rc1",
+  "recording_active": false,
+  "signed_in": true,
+  "processing_routes_restored": true,
+  "probe": {
+    "duration_seconds": 54.08,
+    "sample_rate": 16000,
+    "channels": 1,
+    "last_20_seconds_zero_fraction": 1.0,
+    "completed": true,
+    "has_transcript": true,
+    "has_summary": true
+  },
+  "owned_timer_state": "done",
+  "remaining_visible_timers": 0,
+  "models": {
+    "transcription": {
+      "state": "completed",
+      "stage": "transcription",
+      "provider": "local",
+      "model": "medium",
+      "seconds": 146.2,
+      "result": "Anerstellt, bis Donnerstag eine Aufgabenliste. Die Kosten sind noch ungeklärt.",
+      "message": "Test erfolgreich · Auswahl kann aktiviert werden."
+    },
+    "summary": {
+      "state": "completed",
+      "stage": "summary",
+      "provider": "local",
+      "model": "qwen3:4b-instruct",
+      "seconds": 47.1,
+      "result": "Vereinbarte Aufgaben:  \n- Anna erstellt bis Donnerstag eine Aufgabenliste.\n\nOffene Punkte:  \n- Die Kosten sind noch ungeklärt.",
+      "message": "Test erfolgreich · Auswahl kann aktiviert werden."
+    }
+  },
+  "respeaker_led": {
+    "connected": false,
+    "state": "error",
+    "hardware_muted": false,
+    "message": "ReSpeaker-LEDs nicht erreichbar. USB-Verbindung und Gerätezugriff prüfen."
+  },
+  "nfc": {
+    "enabled": true,
+    "state": "absent",
+    "message": "Bereit für Talk oder Meeting.",
+    "assigned": {
+      "talk": true,
+      "meeting": true
+    },
+    "direct_start": {
+      "talk": true,
+      "meeting": true
+    },
+    "stop_on_remove": {
+      "talk": true,
+      "meeting": true
+    },
+    "active_mode": null
+  },
+  "audio_tests": {
+    "alarm_output": {
+      "state": "completed",
+      "kind": "test",
+      "message": "Audioausgabe beendet.",
+      "device": "alsa_output.usb-0020_188A_20210924-00.analog-stereo"
+    },
+    "microphone_capture": {
+      "state": "completed",
+      "message": "Testaufnahme bereit. Bitte anhören.",
+      "device": "sysdefault:CARD=Array"
+    }
+  },
+  "source_commit": "01d81078794942dc5255e4ab221b9e8c59a02502",
+  "release_status": "candidate_not_final",
+  "physical_display": {
+    "width": 1280,
+    "height": 720,
+    "landscape": true,
+    "screenshot_note": "Pi image scaled inside 1280x720 capture with test-access header"
+  },
+  "help": {
+    "http_status": 200,
+    "wiring_pdf_bytes": 5372603,
+    "sha256_matches_manifest": true
+  },
+  "services": {
+    "recorder": "active",
+    "kiosk": "active",
+    "lcd_companion": "active",
+    "automatic_restarts": 0
+  },
+  "kernel": {
+    "matching_usb_errors_this_boot": 0,
+    "throttled_hex": "0x0",
+    "temperature_c": 53.2
+  },
+  "findings": [
+    {
+      "id": "V1-01",
+      "state": "open",
+      "title": "Native reminder calendar has undersized touch targets"
+    },
+    {
+      "id": "V1-02",
+      "state": "blocked_on_admin_authentication",
+      "title": "Missing existing-device ReSpeaker USB access rule",
+      "microphone_capture_works": true,
+      "repair_staged": true,
+      "installed": false,
+      "factory_image_rule_included": true
+    }
+  ],
+  "limitations": [
+    "No new physical NFC placement/removal test. Reader connected and ready.",
+    "No new subjective audio confirmation; technical playback/capture completed.",
+    "ASR misspelled the synthetic name Anna. Summary test uses fixed text, not ASR output.",
+    "No new end-to-end Cloud Talk, Brain upload, browser/mobile pairing or wake-word acceptance.",
+    "Second SD boot remains pending.",
+    "Intermittent VIA USB controller failure not conclusively resolved."
+  ]
+}
