@@ -118,3 +118,37 @@ Kein neues SD-Image gebaut; ein sauberer Image-Bausatz ist keine Bootabnahme.
 Rollout: [TQS #2915](https://github.com/BIK-GmbH/cdb_tqs/pull/2915),
 [Nutzerhinweis webOS #2187](https://github.com/BIK-GmbH/cdb_webos/pull/2187).
 Ziel ist die am Pi konfigurierte Umgebung `staging.cdbos.de`.
+
+## Auslieferung und Sprachabnahme
+
+Die obige Aussage „vorbereitet“ beschreibt den Implementierungsstand vor dem
+Rollout. Am 25.11. wurden TQS #2915 (`eafcb4e`) und webOS #2187 (`1b820b2`)
+nach grüner CI gemergt und auf Staging ausgeliefert. Die tatsächlich bereiten
+Container tragen diese Commit-Tags. Ein vorübergehender Azure-503 beim Abfragen
+des Agent-Workers wurde durch Wiederholung des fehlgeschlagenen Jobs behoben;
+der gesamte Rollout ist grün. Keine Production-Promotion.
+
+Der signierte rc2-Stand `6a3e35a` wurde auf dem Pi installiert. 162 Paketdateien
+wurden verifiziert. Anmeldung, Einstellungen, NFC-Zuordnung und Aufnahmebestand
+blieben erhalten. Kiosk und LCD-Dienst wurden neu gestartet, das Betriebssystem
+nicht. [Installationsnachweis rc2](deployment-rc2.json).
+
+[Sprachabnahme](spoken-acceptance.json): Alle zehn lokalen Werkzeuge erfolgreich
+über eine echte Staging-/WebRTC-Sitzung auf dem Pi, zwölf Aufrufe einschließlich
+Timerliste und Stumm/Ein. Synthetische deutsche Sprache, keine Raumaufnahme.
+Reale Lautstärke/Mute geändert und exakt wiederhergestellt. Test-Timer und
+Ansichten lagen in einem isolierten Datenverzeichnis; die normalen Aufnahmen,
+Einstellungen und Timer blieben unverändert. Keine neue menschliche Hör- oder
+USB-Display-Sichtbestätigung. Die reale Pi-Oberfläche wurde nach Installation
+per Bildschirmaufnahme geprüft.
+
+Dabei wurde eine harmlose, aber falsche Abschlussmeldung gefunden: Der Server
+antwortet auf `POST .../sessions/{handle}/close` mit leerem HTTP 202. rc2 erwartete
+JSON und meldete intern einen Fehler, obwohl die lokalen Ressourcen freigegeben
+wurden. rc3 akzeptiert genau diese dokumentierte Antwort. Leere Antworten anderer
+Routen bleiben ungültig. 105 CDB-/Live-/Geräte-/Update-/Image-Tests bestanden.
+rc3 wird anschließend als eigenes signiertes Update mit höherer Sequenz installiert.
+
+Der saubere rc2-Bausatz enthält 169 verifizierte Quelldateien. Auch rc3 wird aus
+seinem sauberen Commit exportiert. Diese Bausätze enthalten keine Kundendaten,
+Anmeldungen oder privaten Signierschlüssel und sind noch keine gebooteten SD-Images.

@@ -71,7 +71,16 @@ class Transport:
         opener=urllib.request.build_opener(urllib.request.ProxyHandler({}),NoRedirect(),HTTPSHandler())
         try:
             with opener.open(urllib.request.Request(url,data=data,headers=headers),timeout=90) as r:
-                if r.status == 204:return {}  # Voice One heartbeat/close intentionally have no JSON body.
+                if r.status == 204:return {}  # Voice One heartbeat intentionally has no JSON body.
+                # Close is accepted asynchronously (202), also without JSON.
+                # Limit this exception to the documented endpoint; an empty
+                # response from other APIs must still fail validation.
+                if r.status == 202 and body is not None and re.fullmatch(
+                    r'/api/v1/tqs/voice-live/sessions/[A-Za-z0-9_-]{1,128}/close', urllib.parse.urlsplit(url).path
+                ):
+                    raw = r.read(65537)
+                    if not raw.strip():return {}
+                    return json.loads(raw)
                 if 'text/event-stream' in r.headers.get('Content-Type',''):return structure_stream(r)
                 return json.loads(r.read(4_000_001))
         except urllib.error.HTTPError as e:

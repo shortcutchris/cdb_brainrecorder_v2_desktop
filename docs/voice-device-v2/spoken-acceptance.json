@@ -1,0 +1,120 @@
+{
+  "tested_at": "2026-11-25T12:38:21.412187+01:00",
+  "version": "1.0.0-rc2",
+  "synthetic_audio": true,
+  "room_audio": false,
+  "server": "https://staging.cdbos.de",
+  "negotiated_version": 2,
+  "blocked_during_live": true,
+  "released": true,
+  "production_recordings_config_timers_unchanged": true,
+  "passed": true,
+  "audio_restored": true,
+  "seconds": 280.85,
+  "commands": [
+    {
+      "name": "get_device_status",
+      "result": {
+        "ok": true
+      }
+    },
+    {
+      "name": "set_device_volume",
+      "result": {
+        "ok": true,
+        "volume_percent": 40,
+        "muted": false,
+        "audible": true
+      }
+    },
+    {
+      "name": "adjust_device_volume",
+      "result": {
+        "ok": true,
+        "volume_percent": 39,
+        "muted": false,
+        "audible": true
+      }
+    },
+    {
+      "name": "set_device_mute",
+      "result": {
+        "ok": true,
+        "volume_percent": 39,
+        "muted": true,
+        "audible": false
+      }
+    },
+    {
+      "name": "set_device_mute",
+      "result": {
+        "ok": true,
+        "volume_percent": 39,
+        "muted": false,
+        "audible": true
+      }
+    },
+    {
+      "name": "open_device_help",
+      "result": {
+        "ok": true,
+        "presentation": "requested",
+        "confirmation_required": false
+      }
+    },
+    {
+      "name": "check_meeting_readiness",
+      "result": {
+        "ok": true,
+        "presentation": "requested",
+        "confirmation_required": false,
+        "can_start_now": false
+      }
+    },
+    {
+      "name": "list_schedules",
+      "result": {
+        "ok": true
+      }
+    },
+    {
+      "name": "show_device_timer",
+      "result": {
+        "ok": true,
+        "presentation": "requested",
+        "confirmation_required": false
+      }
+    },
+    {
+      "name": "show_device_clock",
+      "result": {
+        "ok": true,
+        "presentation": "requested",
+        "confirmation_required": false
+      }
+    },
+    {
+      "name": "prepare_speaker_test",
+      "result": {
+        "ok": true,
+        "presentation": "requested",
+        "confirmation_required": true
+      }
+    },
+    {
+      "name": "prepare_device_move",
+      "result": {
+        "ok": true,
+        "presentation": "requested",
+        "confirmation_required": true
+      }
+    }
+  ],
+  "all_ten_local_tools_passed": true,
+  "limits": [
+    "Synthetic speech over real staging/WebRTC; no room audio captured.",
+    "Isolated Pi data and view requests; physical speaker volume was changed and restored.",
+    "No new acoustic confirmation or physical display observation from a person.",
+    "One close-route failure recorded; local Talk resources released."
+  ]
+}

@@ -1,5 +1,11 @@
 # Corporate Digital Brain Desktop Recorder
 
+## 1.0.0-rc3 – Sauberer Gesprächsabschluss
+
+Enthält alle Gerätebefehle aus rc2. Die asynchrone Bestätigung beim Beenden eines
+Voice-Gesprächs wird auch ohne Antworttext korrekt angenommen. Andere unvollständige
+API-Antworten bleiben Fehler; Anmeldung und Geräteeinstellungen bleiben erhalten.
+
 ## 1.0.0-rc2 – Gerätebefehle im Gespräch
 
 Lautstärke und Geräteauskunft per Sprache; große Timer-/Uhransicht, lokale Hilfe,

@@ -297,6 +297,21 @@ if __name__=='__main__':unittest.main()
 
 
 class HttpIdentificationTests(unittest.TestCase):
+    def test_live_close_accepts_async_empty_response_only_for_exact_post_route(self):
+        from services.cdb_integration import Transport as HttpTransport
+        from unittest.mock import MagicMock
+        opener=MagicMock();response=opener.open.return_value.__enter__.return_value
+        response.status=202;response.read.return_value=b''
+        response.headers.get.return_value='application/json'
+        url='https://staging.cdbos.de/api/v1/tqs/voice-live/sessions/test-session/close'
+        with patch('services.cdb_integration.urllib.request.build_opener',return_value=opener):
+            self.assertEqual(HttpTransport().request(url,{},token='synthetic'),{})
+            for other,body in [(url,None),(url+'/extra',{}),(url.replace('/close','/heartbeat'),{}),
+                               ('https://staging.cdbos.de/api/v1/auth/me',{})]:
+                with self.assertRaises(CdbFailure):HttpTransport().request(other,body,token='synthetic')
+            response.status=200
+            with self.assertRaises(CdbFailure):HttpTransport().request(url,{},token='synthetic')
+
     def test_live_heartbeat_accepts_no_content_response(self):
         from services.cdb_integration import Transport as HttpTransport
         from unittest.mock import MagicMock
