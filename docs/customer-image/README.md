@@ -1,5 +1,11 @@
 # SD-Images bauen, testen und weiterentwickeln
 
+**1.0.0-rc2, Gerätebefehle im Gespräch:** `services/voice_device.py` und die
+aktualisierte Talk-Hilfe werden mit den vorhandenen Positivlisten exportiert;
+keine neue OS-/Runtime-Komponente. Die Belegdatenbank entsteht leer auf dem
+Gerät und gehört nicht ins Image. Das gebaute rc1-Image enthält dies noch nicht.
+[Details und Rollout-Abhängigkeit vom Voice-Dienst](../voice-device-v2/README.md).
+
 **1.0.0-rc1, Endabnahme:** Das Factory-Image richtet jetzt auch den USB-LCD-
 Begleitdienst mit eigener, auf pyserial 3.5 fixierter Laufzeit, `dialout` und
 aktiviertem PC/SC-Socket ein. `--pcie-usb-board` übernimmt ausdrücklich das auf

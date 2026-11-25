@@ -1,5 +1,10 @@
 # Wie die Brain-Systeme zusammenspielen
 
+**Gerätebefehle v2 ab 1.0.0-rc2:** Lautstärke und reine Geräteauskunft sind
+zusätzliche ausgehandelte Voice-Werkzeuge. Hardwareversuch mit vorherigem
+unbestätigtem Beleg verhindert doppelte relative Änderungen bei Wiederholung.
+[Befehle, Grenzen und Rollout](../voice-device-v2/README.md).
+
 **USB-Audio ab 0.5.105:** Der Webdienst reserviert die bestehende Wartungsgrenze,
 ein separat installierter Root-Helfer validiert den konkreten Controller und die
 USB-Topologie erneut. Erfolg benötigt USB-Gerät und PipeWire-Ausgang. Keine

@@ -80,6 +80,8 @@
       "Anmelden und „Gesprächswissen“ öffnen. Gewünschte Wissensbereiche auswählen, mit „Übernehmen“ speichern.",
       "„Mit dem Brain sprechen“ wählen und die Vorbereitung bestätigen. Während „Verbindung wird aufgebaut“ warten; nicht mehrfach starten.",
       "Normal mit dem Pi sprechen. Die Anzeige zeigt Zuhören, Verarbeitung oder Antwort. Du kannst das Mikrofon im Gespräch ausdrücklich stummschalten und wieder freigeben.",
+      "Mit aktualisiertem Brain-Sprachdienst (Gerätebefehle v2) kannst du „Mach lauter“, „Mach leiser“ oder „Stelle die Lautstärke auf 40 Prozent“ sagen. Ohne Prozentangabe sind es jeweils zehn Prozentpunkte. „Lautsprecher stumm“ betrifft nur die Ausgabe; dann ist auch die Antwort nicht hörbar. Eine positive Lautstärke schaltet die Ausgabe wieder ein.",
+      "„Wie ist der Gerätestatus?“ fragt Anmeldung, Audio, NFC, Zusatzdisplay und freien Speicher direkt am Pi ab. Erkannt heißt nicht vollständig getestet. Es werden dabei weder eine Testaufnahme noch ein Testton gestartet. Die neuen Befehle werden beim Beginn eines neuen Gesprächs mit dem Server ausgehandelt.",
       "„Gespräch beenden“ wählen. Erst danach eine Meetingaufnahme oder Geräteeinrichtung starten."
     ],
     "note": "Eine lokale Transkriptions- oder Zusammenfassungsfunktion macht Talk nicht automatisch offline verfügbar. Bei fehlender Online-Verbindung wird kein Ersatzgespräch gestartet."

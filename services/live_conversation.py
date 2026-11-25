@@ -46,6 +46,7 @@ class LiveConversation:
         self.device_executor = None
         self.device_key = None
         self.device_tools = False
+        self.device_tools_version = 0
         self.native = None
         self.pending_finish = None
         self.cleanup_retry_at = 0
@@ -104,7 +105,7 @@ class LiveConversation:
             if self.binding and self.cdb.generation != getattr(self, 'account_generation', None):
                 return {'state': 'closing' if self.state in ACTIVE else 'idle', 'busy': self.state in ACTIVE,
                         'error': '', 'muted': True, 'areas': [], 'history': [], 'model': 'CDB Voice One', 'started_at': None}
-            return {'end_reason': self.end_reason, 'device_tools': self.device_tools, 'state': self.state, 'busy': self.state in ACTIVE, 'error': self.error,
+            return {'end_reason': self.end_reason, 'device_tools': self.device_tools, 'device_tools_version': self.device_tools_version, 'state': self.state, 'busy': self.state in ACTIVE, 'error': self.error,
                     'muted': self.muted, 'areas': list(self.areas), 'history': [dict(h) for h in self.history],
                     'model': 'CDB Voice One', 'started_at': getattr(self, 'started_at', None),
                     'owner_kind': self.owner_kind, 'transport': 'pi' if self.audio_config else 'browser', 'feedback':self.feedback(),
@@ -341,8 +342,9 @@ class LiveConversation:
                 if self.state == 'closing':
                     self._finish('ended'); return
             body = {'sdp':sdp,'area_ids':area_ids,'language':'de','client_request_id':str(uuid.uuid4())}
-            device_key = secrets.token_urlsafe(32) if self.device_executor and caps.get('device_tools_v1') is True else None
-            if device_key: body['device_tools']={'version':1,'key':device_key}
+            device_version = 2 if caps.get('device_tools_v2') is True else 1 if caps.get('device_tools_v1') is True else 0
+            device_key = secrets.token_urlsafe(32) if self.device_executor and device_version else None
+            if device_key: body['device_tools']={'version':device_version,'key':device_key}
             self._startup(generation, 'Gespräch beim Brain starten')
             result = self.cdb.call(BASE + '/sessions', body, binding=binding)
             handle = result.get('session_handle')
@@ -356,6 +358,7 @@ class LiveConversation:
                 if not stale:
                     self.device_key = device_key
                     self.device_tools = bool(device_key)
+                    self.device_tools_version = device_version if device_key else 0
                     self.handle = handle
                     self.answer = answer
                     self.areas = [allowed[a] for a in area_ids]
@@ -445,6 +448,7 @@ class LiveConversation:
         if state == 'ended' and self.error:
             state, error = 'error', self.error
         self.device_tools = False
+        self.device_tools_version = 0
         self.device_key = None
         if self.native:
             try: self.native.close()
@@ -676,8 +680,13 @@ class LiveConversation:
             with self.lock:
                 if generation!=self.generation or handle!=self.handle or self.state not in ACTIVE or self.state=='closing' or self.cdb.generation!=self.account_generation:
                     return
-                # The generation check and SQLite commit are indivisible to end/logout.
-                result=self.device_executor({'binding':binding,'handle':handle},request)
+                # End/logout cannot interleave a local action. Extended commands
+                # also require the negotiated capability, never a guessed tool.
+                from services.voice_device import NAMES as LOCAL_NAMES
+                if request.get('name') in LOCAL_NAMES and self.device_tools_version < 2:
+                    result={'ok':False,'code':'device_tool_not_negotiated'}
+                else:
+                    result=self.device_executor({'binding':binding,'handle':handle},request)
             self.cdb.call(path,{'key':key,'id':request['id'],'result':result},binding=binding)
 
     def close(self):

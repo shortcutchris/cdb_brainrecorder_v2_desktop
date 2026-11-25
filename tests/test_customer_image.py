@@ -16,6 +16,8 @@ class CustomerImageTests(unittest.TestCase):
             root=Path(folder);source=root/'source';source.mkdir()
             entries={'services/local_portal.py':'# LAN portal', 'studio/local-portal.js':'// pairing', 'studio/help/index.html':'offline manual', 'studio/help/articles.json':'[]', 'studio/help/downloads.json':'{}', 'studio/help/images/icon.svg':'<svg/>', 'services/vendor/qrcodegen.py':'# QR', 'local-portal/private.pem':'PRIVATE', 'local-portal/settings.json':'PRIVATE', 'services/nfc_tokens.py':'# state machine', 'services/nfc_reader.py':'# isolated worker', 'studio/nfc.js':'// setup', 'nfc-tokens.json':'PRIVATE', 'services/lcd_display.py':'# projection', 'services/lcd_bridge.py':'# optional companion', 'firmware/lcd-usb/build/cdb_lcd_usb.bin':'DISPLAY FIRMWARE', 'services/announcements.py':'# fixed speech', 'announcements-pack/timer.wav':'PRIVATE', 'announcements.json':'PRIVATE', 'requirements-wake.txt':'pymicro-wakeword==2.5.0', 'services/wake_detectors.py':'# engines', 'services/remote_control.py':'# domain', 'services/remote_control_transport.py':'# outgoing', 'studio/remote-control.js':'// UI', 'studio/remote-control.css':'/* UI */', 'remote-control/connection.json':'PRIVATE', 'remote-control/receipts.sqlite3':'PRIVATE', 'web_server.py':"VERSION = '0.5.44'",'data/sessions.db':'PRIVATE','studio/welcome.html':'Hello','fleet/__init__.py':'','deploy/customer-image/network_service.py':'# network','deploy/customer-image/factory_models.py':'# model seeding','deploy/customer-image/01-run-chroot.sh':'#!/bin/bash\n','kiosk.sh':'#!/bin/bash\n','scripts/audit_customer_rootfs.py':'# audit','credential.json':'PRIVATE','release-private.pem':'PRIVATE'}
             entries['services/queued_whisper.py'] = '# local queue progress'
+            entries['services/voice_device.py'] = '# bounded local voice tools'
+            entries['voice-device.sqlite3'] = 'PRIVATE RECEIPTS'
             for name in ('cdb-lcd-display.service', 'hardware_profile.py'):
                 entries['deploy/customer-image/' + name] = (builder.SOURCE / 'deploy/customer-image' / name).read_text()
             entries['services/device_power.py'] = '# fixed shutdown worker'
@@ -53,6 +55,8 @@ class CustomerImageTests(unittest.TestCase):
             self.assertIn('stage-brain/00-brain/files/factory/factory_models.py',offline['build_files'])
             self.assertIn('requirements-wake.txt',result['source_files'])
             self.assertIn('services/wake_detectors.py',result['source_files'])
+            self.assertIn('services/voice_device.py',result['source_files'])
+            self.assertNotIn('voice-device.sqlite3',result['source_files'])
             self.assertIn('services/announcements.py',result['source_files'])
             for name in ('services/nfc_tokens.py','services/nfc_reader.py','studio/nfc.js'): self.assertIn(name,result['source_files'])
             for name in entries:

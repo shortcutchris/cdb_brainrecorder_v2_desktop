@@ -327,6 +327,45 @@ class FeedbackConversationTests(unittest.TestCase):
     tearDown=LiveTests.tearDown
     wait=LiveTests.wait
     reserve=LiveTests.reserve
+    def test_local_volume_and_status_require_v2_and_live_account(self):
+        from unittest.mock import Mock
+        self.reserve();self.live.handle='safe-handle';self.live.device_key='private-device-key'
+        self.live.device_executor=Mock(return_value={'ok':True,'volume_percent':40})
+        request={'id':'request-device-0001','name':'set_device_volume','arguments':{'percent':40},'expires_at':time.time()+60}
+        answers=[]
+        def call(path,body=None,binding=None):
+            if 'result' not in body:return {'requests':[request]}
+            answers.append(body['result']);return {'ok':True}
+        self.brain.call=call
+        self.live.device_tools_version=1
+        self.live._device_commands('safe-handle',self.live.binding)
+        self.live.device_executor.assert_not_called();self.assertFalse(answers[-1]['ok'])
+        self.live.device_tools_version=2
+        self.live._device_commands('safe-handle',self.live.binding)
+        self.live.device_executor.assert_called_once();self.assertTrue(answers[-1]['ok'])
+        self.brain.generation+=1
+        self.live._device_commands('safe-handle',self.live.binding)
+        self.live.device_executor.assert_called_once()
+
+    def test_negotiates_only_advertised_device_version(self):
+        from unittest.mock import Mock
+        for caps, expected in [({},0),({'device_tools_v1':True},1),({'device_tools_v1':True,'device_tools_v2':True},2)]:
+            with self.subTest(caps=caps):
+                self.brain.calls=[]
+                original=Brain.call.__get__(self.brain,Brain)
+                def call(path,body=None,binding=None):
+                    result=original(path,body,binding)
+                    return result | caps if path.endswith('/capabilities') else result
+                self.brain.call=call
+                self.live.device_executor=Mock()
+                lease=self.reserve();self.live.start(lease,'v=0\r\noffer')
+                self.wait(lambda:self.live.state=='listening')
+                body=next(body for path,body,_ in self.brain.calls if path==BASE+'/sessions')
+                self.assertEqual(body.get('device_tools',{}).get('version',0),expected)
+                self.assertEqual(self.live.public()['device_tools_version'],expected)
+                self.live.end(lease);self.wait(lambda:not self.live.busy())
+                self.assertEqual(self.live.public()['device_tools_version'],0)
+
     def test_search_replay_only_plays_once_and_preferences_survive(self):
         from unittest.mock import Mock
         lease=self.reserve();native=Mock();native.feedback.return_value={'search_audio':{'playing':True}};self.live.native=native

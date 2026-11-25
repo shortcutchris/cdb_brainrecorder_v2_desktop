@@ -29,7 +29,7 @@ from meeting_recorder.core import atomic_write
 from meeting_recorder.server import Handler, Server, App as SharedWebApp
 from meeting_recorder.child_process import owned_command
 
-VERSION = '1.0.0-rc1'
+VERSION = '1.0.0-rc2'
 STATIC = Path(__file__).parent/'studio'
 FIELDS = ('title', 'notes', 'transcript_text', 'summary_text')
 BUSY = ('recording', 'importing', 'queued', 'transcribing', 'summarizing')
@@ -119,7 +119,11 @@ class StudioApp:
         self.wake = WakeWord(self.store.root)
         self.schedules = Schedules(self.store.root)
         self.schedules.room_policy = lambda: (self.room.enabled, self.room.account())
-        self.live.device_executor = lambda scope, request: self.schedules.execute_tool(scope, request, self.clock_ready)
+        from services.voice_device import VoiceDevice, device_status, NAMES as VOICE_DEVICE_NAMES
+        self.voice_device = VoiceDevice(self.store.root, self.speakers, lambda: device_status(self))
+        self.live.device_executor = lambda scope, request: (
+            self.voice_device.execute(scope, request) if request.get('name') in VOICE_DEVICE_NAMES
+            else self.schedules.execute_tool(scope, request, self.clock_ready))
         self.playback_leases = {}
         self.ambient_stop = threading.Event()
         self.alarm_id = None

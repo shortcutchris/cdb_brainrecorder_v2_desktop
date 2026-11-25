@@ -102,6 +102,8 @@ class AudioOutput:
             if 'muted' in body:
                 self.command('set-sink-mute', device, '1' if body['muted'] else '0')
             result = self.public()
+            if not result['available'] or result['selected'] != device:
+                raise ValueError('Audioausgang während der Änderung getrennt oder gewechselt. Geräte aktualisieren.')
             if 'volume' in body and abs(result['volume'] - body['volume']) > 1:
                 raise ValueError('Der Ausgang hat die Lautstärke nicht übernommen. Geräte aktualisieren und erneut versuchen.')
             if 'muted' in body and result['muted'] != body['muted']:
